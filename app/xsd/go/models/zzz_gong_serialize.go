@@ -103,6 +103,20 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.FieldXPaths {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "FieldXPath", instances, (*FieldXPath)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.FractionDigits {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "FractionDigit", instances, (*FractionDigit)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.Groups {
 				instances = append(instances, instance)
 			}
@@ -110,10 +124,38 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.Keys {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Key", instances, (*Key)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.KeyRefs {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "KeyRef", instances, (*KeyRef)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.Lengths {
 				instances = append(instances, instance)
 			}
 			stage.SerializeExcelize(f, "Length", instances, (*Length)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Lists {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "List", instances, (*List)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.MaxExclusives {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "MaxExclusive", instances, (*MaxExclusive)(nil).GongGetFieldHeaders(), addIDs)
 		}
 		{
 			var instances []GongstructIF
@@ -128,6 +170,13 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 				instances = append(instances, instance)
 			}
 			stage.SerializeExcelize(f, "MaxLength", instances, (*MaxLength)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.MinExclusives {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "MinExclusive", instances, (*MinExclusive)(nil).GongGetFieldHeaders(), addIDs)
 		}
 		{
 			var instances []GongstructIF
@@ -166,6 +215,13 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.Selectors {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Selector", instances, (*Selector)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.Sequences {
 				instances = append(instances, instance)
 			}
@@ -201,10 +257,31 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.Uniques {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Unique", instances, (*Unique)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.WhiteSpaces {
 				instances = append(instances, instance)
 			}
 			stage.SerializeExcelize(f, "WhiteSpace", instances, (*WhiteSpace)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.XSDImports {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "XSDImport", instances, (*XSDImport)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.XSDIncludes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "XSDInclude", instances, (*XSDInclude)(nil).GongGetFieldHeaders(), addIDs)
 		}
 	}
 

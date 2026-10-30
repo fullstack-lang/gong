@@ -991,13 +991,6 @@ func (inst *Formatted_symbol_id) GongGetReverseFieldOwnerName(stage *Stage, reve
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Credit":
-		switch reverseField.Fieldname {
-		case "Credit_symbol":
-			if _credit, ok := stage.Credit_Credit_symbol_reverseMap[inst]; ok {
-				res = _credit.Name
-			}
-		}
 	case "Direction_type":
 		switch reverseField.Fieldname {
 		case "Symbol":
@@ -1037,13 +1030,6 @@ func (inst *Formatted_text_id) GongGetReverseFieldOwnerName(stage *Stage, revers
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Credit":
-		switch reverseField.Fieldname {
-		case "Credit_words":
-			if _credit, ok := stage.Credit_Credit_words_reverseMap[inst]; ok {
-				res = _credit.Name
-			}
-		}
 	case "Direction_type":
 		switch reverseField.Fieldname {
 		case "Rehearsal":
@@ -2227,22 +2213,22 @@ func (inst *Principal_voice) GongGetReverseFieldOwnerName(stage *Stage, reverseF
 	return
 }
 
-func (inst *Print) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+func (inst *Print_XSD) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
 	case "A_measure":
 		switch reverseField.Fieldname {
-		case "Print":
-			if _a_measure, ok := stage.A_measure_Print_reverseMap[inst]; ok {
+		case "Print_XSD":
+			if _a_measure, ok := stage.A_measure_Print_XSD_reverseMap[inst]; ok {
 				res = _a_measure.Name
 			}
 		}
 	case "A_part_1":
 		switch reverseField.Fieldname {
-		case "Print":
-			if _a_part_1, ok := stage.A_part_1_Print_reverseMap[inst]; ok {
+		case "Print_XSD":
+			if _a_part_1, ok := stage.A_part_1_Print_XSD_reverseMap[inst]; ok {
 				res = _a_part_1.Name
 			}
 		}
@@ -2425,11 +2411,11 @@ func (inst *Staff_layout) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 				res = _defaults.Name
 			}
 		}
-	case "Print":
+	case "Print_XSD":
 		switch reverseField.Fieldname {
 		case "Staff_layout":
-			if _print, ok := stage.Print_Staff_layout_reverseMap[inst]; ok {
-				res = _print.Name
+			if _print_xsd, ok := stage.Print_XSD_Staff_layout_reverseMap[inst]; ok {
+				res = _print_xsd.Name
 			}
 		}
 	}
@@ -2479,8 +2465,8 @@ func (inst *String_type) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 	// insertion point
 	case "Technical":
 		switch reverseField.Fieldname {
-		case "String":
-			if _technical, ok := stage.Technical_String_reverseMap[inst]; ok {
+		case "String_XSD":
+			if _technical, ok := stage.Technical_String_XSD_reverseMap[inst]; ok {
 				res = _technical.Name
 			}
 		}
@@ -2594,18 +2580,7 @@ func (inst *Technical) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 }
 
 func (inst *Text_element_data) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Lyric":
-		switch reverseField.Fieldname {
-		case "Text":
-			if _lyric, ok := stage.Lyric_Text_reverseMap[inst]; ok {
-				res = _lyric.Name
-			}
-		}
-	}
 	return
 }
 
@@ -2631,18 +2606,7 @@ func (inst *Tied) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongR
 }
 
 func (inst *Time) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-
 	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Attributes":
-		switch reverseField.Fieldname {
-		case "Time":
-			if _attributes, ok := stage.Attributes_Time_reverseMap[inst]; ok {
-				res = _attributes.Name
-			}
-		}
-	}
 	return
 }
 

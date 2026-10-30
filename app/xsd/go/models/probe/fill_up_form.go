@@ -88,6 +88,15 @@ func FillUpForm(
 				return owner.Alls
 			})
 		AssociationReverseSliceToForm(
+			"Restriction",
+			"Alls",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Restriction) []*models.All {
+				return owner.Alls
+			})
+		AssociationReverseSliceToForm(
 			"Sequence",
 			"Alls",
 			instanceWithInferedType,
@@ -135,7 +144,12 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("SimpleType", instanceWithInferedType.SimpleType, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		AssociationFieldToForm("InnerSimpleType", instanceWithInferedType.InnerSimpleType, formGroup, probe)
 		BasicFieldtoForm("IDXSD", instanceWithInferedType.IDXSD, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Order", instanceWithInferedType.Order, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Depth", instanceWithInferedType.Depth, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -167,6 +181,24 @@ func FillUpForm(
 			formGroup,
 			probe,
 			func(owner *models.Extension) []*models.Attribute {
+				return owner.Attributes
+			})
+		AssociationReverseSliceToForm(
+			"Restriction",
+			"Attributes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Restriction) []*models.Attribute {
+				return owner.Attributes
+			})
+		AssociationReverseSliceToForm(
+			"Schema",
+			"Attributes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Schema) []*models.Attribute {
 				return owner.Attributes
 			})
 
@@ -219,6 +251,15 @@ func FillUpForm(
 			formGroup,
 			probe,
 			func(owner *models.Extension) []*models.AttributeGroup {
+				return owner.AttributeGroups
+			})
+		AssociationReverseSliceToForm(
+			"Restriction",
+			"AttributeGroups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Restriction) []*models.AttributeGroup {
 				return owner.AttributeGroups
 			})
 		AssociationReverseSliceToForm(
@@ -304,6 +345,15 @@ func FillUpForm(
 				return owner.Choices
 			})
 		AssociationReverseSliceToForm(
+			"Restriction",
+			"Choices",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Restriction) []*models.Choice {
+				return owner.Choices
+			})
+		AssociationReverseSliceToForm(
 			"Sequence",
 			"Choices",
 			instanceWithInferedType,
@@ -317,6 +367,11 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Annotation", instanceWithInferedType.Annotation, formGroup, probe)
+		BasicFieldtoForm("Mixed", instanceWithInferedType.Mixed, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Extension", instanceWithInferedType.Extension, formGroup, probe)
+		AssociationFieldToForm("Restriction", instanceWithInferedType.Restriction, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -436,9 +491,14 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Final", instanceWithInferedType.Final, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("SubstitutionGroup", instanceWithInferedType.SubstitutionGroup, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("SimpleType", instanceWithInferedType.SimpleType, formGroup, probe)
 		AssociationFieldToForm("ComplexType", instanceWithInferedType.ComplexType, formGroup, probe)
 		AssociationSliceToForm("Groups", instanceWithInferedType, &instanceWithInferedType.Groups, formGroup, probe)
+		AssociationSliceToForm("Keys", instanceWithInferedType, &instanceWithInferedType.Keys, formGroup, probe)
+		AssociationSliceToForm("Uniques", instanceWithInferedType, &instanceWithInferedType.Uniques, formGroup, probe)
+		AssociationSliceToForm("KeyRefs", instanceWithInferedType, &instanceWithInferedType.KeyRefs, formGroup, probe)
 		BasicFieldtoForm("IsDuplicatedInXSD", instanceWithInferedType.IsDuplicatedInXSD, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
@@ -489,6 +549,15 @@ func FillUpForm(
 			formGroup,
 			probe,
 			func(owner *models.Group) []*models.Element {
+				return owner.Elements
+			})
+		AssociationReverseSliceToForm(
+			"Restriction",
+			"Elements",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Restriction) []*models.Element {
 				return owner.Elements
 			})
 		AssociationReverseSliceToForm(
@@ -557,6 +626,58 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Attributes", instanceWithInferedType, &instanceWithInferedType.Attributes, formGroup, probe)
 		AssociationSliceToForm("AttributeGroups", instanceWithInferedType, &instanceWithInferedType.AttributeGroups, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.FieldXPath:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("XPath", instanceWithInferedType.XPath, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Key",
+			"Fields",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Key) []*models.FieldXPath {
+				return owner.Fields
+			})
+		AssociationReverseSliceToForm(
+			"KeyRef",
+			"Fields",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.KeyRef) []*models.FieldXPath {
+				return owner.Fields
+			})
+		AssociationReverseSliceToForm(
+			"Unique",
+			"Fields",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Unique) []*models.FieldXPath {
+				return owner.Fields
+			})
+
+	case *models.FractionDigit:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Annotation", instanceWithInferedType.Annotation, formGroup, probe)
+		BasicFieldtoForm("Value", instanceWithInferedType.Value, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -654,6 +775,15 @@ func FillUpForm(
 				return owner.Groups
 			})
 		AssociationReverseSliceToForm(
+			"Restriction",
+			"Groups",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Restriction) []*models.Group {
+				return owner.Groups
+			})
+		AssociationReverseSliceToForm(
 			"Schema",
 			"Groups",
 			instanceWithInferedType,
@@ -672,7 +802,102 @@ func FillUpForm(
 				return owner.Groups
 			})
 
+	case *models.Key:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Annotation", instanceWithInferedType.Annotation, formGroup, probe)
+		BasicFieldtoForm("NameXSD", instanceWithInferedType.NameXSD, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Selector", instanceWithInferedType.Selector, formGroup, probe)
+		AssociationSliceToForm("Fields", instanceWithInferedType, &instanceWithInferedType.Fields, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Element",
+			"Keys",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Element) []*models.Key {
+				return owner.Keys
+			})
+		AssociationReverseSliceToForm(
+			"Schema",
+			"Keys",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Schema) []*models.Key {
+				return owner.Keys
+			})
+
+	case *models.KeyRef:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Annotation", instanceWithInferedType.Annotation, formGroup, probe)
+		BasicFieldtoForm("NameXSD", instanceWithInferedType.NameXSD, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Refer", instanceWithInferedType.Refer, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Selector", instanceWithInferedType.Selector, formGroup, probe)
+		AssociationSliceToForm("Fields", instanceWithInferedType, &instanceWithInferedType.Fields, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Element",
+			"KeyRefs",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Element) []*models.KeyRef {
+				return owner.KeyRefs
+			})
+		AssociationReverseSliceToForm(
+			"Schema",
+			"KeyRefs",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Schema) []*models.KeyRef {
+				return owner.KeyRefs
+			})
+
 	case *models.Length:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Annotation", instanceWithInferedType.Annotation, formGroup, probe)
+		BasicFieldtoForm("Value", instanceWithInferedType.Value, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.List:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Annotation", instanceWithInferedType.Annotation, formGroup, probe)
+		BasicFieldtoForm("ItemType", instanceWithInferedType.ItemType, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("SimpleType", instanceWithInferedType.SimpleType, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.MaxExclusive:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -699,6 +924,19 @@ func FillUpForm(
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.MaxLength:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Annotation", instanceWithInferedType.Annotation, formGroup, probe)
+		BasicFieldtoForm("Value", instanceWithInferedType.Value, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.MinExclusive:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -757,15 +995,36 @@ func FillUpForm(
 		AssociationFieldToForm("Annotation", instanceWithInferedType.Annotation, formGroup, probe)
 		BasicFieldtoForm("Base", instanceWithInferedType.Base, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		AssociationFieldToForm("SimpleType", instanceWithInferedType.SimpleType, formGroup, probe)
 		AssociationSliceToForm("Enumerations", instanceWithInferedType, &instanceWithInferedType.Enumerations, formGroup, probe)
 		AssociationFieldToForm("MinInclusive", instanceWithInferedType.MinInclusive, formGroup, probe)
 		AssociationFieldToForm("MaxInclusive", instanceWithInferedType.MaxInclusive, formGroup, probe)
+		AssociationFieldToForm("MinExclusive", instanceWithInferedType.MinExclusive, formGroup, probe)
+		AssociationFieldToForm("MaxExclusive", instanceWithInferedType.MaxExclusive, formGroup, probe)
 		AssociationFieldToForm("Pattern", instanceWithInferedType.Pattern, formGroup, probe)
 		AssociationFieldToForm("WhiteSpace", instanceWithInferedType.WhiteSpace, formGroup, probe)
 		AssociationFieldToForm("MinLength", instanceWithInferedType.MinLength, formGroup, probe)
 		AssociationFieldToForm("MaxLength", instanceWithInferedType.MaxLength, formGroup, probe)
 		AssociationFieldToForm("Length", instanceWithInferedType.Length, formGroup, probe)
 		AssociationFieldToForm("TotalDigit", instanceWithInferedType.TotalDigit, formGroup, probe)
+		AssociationFieldToForm("FractionDigit", instanceWithInferedType.FractionDigit, formGroup, probe)
+		BasicFieldtoForm("OuterElementName", instanceWithInferedType.OuterElementName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Sequences", instanceWithInferedType, &instanceWithInferedType.Sequences, formGroup, probe)
+		AssociationSliceToForm("Alls", instanceWithInferedType, &instanceWithInferedType.Alls, formGroup, probe)
+		AssociationSliceToForm("Choices", instanceWithInferedType, &instanceWithInferedType.Choices, formGroup, probe)
+		AssociationSliceToForm("Groups", instanceWithInferedType, &instanceWithInferedType.Groups, formGroup, probe)
+		AssociationSliceToForm("Elements", instanceWithInferedType, &instanceWithInferedType.Elements, formGroup, probe)
+		BasicFieldtoForm("Order", instanceWithInferedType.Order, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Depth", instanceWithInferedType.Depth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("MinOccurs", instanceWithInferedType.MinOccurs, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("MaxOccurs", instanceWithInferedType.MaxOccurs, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Attributes", instanceWithInferedType, &instanceWithInferedType.Attributes, formGroup, probe)
+		AssociationSliceToForm("AttributeGroups", instanceWithInferedType, &instanceWithInferedType.AttributeGroups, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -778,15 +1037,49 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Xs", instanceWithInferedType.Xs, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TargetNamespace", instanceWithInferedType.TargetNamespace, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ElementFormDefault", instanceWithInferedType.ElementFormDefault, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("AttributeFormDefault", instanceWithInferedType.AttributeFormDefault, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Version", instanceWithInferedType.Version, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FilePath", instanceWithInferedType.FilePath, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("PackageName", instanceWithInferedType.PackageName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("PackageRelDir", instanceWithInferedType.PackageRelDir, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsRootSchema", instanceWithInferedType.IsRootSchema, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Annotation", instanceWithInferedType.Annotation, formGroup, probe)
+		AssociationSliceToForm("Imports", instanceWithInferedType, &instanceWithInferedType.Imports, formGroup, probe)
+		AssociationSliceToForm("Includes", instanceWithInferedType, &instanceWithInferedType.Includes, formGroup, probe)
 		AssociationSliceToForm("Elements", instanceWithInferedType, &instanceWithInferedType.Elements, formGroup, probe)
+		AssociationSliceToForm("Attributes", instanceWithInferedType, &instanceWithInferedType.Attributes, formGroup, probe)
 		AssociationSliceToForm("SimpleTypes", instanceWithInferedType, &instanceWithInferedType.SimpleTypes, formGroup, probe)
 		AssociationSliceToForm("ComplexTypes", instanceWithInferedType, &instanceWithInferedType.ComplexTypes, formGroup, probe)
 		AssociationSliceToForm("AttributeGroups", instanceWithInferedType, &instanceWithInferedType.AttributeGroups, formGroup, probe)
 		AssociationSliceToForm("Groups", instanceWithInferedType, &instanceWithInferedType.Groups, formGroup, probe)
+		AssociationSliceToForm("Keys", instanceWithInferedType, &instanceWithInferedType.Keys, formGroup, probe)
+		AssociationSliceToForm("Uniques", instanceWithInferedType, &instanceWithInferedType.Uniques, formGroup, probe)
+		AssociationSliceToForm("KeyRefs", instanceWithInferedType, &instanceWithInferedType.KeyRefs, formGroup, probe)
 		BasicFieldtoForm("Order", instanceWithInferedType.Order, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Depth", instanceWithInferedType.Depth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.Selector:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("XPath", instanceWithInferedType.XPath, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -865,6 +1158,15 @@ func FillUpForm(
 				return owner.Sequences
 			})
 		AssociationReverseSliceToForm(
+			"Restriction",
+			"Sequences",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Restriction) []*models.Sequence {
+				return owner.Sequences
+			})
+		AssociationReverseSliceToForm(
 			"Sequence",
 			"Sequences",
 			instanceWithInferedType,
@@ -895,6 +1197,11 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Restriction", instanceWithInferedType.Restriction, formGroup, probe)
 		AssociationFieldToForm("Union", instanceWithInferedType.Union, formGroup, probe)
+		AssociationFieldToForm("List", instanceWithInferedType.List, formGroup, probe)
+		BasicFieldtoForm("HasNameConflict", instanceWithInferedType.HasNameConflict, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("GoIdentifier", instanceWithInferedType.GoIdentifier, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Order", instanceWithInferedType.Order, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Depth", instanceWithInferedType.Depth, instanceWithInferedType, probe.formStage, formGroup,
@@ -911,6 +1218,15 @@ func FillUpForm(
 			formGroup,
 			probe,
 			func(owner *models.Schema) []*models.SimpleType {
+				return owner.SimpleTypes
+			})
+		AssociationReverseSliceToForm(
+			"Union",
+			"SimpleTypes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Union) []*models.SimpleType {
 				return owner.SimpleTypes
 			})
 
@@ -934,11 +1250,45 @@ func FillUpForm(
 		AssociationFieldToForm("Annotation", instanceWithInferedType.Annotation, formGroup, probe)
 		BasicFieldtoForm("MemberTypes", instanceWithInferedType.MemberTypes, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		AssociationSliceToForm("SimpleTypes", instanceWithInferedType, &instanceWithInferedType.SimpleTypes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.Unique:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Annotation", instanceWithInferedType.Annotation, formGroup, probe)
+		BasicFieldtoForm("NameXSD", instanceWithInferedType.NameXSD, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Selector", instanceWithInferedType.Selector, formGroup, probe)
+		AssociationSliceToForm("Fields", instanceWithInferedType, &instanceWithInferedType.Fields, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Element",
+			"Uniques",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Element) []*models.Unique {
+				return owner.Uniques
+			})
+		AssociationReverseSliceToForm(
+			"Schema",
+			"Uniques",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Schema) []*models.Unique {
+				return owner.Uniques
+			})
 
 	case *models.WhiteSpace:
 		// insertion point
@@ -952,6 +1302,52 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.XSDImport:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Annotation", instanceWithInferedType.Annotation, formGroup, probe)
+		BasicFieldtoForm("Namespace", instanceWithInferedType.Namespace, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("SchemaLocation", instanceWithInferedType.SchemaLocation, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Schema",
+			"Imports",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Schema) []*models.XSDImport {
+				return owner.Imports
+			})
+
+	case *models.XSDInclude:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Annotation", instanceWithInferedType.Annotation, formGroup, probe)
+		BasicFieldtoForm("SchemaLocation", instanceWithInferedType.SchemaLocation, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Schema",
+			"Includes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Schema) []*models.XSDInclude {
+				return owner.Includes
+			})
 
 	default:
 		_ = instanceWithInferedType

@@ -52,7 +52,7 @@ func (a_measure *A_measure) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&a_measure.Attributes) || modified
 	modified = stage.CleanSlice(&a_measure.Harmony) || modified
 	modified = stage.CleanSlice(&a_measure.Figured_bass) || modified
-	modified = stage.CleanSlice(&a_measure.Print) || modified
+	modified = stage.CleanSlice(&a_measure.Print_XSD) || modified
 	modified = stage.CleanSlice(&a_measure.Sound) || modified
 	modified = stage.CleanSlice(&a_measure.Listening) || modified
 	modified = stage.CleanSlice(&a_measure.Barline) || modified
@@ -89,7 +89,7 @@ func (a_part_1 *A_part_1) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&a_part_1.Attributes) || modified
 	modified = stage.CleanSlice(&a_part_1.Harmony) || modified
 	modified = stage.CleanSlice(&a_part_1.Figured_bass) || modified
-	modified = stage.CleanSlice(&a_part_1.Print) || modified
+	modified = stage.CleanSlice(&a_part_1.Print_XSD) || modified
 	modified = stage.CleanSlice(&a_part_1.Sound) || modified
 	modified = stage.CleanSlice(&a_part_1.Listening) || modified
 	modified = stage.CleanSlice(&a_part_1.Barline) || modified
@@ -140,7 +140,6 @@ func (articulations *Articulations) GongClean(stage *Stage) (modified bool) {
 func (attributes *Attributes) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&attributes.Key) || modified
-	modified = stage.CleanSlice(&attributes.Time) || modified
 	modified = stage.CleanSlice(&attributes.Clef) || modified
 	modified = stage.CleanSlice(&attributes.Staff_details) || modified
 	modified = stage.CleanSlice(&attributes.Transpose) || modified
@@ -203,10 +202,10 @@ func (credit *Credit) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&credit.Link) || modified
 	modified = stage.CleanSlice(&credit.Bookmark) || modified
-	modified = stage.CleanSlice(&credit.Credit_words) || modified
-	modified = stage.CleanSlice(&credit.Credit_symbol) || modified
 	// insertion point per field
 	modified = stage.CleanPointer(&credit.Credit_image) || modified
+	modified = stage.CleanPointer(&credit.Credit_words) || modified
+	modified = stage.CleanPointer(&credit.Credit_symbol) || modified
 	return
 }
 
@@ -351,7 +350,7 @@ func (frame *Frame) GongClean(stage *Stage) (modified bool) {
 func (frame_note *Frame_note) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = stage.CleanPointer(&frame_note.String) || modified
+	modified = stage.CleanPointer(&frame_note.String_XSD) || modified
 	modified = stage.CleanPointer(&frame_note.Fret) || modified
 	modified = stage.CleanPointer(&frame_note.Fingering) || modified
 	modified = stage.CleanPointer(&frame_note.Barre) || modified
@@ -462,8 +461,8 @@ func (listening *Listening) GongClean(stage *Stage) (modified bool) {
 func (lyric *Lyric) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&lyric.Elision) || modified
-	modified = stage.CleanSlice(&lyric.Text) || modified
 	// insertion point per field
+	modified = stage.CleanPointer(&lyric.Text) || modified
 	modified = stage.CleanPointer(&lyric.Extend) || modified
 	modified = stage.CleanPointer(&lyric.Footnote) || modified
 	modified = stage.CleanPointer(&lyric.Level) || modified
@@ -556,7 +555,7 @@ func (note *Note) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanPointer(&note.Tie) || modified
 	modified = stage.CleanPointer(&note.Footnote) || modified
 	modified = stage.CleanPointer(&note.Level) || modified
-	modified = stage.CleanPointer(&note.Type) || modified
+	modified = stage.CleanPointer(&note.Type_XSD) || modified
 	modified = stage.CleanPointer(&note.Accidental) || modified
 	modified = stage.CleanPointer(&note.Time_modification) || modified
 	modified = stage.CleanPointer(&note.Stem) || modified
@@ -675,17 +674,17 @@ func (play *Play) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by Print
-func (print *Print) GongClean(stage *Stage) (modified bool) {
+// Clean garbage collect unstaged instances that are referenced by Print_XSD
+func (print_xsd *Print_XSD) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = stage.CleanSlice(&print.Staff_layout) || modified
+	modified = stage.CleanSlice(&print_xsd.Staff_layout) || modified
 	// insertion point per field
-	modified = stage.CleanPointer(&print.Page_layout) || modified
-	modified = stage.CleanPointer(&print.System_layout) || modified
-	modified = stage.CleanPointer(&print.Measure_layout) || modified
-	modified = stage.CleanPointer(&print.Measure_numbering) || modified
-	modified = stage.CleanPointer(&print.Part_name_display) || modified
-	modified = stage.CleanPointer(&print.Part_abbreviation_display) || modified
+	modified = stage.CleanPointer(&print_xsd.Page_layout) || modified
+	modified = stage.CleanPointer(&print_xsd.System_layout) || modified
+	modified = stage.CleanPointer(&print_xsd.Measure_layout) || modified
+	modified = stage.CleanPointer(&print_xsd.Measure_numbering) || modified
+	modified = stage.CleanPointer(&print_xsd.Part_name_display) || modified
+	modified = stage.CleanPointer(&print_xsd.Part_abbreviation_display) || modified
 	return
 }
 
@@ -813,7 +812,7 @@ func (technical *Technical) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&technical.Stopped) || modified
 	modified = stage.CleanSlice(&technical.Snap_pizzicato) || modified
 	modified = stage.CleanSlice(&technical.Fret) || modified
-	modified = stage.CleanSlice(&technical.String) || modified
+	modified = stage.CleanSlice(&technical.String_XSD) || modified
 	modified = stage.CleanSlice(&technical.Hammer_on) || modified
 	modified = stage.CleanSlice(&technical.Pull_off) || modified
 	modified = stage.CleanSlice(&technical.Bend) || modified
@@ -873,6 +872,12 @@ func (work *Work) GongClean(stage *Stage) (modified bool) {
 
 // Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() (modified bool) {
+	if stage.XmlxsdStage != nil {
+		modified = stage.XmlxsdStage.Clean() || modified
+	}
+	if stage.XlinkStage != nil {
+		modified = stage.XlinkStage.Clean() || modified
+	}
 	for _, instance := range stage.GetInstances() {
 		if cleaner, ok := any(instance).(GongCleaner); ok {
 			modified = cleaner.GongClean(stage) || modified

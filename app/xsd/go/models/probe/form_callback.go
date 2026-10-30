@@ -147,6 +147,8 @@ func saveAllFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Alls", func(owner *models.Extension) *[]*models.All { return &owner.Alls })
 		case "Group:Alls":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Alls", func(owner *models.Group) *[]*models.All { return &owner.Alls })
+		case "Restriction:Alls":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Alls", func(owner *models.Restriction) *[]*models.All { return &owner.Alls })
 		case "Sequence:Alls":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Alls", func(owner *models.Sequence) *[]*models.All { return &owner.Alls })
 		}
@@ -233,14 +235,24 @@ func saveAttributeFields(
 			FormDivBasicFieldToField(&(_instance.TargetNamespace), formDiv)
 		case "SimpleType":
 			FormDivBasicFieldToField(&(_instance.SimpleType), formDiv)
+		case "InnerSimpleType":
+			FormDivSelectFieldToField(&(_instance.InnerSimpleType), probe.stageOfInterest, formDiv)
 		case "IDXSD":
 			FormDivBasicFieldToField(&(_instance.IDXSD), formDiv)
+		case "Order":
+			FormDivBasicFieldToField(&(_instance.Order), formDiv)
+		case "Depth":
+			FormDivBasicFieldToField(&(_instance.Depth), formDiv)
 		case "AttributeGroup:Attributes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Attributes", func(owner *models.AttributeGroup) *[]*models.Attribute { return &owner.Attributes })
 		case "ComplexType:Attributes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Attributes", func(owner *models.ComplexType) *[]*models.Attribute { return &owner.Attributes })
 		case "Extension:Attributes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Attributes", func(owner *models.Extension) *[]*models.Attribute { return &owner.Attributes })
+		case "Restriction:Attributes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Attributes", func(owner *models.Restriction) *[]*models.Attribute { return &owner.Attributes })
+		case "Schema:Attributes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Attributes", func(owner *models.Schema) *[]*models.Attribute { return &owner.Attributes })
 		}
 	}
 }
@@ -294,6 +306,8 @@ func saveAttributeGroupFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "AttributeGroups", func(owner *models.ComplexType) *[]*models.AttributeGroup { return &owner.AttributeGroups })
 		case "Extension:AttributeGroups":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "AttributeGroups", func(owner *models.Extension) *[]*models.AttributeGroup { return &owner.AttributeGroups })
+		case "Restriction:AttributeGroups":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "AttributeGroups", func(owner *models.Restriction) *[]*models.AttributeGroup { return &owner.AttributeGroups })
 		case "Schema:AttributeGroups":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "AttributeGroups", func(owner *models.Schema) *[]*models.AttributeGroup { return &owner.AttributeGroups })
 		}
@@ -359,6 +373,8 @@ func saveChoiceFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Choices", func(owner *models.Extension) *[]*models.Choice { return &owner.Choices })
 		case "Group:Choices":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Choices", func(owner *models.Group) *[]*models.Choice { return &owner.Choices })
+		case "Restriction:Choices":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Choices", func(owner *models.Restriction) *[]*models.Choice { return &owner.Choices })
 		case "Sequence:Choices":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Choices", func(owner *models.Sequence) *[]*models.Choice { return &owner.Choices })
 		}
@@ -390,6 +406,14 @@ func saveComplexContentFields(
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Annotation":
+			FormDivSelectFieldToField(&(_instance.Annotation), probe.stageOfInterest, formDiv)
+		case "Mixed":
+			FormDivBasicFieldToField(&(_instance.Mixed), formDiv)
+		case "Extension":
+			FormDivSelectFieldToField(&(_instance.Extension), probe.stageOfInterest, formDiv)
+		case "Restriction":
+			FormDivSelectFieldToField(&(_instance.Restriction), probe.stageOfInterest, formDiv)
 		}
 	}
 }
@@ -565,12 +589,20 @@ func saveElementFields(
 			FormDivBasicFieldToField(&(_instance.Block), formDiv)
 		case "Final":
 			FormDivBasicFieldToField(&(_instance.Final), formDiv)
+		case "SubstitutionGroup":
+			FormDivBasicFieldToField(&(_instance.SubstitutionGroup), formDiv)
 		case "SimpleType":
 			FormDivSelectFieldToField(&(_instance.SimpleType), probe.stageOfInterest, formDiv)
 		case "ComplexType":
 			FormDivSelectFieldToField(&(_instance.ComplexType), probe.stageOfInterest, formDiv)
 		case "Groups":
 			FormDivSliceOfPointersToField(_instance, "Groups", &(_instance.Groups), formDiv, probe)
+		case "Keys":
+			FormDivSliceOfPointersToField(_instance, "Keys", &(_instance.Keys), formDiv, probe)
+		case "Uniques":
+			FormDivSliceOfPointersToField(_instance, "Uniques", &(_instance.Uniques), formDiv, probe)
+		case "KeyRefs":
+			FormDivSliceOfPointersToField(_instance, "KeyRefs", &(_instance.KeyRefs), formDiv, probe)
 		case "IsDuplicatedInXSD":
 			FormDivBasicFieldToField(&(_instance.IsDuplicatedInXSD), formDiv)
 		case "All:Elements":
@@ -583,6 +615,8 @@ func saveElementFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Elements", func(owner *models.Extension) *[]*models.Element { return &owner.Elements })
 		case "Group:Elements":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Elements", func(owner *models.Group) *[]*models.Element { return &owner.Elements })
+		case "Restriction:Elements":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Elements", func(owner *models.Restriction) *[]*models.Element { return &owner.Elements })
 		case "Schema:Elements":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Elements", func(owner *models.Schema) *[]*models.Element { return &owner.Elements })
 		case "Sequence:Elements":
@@ -683,6 +717,76 @@ func saveExtensionFields(
 	}
 }
 
+func __gong__New__FieldXPathFormCallback(
+	_instance *models.FieldXPath,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (fieldxpathFormCallback *FormCallback[*models.FieldXPath]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveFieldXPathFields,
+	)
+}
+
+type FieldXPathFormCallback = FormCallback[*models.FieldXPath]
+
+func saveFieldXPathFields(
+	_instance *models.FieldXPath,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "XPath":
+			FormDivBasicFieldToField(&(_instance.XPath), formDiv)
+		case "Key:Fields":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Fields", func(owner *models.Key) *[]*models.FieldXPath { return &owner.Fields })
+		case "KeyRef:Fields":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Fields", func(owner *models.KeyRef) *[]*models.FieldXPath { return &owner.Fields })
+		case "Unique:Fields":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Fields", func(owner *models.Unique) *[]*models.FieldXPath { return &owner.Fields })
+		}
+	}
+}
+
+func __gong__New__FractionDigitFormCallback(
+	_instance *models.FractionDigit,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (fractiondigitFormCallback *FormCallback[*models.FractionDigit]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveFractionDigitFields,
+	)
+}
+
+type FractionDigitFormCallback = FormCallback[*models.FractionDigit]
+
+func saveFractionDigitFields(
+	_instance *models.FractionDigit,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Annotation":
+			FormDivSelectFieldToField(&(_instance.Annotation), probe.stageOfInterest, formDiv)
+		case "Value":
+			FormDivBasicFieldToField(&(_instance.Value), formDiv)
+		}
+	}
+}
+
 func __gong__New__GroupFormCallback(
 	_instance *models.Group,
 	probe *Probe,
@@ -754,10 +858,96 @@ func saveGroupFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Groups", func(owner *models.Extension) *[]*models.Group { return &owner.Groups })
 		case "Group:Groups":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Groups", func(owner *models.Group) *[]*models.Group { return &owner.Groups })
+		case "Restriction:Groups":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Groups", func(owner *models.Restriction) *[]*models.Group { return &owner.Groups })
 		case "Schema:Groups":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Groups", func(owner *models.Schema) *[]*models.Group { return &owner.Groups })
 		case "Sequence:Groups":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Groups", func(owner *models.Sequence) *[]*models.Group { return &owner.Groups })
+		}
+	}
+}
+
+func __gong__New__KeyFormCallback(
+	_instance *models.Key,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (keyFormCallback *FormCallback[*models.Key]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveKeyFields,
+	)
+}
+
+type KeyFormCallback = FormCallback[*models.Key]
+
+func saveKeyFields(
+	_instance *models.Key,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Annotation":
+			FormDivSelectFieldToField(&(_instance.Annotation), probe.stageOfInterest, formDiv)
+		case "NameXSD":
+			FormDivBasicFieldToField(&(_instance.NameXSD), formDiv)
+		case "Selector":
+			FormDivSelectFieldToField(&(_instance.Selector), probe.stageOfInterest, formDiv)
+		case "Fields":
+			FormDivSliceOfPointersToField(_instance, "Fields", &(_instance.Fields), formDiv, probe)
+		case "Element:Keys":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Keys", func(owner *models.Element) *[]*models.Key { return &owner.Keys })
+		case "Schema:Keys":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Keys", func(owner *models.Schema) *[]*models.Key { return &owner.Keys })
+		}
+	}
+}
+
+func __gong__New__KeyRefFormCallback(
+	_instance *models.KeyRef,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (keyrefFormCallback *FormCallback[*models.KeyRef]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveKeyRefFields,
+	)
+}
+
+type KeyRefFormCallback = FormCallback[*models.KeyRef]
+
+func saveKeyRefFields(
+	_instance *models.KeyRef,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Annotation":
+			FormDivSelectFieldToField(&(_instance.Annotation), probe.stageOfInterest, formDiv)
+		case "NameXSD":
+			FormDivBasicFieldToField(&(_instance.NameXSD), formDiv)
+		case "Refer":
+			FormDivBasicFieldToField(&(_instance.Refer), formDiv)
+		case "Selector":
+			FormDivSelectFieldToField(&(_instance.Selector), probe.stageOfInterest, formDiv)
+		case "Fields":
+			FormDivSliceOfPointersToField(_instance, "Fields", &(_instance.Fields), formDiv, probe)
+		case "Element:KeyRefs":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "KeyRefs", func(owner *models.Element) *[]*models.KeyRef { return &owner.KeyRefs })
+		case "Schema:KeyRefs":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "KeyRefs", func(owner *models.Schema) *[]*models.KeyRef { return &owner.KeyRefs })
 		}
 	}
 }
@@ -779,6 +969,74 @@ type LengthFormCallback = FormCallback[*models.Length]
 
 func saveLengthFields(
 	_instance *models.Length,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Annotation":
+			FormDivSelectFieldToField(&(_instance.Annotation), probe.stageOfInterest, formDiv)
+		case "Value":
+			FormDivBasicFieldToField(&(_instance.Value), formDiv)
+		}
+	}
+}
+
+func __gong__New__ListFormCallback(
+	_instance *models.List,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (listFormCallback *FormCallback[*models.List]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveListFields,
+	)
+}
+
+type ListFormCallback = FormCallback[*models.List]
+
+func saveListFields(
+	_instance *models.List,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Annotation":
+			FormDivSelectFieldToField(&(_instance.Annotation), probe.stageOfInterest, formDiv)
+		case "ItemType":
+			FormDivBasicFieldToField(&(_instance.ItemType), formDiv)
+		case "SimpleType":
+			FormDivSelectFieldToField(&(_instance.SimpleType), probe.stageOfInterest, formDiv)
+		}
+	}
+}
+
+func __gong__New__MaxExclusiveFormCallback(
+	_instance *models.MaxExclusive,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (maxexclusiveFormCallback *FormCallback[*models.MaxExclusive]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveMaxExclusiveFields,
+	)
+}
+
+type MaxExclusiveFormCallback = FormCallback[*models.MaxExclusive]
+
+func saveMaxExclusiveFields(
+	_instance *models.MaxExclusive,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
@@ -845,6 +1103,39 @@ type MaxLengthFormCallback = FormCallback[*models.MaxLength]
 
 func saveMaxLengthFields(
 	_instance *models.MaxLength,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Annotation":
+			FormDivSelectFieldToField(&(_instance.Annotation), probe.stageOfInterest, formDiv)
+		case "Value":
+			FormDivBasicFieldToField(&(_instance.Value), formDiv)
+		}
+	}
+}
+
+func __gong__New__MinExclusiveFormCallback(
+	_instance *models.MinExclusive,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (minexclusiveFormCallback *FormCallback[*models.MinExclusive]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveMinExclusiveFields,
+	)
+}
+
+type MinExclusiveFormCallback = FormCallback[*models.MinExclusive]
+
+func saveMinExclusiveFields(
+	_instance *models.MinExclusive,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
@@ -989,12 +1280,18 @@ func saveRestrictionFields(
 			FormDivSelectFieldToField(&(_instance.Annotation), probe.stageOfInterest, formDiv)
 		case "Base":
 			FormDivBasicFieldToField(&(_instance.Base), formDiv)
+		case "SimpleType":
+			FormDivSelectFieldToField(&(_instance.SimpleType), probe.stageOfInterest, formDiv)
 		case "Enumerations":
 			FormDivSliceOfPointersToField(_instance, "Enumerations", &(_instance.Enumerations), formDiv, probe)
 		case "MinInclusive":
 			FormDivSelectFieldToField(&(_instance.MinInclusive), probe.stageOfInterest, formDiv)
 		case "MaxInclusive":
 			FormDivSelectFieldToField(&(_instance.MaxInclusive), probe.stageOfInterest, formDiv)
+		case "MinExclusive":
+			FormDivSelectFieldToField(&(_instance.MinExclusive), probe.stageOfInterest, formDiv)
+		case "MaxExclusive":
+			FormDivSelectFieldToField(&(_instance.MaxExclusive), probe.stageOfInterest, formDiv)
 		case "Pattern":
 			FormDivSelectFieldToField(&(_instance.Pattern), probe.stageOfInterest, formDiv)
 		case "WhiteSpace":
@@ -1007,6 +1304,32 @@ func saveRestrictionFields(
 			FormDivSelectFieldToField(&(_instance.Length), probe.stageOfInterest, formDiv)
 		case "TotalDigit":
 			FormDivSelectFieldToField(&(_instance.TotalDigit), probe.stageOfInterest, formDiv)
+		case "FractionDigit":
+			FormDivSelectFieldToField(&(_instance.FractionDigit), probe.stageOfInterest, formDiv)
+		case "OuterElementName":
+			FormDivBasicFieldToField(&(_instance.OuterElementName), formDiv)
+		case "Sequences":
+			FormDivSliceOfPointersToField(_instance, "Sequences", &(_instance.Sequences), formDiv, probe)
+		case "Alls":
+			FormDivSliceOfPointersToField(_instance, "Alls", &(_instance.Alls), formDiv, probe)
+		case "Choices":
+			FormDivSliceOfPointersToField(_instance, "Choices", &(_instance.Choices), formDiv, probe)
+		case "Groups":
+			FormDivSliceOfPointersToField(_instance, "Groups", &(_instance.Groups), formDiv, probe)
+		case "Elements":
+			FormDivSliceOfPointersToField(_instance, "Elements", &(_instance.Elements), formDiv, probe)
+		case "Order":
+			FormDivBasicFieldToField(&(_instance.Order), formDiv)
+		case "Depth":
+			FormDivBasicFieldToField(&(_instance.Depth), formDiv)
+		case "MinOccurs":
+			FormDivBasicFieldToField(&(_instance.MinOccurs), formDiv)
+		case "MaxOccurs":
+			FormDivBasicFieldToField(&(_instance.MaxOccurs), formDiv)
+		case "Attributes":
+			FormDivSliceOfPointersToField(_instance, "Attributes", &(_instance.Attributes), formDiv, probe)
+		case "AttributeGroups":
+			FormDivSliceOfPointersToField(_instance, "AttributeGroups", &(_instance.AttributeGroups), formDiv, probe)
 		}
 	}
 }
@@ -1038,10 +1361,32 @@ func saveSchemaFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Xs":
 			FormDivBasicFieldToField(&(_instance.Xs), formDiv)
+		case "TargetNamespace":
+			FormDivBasicFieldToField(&(_instance.TargetNamespace), formDiv)
+		case "ElementFormDefault":
+			FormDivBasicFieldToField(&(_instance.ElementFormDefault), formDiv)
+		case "AttributeFormDefault":
+			FormDivBasicFieldToField(&(_instance.AttributeFormDefault), formDiv)
+		case "Version":
+			FormDivBasicFieldToField(&(_instance.Version), formDiv)
+		case "FilePath":
+			FormDivBasicFieldToField(&(_instance.FilePath), formDiv)
+		case "PackageName":
+			FormDivBasicFieldToField(&(_instance.PackageName), formDiv)
+		case "PackageRelDir":
+			FormDivBasicFieldToField(&(_instance.PackageRelDir), formDiv)
+		case "IsRootSchema":
+			FormDivBasicFieldToField(&(_instance.IsRootSchema), formDiv)
 		case "Annotation":
 			FormDivSelectFieldToField(&(_instance.Annotation), probe.stageOfInterest, formDiv)
+		case "Imports":
+			FormDivSliceOfPointersToField(_instance, "Imports", &(_instance.Imports), formDiv, probe)
+		case "Includes":
+			FormDivSliceOfPointersToField(_instance, "Includes", &(_instance.Includes), formDiv, probe)
 		case "Elements":
 			FormDivSliceOfPointersToField(_instance, "Elements", &(_instance.Elements), formDiv, probe)
+		case "Attributes":
+			FormDivSliceOfPointersToField(_instance, "Attributes", &(_instance.Attributes), formDiv, probe)
 		case "SimpleTypes":
 			FormDivSliceOfPointersToField(_instance, "SimpleTypes", &(_instance.SimpleTypes), formDiv, probe)
 		case "ComplexTypes":
@@ -1050,10 +1395,47 @@ func saveSchemaFields(
 			FormDivSliceOfPointersToField(_instance, "AttributeGroups", &(_instance.AttributeGroups), formDiv, probe)
 		case "Groups":
 			FormDivSliceOfPointersToField(_instance, "Groups", &(_instance.Groups), formDiv, probe)
+		case "Keys":
+			FormDivSliceOfPointersToField(_instance, "Keys", &(_instance.Keys), formDiv, probe)
+		case "Uniques":
+			FormDivSliceOfPointersToField(_instance, "Uniques", &(_instance.Uniques), formDiv, probe)
+		case "KeyRefs":
+			FormDivSliceOfPointersToField(_instance, "KeyRefs", &(_instance.KeyRefs), formDiv, probe)
 		case "Order":
 			FormDivBasicFieldToField(&(_instance.Order), formDiv)
 		case "Depth":
 			FormDivBasicFieldToField(&(_instance.Depth), formDiv)
+		}
+	}
+}
+
+func __gong__New__SelectorFormCallback(
+	_instance *models.Selector,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (selectorFormCallback *FormCallback[*models.Selector]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveSelectorFields,
+	)
+}
+
+type SelectorFormCallback = FormCallback[*models.Selector]
+
+func saveSelectorFields(
+	_instance *models.Selector,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "XPath":
+			FormDivBasicFieldToField(&(_instance.XPath), formDiv)
 		}
 	}
 }
@@ -1115,6 +1497,8 @@ func saveSequenceFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Sequences", func(owner *models.Extension) *[]*models.Sequence { return &owner.Sequences })
 		case "Group:Sequences":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Sequences", func(owner *models.Group) *[]*models.Sequence { return &owner.Sequences })
+		case "Restriction:Sequences":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Sequences", func(owner *models.Restriction) *[]*models.Sequence { return &owner.Sequences })
 		case "Sequence:Sequences":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Sequences", func(owner *models.Sequence) *[]*models.Sequence { return &owner.Sequences })
 		}
@@ -1187,12 +1571,20 @@ func saveSimpleTypeFields(
 			FormDivSelectFieldToField(&(_instance.Restriction), probe.stageOfInterest, formDiv)
 		case "Union":
 			FormDivSelectFieldToField(&(_instance.Union), probe.stageOfInterest, formDiv)
+		case "List":
+			FormDivSelectFieldToField(&(_instance.List), probe.stageOfInterest, formDiv)
+		case "HasNameConflict":
+			FormDivBasicFieldToField(&(_instance.HasNameConflict), formDiv)
+		case "GoIdentifier":
+			FormDivBasicFieldToField(&(_instance.GoIdentifier), formDiv)
 		case "Order":
 			FormDivBasicFieldToField(&(_instance.Order), formDiv)
 		case "Depth":
 			FormDivBasicFieldToField(&(_instance.Depth), formDiv)
 		case "Schema:SimpleTypes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SimpleTypes", func(owner *models.Schema) *[]*models.SimpleType { return &owner.SimpleTypes })
+		case "Union:SimpleTypes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SimpleTypes", func(owner *models.Union) *[]*models.SimpleType { return &owner.SimpleTypes })
 		}
 	}
 }
@@ -1259,6 +1651,49 @@ func saveUnionFields(
 			FormDivSelectFieldToField(&(_instance.Annotation), probe.stageOfInterest, formDiv)
 		case "MemberTypes":
 			FormDivBasicFieldToField(&(_instance.MemberTypes), formDiv)
+		case "SimpleTypes":
+			FormDivSliceOfPointersToField(_instance, "SimpleTypes", &(_instance.SimpleTypes), formDiv, probe)
+		}
+	}
+}
+
+func __gong__New__UniqueFormCallback(
+	_instance *models.Unique,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (uniqueFormCallback *FormCallback[*models.Unique]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveUniqueFields,
+	)
+}
+
+type UniqueFormCallback = FormCallback[*models.Unique]
+
+func saveUniqueFields(
+	_instance *models.Unique,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Annotation":
+			FormDivSelectFieldToField(&(_instance.Annotation), probe.stageOfInterest, formDiv)
+		case "NameXSD":
+			FormDivBasicFieldToField(&(_instance.NameXSD), formDiv)
+		case "Selector":
+			FormDivSelectFieldToField(&(_instance.Selector), probe.stageOfInterest, formDiv)
+		case "Fields":
+			FormDivSliceOfPointersToField(_instance, "Fields", &(_instance.Fields), formDiv, probe)
+		case "Element:Uniques":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Uniques", func(owner *models.Element) *[]*models.Unique { return &owner.Uniques })
+		case "Schema:Uniques":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Uniques", func(owner *models.Schema) *[]*models.Unique { return &owner.Uniques })
 		}
 	}
 }
@@ -1292,6 +1727,78 @@ func saveWhiteSpaceFields(
 			FormDivSelectFieldToField(&(_instance.Annotation), probe.stageOfInterest, formDiv)
 		case "Value":
 			FormDivBasicFieldToField(&(_instance.Value), formDiv)
+		}
+	}
+}
+
+func __gong__New__XSDImportFormCallback(
+	_instance *models.XSDImport,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (xsdimportFormCallback *FormCallback[*models.XSDImport]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveXSDImportFields,
+	)
+}
+
+type XSDImportFormCallback = FormCallback[*models.XSDImport]
+
+func saveXSDImportFields(
+	_instance *models.XSDImport,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Annotation":
+			FormDivSelectFieldToField(&(_instance.Annotation), probe.stageOfInterest, formDiv)
+		case "Namespace":
+			FormDivBasicFieldToField(&(_instance.Namespace), formDiv)
+		case "SchemaLocation":
+			FormDivBasicFieldToField(&(_instance.SchemaLocation), formDiv)
+		case "Schema:Imports":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Imports", func(owner *models.Schema) *[]*models.XSDImport { return &owner.Imports })
+		}
+	}
+}
+
+func __gong__New__XSDIncludeFormCallback(
+	_instance *models.XSDInclude,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (xsdincludeFormCallback *FormCallback[*models.XSDInclude]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveXSDIncludeFields,
+	)
+}
+
+type XSDIncludeFormCallback = FormCallback[*models.XSDInclude]
+
+func saveXSDIncludeFields(
+	_instance *models.XSDInclude,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Annotation":
+			FormDivSelectFieldToField(&(_instance.Annotation), probe.stageOfInterest, formDiv)
+		case "SchemaLocation":
+			FormDivBasicFieldToField(&(_instance.SchemaLocation), formDiv)
+		case "Schema:Includes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Includes", func(owner *models.Schema) *[]*models.XSDInclude { return &owner.Includes })
 		}
 	}
 }

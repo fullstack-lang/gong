@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://example.com/complex"
+           xmlns:tns="http://example.com/complex"
+           elementFormDefault="qualified">
+
+    <xs:simpleType name="codeSimpleType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="3"/>
+            <xs:maxLength value="10"/>
+            <xs:pattern value="^[A-Z0-9_-]+$"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="scoreSimpleType">
+        <xs:restriction base="xs:decimal">
+            <xs:minExclusive value="0"/>
+            <xs:maxExclusive value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="baseItemType">
+        <xs:sequence>
+            <xs:element name="code" type="tns:codeSimpleType"/>
+            <xs:element name="score" type="tns:scoreSimpleType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

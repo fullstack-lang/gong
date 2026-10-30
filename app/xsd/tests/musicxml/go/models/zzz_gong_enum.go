@@ -1190,7 +1190,7 @@ func (enum_beam_value Enum_Beam_value) ToString() (res string) {
 	// insertion code per enum code
 	case Enum_Beam_value_Begin:
 		res = "begin"
-	case Enum_Beam_value_Continue:
+	case Enum_Beam_value_Continue_XSD:
 		res = "continue"
 	case Enum_Beam_value_End:
 		res = "end"
@@ -1210,7 +1210,7 @@ func (enum_beam_value *Enum_Beam_value) FromString(input string) (err error) {
 		*enum_beam_value = Enum_Beam_value_Begin
 		return
 	case "continue":
-		*enum_beam_value = Enum_Beam_value_Continue
+		*enum_beam_value = Enum_Beam_value_Continue_XSD
 		return
 	case "end":
 		*enum_beam_value = Enum_Beam_value_End
@@ -1232,8 +1232,8 @@ func (enum_beam_value *Enum_Beam_value) FromCodeString(input string) (err error)
 	// insertion code per enum code
 	case "Enum_Beam_value_Begin":
 		*enum_beam_value = Enum_Beam_value_Begin
-	case "Enum_Beam_value_Continue":
-		*enum_beam_value = Enum_Beam_value_Continue
+	case "Enum_Beam_value_Continue_XSD":
+		*enum_beam_value = Enum_Beam_value_Continue_XSD
 	case "Enum_Beam_value_End":
 		*enum_beam_value = Enum_Beam_value_End
 	case "Enum_Beam_value_Forward_hook":
@@ -1252,8 +1252,8 @@ func (enum_beam_value *Enum_Beam_value) ToCodeString() (res string) {
 	// insertion code per enum code
 	case Enum_Beam_value_Begin:
 		res = "Enum_Beam_value_Begin"
-	case Enum_Beam_value_Continue:
-		res = "Enum_Beam_value_Continue"
+	case Enum_Beam_value_Continue_XSD:
+		res = "Enum_Beam_value_Continue_XSD"
 	case Enum_Beam_value_End:
 		res = "Enum_Beam_value_End"
 	case Enum_Beam_value_Forward_hook:
@@ -1270,7 +1270,7 @@ func (enum_beam_value Enum_Beam_value) Codes() (res []string) {
 
 	// insertion code per enum code
 	res = append(res, "Enum_Beam_value_Begin")
-	res = append(res, "Enum_Beam_value_Continue")
+	res = append(res, "Enum_Beam_value_Continue_XSD")
 	res = append(res, "Enum_Beam_value_End")
 	res = append(res, "Enum_Beam_value_Forward_hook")
 	res = append(res, "Enum_Beam_value_Backward_hook")
@@ -1656,7 +1656,7 @@ func (enum_breath_mark_value Enum_Breath_mark_value) ToString() (res string) {
 	// migration of former implementation of enum
 	switch enum_breath_mark_value {
 	// insertion code per enum code
-	case Enum_Breath_mark_value_:
+	case Enum_Breath_mark_value_Empty:
 		res = ""
 	case Enum_Breath_mark_value_Comma:
 		res = "comma"
@@ -1675,7 +1675,7 @@ func (enum_breath_mark_value *Enum_Breath_mark_value) FromString(input string) (
 	switch input {
 	// insertion code per enum code
 	case "":
-		*enum_breath_mark_value = Enum_Breath_mark_value_
+		*enum_breath_mark_value = Enum_Breath_mark_value_Empty
 		return
 	case "comma":
 		*enum_breath_mark_value = Enum_Breath_mark_value_Comma
@@ -1698,8 +1698,8 @@ func (enum_breath_mark_value *Enum_Breath_mark_value) FromCodeString(input strin
 
 	switch input {
 	// insertion code per enum code
-	case "Enum_Breath_mark_value_":
-		*enum_breath_mark_value = Enum_Breath_mark_value_
+	case "Enum_Breath_mark_value_Empty":
+		*enum_breath_mark_value = Enum_Breath_mark_value_Empty
 	case "Enum_Breath_mark_value_Comma":
 		*enum_breath_mark_value = Enum_Breath_mark_value_Comma
 	case "Enum_Breath_mark_value_Tick":
@@ -1718,8 +1718,8 @@ func (enum_breath_mark_value *Enum_Breath_mark_value) ToCodeString() (res string
 
 	switch *enum_breath_mark_value {
 	// insertion code per enum code
-	case Enum_Breath_mark_value_:
-		res = "Enum_Breath_mark_value_"
+	case Enum_Breath_mark_value_Empty:
+		res = "Enum_Breath_mark_value_Empty"
 	case Enum_Breath_mark_value_Comma:
 		res = "Enum_Breath_mark_value_Comma"
 	case Enum_Breath_mark_value_Tick:
@@ -1737,7 +1737,7 @@ func (enum_breath_mark_value Enum_Breath_mark_value) Codes() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "Enum_Breath_mark_value_")
+	res = append(res, "Enum_Breath_mark_value_Empty")
 	res = append(res, "Enum_Breath_mark_value_Comma")
 	res = append(res, "Enum_Breath_mark_value_Tick")
 	res = append(res, "Enum_Breath_mark_value_Upbow")
@@ -1778,7 +1778,7 @@ func (enum_caesura_value Enum_Caesura_value) ToString() (res string) {
 		res = "curved"
 	case Enum_Caesura_value_Single:
 		res = "single"
-	case Enum_Caesura_value_:
+	case Enum_Caesura_value_Empty:
 		res = ""
 	}
 	return
@@ -1804,7 +1804,7 @@ func (enum_caesura_value *Enum_Caesura_value) FromString(input string) (err erro
 		*enum_caesura_value = Enum_Caesura_value_Single
 		return
 	case "":
-		*enum_caesura_value = Enum_Caesura_value_
+		*enum_caesura_value = Enum_Caesura_value_Empty
 		return
 	default:
 		return errUnkownEnum
@@ -1825,8 +1825,8 @@ func (enum_caesura_value *Enum_Caesura_value) FromCodeString(input string) (err 
 		*enum_caesura_value = Enum_Caesura_value_Curved
 	case "Enum_Caesura_value_Single":
 		*enum_caesura_value = Enum_Caesura_value_Single
-	case "Enum_Caesura_value_":
-		*enum_caesura_value = Enum_Caesura_value_
+	case "Enum_Caesura_value_Empty":
+		*enum_caesura_value = Enum_Caesura_value_Empty
 	default:
 		err = errUnkownEnum
 	}
@@ -1847,8 +1847,8 @@ func (enum_caesura_value *Enum_Caesura_value) ToCodeString() (res string) {
 		res = "Enum_Caesura_value_Curved"
 	case Enum_Caesura_value_Single:
 		res = "Enum_Caesura_value_Single"
-	case Enum_Caesura_value_:
-		res = "Enum_Caesura_value_"
+	case Enum_Caesura_value_Empty:
+		res = "Enum_Caesura_value_Empty"
 	}
 	return
 }
@@ -1863,7 +1863,7 @@ func (enum_caesura_value Enum_Caesura_value) Codes() (res []string) {
 	res = append(res, "Enum_Caesura_value_Short")
 	res = append(res, "Enum_Caesura_value_Curved")
 	res = append(res, "Enum_Caesura_value_Single")
-	res = append(res, "Enum_Caesura_value_")
+	res = append(res, "Enum_Caesura_value_Empty")
 
 	return
 }
@@ -2186,116 +2186,136 @@ func (enum_clef_sign Enum_Clef_sign) CodeValues() (res []string) {
 	return
 }
 
-// Utility function for Enum_Color
+// Utility function for Enum_Css_font_size
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
-func (enum_color Enum_Color) ToString() (res string) {
+func (enum_css_font_size Enum_Css_font_size) ToString() (res string) {
 
 	// migration of former implementation of enum
-	switch enum_color {
+	switch enum_css_font_size {
 	// insertion code per enum code
+	case Enum_Css_font_size_Xx_small:
+		res = "xx-small"
+	case Enum_Css_font_size_X_small:
+		res = "x-small"
+	case Enum_Css_font_size_Small:
+		res = "small"
+	case Enum_Css_font_size_Medium:
+		res = "medium"
+	case Enum_Css_font_size_Large:
+		res = "large"
+	case Enum_Css_font_size_X_large:
+		res = "x-large"
+	case Enum_Css_font_size_Xx_large:
+		res = "xx-large"
 	}
 	return
 }
 
-func (enum_color *Enum_Color) FromString(input string) (err error) {
+func (enum_css_font_size *Enum_Css_font_size) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
+	case "xx-small":
+		*enum_css_font_size = Enum_Css_font_size_Xx_small
+		return
+	case "x-small":
+		*enum_css_font_size = Enum_Css_font_size_X_small
+		return
+	case "small":
+		*enum_css_font_size = Enum_Css_font_size_Small
+		return
+	case "medium":
+		*enum_css_font_size = Enum_Css_font_size_Medium
+		return
+	case "large":
+		*enum_css_font_size = Enum_Css_font_size_Large
+		return
+	case "x-large":
+		*enum_css_font_size = Enum_Css_font_size_X_large
+		return
+	case "xx-large":
+		*enum_css_font_size = Enum_Css_font_size_Xx_large
+		return
 	default:
 		return errUnkownEnum
 	}
 }
 
-func (enum_color *Enum_Color) FromCodeString(input string) (err error) {
+func (enum_css_font_size *Enum_Css_font_size) FromCodeString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
+	case "Enum_Css_font_size_Xx_small":
+		*enum_css_font_size = Enum_Css_font_size_Xx_small
+	case "Enum_Css_font_size_X_small":
+		*enum_css_font_size = Enum_Css_font_size_X_small
+	case "Enum_Css_font_size_Small":
+		*enum_css_font_size = Enum_Css_font_size_Small
+	case "Enum_Css_font_size_Medium":
+		*enum_css_font_size = Enum_Css_font_size_Medium
+	case "Enum_Css_font_size_Large":
+		*enum_css_font_size = Enum_Css_font_size_Large
+	case "Enum_Css_font_size_X_large":
+		*enum_css_font_size = Enum_Css_font_size_X_large
+	case "Enum_Css_font_size_Xx_large":
+		*enum_css_font_size = Enum_Css_font_size_Xx_large
 	default:
 		err = errUnkownEnum
 	}
 	return
 }
 
-func (enum_color *Enum_Color) ToCodeString() (res string) {
+func (enum_css_font_size *Enum_Css_font_size) ToCodeString() (res string) {
 
-	switch *enum_color {
+	switch *enum_css_font_size {
 	// insertion code per enum code
+	case Enum_Css_font_size_Xx_small:
+		res = "Enum_Css_font_size_Xx_small"
+	case Enum_Css_font_size_X_small:
+		res = "Enum_Css_font_size_X_small"
+	case Enum_Css_font_size_Small:
+		res = "Enum_Css_font_size_Small"
+	case Enum_Css_font_size_Medium:
+		res = "Enum_Css_font_size_Medium"
+	case Enum_Css_font_size_Large:
+		res = "Enum_Css_font_size_Large"
+	case Enum_Css_font_size_X_large:
+		res = "Enum_Css_font_size_X_large"
+	case Enum_Css_font_size_Xx_large:
+		res = "Enum_Css_font_size_Xx_large"
 	}
 	return
 }
 
-func (enum_color Enum_Color) Codes() (res []string) {
+func (enum_css_font_size Enum_Css_font_size) Codes() (res []string) {
 
 	res = make([]string, 0)
 
 	// insertion code per enum code
+	res = append(res, "Enum_Css_font_size_Xx_small")
+	res = append(res, "Enum_Css_font_size_X_small")
+	res = append(res, "Enum_Css_font_size_Small")
+	res = append(res, "Enum_Css_font_size_Medium")
+	res = append(res, "Enum_Css_font_size_Large")
+	res = append(res, "Enum_Css_font_size_X_large")
+	res = append(res, "Enum_Css_font_size_Xx_large")
 
 	return
 }
 
-func (enum_color Enum_Color) CodeValues() (res []string) {
+func (enum_css_font_size Enum_Css_font_size) CodeValues() (res []string) {
 
 	res = make([]string, 0)
 
 	// insertion code per enum code
-
-	return
-}
-
-// Utility function for Enum_Comma_separated_text
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (enum_comma_separated_text Enum_Comma_separated_text) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch enum_comma_separated_text {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_comma_separated_text *Enum_Comma_separated_text) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		return errUnkownEnum
-	}
-}
-
-func (enum_comma_separated_text *Enum_Comma_separated_text) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		err = errUnkownEnum
-	}
-	return
-}
-
-func (enum_comma_separated_text *Enum_Comma_separated_text) ToCodeString() (res string) {
-
-	switch *enum_comma_separated_text {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_comma_separated_text Enum_Comma_separated_text) Codes() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
-
-	return
-}
-
-func (enum_comma_separated_text Enum_Comma_separated_text) CodeValues() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
+	res = append(res, "xx-small")
+	res = append(res, "x-small")
+	res = append(res, "small")
+	res = append(res, "medium")
+	res = append(res, "large")
+	res = append(res, "x-large")
+	res = append(res, "xx-large")
 
 	return
 }
@@ -2498,63 +2518,6 @@ func (enum_degree_type_value Enum_Degree_type_value) CodeValues() (res []string)
 	res = append(res, "add")
 	res = append(res, "alter")
 	res = append(res, "subtract")
-
-	return
-}
-
-// Utility function for Enum_Distance_type
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (enum_distance_type Enum_Distance_type) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch enum_distance_type {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_distance_type *Enum_Distance_type) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		return errUnkownEnum
-	}
-}
-
-func (enum_distance_type *Enum_Distance_type) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		err = errUnkownEnum
-	}
-	return
-}
-
-func (enum_distance_type *Enum_Distance_type) ToCodeString() (res string) {
-
-	switch *enum_distance_type {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_distance_type Enum_Distance_type) Codes() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
-
-	return
-}
-
-func (enum_distance_type Enum_Distance_type) CodeValues() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
 
 	return
 }
@@ -3014,63 +2977,6 @@ func (enum_enclosure_shape Enum_Enclosure_shape) CodeValues() (res []string) {
 	return
 }
 
-// Utility function for Enum_Ending_number
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (enum_ending_number Enum_Ending_number) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch enum_ending_number {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_ending_number *Enum_Ending_number) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		return errUnkownEnum
-	}
-}
-
-func (enum_ending_number *Enum_Ending_number) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		err = errUnkownEnum
-	}
-	return
-}
-
-func (enum_ending_number *Enum_Ending_number) ToCodeString() (res string) {
-
-	switch *enum_ending_number {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_ending_number Enum_Ending_number) Codes() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
-
-	return
-}
-
-func (enum_ending_number Enum_Ending_number) CodeValues() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
-
-	return
-}
-
 // Utility function for Enum_Fan
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -3185,7 +3091,7 @@ func (enum_fermata_shape Enum_Fermata_shape) ToString() (res string) {
 		res = "half-curve"
 	case Enum_Fermata_shape_Curlew:
 		res = "curlew"
-	case Enum_Fermata_shape_:
+	case Enum_Fermata_shape_Empty:
 		res = ""
 	}
 	return
@@ -3220,7 +3126,7 @@ func (enum_fermata_shape *Enum_Fermata_shape) FromString(input string) (err erro
 		*enum_fermata_shape = Enum_Fermata_shape_Curlew
 		return
 	case "":
-		*enum_fermata_shape = Enum_Fermata_shape_
+		*enum_fermata_shape = Enum_Fermata_shape_Empty
 		return
 	default:
 		return errUnkownEnum
@@ -3247,8 +3153,8 @@ func (enum_fermata_shape *Enum_Fermata_shape) FromCodeString(input string) (err 
 		*enum_fermata_shape = Enum_Fermata_shape_Half_curve
 	case "Enum_Fermata_shape_Curlew":
 		*enum_fermata_shape = Enum_Fermata_shape_Curlew
-	case "Enum_Fermata_shape_":
-		*enum_fermata_shape = Enum_Fermata_shape_
+	case "Enum_Fermata_shape_Empty":
+		*enum_fermata_shape = Enum_Fermata_shape_Empty
 	default:
 		err = errUnkownEnum
 	}
@@ -3275,8 +3181,8 @@ func (enum_fermata_shape *Enum_Fermata_shape) ToCodeString() (res string) {
 		res = "Enum_Fermata_shape_Half_curve"
 	case Enum_Fermata_shape_Curlew:
 		res = "Enum_Fermata_shape_Curlew"
-	case Enum_Fermata_shape_:
-		res = "Enum_Fermata_shape_"
+	case Enum_Fermata_shape_Empty:
+		res = "Enum_Fermata_shape_Empty"
 	}
 	return
 }
@@ -3294,7 +3200,7 @@ func (enum_fermata_shape Enum_Fermata_shape) Codes() (res []string) {
 	res = append(res, "Enum_Fermata_shape_Double_dot")
 	res = append(res, "Enum_Fermata_shape_Half_curve")
 	res = append(res, "Enum_Fermata_shape_Curlew")
-	res = append(res, "Enum_Fermata_shape_")
+	res = append(res, "Enum_Fermata_shape_Empty")
 
 	return
 }
@@ -3561,63 +3467,6 @@ func (enum_glass_value Enum_Glass_value) CodeValues() (res []string) {
 	res = append(res, "glass harmonica")
 	res = append(res, "glass harp")
 	res = append(res, "wind chimes")
-
-	return
-}
-
-// Utility function for Enum_Glyph_type
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (enum_glyph_type Enum_Glyph_type) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch enum_glyph_type {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_glyph_type *Enum_Glyph_type) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		return errUnkownEnum
-	}
-}
-
-func (enum_glyph_type *Enum_Glyph_type) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		err = errUnkownEnum
-	}
-	return
-}
-
-func (enum_glyph_type *Enum_Glyph_type) ToCodeString() (res string) {
-
-	switch *enum_glyph_type {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_glyph_type Enum_Glyph_type) Codes() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
-
-	return
-}
-
-func (enum_glyph_type Enum_Glyph_type) CodeValues() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
 
 	return
 }
@@ -5546,63 +5395,6 @@ func (enum_line_type Enum_Line_type) CodeValues() (res []string) {
 	return
 }
 
-// Utility function for Enum_Line_width_type
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (enum_line_width_type Enum_Line_width_type) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch enum_line_width_type {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_line_width_type *Enum_Line_width_type) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		return errUnkownEnum
-	}
-}
-
-func (enum_line_width_type *Enum_Line_width_type) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		err = errUnkownEnum
-	}
-	return
-}
-
-func (enum_line_width_type *Enum_Line_width_type) ToCodeString() (res string) {
-
-	switch *enum_line_width_type {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_line_width_type Enum_Line_width_type) Codes() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
-
-	return
-}
-
-func (enum_line_width_type Enum_Line_width_type) CodeValues() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
-
-	return
-}
-
 // Utility function for Enum_Margin_type
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -5779,63 +5571,6 @@ func (enum_measure_numbering_value Enum_Measure_numbering_value) CodeValues() (r
 	res = append(res, "none")
 	res = append(res, "measure")
 	res = append(res, "system")
-
-	return
-}
-
-// Utility function for Enum_Measure_text
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (enum_measure_text Enum_Measure_text) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch enum_measure_text {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_measure_text *Enum_Measure_text) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		return errUnkownEnum
-	}
-}
-
-func (enum_measure_text *Enum_Measure_text) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		err = errUnkownEnum
-	}
-	return
-}
-
-func (enum_measure_text *Enum_Measure_text) ToCodeString() (res string) {
-
-	switch *enum_measure_text {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_measure_text Enum_Measure_text) Codes() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
-
-	return
-}
-
-func (enum_measure_text Enum_Measure_text) CodeValues() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
 
 	return
 }
@@ -6493,63 +6228,6 @@ func (enum_metal_value Enum_Metal_value) CodeValues() (res []string) {
 	return
 }
 
-// Utility function for Enum_Mode
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (enum_mode Enum_Mode) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch enum_mode {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_mode *Enum_Mode) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		return errUnkownEnum
-	}
-}
-
-func (enum_mode *Enum_Mode) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		err = errUnkownEnum
-	}
-	return
-}
-
-func (enum_mode *Enum_Mode) ToCodeString() (res string) {
-
-	switch *enum_mode {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_mode Enum_Mode) Codes() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
-
-	return
-}
-
-func (enum_mode Enum_Mode) CodeValues() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
-
-	return
-}
-
 // Utility function for Enum_Mute
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -6881,19 +6559,19 @@ func (enum_note_type_value Enum_Note_type_value) ToString() (res string) {
 	// migration of former implementation of enum
 	switch enum_note_type_value {
 	// insertion code per enum code
-	case Enum_Note_type_value_1024th:
+	case Enum_Note_type_value_N_1024th:
 		res = "1024th"
-	case Enum_Note_type_value_512th:
+	case Enum_Note_type_value_N_512th:
 		res = "512th"
-	case Enum_Note_type_value_256th:
+	case Enum_Note_type_value_N_256th:
 		res = "256th"
-	case Enum_Note_type_value_128th:
+	case Enum_Note_type_value_N_128th:
 		res = "128th"
-	case Enum_Note_type_value_64th:
+	case Enum_Note_type_value_N_64th:
 		res = "64th"
-	case Enum_Note_type_value_32nd:
+	case Enum_Note_type_value_N_32nd:
 		res = "32nd"
-	case Enum_Note_type_value_16th:
+	case Enum_Note_type_value_N_16th:
 		res = "16th"
 	case Enum_Note_type_value_Eighth:
 		res = "eighth"
@@ -6918,25 +6596,25 @@ func (enum_note_type_value *Enum_Note_type_value) FromString(input string) (err 
 	switch input {
 	// insertion code per enum code
 	case "1024th":
-		*enum_note_type_value = Enum_Note_type_value_1024th
+		*enum_note_type_value = Enum_Note_type_value_N_1024th
 		return
 	case "512th":
-		*enum_note_type_value = Enum_Note_type_value_512th
+		*enum_note_type_value = Enum_Note_type_value_N_512th
 		return
 	case "256th":
-		*enum_note_type_value = Enum_Note_type_value_256th
+		*enum_note_type_value = Enum_Note_type_value_N_256th
 		return
 	case "128th":
-		*enum_note_type_value = Enum_Note_type_value_128th
+		*enum_note_type_value = Enum_Note_type_value_N_128th
 		return
 	case "64th":
-		*enum_note_type_value = Enum_Note_type_value_64th
+		*enum_note_type_value = Enum_Note_type_value_N_64th
 		return
 	case "32nd":
-		*enum_note_type_value = Enum_Note_type_value_32nd
+		*enum_note_type_value = Enum_Note_type_value_N_32nd
 		return
 	case "16th":
-		*enum_note_type_value = Enum_Note_type_value_16th
+		*enum_note_type_value = Enum_Note_type_value_N_16th
 		return
 	case "eighth":
 		*enum_note_type_value = Enum_Note_type_value_Eighth
@@ -6968,20 +6646,20 @@ func (enum_note_type_value *Enum_Note_type_value) FromCodeString(input string) (
 
 	switch input {
 	// insertion code per enum code
-	case "Enum_Note_type_value_1024th":
-		*enum_note_type_value = Enum_Note_type_value_1024th
-	case "Enum_Note_type_value_512th":
-		*enum_note_type_value = Enum_Note_type_value_512th
-	case "Enum_Note_type_value_256th":
-		*enum_note_type_value = Enum_Note_type_value_256th
-	case "Enum_Note_type_value_128th":
-		*enum_note_type_value = Enum_Note_type_value_128th
-	case "Enum_Note_type_value_64th":
-		*enum_note_type_value = Enum_Note_type_value_64th
-	case "Enum_Note_type_value_32nd":
-		*enum_note_type_value = Enum_Note_type_value_32nd
-	case "Enum_Note_type_value_16th":
-		*enum_note_type_value = Enum_Note_type_value_16th
+	case "Enum_Note_type_value_N_1024th":
+		*enum_note_type_value = Enum_Note_type_value_N_1024th
+	case "Enum_Note_type_value_N_512th":
+		*enum_note_type_value = Enum_Note_type_value_N_512th
+	case "Enum_Note_type_value_N_256th":
+		*enum_note_type_value = Enum_Note_type_value_N_256th
+	case "Enum_Note_type_value_N_128th":
+		*enum_note_type_value = Enum_Note_type_value_N_128th
+	case "Enum_Note_type_value_N_64th":
+		*enum_note_type_value = Enum_Note_type_value_N_64th
+	case "Enum_Note_type_value_N_32nd":
+		*enum_note_type_value = Enum_Note_type_value_N_32nd
+	case "Enum_Note_type_value_N_16th":
+		*enum_note_type_value = Enum_Note_type_value_N_16th
 	case "Enum_Note_type_value_Eighth":
 		*enum_note_type_value = Enum_Note_type_value_Eighth
 	case "Enum_Note_type_value_Quarter":
@@ -7006,20 +6684,20 @@ func (enum_note_type_value *Enum_Note_type_value) ToCodeString() (res string) {
 
 	switch *enum_note_type_value {
 	// insertion code per enum code
-	case Enum_Note_type_value_1024th:
-		res = "Enum_Note_type_value_1024th"
-	case Enum_Note_type_value_512th:
-		res = "Enum_Note_type_value_512th"
-	case Enum_Note_type_value_256th:
-		res = "Enum_Note_type_value_256th"
-	case Enum_Note_type_value_128th:
-		res = "Enum_Note_type_value_128th"
-	case Enum_Note_type_value_64th:
-		res = "Enum_Note_type_value_64th"
-	case Enum_Note_type_value_32nd:
-		res = "Enum_Note_type_value_32nd"
-	case Enum_Note_type_value_16th:
-		res = "Enum_Note_type_value_16th"
+	case Enum_Note_type_value_N_1024th:
+		res = "Enum_Note_type_value_N_1024th"
+	case Enum_Note_type_value_N_512th:
+		res = "Enum_Note_type_value_N_512th"
+	case Enum_Note_type_value_N_256th:
+		res = "Enum_Note_type_value_N_256th"
+	case Enum_Note_type_value_N_128th:
+		res = "Enum_Note_type_value_N_128th"
+	case Enum_Note_type_value_N_64th:
+		res = "Enum_Note_type_value_N_64th"
+	case Enum_Note_type_value_N_32nd:
+		res = "Enum_Note_type_value_N_32nd"
+	case Enum_Note_type_value_N_16th:
+		res = "Enum_Note_type_value_N_16th"
 	case Enum_Note_type_value_Eighth:
 		res = "Enum_Note_type_value_Eighth"
 	case Enum_Note_type_value_Quarter:
@@ -7043,13 +6721,13 @@ func (enum_note_type_value Enum_Note_type_value) Codes() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "Enum_Note_type_value_1024th")
-	res = append(res, "Enum_Note_type_value_512th")
-	res = append(res, "Enum_Note_type_value_256th")
-	res = append(res, "Enum_Note_type_value_128th")
-	res = append(res, "Enum_Note_type_value_64th")
-	res = append(res, "Enum_Note_type_value_32nd")
-	res = append(res, "Enum_Note_type_value_16th")
+	res = append(res, "Enum_Note_type_value_N_1024th")
+	res = append(res, "Enum_Note_type_value_N_512th")
+	res = append(res, "Enum_Note_type_value_N_256th")
+	res = append(res, "Enum_Note_type_value_N_128th")
+	res = append(res, "Enum_Note_type_value_N_64th")
+	res = append(res, "Enum_Note_type_value_N_32nd")
+	res = append(res, "Enum_Note_type_value_N_16th")
 	res = append(res, "Enum_Note_type_value_Eighth")
 	res = append(res, "Enum_Note_type_value_Quarter")
 	res = append(res, "Enum_Note_type_value_Half")
@@ -7449,6 +7127,74 @@ func (enum_notehead_value Enum_Notehead_value) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for Enum_Number_or_normal_Member_1
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (enum_number_or_normal_member_1 Enum_Number_or_normal_Member_1) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch enum_number_or_normal_member_1 {
+	// insertion code per enum code
+	case Enum_Number_or_normal_Member_1_Normal:
+		res = "normal"
+	}
+	return
+}
+
+func (enum_number_or_normal_member_1 *Enum_Number_or_normal_Member_1) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "normal":
+		*enum_number_or_normal_member_1 = Enum_Number_or_normal_Member_1_Normal
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (enum_number_or_normal_member_1 *Enum_Number_or_normal_Member_1) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Enum_Number_or_normal_Member_1_Normal":
+		*enum_number_or_normal_member_1 = Enum_Number_or_normal_Member_1_Normal
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (enum_number_or_normal_member_1 *Enum_Number_or_normal_Member_1) ToCodeString() (res string) {
+
+	switch *enum_number_or_normal_member_1 {
+	// insertion code per enum code
+	case Enum_Number_or_normal_Member_1_Normal:
+		res = "Enum_Number_or_normal_Member_1_Normal"
+	}
+	return
+}
+
+func (enum_number_or_normal_member_1 Enum_Number_or_normal_Member_1) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Enum_Number_or_normal_Member_1_Normal")
+
+	return
+}
+
+func (enum_number_or_normal_member_1 Enum_Number_or_normal_Member_1) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "normal")
+
+	return
+}
+
 // Utility function for Enum_Numeral_mode
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -7735,7 +7481,7 @@ func (enum_pedal_type Enum_Pedal_type) ToString() (res string) {
 		res = "sostenuto"
 	case Enum_Pedal_type_Change:
 		res = "change"
-	case Enum_Pedal_type_Continue:
+	case Enum_Pedal_type_Continue_XSD:
 		res = "continue"
 	case Enum_Pedal_type_Discontinue:
 		res = "discontinue"
@@ -7762,7 +7508,7 @@ func (enum_pedal_type *Enum_Pedal_type) FromString(input string) (err error) {
 		*enum_pedal_type = Enum_Pedal_type_Change
 		return
 	case "continue":
-		*enum_pedal_type = Enum_Pedal_type_Continue
+		*enum_pedal_type = Enum_Pedal_type_Continue_XSD
 		return
 	case "discontinue":
 		*enum_pedal_type = Enum_Pedal_type_Discontinue
@@ -7787,8 +7533,8 @@ func (enum_pedal_type *Enum_Pedal_type) FromCodeString(input string) (err error)
 		*enum_pedal_type = Enum_Pedal_type_Sostenuto
 	case "Enum_Pedal_type_Change":
 		*enum_pedal_type = Enum_Pedal_type_Change
-	case "Enum_Pedal_type_Continue":
-		*enum_pedal_type = Enum_Pedal_type_Continue
+	case "Enum_Pedal_type_Continue_XSD":
+		*enum_pedal_type = Enum_Pedal_type_Continue_XSD
 	case "Enum_Pedal_type_Discontinue":
 		*enum_pedal_type = Enum_Pedal_type_Discontinue
 	case "Enum_Pedal_type_Resume":
@@ -7811,8 +7557,8 @@ func (enum_pedal_type *Enum_Pedal_type) ToCodeString() (res string) {
 		res = "Enum_Pedal_type_Sostenuto"
 	case Enum_Pedal_type_Change:
 		res = "Enum_Pedal_type_Change"
-	case Enum_Pedal_type_Continue:
-		res = "Enum_Pedal_type_Continue"
+	case Enum_Pedal_type_Continue_XSD:
+		res = "Enum_Pedal_type_Continue_XSD"
 	case Enum_Pedal_type_Discontinue:
 		res = "Enum_Pedal_type_Discontinue"
 	case Enum_Pedal_type_Resume:
@@ -7830,7 +7576,7 @@ func (enum_pedal_type Enum_Pedal_type) Codes() (res []string) {
 	res = append(res, "Enum_Pedal_type_Stop")
 	res = append(res, "Enum_Pedal_type_Sostenuto")
 	res = append(res, "Enum_Pedal_type_Change")
-	res = append(res, "Enum_Pedal_type_Continue")
+	res = append(res, "Enum_Pedal_type_Continue_XSD")
 	res = append(res, "Enum_Pedal_type_Discontinue")
 	res = append(res, "Enum_Pedal_type_Resume")
 
@@ -8027,6 +7773,74 @@ func (enum_pitched_value Enum_Pitched_value) CodeValues() (res []string) {
 	res = append(res, "tubular chimes")
 	res = append(res, "vibraphone")
 	res = append(res, "xylophone")
+
+	return
+}
+
+// Utility function for Enum_Positive_integer_or_empty_Member_1
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (enum_positive_integer_or_empty_member_1 Enum_Positive_integer_or_empty_Member_1) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch enum_positive_integer_or_empty_member_1 {
+	// insertion code per enum code
+	case Enum_Positive_integer_or_empty_Member_1_Empty:
+		res = ""
+	}
+	return
+}
+
+func (enum_positive_integer_or_empty_member_1 *Enum_Positive_integer_or_empty_Member_1) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "":
+		*enum_positive_integer_or_empty_member_1 = Enum_Positive_integer_or_empty_Member_1_Empty
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (enum_positive_integer_or_empty_member_1 *Enum_Positive_integer_or_empty_Member_1) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Enum_Positive_integer_or_empty_Member_1_Empty":
+		*enum_positive_integer_or_empty_member_1 = Enum_Positive_integer_or_empty_Member_1_Empty
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (enum_positive_integer_or_empty_member_1 *Enum_Positive_integer_or_empty_Member_1) ToCodeString() (res string) {
+
+	switch *enum_positive_integer_or_empty_member_1 {
+	// insertion code per enum code
+	case Enum_Positive_integer_or_empty_Member_1_Empty:
+		res = "Enum_Positive_integer_or_empty_Member_1_Empty"
+	}
+	return
+}
+
+func (enum_positive_integer_or_empty_member_1 Enum_Positive_integer_or_empty_Member_1) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Enum_Positive_integer_or_empty_Member_1_Empty")
+
+	return
+}
+
+func (enum_positive_integer_or_empty_member_1 Enum_Positive_integer_or_empty_Member_1) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "")
 
 	return
 }
@@ -8885,6 +8699,107 @@ func (enum_start_stop Enum_Start_stop) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for Enum_Start_stop_change_continue
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (enum_start_stop_change_continue Enum_Start_stop_change_continue) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch enum_start_stop_change_continue {
+	// insertion code per enum code
+	case Enum_Start_stop_change_continue_Start:
+		res = "start"
+	case Enum_Start_stop_change_continue_Stop:
+		res = "stop"
+	case Enum_Start_stop_change_continue_Change:
+		res = "change"
+	case Enum_Start_stop_change_continue_Continue_XSD:
+		res = "continue"
+	}
+	return
+}
+
+func (enum_start_stop_change_continue *Enum_Start_stop_change_continue) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "start":
+		*enum_start_stop_change_continue = Enum_Start_stop_change_continue_Start
+		return
+	case "stop":
+		*enum_start_stop_change_continue = Enum_Start_stop_change_continue_Stop
+		return
+	case "change":
+		*enum_start_stop_change_continue = Enum_Start_stop_change_continue_Change
+		return
+	case "continue":
+		*enum_start_stop_change_continue = Enum_Start_stop_change_continue_Continue_XSD
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (enum_start_stop_change_continue *Enum_Start_stop_change_continue) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Enum_Start_stop_change_continue_Start":
+		*enum_start_stop_change_continue = Enum_Start_stop_change_continue_Start
+	case "Enum_Start_stop_change_continue_Stop":
+		*enum_start_stop_change_continue = Enum_Start_stop_change_continue_Stop
+	case "Enum_Start_stop_change_continue_Change":
+		*enum_start_stop_change_continue = Enum_Start_stop_change_continue_Change
+	case "Enum_Start_stop_change_continue_Continue_XSD":
+		*enum_start_stop_change_continue = Enum_Start_stop_change_continue_Continue_XSD
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (enum_start_stop_change_continue *Enum_Start_stop_change_continue) ToCodeString() (res string) {
+
+	switch *enum_start_stop_change_continue {
+	// insertion code per enum code
+	case Enum_Start_stop_change_continue_Start:
+		res = "Enum_Start_stop_change_continue_Start"
+	case Enum_Start_stop_change_continue_Stop:
+		res = "Enum_Start_stop_change_continue_Stop"
+	case Enum_Start_stop_change_continue_Change:
+		res = "Enum_Start_stop_change_continue_Change"
+	case Enum_Start_stop_change_continue_Continue_XSD:
+		res = "Enum_Start_stop_change_continue_Continue_XSD"
+	}
+	return
+}
+
+func (enum_start_stop_change_continue Enum_Start_stop_change_continue) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Enum_Start_stop_change_continue_Start")
+	res = append(res, "Enum_Start_stop_change_continue_Stop")
+	res = append(res, "Enum_Start_stop_change_continue_Change")
+	res = append(res, "Enum_Start_stop_change_continue_Continue_XSD")
+
+	return
+}
+
+func (enum_start_stop_change_continue Enum_Start_stop_change_continue) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "start")
+	res = append(res, "stop")
+	res = append(res, "change")
+	res = append(res, "continue")
+
+	return
+}
+
 // Utility function for Enum_Start_stop_continue
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -8897,7 +8812,7 @@ func (enum_start_stop_continue Enum_Start_stop_continue) ToString() (res string)
 		res = "start"
 	case Enum_Start_stop_continue_Stop:
 		res = "stop"
-	case Enum_Start_stop_continue_Continue:
+	case Enum_Start_stop_continue_Continue_XSD:
 		res = "continue"
 	}
 	return
@@ -8914,7 +8829,7 @@ func (enum_start_stop_continue *Enum_Start_stop_continue) FromString(input strin
 		*enum_start_stop_continue = Enum_Start_stop_continue_Stop
 		return
 	case "continue":
-		*enum_start_stop_continue = Enum_Start_stop_continue_Continue
+		*enum_start_stop_continue = Enum_Start_stop_continue_Continue_XSD
 		return
 	default:
 		return errUnkownEnum
@@ -8929,8 +8844,8 @@ func (enum_start_stop_continue *Enum_Start_stop_continue) FromCodeString(input s
 		*enum_start_stop_continue = Enum_Start_stop_continue_Start
 	case "Enum_Start_stop_continue_Stop":
 		*enum_start_stop_continue = Enum_Start_stop_continue_Stop
-	case "Enum_Start_stop_continue_Continue":
-		*enum_start_stop_continue = Enum_Start_stop_continue_Continue
+	case "Enum_Start_stop_continue_Continue_XSD":
+		*enum_start_stop_continue = Enum_Start_stop_continue_Continue_XSD
 	default:
 		err = errUnkownEnum
 	}
@@ -8945,8 +8860,8 @@ func (enum_start_stop_continue *Enum_Start_stop_continue) ToCodeString() (res st
 		res = "Enum_Start_stop_continue_Start"
 	case Enum_Start_stop_continue_Stop:
 		res = "Enum_Start_stop_continue_Stop"
-	case Enum_Start_stop_continue_Continue:
-		res = "Enum_Start_stop_continue_Continue"
+	case Enum_Start_stop_continue_Continue_XSD:
+		res = "Enum_Start_stop_continue_Continue_XSD"
 	}
 	return
 }
@@ -8958,7 +8873,7 @@ func (enum_start_stop_continue Enum_Start_stop_continue) Codes() (res []string) 
 	// insertion code per enum code
 	res = append(res, "Enum_Start_stop_continue_Start")
 	res = append(res, "Enum_Start_stop_continue_Stop")
-	res = append(res, "Enum_Start_stop_continue_Continue")
+	res = append(res, "Enum_Start_stop_continue_Continue_XSD")
 
 	return
 }
@@ -10399,7 +10314,7 @@ func (enum_tied_type Enum_Tied_type) ToString() (res string) {
 		res = "start"
 	case Enum_Tied_type_Stop:
 		res = "stop"
-	case Enum_Tied_type_Continue:
+	case Enum_Tied_type_Continue_XSD:
 		res = "continue"
 	case Enum_Tied_type_Let_ring:
 		res = "let-ring"
@@ -10418,7 +10333,7 @@ func (enum_tied_type *Enum_Tied_type) FromString(input string) (err error) {
 		*enum_tied_type = Enum_Tied_type_Stop
 		return
 	case "continue":
-		*enum_tied_type = Enum_Tied_type_Continue
+		*enum_tied_type = Enum_Tied_type_Continue_XSD
 		return
 	case "let-ring":
 		*enum_tied_type = Enum_Tied_type_Let_ring
@@ -10436,8 +10351,8 @@ func (enum_tied_type *Enum_Tied_type) FromCodeString(input string) (err error) {
 		*enum_tied_type = Enum_Tied_type_Start
 	case "Enum_Tied_type_Stop":
 		*enum_tied_type = Enum_Tied_type_Stop
-	case "Enum_Tied_type_Continue":
-		*enum_tied_type = Enum_Tied_type_Continue
+	case "Enum_Tied_type_Continue_XSD":
+		*enum_tied_type = Enum_Tied_type_Continue_XSD
 	case "Enum_Tied_type_Let_ring":
 		*enum_tied_type = Enum_Tied_type_Let_ring
 	default:
@@ -10454,8 +10369,8 @@ func (enum_tied_type *Enum_Tied_type) ToCodeString() (res string) {
 		res = "Enum_Tied_type_Start"
 	case Enum_Tied_type_Stop:
 		res = "Enum_Tied_type_Stop"
-	case Enum_Tied_type_Continue:
-		res = "Enum_Tied_type_Continue"
+	case Enum_Tied_type_Continue_XSD:
+		res = "Enum_Tied_type_Continue_XSD"
 	case Enum_Tied_type_Let_ring:
 		res = "Enum_Tied_type_Let_ring"
 	}
@@ -10469,7 +10384,7 @@ func (enum_tied_type Enum_Tied_type) Codes() (res []string) {
 	// insertion code per enum code
 	res = append(res, "Enum_Tied_type_Start")
 	res = append(res, "Enum_Tied_type_Stop")
-	res = append(res, "Enum_Tied_type_Continue")
+	res = append(res, "Enum_Tied_type_Continue_XSD")
 	res = append(res, "Enum_Tied_type_Let_ring")
 
 	return
@@ -10484,63 +10399,6 @@ func (enum_tied_type Enum_Tied_type) CodeValues() (res []string) {
 	res = append(res, "stop")
 	res = append(res, "continue")
 	res = append(res, "let-ring")
-
-	return
-}
-
-// Utility function for Enum_Time_only
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (enum_time_only Enum_Time_only) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch enum_time_only {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_time_only *Enum_Time_only) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		return errUnkownEnum
-	}
-}
-
-func (enum_time_only *Enum_Time_only) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		err = errUnkownEnum
-	}
-	return
-}
-
-func (enum_time_only *Enum_Time_only) ToCodeString() (res string) {
-
-	switch *enum_time_only {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_time_only Enum_Time_only) Codes() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
-
-	return
-}
-
-func (enum_time_only Enum_Time_only) CodeValues() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
 
 	return
 }
@@ -11501,7 +11359,7 @@ func (enum_up_down_stop_continue Enum_Up_down_stop_continue) ToString() (res str
 		res = "down"
 	case Enum_Up_down_stop_continue_Stop:
 		res = "stop"
-	case Enum_Up_down_stop_continue_Continue:
+	case Enum_Up_down_stop_continue_Continue_XSD:
 		res = "continue"
 	}
 	return
@@ -11521,7 +11379,7 @@ func (enum_up_down_stop_continue *Enum_Up_down_stop_continue) FromString(input s
 		*enum_up_down_stop_continue = Enum_Up_down_stop_continue_Stop
 		return
 	case "continue":
-		*enum_up_down_stop_continue = Enum_Up_down_stop_continue_Continue
+		*enum_up_down_stop_continue = Enum_Up_down_stop_continue_Continue_XSD
 		return
 	default:
 		return errUnkownEnum
@@ -11538,8 +11396,8 @@ func (enum_up_down_stop_continue *Enum_Up_down_stop_continue) FromCodeString(inp
 		*enum_up_down_stop_continue = Enum_Up_down_stop_continue_Down
 	case "Enum_Up_down_stop_continue_Stop":
 		*enum_up_down_stop_continue = Enum_Up_down_stop_continue_Stop
-	case "Enum_Up_down_stop_continue_Continue":
-		*enum_up_down_stop_continue = Enum_Up_down_stop_continue_Continue
+	case "Enum_Up_down_stop_continue_Continue_XSD":
+		*enum_up_down_stop_continue = Enum_Up_down_stop_continue_Continue_XSD
 	default:
 		err = errUnkownEnum
 	}
@@ -11556,8 +11414,8 @@ func (enum_up_down_stop_continue *Enum_Up_down_stop_continue) ToCodeString() (re
 		res = "Enum_Up_down_stop_continue_Down"
 	case Enum_Up_down_stop_continue_Stop:
 		res = "Enum_Up_down_stop_continue_Stop"
-	case Enum_Up_down_stop_continue_Continue:
-		res = "Enum_Up_down_stop_continue_Continue"
+	case Enum_Up_down_stop_continue_Continue_XSD:
+		res = "Enum_Up_down_stop_continue_Continue_XSD"
 	}
 	return
 }
@@ -11570,7 +11428,7 @@ func (enum_up_down_stop_continue Enum_Up_down_stop_continue) Codes() (res []stri
 	res = append(res, "Enum_Up_down_stop_continue_Up")
 	res = append(res, "Enum_Up_down_stop_continue_Down")
 	res = append(res, "Enum_Up_down_stop_continue_Stop")
-	res = append(res, "Enum_Up_down_stop_continue_Continue")
+	res = append(res, "Enum_Up_down_stop_continue_Continue_XSD")
 
 	return
 }
@@ -11872,7 +11730,7 @@ func (enum_wedge_type Enum_Wedge_type) ToString() (res string) {
 		res = "diminuendo"
 	case Enum_Wedge_type_Stop:
 		res = "stop"
-	case Enum_Wedge_type_Continue:
+	case Enum_Wedge_type_Continue_XSD:
 		res = "continue"
 	}
 	return
@@ -11892,7 +11750,7 @@ func (enum_wedge_type *Enum_Wedge_type) FromString(input string) (err error) {
 		*enum_wedge_type = Enum_Wedge_type_Stop
 		return
 	case "continue":
-		*enum_wedge_type = Enum_Wedge_type_Continue
+		*enum_wedge_type = Enum_Wedge_type_Continue_XSD
 		return
 	default:
 		return errUnkownEnum
@@ -11909,8 +11767,8 @@ func (enum_wedge_type *Enum_Wedge_type) FromCodeString(input string) (err error)
 		*enum_wedge_type = Enum_Wedge_type_Diminuendo
 	case "Enum_Wedge_type_Stop":
 		*enum_wedge_type = Enum_Wedge_type_Stop
-	case "Enum_Wedge_type_Continue":
-		*enum_wedge_type = Enum_Wedge_type_Continue
+	case "Enum_Wedge_type_Continue_XSD":
+		*enum_wedge_type = Enum_Wedge_type_Continue_XSD
 	default:
 		err = errUnkownEnum
 	}
@@ -11927,8 +11785,8 @@ func (enum_wedge_type *Enum_Wedge_type) ToCodeString() (res string) {
 		res = "Enum_Wedge_type_Diminuendo"
 	case Enum_Wedge_type_Stop:
 		res = "Enum_Wedge_type_Stop"
-	case Enum_Wedge_type_Continue:
-		res = "Enum_Wedge_type_Continue"
+	case Enum_Wedge_type_Continue_XSD:
+		res = "Enum_Wedge_type_Continue_XSD"
 	}
 	return
 }
@@ -11941,7 +11799,7 @@ func (enum_wedge_type Enum_Wedge_type) Codes() (res []string) {
 	res = append(res, "Enum_Wedge_type_Crescendo")
 	res = append(res, "Enum_Wedge_type_Diminuendo")
 	res = append(res, "Enum_Wedge_type_Stop")
-	res = append(res, "Enum_Wedge_type_Continue")
+	res = append(res, "Enum_Wedge_type_Continue_XSD")
 
 	return
 }

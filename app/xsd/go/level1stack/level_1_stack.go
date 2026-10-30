@@ -13,7 +13,7 @@ import (
 
 	"net/http"
 
-	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
+	splitlite_static "github.com/fullstack-lang/gong/lib/splitlite/go/static"
 )
 
 // hook marhalling to stage
@@ -58,7 +58,7 @@ type Level1Stack struct {
 }
 
 func (stack *Level1Stack) Run(addr string) error {
-	return split_static.RunServer(stack.R, addr)
+	return splitlite_static.RunServer(stack.R, addr)
 }
 
 func NewLevel1Stack(
@@ -100,7 +100,7 @@ func newLevel1Stack(
 
 	level1Stack.Stage = stage
 
-	level1Stack.R = split_static.ServeStaticFiles(false)
+	level1Stack.R = splitlite_static.ServeStaticFiles(false)
 	if withProbe {
 		// if the application edits the diagrams via the probe, it is surmised
 		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach

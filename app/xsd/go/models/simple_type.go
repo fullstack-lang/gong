@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/xml"
+	"strconv"
 )
 
 type SimpleType struct {
@@ -10,7 +11,9 @@ type SimpleType struct {
 	ElementWithNameAttribute
 	Restriction *Restriction `xml:"restriction"`
 	Union       *Union       `xml:"union"`
+	List        *List        `xml:"list"`
 
+	WithGoIdentifier
 	ParticleAbstract
 }
 
@@ -36,39 +39,43 @@ func (simpleType *SimpleType) IsStringEnumerate() bool {
 	if restriction == nil {
 		return false
 	}
+	if len(restriction.Enumerations) == 0 {
+		return false
+	}
 
 	// remove namespace from type
 	base := restriction.Base
 	if NsPrefix(base) != "" {
 		base = Name(base)
 	}
-	if restriction.Base != "token" && restriction.Base != "string" {
+	switch base {
+	case "token", "string", "NCName", "NMTOKEN", "Name", "normalizedString", "language", "anyURI", "ID":
+		return true
+	default:
 		return false
 	}
-
-	for _, enumeration := range restriction.Enumerations {
-		_ = enumeration
-		// log.Println("Enum", enumeration.Value)
-	}
-
-	return true
 }
 
 func (simpleType *SimpleType) SetParentAndChildren(parent Particle) {
 }
 
 func (simpleType *SimpleType) generateGongEnum() string {
-
-	enumValuesCode := ""
-	for _, enumeration := range simpleType.Restriction.Enumerations {
-		_ = enumeration
-		enumValuesCode +=
-			"\n\tEnum_" + xsdNameToGoIdentifier(simpleType.NameXSD) + "_" + xsdNameToGoIdentifier(enumeration.Value) +
-				" " + "Enum_" + xsdNameToGoIdentifier(simpleType.NameXSD) +
-				" = \"" + enumeration.Value + "\""
+	enumName := simpleType.GoIdentifier
+	if enumName == "" {
+		enumName = "Enum_" + xsdNameToGoIdentifier(simpleType.NameXSD)
 	}
 
-	// log.Println("String Enumerate", st.Name)
+	setOfEnumValueIdents := make(map[string]any)
+	enumValuesCode := ""
+	for _, enumeration := range simpleType.Restriction.Enumerations {
+		var wid WithGoIdentifier
+		computeGoIdentifier(enumName+"_"+xsdNameToGoIdentifier(enumeration.Value), &wid, setOfEnumValueIdents)
+		enumValuesCode +=
+			"\n\t" + wid.GoIdentifier +
+				" " + enumName +
+				" = " + strconv.Quote(enumeration.Value)
+	}
+
 	tmp := Replace3(
 		Level1Code[Level1NamedEnumCode],
 
@@ -76,7 +83,7 @@ func (simpleType *SimpleType) generateGongEnum() string {
 		"From xsd simple type with enumerate restriction \""+simpleType.NameXSD+"\"",
 
 		"{{"+string(rune(Level2Enumname))+"}}",
-		"Enum_"+xsdNameToGoIdentifier(simpleType.NameXSD),
+		enumName,
 
 		"{{"+string(rune(Level2EnumValues))+"}}",
 		enumValuesCode,

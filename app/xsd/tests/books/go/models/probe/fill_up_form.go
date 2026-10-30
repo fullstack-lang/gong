@@ -33,8 +33,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Year", instanceWithInferedType.Year, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Format", instanceWithInferedType.Format, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+		EnumTypeStringToForm("Format", instanceWithInferedType.Format, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationSliceToForm("Credit", instanceWithInferedType, &instanceWithInferedType.Credit, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",

@@ -71,7 +71,37 @@ func PostProcessingNames(stage *Stage) {
 		}
 	}
 	for _, x := range stage.GetInstancesSorted[*Schema]() {
-		x.Name = "Schema"
+		if x.Name == "" {
+			x.Name = "Schema"
+		}
+		if x.Annotation != nil {
+			x.Annotation.Name = prefix(x.Name)
+		}
+		for i, imp := range x.Imports {
+			imp.Name = x.Name + "_import_" + imp.Namespace + "_" + imp.SchemaLocation
+			if imp.Annotation != nil {
+				imp.Annotation.Name = prefix(imp.Name)
+			}
+			_ = i
+		}
+		for i, inc := range x.Includes {
+			inc.Name = x.Name + "_include_" + inc.SchemaLocation
+			if inc.Annotation != nil {
+				inc.Annotation.Name = prefix(inc.Name)
+			}
+			_ = i
+		}
+	}
+	for _, x := range stage.GetInstancesSorted[*ComplexContent]() {
+		if x.Name == "" {
+			x.Name = "ComplexContent"
+		}
+		if x.Extension != nil {
+			x.Extension.Name = prefix(x.Name)
+		}
+		if x.Restriction != nil {
+			x.Restriction.Name = prefix(x.Name)
+		}
 		if x.Annotation != nil {
 			x.Annotation.Name = prefix(x.Name)
 		}
@@ -85,6 +115,12 @@ func PostProcessingNames(stage *Stage) {
 		}
 		if x.MaxInclusive != nil {
 			x.MaxInclusive.Name = prefix(x.Name)
+		}
+		if x.MinExclusive != nil {
+			x.MinExclusive.Name = prefix(x.Name)
+		}
+		if x.MaxExclusive != nil {
+			x.MaxExclusive.Name = prefix(x.Name)
 		}
 		if x.Pattern != nil {
 			x.Pattern.Name = prefix(x.Name)
@@ -103,6 +139,9 @@ func PostProcessingNames(stage *Stage) {
 		}
 		if x.TotalDigit != nil {
 			x.TotalDigit.Name = prefix(x.Name)
+		}
+		if x.FractionDigit != nil {
+			x.FractionDigit.Name = prefix(x.Name)
 		}
 
 		if x.Annotation != nil {

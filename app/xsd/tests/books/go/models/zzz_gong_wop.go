@@ -24,7 +24,7 @@ type BookType_WOP struct {
 
 	Year int
 
-	Format string
+	Format Enum_BookFormatEnum
 }
 
 func (from *BookType) GongCopyBasicFields(to *BookType) {

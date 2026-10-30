@@ -13,6 +13,8 @@ import (
 	"time"
 
 	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
+	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/xlink"
+	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/xmlxsd"
 )
 
 // can be used for
@@ -155,7 +157,7 @@ type Stage struct {
 
 	A_measure_Figured_bass_reverseMap map[*Figured_bass]*A_measure
 
-	A_measure_Print_reverseMap map[*Print]*A_measure
+	A_measure_Print_XSD_reverseMap map[*Print_XSD]*A_measure
 
 	A_measure_Sound_reverseMap map[*Sound]*A_measure
 
@@ -229,7 +231,7 @@ type Stage struct {
 
 	A_part_1_Figured_bass_reverseMap map[*Figured_bass]*A_part_1
 
-	A_part_1_Print_reverseMap map[*Print]*A_part_1
+	A_part_1_Print_XSD_reverseMap map[*Print_XSD]*A_part_1
 
 	A_part_1_Sound_reverseMap map[*Sound]*A_part_1
 
@@ -442,8 +444,6 @@ type Stage struct {
 
 	// insertion point for slice of pointers maps
 	Attributes_Key_reverseMap map[*Key]*Attributes
-
-	Attributes_Time_reverseMap map[*Time]*Attributes
 
 	Attributes_Clef_reverseMap map[*Clef]*Attributes
 
@@ -726,10 +726,6 @@ type Stage struct {
 	Credit_Link_reverseMap map[*Link]*Credit
 
 	Credit_Bookmark_reverseMap map[*Bookmark]*Credit
-
-	Credit_Credit_words_reverseMap map[*Formatted_text_id]*Credit
-
-	Credit_Credit_symbol_reverseMap map[*Formatted_symbol_id]*Credit
 
 	OnAfterCreditCreateCallback GongOnAfterCreateInterface[Credit]
 	OnAfterCreditUpdateCallback GongOnAfterUpdateInterface[Credit]
@@ -1895,8 +1891,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Lyric_Elision_reverseMap map[*Elision]*Lyric
 
-	Lyric_Text_reverseMap map[*Text_element_data]*Lyric
-
 	OnAfterLyricCreateCallback GongOnAfterCreateInterface[Lyric]
 	OnAfterLyricUpdateCallback GongOnAfterUpdateInterface[Lyric]
 	OnAfterLyricDeleteCallback GongOnAfterDeleteInterface[Lyric]
@@ -2829,21 +2823,21 @@ type Stage struct {
 	OnAfterPrincipal_voiceUpdateCallback GongOnAfterUpdateInterface[Principal_voice]
 	OnAfterPrincipal_voiceDeleteCallback GongOnAfterDeleteInterface[Principal_voice]
 
-	Prints                map[*Print]struct{}
-	Prints_instance       map[*Print]*Print
-	Prints_mapString      map[string]*Print
-	PrintOrder            uint
-	Print_stagedOrder     map[*Print]uint
-	Print_orderStaged     map[uint]*Print
-	Prints_reference      map[*Print]*Print
-	Prints_referenceOrder map[*Print]uint
+	Print_XSDs                map[*Print_XSD]struct{}
+	Print_XSDs_instance       map[*Print_XSD]*Print_XSD
+	Print_XSDs_mapString      map[string]*Print_XSD
+	Print_XSDOrder            uint
+	Print_XSD_stagedOrder     map[*Print_XSD]uint
+	Print_XSD_orderStaged     map[uint]*Print_XSD
+	Print_XSDs_reference      map[*Print_XSD]*Print_XSD
+	Print_XSDs_referenceOrder map[*Print_XSD]uint
 
 	// insertion point for slice of pointers maps
-	Print_Staff_layout_reverseMap map[*Staff_layout]*Print
+	Print_XSD_Staff_layout_reverseMap map[*Staff_layout]*Print_XSD
 
-	OnAfterPrintCreateCallback GongOnAfterCreateInterface[Print]
-	OnAfterPrintUpdateCallback GongOnAfterUpdateInterface[Print]
-	OnAfterPrintDeleteCallback GongOnAfterDeleteInterface[Print]
+	OnAfterPrint_XSDCreateCallback GongOnAfterCreateInterface[Print_XSD]
+	OnAfterPrint_XSDUpdateCallback GongOnAfterUpdateInterface[Print_XSD]
+	OnAfterPrint_XSDDeleteCallback GongOnAfterDeleteInterface[Print_XSD]
 
 	Releases                map[*Release]struct{}
 	Releases_instance       map[*Release]*Release
@@ -3387,7 +3381,7 @@ type Stage struct {
 
 	Technical_Fret_reverseMap map[*Fret]*Technical
 
-	Technical_String_reverseMap map[*String_type]*Technical
+	Technical_String_XSD_reverseMap map[*String_type]*Technical
 
 	Technical_Hammer_on_reverseMap map[*Hammer_on_pull_off]*Technical
 
@@ -3756,6 +3750,8 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF GongProbeIF
+	XlinkStage *xlink.Stage
+	XmlxsdStage *xmlxsd.Stage
 }
 
 type GongStage = Stage
@@ -4154,7 +4150,7 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.Principal_voices_reference, &stage.Principal_voices_instance, &stage.Principal_voices_referenceOrder)
 
-	__gong__clearReferences(&stage.Prints_reference, &stage.Prints_instance, &stage.Prints_referenceOrder)
+	__gong__clearReferences(&stage.Print_XSDs_reference, &stage.Print_XSDs_instance, &stage.Print_XSDs_referenceOrder)
 
 	__gong__clearReferences(&stage.Releases_reference, &stage.Releases_instance, &stage.Releases_referenceOrder)
 
@@ -4639,7 +4635,7 @@ func (stage *Stage) recomputeOrders() {
 
 	stage.Principal_voiceOrder = __gong__recomputeOrder(stage.Principal_voice_stagedOrder)
 
-	stage.PrintOrder = __gong__recomputeOrder(stage.Print_stagedOrder)
+	stage.Print_XSDOrder = __gong__recomputeOrder(stage.Print_XSD_stagedOrder)
 
 	stage.ReleaseOrder = __gong__recomputeOrder(stage.Release_stagedOrder)
 
@@ -8249,24 +8245,24 @@ func (*Principal_voice) GongNewInstance() any {
 	return new(Principal_voice)
 }
 
-func (*Print) GongGetInstancesByOrder(stage *Stage) any {
-	return __gong__getStructInstancesByOrder(stage.Prints, stage.Print_stagedOrder)
+func (*Print_XSD) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Print_XSDs, stage.Print_XSD_stagedOrder)
 }
 
-func (*Print) GongGetInstanceFromOrder(stage *Stage, order uint) any {
-	return stage.Print_orderStaged[order]
+func (*Print_XSD) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Print_XSD_orderStaged[order]
 }
 
-func (*Print) GongGetInstancesMapByName(stage *Stage) any {
-	return stage.Prints_mapString
+func (*Print_XSD) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Print_XSDs_mapString
 }
 
-func (*Print) GongGetInstancesSet(stage *Stage) any {
-	return &stage.Prints
+func (*Print_XSD) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Print_XSDs
 }
 
-func (*Print) GongNewInstance() any {
-	return new(Print)
+func (*Print_XSD) GongNewInstance() any {
+	return new(Print_XSD)
 }
 
 func (*Release) GongGetInstancesByOrder(stage *Stage) any {
@@ -10092,8 +10088,8 @@ func NewStage(name string) (stage *Stage) {
 		Principal_voices:           make(map[*Principal_voice]struct{}),
 		Principal_voices_mapString: make(map[string]*Principal_voice),
 
-		Prints:           make(map[*Print]struct{}),
-		Prints_mapString: make(map[string]*Print),
+		Print_XSDs:           make(map[*Print_XSD]struct{}),
+		Print_XSDs_mapString: make(map[string]*Print_XSD),
 
 		Releases:           make(map[*Release]struct{}),
 		Releases_mapString: make(map[string]*Release),
@@ -10967,9 +10963,9 @@ func NewStage(name string) (stage *Stage) {
 		Principal_voice_orderStaged: make(map[uint]*Principal_voice),
 		Principal_voices_reference:  make(map[*Principal_voice]*Principal_voice),
 
-		Print_stagedOrder: make(map[*Print]uint),
-		Print_orderStaged: make(map[uint]*Print),
-		Prints_reference:  make(map[*Print]*Print),
+		Print_XSD_stagedOrder: make(map[*Print_XSD]uint),
+		Print_XSD_orderStaged: make(map[uint]*Print_XSD),
+		Print_XSDs_reference:  make(map[*Print_XSD]*Print_XSD),
 
 		Release_stagedOrder: make(map[*Release]uint),
 		Release_orderStaged: make(map[uint]*Release),
@@ -11545,7 +11541,7 @@ func NewStage(name string) (stage *Stage) {
 
 			"Principal_voice": &Principal_voiceUnmarshaller{},
 
-			"Print": &PrintUnmarshaller{},
+			"Print_XSD": &Print_XSDUnmarshaller{},
 
 			"Release": &ReleaseUnmarshaller{},
 
@@ -11664,6 +11660,16 @@ func NewStage(name string) (stage *Stage) {
 	}
 	stage.StageCore.SetName(name)
 	stage.StageCore.SetNavigationMode(GongNavigationModeNormal)
+	subPath_XlinkStage := "xlink"
+	if name != "" {
+		subPath_XlinkStage = name + "_xlink"
+	}
+	stage.XlinkStage = xlink.NewStage(subPath_XlinkStage)
+	subPath_XmlxsdStage := "xmlxsd"
+	if name != "" {
+		subPath_XmlxsdStage = name + "_xmlxsd"
+	}
+	stage.XmlxsdStage = xmlxsd.NewStage(subPath_XmlxsdStage)
 
 	return
 }
@@ -11703,6 +11709,12 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 }
 
 func (stage *Stage) Commit() {
+	if stage.XmlxsdStage != nil {
+		stage.XmlxsdStage.Commit()
+	}
+	if stage.XlinkStage != nil {
+		stage.XlinkStage.Commit()
+	}
 	stage.ComputeReverseMaps()
 
 	if stage.OnInitCommitCallback != nil {
@@ -11740,6 +11752,12 @@ func (stage *Stage) Commit() {
 }
 
 func (stage *Stage) ComputeInstancesNb() {
+	if stage.XmlxsdStage != nil {
+		stage.XmlxsdStage.ComputeInstancesNb()
+	}
+	if stage.XlinkStage != nil {
+		stage.XlinkStage.ComputeInstancesNb()
+	}
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["A_directive"] = len(stage.A_directives)
 	stage.Map_GongStructName_InstancesNb["A_measure"] = len(stage.A_measures)
@@ -11915,7 +11933,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Play"] = len(stage.Plays)
 	stage.Map_GongStructName_InstancesNb["Player"] = len(stage.Players)
 	stage.Map_GongStructName_InstancesNb["Principal_voice"] = len(stage.Principal_voices)
-	stage.Map_GongStructName_InstancesNb["Print"] = len(stage.Prints)
+	stage.Map_GongStructName_InstancesNb["Print_XSD"] = len(stage.Print_XSDs)
 	stage.Map_GongStructName_InstancesNb["Release"] = len(stage.Releases)
 	stage.Map_GongStructName_InstancesNb["Repeat"] = len(stage.Repeats)
 	stage.Map_GongStructName_InstancesNb["Rest"] = len(stage.Rests)
@@ -11975,6 +11993,12 @@ func (stage *Stage) ComputeInstancesNb() {
 }
 
 func (stage *Stage) Checkout() {
+	if stage.XmlxsdStage != nil {
+		stage.XmlxsdStage.Checkout()
+	}
+	if stage.XlinkStage != nil {
+		stage.XlinkStage.Checkout()
+	}
 	if stage.BackRepo != nil {
 		stage.BackRepo.Checkout(stage)
 	}
@@ -18972,44 +18996,44 @@ func (principal_voice *Principal_voice) SetName(name string) {
 	principal_voice.Name = name
 }
 
-// Stage puts print to the model stage
-func (print *Print) Stage(stage *Stage) *Print {
-	__gong__stage(stage.Prints, stage.Print_stagedOrder, stage.Print_orderStaged, &stage.PrintOrder, stage.Prints_mapString, print, print.Name)
-	return print
+// Stage puts print_xsd to the model stage
+func (print_xsd *Print_XSD) Stage(stage *Stage) *Print_XSD {
+	__gong__stage(stage.Print_XSDs, stage.Print_XSD_stagedOrder, stage.Print_XSD_orderStaged, &stage.Print_XSDOrder, stage.Print_XSDs_mapString, print_xsd, print_xsd.Name)
+	return print_xsd
 }
 
-// StagePreserveOrder puts print to the model stage, and if the astrtuct
+// StagePreserveOrder puts print_xsd to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.PrintOrder
-// - update stage.PrintOrder accordingly
-func (print *Print) StagePreserveOrder(stage *Stage, order uint) {
-	__gong__stagePreserveOrder(stage.Prints, stage.Print_stagedOrder, stage.Print_orderStaged, &stage.PrintOrder, stage.Prints_mapString, print, order, print.Name)
+// - force the order if the order is equal or greater than the stage.Print_XSDOrder
+// - update stage.Print_XSDOrder accordingly
+func (print_xsd *Print_XSD) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.Print_XSDs, stage.Print_XSD_stagedOrder, stage.Print_XSD_orderStaged, &stage.Print_XSDOrder, stage.Print_XSDs_mapString, print_xsd, order, print_xsd.Name)
 }
 
-// Unstage removes print off the model stage
-func (print *Print) Unstage(stage *Stage) *Print {
-	__gong__unstage(stage.Prints, stage.Prints_mapString, print, print.Name)
-	return print
+// Unstage removes print_xsd off the model stage
+func (print_xsd *Print_XSD) Unstage(stage *Stage) *Print_XSD {
+	__gong__unstage(stage.Print_XSDs, stage.Print_XSDs_mapString, print_xsd, print_xsd.Name)
+	return print_xsd
 }
 
-// UnstageVoid removes print off the model stage
-func (print *Print) UnstageVoid(stage *Stage) {
-	print.Unstage(stage)
+// UnstageVoid removes print_xsd off the model stage
+func (print_xsd *Print_XSD) UnstageVoid(stage *Stage) {
+	print_xsd.Unstage(stage)
 }
 
-func (print *Print) StageVoid(stage *Stage) {
-	print.Stage(stage)
-}
-
-// for satisfaction of GongStruct interface
-func (print *Print) GetName() (res string) {
-	return print.Name
+func (print_xsd *Print_XSD) StageVoid(stage *Stage) {
+	print_xsd.Stage(stage)
 }
 
 // for satisfaction of GongStruct interface
-func (print *Print) SetName(name string) {
-	print.Name = name
+func (print_xsd *Print_XSD) GetName() (res string) {
+	return print_xsd.Name
+}
+
+// for satisfaction of GongStruct interface
+func (print_xsd *Print_XSD) SetName(name string) {
+	print_xsd.Name = name
 }
 
 // Stage puts release to the model stage
@@ -21601,7 +21625,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.Principal_voices, &stage.Principal_voices_mapString, &stage.Principal_voice_stagedOrder, &stage.Principal_voiceOrder)
 
-	__gong__resetStageType(&stage.Prints, &stage.Prints_mapString, &stage.Print_stagedOrder, &stage.PrintOrder)
+	__gong__resetStageType(&stage.Print_XSDs, &stage.Print_XSDs_mapString, &stage.Print_XSD_stagedOrder, &stage.Print_XSDOrder)
 
 	__gong__resetStageType(&stage.Releases, &stage.Releases_mapString, &stage.Release_stagedOrder, &stage.ReleaseOrder)
 
@@ -21715,6 +21739,12 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.Works, &stage.Works_mapString, &stage.Work_stagedOrder, &stage.WorkOrder)
 
+	if stage.XmlxsdStage != nil {
+		stage.XmlxsdStage.Reset()
+	}
+	if stage.XlinkStage != nil {
+		stage.XlinkStage.Reset()
+	}
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
@@ -21833,7 +21863,7 @@ func (A_measure) GongGetAssociationName() any {
 			Attributes: []*Attributes{{Name: "Attributes"}},
 			Harmony: []*Harmony{{Name: "Harmony"}},
 			Figured_bass: []*Figured_bass{{Name: "Figured_bass"}},
-			Print: []*Print{{Name: "Print"}},
+			Print_XSD: []*Print_XSD{{Name: "Print_XSD"}},
 			Sound: []*Sound{{Name: "Sound"}},
 			Listening: []*Listening{{Name: "Listening"}},
 			Barline: []*Barline{{Name: "Barline"}},
@@ -21864,7 +21894,7 @@ func (A_part_1) GongGetAssociationName() any {
 			Attributes: []*Attributes{{Name: "Attributes"}},
 			Harmony: []*Harmony{{Name: "Harmony"}},
 			Figured_bass: []*Figured_bass{{Name: "Figured_bass"}},
-			Print: []*Print{{Name: "Print"}},
+			Print_XSD: []*Print_XSD{{Name: "Print_XSD"}},
 			Sound: []*Sound{{Name: "Sound"}},
 			Listening: []*Listening{{Name: "Listening"}},
 			Barline: []*Barline{{Name: "Barline"}},
@@ -21951,7 +21981,6 @@ func (Attributes) GongGetAssociationName() any {
 			Footnote: &Formatted_text{Name: "Footnote"},
 			Level: &Level{Name: "Level"},
 			Key: []*Key{{Name: "Key"}},
-			Time: []*Time{{Name: "Time"}},
 			Part_symbol: &Part_symbol{Name: "Part_symbol"},
 			Clef: []*Clef{{Name: "Clef"}},
 			Staff_details: []*Staff_details{{Name: "Staff_details"}},
@@ -22070,11 +22099,11 @@ func (Coda) GongGetAssociationName() any {
 
 func (Credit) GongGetAssociationName() any {
 	return &Credit{
-			Credit_image: &Image{Name: "Credit_image"},
 			Link: []*Link{{Name: "Link"}},
 			Bookmark: []*Bookmark{{Name: "Bookmark"}},
-			Credit_words: []*Formatted_text_id{{Name: "Credit_words"}},
-			Credit_symbol: []*Formatted_symbol_id{{Name: "Credit_symbol"}},
+			Credit_image: &Image{Name: "Credit_image"},
+			Credit_words: &Formatted_text_id{Name: "Credit_words"},
+			Credit_symbol: &Formatted_symbol_id{Name: "Credit_symbol"},
 	}
 }
 
@@ -22335,7 +22364,7 @@ func (Frame) GongGetAssociationName() any {
 
 func (Frame_note) GongGetAssociationName() any {
 	return &Frame_note{
-			String: &String_type{Name: "String"},
+			String_XSD: &String_type{Name: "String_XSD"},
 			Fret: &Fret{Name: "Fret"},
 			Fingering: &Fingering{Name: "Fingering"},
 			Barre: &Barre{Name: "Barre"},
@@ -22564,8 +22593,8 @@ func (Listening) GongGetAssociationName() any {
 
 func (Lyric) GongGetAssociationName() any {
 	return &Lyric{
+			Text: &Text_element_data{Name: "Text"},
 			Elision: []*Elision{{Name: "Elision"}},
-			Text: []*Text_element_data{{Name: "Text"}},
 			Extend: &Extend{Name: "Extend"},
 			Footnote: &Formatted_text{Name: "Footnote"},
 			Level: &Level{Name: "Level"},
@@ -22618,8 +22647,8 @@ func (Metal) GongGetAssociationName() any {
 
 func (Metronome) GongGetAssociationName() any {
 	return &Metronome{
-			Per_minute: &Per_minute{Name: "Per_minute"},
 			Beat_unit_tied: []*Beat_unit_tied{{Name: "Beat_unit_tied"}},
+			Per_minute: &Per_minute{Name: "Per_minute"},
 			Metronome_note: []*Metronome_note{{Name: "Metronome_note"}},
 	}
 }
@@ -22721,7 +22750,7 @@ func (Note) GongGetAssociationName() any {
 			Instrument: []*Instrument{{Name: "Instrument"}},
 			Footnote: &Formatted_text{Name: "Footnote"},
 			Level: &Level{Name: "Level"},
-			Type: &Note_type{Name: "Type"},
+			Type_XSD: &Note_type{Name: "Type_XSD"},
 			Dot: []*Empty_placement{{Name: "Dot"}},
 			Accidental: &Accidental{Name: "Accidental"},
 			Time_modification: &Time_modification{Name: "Time_modification"},
@@ -22965,8 +22994,8 @@ func (Principal_voice) GongGetAssociationName() any {
 	}
 }
 
-func (Print) GongGetAssociationName() any {
-	return &Print{
+func (Print_XSD) GongGetAssociationName() any {
+	return &Print_XSD{
 			Page_layout: &Page_layout{Name: "Page_layout"},
 			System_layout: &System_layout{Name: "System_layout"},
 			Staff_layout: []*Staff_layout{{Name: "Staff_layout"}},
@@ -23200,7 +23229,7 @@ func (Technical) GongGetAssociationName() any {
 			Stopped: []*Empty_placement_smufl{{Name: "Stopped"}},
 			Snap_pizzicato: []*Empty_placement{{Name: "Snap_pizzicato"}},
 			Fret: []*Fret{{Name: "Fret"}},
-			String: []*String_type{{Name: "String"}},
+			String_XSD: []*String_type{{Name: "String_XSD"}},
 			Hammer_on: []*Hammer_on_pull_off{{Name: "Hammer_on"}},
 			Pull_off: []*Hammer_on_pull_off{{Name: "Pull_off"}},
 			Bend: []*Bend{{Name: "Bend"}},
@@ -23868,6 +23897,40 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					credits = append(credits, credit)
 					res[image_] = credits
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Credit_words":
+			res := make(map[*Formatted_text_id][]*Credit)
+			for credit := range stage.Credits {
+				if credit.Credit_words != nil {
+					formatted_text_id_ := credit.Credit_words
+					var credits []*Credit
+					_, ok := res[formatted_text_id_]
+					if ok {
+						credits = res[formatted_text_id_]
+					} else {
+						credits = make([]*Credit, 0)
+					}
+					credits = append(credits, credit)
+					res[formatted_text_id_] = credits
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Credit_symbol":
+			res := make(map[*Formatted_symbol_id][]*Credit)
+			for credit := range stage.Credits {
+				if credit.Credit_symbol != nil {
+					formatted_symbol_id_ := credit.Credit_symbol
+					var credits []*Credit
+					_, ok := res[formatted_symbol_id_]
+					if ok {
+						credits = res[formatted_symbol_id_]
+					} else {
+						credits = make([]*Credit, 0)
+					}
+					credits = append(credits, credit)
+					res[formatted_symbol_id_] = credits
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -24819,11 +24882,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 	case Frame_note:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "String":
+		case "String_XSD":
 			res := make(map[*String_type][]*Frame_note)
 			for frame_note := range stage.Frame_notes {
-				if frame_note.String != nil {
-					string_type_ := frame_note.String
+				if frame_note.String_XSD != nil {
+					string_type_ := frame_note.String_XSD
 					var frame_notes []*Frame_note
 					_, ok := res[string_type_]
 					if ok {
@@ -25388,6 +25451,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 	case Lyric:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Text":
+			res := make(map[*Text_element_data][]*Lyric)
+			for lyric := range stage.Lyrics {
+				if lyric.Text != nil {
+					text_element_data_ := lyric.Text
+					var lyrics []*Lyric
+					_, ok := res[text_element_data_]
+					if ok {
+						lyrics = res[text_element_data_]
+					} else {
+						lyrics = make([]*Lyric, 0)
+					}
+					lyrics = append(lyrics, lyric)
+					res[text_element_data_] = lyrics
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Extend":
 			res := make(map[*Extend][]*Lyric)
 			for lyric := range stage.Lyrics {
@@ -25826,11 +25906,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Type":
+		case "Type_XSD":
 			res := make(map[*Note_type][]*Note)
 			for note := range stage.Notes {
-				if note.Type != nil {
-					note_type_ := note.Type
+				if note.Type_XSD != nil {
+					note_type_ := note.Type_XSD
 					var notes []*Note
 					_, ok := res[note_type_]
 					if ok {
@@ -26573,109 +26653,109 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Print
-	case Print:
+	// reverse maps of direct associations of Print_XSD
+	case Print_XSD:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Page_layout":
-			res := make(map[*Page_layout][]*Print)
-			for print := range stage.Prints {
-				if print.Page_layout != nil {
-					page_layout_ := print.Page_layout
-					var prints []*Print
+			res := make(map[*Page_layout][]*Print_XSD)
+			for print_xsd := range stage.Print_XSDs {
+				if print_xsd.Page_layout != nil {
+					page_layout_ := print_xsd.Page_layout
+					var print_xsds []*Print_XSD
 					_, ok := res[page_layout_]
 					if ok {
-						prints = res[page_layout_]
+						print_xsds = res[page_layout_]
 					} else {
-						prints = make([]*Print, 0)
+						print_xsds = make([]*Print_XSD, 0)
 					}
-					prints = append(prints, print)
-					res[page_layout_] = prints
+					print_xsds = append(print_xsds, print_xsd)
+					res[page_layout_] = print_xsds
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "System_layout":
-			res := make(map[*System_layout][]*Print)
-			for print := range stage.Prints {
-				if print.System_layout != nil {
-					system_layout_ := print.System_layout
-					var prints []*Print
+			res := make(map[*System_layout][]*Print_XSD)
+			for print_xsd := range stage.Print_XSDs {
+				if print_xsd.System_layout != nil {
+					system_layout_ := print_xsd.System_layout
+					var print_xsds []*Print_XSD
 					_, ok := res[system_layout_]
 					if ok {
-						prints = res[system_layout_]
+						print_xsds = res[system_layout_]
 					} else {
-						prints = make([]*Print, 0)
+						print_xsds = make([]*Print_XSD, 0)
 					}
-					prints = append(prints, print)
-					res[system_layout_] = prints
+					print_xsds = append(print_xsds, print_xsd)
+					res[system_layout_] = print_xsds
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "Measure_layout":
-			res := make(map[*Measure_layout][]*Print)
-			for print := range stage.Prints {
-				if print.Measure_layout != nil {
-					measure_layout_ := print.Measure_layout
-					var prints []*Print
+			res := make(map[*Measure_layout][]*Print_XSD)
+			for print_xsd := range stage.Print_XSDs {
+				if print_xsd.Measure_layout != nil {
+					measure_layout_ := print_xsd.Measure_layout
+					var print_xsds []*Print_XSD
 					_, ok := res[measure_layout_]
 					if ok {
-						prints = res[measure_layout_]
+						print_xsds = res[measure_layout_]
 					} else {
-						prints = make([]*Print, 0)
+						print_xsds = make([]*Print_XSD, 0)
 					}
-					prints = append(prints, print)
-					res[measure_layout_] = prints
+					print_xsds = append(print_xsds, print_xsd)
+					res[measure_layout_] = print_xsds
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "Measure_numbering":
-			res := make(map[*Measure_numbering][]*Print)
-			for print := range stage.Prints {
-				if print.Measure_numbering != nil {
-					measure_numbering_ := print.Measure_numbering
-					var prints []*Print
+			res := make(map[*Measure_numbering][]*Print_XSD)
+			for print_xsd := range stage.Print_XSDs {
+				if print_xsd.Measure_numbering != nil {
+					measure_numbering_ := print_xsd.Measure_numbering
+					var print_xsds []*Print_XSD
 					_, ok := res[measure_numbering_]
 					if ok {
-						prints = res[measure_numbering_]
+						print_xsds = res[measure_numbering_]
 					} else {
-						prints = make([]*Print, 0)
+						print_xsds = make([]*Print_XSD, 0)
 					}
-					prints = append(prints, print)
-					res[measure_numbering_] = prints
+					print_xsds = append(print_xsds, print_xsd)
+					res[measure_numbering_] = print_xsds
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "Part_name_display":
-			res := make(map[*Name_display][]*Print)
-			for print := range stage.Prints {
-				if print.Part_name_display != nil {
-					name_display_ := print.Part_name_display
-					var prints []*Print
+			res := make(map[*Name_display][]*Print_XSD)
+			for print_xsd := range stage.Print_XSDs {
+				if print_xsd.Part_name_display != nil {
+					name_display_ := print_xsd.Part_name_display
+					var print_xsds []*Print_XSD
 					_, ok := res[name_display_]
 					if ok {
-						prints = res[name_display_]
+						print_xsds = res[name_display_]
 					} else {
-						prints = make([]*Print, 0)
+						print_xsds = make([]*Print_XSD, 0)
 					}
-					prints = append(prints, print)
-					res[name_display_] = prints
+					print_xsds = append(print_xsds, print_xsd)
+					res[name_display_] = print_xsds
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "Part_abbreviation_display":
-			res := make(map[*Name_display][]*Print)
-			for print := range stage.Prints {
-				if print.Part_abbreviation_display != nil {
-					name_display_ := print.Part_abbreviation_display
-					var prints []*Print
+			res := make(map[*Name_display][]*Print_XSD)
+			for print_xsd := range stage.Print_XSDs {
+				if print_xsd.Part_abbreviation_display != nil {
+					name_display_ := print_xsd.Part_abbreviation_display
+					var print_xsds []*Print_XSD
 					_, ok := res[name_display_]
 					if ok {
-						prints = res[name_display_]
+						print_xsds = res[name_display_]
 					} else {
-						prints = make([]*Print, 0)
+						print_xsds = make([]*Print_XSD, 0)
 					}
-					prints = append(prints, print)
-					res[name_display_] = prints
+					print_xsds = append(print_xsds, print_xsd)
+					res[name_display_] = print_xsds
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -27528,11 +27608,11 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Print":
-			res := make(map[*Print][]*A_measure)
+		case "Print_XSD":
+			res := make(map[*Print_XSD][]*A_measure)
 			for a_measure := range stage.A_measures {
-				for _, print_ := range a_measure.Print {
-					res[print_] = append(res[print_], a_measure)
+				for _, print_xsd_ := range a_measure.Print_XSD {
+					res[print_xsd_] = append(res[print_xsd_], a_measure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -27671,11 +27751,11 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Print":
-			res := make(map[*Print][]*A_part_1)
+		case "Print_XSD":
+			res := make(map[*Print_XSD][]*A_part_1)
 			for a_part_1 := range stage.A_part_1s {
-				for _, print_ := range a_part_1.Print {
-					res[print_] = append(res[print_], a_part_1)
+				for _, print_xsd_ := range a_part_1.Print_XSD {
+					res[print_xsd_] = append(res[print_xsd_], a_part_1)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -27966,14 +28046,6 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Time":
-			res := make(map[*Time][]*Attributes)
-			for attributes := range stage.Attributess {
-				for _, time_ := range attributes.Time {
-					res[time_] = append(res[time_], attributes)
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "Clef":
 			res := make(map[*Clef][]*Attributes)
 			for attributes := range stage.Attributess {
@@ -28130,22 +28202,6 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 			for credit := range stage.Credits {
 				for _, bookmark_ := range credit.Bookmark {
 					res[bookmark_] = append(res[bookmark_], credit)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Credit_words":
-			res := make(map[*Formatted_text_id][]*Credit)
-			for credit := range stage.Credits {
-				for _, formatted_text_id_ := range credit.Credit_words {
-					res[formatted_text_id_] = append(res[formatted_text_id_], credit)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Credit_symbol":
-			res := make(map[*Formatted_symbol_id][]*Credit)
-			for credit := range stage.Credits {
-				for _, formatted_symbol_id_ := range credit.Credit_symbol {
-					res[formatted_symbol_id_] = append(res[formatted_symbol_id_], credit)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -28773,14 +28829,6 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 			for lyric := range stage.Lyrics {
 				for _, elision_ := range lyric.Elision {
 					res[elision_] = append(res[elision_], lyric)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Text":
-			res := make(map[*Text_element_data][]*Lyric)
-			for lyric := range stage.Lyrics {
-				for _, text_element_data_ := range lyric.Text {
-					res[text_element_data_] = append(res[text_element_data_], lyric)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -29437,15 +29485,15 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Print
-	case Print:
+	// reverse maps of direct associations of Print_XSD
+	case Print_XSD:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Staff_layout":
-			res := make(map[*Staff_layout][]*Print)
-			for print := range stage.Prints {
-				for _, staff_layout_ := range print.Staff_layout {
-					res[staff_layout_] = append(res[staff_layout_], print)
+			res := make(map[*Staff_layout][]*Print_XSD)
+			for print_xsd := range stage.Print_XSDs {
+				for _, staff_layout_ := range print_xsd.Staff_layout {
+					res[staff_layout_] = append(res[staff_layout_], print_xsd)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -29848,10 +29896,10 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "String":
+		case "String_XSD":
 			res := make(map[*String_type][]*Technical)
 			for technical := range stage.Technicals {
-				for _, string_type_ := range technical.String {
+				for _, string_type_ := range technical.String_XSD {
 					res[string_type_] = append(res[string_type_], technical)
 				}
 			}
@@ -30835,10 +30883,6 @@ func (*Formatted_symbol) GongGetReverseFields() []GongReverseField {
 func (*Formatted_symbol_id) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 		{
-			GongstructName: "Credit",
-			Fieldname: "Credit_symbol",
-		},
-		{
 			GongstructName: "Direction_type",
 			Fieldname: "Symbol",
 		},
@@ -30860,10 +30904,6 @@ func (*Formatted_text) GongGetReverseFields() []GongReverseField {
 
 func (*Formatted_text_id) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
-		{
-			GongstructName: "Credit",
-			Fieldname: "Credit_words",
-		},
 		{
 			GongstructName: "Direction_type",
 			Fieldname: "Rehearsal",
@@ -31657,15 +31697,15 @@ func (*Principal_voice) GongGetReverseFields() []GongReverseField {
 	}
 }
 
-func (*Print) GongGetReverseFields() []GongReverseField {
+func (*Print_XSD) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 		{
 			GongstructName: "A_measure",
-			Fieldname: "Print",
+			Fieldname: "Print_XSD",
 		},
 		{
 			GongstructName: "A_part_1",
-			Fieldname: "Print",
+			Fieldname: "Print_XSD",
 		},
 	}
 }
@@ -31795,7 +31835,7 @@ func (*Staff_layout) GongGetReverseFields() []GongReverseField {
 			Fieldname: "Staff_layout",
 		},
 		{
-			GongstructName: "Print",
+			GongstructName: "Print_XSD",
 			Fieldname: "Staff_layout",
 		},
 	}
@@ -31834,7 +31874,7 @@ func (*String_type) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 		{
 			GongstructName: "Technical",
-			Fieldname: "String",
+			Fieldname: "String_XSD",
 		},
 	}
 }
@@ -31911,10 +31951,6 @@ func (*Technical) GongGetReverseFields() []GongReverseField {
 
 func (*Text_element_data) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
-		{
-			GongstructName: "Lyric",
-			Fieldname: "Text",
-		},
 	}
 }
 
@@ -31934,10 +31970,6 @@ func (*Tied) GongGetReverseFields() []GongReverseField {
 
 func (*Time) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
-		{
-			GongstructName: "Attributes",
-			Fieldname: "Time",
-		},
 	}
 }
 
@@ -32112,16 +32144,18 @@ func (a_directive *A_directive) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -32204,9 +32238,9 @@ func (a_measure *A_measure) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Figured_bass",
 		},
 		{
-			Name:                 "Print",
+			Name:                 "Print_XSD",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Print",
+			TargetGongstructName: "Print_XSD",
 		},
 		{
 			Name:                 "Sound",
@@ -32351,9 +32385,9 @@ func (a_part_1 *A_part_1) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Figured_bass",
 		},
 		{
-			Name:                 "Print",
+			Name:                 "Print_XSD",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Print",
+			TargetGongstructName: "Print_XSD",
 		},
 		{
 			Name:                 "Sound",
@@ -32397,8 +32431,9 @@ func (accidental *Accidental) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Cautionary",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Cautionary",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Yes_no",
 		},
 		{
 			Name:                 "Editorial",
@@ -32445,24 +32480,27 @@ func (accidental *Accidental) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Accidental_value",
 		},
 	}
 	return
@@ -32515,24 +32553,27 @@ func (accidental_mark *Accidental_mark) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "Id",
@@ -32592,28 +32633,32 @@ func (accidental_text *Accidental_text) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Underline",
@@ -32640,12 +32685,14 @@ func (accidental_text *Accidental_text) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Dir",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Dir",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Text_direction",
 		},
 		{
-			Name:               "Enclosure",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Enclosure",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Enclosure_shape",
 		},
 		{
 			Name:                 "EnclosedText",
@@ -32664,7 +32711,7 @@ func (accord *Accord) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "String",
+			Name:               "String_XSD",
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
@@ -32712,28 +32759,32 @@ func (accordion_registration *Accordion_registration) GongGetFieldHeaders() (res
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Id",
@@ -32803,8 +32854,9 @@ func (arpeggiate *Arpeggiate) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:               "Direction",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Direction",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Up_down",
 		},
 		{
 			Name:                 "Unbroken",
@@ -32828,8 +32880,9 @@ func (arpeggiate *Arpeggiate) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "Color",
@@ -32871,44 +32924,50 @@ func (arrow *Arrow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "Smufl",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Arrow_direction",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Arrow_direction",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Arrow_direction",
 		},
 		{
-			Name:               "Arrow_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Arrow_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Arrow_style",
 		},
 		{
 			Name:               "Arrowhead",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Circular_arrow",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Circular_arrow",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Circular_arrow",
 		},
 	}
 	return
@@ -33022,7 +33081,7 @@ func (assess *Assess) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Yes_no",
 		},
@@ -33065,9 +33124,8 @@ func (attributes *Attributes) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Key",
 		},
 		{
-			Name:                 "Time",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Time",
+			Name:               "Time",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Staves",
@@ -33124,10 +33182,6 @@ func (backup *Backup) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Duration",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
 			Name:                 "Footnote",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Formatted_text",
@@ -33153,8 +33207,9 @@ func (bar_style_color *Bar_style_color) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Bar_style",
 		},
 	}
 	return
@@ -33168,8 +33223,9 @@ func (barline *Barline) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Location",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Location",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Right_left_middle",
 		},
 		{
 			Name:               "Segno",
@@ -33244,8 +33300,9 @@ func (barre *Barre) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Start_stop",
 		},
 		{
 			Name:               "Color",
@@ -33263,8 +33320,9 @@ func (bass *Bass) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Arrangement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Arrangement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Harmony_arrangement",
 		},
 		{
 			Name:                 "Bass_separator",
@@ -33317,24 +33375,27 @@ func (bass_step *Bass_step) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Step",
 		},
 	}
 	return
@@ -33357,8 +33418,9 @@ func (beam *Beam) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Enum_Yes_no",
 		},
 		{
-			Name:               "Fan",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Fan",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Fan",
 		},
 		{
 			Name:               "Color",
@@ -33369,8 +33431,9 @@ func (beam *Beam) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Beam_value",
 		},
 	}
 	return
@@ -33384,7 +33447,7 @@ func (beat_repeat *Beat_repeat) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop",
 		},
@@ -33442,12 +33505,14 @@ func (beater *Beater) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Tip",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Tip",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Tip_direction",
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Beater_value",
 		},
 	}
 	return
@@ -33461,8 +33526,9 @@ func (bend *Bend) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Shape",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Shape",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Bend_shape",
 		},
 		{
 			Name:               "Default_x",
@@ -33485,16 +33551,18 @@ func (bend *Bend) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -33574,24 +33642,27 @@ func (bracket *Bracket) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Start_stop_continue",
 		},
 		{
 			Name:               "Number",
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:               "Line_end",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Line_end",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Line_end",
 		},
 		{
 			Name:               "End_length",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Line_type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Line_type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Line_type",
 		},
 		{
 			Name:               "Dash_length",
@@ -33657,28 +33728,32 @@ func (breath_mark *Breath_mark) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Breath_mark_value",
 		},
 	}
 	return
@@ -33712,28 +33787,32 @@ func (caesura *Caesura) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Caesura_value",
 		},
 	}
 	return
@@ -33747,8 +33826,9 @@ func (cancel *Cancel) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Location",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Location",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Cancel_location",
 		},
 		{
 			Name:               "EnclosedText",
@@ -33775,8 +33855,9 @@ func (clef *Clef) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Enum_Yes_no",
 		},
 		{
-			Name:               "Size",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Size",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Symbol_size",
 		},
 		{
 			Name:                 "After_barline",
@@ -33804,16 +33885,18 @@ func (clef *Clef) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -33829,8 +33912,9 @@ func (clef *Clef) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Sign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Sign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Clef_sign",
 		},
 		{
 			Name:               "Line",
@@ -33876,28 +33960,32 @@ func (coda *Coda) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Id",
@@ -33927,11 +34015,6 @@ func (credit *Credit) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Credit_image",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Image",
-		},
-		{
 			Name:                 "Link",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Link",
@@ -33942,13 +34025,18 @@ func (credit *Credit) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Bookmark",
 		},
 		{
+			Name:                 "Credit_image",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Image",
+		},
+		{
 			Name:                 "Credit_words",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Formatted_text_id",
 		},
 		{
 			Name:                 "Credit_symbol",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Formatted_symbol_id",
 		},
 	}
@@ -33963,7 +34051,7 @@ func (dashes *Dashes) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop_continue",
 		},
@@ -34131,16 +34219,18 @@ func (degree_alter *Degree_alter) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -34186,24 +34276,27 @@ func (degree_type *Degree_type) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Degree_type_value",
 		},
 	}
 	return
@@ -34217,8 +34310,9 @@ func (degree_value *Degree_value) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Symbol",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Symbol",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Degree_symbol_value",
 		},
 		{
 			Name:               "Text",
@@ -34245,16 +34339,18 @@ func (degree_value *Degree_value) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -34276,8 +34372,9 @@ func (direction *Direction) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:                 "Directive",
@@ -34285,9 +34382,8 @@ func (direction *Direction) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Enum_Yes_no",
 		},
 		{
-			Name:                 "System",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "Enum_System_relation_number",
+			Name:               "System",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Id",
@@ -34478,7 +34574,7 @@ func (distance *Distance) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
+			Name:               "Type_XSD",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -34533,32 +34629,37 @@ func (dynamics *Dynamics) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "Underline",
@@ -34573,8 +34674,9 @@ func (dynamics *Dynamics) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:               "Enclosure",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Enclosure",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Enclosure_shape",
 		},
 		{
 			Name:               "Id",
@@ -34705,8 +34807,9 @@ func (effect *Effect) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Effect_value",
 		},
 	}
 	return
@@ -34728,16 +34831,18 @@ func (elision *Elision) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -34774,16 +34879,18 @@ func (empty_font *Empty_font) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 	}
 	return
@@ -34797,16 +34904,19 @@ func (empty_line *Empty_line) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Line_shape",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Line_shape",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Line_shape",
 		},
 		{
-			Name:               "Line_type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Line_type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Line_type",
 		},
 		{
-			Name:               "Line_length",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Line_length",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Line_length",
 		},
 		{
 			Name:               "Dash_length",
@@ -34837,24 +34947,27 @@ func (empty_line *Empty_line) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 	}
 	return
@@ -34888,24 +35001,27 @@ func (empty_placement *Empty_placement) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 	}
 	return
@@ -34939,24 +35055,27 @@ func (empty_placement_smufl *Empty_placement_smufl) GongGetFieldHeaders() (res [
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "Smufl",
@@ -34999,28 +35118,32 @@ func (empty_print_object_style_align *Empty_print_object_style_align) GongGetFie
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 	}
 	return
@@ -35054,16 +35177,18 @@ func (empty_print_style *Empty_print_style) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -35101,28 +35226,32 @@ func (empty_print_style_align *Empty_print_style_align) GongGetFieldHeaders() (r
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 	}
 	return
@@ -35156,28 +35285,32 @@ func (empty_print_style_align_id *Empty_print_style_align_id) GongGetFieldHeader
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Id",
@@ -35215,36 +35348,42 @@ func (empty_trill_sound *Empty_trill_sound) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
-			Name:               "Start_note",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Start_note",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Start_note",
 		},
 		{
-			Name:               "Trill_step",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Trill_step",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Trill_step",
 		},
 		{
-			Name:               "Two_note_turn",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Two_note_turn",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Two_note_turn",
 		},
 		{
 			Name:                 "Accelerate",
@@ -35272,6 +35411,10 @@ func (encoding *Encoding) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Encoding_date",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -35308,8 +35451,9 @@ func (ending *Ending) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Start_stop_discontinue",
 		},
 		{
 			Name:               "End_length",
@@ -35349,25 +35493,26 @@ func (ending *Ending) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "System",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "Enum_System_relation_number",
+			Name:               "System",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "EnclosedText",
@@ -35385,7 +35530,7 @@ func (extend *Extend) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop_continue",
 		},
@@ -35421,7 +35566,7 @@ func (feature *Feature) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
+			Name:               "Type_XSD",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -35440,8 +35585,9 @@ func (fermata *Fermata) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Upright_inverted",
 		},
 		{
 			Name:               "Default_x",
@@ -35464,16 +35610,18 @@ func (fermata *Fermata) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -35484,8 +35632,9 @@ func (fermata *Fermata) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Fermata_shape",
 		},
 	}
 	return
@@ -35565,32 +35714,37 @@ func (figured_bass *Figured_bass) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:                 "Print_dot",
@@ -35620,10 +35774,6 @@ func (figured_bass *Figured_bass) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "Figure",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Figure",
-		},
-		{
-			Name:               "Duration",
-			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Footnote",
@@ -35677,24 +35827,27 @@ func (fingering *Fingering) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "EnclosedText",
@@ -35716,8 +35869,9 @@ func (first_fret *First_fret) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Location",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Location",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_right",
 		},
 		{
 			Name:               "EnclosedText",
@@ -35789,28 +35943,32 @@ func (formatted_symbol *Formatted_symbol) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Underline",
@@ -35837,12 +35995,14 @@ func (formatted_symbol *Formatted_symbol) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Dir",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Dir",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Text_direction",
 		},
 		{
-			Name:               "Enclosure",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Enclosure",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Enclosure_shape",
 		},
 		{
 			Name:               "EnclosedText",
@@ -35885,28 +36045,32 @@ func (formatted_symbol_id *Formatted_symbol_id) GongGetFieldHeaders() (res []Gon
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Underline",
@@ -35933,12 +36097,14 @@ func (formatted_symbol_id *Formatted_symbol_id) GongGetFieldHeaders() (res []Gon
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Dir",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Dir",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Text_direction",
 		},
 		{
-			Name:               "Enclosure",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Enclosure",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Enclosure_shape",
 		},
 		{
 			Name:               "Id",
@@ -35993,28 +36159,32 @@ func (formatted_text *Formatted_text) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Underline",
@@ -36041,12 +36211,14 @@ func (formatted_text *Formatted_text) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Dir",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Dir",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Text_direction",
 		},
 		{
-			Name:               "Enclosure",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Enclosure",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Enclosure_shape",
 		},
 		{
 			Name:               "EnclosedText",
@@ -36097,28 +36269,32 @@ func (formatted_text_id *Formatted_text_id) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Underline",
@@ -36145,12 +36321,14 @@ func (formatted_text_id *Formatted_text_id) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Dir",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Dir",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Text_direction",
 		},
 		{
-			Name:               "Enclosure",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Enclosure",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Enclosure_shape",
 		},
 		{
 			Name:               "Id",
@@ -36169,10 +36347,6 @@ func (forward *Forward) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "Duration",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -36237,12 +36411,14 @@ func (frame *Frame) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign_image",
 		},
 		{
 			Name:               "Id",
@@ -36278,7 +36454,7 @@ func (frame_note *Frame_note) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "String",
+			Name:                 "String_XSD",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "String_type",
 		},
@@ -36313,16 +36489,18 @@ func (fret *Fret) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -36348,8 +36526,9 @@ func (glass *Glass) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Glass_value",
 		},
 	}
 	return
@@ -36363,7 +36542,7 @@ func (glissando *Glissando) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop",
 		},
@@ -36372,8 +36551,9 @@ func (glissando *Glissando) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:               "Line_type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Line_type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Line_type",
 		},
 		{
 			Name:               "Dash_length",
@@ -36404,16 +36584,18 @@ func (glissando *Glissando) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -36439,7 +36621,7 @@ func (glyph *Glyph) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
+			Name:               "Type_XSD",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -36490,8 +36672,9 @@ func (group_barline *Group_barline) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Group_barline_value",
 		},
 	}
 	return
@@ -36525,16 +36708,18 @@ func (group_name *Group_name) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -36581,8 +36766,9 @@ func (group_symbol *Group_symbol) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Group_symbol_value",
 		},
 	}
 	return
@@ -36596,8 +36782,9 @@ func (grouping *Grouping) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Start_stop_single",
 		},
 		{
 			Name:               "Number",
@@ -36628,7 +36815,7 @@ func (hammer_on_pull_off *Hammer_on_pull_off) GongGetFieldHeaders() (res []GongF
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop",
 		},
@@ -36657,24 +36844,27 @@ func (hammer_on_pull_off *Hammer_on_pull_off) GongGetFieldHeaders() (res []GongF
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "EnclosedText",
@@ -36712,28 +36902,32 @@ func (handbell *Handbell) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Handbell_value",
 		},
 	}
 	return
@@ -36747,12 +36941,14 @@ func (harmon_closed *Harmon_closed) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Location",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Location",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Harmon_closed_location",
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Harmon_closed_value",
 		},
 	}
 	return
@@ -36786,24 +36982,27 @@ func (harmon_mute *Harmon_mute) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:                 "Harmon_closed",
@@ -36847,24 +37046,27 @@ func (harmonic *Harmonic) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "Natural",
@@ -36898,8 +37100,9 @@ func (harmony *Harmony) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Harmony_type",
 		},
 		{
 			Name:                 "Print_frame",
@@ -36937,29 +37140,31 @@ func (harmony *Harmony) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
-			Name:                 "System",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "Enum_System_relation_number",
+			Name:               "System",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Id",
@@ -37066,16 +37271,18 @@ func (harmony_alter *Harmony_alter) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -37117,28 +37324,32 @@ func (harp_pedals *Harp_pedals) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Id",
@@ -37159,6 +37370,54 @@ func (heel_toe *Heel_toe) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Default_x",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Default_y",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Relative_x",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Relative_y",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Font_family",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
+		},
+		{
+			Name:               "Font_size",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
+		},
+		{
+			Name:                 "Substitution",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Yes_no",
 		},
 	}
 	return
@@ -37192,24 +37451,27 @@ func (hole *Hole) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "Hole_type",
@@ -37236,12 +37498,14 @@ func (hole_closed *Hole_closed) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Location",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Location",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Hole_closed_location",
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Hole_closed_value",
 		},
 	}
 	return
@@ -37280,36 +37544,42 @@ func (horizontal_turn *Horizontal_turn) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
-			Name:               "Start_note",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Start_note",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Start_note",
 		},
 		{
-			Name:               "Trill_step",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Trill_step",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Trill_step",
 		},
 		{
-			Name:               "Two_note_turn",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Two_note_turn",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Two_note_turn",
 		},
 		{
 			Name:                 "Accelerate",
@@ -37384,7 +37654,7 @@ func (image *Image) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
+			Name:               "Type_XSD",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -37412,12 +37682,14 @@ func (image *Image) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign_image",
 		},
 		{
 			Name:               "Id",
@@ -37497,16 +37769,19 @@ func (interchangeable *Interchangeable) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Symbol",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Symbol",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Time_symbol",
 		},
 		{
-			Name:               "Separator",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Separator",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Time_separator",
 		},
 		{
-			Name:               "Time_relation",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Time_relation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Time_relation",
 		},
 		{
 			Name:               "Beats",
@@ -37552,16 +37827,18 @@ func (inversion *Inversion) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -37607,16 +37884,18 @@ func (key *Key) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -37763,32 +38042,37 @@ func (kind *Kind) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Kind_value",
 		},
 	}
 	return
@@ -37802,12 +38086,12 @@ func (level *Level) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Reference",
+			Name:                 "Reference_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Yes_no",
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop_single",
 		},
@@ -37854,8 +38138,9 @@ func (line_detail *Line_detail) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Line_type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Line_type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Line_type",
 		},
 		{
 			Name:                 "Print_object",
@@ -37874,7 +38159,7 @@ func (line_width *Line_width) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
+			Name:               "Type_XSD",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -37901,7 +38186,7 @@ func (link *Link) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
+			Name:               "Type_XSD",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -38016,9 +38301,8 @@ func (lyric *Lyric) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Time_only",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "Enum_Time_only",
+			Name:               "Time_only",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Justify",
@@ -38042,8 +38326,9 @@ func (lyric *Lyric) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "Color",
@@ -38059,18 +38344,19 @@ func (lyric *Lyric) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Elision",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Elision",
-		},
-		{
-			Name:               "Syllabic",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Syllabic",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Syllabic",
 		},
 		{
 			Name:                 "Text",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Text_element_data",
+		},
+		{
+			Name:                 "Elision",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Elision",
 		},
 		{
 			Name:                 "Extend",
@@ -38127,16 +38413,18 @@ func (lyric_font *Lyric_font) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 	}
 	return
@@ -38188,8 +38476,9 @@ func (measure_numbering *Measure_numbering) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "System",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "System",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_System_relation_number",
 		},
 		{
 			Name:               "Staff",
@@ -38226,32 +38515,37 @@ func (measure_numbering *Measure_numbering) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Measure_numbering_value",
 		},
 	}
 	return
@@ -38265,7 +38559,7 @@ func (measure_repeat *Measure_repeat) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop",
 		},
@@ -38297,16 +38591,18 @@ func (measure_style *Measure_style) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -38352,8 +38648,9 @@ func (membrane *Membrane) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Membrane_value",
 		},
 	}
 	return
@@ -38371,8 +38668,9 @@ func (metal *Metal) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Metal_value",
 		},
 	}
 	return
@@ -38411,28 +38709,32 @@ func (metronome *Metronome) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:                 "Print_object",
@@ -38458,27 +38760,27 @@ func (metronome *Metronome) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Per_minute",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Per_minute",
-		},
-		{
 			Name:                 "Beat_unit_tied",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Beat_unit_tied",
+		},
+		{
+			Name:                 "Per_minute",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Per_minute",
 		},
 		{
 			Name:               "Metronome_arrows",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Metronome_relation",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
 			Name:                 "Metronome_note",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Metronome_note",
+		},
+		{
+			Name:               "Metronome_relation",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -38512,8 +38814,9 @@ func (metronome_note *Metronome_note) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Metronome_type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Metronome_type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Note_type_value",
 		},
 		{
 			Name:               "Metronome_dot",
@@ -38546,7 +38849,7 @@ func (metronome_tied *Metronome_tied) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop",
 		},
@@ -38560,6 +38863,38 @@ func (metronome_tuplet *Metronome_tuplet) GongGetFieldHeaders() (res []GongField
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Actual_notes",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "Normal_notes",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:                 "Normal_type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Note_type_value",
+		},
+		{
+			Name:               "Normal_dot",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Start_stop",
+		},
+		{
+			Name:                 "Bracket",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Yes_no",
+		},
+		{
+			Name:                 "Show_number",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Show_tuplet",
 		},
 	}
 	return
@@ -38677,6 +39012,96 @@ func (mordent *Mordent) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
+		{
+			Name:               "Default_x",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Default_y",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Relative_x",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Relative_y",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Font_family",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
+		},
+		{
+			Name:               "Font_size",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
+		},
+		{
+			Name:                 "Start_note",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Start_note",
+		},
+		{
+			Name:                 "Trill_step",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Trill_step",
+		},
+		{
+			Name:                 "Two_note_turn",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Two_note_turn",
+		},
+		{
+			Name:                 "Accelerate",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Yes_no",
+		},
+		{
+			Name:               "Beats",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Second_beat",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Last_beat",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Long",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Yes_no",
+		},
+		{
+			Name:                 "Approach",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
+		},
+		{
+			Name:                 "Departure",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
+		},
 	}
 	return
 }
@@ -38735,8 +39160,9 @@ func (non_arpeggiate *Non_arpeggiate) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Top_bottom",
 		},
 		{
 			Name:               "Number",
@@ -38759,8 +39185,9 @@ func (non_arpeggiate *Non_arpeggiate) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "Color",
@@ -38903,9 +39330,8 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Time_only",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "Enum_Time_only",
+			Name:               "Time_only",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Pizzicato",
@@ -38933,16 +39359,18 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -39006,10 +39434,6 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Duration",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
 			Name:                 "Instrument",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Instrument",
@@ -39029,7 +39453,7 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Note_type",
 		},
@@ -39104,8 +39528,9 @@ func (note_size *Note_size) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Note_size_type",
 		},
 		{
 			Name:               "EnclosedText",
@@ -39158,16 +39583,18 @@ func (notehead *Notehead) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -39178,8 +39605,9 @@ func (notehead *Notehead) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Notehead_value",
 		},
 	}
 	return
@@ -39249,8 +39677,9 @@ func (numeral_key *Numeral_key) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:               "Numeral_mode",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Numeral_mode",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Numeral_mode",
 		},
 	}
 	return
@@ -39288,16 +39717,18 @@ func (numeral_root *Numeral_root) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -39319,8 +39750,9 @@ func (octave_shift *Octave_shift) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Up_down_stop_continue",
 		},
 		{
 			Name:               "Number",
@@ -39359,16 +39791,18 @@ func (octave_shift *Octave_shift) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -39414,7 +39848,7 @@ func (opus *Opus) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
+			Name:               "Type_XSD",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -39540,7 +39974,7 @@ func (other_appearance *Other_appearance) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
+			Name:               "Type_XSD",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -39584,28 +40018,32 @@ func (other_direction *Other_direction) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Smufl",
@@ -39631,7 +40069,7 @@ func (other_listening *Other_listening) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
+			Name:               "Type_XSD",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -39639,9 +40077,8 @@ func (other_listening *Other_listening) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Time_only",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "Enum_Time_only",
+			Name:               "Time_only",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "EnclosedText",
@@ -39659,7 +40096,7 @@ func (other_notation *Other_notation) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop_single",
 		},
@@ -39693,24 +40130,27 @@ func (other_notation *Other_notation) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "Smufl",
@@ -39756,24 +40196,27 @@ func (other_placement_text *Other_placement_text) GongGetFieldHeaders() (res []G
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "Smufl",
@@ -39795,7 +40238,7 @@ func (other_play *Other_play) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
+			Name:               "Type_XSD",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -39857,8 +40300,9 @@ func (page_margins *Page_margins) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Margin_type",
 		},
 		{
 			Name:               "Left_margin",
@@ -39888,8 +40332,9 @@ func (part_clef *Part_clef) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Sign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Sign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Clef_sign",
 		},
 		{
 			Name:               "Line",
@@ -39911,7 +40356,7 @@ func (part_group *Part_group) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop",
 		},
@@ -39979,7 +40424,7 @@ func (part_link *Part_link) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
+			Name:               "Type_XSD",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -40060,16 +40505,18 @@ func (part_name *Part_name) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -40172,8 +40619,9 @@ func (pedal *Pedal) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Pedal_type",
 		},
 		{
 			Name:               "Number",
@@ -40215,28 +40663,32 @@ func (pedal *Pedal) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Id",
@@ -40278,16 +40730,18 @@ func (per_minute *Per_minute) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "EnclosedText",
@@ -40325,32 +40779,37 @@ func (percussion *Percussion) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
-			Name:               "Enclosure",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Enclosure",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Enclosure_shape",
 		},
 		{
 			Name:               "Id",
@@ -40402,8 +40861,9 @@ func (percussion *Percussion) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Stick",
 		},
 		{
-			Name:               "Stick_location",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Stick_location",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Stick_location",
 		},
 		{
 			Name:                 "Other_percussion",
@@ -40450,8 +40910,9 @@ func (pitched *Pitched) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Pitched_value",
 		},
 	}
 	return
@@ -40485,24 +40946,27 @@ func (placement_text *Placement_text) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "EnclosedText",
@@ -40528,12 +40992,14 @@ func (play *Play) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Mute",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Mute",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Mute",
 		},
 		{
-			Name:               "Semi_pitched",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Semi_pitched",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Semi_pitched",
 		},
 		{
 			Name:                 "Other_play",
@@ -40571,13 +41037,14 @@ func (principal_voice *Principal_voice) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop",
 		},
 		{
-			Name:               "Symbol",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Symbol",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Principal_voice_symbol",
 		},
 		{
 			Name:               "Default_x",
@@ -40600,28 +41067,32 @@ func (principal_voice *Principal_voice) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Id",
@@ -40635,7 +41106,7 @@ func (principal_voice *Principal_voice) GongGetFieldHeaders() (res []GongFieldHe
 	return
 }
 
-func (print *Print) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (print_xsd *Print_XSD) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -40714,6 +41185,10 @@ func (release *Release) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
+		{
+			Name:               "Offset",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
 	}
 	return
 }
@@ -40726,8 +41201,9 @@ func (repeat *Repeat) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Direction",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Direction",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Backward_forward",
 		},
 		{
 			Name:               "Times",
@@ -40739,8 +41215,9 @@ func (repeat *Repeat) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Enum_Yes_no",
 		},
 		{
-			Name:               "Winged",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Winged",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Winged",
 		},
 	}
 	return
@@ -40824,16 +41301,18 @@ func (root_step *Root_step) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -41134,28 +41613,32 @@ func (segno *Segno) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Id",
@@ -41173,7 +41656,7 @@ func (slash *Slash) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop",
 		},
@@ -41212,7 +41695,7 @@ func (slide *Slide) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop",
 		},
@@ -41221,8 +41704,9 @@ func (slide *Slide) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:               "Line_type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Line_type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Line_type",
 		},
 		{
 			Name:               "Dash_length",
@@ -41253,16 +41737,18 @@ func (slide *Slide) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -41305,7 +41791,7 @@ func (slur *Slur) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop_continue",
 		},
@@ -41314,8 +41800,9 @@ func (slur *Slur) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:               "Line_type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Line_type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Line_type",
 		},
 		{
 			Name:               "Dash_length",
@@ -41342,12 +41829,14 @@ func (slur *Slur) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
-			Name:               "Orientation",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Orientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Over_under",
 		},
 		{
 			Name:               "Bezier_x",
@@ -41435,9 +41924,8 @@ func (sound *Sound) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Time_only",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "Enum_Time_only",
+			Name:               "Time_only",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Pizzicato",
@@ -41514,8 +42002,9 @@ func (staff_details *Staff_details) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:               "Show_frets",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Show_frets",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Show_frets",
 		},
 		{
 			Name:                 "Print_object",
@@ -41528,8 +42017,9 @@ func (staff_details *Staff_details) GongGetFieldHeaders() (res []GongFieldHeader
 			TargetGongstructName: "Enum_Yes_no",
 		},
 		{
-			Name:               "Staff_type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Staff_type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Staff_type",
 		},
 		{
 			Name:               "Staff_lines",
@@ -41566,8 +42056,9 @@ func (staff_divide *Staff_divide) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Staff_divide_symbol",
 		},
 		{
 			Name:               "Default_x",
@@ -41590,28 +42081,32 @@ func (staff_divide *Staff_divide) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Id",
@@ -41715,8 +42210,9 @@ func (stem *Stem) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Stem_value",
 		},
 	}
 	return
@@ -41745,12 +42241,14 @@ func (stick *Stick) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Enum_Yes_no",
 		},
 		{
-			Name:               "Stick_type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Stick_type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Stick_type",
 		},
 		{
-			Name:               "Stick_material",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Stick_material",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Stick_material",
 		},
 	}
 	return
@@ -41764,8 +42262,9 @@ func (string_mute *String_mute) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_On_off",
 		},
 		{
 			Name:               "Default_x",
@@ -41788,28 +42287,32 @@ func (string_mute *String_mute) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:               "Id",
@@ -41847,24 +42350,27 @@ func (string_type *String_type) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "EnclosedText",
@@ -41880,6 +42386,54 @@ func (strong_accent *Strong_accent) GongGetFieldHeaders() (res []GongFieldHeader
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Default_x",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Default_y",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Relative_x",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Relative_y",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Font_family",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
+		},
+		{
+			Name:               "Font_size",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
+		},
+		{
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Up_down",
 		},
 	}
 	return
@@ -41913,16 +42467,18 @@ func (style_text *Style_text) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -41944,7 +42500,7 @@ func (supports *Supports) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Yes_no",
 		},
@@ -41984,9 +42540,8 @@ func (swing *Swing) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:                 "Swing_type",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "Enum_Note_type_value",
+			Name:               "Swing_type",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Swing_style",
@@ -42004,8 +42559,9 @@ func (sync *Sync) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Sync_type",
 		},
 		{
 			Name:               "Latency",
@@ -42016,9 +42572,8 @@ func (sync *Sync) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Time_only",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "Enum_Time_only",
+			Name:               "Time_only",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -42101,8 +42656,9 @@ func (tap *Tap) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Hand",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Hand",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Tap_hand",
 		},
 		{
 			Name:               "Default_x",
@@ -42125,24 +42681,27 @@ func (tap *Tap) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "EnclosedText",
@@ -42224,7 +42783,7 @@ func (technical *Technical) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Fret",
 		},
 		{
-			Name:                 "String",
+			Name:                 "String_XSD",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "String_type",
 		},
@@ -42338,16 +42897,18 @@ func (text_element_data *Text_element_data) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -42374,8 +42935,9 @@ func (text_element_data *Text_element_data) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Dir",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Dir",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Text_direction",
 		},
 		{
 			Name:               "EnclosedText",
@@ -42393,14 +42955,13 @@ func (tie *Tie) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop",
 		},
 		{
-			Name:                 "Time_only",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "Enum_Time_only",
+			Name:               "Time_only",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -42414,16 +42975,18 @@ func (tied *Tied) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Tied_type",
 		},
 		{
 			Name:               "Number",
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:               "Line_type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Line_type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Line_type",
 		},
 		{
 			Name:               "Dash_length",
@@ -42450,12 +43013,14 @@ func (tied *Tied) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
-			Name:               "Orientation",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Orientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Over_under",
 		},
 		{
 			Name:               "Bezier_x",
@@ -42535,28 +43100,32 @@ func (time *Time) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Halign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Halign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Left_center_right",
 		},
 		{
-			Name:               "Valign",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Valign",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Valign",
 		},
 		{
 			Name:                 "Print_object",
@@ -42674,8 +43243,9 @@ func (tremolo *Tremolo) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Tremolo_type",
 		},
 		{
 			Name:               "Default_x",
@@ -42698,24 +43268,27 @@ func (tremolo *Tremolo) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "Smufl",
@@ -42737,7 +43310,7 @@ func (tuplet *Tuplet) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop",
 		},
@@ -42751,8 +43324,9 @@ func (tuplet *Tuplet) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Enum_Yes_no",
 		},
 		{
-			Name:               "Show_number",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Show_number",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Show_tuplet",
 		},
 		{
 			Name:                 "Show_type",
@@ -42760,8 +43334,9 @@ func (tuplet *Tuplet) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Enum_Show_tuplet",
 		},
 		{
-			Name:               "Line_shape",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Line_shape",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Line_shape",
 		},
 		{
 			Name:               "Default_x",
@@ -42780,8 +43355,9 @@ func (tuplet *Tuplet) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "Id",
@@ -42813,16 +43389,18 @@ func (tuplet_dot *Tuplet_dot) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -42844,16 +43422,18 @@ func (tuplet_number *Tuplet_number) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -42905,16 +43485,18 @@ func (tuplet_type *Tuplet_type) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_style",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_style",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_style",
 		},
 		{
 			Name:               "Font_size",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Font_weight",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Font_weight",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Font_weight",
 		},
 		{
 			Name:               "Color",
@@ -42937,7 +43519,7 @@ func (typed_text *Typed_text) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
+			Name:               "Type_XSD",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -42999,9 +43581,8 @@ func (wait *Wait) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Time_only",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "Enum_Time_only",
+			Name:               "Time_only",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -43015,7 +43596,7 @@ func (wavy_line *Wavy_line) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
+			Name:                 "Type_XSD",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_Start_stop_continue",
 		},
@@ -43044,24 +43625,28 @@ func (wavy_line *Wavy_line) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Placement",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Placement",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Above_below",
 		},
 		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Start_note",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Start_note",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Start_note",
 		},
 		{
-			Name:               "Trill_step",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Trill_step",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Trill_step",
 		},
 		{
-			Name:               "Two_note_turn",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Two_note_turn",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Two_note_turn",
 		},
 		{
 			Name:                 "Accelerate",
@@ -43092,8 +43677,9 @@ func (wedge *Wedge) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Type_XSD",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Wedge_type",
 		},
 		{
 			Name:               "Number",
@@ -43109,8 +43695,9 @@ func (wedge *Wedge) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Enum_Yes_no",
 		},
 		{
-			Name:               "Line_type",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Line_type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Line_type",
 		},
 		{
 			Name:               "Dash_length",
@@ -43160,8 +43747,9 @@ func (wood *Wood) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "EnclosedText",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnclosedText",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_Wood_value",
 		},
 	}
 	return
@@ -43268,11 +43856,13 @@ func (a_directive *A_directive) GongGetFieldValue(fieldName string, stage *Stage
 	case "Font_family":
 		res.valueString = a_directive.Font_family
 	case "Font_style":
-		res.valueString = a_directive.Font_style
+		enum := a_directive.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = a_directive.Font_size
 	case "Font_weight":
-		res.valueString = a_directive.Font_weight
+		enum := a_directive.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = a_directive.Color
 	case "EnclosedText":
@@ -43370,9 +43960,9 @@ func (a_measure *A_measure) GongGetFieldValue(fieldName string, stage *Stage) (r
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "Print":
+	case "Print_XSD":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range a_measure.Print {
+		for idx, __instance__ := range a_measure.Print_XSD {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -43575,9 +44165,9 @@ func (a_part_1 *A_part_1) GongGetFieldValue(fieldName string, stage *Stage) (res
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "Print":
+	case "Print_XSD":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range a_part_1.Print {
+		for idx, __instance__ := range a_part_1.Print_XSD {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -43655,7 +44245,8 @@ func (accidental *Accidental) GongGetFieldValue(fieldName string, stage *Stage) 
 	case "Name":
 		res.valueString = accidental.Name
 	case "Cautionary":
-		res.valueString = accidental.Cautionary
+		enum := accidental.Cautionary
+		res.valueString = enum.ToCodeString()
 	case "Editorial":
 		enum := accidental.Editorial
 		res.valueString = enum.ToCodeString()
@@ -43681,15 +44272,18 @@ func (accidental *Accidental) GongGetFieldValue(fieldName string, stage *Stage) 
 	case "Font_family":
 		res.valueString = accidental.Font_family
 	case "Font_style":
-		res.valueString = accidental.Font_style
+		enum := accidental.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = accidental.Font_size
 	case "Font_weight":
-		res.valueString = accidental.Font_weight
+		enum := accidental.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = accidental.Color
 	case "EnclosedText":
-		res.valueString = accidental.EnclosedText
+		enum := accidental.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -43721,15 +44315,18 @@ func (accidental_mark *Accidental_mark) GongGetFieldValue(fieldName string, stag
 	case "Font_family":
 		res.valueString = accidental_mark.Font_family
 	case "Font_style":
-		res.valueString = accidental_mark.Font_style
+		enum := accidental_mark.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = accidental_mark.Font_size
 	case "Font_weight":
-		res.valueString = accidental_mark.Font_weight
+		enum := accidental_mark.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = accidental_mark.Color
 	case "Placement":
-		res.valueString = accidental_mark.Placement
+		enum := accidental_mark.Placement
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = accidental_mark.Id
 	case "EnclosedText":
@@ -43764,17 +44361,21 @@ func (accidental_text *Accidental_text) GongGetFieldValue(fieldName string, stag
 	case "Font_family":
 		res.valueString = accidental_text.Font_family
 	case "Font_style":
-		res.valueString = accidental_text.Font_style
+		enum := accidental_text.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = accidental_text.Font_size
 	case "Font_weight":
-		res.valueString = accidental_text.Font_weight
+		enum := accidental_text.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = accidental_text.Color
 	case "Halign":
-		res.valueString = accidental_text.Halign
+		enum := accidental_text.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = accidental_text.Valign
+		enum := accidental_text.Valign
+		res.valueString = enum.ToCodeString()
 	case "Underline":
 		res.valueString = fmt.Sprintf("%d", accidental_text.Underline)
 		res.valueInt = accidental_text.Underline
@@ -43794,9 +44395,11 @@ func (accidental_text *Accidental_text) GongGetFieldValue(fieldName string, stag
 	case "Line_height":
 		res.valueString = accidental_text.Line_height
 	case "Dir":
-		res.valueString = accidental_text.Dir
+		enum := accidental_text.Dir
+		res.valueString = enum.ToCodeString()
 	case "Enclosure":
-		res.valueString = accidental_text.Enclosure
+		enum := accidental_text.Enclosure
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
 		enum := accidental_text.EnclosedText
 		res.valueString = enum.ToCodeString()
@@ -43809,9 +44412,9 @@ func (accord *Accord) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	// string value of fields
 	case "Name":
 		res.valueString = accord.Name
-	case "String":
-		res.valueString = fmt.Sprintf("%d", accord.String)
-		res.valueInt = accord.String
+	case "String_XSD":
+		res.valueString = fmt.Sprintf("%d", accord.String_XSD)
+		res.valueInt = accord.String_XSD
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Tuning_step":
 		enum := accord.Tuning_step
@@ -43842,17 +44445,21 @@ func (accordion_registration *Accordion_registration) GongGetFieldValue(fieldNam
 	case "Font_family":
 		res.valueString = accordion_registration.Font_family
 	case "Font_style":
-		res.valueString = accordion_registration.Font_style
+		enum := accordion_registration.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = accordion_registration.Font_size
 	case "Font_weight":
-		res.valueString = accordion_registration.Font_weight
+		enum := accordion_registration.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = accordion_registration.Color
 	case "Halign":
-		res.valueString = accordion_registration.Halign
+		enum := accordion_registration.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = accordion_registration.Valign
+		enum := accordion_registration.Valign
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = accordion_registration.Id
 	case "Accordion_high":
@@ -43936,7 +44543,8 @@ func (arpeggiate *Arpeggiate) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.valueInt = arpeggiate.Number
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Direction":
-		res.valueString = arpeggiate.Direction
+		enum := arpeggiate.Direction
+		res.valueString = enum.ToCodeString()
 	case "Unbroken":
 		enum := arpeggiate.Unbroken
 		res.valueString = enum.ToCodeString()
@@ -43949,7 +44557,8 @@ func (arpeggiate *Arpeggiate) GongGetFieldValue(fieldName string, stage *Stage) 
 	case "Relative_y":
 		res.valueString = arpeggiate.Relative_y
 	case "Placement":
-		res.valueString = arpeggiate.Placement
+		enum := arpeggiate.Placement
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = arpeggiate.Color
 	case "Id":
@@ -43974,25 +44583,31 @@ func (arrow *Arrow) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	case "Font_family":
 		res.valueString = arrow.Font_family
 	case "Font_style":
-		res.valueString = arrow.Font_style
+		enum := arrow.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = arrow.Font_size
 	case "Font_weight":
-		res.valueString = arrow.Font_weight
+		enum := arrow.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = arrow.Color
 	case "Placement":
-		res.valueString = arrow.Placement
+		enum := arrow.Placement
+		res.valueString = enum.ToCodeString()
 	case "Smufl":
 		res.valueString = arrow.Smufl
 	case "Arrow_direction":
-		res.valueString = arrow.Arrow_direction
+		enum := arrow.Arrow_direction
+		res.valueString = enum.ToCodeString()
 	case "Arrow_style":
-		res.valueString = arrow.Arrow_style
+		enum := arrow.Arrow_style
+		res.valueString = enum.ToCodeString()
 	case "Arrowhead":
 		res.valueString = arrow.Arrowhead
 	case "Circular_arrow":
-		res.valueString = arrow.Circular_arrow
+		enum := arrow.Circular_arrow
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -44183,8 +44798,8 @@ func (assess *Assess) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	// string value of fields
 	case "Name":
 		res.valueString = assess.Name
-	case "Type":
-		enum := assess.Type
+	case "Type_XSD":
+		enum := assess.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Player":
 		res.valueString = assess.Player
@@ -44224,15 +44839,7 @@ func (attributes *Attributes) GongGetFieldValue(fieldName string, stage *Stage) 
 			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Time":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range attributes.Time {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
+		res.valueString = attributes.Time
 	case "Staves":
 		res.valueString = fmt.Sprintf("%d", attributes.Staves)
 		res.valueInt = attributes.Staves
@@ -44316,8 +44923,6 @@ func (backup *Backup) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	// string value of fields
 	case "Name":
 		res.valueString = backup.Name
-	case "Duration":
-		res.valueString = backup.Duration
 	case "Footnote":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if backup.Footnote != nil {
@@ -44342,7 +44947,8 @@ func (bar_style_color *Bar_style_color) GongGetFieldValue(fieldName string, stag
 	case "Color":
 		res.valueString = bar_style_color.Color
 	case "EnclosedText":
-		res.valueString = bar_style_color.EnclosedText
+		enum := bar_style_color.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -44353,7 +44959,8 @@ func (barline *Barline) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "Name":
 		res.valueString = barline.Name
 	case "Location":
-		res.valueString = barline.Location
+		enum := barline.Location
+		res.valueString = enum.ToCodeString()
 	case "Segno":
 		res.valueString = barline.Segno
 	case "Coda":
@@ -44425,8 +45032,9 @@ func (barre *Barre) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	// string value of fields
 	case "Name":
 		res.valueString = barre.Name
-	case "Type":
-		res.valueString = barre.Type
+	case "Type_XSD":
+		enum := barre.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = barre.Color
 	}
@@ -44439,7 +45047,8 @@ func (bass *Bass) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Name":
 		res.valueString = bass.Name
 	case "Arrangement":
-		res.valueString = bass.Arrangement
+		enum := bass.Arrangement
+		res.valueString = enum.ToCodeString()
 	case "Bass_separator":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if bass.Bass_separator != nil {
@@ -44480,15 +45089,18 @@ func (bass_step *Bass_step) GongGetFieldValue(fieldName string, stage *Stage) (r
 	case "Font_family":
 		res.valueString = bass_step.Font_family
 	case "Font_style":
-		res.valueString = bass_step.Font_style
+		enum := bass_step.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = bass_step.Font_size
 	case "Font_weight":
-		res.valueString = bass_step.Font_weight
+		enum := bass_step.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = bass_step.Color
 	case "EnclosedText":
-		res.valueString = bass_step.EnclosedText
+		enum := bass_step.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -44506,13 +45118,15 @@ func (beam *Beam) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		enum := beam.Repeater
 		res.valueString = enum.ToCodeString()
 	case "Fan":
-		res.valueString = beam.Fan
+		enum := beam.Fan
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = beam.Color
 	case "Id":
 		res.valueString = beam.Id
 	case "EnclosedText":
-		res.valueString = beam.EnclosedText
+		enum := beam.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -44522,8 +45136,8 @@ func (beat_repeat *Beat_repeat) GongGetFieldValue(fieldName string, stage *Stage
 	// string value of fields
 	case "Name":
 		res.valueString = beat_repeat.Name
-	case "Type":
-		enum := beat_repeat.Type
+	case "Type_XSD":
+		enum := beat_repeat.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Slashes":
 		res.valueString = fmt.Sprintf("%d", beat_repeat.Slashes)
@@ -44563,9 +45177,11 @@ func (beater *Beater) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	case "Name":
 		res.valueString = beater.Name
 	case "Tip":
-		res.valueString = beater.Tip
+		enum := beater.Tip
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
-		res.valueString = beater.EnclosedText
+		enum := beater.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -44576,7 +45192,8 @@ func (bend *Bend) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Name":
 		res.valueString = bend.Name
 	case "Shape":
-		res.valueString = bend.Shape
+		enum := bend.Shape
+		res.valueString = enum.ToCodeString()
 	case "Default_x":
 		res.valueString = bend.Default_x
 	case "Default_y":
@@ -44588,11 +45205,13 @@ func (bend *Bend) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Font_family":
 		res.valueString = bend.Font_family
 	case "Font_style":
-		res.valueString = bend.Font_style
+		enum := bend.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = bend.Font_size
 	case "Font_weight":
-		res.valueString = bend.Font_weight
+		enum := bend.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = bend.Color
 	case "Accelerate":
@@ -44648,18 +45267,21 @@ func (bracket *Bracket) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = bracket.Name
-	case "Type":
-		res.valueString = bracket.Type
+	case "Type_XSD":
+		enum := bracket.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = fmt.Sprintf("%d", bracket.Number)
 		res.valueInt = bracket.Number
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Line_end":
-		res.valueString = bracket.Line_end
+		enum := bracket.Line_end
+		res.valueString = enum.ToCodeString()
 	case "End_length":
 		res.valueString = bracket.End_length
 	case "Line_type":
-		res.valueString = bracket.Line_type
+		enum := bracket.Line_type
+		res.valueString = enum.ToCodeString()
 	case "Dash_length":
 		res.valueString = bracket.Dash_length
 	case "Space_length":
@@ -44696,17 +45318,21 @@ func (breath_mark *Breath_mark) GongGetFieldValue(fieldName string, stage *Stage
 	case "Font_family":
 		res.valueString = breath_mark.Font_family
 	case "Font_style":
-		res.valueString = breath_mark.Font_style
+		enum := breath_mark.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = breath_mark.Font_size
 	case "Font_weight":
-		res.valueString = breath_mark.Font_weight
+		enum := breath_mark.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = breath_mark.Color
 	case "Placement":
-		res.valueString = breath_mark.Placement
+		enum := breath_mark.Placement
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
-		res.valueString = breath_mark.EnclosedText
+		enum := breath_mark.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -44727,17 +45353,21 @@ func (caesura *Caesura) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "Font_family":
 		res.valueString = caesura.Font_family
 	case "Font_style":
-		res.valueString = caesura.Font_style
+		enum := caesura.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = caesura.Font_size
 	case "Font_weight":
-		res.valueString = caesura.Font_weight
+		enum := caesura.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = caesura.Color
 	case "Placement":
-		res.valueString = caesura.Placement
+		enum := caesura.Placement
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
-		res.valueString = caesura.EnclosedText
+		enum := caesura.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -44748,7 +45378,8 @@ func (cancel *Cancel) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	case "Name":
 		res.valueString = cancel.Name
 	case "Location":
-		res.valueString = cancel.Location
+		enum := cancel.Location
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
 		res.valueString = fmt.Sprintf("%d", cancel.EnclosedText)
 		res.valueInt = cancel.EnclosedText
@@ -44770,7 +45401,8 @@ func (clef *Clef) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		enum := clef.Additional
 		res.valueString = enum.ToCodeString()
 	case "Size":
-		res.valueString = clef.Size
+		enum := clef.Size
+		res.valueString = enum.ToCodeString()
 	case "After_barline":
 		enum := clef.After_barline
 		res.valueString = enum.ToCodeString()
@@ -44785,11 +45417,13 @@ func (clef *Clef) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Font_family":
 		res.valueString = clef.Font_family
 	case "Font_style":
-		res.valueString = clef.Font_style
+		enum := clef.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = clef.Font_size
 	case "Font_weight":
-		res.valueString = clef.Font_weight
+		enum := clef.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = clef.Color
 	case "Print_object":
@@ -44798,7 +45432,8 @@ func (clef *Clef) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Id":
 		res.valueString = clef.Id
 	case "Sign":
-		res.valueString = clef.Sign
+		enum := clef.Sign
+		res.valueString = enum.ToCodeString()
 	case "Line":
 		res.valueString = fmt.Sprintf("%d", clef.Line)
 		res.valueInt = clef.Line
@@ -44829,17 +45464,21 @@ func (coda *Coda) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Font_family":
 		res.valueString = coda.Font_family
 	case "Font_style":
-		res.valueString = coda.Font_style
+		enum := coda.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = coda.Font_size
 	case "Font_weight":
-		res.valueString = coda.Font_weight
+		enum := coda.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = coda.Color
 	case "Halign":
-		res.valueString = coda.Halign
+		enum := coda.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = coda.Valign
+		enum := coda.Valign
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = coda.Id
 	}
@@ -44859,12 +45498,6 @@ func (credit *Credit) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.valueString = credit.Id
 	case "Credit_type":
 		res.valueString = credit.Credit_type
-	case "Credit_image":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if credit.Credit_image != nil {
-			res.valueString = credit.Credit_image.Name
-			res.ids = credit.Credit_image.GongGetUUID(stage)
-		}
 	case "Link":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range credit.Link {
@@ -44885,25 +45518,23 @@ func (credit *Credit) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "Credit_image":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if credit.Credit_image != nil {
+			res.valueString = credit.Credit_image.Name
+			res.ids = credit.Credit_image.GongGetUUID(stage)
+		}
 	case "Credit_words":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range credit.Credit_words {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if credit.Credit_words != nil {
+			res.valueString = credit.Credit_words.Name
+			res.ids = credit.Credit_words.GongGetUUID(stage)
 		}
 	case "Credit_symbol":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range credit.Credit_symbol {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if credit.Credit_symbol != nil {
+			res.valueString = credit.Credit_symbol.Name
+			res.ids = credit.Credit_symbol.GongGetUUID(stage)
 		}
 	}
 	return
@@ -44914,8 +45545,8 @@ func (dashes *Dashes) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	// string value of fields
 	case "Name":
 		res.valueString = dashes.Name
-	case "Type":
-		enum := dashes.Type
+	case "Type_XSD":
+		enum := dashes.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = fmt.Sprintf("%d", dashes.Number)
@@ -45067,11 +45698,13 @@ func (degree_alter *Degree_alter) GongGetFieldValue(fieldName string, stage *Sta
 	case "Font_family":
 		res.valueString = degree_alter.Font_family
 	case "Font_style":
-		res.valueString = degree_alter.Font_style
+		enum := degree_alter.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = degree_alter.Font_size
 	case "Font_weight":
-		res.valueString = degree_alter.Font_weight
+		enum := degree_alter.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = degree_alter.Color
 	case "EnclosedText":
@@ -45098,15 +45731,18 @@ func (degree_type *Degree_type) GongGetFieldValue(fieldName string, stage *Stage
 	case "Font_family":
 		res.valueString = degree_type.Font_family
 	case "Font_style":
-		res.valueString = degree_type.Font_style
+		enum := degree_type.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = degree_type.Font_size
 	case "Font_weight":
-		res.valueString = degree_type.Font_weight
+		enum := degree_type.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = degree_type.Color
 	case "EnclosedText":
-		res.valueString = degree_type.EnclosedText
+		enum := degree_type.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -45117,7 +45753,8 @@ func (degree_value *Degree_value) GongGetFieldValue(fieldName string, stage *Sta
 	case "Name":
 		res.valueString = degree_value.Name
 	case "Symbol":
-		res.valueString = degree_value.Symbol
+		enum := degree_value.Symbol
+		res.valueString = enum.ToCodeString()
 	case "Text":
 		res.valueString = degree_value.Text
 	case "Default_x":
@@ -45131,11 +45768,13 @@ func (degree_value *Degree_value) GongGetFieldValue(fieldName string, stage *Sta
 	case "Font_family":
 		res.valueString = degree_value.Font_family
 	case "Font_style":
-		res.valueString = degree_value.Font_style
+		enum := degree_value.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = degree_value.Font_size
 	case "Font_weight":
-		res.valueString = degree_value.Font_weight
+		enum := degree_value.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = degree_value.Color
 	case "EnclosedText":
@@ -45152,13 +45791,13 @@ func (direction *Direction) GongGetFieldValue(fieldName string, stage *Stage) (r
 	case "Name":
 		res.valueString = direction.Name
 	case "Placement":
-		res.valueString = direction.Placement
+		enum := direction.Placement
+		res.valueString = enum.ToCodeString()
 	case "Directive":
 		enum := direction.Directive
 		res.valueString = enum.ToCodeString()
 	case "System":
-		enum := direction.System
-		res.valueString = enum.ToCodeString()
+		res.valueString = direction.System
 	case "Id":
 		res.valueString = direction.Id
 	case "Direction_type":
@@ -45399,8 +46038,8 @@ func (distance *Distance) GongGetFieldValue(fieldName string, stage *Stage) (res
 	// string value of fields
 	case "Name":
 		res.valueString = distance.Name
-	case "Type":
-		res.valueString = distance.Type
+	case "Type_XSD":
+		res.valueString = distance.Type_XSD
 	case "EnclosedText":
 		res.valueString = distance.EnclosedText
 	}
@@ -45435,19 +46074,24 @@ func (dynamics *Dynamics) GongGetFieldValue(fieldName string, stage *Stage) (res
 	case "Font_family":
 		res.valueString = dynamics.Font_family
 	case "Font_style":
-		res.valueString = dynamics.Font_style
+		enum := dynamics.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = dynamics.Font_size
 	case "Font_weight":
-		res.valueString = dynamics.Font_weight
+		enum := dynamics.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = dynamics.Color
 	case "Halign":
-		res.valueString = dynamics.Halign
+		enum := dynamics.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = dynamics.Valign
+		enum := dynamics.Valign
+		res.valueString = enum.ToCodeString()
 	case "Placement":
-		res.valueString = dynamics.Placement
+		enum := dynamics.Placement
+		res.valueString = enum.ToCodeString()
 	case "Underline":
 		res.valueString = fmt.Sprintf("%d", dynamics.Underline)
 		res.valueInt = dynamics.Underline
@@ -45461,7 +46105,8 @@ func (dynamics *Dynamics) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueInt = dynamics.Line_through
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Enclosure":
-		res.valueString = dynamics.Enclosure
+		enum := dynamics.Enclosure
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = dynamics.Id
 	case "P":
@@ -45538,7 +46183,8 @@ func (effect *Effect) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	case "Smufl":
 		res.valueString = effect.Smufl
 	case "EnclosedText":
-		res.valueString = effect.EnclosedText
+		enum := effect.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -45553,11 +46199,13 @@ func (elision *Elision) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "Font_family":
 		res.valueString = elision.Font_family
 	case "Font_style":
-		res.valueString = elision.Font_style
+		enum := elision.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = elision.Font_size
 	case "Font_weight":
-		res.valueString = elision.Font_weight
+		enum := elision.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = elision.Color
 	case "EnclosedText":
@@ -45583,11 +46231,13 @@ func (empty_font *Empty_font) GongGetFieldValue(fieldName string, stage *Stage) 
 	case "Font_family":
 		res.valueString = empty_font.Font_family
 	case "Font_style":
-		res.valueString = empty_font.Font_style
+		enum := empty_font.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = empty_font.Font_size
 	case "Font_weight":
-		res.valueString = empty_font.Font_weight
+		enum := empty_font.Font_weight
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -45598,11 +46248,14 @@ func (empty_line *Empty_line) GongGetFieldValue(fieldName string, stage *Stage) 
 	case "Name":
 		res.valueString = empty_line.Name
 	case "Line_shape":
-		res.valueString = empty_line.Line_shape
+		enum := empty_line.Line_shape
+		res.valueString = enum.ToCodeString()
 	case "Line_type":
-		res.valueString = empty_line.Line_type
+		enum := empty_line.Line_type
+		res.valueString = enum.ToCodeString()
 	case "Line_length":
-		res.valueString = empty_line.Line_length
+		enum := empty_line.Line_length
+		res.valueString = enum.ToCodeString()
 	case "Dash_length":
 		res.valueString = empty_line.Dash_length
 	case "Space_length":
@@ -45618,15 +46271,18 @@ func (empty_line *Empty_line) GongGetFieldValue(fieldName string, stage *Stage) 
 	case "Font_family":
 		res.valueString = empty_line.Font_family
 	case "Font_style":
-		res.valueString = empty_line.Font_style
+		enum := empty_line.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = empty_line.Font_size
 	case "Font_weight":
-		res.valueString = empty_line.Font_weight
+		enum := empty_line.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = empty_line.Color
 	case "Placement":
-		res.valueString = empty_line.Placement
+		enum := empty_line.Placement
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -45647,15 +46303,18 @@ func (empty_placement *Empty_placement) GongGetFieldValue(fieldName string, stag
 	case "Font_family":
 		res.valueString = empty_placement.Font_family
 	case "Font_style":
-		res.valueString = empty_placement.Font_style
+		enum := empty_placement.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = empty_placement.Font_size
 	case "Font_weight":
-		res.valueString = empty_placement.Font_weight
+		enum := empty_placement.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = empty_placement.Color
 	case "Placement":
-		res.valueString = empty_placement.Placement
+		enum := empty_placement.Placement
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -45676,15 +46335,18 @@ func (empty_placement_smufl *Empty_placement_smufl) GongGetFieldValue(fieldName 
 	case "Font_family":
 		res.valueString = empty_placement_smufl.Font_family
 	case "Font_style":
-		res.valueString = empty_placement_smufl.Font_style
+		enum := empty_placement_smufl.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = empty_placement_smufl.Font_size
 	case "Font_weight":
-		res.valueString = empty_placement_smufl.Font_weight
+		enum := empty_placement_smufl.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = empty_placement_smufl.Color
 	case "Placement":
-		res.valueString = empty_placement_smufl.Placement
+		enum := empty_placement_smufl.Placement
+		res.valueString = enum.ToCodeString()
 	case "Smufl":
 		res.valueString = empty_placement_smufl.Smufl
 	}
@@ -45710,17 +46372,21 @@ func (empty_print_object_style_align *Empty_print_object_style_align) GongGetFie
 	case "Font_family":
 		res.valueString = empty_print_object_style_align.Font_family
 	case "Font_style":
-		res.valueString = empty_print_object_style_align.Font_style
+		enum := empty_print_object_style_align.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = empty_print_object_style_align.Font_size
 	case "Font_weight":
-		res.valueString = empty_print_object_style_align.Font_weight
+		enum := empty_print_object_style_align.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = empty_print_object_style_align.Color
 	case "Halign":
-		res.valueString = empty_print_object_style_align.Halign
+		enum := empty_print_object_style_align.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = empty_print_object_style_align.Valign
+		enum := empty_print_object_style_align.Valign
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -45741,11 +46407,13 @@ func (empty_print_style *Empty_print_style) GongGetFieldValue(fieldName string, 
 	case "Font_family":
 		res.valueString = empty_print_style.Font_family
 	case "Font_style":
-		res.valueString = empty_print_style.Font_style
+		enum := empty_print_style.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = empty_print_style.Font_size
 	case "Font_weight":
-		res.valueString = empty_print_style.Font_weight
+		enum := empty_print_style.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = empty_print_style.Color
 	}
@@ -45768,17 +46436,21 @@ func (empty_print_style_align *Empty_print_style_align) GongGetFieldValue(fieldN
 	case "Font_family":
 		res.valueString = empty_print_style_align.Font_family
 	case "Font_style":
-		res.valueString = empty_print_style_align.Font_style
+		enum := empty_print_style_align.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = empty_print_style_align.Font_size
 	case "Font_weight":
-		res.valueString = empty_print_style_align.Font_weight
+		enum := empty_print_style_align.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = empty_print_style_align.Color
 	case "Halign":
-		res.valueString = empty_print_style_align.Halign
+		enum := empty_print_style_align.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = empty_print_style_align.Valign
+		enum := empty_print_style_align.Valign
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -45799,17 +46471,21 @@ func (empty_print_style_align_id *Empty_print_style_align_id) GongGetFieldValue(
 	case "Font_family":
 		res.valueString = empty_print_style_align_id.Font_family
 	case "Font_style":
-		res.valueString = empty_print_style_align_id.Font_style
+		enum := empty_print_style_align_id.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = empty_print_style_align_id.Font_size
 	case "Font_weight":
-		res.valueString = empty_print_style_align_id.Font_weight
+		enum := empty_print_style_align_id.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = empty_print_style_align_id.Color
 	case "Halign":
-		res.valueString = empty_print_style_align_id.Halign
+		enum := empty_print_style_align_id.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = empty_print_style_align_id.Valign
+		enum := empty_print_style_align_id.Valign
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = empty_print_style_align_id.Id
 	}
@@ -45832,21 +46508,27 @@ func (empty_trill_sound *Empty_trill_sound) GongGetFieldValue(fieldName string, 
 	case "Font_family":
 		res.valueString = empty_trill_sound.Font_family
 	case "Font_style":
-		res.valueString = empty_trill_sound.Font_style
+		enum := empty_trill_sound.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = empty_trill_sound.Font_size
 	case "Font_weight":
-		res.valueString = empty_trill_sound.Font_weight
+		enum := empty_trill_sound.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = empty_trill_sound.Color
 	case "Placement":
-		res.valueString = empty_trill_sound.Placement
+		enum := empty_trill_sound.Placement
+		res.valueString = enum.ToCodeString()
 	case "Start_note":
-		res.valueString = empty_trill_sound.Start_note
+		enum := empty_trill_sound.Start_note
+		res.valueString = enum.ToCodeString()
 	case "Trill_step":
-		res.valueString = empty_trill_sound.Trill_step
+		enum := empty_trill_sound.Trill_step
+		res.valueString = enum.ToCodeString()
 	case "Two_note_turn":
-		res.valueString = empty_trill_sound.Two_note_turn
+		enum := empty_trill_sound.Two_note_turn
+		res.valueString = enum.ToCodeString()
 	case "Accelerate":
 		enum := empty_trill_sound.Accelerate
 		res.valueString = enum.ToCodeString()
@@ -45865,6 +46547,8 @@ func (encoding *Encoding) GongGetFieldValue(fieldName string, stage *Stage) (res
 	// string value of fields
 	case "Name":
 		res.valueString = encoding.Name
+	case "Encoding_date":
+		res.valueString = encoding.Encoding_date
 	case "Encoder":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range encoding.Encoder {
@@ -45900,8 +46584,9 @@ func (ending *Ending) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.valueString = ending.Name
 	case "Number":
 		res.valueString = ending.Number
-	case "Type":
-		res.valueString = ending.Type
+	case "Type_XSD":
+		enum := ending.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "End_length":
 		res.valueString = ending.End_length
 	case "Text_x":
@@ -45922,16 +46607,17 @@ func (ending *Ending) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	case "Font_family":
 		res.valueString = ending.Font_family
 	case "Font_style":
-		res.valueString = ending.Font_style
+		enum := ending.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = ending.Font_size
 	case "Font_weight":
-		res.valueString = ending.Font_weight
+		enum := ending.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = ending.Color
 	case "System":
-		enum := ending.System
-		res.valueString = enum.ToCodeString()
+		res.valueString = ending.System
 	case "EnclosedText":
 		res.valueString = ending.EnclosedText
 	}
@@ -45943,8 +46629,8 @@ func (extend *Extend) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	// string value of fields
 	case "Name":
 		res.valueString = extend.Name
-	case "Type":
-		enum := extend.Type
+	case "Type_XSD":
+		enum := extend.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Default_x":
 		res.valueString = extend.Default_x
@@ -45965,8 +46651,8 @@ func (feature *Feature) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = feature.Name
-	case "Type":
-		res.valueString = feature.Type
+	case "Type_XSD":
+		res.valueString = feature.Type_XSD
 	case "EnclosedText":
 		res.valueString = feature.EnclosedText
 	}
@@ -45978,8 +46664,9 @@ func (fermata *Fermata) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = fermata.Name
-	case "Type":
-		res.valueString = fermata.Type
+	case "Type_XSD":
+		enum := fermata.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Default_x":
 		res.valueString = fermata.Default_x
 	case "Default_y":
@@ -45991,17 +46678,20 @@ func (fermata *Fermata) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "Font_family":
 		res.valueString = fermata.Font_family
 	case "Font_style":
-		res.valueString = fermata.Font_style
+		enum := fermata.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = fermata.Font_size
 	case "Font_weight":
-		res.valueString = fermata.Font_weight
+		enum := fermata.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = fermata.Color
 	case "Id":
 		res.valueString = fermata.Id
 	case "EnclosedText":
-		res.valueString = fermata.EnclosedText
+		enum := fermata.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -46070,19 +46760,24 @@ func (figured_bass *Figured_bass) GongGetFieldValue(fieldName string, stage *Sta
 	case "Font_family":
 		res.valueString = figured_bass.Font_family
 	case "Font_style":
-		res.valueString = figured_bass.Font_style
+		enum := figured_bass.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = figured_bass.Font_size
 	case "Font_weight":
-		res.valueString = figured_bass.Font_weight
+		enum := figured_bass.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = figured_bass.Color
 	case "Halign":
-		res.valueString = figured_bass.Halign
+		enum := figured_bass.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = figured_bass.Valign
+		enum := figured_bass.Valign
+		res.valueString = enum.ToCodeString()
 	case "Placement":
-		res.valueString = figured_bass.Placement
+		enum := figured_bass.Placement
+		res.valueString = enum.ToCodeString()
 	case "Print_dot":
 		enum := figured_bass.Print_dot
 		res.valueString = enum.ToCodeString()
@@ -46107,8 +46802,6 @@ func (figured_bass *Figured_bass) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "Duration":
-		res.valueString = figured_bass.Duration
 	case "Footnote":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if figured_bass.Footnote != nil {
@@ -46147,15 +46840,18 @@ func (fingering *Fingering) GongGetFieldValue(fieldName string, stage *Stage) (r
 	case "Font_family":
 		res.valueString = fingering.Font_family
 	case "Font_style":
-		res.valueString = fingering.Font_style
+		enum := fingering.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = fingering.Font_size
 	case "Font_weight":
-		res.valueString = fingering.Font_weight
+		enum := fingering.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = fingering.Color
 	case "Placement":
-		res.valueString = fingering.Placement
+		enum := fingering.Placement
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
 		res.valueString = fingering.EnclosedText
 	}
@@ -46170,7 +46866,8 @@ func (first_fret *First_fret) GongGetFieldValue(fieldName string, stage *Stage) 
 	case "Text":
 		res.valueString = first_fret.Text
 	case "Location":
-		res.valueString = first_fret.Location
+		enum := first_fret.Location
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
 		res.valueString = fmt.Sprintf("%d", first_fret.EnclosedText)
 		res.valueInt = first_fret.EnclosedText
@@ -46225,17 +46922,21 @@ func (formatted_symbol *Formatted_symbol) GongGetFieldValue(fieldName string, st
 	case "Font_family":
 		res.valueString = formatted_symbol.Font_family
 	case "Font_style":
-		res.valueString = formatted_symbol.Font_style
+		enum := formatted_symbol.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = formatted_symbol.Font_size
 	case "Font_weight":
-		res.valueString = formatted_symbol.Font_weight
+		enum := formatted_symbol.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = formatted_symbol.Color
 	case "Halign":
-		res.valueString = formatted_symbol.Halign
+		enum := formatted_symbol.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = formatted_symbol.Valign
+		enum := formatted_symbol.Valign
+		res.valueString = enum.ToCodeString()
 	case "Underline":
 		res.valueString = fmt.Sprintf("%d", formatted_symbol.Underline)
 		res.valueInt = formatted_symbol.Underline
@@ -46255,9 +46956,11 @@ func (formatted_symbol *Formatted_symbol) GongGetFieldValue(fieldName string, st
 	case "Line_height":
 		res.valueString = formatted_symbol.Line_height
 	case "Dir":
-		res.valueString = formatted_symbol.Dir
+		enum := formatted_symbol.Dir
+		res.valueString = enum.ToCodeString()
 	case "Enclosure":
-		res.valueString = formatted_symbol.Enclosure
+		enum := formatted_symbol.Enclosure
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
 		res.valueString = formatted_symbol.EnclosedText
 	}
@@ -46283,17 +46986,21 @@ func (formatted_symbol_id *Formatted_symbol_id) GongGetFieldValue(fieldName stri
 	case "Font_family":
 		res.valueString = formatted_symbol_id.Font_family
 	case "Font_style":
-		res.valueString = formatted_symbol_id.Font_style
+		enum := formatted_symbol_id.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = formatted_symbol_id.Font_size
 	case "Font_weight":
-		res.valueString = formatted_symbol_id.Font_weight
+		enum := formatted_symbol_id.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = formatted_symbol_id.Color
 	case "Halign":
-		res.valueString = formatted_symbol_id.Halign
+		enum := formatted_symbol_id.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = formatted_symbol_id.Valign
+		enum := formatted_symbol_id.Valign
+		res.valueString = enum.ToCodeString()
 	case "Underline":
 		res.valueString = fmt.Sprintf("%d", formatted_symbol_id.Underline)
 		res.valueInt = formatted_symbol_id.Underline
@@ -46313,9 +47020,11 @@ func (formatted_symbol_id *Formatted_symbol_id) GongGetFieldValue(fieldName stri
 	case "Line_height":
 		res.valueString = formatted_symbol_id.Line_height
 	case "Dir":
-		res.valueString = formatted_symbol_id.Dir
+		enum := formatted_symbol_id.Dir
+		res.valueString = enum.ToCodeString()
 	case "Enclosure":
-		res.valueString = formatted_symbol_id.Enclosure
+		enum := formatted_symbol_id.Enclosure
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = formatted_symbol_id.Id
 	case "EnclosedText":
@@ -46347,17 +47056,21 @@ func (formatted_text *Formatted_text) GongGetFieldValue(fieldName string, stage 
 	case "Font_family":
 		res.valueString = formatted_text.Font_family
 	case "Font_style":
-		res.valueString = formatted_text.Font_style
+		enum := formatted_text.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = formatted_text.Font_size
 	case "Font_weight":
-		res.valueString = formatted_text.Font_weight
+		enum := formatted_text.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = formatted_text.Color
 	case "Halign":
-		res.valueString = formatted_text.Halign
+		enum := formatted_text.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = formatted_text.Valign
+		enum := formatted_text.Valign
+		res.valueString = enum.ToCodeString()
 	case "Underline":
 		res.valueString = fmt.Sprintf("%d", formatted_text.Underline)
 		res.valueInt = formatted_text.Underline
@@ -46377,9 +47090,11 @@ func (formatted_text *Formatted_text) GongGetFieldValue(fieldName string, stage 
 	case "Line_height":
 		res.valueString = formatted_text.Line_height
 	case "Dir":
-		res.valueString = formatted_text.Dir
+		enum := formatted_text.Dir
+		res.valueString = enum.ToCodeString()
 	case "Enclosure":
-		res.valueString = formatted_text.Enclosure
+		enum := formatted_text.Enclosure
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
 		res.valueString = formatted_text.EnclosedText
 	}
@@ -46409,17 +47124,21 @@ func (formatted_text_id *Formatted_text_id) GongGetFieldValue(fieldName string, 
 	case "Font_family":
 		res.valueString = formatted_text_id.Font_family
 	case "Font_style":
-		res.valueString = formatted_text_id.Font_style
+		enum := formatted_text_id.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = formatted_text_id.Font_size
 	case "Font_weight":
-		res.valueString = formatted_text_id.Font_weight
+		enum := formatted_text_id.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = formatted_text_id.Color
 	case "Halign":
-		res.valueString = formatted_text_id.Halign
+		enum := formatted_text_id.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = formatted_text_id.Valign
+		enum := formatted_text_id.Valign
+		res.valueString = enum.ToCodeString()
 	case "Underline":
 		res.valueString = fmt.Sprintf("%d", formatted_text_id.Underline)
 		res.valueInt = formatted_text_id.Underline
@@ -46439,9 +47158,11 @@ func (formatted_text_id *Formatted_text_id) GongGetFieldValue(fieldName string, 
 	case "Line_height":
 		res.valueString = formatted_text_id.Line_height
 	case "Dir":
-		res.valueString = formatted_text_id.Dir
+		enum := formatted_text_id.Dir
+		res.valueString = enum.ToCodeString()
 	case "Enclosure":
-		res.valueString = formatted_text_id.Enclosure
+		enum := formatted_text_id.Enclosure
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = formatted_text_id.Id
 	case "EnclosedText":
@@ -46455,8 +47176,6 @@ func (forward *Forward) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = forward.Name
-	case "Duration":
-		res.valueString = forward.Duration
 	case "Footnote":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if forward.Footnote != nil {
@@ -46501,9 +47220,11 @@ func (frame *Frame) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	case "Color":
 		res.valueString = frame.Color
 	case "Halign":
-		res.valueString = frame.Halign
+		enum := frame.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = frame.Valign
+		enum := frame.Valign
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = frame.Id
 	case "Frame_strings":
@@ -46539,11 +47260,11 @@ func (frame_note *Frame_note) GongGetFieldValue(fieldName string, stage *Stage) 
 	// string value of fields
 	case "Name":
 		res.valueString = frame_note.Name
-	case "String":
+	case "String_XSD":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if frame_note.String != nil {
-			res.valueString = frame_note.String.Name
-			res.ids = frame_note.String.GongGetUUID(stage)
+		if frame_note.String_XSD != nil {
+			res.valueString = frame_note.String_XSD.Name
+			res.ids = frame_note.String_XSD.GongGetUUID(stage)
 		}
 	case "Fret":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -46575,11 +47296,13 @@ func (fret *Fret) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Font_family":
 		res.valueString = fret.Font_family
 	case "Font_style":
-		res.valueString = fret.Font_style
+		enum := fret.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = fret.Font_size
 	case "Font_weight":
-		res.valueString = fret.Font_weight
+		enum := fret.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = fret.Color
 	case "EnclosedText":
@@ -46598,7 +47321,8 @@ func (glass *Glass) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	case "Smufl":
 		res.valueString = glass.Smufl
 	case "EnclosedText":
-		res.valueString = glass.EnclosedText
+		enum := glass.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -46608,15 +47332,16 @@ func (glissando *Glissando) GongGetFieldValue(fieldName string, stage *Stage) (r
 	// string value of fields
 	case "Name":
 		res.valueString = glissando.Name
-	case "Type":
-		enum := glissando.Type
+	case "Type_XSD":
+		enum := glissando.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = fmt.Sprintf("%d", glissando.Number)
 		res.valueInt = glissando.Number
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Line_type":
-		res.valueString = glissando.Line_type
+		enum := glissando.Line_type
+		res.valueString = enum.ToCodeString()
 	case "Dash_length":
 		res.valueString = glissando.Dash_length
 	case "Space_length":
@@ -46632,11 +47357,13 @@ func (glissando *Glissando) GongGetFieldValue(fieldName string, stage *Stage) (r
 	case "Font_family":
 		res.valueString = glissando.Font_family
 	case "Font_style":
-		res.valueString = glissando.Font_style
+		enum := glissando.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = glissando.Font_size
 	case "Font_weight":
-		res.valueString = glissando.Font_weight
+		enum := glissando.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = glissando.Color
 	case "Id":
@@ -46652,8 +47379,8 @@ func (glyph *Glyph) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	// string value of fields
 	case "Name":
 		res.valueString = glyph.Name
-	case "Type":
-		res.valueString = glyph.Type
+	case "Type_XSD":
+		res.valueString = glyph.Type_XSD
 	case "EnclosedText":
 		res.valueString = glyph.EnclosedText
 	}
@@ -46686,7 +47413,8 @@ func (group_barline *Group_barline) GongGetFieldValue(fieldName string, stage *S
 	case "Color":
 		res.valueString = group_barline.Color
 	case "EnclosedText":
-		res.valueString = group_barline.EnclosedText
+		enum := group_barline.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -46707,11 +47435,13 @@ func (group_name *Group_name) GongGetFieldValue(fieldName string, stage *Stage) 
 	case "Font_family":
 		res.valueString = group_name.Font_family
 	case "Font_style":
-		res.valueString = group_name.Font_style
+		enum := group_name.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = group_name.Font_size
 	case "Font_weight":
-		res.valueString = group_name.Font_weight
+		enum := group_name.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = group_name.Color
 	case "Justify":
@@ -46739,7 +47469,8 @@ func (group_symbol *Group_symbol) GongGetFieldValue(fieldName string, stage *Sta
 	case "Color":
 		res.valueString = group_symbol.Color
 	case "EnclosedText":
-		res.valueString = group_symbol.EnclosedText
+		enum := group_symbol.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -46749,8 +47480,9 @@ func (grouping *Grouping) GongGetFieldValue(fieldName string, stage *Stage) (res
 	// string value of fields
 	case "Name":
 		res.valueString = grouping.Name
-	case "Type":
-		res.valueString = grouping.Type
+	case "Type_XSD":
+		enum := grouping.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = grouping.Number
 	case "Member_of":
@@ -46776,8 +47508,8 @@ func (hammer_on_pull_off *Hammer_on_pull_off) GongGetFieldValue(fieldName string
 	// string value of fields
 	case "Name":
 		res.valueString = hammer_on_pull_off.Name
-	case "Type":
-		enum := hammer_on_pull_off.Type
+	case "Type_XSD":
+		enum := hammer_on_pull_off.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = fmt.Sprintf("%d", hammer_on_pull_off.Number)
@@ -46794,15 +47526,18 @@ func (hammer_on_pull_off *Hammer_on_pull_off) GongGetFieldValue(fieldName string
 	case "Font_family":
 		res.valueString = hammer_on_pull_off.Font_family
 	case "Font_style":
-		res.valueString = hammer_on_pull_off.Font_style
+		enum := hammer_on_pull_off.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = hammer_on_pull_off.Font_size
 	case "Font_weight":
-		res.valueString = hammer_on_pull_off.Font_weight
+		enum := hammer_on_pull_off.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = hammer_on_pull_off.Color
 	case "Placement":
-		res.valueString = hammer_on_pull_off.Placement
+		enum := hammer_on_pull_off.Placement
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
 		res.valueString = hammer_on_pull_off.EnclosedText
 	}
@@ -46825,17 +47560,21 @@ func (handbell *Handbell) GongGetFieldValue(fieldName string, stage *Stage) (res
 	case "Font_family":
 		res.valueString = handbell.Font_family
 	case "Font_style":
-		res.valueString = handbell.Font_style
+		enum := handbell.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = handbell.Font_size
 	case "Font_weight":
-		res.valueString = handbell.Font_weight
+		enum := handbell.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = handbell.Color
 	case "Placement":
-		res.valueString = handbell.Placement
+		enum := handbell.Placement
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
-		res.valueString = handbell.EnclosedText
+		enum := handbell.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -46846,9 +47585,11 @@ func (harmon_closed *Harmon_closed) GongGetFieldValue(fieldName string, stage *S
 	case "Name":
 		res.valueString = harmon_closed.Name
 	case "Location":
-		res.valueString = harmon_closed.Location
+		enum := harmon_closed.Location
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
-		res.valueString = harmon_closed.EnclosedText
+		enum := harmon_closed.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -46869,15 +47610,18 @@ func (harmon_mute *Harmon_mute) GongGetFieldValue(fieldName string, stage *Stage
 	case "Font_family":
 		res.valueString = harmon_mute.Font_family
 	case "Font_style":
-		res.valueString = harmon_mute.Font_style
+		enum := harmon_mute.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = harmon_mute.Font_size
 	case "Font_weight":
-		res.valueString = harmon_mute.Font_weight
+		enum := harmon_mute.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = harmon_mute.Color
 	case "Placement":
-		res.valueString = harmon_mute.Placement
+		enum := harmon_mute.Placement
+		res.valueString = enum.ToCodeString()
 	case "Harmon_closed":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if harmon_mute.Harmon_closed != nil {
@@ -46907,15 +47651,18 @@ func (harmonic *Harmonic) GongGetFieldValue(fieldName string, stage *Stage) (res
 	case "Font_family":
 		res.valueString = harmonic.Font_family
 	case "Font_style":
-		res.valueString = harmonic.Font_style
+		enum := harmonic.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = harmonic.Font_size
 	case "Font_weight":
-		res.valueString = harmonic.Font_weight
+		enum := harmonic.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = harmonic.Color
 	case "Placement":
-		res.valueString = harmonic.Placement
+		enum := harmonic.Placement
+		res.valueString = enum.ToCodeString()
 	case "Natural":
 		res.valueString = harmonic.Natural
 	case "Artificial":
@@ -46935,8 +47682,9 @@ func (harmony *Harmony) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = harmony.Name
-	case "Type":
-		res.valueString = harmony.Type
+	case "Type_XSD":
+		enum := harmony.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Print_frame":
 		enum := harmony.Print_frame
 		res.valueString = enum.ToCodeString()
@@ -46957,18 +47705,20 @@ func (harmony *Harmony) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "Font_family":
 		res.valueString = harmony.Font_family
 	case "Font_style":
-		res.valueString = harmony.Font_style
+		enum := harmony.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = harmony.Font_size
 	case "Font_weight":
-		res.valueString = harmony.Font_weight
+		enum := harmony.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = harmony.Color
 	case "Placement":
-		res.valueString = harmony.Placement
-	case "System":
-		enum := harmony.System
+		enum := harmony.Placement
 		res.valueString = enum.ToCodeString()
+	case "System":
+		res.valueString = harmony.System
 	case "Id":
 		res.valueString = harmony.Id
 	case "Root":
@@ -47071,11 +47821,13 @@ func (harmony_alter *Harmony_alter) GongGetFieldValue(fieldName string, stage *S
 	case "Font_family":
 		res.valueString = harmony_alter.Font_family
 	case "Font_style":
-		res.valueString = harmony_alter.Font_style
+		enum := harmony_alter.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = harmony_alter.Font_size
 	case "Font_weight":
-		res.valueString = harmony_alter.Font_weight
+		enum := harmony_alter.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = harmony_alter.Color
 	case "EnclosedText":
@@ -47100,17 +47852,21 @@ func (harp_pedals *Harp_pedals) GongGetFieldValue(fieldName string, stage *Stage
 	case "Font_family":
 		res.valueString = harp_pedals.Font_family
 	case "Font_style":
-		res.valueString = harp_pedals.Font_style
+		enum := harp_pedals.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = harp_pedals.Font_size
 	case "Font_weight":
-		res.valueString = harp_pedals.Font_weight
+		enum := harp_pedals.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = harp_pedals.Color
 	case "Halign":
-		res.valueString = harp_pedals.Halign
+		enum := harp_pedals.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = harp_pedals.Valign
+		enum := harp_pedals.Valign
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = harp_pedals.Id
 	case "Pedal_tuning":
@@ -47132,6 +47888,32 @@ func (heel_toe *Heel_toe) GongGetFieldValue(fieldName string, stage *Stage) (res
 	// string value of fields
 	case "Name":
 		res.valueString = heel_toe.Name
+	case "Default_x":
+		res.valueString = heel_toe.Default_x
+	case "Default_y":
+		res.valueString = heel_toe.Default_y
+	case "Relative_x":
+		res.valueString = heel_toe.Relative_x
+	case "Relative_y":
+		res.valueString = heel_toe.Relative_y
+	case "Font_family":
+		res.valueString = heel_toe.Font_family
+	case "Font_style":
+		enum := heel_toe.Font_style
+		res.valueString = enum.ToCodeString()
+	case "Font_size":
+		res.valueString = heel_toe.Font_size
+	case "Font_weight":
+		enum := heel_toe.Font_weight
+		res.valueString = enum.ToCodeString()
+	case "Color":
+		res.valueString = heel_toe.Color
+	case "Placement":
+		enum := heel_toe.Placement
+		res.valueString = enum.ToCodeString()
+	case "Substitution":
+		enum := heel_toe.Substitution
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -47152,15 +47934,18 @@ func (hole *Hole) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Font_family":
 		res.valueString = hole.Font_family
 	case "Font_style":
-		res.valueString = hole.Font_style
+		enum := hole.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = hole.Font_size
 	case "Font_weight":
-		res.valueString = hole.Font_weight
+		enum := hole.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = hole.Color
 	case "Placement":
-		res.valueString = hole.Placement
+		enum := hole.Placement
+		res.valueString = enum.ToCodeString()
 	case "Hole_type":
 		res.valueString = hole.Hole_type
 	case "Hole_closed":
@@ -47181,9 +47966,11 @@ func (hole_closed *Hole_closed) GongGetFieldValue(fieldName string, stage *Stage
 	case "Name":
 		res.valueString = hole_closed.Name
 	case "Location":
-		res.valueString = hole_closed.Location
+		enum := hole_closed.Location
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
-		res.valueString = hole_closed.EnclosedText
+		enum := hole_closed.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -47207,21 +47994,27 @@ func (horizontal_turn *Horizontal_turn) GongGetFieldValue(fieldName string, stag
 	case "Font_family":
 		res.valueString = horizontal_turn.Font_family
 	case "Font_style":
-		res.valueString = horizontal_turn.Font_style
+		enum := horizontal_turn.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = horizontal_turn.Font_size
 	case "Font_weight":
-		res.valueString = horizontal_turn.Font_weight
+		enum := horizontal_turn.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = horizontal_turn.Color
 	case "Placement":
-		res.valueString = horizontal_turn.Placement
+		enum := horizontal_turn.Placement
+		res.valueString = enum.ToCodeString()
 	case "Start_note":
-		res.valueString = horizontal_turn.Start_note
+		enum := horizontal_turn.Start_note
+		res.valueString = enum.ToCodeString()
 	case "Trill_step":
-		res.valueString = horizontal_turn.Trill_step
+		enum := horizontal_turn.Trill_step
+		res.valueString = enum.ToCodeString()
 	case "Two_note_turn":
-		res.valueString = horizontal_turn.Two_note_turn
+		enum := horizontal_turn.Two_note_turn
+		res.valueString = enum.ToCodeString()
 	case "Accelerate":
 		enum := horizontal_turn.Accelerate
 		res.valueString = enum.ToCodeString()
@@ -47295,8 +48088,8 @@ func (image *Image) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = image.Name
 	case "Source":
 		res.valueString = image.Source
-	case "Type":
-		res.valueString = image.Type
+	case "Type_XSD":
+		res.valueString = image.Type_XSD
 	case "Height":
 		res.valueString = image.Height
 	case "Width":
@@ -47310,9 +48103,11 @@ func (image *Image) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	case "Relative_y":
 		res.valueString = image.Relative_y
 	case "Halign":
-		res.valueString = image.Halign
+		enum := image.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = image.Valign
+		enum := image.Valign
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = image.Id
 	}
@@ -47370,11 +48165,14 @@ func (interchangeable *Interchangeable) GongGetFieldValue(fieldName string, stag
 	case "Name":
 		res.valueString = interchangeable.Name
 	case "Symbol":
-		res.valueString = interchangeable.Symbol
+		enum := interchangeable.Symbol
+		res.valueString = enum.ToCodeString()
 	case "Separator":
-		res.valueString = interchangeable.Separator
+		enum := interchangeable.Separator
+		res.valueString = enum.ToCodeString()
 	case "Time_relation":
-		res.valueString = interchangeable.Time_relation
+		enum := interchangeable.Time_relation
+		res.valueString = enum.ToCodeString()
 	case "Beats":
 		res.valueString = interchangeable.Beats
 	case "Beat_type":
@@ -47401,11 +48199,13 @@ func (inversion *Inversion) GongGetFieldValue(fieldName string, stage *Stage) (r
 	case "Font_family":
 		res.valueString = inversion.Font_family
 	case "Font_style":
-		res.valueString = inversion.Font_style
+		enum := inversion.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = inversion.Font_size
 	case "Font_weight":
-		res.valueString = inversion.Font_weight
+		enum := inversion.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = inversion.Color
 	case "EnclosedText":
@@ -47436,11 +48236,13 @@ func (key *Key) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 	case "Font_family":
 		res.valueString = key.Font_family
 	case "Font_style":
-		res.valueString = key.Font_style
+		enum := key.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = key.Font_size
 	case "Font_weight":
-		res.valueString = key.Font_weight
+		enum := key.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = key.Color
 	case "Print_object":
@@ -47549,19 +48351,24 @@ func (kind *Kind) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Font_family":
 		res.valueString = kind.Font_family
 	case "Font_style":
-		res.valueString = kind.Font_style
+		enum := kind.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = kind.Font_size
 	case "Font_weight":
-		res.valueString = kind.Font_weight
+		enum := kind.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = kind.Color
 	case "Halign":
-		res.valueString = kind.Halign
+		enum := kind.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = kind.Valign
+		enum := kind.Valign
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
-		res.valueString = kind.EnclosedText
+		enum := kind.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -47571,11 +48378,11 @@ func (level *Level) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	// string value of fields
 	case "Name":
 		res.valueString = level.Name
-	case "Reference":
-		enum := level.Reference
+	case "Reference_XSD":
+		enum := level.Reference_XSD
 		res.valueString = enum.ToCodeString()
-	case "Type":
-		enum := level.Type
+	case "Type_XSD":
+		enum := level.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Parentheses":
 		enum := level.Parentheses
@@ -47606,7 +48413,8 @@ func (line_detail *Line_detail) GongGetFieldValue(fieldName string, stage *Stage
 	case "Color":
 		res.valueString = line_detail.Color
 	case "Line_type":
-		res.valueString = line_detail.Line_type
+		enum := line_detail.Line_type
+		res.valueString = enum.ToCodeString()
 	case "Print_object":
 		enum := line_detail.Print_object
 		res.valueString = enum.ToCodeString()
@@ -47619,8 +48427,8 @@ func (line_width *Line_width) GongGetFieldValue(fieldName string, stage *Stage) 
 	// string value of fields
 	case "Name":
 		res.valueString = line_width.Name
-	case "Type":
-		res.valueString = line_width.Type
+	case "Type_XSD":
+		res.valueString = line_width.Type_XSD
 	case "EnclosedText":
 		res.valueString = line_width.EnclosedText
 	}
@@ -47636,8 +48444,8 @@ func (link *Link) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = link.NameXSD
 	case "Href":
 		res.valueString = link.Href
-	case "Type":
-		res.valueString = link.Type
+	case "Type_XSD":
+		res.valueString = link.Type_XSD
 	case "Role":
 		res.valueString = link.Role
 	case "Title":
@@ -47748,8 +48556,7 @@ func (lyric *Lyric) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	case "NameXSD":
 		res.valueString = lyric.NameXSD
 	case "Time_only":
-		enum := lyric.Time_only
-		res.valueString = enum.ToCodeString()
+		res.valueString = lyric.Time_only
 	case "Justify":
 		enum := lyric.Justify
 		res.valueString = enum.ToCodeString()
@@ -47762,7 +48569,8 @@ func (lyric *Lyric) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	case "Relative_y":
 		res.valueString = lyric.Relative_y
 	case "Placement":
-		res.valueString = lyric.Placement
+		enum := lyric.Placement
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = lyric.Color
 	case "Print_object":
@@ -47770,21 +48578,18 @@ func (lyric *Lyric) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = lyric.Id
+	case "Syllabic":
+		enum := lyric.Syllabic
+		res.valueString = enum.ToCodeString()
+	case "Text":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if lyric.Text != nil {
+			res.valueString = lyric.Text.Name
+			res.ids = lyric.Text.GongGetUUID(stage)
+		}
 	case "Elision":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range lyric.Elision {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "Syllabic":
-		res.valueString = lyric.Syllabic
-	case "Text":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range lyric.Text {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -47834,11 +48639,13 @@ func (lyric_font *Lyric_font) GongGetFieldValue(fieldName string, stage *Stage) 
 	case "Font_family":
 		res.valueString = lyric_font.Font_family
 	case "Font_style":
-		res.valueString = lyric_font.Font_style
+		enum := lyric_font.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = lyric_font.Font_size
 	case "Font_weight":
-		res.valueString = lyric_font.Font_weight
+		enum := lyric_font.Font_weight
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -47875,7 +48682,8 @@ func (measure_numbering *Measure_numbering) GongGetFieldValue(fieldName string, 
 	case "Name":
 		res.valueString = measure_numbering.Name
 	case "System":
-		res.valueString = measure_numbering.System
+		enum := measure_numbering.System
+		res.valueString = enum.ToCodeString()
 	case "Staff":
 		res.valueString = fmt.Sprintf("%d", measure_numbering.Staff)
 		res.valueInt = measure_numbering.Staff
@@ -47897,19 +48705,24 @@ func (measure_numbering *Measure_numbering) GongGetFieldValue(fieldName string, 
 	case "Font_family":
 		res.valueString = measure_numbering.Font_family
 	case "Font_style":
-		res.valueString = measure_numbering.Font_style
+		enum := measure_numbering.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = measure_numbering.Font_size
 	case "Font_weight":
-		res.valueString = measure_numbering.Font_weight
+		enum := measure_numbering.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = measure_numbering.Color
 	case "Halign":
-		res.valueString = measure_numbering.Halign
+		enum := measure_numbering.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = measure_numbering.Valign
+		enum := measure_numbering.Valign
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
-		res.valueString = measure_numbering.EnclosedText
+		enum := measure_numbering.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -47919,8 +48732,8 @@ func (measure_repeat *Measure_repeat) GongGetFieldValue(fieldName string, stage 
 	// string value of fields
 	case "Name":
 		res.valueString = measure_repeat.Name
-	case "Type":
-		enum := measure_repeat.Type
+	case "Type_XSD":
+		enum := measure_repeat.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Slashes":
 		res.valueString = fmt.Sprintf("%d", measure_repeat.Slashes)
@@ -47944,11 +48757,13 @@ func (measure_style *Measure_style) GongGetFieldValue(fieldName string, stage *S
 	case "Font_family":
 		res.valueString = measure_style.Font_family
 	case "Font_style":
-		res.valueString = measure_style.Font_style
+		enum := measure_style.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = measure_style.Font_size
 	case "Font_weight":
-		res.valueString = measure_style.Font_weight
+		enum := measure_style.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = measure_style.Color
 	case "Id":
@@ -47989,7 +48804,8 @@ func (membrane *Membrane) GongGetFieldValue(fieldName string, stage *Stage) (res
 	case "Smufl":
 		res.valueString = membrane.Smufl
 	case "EnclosedText":
-		res.valueString = membrane.EnclosedText
+		enum := membrane.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -48002,7 +48818,8 @@ func (metal *Metal) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	case "Smufl":
 		res.valueString = metal.Smufl
 	case "EnclosedText":
-		res.valueString = metal.EnclosedText
+		enum := metal.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -48026,17 +48843,21 @@ func (metronome *Metronome) GongGetFieldValue(fieldName string, stage *Stage) (r
 	case "Font_family":
 		res.valueString = metronome.Font_family
 	case "Font_style":
-		res.valueString = metronome.Font_style
+		enum := metronome.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = metronome.Font_size
 	case "Font_weight":
-		res.valueString = metronome.Font_weight
+		enum := metronome.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = metronome.Color
 	case "Halign":
-		res.valueString = metronome.Halign
+		enum := metronome.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = metronome.Valign
+		enum := metronome.Valign
+		res.valueString = enum.ToCodeString()
 	case "Print_object":
 		enum := metronome.Print_object
 		res.valueString = enum.ToCodeString()
@@ -48050,12 +48871,6 @@ func (metronome *Metronome) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = enum.ToCodeString()
 	case "Beat_unit_dot":
 		res.valueString = metronome.Beat_unit_dot
-	case "Per_minute":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if metronome.Per_minute != nil {
-			res.valueString = metronome.Per_minute.Name
-			res.ids = metronome.Per_minute.GongGetUUID(stage)
-		}
 	case "Beat_unit_tied":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range metronome.Beat_unit_tied {
@@ -48066,10 +48881,14 @@ func (metronome *Metronome) GongGetFieldValue(fieldName string, stage *Stage) (r
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "Per_minute":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if metronome.Per_minute != nil {
+			res.valueString = metronome.Per_minute.Name
+			res.ids = metronome.Per_minute.GongGetUUID(stage)
+		}
 	case "Metronome_arrows":
 		res.valueString = metronome.Metronome_arrows
-	case "Metronome_relation":
-		res.valueString = metronome.Metronome_relation
 	case "Metronome_note":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range metronome.Metronome_note {
@@ -48080,6 +48899,8 @@ func (metronome *Metronome) GongGetFieldValue(fieldName string, stage *Stage) (r
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "Metronome_relation":
+		res.valueString = metronome.Metronome_relation
 	}
 	return
 }
@@ -48106,7 +48927,8 @@ func (metronome_note *Metronome_note) GongGetFieldValue(fieldName string, stage 
 	case "Name":
 		res.valueString = metronome_note.Name
 	case "Metronome_type":
-		res.valueString = metronome_note.Metronome_type
+		enum := metronome_note.Metronome_type
+		res.valueString = enum.ToCodeString()
 	case "Metronome_dot":
 		res.valueString = metronome_note.Metronome_dot
 	case "Metronome_beam":
@@ -48140,8 +48962,8 @@ func (metronome_tied *Metronome_tied) GongGetFieldValue(fieldName string, stage 
 	// string value of fields
 	case "Name":
 		res.valueString = metronome_tied.Name
-	case "Type":
-		enum := metronome_tied.Type
+	case "Type_XSD":
+		enum := metronome_tied.Type_XSD
 		res.valueString = enum.ToCodeString()
 	}
 	return
@@ -48152,6 +48974,28 @@ func (metronome_tuplet *Metronome_tuplet) GongGetFieldValue(fieldName string, st
 	// string value of fields
 	case "Name":
 		res.valueString = metronome_tuplet.Name
+	case "Actual_notes":
+		res.valueString = fmt.Sprintf("%d", metronome_tuplet.Actual_notes)
+		res.valueInt = metronome_tuplet.Actual_notes
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Normal_notes":
+		res.valueString = fmt.Sprintf("%d", metronome_tuplet.Normal_notes)
+		res.valueInt = metronome_tuplet.Normal_notes
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Normal_type":
+		enum := metronome_tuplet.Normal_type
+		res.valueString = enum.ToCodeString()
+	case "Normal_dot":
+		res.valueString = metronome_tuplet.Normal_dot
+	case "Type_XSD":
+		enum := metronome_tuplet.Type_XSD
+		res.valueString = enum.ToCodeString()
+	case "Bracket":
+		enum := metronome_tuplet.Bracket
+		res.valueString = enum.ToCodeString()
+	case "Show_number":
+		enum := metronome_tuplet.Show_number
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -48245,6 +49089,56 @@ func (mordent *Mordent) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = mordent.Name
+	case "Default_x":
+		res.valueString = mordent.Default_x
+	case "Default_y":
+		res.valueString = mordent.Default_y
+	case "Relative_x":
+		res.valueString = mordent.Relative_x
+	case "Relative_y":
+		res.valueString = mordent.Relative_y
+	case "Font_family":
+		res.valueString = mordent.Font_family
+	case "Font_style":
+		enum := mordent.Font_style
+		res.valueString = enum.ToCodeString()
+	case "Font_size":
+		res.valueString = mordent.Font_size
+	case "Font_weight":
+		enum := mordent.Font_weight
+		res.valueString = enum.ToCodeString()
+	case "Color":
+		res.valueString = mordent.Color
+	case "Placement":
+		enum := mordent.Placement
+		res.valueString = enum.ToCodeString()
+	case "Start_note":
+		enum := mordent.Start_note
+		res.valueString = enum.ToCodeString()
+	case "Trill_step":
+		enum := mordent.Trill_step
+		res.valueString = enum.ToCodeString()
+	case "Two_note_turn":
+		enum := mordent.Two_note_turn
+		res.valueString = enum.ToCodeString()
+	case "Accelerate":
+		enum := mordent.Accelerate
+		res.valueString = enum.ToCodeString()
+	case "Beats":
+		res.valueString = mordent.Beats
+	case "Second_beat":
+		res.valueString = mordent.Second_beat
+	case "Last_beat":
+		res.valueString = mordent.Last_beat
+	case "Long":
+		enum := mordent.Long
+		res.valueString = enum.ToCodeString()
+	case "Approach":
+		enum := mordent.Approach
+		res.valueString = enum.ToCodeString()
+	case "Departure":
+		enum := mordent.Departure
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -48302,8 +49196,9 @@ func (non_arpeggiate *Non_arpeggiate) GongGetFieldValue(fieldName string, stage 
 	// string value of fields
 	case "Name":
 		res.valueString = non_arpeggiate.Name
-	case "Type":
-		res.valueString = non_arpeggiate.Type
+	case "Type_XSD":
+		enum := non_arpeggiate.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = fmt.Sprintf("%d", non_arpeggiate.Number)
 		res.valueInt = non_arpeggiate.Number
@@ -48317,7 +49212,8 @@ func (non_arpeggiate *Non_arpeggiate) GongGetFieldValue(fieldName string, stage 
 	case "Relative_y":
 		res.valueString = non_arpeggiate.Relative_y
 	case "Placement":
-		res.valueString = non_arpeggiate.Placement
+		enum := non_arpeggiate.Placement
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = non_arpeggiate.Color
 	case "Id":
@@ -48509,8 +49405,7 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Release":
 		res.valueString = note.Release
 	case "Time_only":
-		enum := note.Time_only
-		res.valueString = enum.ToCodeString()
+		res.valueString = note.Time_only
 	case "Pizzicato":
 		enum := note.Pizzicato
 		res.valueString = enum.ToCodeString()
@@ -48525,11 +49420,13 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Font_family":
 		res.valueString = note.Font_family
 	case "Font_style":
-		res.valueString = note.Font_style
+		enum := note.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = note.Font_size
 	case "Font_weight":
-		res.valueString = note.Font_weight
+		enum := note.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = note.Color
 	case "Print_dot":
@@ -48580,8 +49477,6 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		}
 	case "Cue":
 		res.valueString = note.Cue
-	case "Duration":
-		res.valueString = note.Duration
 	case "Instrument":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range note.Instrument {
@@ -48606,11 +49501,11 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		}
 	case "Voice":
 		res.valueString = note.Voice
-	case "Type":
+	case "Type_XSD":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if note.Type != nil {
-			res.valueString = note.Type.Name
-			res.ids = note.Type.GongGetUUID(stage)
+		if note.Type_XSD != nil {
+			res.valueString = note.Type_XSD.Name
+			res.ids = note.Type_XSD.GongGetUUID(stage)
 		}
 	case "Dot":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -48703,8 +49598,9 @@ func (note_size *Note_size) GongGetFieldValue(fieldName string, stage *Stage) (r
 	// string value of fields
 	case "Name":
 		res.valueString = note_size.Name
-	case "Type":
-		res.valueString = note_size.Type
+	case "Type_XSD":
+		enum := note_size.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
 		res.valueString = note_size.EnclosedText
 	}
@@ -48740,17 +49636,20 @@ func (notehead *Notehead) GongGetFieldValue(fieldName string, stage *Stage) (res
 	case "Font_family":
 		res.valueString = notehead.Font_family
 	case "Font_style":
-		res.valueString = notehead.Font_style
+		enum := notehead.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = notehead.Font_size
 	case "Font_weight":
-		res.valueString = notehead.Font_weight
+		enum := notehead.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = notehead.Color
 	case "Smufl":
 		res.valueString = notehead.Smufl
 	case "EnclosedText":
-		res.valueString = notehead.EnclosedText
+		enum := notehead.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -48824,7 +49723,8 @@ func (numeral_key *Numeral_key) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueInt = numeral_key.Numeral_fifths
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Numeral_mode":
-		res.valueString = numeral_key.Numeral_mode
+		enum := numeral_key.Numeral_mode
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -48847,11 +49747,13 @@ func (numeral_root *Numeral_root) GongGetFieldValue(fieldName string, stage *Sta
 	case "Font_family":
 		res.valueString = numeral_root.Font_family
 	case "Font_style":
-		res.valueString = numeral_root.Font_style
+		enum := numeral_root.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = numeral_root.Font_size
 	case "Font_weight":
-		res.valueString = numeral_root.Font_weight
+		enum := numeral_root.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = numeral_root.Color
 	case "EnclosedText":
@@ -48867,8 +49769,9 @@ func (octave_shift *Octave_shift) GongGetFieldValue(fieldName string, stage *Sta
 	// string value of fields
 	case "Name":
 		res.valueString = octave_shift.Name
-	case "Type":
-		res.valueString = octave_shift.Type
+	case "Type_XSD":
+		enum := octave_shift.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = fmt.Sprintf("%d", octave_shift.Number)
 		res.valueInt = octave_shift.Number
@@ -48892,11 +49795,13 @@ func (octave_shift *Octave_shift) GongGetFieldValue(fieldName string, stage *Sta
 	case "Font_family":
 		res.valueString = octave_shift.Font_family
 	case "Font_style":
-		res.valueString = octave_shift.Font_style
+		enum := octave_shift.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = octave_shift.Font_size
 	case "Font_weight":
-		res.valueString = octave_shift.Font_weight
+		enum := octave_shift.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = octave_shift.Color
 	case "Id":
@@ -48926,8 +49831,8 @@ func (opus *Opus) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = opus.Name
 	case "Href":
 		res.valueString = opus.Href
-	case "Type":
-		res.valueString = opus.Type
+	case "Type_XSD":
+		res.valueString = opus.Type_XSD
 	case "Role":
 		res.valueString = opus.Role
 	case "Title":
@@ -49116,8 +50021,8 @@ func (other_appearance *Other_appearance) GongGetFieldValue(fieldName string, st
 	// string value of fields
 	case "Name":
 		res.valueString = other_appearance.Name
-	case "Type":
-		res.valueString = other_appearance.Type
+	case "Type_XSD":
+		res.valueString = other_appearance.Type_XSD
 	case "EnclosedText":
 		res.valueString = other_appearance.EnclosedText
 	}
@@ -49143,17 +50048,21 @@ func (other_direction *Other_direction) GongGetFieldValue(fieldName string, stag
 	case "Font_family":
 		res.valueString = other_direction.Font_family
 	case "Font_style":
-		res.valueString = other_direction.Font_style
+		enum := other_direction.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = other_direction.Font_size
 	case "Font_weight":
-		res.valueString = other_direction.Font_weight
+		enum := other_direction.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = other_direction.Color
 	case "Halign":
-		res.valueString = other_direction.Halign
+		enum := other_direction.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = other_direction.Valign
+		enum := other_direction.Valign
+		res.valueString = enum.ToCodeString()
 	case "Smufl":
 		res.valueString = other_direction.Smufl
 	case "Id":
@@ -49169,13 +50078,12 @@ func (other_listening *Other_listening) GongGetFieldValue(fieldName string, stag
 	// string value of fields
 	case "Name":
 		res.valueString = other_listening.Name
-	case "Type":
-		res.valueString = other_listening.Type
+	case "Type_XSD":
+		res.valueString = other_listening.Type_XSD
 	case "Player":
 		res.valueString = other_listening.Player
 	case "Time_only":
-		enum := other_listening.Time_only
-		res.valueString = enum.ToCodeString()
+		res.valueString = other_listening.Time_only
 	case "EnclosedText":
 		res.valueString = other_listening.EnclosedText
 	}
@@ -49187,8 +50095,8 @@ func (other_notation *Other_notation) GongGetFieldValue(fieldName string, stage 
 	// string value of fields
 	case "Name":
 		res.valueString = other_notation.Name
-	case "Type":
-		enum := other_notation.Type
+	case "Type_XSD":
+		enum := other_notation.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = fmt.Sprintf("%d", other_notation.Number)
@@ -49208,15 +50116,18 @@ func (other_notation *Other_notation) GongGetFieldValue(fieldName string, stage 
 	case "Font_family":
 		res.valueString = other_notation.Font_family
 	case "Font_style":
-		res.valueString = other_notation.Font_style
+		enum := other_notation.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = other_notation.Font_size
 	case "Font_weight":
-		res.valueString = other_notation.Font_weight
+		enum := other_notation.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = other_notation.Color
 	case "Placement":
-		res.valueString = other_notation.Placement
+		enum := other_notation.Placement
+		res.valueString = enum.ToCodeString()
 	case "Smufl":
 		res.valueString = other_notation.Smufl
 	case "Id":
@@ -49243,15 +50154,18 @@ func (other_placement_text *Other_placement_text) GongGetFieldValue(fieldName st
 	case "Font_family":
 		res.valueString = other_placement_text.Font_family
 	case "Font_style":
-		res.valueString = other_placement_text.Font_style
+		enum := other_placement_text.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = other_placement_text.Font_size
 	case "Font_weight":
-		res.valueString = other_placement_text.Font_weight
+		enum := other_placement_text.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = other_placement_text.Color
 	case "Placement":
-		res.valueString = other_placement_text.Placement
+		enum := other_placement_text.Placement
+		res.valueString = enum.ToCodeString()
 	case "Smufl":
 		res.valueString = other_placement_text.Smufl
 	case "EnclosedText":
@@ -49265,8 +50179,8 @@ func (other_play *Other_play) GongGetFieldValue(fieldName string, stage *Stage) 
 	// string value of fields
 	case "Name":
 		res.valueString = other_play.Name
-	case "Type":
-		res.valueString = other_play.Type
+	case "Type_XSD":
+		res.valueString = other_play.Type_XSD
 	case "EnclosedText":
 		res.valueString = other_play.EnclosedText
 	}
@@ -49310,8 +50224,9 @@ func (page_margins *Page_margins) GongGetFieldValue(fieldName string, stage *Sta
 	// string value of fields
 	case "Name":
 		res.valueString = page_margins.Name
-	case "Type":
-		res.valueString = page_margins.Type
+	case "Type_XSD":
+		enum := page_margins.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Left_margin":
 		res.valueString = page_margins.Left_margin
 	case "Right_margin":
@@ -49330,7 +50245,8 @@ func (part_clef *Part_clef) GongGetFieldValue(fieldName string, stage *Stage) (r
 	case "Name":
 		res.valueString = part_clef.Name
 	case "Sign":
-		res.valueString = part_clef.Sign
+		enum := part_clef.Sign
+		res.valueString = enum.ToCodeString()
 	case "Line":
 		res.valueString = fmt.Sprintf("%d", part_clef.Line)
 		res.valueInt = part_clef.Line
@@ -49348,8 +50264,8 @@ func (part_group *Part_group) GongGetFieldValue(fieldName string, stage *Stage) 
 	// string value of fields
 	case "Name":
 		res.valueString = part_group.Name
-	case "Type":
-		enum := part_group.Type
+	case "Type_XSD":
+		enum := part_group.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = part_group.Number
@@ -49414,8 +50330,8 @@ func (part_link *Part_link) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = part_link.Name
 	case "Href":
 		res.valueString = part_link.Href
-	case "Type":
-		res.valueString = part_link.Type
+	case "Type_XSD":
+		res.valueString = part_link.Type_XSD
 	case "Role":
 		res.valueString = part_link.Role
 	case "Title":
@@ -49477,11 +50393,13 @@ func (part_name *Part_name) GongGetFieldValue(fieldName string, stage *Stage) (r
 	case "Font_family":
 		res.valueString = part_name.Font_family
 	case "Font_style":
-		res.valueString = part_name.Font_style
+		enum := part_name.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = part_name.Font_size
 	case "Font_weight":
-		res.valueString = part_name.Font_weight
+		enum := part_name.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = part_name.Color
 	case "Print_object":
@@ -49554,8 +50472,9 @@ func (pedal *Pedal) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	// string value of fields
 	case "Name":
 		res.valueString = pedal.Name
-	case "Type":
-		res.valueString = pedal.Type
+	case "Type_XSD":
+		enum := pedal.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = fmt.Sprintf("%d", pedal.Number)
 		res.valueInt = pedal.Number
@@ -49580,17 +50499,21 @@ func (pedal *Pedal) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	case "Font_family":
 		res.valueString = pedal.Font_family
 	case "Font_style":
-		res.valueString = pedal.Font_style
+		enum := pedal.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = pedal.Font_size
 	case "Font_weight":
-		res.valueString = pedal.Font_weight
+		enum := pedal.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = pedal.Color
 	case "Halign":
-		res.valueString = pedal.Halign
+		enum := pedal.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = pedal.Valign
+		enum := pedal.Valign
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = pedal.Id
 	}
@@ -49619,11 +50542,13 @@ func (per_minute *Per_minute) GongGetFieldValue(fieldName string, stage *Stage) 
 	case "Font_family":
 		res.valueString = per_minute.Font_family
 	case "Font_style":
-		res.valueString = per_minute.Font_style
+		enum := per_minute.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = per_minute.Font_size
 	case "Font_weight":
-		res.valueString = per_minute.Font_weight
+		enum := per_minute.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
 		res.valueString = per_minute.EnclosedText
 	}
@@ -49646,19 +50571,24 @@ func (percussion *Percussion) GongGetFieldValue(fieldName string, stage *Stage) 
 	case "Font_family":
 		res.valueString = percussion.Font_family
 	case "Font_style":
-		res.valueString = percussion.Font_style
+		enum := percussion.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = percussion.Font_size
 	case "Font_weight":
-		res.valueString = percussion.Font_weight
+		enum := percussion.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = percussion.Color
 	case "Halign":
-		res.valueString = percussion.Halign
+		enum := percussion.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = percussion.Valign
+		enum := percussion.Valign
+		res.valueString = enum.ToCodeString()
 	case "Enclosure":
-		res.valueString = percussion.Enclosure
+		enum := percussion.Enclosure
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = percussion.Id
 	case "Glass":
@@ -49716,7 +50646,8 @@ func (percussion *Percussion) GongGetFieldValue(fieldName string, stage *Stage) 
 			res.ids = percussion.Stick.GongGetUUID(stage)
 		}
 	case "Stick_location":
-		res.valueString = percussion.Stick_location
+		enum := percussion.Stick_location
+		res.valueString = enum.ToCodeString()
 	case "Other_percussion":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if percussion.Other_percussion != nil {
@@ -49753,7 +50684,8 @@ func (pitched *Pitched) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "Smufl":
 		res.valueString = pitched.Smufl
 	case "EnclosedText":
-		res.valueString = pitched.EnclosedText
+		enum := pitched.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -49774,15 +50706,18 @@ func (placement_text *Placement_text) GongGetFieldValue(fieldName string, stage 
 	case "Font_family":
 		res.valueString = placement_text.Font_family
 	case "Font_style":
-		res.valueString = placement_text.Font_style
+		enum := placement_text.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = placement_text.Font_size
 	case "Font_weight":
-		res.valueString = placement_text.Font_weight
+		enum := placement_text.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = placement_text.Color
 	case "Placement":
-		res.valueString = placement_text.Placement
+		enum := placement_text.Placement
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
 		res.valueString = placement_text.EnclosedText
 	}
@@ -49799,9 +50734,11 @@ func (play *Play) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Ipa":
 		res.valueString = play.Ipa
 	case "Mute":
-		res.valueString = play.Mute
+		enum := play.Mute
+		res.valueString = enum.ToCodeString()
 	case "Semi_pitched":
-		res.valueString = play.Semi_pitched
+		enum := play.Semi_pitched
+		res.valueString = enum.ToCodeString()
 	case "Other_play":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range play.Other_play {
@@ -49834,11 +50771,12 @@ func (principal_voice *Principal_voice) GongGetFieldValue(fieldName string, stag
 	// string value of fields
 	case "Name":
 		res.valueString = principal_voice.Name
-	case "Type":
-		enum := principal_voice.Type
+	case "Type_XSD":
+		enum := principal_voice.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Symbol":
-		res.valueString = principal_voice.Symbol
+		enum := principal_voice.Symbol
+		res.valueString = enum.ToCodeString()
 	case "Default_x":
 		res.valueString = principal_voice.Default_x
 	case "Default_y":
@@ -49850,17 +50788,21 @@ func (principal_voice *Principal_voice) GongGetFieldValue(fieldName string, stag
 	case "Font_family":
 		res.valueString = principal_voice.Font_family
 	case "Font_style":
-		res.valueString = principal_voice.Font_style
+		enum := principal_voice.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = principal_voice.Font_size
 	case "Font_weight":
-		res.valueString = principal_voice.Font_weight
+		enum := principal_voice.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = principal_voice.Color
 	case "Halign":
-		res.valueString = principal_voice.Halign
+		enum := principal_voice.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = principal_voice.Valign
+		enum := principal_voice.Valign
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = principal_voice.Id
 	case "EnclosedText":
@@ -49869,42 +50811,42 @@ func (principal_voice *Principal_voice) GongGetFieldValue(fieldName string, stag
 	return
 }
 
-func (print *Print) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (print_xsd *Print_XSD) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = print.Name
+		res.valueString = print_xsd.Name
 	case "Staff_spacing":
-		res.valueString = print.Staff_spacing
+		res.valueString = print_xsd.Staff_spacing
 	case "New_system":
-		enum := print.New_system
+		enum := print_xsd.New_system
 		res.valueString = enum.ToCodeString()
 	case "New_page":
-		enum := print.New_page
+		enum := print_xsd.New_page
 		res.valueString = enum.ToCodeString()
 	case "Blank_page":
-		res.valueString = fmt.Sprintf("%d", print.Blank_page)
-		res.valueInt = print.Blank_page
+		res.valueString = fmt.Sprintf("%d", print_xsd.Blank_page)
+		res.valueInt = print_xsd.Blank_page
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Page_number":
-		res.valueString = print.Page_number
+		res.valueString = print_xsd.Page_number
 	case "Id":
-		res.valueString = print.Id
+		res.valueString = print_xsd.Id
 	case "Page_layout":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if print.Page_layout != nil {
-			res.valueString = print.Page_layout.Name
-			res.ids = print.Page_layout.GongGetUUID(stage)
+		if print_xsd.Page_layout != nil {
+			res.valueString = print_xsd.Page_layout.Name
+			res.ids = print_xsd.Page_layout.GongGetUUID(stage)
 		}
 	case "System_layout":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if print.System_layout != nil {
-			res.valueString = print.System_layout.Name
-			res.ids = print.System_layout.GongGetUUID(stage)
+		if print_xsd.System_layout != nil {
+			res.valueString = print_xsd.System_layout.Name
+			res.ids = print_xsd.System_layout.GongGetUUID(stage)
 		}
 	case "Staff_layout":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range print.Staff_layout {
+		for idx, __instance__ := range print_xsd.Staff_layout {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -49914,27 +50856,27 @@ func (print *Print) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		}
 	case "Measure_layout":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if print.Measure_layout != nil {
-			res.valueString = print.Measure_layout.Name
-			res.ids = print.Measure_layout.GongGetUUID(stage)
+		if print_xsd.Measure_layout != nil {
+			res.valueString = print_xsd.Measure_layout.Name
+			res.ids = print_xsd.Measure_layout.GongGetUUID(stage)
 		}
 	case "Measure_numbering":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if print.Measure_numbering != nil {
-			res.valueString = print.Measure_numbering.Name
-			res.ids = print.Measure_numbering.GongGetUUID(stage)
+		if print_xsd.Measure_numbering != nil {
+			res.valueString = print_xsd.Measure_numbering.Name
+			res.ids = print_xsd.Measure_numbering.GongGetUUID(stage)
 		}
 	case "Part_name_display":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if print.Part_name_display != nil {
-			res.valueString = print.Part_name_display.Name
-			res.ids = print.Part_name_display.GongGetUUID(stage)
+		if print_xsd.Part_name_display != nil {
+			res.valueString = print_xsd.Part_name_display.Name
+			res.ids = print_xsd.Part_name_display.GongGetUUID(stage)
 		}
 	case "Part_abbreviation_display":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if print.Part_abbreviation_display != nil {
-			res.valueString = print.Part_abbreviation_display.Name
-			res.ids = print.Part_abbreviation_display.GongGetUUID(stage)
+		if print_xsd.Part_abbreviation_display != nil {
+			res.valueString = print_xsd.Part_abbreviation_display.Name
+			res.ids = print_xsd.Part_abbreviation_display.GongGetUUID(stage)
 		}
 	}
 	return
@@ -49945,6 +50887,8 @@ func (release *Release) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = release.Name
+	case "Offset":
+		res.valueString = release.Offset
 	}
 	return
 }
@@ -49955,7 +50899,8 @@ func (repeat *Repeat) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	case "Name":
 		res.valueString = repeat.Name
 	case "Direction":
-		res.valueString = repeat.Direction
+		enum := repeat.Direction
+		res.valueString = enum.ToCodeString()
 	case "Times":
 		res.valueString = fmt.Sprintf("%d", repeat.Times)
 		res.valueInt = repeat.Times
@@ -49964,7 +50909,8 @@ func (repeat *Repeat) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		enum := repeat.After_jump
 		res.valueString = enum.ToCodeString()
 	case "Winged":
-		res.valueString = repeat.Winged
+		enum := repeat.Winged
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -50027,11 +50973,13 @@ func (root_step *Root_step) GongGetFieldValue(fieldName string, stage *Stage) (r
 	case "Font_family":
 		res.valueString = root_step.Font_family
 	case "Font_style":
-		res.valueString = root_step.Font_style
+		enum := root_step.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = root_step.Font_size
 	case "Font_weight":
-		res.valueString = root_step.Font_weight
+		enum := root_step.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = root_step.Color
 	case "EnclosedText":
@@ -50331,17 +51279,21 @@ func (segno *Segno) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	case "Font_family":
 		res.valueString = segno.Font_family
 	case "Font_style":
-		res.valueString = segno.Font_style
+		enum := segno.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = segno.Font_size
 	case "Font_weight":
-		res.valueString = segno.Font_weight
+		enum := segno.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = segno.Color
 	case "Halign":
-		res.valueString = segno.Halign
+		enum := segno.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = segno.Valign
+		enum := segno.Valign
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = segno.Id
 	}
@@ -50353,8 +51305,8 @@ func (slash *Slash) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	// string value of fields
 	case "Name":
 		res.valueString = slash.Name
-	case "Type":
-		enum := slash.Type
+	case "Type_XSD":
+		enum := slash.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Use_dots":
 		enum := slash.Use_dots
@@ -50378,15 +51330,16 @@ func (slide *Slide) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	// string value of fields
 	case "Name":
 		res.valueString = slide.Name
-	case "Type":
-		enum := slide.Type
+	case "Type_XSD":
+		enum := slide.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = fmt.Sprintf("%d", slide.Number)
 		res.valueInt = slide.Number
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Line_type":
-		res.valueString = slide.Line_type
+		enum := slide.Line_type
+		res.valueString = enum.ToCodeString()
 	case "Dash_length":
 		res.valueString = slide.Dash_length
 	case "Space_length":
@@ -50402,11 +51355,13 @@ func (slide *Slide) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	case "Font_family":
 		res.valueString = slide.Font_family
 	case "Font_style":
-		res.valueString = slide.Font_style
+		enum := slide.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = slide.Font_size
 	case "Font_weight":
-		res.valueString = slide.Font_weight
+		enum := slide.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = slide.Color
 	case "Accelerate":
@@ -50431,15 +51386,16 @@ func (slur *Slur) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	// string value of fields
 	case "Name":
 		res.valueString = slur.Name
-	case "Type":
-		enum := slur.Type
+	case "Type_XSD":
+		enum := slur.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = fmt.Sprintf("%d", slur.Number)
 		res.valueInt = slur.Number
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Line_type":
-		res.valueString = slur.Line_type
+		enum := slur.Line_type
+		res.valueString = enum.ToCodeString()
 	case "Dash_length":
 		res.valueString = slur.Dash_length
 	case "Space_length":
@@ -50453,9 +51409,11 @@ func (slur *Slur) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Relative_y":
 		res.valueString = slur.Relative_y
 	case "Placement":
-		res.valueString = slur.Placement
+		enum := slur.Placement
+		res.valueString = enum.ToCodeString()
 	case "Orientation":
-		res.valueString = slur.Orientation
+		enum := slur.Orientation
+		res.valueString = enum.ToCodeString()
 	case "Bezier_x":
 		res.valueString = slur.Bezier_x
 	case "Bezier_y":
@@ -50504,8 +51462,7 @@ func (sound *Sound) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	case "Fine":
 		res.valueString = sound.Fine
 	case "Time_only":
-		enum := sound.Time_only
-		res.valueString = enum.ToCodeString()
+		res.valueString = sound.Time_only
 	case "Pizzicato":
 		enum := sound.Pizzicato
 		res.valueString = enum.ToCodeString()
@@ -50587,7 +51544,8 @@ func (staff_details *Staff_details) GongGetFieldValue(fieldName string, stage *S
 		res.valueInt = staff_details.Number
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Show_frets":
-		res.valueString = staff_details.Show_frets
+		enum := staff_details.Show_frets
+		res.valueString = enum.ToCodeString()
 	case "Print_object":
 		enum := staff_details.Print_object
 		res.valueString = enum.ToCodeString()
@@ -50595,7 +51553,8 @@ func (staff_details *Staff_details) GongGetFieldValue(fieldName string, stage *S
 		enum := staff_details.Print_spacing
 		res.valueString = enum.ToCodeString()
 	case "Staff_type":
-		res.valueString = staff_details.Staff_type
+		enum := staff_details.Staff_type
+		res.valueString = enum.ToCodeString()
 	case "Staff_lines":
 		res.valueString = fmt.Sprintf("%d", staff_details.Staff_lines)
 		res.valueInt = staff_details.Staff_lines
@@ -50639,8 +51598,9 @@ func (staff_divide *Staff_divide) GongGetFieldValue(fieldName string, stage *Sta
 	// string value of fields
 	case "Name":
 		res.valueString = staff_divide.Name
-	case "Type":
-		res.valueString = staff_divide.Type
+	case "Type_XSD":
+		enum := staff_divide.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Default_x":
 		res.valueString = staff_divide.Default_x
 	case "Default_y":
@@ -50652,17 +51612,21 @@ func (staff_divide *Staff_divide) GongGetFieldValue(fieldName string, stage *Sta
 	case "Font_family":
 		res.valueString = staff_divide.Font_family
 	case "Font_style":
-		res.valueString = staff_divide.Font_style
+		enum := staff_divide.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = staff_divide.Font_size
 	case "Font_weight":
-		res.valueString = staff_divide.Font_weight
+		enum := staff_divide.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = staff_divide.Color
 	case "Halign":
-		res.valueString = staff_divide.Halign
+		enum := staff_divide.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = staff_divide.Valign
+		enum := staff_divide.Valign
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = staff_divide.Id
 	}
@@ -50735,7 +51699,8 @@ func (stem *Stem) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Color":
 		res.valueString = stem.Color
 	case "EnclosedText":
-		res.valueString = stem.EnclosedText
+		enum := stem.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -50755,9 +51720,11 @@ func (stick *Stick) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		enum := stick.Dashed_circle
 		res.valueString = enum.ToCodeString()
 	case "Stick_type":
-		res.valueString = stick.Stick_type
+		enum := stick.Stick_type
+		res.valueString = enum.ToCodeString()
 	case "Stick_material":
-		res.valueString = stick.Stick_material
+		enum := stick.Stick_material
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -50767,8 +51734,9 @@ func (string_mute *String_mute) GongGetFieldValue(fieldName string, stage *Stage
 	// string value of fields
 	case "Name":
 		res.valueString = string_mute.Name
-	case "Type":
-		res.valueString = string_mute.Type
+	case "Type_XSD":
+		enum := string_mute.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Default_x":
 		res.valueString = string_mute.Default_x
 	case "Default_y":
@@ -50780,17 +51748,21 @@ func (string_mute *String_mute) GongGetFieldValue(fieldName string, stage *Stage
 	case "Font_family":
 		res.valueString = string_mute.Font_family
 	case "Font_style":
-		res.valueString = string_mute.Font_style
+		enum := string_mute.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = string_mute.Font_size
 	case "Font_weight":
-		res.valueString = string_mute.Font_weight
+		enum := string_mute.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = string_mute.Color
 	case "Halign":
-		res.valueString = string_mute.Halign
+		enum := string_mute.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = string_mute.Valign
+		enum := string_mute.Valign
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = string_mute.Id
 	}
@@ -50813,15 +51785,18 @@ func (string_type *String_type) GongGetFieldValue(fieldName string, stage *Stage
 	case "Font_family":
 		res.valueString = string_type.Font_family
 	case "Font_style":
-		res.valueString = string_type.Font_style
+		enum := string_type.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = string_type.Font_size
 	case "Font_weight":
-		res.valueString = string_type.Font_weight
+		enum := string_type.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = string_type.Color
 	case "Placement":
-		res.valueString = string_type.Placement
+		enum := string_type.Placement
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
 		res.valueString = fmt.Sprintf("%d", string_type.EnclosedText)
 		res.valueInt = string_type.EnclosedText
@@ -50835,6 +51810,32 @@ func (strong_accent *Strong_accent) GongGetFieldValue(fieldName string, stage *S
 	// string value of fields
 	case "Name":
 		res.valueString = strong_accent.Name
+	case "Default_x":
+		res.valueString = strong_accent.Default_x
+	case "Default_y":
+		res.valueString = strong_accent.Default_y
+	case "Relative_x":
+		res.valueString = strong_accent.Relative_x
+	case "Relative_y":
+		res.valueString = strong_accent.Relative_y
+	case "Font_family":
+		res.valueString = strong_accent.Font_family
+	case "Font_style":
+		enum := strong_accent.Font_style
+		res.valueString = enum.ToCodeString()
+	case "Font_size":
+		res.valueString = strong_accent.Font_size
+	case "Font_weight":
+		enum := strong_accent.Font_weight
+		res.valueString = enum.ToCodeString()
+	case "Color":
+		res.valueString = strong_accent.Color
+	case "Placement":
+		enum := strong_accent.Placement
+		res.valueString = enum.ToCodeString()
+	case "Type_XSD":
+		enum := strong_accent.Type_XSD
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -50855,11 +51856,13 @@ func (style_text *Style_text) GongGetFieldValue(fieldName string, stage *Stage) 
 	case "Font_family":
 		res.valueString = style_text.Font_family
 	case "Font_style":
-		res.valueString = style_text.Font_style
+		enum := style_text.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = style_text.Font_size
 	case "Font_weight":
-		res.valueString = style_text.Font_weight
+		enum := style_text.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = style_text.Color
 	case "EnclosedText":
@@ -50873,8 +51876,8 @@ func (supports *Supports) GongGetFieldValue(fieldName string, stage *Stage) (res
 	// string value of fields
 	case "Name":
 		res.valueString = supports.Name
-	case "Type":
-		enum := supports.Type
+	case "Type_XSD":
+		enum := supports.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Element":
 		res.valueString = supports.Element
@@ -50902,8 +51905,7 @@ func (swing *Swing) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueInt = swing.Second
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Swing_type":
-		enum := swing.Swing_type
-		res.valueString = enum.ToCodeString()
+		res.valueString = swing.Swing_type
 	case "Swing_style":
 		res.valueString = swing.Swing_style
 	}
@@ -50915,8 +51917,9 @@ func (sync *Sync) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	// string value of fields
 	case "Name":
 		res.valueString = sync.Name
-	case "Type":
-		res.valueString = sync.Type
+	case "Type_XSD":
+		enum := sync.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Latency":
 		res.valueString = fmt.Sprintf("%d", sync.Latency)
 		res.valueInt = sync.Latency
@@ -50924,8 +51927,7 @@ func (sync *Sync) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Player":
 		res.valueString = sync.Player
 	case "Time_only":
-		enum := sync.Time_only
-		res.valueString = enum.ToCodeString()
+		res.valueString = sync.Time_only
 	}
 	return
 }
@@ -50995,7 +51997,8 @@ func (tap *Tap) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 	case "Name":
 		res.valueString = tap.Name
 	case "Hand":
-		res.valueString = tap.Hand
+		enum := tap.Hand
+		res.valueString = enum.ToCodeString()
 	case "Default_x":
 		res.valueString = tap.Default_x
 	case "Default_y":
@@ -51007,15 +52010,18 @@ func (tap *Tap) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 	case "Font_family":
 		res.valueString = tap.Font_family
 	case "Font_style":
-		res.valueString = tap.Font_style
+		enum := tap.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = tap.Font_size
 	case "Font_weight":
-		res.valueString = tap.Font_weight
+		enum := tap.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = tap.Color
 	case "Placement":
-		res.valueString = tap.Placement
+		enum := tap.Placement
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
 		res.valueString = tap.EnclosedText
 	}
@@ -51149,9 +52155,9 @@ func (technical *Technical) GongGetFieldValue(fieldName string, stage *Stage) (r
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "String":
+	case "String_XSD":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range technical.String {
+		for idx, __instance__ := range technical.String_XSD {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -51353,11 +52359,13 @@ func (text_element_data *Text_element_data) GongGetFieldValue(fieldName string, 
 	case "Font_family":
 		res.valueString = text_element_data.Font_family
 	case "Font_style":
-		res.valueString = text_element_data.Font_style
+		enum := text_element_data.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = text_element_data.Font_size
 	case "Font_weight":
-		res.valueString = text_element_data.Font_weight
+		enum := text_element_data.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = text_element_data.Color
 	case "Underline":
@@ -51377,7 +52385,8 @@ func (text_element_data *Text_element_data) GongGetFieldValue(fieldName string, 
 	case "Letter_spacing":
 		res.valueString = text_element_data.Letter_spacing
 	case "Dir":
-		res.valueString = text_element_data.Dir
+		enum := text_element_data.Dir
+		res.valueString = enum.ToCodeString()
 	case "EnclosedText":
 		res.valueString = text_element_data.EnclosedText
 	}
@@ -51389,12 +52398,11 @@ func (tie *Tie) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 	// string value of fields
 	case "Name":
 		res.valueString = tie.Name
-	case "Type":
-		enum := tie.Type
+	case "Type_XSD":
+		enum := tie.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Time_only":
-		enum := tie.Time_only
-		res.valueString = enum.ToCodeString()
+		res.valueString = tie.Time_only
 	}
 	return
 }
@@ -51404,14 +52412,16 @@ func (tied *Tied) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	// string value of fields
 	case "Name":
 		res.valueString = tied.Name
-	case "Type":
-		res.valueString = tied.Type
+	case "Type_XSD":
+		enum := tied.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = fmt.Sprintf("%d", tied.Number)
 		res.valueInt = tied.Number
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Line_type":
-		res.valueString = tied.Line_type
+		enum := tied.Line_type
+		res.valueString = enum.ToCodeString()
 	case "Dash_length":
 		res.valueString = tied.Dash_length
 	case "Space_length":
@@ -51425,9 +52435,11 @@ func (tied *Tied) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Relative_y":
 		res.valueString = tied.Relative_y
 	case "Placement":
-		res.valueString = tied.Placement
+		enum := tied.Placement
+		res.valueString = enum.ToCodeString()
 	case "Orientation":
-		res.valueString = tied.Orientation
+		enum := tied.Orientation
+		res.valueString = enum.ToCodeString()
 	case "Bezier_x":
 		res.valueString = tied.Bezier_x
 	case "Bezier_y":
@@ -51474,17 +52486,21 @@ func (time *Time) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Font_family":
 		res.valueString = time.Font_family
 	case "Font_style":
-		res.valueString = time.Font_style
+		enum := time.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = time.Font_size
 	case "Font_weight":
-		res.valueString = time.Font_weight
+		enum := time.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = time.Color
 	case "Halign":
-		res.valueString = time.Halign
+		enum := time.Halign
+		res.valueString = enum.ToCodeString()
 	case "Valign":
-		res.valueString = time.Valign
+		enum := time.Valign
+		res.valueString = enum.ToCodeString()
 	case "Print_object":
 		enum := time.Print_object
 		res.valueString = enum.ToCodeString()
@@ -51573,8 +52589,9 @@ func (tremolo *Tremolo) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = tremolo.Name
-	case "Type":
-		res.valueString = tremolo.Type
+	case "Type_XSD":
+		enum := tremolo.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Default_x":
 		res.valueString = tremolo.Default_x
 	case "Default_y":
@@ -51586,15 +52603,18 @@ func (tremolo *Tremolo) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "Font_family":
 		res.valueString = tremolo.Font_family
 	case "Font_style":
-		res.valueString = tremolo.Font_style
+		enum := tremolo.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = tremolo.Font_size
 	case "Font_weight":
-		res.valueString = tremolo.Font_weight
+		enum := tremolo.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = tremolo.Color
 	case "Placement":
-		res.valueString = tremolo.Placement
+		enum := tremolo.Placement
+		res.valueString = enum.ToCodeString()
 	case "Smufl":
 		res.valueString = tremolo.Smufl
 	case "EnclosedText":
@@ -51610,8 +52630,8 @@ func (tuplet *Tuplet) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	// string value of fields
 	case "Name":
 		res.valueString = tuplet.Name
-	case "Type":
-		enum := tuplet.Type
+	case "Type_XSD":
+		enum := tuplet.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = fmt.Sprintf("%d", tuplet.Number)
@@ -51621,12 +52641,14 @@ func (tuplet *Tuplet) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		enum := tuplet.Bracket
 		res.valueString = enum.ToCodeString()
 	case "Show_number":
-		res.valueString = tuplet.Show_number
+		enum := tuplet.Show_number
+		res.valueString = enum.ToCodeString()
 	case "Show_type":
 		enum := tuplet.Show_type
 		res.valueString = enum.ToCodeString()
 	case "Line_shape":
-		res.valueString = tuplet.Line_shape
+		enum := tuplet.Line_shape
+		res.valueString = enum.ToCodeString()
 	case "Default_x":
 		res.valueString = tuplet.Default_x
 	case "Default_y":
@@ -51636,7 +52658,8 @@ func (tuplet *Tuplet) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	case "Relative_y":
 		res.valueString = tuplet.Relative_y
 	case "Placement":
-		res.valueString = tuplet.Placement
+		enum := tuplet.Placement
+		res.valueString = enum.ToCodeString()
 	case "Id":
 		res.valueString = tuplet.Id
 	case "Tuplet_actual":
@@ -51663,11 +52686,13 @@ func (tuplet_dot *Tuplet_dot) GongGetFieldValue(fieldName string, stage *Stage) 
 	case "Font_family":
 		res.valueString = tuplet_dot.Font_family
 	case "Font_style":
-		res.valueString = tuplet_dot.Font_style
+		enum := tuplet_dot.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = tuplet_dot.Font_size
 	case "Font_weight":
-		res.valueString = tuplet_dot.Font_weight
+		enum := tuplet_dot.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = tuplet_dot.Color
 	}
@@ -51682,11 +52707,13 @@ func (tuplet_number *Tuplet_number) GongGetFieldValue(fieldName string, stage *S
 	case "Font_family":
 		res.valueString = tuplet_number.Font_family
 	case "Font_style":
-		res.valueString = tuplet_number.Font_style
+		enum := tuplet_number.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = tuplet_number.Font_size
 	case "Font_weight":
-		res.valueString = tuplet_number.Font_weight
+		enum := tuplet_number.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = tuplet_number.Color
 	case "EnclosedText":
@@ -51736,11 +52763,13 @@ func (tuplet_type *Tuplet_type) GongGetFieldValue(fieldName string, stage *Stage
 	case "Font_family":
 		res.valueString = tuplet_type.Font_family
 	case "Font_style":
-		res.valueString = tuplet_type.Font_style
+		enum := tuplet_type.Font_style
+		res.valueString = enum.ToCodeString()
 	case "Font_size":
 		res.valueString = tuplet_type.Font_size
 	case "Font_weight":
-		res.valueString = tuplet_type.Font_weight
+		enum := tuplet_type.Font_weight
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = tuplet_type.Color
 	case "EnclosedText":
@@ -51755,8 +52784,8 @@ func (typed_text *Typed_text) GongGetFieldValue(fieldName string, stage *Stage) 
 	// string value of fields
 	case "Name":
 		res.valueString = typed_text.Name
-	case "Type":
-		res.valueString = typed_text.Type
+	case "Type_XSD":
+		res.valueString = typed_text.Type_XSD
 	case "EnclosedText":
 		res.valueString = typed_text.EnclosedText
 	}
@@ -51800,8 +52829,7 @@ func (wait *Wait) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Player":
 		res.valueString = wait.Player
 	case "Time_only":
-		enum := wait.Time_only
-		res.valueString = enum.ToCodeString()
+		res.valueString = wait.Time_only
 	}
 	return
 }
@@ -51811,8 +52839,8 @@ func (wavy_line *Wavy_line) GongGetFieldValue(fieldName string, stage *Stage) (r
 	// string value of fields
 	case "Name":
 		res.valueString = wavy_line.Name
-	case "Type":
-		enum := wavy_line.Type
+	case "Type_XSD":
+		enum := wavy_line.Type_XSD
 		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = fmt.Sprintf("%d", wavy_line.Number)
@@ -51829,15 +52857,19 @@ func (wavy_line *Wavy_line) GongGetFieldValue(fieldName string, stage *Stage) (r
 	case "Relative_y":
 		res.valueString = wavy_line.Relative_y
 	case "Placement":
-		res.valueString = wavy_line.Placement
+		enum := wavy_line.Placement
+		res.valueString = enum.ToCodeString()
 	case "Color":
 		res.valueString = wavy_line.Color
 	case "Start_note":
-		res.valueString = wavy_line.Start_note
+		enum := wavy_line.Start_note
+		res.valueString = enum.ToCodeString()
 	case "Trill_step":
-		res.valueString = wavy_line.Trill_step
+		enum := wavy_line.Trill_step
+		res.valueString = enum.ToCodeString()
 	case "Two_note_turn":
-		res.valueString = wavy_line.Two_note_turn
+		enum := wavy_line.Two_note_turn
+		res.valueString = enum.ToCodeString()
 	case "Accelerate":
 		enum := wavy_line.Accelerate
 		res.valueString = enum.ToCodeString()
@@ -51856,8 +52888,9 @@ func (wedge *Wedge) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	// string value of fields
 	case "Name":
 		res.valueString = wedge.Name
-	case "Type":
-		res.valueString = wedge.Type
+	case "Type_XSD":
+		enum := wedge.Type_XSD
+		res.valueString = enum.ToCodeString()
 	case "Number":
 		res.valueString = fmt.Sprintf("%d", wedge.Number)
 		res.valueInt = wedge.Number
@@ -51868,7 +52901,8 @@ func (wedge *Wedge) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		enum := wedge.Niente
 		res.valueString = enum.ToCodeString()
 	case "Line_type":
-		res.valueString = wedge.Line_type
+		enum := wedge.Line_type
+		res.valueString = enum.ToCodeString()
 	case "Dash_length":
 		res.valueString = wedge.Dash_length
 	case "Space_length":
@@ -51897,7 +52931,8 @@ func (wood *Wood) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Smufl":
 		res.valueString = wood.Smufl
 	case "EnclosedText":
-		res.valueString = wood.EnclosedText
+		enum := wood.EnclosedText
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -52627,8 +53662,8 @@ func (principal_voice *Principal_voice) GongGetGongstructName() string {
 	return "Principal_voice"
 }
 
-func (print *Print) GongGetGongstructName() string {
-	return "Print"
+func (print_xsd *Print_XSD) GongGetGongstructName() string {
+	return "Print_XSD"
 }
 
 func (release *Release) GongGetGongstructName() string {
@@ -53214,7 +54249,7 @@ func (stage *Stage) ResetMapStrings() {
 
 	__gong__rebuildMapString(stage.Principal_voices, &stage.Principal_voices_mapString)
 
-	__gong__rebuildMapString(stage.Prints, &stage.Prints_mapString)
+	__gong__rebuildMapString(stage.Print_XSDs, &stage.Print_XSDs_mapString)
 
 	__gong__rebuildMapString(stage.Releases, &stage.Releases_mapString)
 

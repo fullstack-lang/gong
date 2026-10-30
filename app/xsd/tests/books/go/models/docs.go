@@ -1,4 +1,2 @@
-// generated code - do not edit
-// Default generated models package docs
-// (at least one file is necessary in a models package)
+// Package models provides generated XSD model structs.
 package models

@@ -19,6 +19,12 @@ var (
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
+	if stage.XmlxsdStage != nil {
+		stage.XmlxsdStage.ComputeReverseMaps()
+	}
+	if stage.XlinkStage != nil {
+		stage.XlinkStage.ComputeReverseMaps()
+	}
 	// insertion point per named struct
 	// Compute reverse map for named struct A_measure
 	// insertion point per field
@@ -71,11 +77,11 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.A_measure_Figured_bass_reverseMap[_figured_bass] = a_measure
 		}
 	}
-	stage.A_measure_Print_reverseMap = make(map[*Print]*A_measure)
+	stage.A_measure_Print_XSD_reverseMap = make(map[*Print_XSD]*A_measure)
 	for a_measure := range stage.A_measures {
 		_ = a_measure
-		for _, _print := range a_measure.Print {
-			stage.A_measure_Print_reverseMap[_print] = a_measure
+		for _, _print_xsd := range a_measure.Print_XSD {
+			stage.A_measure_Print_XSD_reverseMap[_print_xsd] = a_measure
 		}
 	}
 	stage.A_measure_Sound_reverseMap = make(map[*Sound]*A_measure)
@@ -192,11 +198,11 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.A_part_1_Figured_bass_reverseMap[_figured_bass] = a_part_1
 		}
 	}
-	stage.A_part_1_Print_reverseMap = make(map[*Print]*A_part_1)
+	stage.A_part_1_Print_XSD_reverseMap = make(map[*Print_XSD]*A_part_1)
 	for a_part_1 := range stage.A_part_1s {
 		_ = a_part_1
-		for _, _print := range a_part_1.Print {
-			stage.A_part_1_Print_reverseMap[_print] = a_part_1
+		for _, _print_xsd := range a_part_1.Print_XSD {
+			stage.A_part_1_Print_XSD_reverseMap[_print_xsd] = a_part_1
 		}
 	}
 	stage.A_part_1_Sound_reverseMap = make(map[*Sound]*A_part_1)
@@ -411,13 +417,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Attributes_Key_reverseMap[_key] = attributes
 		}
 	}
-	stage.Attributes_Time_reverseMap = make(map[*Time]*Attributes)
-	for attributes := range stage.Attributess {
-		_ = attributes
-		for _, _time := range attributes.Time {
-			stage.Attributes_Time_reverseMap[_time] = attributes
-		}
-	}
 	stage.Attributes_Clef_reverseMap = make(map[*Clef]*Attributes)
 	for attributes := range stage.Attributess {
 		_ = attributes
@@ -475,20 +474,6 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = credit
 		for _, _bookmark := range credit.Bookmark {
 			stage.Credit_Bookmark_reverseMap[_bookmark] = credit
-		}
-	}
-	stage.Credit_Credit_words_reverseMap = make(map[*Formatted_text_id]*Credit)
-	for credit := range stage.Credits {
-		_ = credit
-		for _, _formatted_text_id := range credit.Credit_words {
-			stage.Credit_Credit_words_reverseMap[_formatted_text_id] = credit
-		}
-	}
-	stage.Credit_Credit_symbol_reverseMap = make(map[*Formatted_symbol_id]*Credit)
-	for credit := range stage.Credits {
-		_ = credit
-		for _, _formatted_symbol_id := range credit.Credit_symbol {
-			stage.Credit_Credit_symbol_reverseMap[_formatted_symbol_id] = credit
 		}
 	}
 
@@ -737,13 +722,6 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = lyric
 		for _, _elision := range lyric.Elision {
 			stage.Lyric_Elision_reverseMap[_elision] = lyric
-		}
-	}
-	stage.Lyric_Text_reverseMap = make(map[*Text_element_data]*Lyric)
-	for lyric := range stage.Lyrics {
-		_ = lyric
-		for _, _text_element_data := range lyric.Text {
-			stage.Lyric_Text_reverseMap[_text_element_data] = lyric
 		}
 	}
 
@@ -1085,13 +1063,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct Print
+	// Compute reverse map for named struct Print_XSD
 	// insertion point per field
-	stage.Print_Staff_layout_reverseMap = make(map[*Staff_layout]*Print)
-	for print := range stage.Prints {
-		_ = print
-		for _, _staff_layout := range print.Staff_layout {
-			stage.Print_Staff_layout_reverseMap[_staff_layout] = print
+	stage.Print_XSD_Staff_layout_reverseMap = make(map[*Staff_layout]*Print_XSD)
+	for print_xsd := range stage.Print_XSDs {
+		_ = print_xsd
+		for _, _staff_layout := range print_xsd.Staff_layout {
+			stage.Print_XSD_Staff_layout_reverseMap[_staff_layout] = print_xsd
 		}
 	}
 
@@ -1311,11 +1289,11 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Technical_Fret_reverseMap[_fret] = technical
 		}
 	}
-	stage.Technical_String_reverseMap = make(map[*String_type]*Technical)
+	stage.Technical_String_XSD_reverseMap = make(map[*String_type]*Technical)
 	for technical := range stage.Technicals {
 		_ = technical
-		for _, _string_type := range technical.String {
-			stage.Technical_String_reverseMap[_string_type] = technical
+		for _, _string_type := range technical.String_XSD {
+			stage.Technical_String_XSD_reverseMap[_string_type] = technical
 		}
 	}
 	stage.Technical_Hammer_on_reverseMap = make(map[*Hammer_on_pull_off]*Technical)
@@ -1808,7 +1786,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.Principal_voices)
 
-	res = __gong__appendInstances(res, stage.Prints)
+	res = __gong__appendInstances(res, stage.Print_XSDs)
 
 	res = __gong__appendInstances(res, stage.Releases)
 
@@ -2970,9 +2948,9 @@ func (principal_voice *Principal_voice) GongCopy() GongstructIF {
 	return newInstance
 }
 
-func (print *Print) GongCopy() GongstructIF {
-	newInstance := new(Print)
-	print.GongCopyBasicFields(newInstance)
+func (print_xsd *Print_XSD) GongCopy() GongstructIF {
+	newInstance := new(Print_XSD)
+	print_xsd.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -4009,8 +3987,8 @@ func (principal_voice *Principal_voice) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, principal_voice)
 }
 
-func (print *Print) GongGetUUID(stage *Stage) string {
-	return __gong__getUUID(stage, print)
+func (print_xsd *Print_XSD) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, print_xsd)
 }
 
 func (release *Release) GongGetUUID(stage *Stage) string {
@@ -7297,11 +7275,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
-		stage.Prints,
-		stage.Print_stagedOrder,
-		stage.Prints_reference,
-		&stage.Prints_referenceOrder,
-		stage.Prints_instance,
+		stage.Print_XSDs,
+		stage.Print_XSD_stagedOrder,
+		stage.Print_XSDs_reference,
+		&stage.Print_XSDs_referenceOrder,
+		stage.Print_XSDs_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -8298,6 +8276,12 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
+	if stage.XmlxsdStage != nil {
+		stage.XmlxsdStage.ComputeReferenceAndOrders()
+	}
+	if stage.XlinkStage != nil {
+		stage.XlinkStage.ComputeReferenceAndOrders()
+	}
 	// insertion point per named struct
 	__gong__computeReferencePass1(stage, stage.A_directives, &stage.A_directives_reference, &stage.A_directives_referenceOrder, &stage.A_directives_instance)
 
@@ -8647,7 +8631,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.Principal_voices, &stage.Principal_voices_reference, &stage.Principal_voices_referenceOrder, &stage.Principal_voices_instance)
 
-	__gong__computeReferencePass1(stage, stage.Prints, &stage.Prints_reference, &stage.Prints_referenceOrder, &stage.Prints_instance)
+	__gong__computeReferencePass1(stage, stage.Print_XSDs, &stage.Print_XSDs_reference, &stage.Print_XSDs_referenceOrder, &stage.Print_XSDs_instance)
 
 	__gong__computeReferencePass1(stage, stage.Releases, &stage.Releases_reference, &stage.Releases_referenceOrder, &stage.Releases_instance)
 
@@ -9110,7 +9094,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass2(stage.Principal_voices, stage.Principal_voices_reference, stage)
 
-	__gong__computeReferencePass2(stage.Prints, stage.Prints_reference, stage)
+	__gong__computeReferencePass2(stage.Print_XSDs, stage.Print_XSDs_reference, stage)
 
 	__gong__computeReferencePass2(stage.Releases, stage.Releases_reference, stage)
 
@@ -9930,8 +9914,8 @@ func (principal_voice *Principal_voice) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Principal_voice_stagedOrder, stage.Principal_voices_referenceOrder, principal_voice, "Principal_voice")
 }
 
-func (print *Print) GongGetOrder(stage *Stage) uint {
-	return __gong__getOrder(stage.Print_stagedOrder, stage.Prints_referenceOrder, print, "Print")
+func (print_xsd *Print_XSD) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.Print_XSD_stagedOrder, stage.Print_XSDs_referenceOrder, print_xsd, "Print_XSD")
 }
 
 func (release *Release) GongGetOrder(stage *Stage) uint {
@@ -11729,13 +11713,13 @@ func (principal_voice *Principal_voice) GongGetReferenceIdentifier(stage *Stage)
 	return principal_voice.GongGetIdentifier(stage)
 }
 
-func (print *Print) GongGetIdentifier(stage *Stage) string {
-	return __gong__formatIdentifier(print, print.GongGetOrder(stage))
+func (print_xsd *Print_XSD) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(print_xsd, print_xsd.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (print *Print) GongGetReferenceIdentifier(stage *Stage) string {
-	return print.GongGetIdentifier(stage)
+func (print_xsd *Print_XSD) GongGetReferenceIdentifier(stage *Stage) string {
+	return print_xsd.GongGetIdentifier(stage)
 }
 
 func (release *Release) GongGetIdentifier(stage *Stage) string {
@@ -12941,8 +12925,8 @@ func (principal_voice *Principal_voice) GongMarshallIdentifier(stage *Stage) str
 	return __gong__marshallIdentifier(principal_voice.GongGetIdentifier(stage), "Principal_voice", principal_voice.Name)
 }
 
-func (print *Print) GongMarshallIdentifier(stage *Stage) string {
-	return __gong__marshallIdentifier(print.GongGetIdentifier(stage), "Print", print.Name)
+func (print_xsd *Print_XSD) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(print_xsd.GongGetIdentifier(stage), "Print_XSD", print_xsd.Name)
 }
 
 func (release *Release) GongMarshallIdentifier(stage *Stage) string {
@@ -13866,8 +13850,8 @@ func (principal_voice *Principal_voice) GongMarshallUnstaging(stage *Stage) stri
 	return __gong__marshallUnstaging(principal_voice.GongGetReferenceIdentifier(stage))
 }
 
-func (print *Print) GongMarshallUnstaging(stage *Stage) string {
-	return __gong__marshallUnstaging(print.GongGetReferenceIdentifier(stage))
+func (print_xsd *Print_XSD) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(print_xsd.GongGetReferenceIdentifier(stage))
 }
 
 func (release *Release) GongMarshallUnstaging(stage *Stage) string {

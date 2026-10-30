@@ -53,3 +53,21 @@ type TotalDigit struct {
 	Annotated
 	ElementWithValueAttribute
 }
+
+type FractionDigit struct {
+	Name string
+	Annotated
+	ElementWithValueAttribute
+}
+
+type MinExclusive struct {
+	Name string
+	Annotated
+	ElementWithValueAttribute
+}
+
+type MaxExclusive struct {
+	Name string
+	Annotated
+	ElementWithValueAttribute
+}

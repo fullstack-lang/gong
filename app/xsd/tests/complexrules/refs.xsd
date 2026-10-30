@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://example.com/refs"
+           xmlns:refs="http://example.com/refs"
+           elementFormDefault="qualified">
+
+    <xs:simpleType name="statusEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ACTIVE"/>
+            <xs:enumeration value="INACTIVE"/>
+            <xs:enumeration value="DEPRECATED"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:attributeGroup name="auditAttributes">
+        <xs:attribute name="createdBy" type="xs:string" use="required"/>
+    </xs:attributeGroup>
+
+    <xs:complexType name="refTargetType">
+        <xs:sequence>
+            <xs:element name="label" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+        <xs:attribute name="status" type="refs:statusEnum" use="required"/>
+        <xs:attributeGroup ref="refs:auditAttributes"/>
+    </xs:complexType>
+
+</xs:schema>

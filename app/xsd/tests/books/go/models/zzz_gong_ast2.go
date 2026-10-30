@@ -199,7 +199,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Year":
 						inst.Year = GongExtractInt(rhs)
 					case "Format":
-						inst.Format = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Format, rhs)
 					case "Credit":
 						__gong__assignSliceOfPointers(&inst.Credit, rhs, identifierMap)
 					}
@@ -439,7 +439,7 @@ func (u *BookTypeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	case "Year":
 		instance.Year = GongExtractInt(valueExpr)
 	case "Format":
-		instance.Format = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Format, valueExpr)
 	case "Credit":
 		GongUnmarshallSliceOfPointers(&instance.Credit, valueExpr, identifierMap)
 	}

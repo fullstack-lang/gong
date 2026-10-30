@@ -324,6 +324,25 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageVal
 	_ = lastStagePtr
 
+	if stage.XmlxsdStage != nil {
+		for _, xmlxsd_schemaelement := range __gong__sortStageSetInstances(stage.XmlxsdStage.Xmlxsd_SchemaElements, stage.XmlxsdStage.Xmlxsd_SchemaElement_stagedOrder) {
+			if lastStageDecl != "XmlxsdStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "XmlxsdStage"
+			}
+			xmlxsd_schemaelementIdent := xmlxsd_schemaelement.GongGetIdentifier(stage.XmlxsdStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xmlxsd.Xmlxsd_SchemaElement{Name: %s}).Stage(stage.XmlxsdStage)", xmlxsd_schemaelementIdent, __gong__toRawStringLiteral(xmlxsd_schemaelement.Name)))
+			if lastStageVal != "XmlxsdStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "XmlxsdStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xmlxsd_schemaelementIdent, __gong__toRawStringLiteral(xmlxsd_schemaelement.Name)))
+		}
+	}
 	if stage != nil {
 		for _, alternative_id := range __gong__sortStageSetInstances(stage.ALTERNATIVE_IDs, stage.ALTERNATIVE_ID_stagedOrder) {
 			if lastStageDecl != "Stage" {
@@ -386,15 +405,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := attribute_definition_boolean.DEFAULT_VALUE.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFAULT_VALUE = %s", attribute_definition_booleanIdent, targetIdent))
 			}
-			if attribute_definition_boolean.TYPE != nil {
+			if attribute_definition_boolean.TYPE_XSD != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := attribute_definition_boolean.TYPE.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", attribute_definition_booleanIdent, targetIdent))
+				targetIdent := attribute_definition_boolean.TYPE_XSD.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE_XSD = %s", attribute_definition_booleanIdent, targetIdent))
 			}
 		}
 	}
@@ -440,15 +459,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := attribute_definition_date.DEFAULT_VALUE.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFAULT_VALUE = %s", attribute_definition_dateIdent, targetIdent))
 			}
-			if attribute_definition_date.TYPE != nil {
+			if attribute_definition_date.TYPE_XSD != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := attribute_definition_date.TYPE.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", attribute_definition_dateIdent, targetIdent))
+				targetIdent := attribute_definition_date.TYPE_XSD.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE_XSD = %s", attribute_definition_dateIdent, targetIdent))
 			}
 		}
 	}
@@ -495,15 +514,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := attribute_definition_enumeration.DEFAULT_VALUE.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFAULT_VALUE = %s", attribute_definition_enumerationIdent, targetIdent))
 			}
-			if attribute_definition_enumeration.TYPE != nil {
+			if attribute_definition_enumeration.TYPE_XSD != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := attribute_definition_enumeration.TYPE.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", attribute_definition_enumerationIdent, targetIdent))
+				targetIdent := attribute_definition_enumeration.TYPE_XSD.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE_XSD = %s", attribute_definition_enumerationIdent, targetIdent))
 			}
 		}
 	}
@@ -549,15 +568,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := attribute_definition_integer.DEFAULT_VALUE.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFAULT_VALUE = %s", attribute_definition_integerIdent, targetIdent))
 			}
-			if attribute_definition_integer.TYPE != nil {
+			if attribute_definition_integer.TYPE_XSD != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := attribute_definition_integer.TYPE.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", attribute_definition_integerIdent, targetIdent))
+				targetIdent := attribute_definition_integer.TYPE_XSD.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE_XSD = %s", attribute_definition_integerIdent, targetIdent))
 			}
 		}
 	}
@@ -603,15 +622,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := attribute_definition_real.DEFAULT_VALUE.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFAULT_VALUE = %s", attribute_definition_realIdent, targetIdent))
 			}
-			if attribute_definition_real.TYPE != nil {
+			if attribute_definition_real.TYPE_XSD != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := attribute_definition_real.TYPE.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", attribute_definition_realIdent, targetIdent))
+				targetIdent := attribute_definition_real.TYPE_XSD.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE_XSD = %s", attribute_definition_realIdent, targetIdent))
 			}
 		}
 	}
@@ -657,15 +676,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := attribute_definition_string.DEFAULT_VALUE.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFAULT_VALUE = %s", attribute_definition_stringIdent, targetIdent))
 			}
-			if attribute_definition_string.TYPE != nil {
+			if attribute_definition_string.TYPE_XSD != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := attribute_definition_string.TYPE.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", attribute_definition_stringIdent, targetIdent))
+				targetIdent := attribute_definition_string.TYPE_XSD.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE_XSD = %s", attribute_definition_stringIdent, targetIdent))
 			}
 		}
 	}
@@ -711,15 +730,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := attribute_definition_xhtml.DEFAULT_VALUE.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DEFAULT_VALUE = %s", attribute_definition_xhtmlIdent, targetIdent))
 			}
-			if attribute_definition_xhtml.TYPE != nil {
+			if attribute_definition_xhtml.TYPE_XSD != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := attribute_definition_xhtml.TYPE.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", attribute_definition_xhtmlIdent, targetIdent))
+				targetIdent := attribute_definition_xhtml.TYPE_XSD.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE_XSD = %s", attribute_definition_xhtmlIdent, targetIdent))
 			}
 		}
 	}
@@ -1826,47 +1845,43 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 		}
 	}
 	if stage != nil {
-		for _, a_source_1 := range __gong__sortStageSetInstances(stage.A_SOURCE_1s, stage.A_SOURCE_1_stagedOrder) {
+		for _, a_source := range __gong__sortStageSetInstances(stage.A_SOURCEs, stage.A_SOURCE_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
 				}
 				lastStageDecl = "Stage"
 			}
-			a_source_1Ident := a_source_1.GongGetIdentifier(stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SOURCE_1{Name: %s}).Stage(stage)", a_source_1Ident, __gong__toRawStringLiteral(a_source_1.Name)))
+			a_sourceIdent := a_source.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SOURCE{Name: %s}).Stage(stage)", a_sourceIdent, __gong__toRawStringLiteral(a_source.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
 					values.WriteString("\n")
 				}
 				lastStageVal = "Stage"
 			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_source_1Ident, __gong__toRawStringLiteral(a_source_1.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.SPEC_OBJECT_REF = %s", a_source_1Ident, __gong__toRawStringLiteral(a_source_1.SPEC_OBJECT_REF)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_sourceIdent, __gong__toRawStringLiteral(a_source.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SPEC_OBJECT_REF = %s", a_sourceIdent, __gong__toRawStringLiteral(a_source.SPEC_OBJECT_REF)))
 		}
 	}
 	if stage != nil {
-		for _, a_source_specification_1 := range __gong__sortStageSetInstances(stage.A_SOURCE_SPECIFICATION_1s, stage.A_SOURCE_SPECIFICATION_1_stagedOrder) {
+		for _, a_source_specification := range __gong__sortStageSetInstances(stage.A_SOURCE_SPECIFICATIONs, stage.A_SOURCE_SPECIFICATION_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
 				}
 				lastStageDecl = "Stage"
 			}
-			a_source_specification_1Ident := a_source_specification_1.GongGetIdentifier(stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SOURCE_SPECIFICATION_1{Name: %s}).Stage(stage)", a_source_specification_1Ident, __gong__toRawStringLiteral(a_source_specification_1.Name)))
+			a_source_specificationIdent := a_source_specification.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.A_SOURCE_SPECIFICATION{Name: %s}).Stage(stage)", a_source_specificationIdent, __gong__toRawStringLiteral(a_source_specification.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
 					values.WriteString("\n")
 				}
 				lastStageVal = "Stage"
 			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_source_specification_1Ident, __gong__toRawStringLiteral(a_source_specification_1.Name)))
-			if a_source_specification_1.SPECIFICATION_REF.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.SPECIFICATION_REF = models.%s", a_source_specification_1Ident, a_source_specification_1.SPECIFICATION_REF.ToCodeString()))
-			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.SPECIFICATION_REF = \"\"", a_source_specification_1Ident))
-			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_source_specificationIdent, __gong__toRawStringLiteral(a_source_specification.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SPECIFICATION_REF = %s", a_source_specificationIdent, __gong__toRawStringLiteral(a_source_specification.SPECIFICATION_REF)))
 		}
 	}
 	if stage != nil {
@@ -2430,8 +2445,8 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", datatype_definition_integerIdent, __gong__toRawStringLiteral(datatype_definition_integer.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", datatype_definition_integerIdent, __gong__toRawStringLiteral(datatype_definition_integer.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", datatype_definition_integerIdent, __gong__toRawStringLiteral(datatype_definition_integer.LONG_NAME)))
-			values.WriteString(fmt.Sprintf("\n\t%s.MAX = %d", datatype_definition_integerIdent, datatype_definition_integer.MAX))
-			values.WriteString(fmt.Sprintf("\n\t%s.MIN = %d", datatype_definition_integerIdent, datatype_definition_integer.MIN))
+			values.WriteString(fmt.Sprintf("\n\t%s.MAX_XSD = %d", datatype_definition_integerIdent, datatype_definition_integer.MAX_XSD))
+			values.WriteString(fmt.Sprintf("\n\t%s.MIN_XSD = %d", datatype_definition_integerIdent, datatype_definition_integer.MIN_XSD))
 			if datatype_definition_integer.ALTERNATIVE_ID != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -2466,8 +2481,8 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.IDENTIFIER = %s", datatype_definition_realIdent, __gong__toRawStringLiteral(datatype_definition_real.IDENTIFIER)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LAST_CHANGE = %s", datatype_definition_realIdent, __gong__toRawStringLiteral(datatype_definition_real.LAST_CHANGE)))
 			values.WriteString(fmt.Sprintf("\n\t%s.LONG_NAME = %s", datatype_definition_realIdent, __gong__toRawStringLiteral(datatype_definition_real.LONG_NAME)))
-			values.WriteString(fmt.Sprintf("\n\t%s.MAX = %f", datatype_definition_realIdent, datatype_definition_real.MAX))
-			values.WriteString(fmt.Sprintf("\n\t%s.MIN = %f", datatype_definition_realIdent, datatype_definition_real.MIN))
+			values.WriteString(fmt.Sprintf("\n\t%s.MAX_XSD = %f", datatype_definition_realIdent, datatype_definition_real.MAX_XSD))
+			values.WriteString(fmt.Sprintf("\n\t%s.MIN_XSD = %f", datatype_definition_realIdent, datatype_definition_real.MIN_XSD))
 			if datatype_definition_real.ALTERNATIVE_ID != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -2672,15 +2687,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := relation_group.TARGET_SPECIFICATION.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TARGET_SPECIFICATION = %s", relation_groupIdent, targetIdent))
 			}
-			if relation_group.TYPE != nil {
+			if relation_group.TYPE_XSD != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := relation_group.TYPE.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", relation_groupIdent, targetIdent))
+				targetIdent := relation_group.TYPE_XSD.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE_XSD = %s", relation_groupIdent, targetIdent))
 			}
 		}
 	}
@@ -2953,15 +2968,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := specification.VALUES.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.VALUES = %s", specificationIdent, targetIdent))
 			}
-			if specification.TYPE != nil {
+			if specification.TYPE_XSD != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := specification.TYPE.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", specificationIdent, targetIdent))
+				targetIdent := specification.TYPE_XSD.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE_XSD = %s", specificationIdent, targetIdent))
 			}
 		}
 	}
@@ -3114,15 +3129,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := spec_object.VALUES.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.VALUES = %s", spec_objectIdent, targetIdent))
 			}
-			if spec_object.TYPE != nil {
+			if spec_object.TYPE_XSD != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := spec_object.TYPE.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", spec_objectIdent, targetIdent))
+				targetIdent := spec_object.TYPE_XSD.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE_XSD = %s", spec_objectIdent, targetIdent))
 			}
 		}
 	}
@@ -3230,15 +3245,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := spec_relation.TARGET.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TARGET = %s", spec_relationIdent, targetIdent))
 			}
-			if spec_relation.TYPE != nil {
+			if spec_relation.TYPE_XSD != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := spec_relation.TYPE.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE = %s", spec_relationIdent, targetIdent))
+				targetIdent := spec_relation.TYPE_XSD.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TYPE_XSD = %s", spec_relationIdent, targetIdent))
 			}
 		}
 	}
@@ -3339,7 +3354,8 @@ import (
 	"slices"
 	"time"
 
-	"github.com/fullstack-lang/gong/app/xsd/tests/reqif/go/models"%s
+	"github.com/fullstack-lang/gong/app/xsd/tests/reqif/go/models"
+	"github.com/fullstack-lang/gong/app/xsd/tests/reqif/go/models/xmlxsd"%s
 )
 
 var (
@@ -3347,6 +3363,7 @@ var (
 	_ = slices.Index[[]int, int]
 
 	_ *models.Stage
+	_ *xmlxsd.Stage
 )%s
 
 // function will stage objects across all coordinated stages
@@ -3418,11 +3435,11 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongMarshallFi
 		} else {
 			res = __gong__marshallPointer(ident, "DEFAULT_VALUE", "nil")
 		}
-	case "TYPE":
-		if attribute_definition_boolean.TYPE != nil {
-			res = __gong__marshallPointer(ident, "TYPE", attribute_definition_boolean.TYPE.GongGetIdentifier(stage))
+	case "TYPE_XSD":
+		if attribute_definition_boolean.TYPE_XSD != nil {
+			res = __gong__marshallPointer(ident, "TYPE_XSD", attribute_definition_boolean.TYPE_XSD.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "TYPE", "nil")
+			res = __gong__marshallPointer(ident, "TYPE_XSD", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ATTRIBUTE_DEFINITION_BOOLEAN", fieldName)
@@ -3459,11 +3476,11 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongMarshallField(st
 		} else {
 			res = __gong__marshallPointer(ident, "DEFAULT_VALUE", "nil")
 		}
-	case "TYPE":
-		if attribute_definition_date.TYPE != nil {
-			res = __gong__marshallPointer(ident, "TYPE", attribute_definition_date.TYPE.GongGetIdentifier(stage))
+	case "TYPE_XSD":
+		if attribute_definition_date.TYPE_XSD != nil {
+			res = __gong__marshallPointer(ident, "TYPE_XSD", attribute_definition_date.TYPE_XSD.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "TYPE", "nil")
+			res = __gong__marshallPointer(ident, "TYPE_XSD", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ATTRIBUTE_DEFINITION_DATE", fieldName)
@@ -3502,11 +3519,11 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongMa
 		} else {
 			res = __gong__marshallPointer(ident, "DEFAULT_VALUE", "nil")
 		}
-	case "TYPE":
-		if attribute_definition_enumeration.TYPE != nil {
-			res = __gong__marshallPointer(ident, "TYPE", attribute_definition_enumeration.TYPE.GongGetIdentifier(stage))
+	case "TYPE_XSD":
+		if attribute_definition_enumeration.TYPE_XSD != nil {
+			res = __gong__marshallPointer(ident, "TYPE_XSD", attribute_definition_enumeration.TYPE_XSD.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "TYPE", "nil")
+			res = __gong__marshallPointer(ident, "TYPE_XSD", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ATTRIBUTE_DEFINITION_ENUMERATION", fieldName)
@@ -3543,11 +3560,11 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongMarshallFi
 		} else {
 			res = __gong__marshallPointer(ident, "DEFAULT_VALUE", "nil")
 		}
-	case "TYPE":
-		if attribute_definition_integer.TYPE != nil {
-			res = __gong__marshallPointer(ident, "TYPE", attribute_definition_integer.TYPE.GongGetIdentifier(stage))
+	case "TYPE_XSD":
+		if attribute_definition_integer.TYPE_XSD != nil {
+			res = __gong__marshallPointer(ident, "TYPE_XSD", attribute_definition_integer.TYPE_XSD.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "TYPE", "nil")
+			res = __gong__marshallPointer(ident, "TYPE_XSD", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ATTRIBUTE_DEFINITION_INTEGER", fieldName)
@@ -3584,11 +3601,11 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongMarshallField(st
 		} else {
 			res = __gong__marshallPointer(ident, "DEFAULT_VALUE", "nil")
 		}
-	case "TYPE":
-		if attribute_definition_real.TYPE != nil {
-			res = __gong__marshallPointer(ident, "TYPE", attribute_definition_real.TYPE.GongGetIdentifier(stage))
+	case "TYPE_XSD":
+		if attribute_definition_real.TYPE_XSD != nil {
+			res = __gong__marshallPointer(ident, "TYPE_XSD", attribute_definition_real.TYPE_XSD.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "TYPE", "nil")
+			res = __gong__marshallPointer(ident, "TYPE_XSD", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ATTRIBUTE_DEFINITION_REAL", fieldName)
@@ -3625,11 +3642,11 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongMarshallFiel
 		} else {
 			res = __gong__marshallPointer(ident, "DEFAULT_VALUE", "nil")
 		}
-	case "TYPE":
-		if attribute_definition_string.TYPE != nil {
-			res = __gong__marshallPointer(ident, "TYPE", attribute_definition_string.TYPE.GongGetIdentifier(stage))
+	case "TYPE_XSD":
+		if attribute_definition_string.TYPE_XSD != nil {
+			res = __gong__marshallPointer(ident, "TYPE_XSD", attribute_definition_string.TYPE_XSD.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "TYPE", "nil")
+			res = __gong__marshallPointer(ident, "TYPE_XSD", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ATTRIBUTE_DEFINITION_STRING", fieldName)
@@ -3666,11 +3683,11 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongMarshallField(
 		} else {
 			res = __gong__marshallPointer(ident, "DEFAULT_VALUE", "nil")
 		}
-	case "TYPE":
-		if attribute_definition_xhtml.TYPE != nil {
-			res = __gong__marshallPointer(ident, "TYPE", attribute_definition_xhtml.TYPE.GongGetIdentifier(stage))
+	case "TYPE_XSD":
+		if attribute_definition_xhtml.TYPE_XSD != nil {
+			res = __gong__marshallPointer(ident, "TYPE_XSD", attribute_definition_xhtml.TYPE_XSD.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "TYPE", "nil")
+			res = __gong__marshallPointer(ident, "TYPE_XSD", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ATTRIBUTE_DEFINITION_XHTML", fieldName)
@@ -4442,32 +4459,32 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongMarshallField(st
 	return
 }
 
-func (a_source_1 *A_SOURCE_1) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	ident := a_source_1.GongGetIdentifier(stage)
+func (a_source *A_SOURCE) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := a_source.GongGetIdentifier(stage)
 	_ = ident
 	switch fieldName {
 	case "Name":
-		res = __gong__marshallString(ident, "Name", a_source_1.Name)
+		res = __gong__marshallString(ident, "Name", a_source.Name)
 	case "SPEC_OBJECT_REF":
-		res = __gong__marshallString(ident, "SPEC_OBJECT_REF", a_source_1.SPEC_OBJECT_REF)
+		res = __gong__marshallString(ident, "SPEC_OBJECT_REF", a_source.SPEC_OBJECT_REF)
 
 	default:
-		log.Panicf("Unknown field %s for Gongstruct A_SOURCE_1", fieldName)
+		log.Panicf("Unknown field %s for Gongstruct A_SOURCE", fieldName)
 	}
 	return
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	ident := a_source_specification_1.GongGetIdentifier(stage)
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := a_source_specification.GongGetIdentifier(stage)
 	_ = ident
 	switch fieldName {
 	case "Name":
-		res = __gong__marshallString(ident, "Name", a_source_specification_1.Name)
+		res = __gong__marshallString(ident, "Name", a_source_specification.Name)
 	case "SPECIFICATION_REF":
-		res = __gong__marshallEnumString(ident, "SPECIFICATION_REF", a_source_specification_1.SPECIFICATION_REF.ToCodeString())
+		res = __gong__marshallString(ident, "SPECIFICATION_REF", a_source_specification.SPECIFICATION_REF)
 
 	default:
-		log.Panicf("Unknown field %s for Gongstruct A_SOURCE_SPECIFICATION_1", fieldName)
+		log.Panicf("Unknown field %s for Gongstruct A_SOURCE_SPECIFICATION", fieldName)
 	}
 	return
 }
@@ -4858,10 +4875,10 @@ func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongMarshallFiel
 		res = __gong__marshallString(ident, "LAST_CHANGE", datatype_definition_integer.LAST_CHANGE)
 	case "LONG_NAME":
 		res = __gong__marshallString(ident, "LONG_NAME", datatype_definition_integer.LONG_NAME)
-	case "MAX":
-		res = __gong__marshallInt(ident, "MAX", datatype_definition_integer.MAX)
-	case "MIN":
-		res = __gong__marshallInt(ident, "MIN", datatype_definition_integer.MIN)
+	case "MAX_XSD":
+		res = __gong__marshallInt(ident, "MAX_XSD", datatype_definition_integer.MAX_XSD)
+	case "MIN_XSD":
+		res = __gong__marshallInt(ident, "MIN_XSD", datatype_definition_integer.MIN_XSD)
 
 	case "ALTERNATIVE_ID":
 		if datatype_definition_integer.ALTERNATIVE_ID != nil {
@@ -4891,10 +4908,10 @@ func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongMarshallField(stag
 		res = __gong__marshallString(ident, "LAST_CHANGE", datatype_definition_real.LAST_CHANGE)
 	case "LONG_NAME":
 		res = __gong__marshallString(ident, "LONG_NAME", datatype_definition_real.LONG_NAME)
-	case "MAX":
-		res = __gong__marshallFloat(ident, "MAX", datatype_definition_real.MAX)
-	case "MIN":
-		res = __gong__marshallFloat(ident, "MIN", datatype_definition_real.MIN)
+	case "MAX_XSD":
+		res = __gong__marshallFloat(ident, "MAX_XSD", datatype_definition_real.MAX_XSD)
+	case "MIN_XSD":
+		res = __gong__marshallFloat(ident, "MIN_XSD", datatype_definition_real.MIN_XSD)
 
 	case "ALTERNATIVE_ID":
 		if datatype_definition_real.ALTERNATIVE_ID != nil {
@@ -5053,11 +5070,11 @@ func (relation_group *RELATION_GROUP) GongMarshallField(stage *Stage, fieldName 
 		} else {
 			res = __gong__marshallPointer(ident, "TARGET_SPECIFICATION", "nil")
 		}
-	case "TYPE":
-		if relation_group.TYPE != nil {
-			res = __gong__marshallPointer(ident, "TYPE", relation_group.TYPE.GongGetIdentifier(stage))
+	case "TYPE_XSD":
+		if relation_group.TYPE_XSD != nil {
+			res = __gong__marshallPointer(ident, "TYPE_XSD", relation_group.TYPE_XSD.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "TYPE", "nil")
+			res = __gong__marshallPointer(ident, "TYPE_XSD", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct RELATION_GROUP", fieldName)
@@ -5255,11 +5272,11 @@ func (specification *SPECIFICATION) GongMarshallField(stage *Stage, fieldName st
 		} else {
 			res = __gong__marshallPointer(ident, "VALUES", "nil")
 		}
-	case "TYPE":
-		if specification.TYPE != nil {
-			res = __gong__marshallPointer(ident, "TYPE", specification.TYPE.GongGetIdentifier(stage))
+	case "TYPE_XSD":
+		if specification.TYPE_XSD != nil {
+			res = __gong__marshallPointer(ident, "TYPE_XSD", specification.TYPE_XSD.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "TYPE", "nil")
+			res = __gong__marshallPointer(ident, "TYPE_XSD", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SPECIFICATION", fieldName)
@@ -5376,11 +5393,11 @@ func (spec_object *SPEC_OBJECT) GongMarshallField(stage *Stage, fieldName string
 		} else {
 			res = __gong__marshallPointer(ident, "VALUES", "nil")
 		}
-	case "TYPE":
-		if spec_object.TYPE != nil {
-			res = __gong__marshallPointer(ident, "TYPE", spec_object.TYPE.GongGetIdentifier(stage))
+	case "TYPE_XSD":
+		if spec_object.TYPE_XSD != nil {
+			res = __gong__marshallPointer(ident, "TYPE_XSD", spec_object.TYPE_XSD.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "TYPE", "nil")
+			res = __gong__marshallPointer(ident, "TYPE_XSD", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SPEC_OBJECT", fieldName)
@@ -5460,11 +5477,11 @@ func (spec_relation *SPEC_RELATION) GongMarshallField(stage *Stage, fieldName st
 		} else {
 			res = __gong__marshallPointer(ident, "TARGET", "nil")
 		}
-	case "TYPE":
-		if spec_relation.TYPE != nil {
-			res = __gong__marshallPointer(ident, "TYPE", spec_relation.TYPE.GongGetIdentifier(stage))
+	case "TYPE_XSD":
+		if spec_relation.TYPE_XSD != nil {
+			res = __gong__marshallPointer(ident, "TYPE_XSD", spec_relation.TYPE_XSD.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "TYPE", "nil")
+			res = __gong__marshallPointer(ident, "TYPE_XSD", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SPEC_RELATION", fieldName)
@@ -5546,7 +5563,7 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongMarshallAl
 		initializerStatements.WriteString(attribute_definition_boolean.GongMarshallField(stage, "LONG_NAME"))
 		pointersInitializesStatements.WriteString(attribute_definition_boolean.GongMarshallField(stage, "ALTERNATIVE_ID"))
 		pointersInitializesStatements.WriteString(attribute_definition_boolean.GongMarshallField(stage, "DEFAULT_VALUE"))
-		pointersInitializesStatements.WriteString(attribute_definition_boolean.GongMarshallField(stage, "TYPE"))
+		pointersInitializesStatements.WriteString(attribute_definition_boolean.GongMarshallField(stage, "TYPE_XSD"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -5565,7 +5582,7 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongMarshallAllField
 		initializerStatements.WriteString(attribute_definition_date.GongMarshallField(stage, "LONG_NAME"))
 		pointersInitializesStatements.WriteString(attribute_definition_date.GongMarshallField(stage, "ALTERNATIVE_ID"))
 		pointersInitializesStatements.WriteString(attribute_definition_date.GongMarshallField(stage, "DEFAULT_VALUE"))
-		pointersInitializesStatements.WriteString(attribute_definition_date.GongMarshallField(stage, "TYPE"))
+		pointersInitializesStatements.WriteString(attribute_definition_date.GongMarshallField(stage, "TYPE_XSD"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -5585,7 +5602,7 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongMa
 		initializerStatements.WriteString(attribute_definition_enumeration.GongMarshallField(stage, "MULTI_VALUED"))
 		pointersInitializesStatements.WriteString(attribute_definition_enumeration.GongMarshallField(stage, "ALTERNATIVE_ID"))
 		pointersInitializesStatements.WriteString(attribute_definition_enumeration.GongMarshallField(stage, "DEFAULT_VALUE"))
-		pointersInitializesStatements.WriteString(attribute_definition_enumeration.GongMarshallField(stage, "TYPE"))
+		pointersInitializesStatements.WriteString(attribute_definition_enumeration.GongMarshallField(stage, "TYPE_XSD"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -5604,7 +5621,7 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongMarshallAl
 		initializerStatements.WriteString(attribute_definition_integer.GongMarshallField(stage, "LONG_NAME"))
 		pointersInitializesStatements.WriteString(attribute_definition_integer.GongMarshallField(stage, "ALTERNATIVE_ID"))
 		pointersInitializesStatements.WriteString(attribute_definition_integer.GongMarshallField(stage, "DEFAULT_VALUE"))
-		pointersInitializesStatements.WriteString(attribute_definition_integer.GongMarshallField(stage, "TYPE"))
+		pointersInitializesStatements.WriteString(attribute_definition_integer.GongMarshallField(stage, "TYPE_XSD"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -5623,7 +5640,7 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongMarshallAllField
 		initializerStatements.WriteString(attribute_definition_real.GongMarshallField(stage, "LONG_NAME"))
 		pointersInitializesStatements.WriteString(attribute_definition_real.GongMarshallField(stage, "ALTERNATIVE_ID"))
 		pointersInitializesStatements.WriteString(attribute_definition_real.GongMarshallField(stage, "DEFAULT_VALUE"))
-		pointersInitializesStatements.WriteString(attribute_definition_real.GongMarshallField(stage, "TYPE"))
+		pointersInitializesStatements.WriteString(attribute_definition_real.GongMarshallField(stage, "TYPE_XSD"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -5642,7 +5659,7 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongMarshallAllF
 		initializerStatements.WriteString(attribute_definition_string.GongMarshallField(stage, "LONG_NAME"))
 		pointersInitializesStatements.WriteString(attribute_definition_string.GongMarshallField(stage, "ALTERNATIVE_ID"))
 		pointersInitializesStatements.WriteString(attribute_definition_string.GongMarshallField(stage, "DEFAULT_VALUE"))
-		pointersInitializesStatements.WriteString(attribute_definition_string.GongMarshallField(stage, "TYPE"))
+		pointersInitializesStatements.WriteString(attribute_definition_string.GongMarshallField(stage, "TYPE_XSD"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -5661,7 +5678,7 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongMarshallAllFie
 		initializerStatements.WriteString(attribute_definition_xhtml.GongMarshallField(stage, "LONG_NAME"))
 		pointersInitializesStatements.WriteString(attribute_definition_xhtml.GongMarshallField(stage, "ALTERNATIVE_ID"))
 		pointersInitializesStatements.WriteString(attribute_definition_xhtml.GongMarshallField(stage, "DEFAULT_VALUE"))
-		pointersInitializesStatements.WriteString(attribute_definition_xhtml.GongMarshallField(stage, "TYPE"))
+		pointersInitializesStatements.WriteString(attribute_definition_xhtml.GongMarshallField(stage, "TYPE_XSD"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -6150,25 +6167,25 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongMarshallAllField
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (a_source_1 *A_SOURCE_1) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+func (a_source *A_SOURCE) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(a_source_1.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(a_source_1.GongMarshallField(stage, "SPEC_OBJECT_REF"))
+		initializerStatements.WriteString(a_source.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(a_source.GongMarshallField(stage, "SPEC_OBJECT_REF"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(a_source_specification_1.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(a_source_specification_1.GongMarshallField(stage, "SPECIFICATION_REF"))
+		initializerStatements.WriteString(a_source_specification.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(a_source_specification.GongMarshallField(stage, "SPECIFICATION_REF"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -6398,8 +6415,8 @@ func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongMarshallAllF
 		initializerStatements.WriteString(datatype_definition_integer.GongMarshallField(stage, "IDENTIFIER"))
 		initializerStatements.WriteString(datatype_definition_integer.GongMarshallField(stage, "LAST_CHANGE"))
 		initializerStatements.WriteString(datatype_definition_integer.GongMarshallField(stage, "LONG_NAME"))
-		initializerStatements.WriteString(datatype_definition_integer.GongMarshallField(stage, "MAX"))
-		initializerStatements.WriteString(datatype_definition_integer.GongMarshallField(stage, "MIN"))
+		initializerStatements.WriteString(datatype_definition_integer.GongMarshallField(stage, "MAX_XSD"))
+		initializerStatements.WriteString(datatype_definition_integer.GongMarshallField(stage, "MIN_XSD"))
 		pointersInitializesStatements.WriteString(datatype_definition_integer.GongMarshallField(stage, "ALTERNATIVE_ID"))
 	}
 	initRes = initializerStatements.String()
@@ -6417,8 +6434,8 @@ func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongMarshallAllFields(
 		initializerStatements.WriteString(datatype_definition_real.GongMarshallField(stage, "IDENTIFIER"))
 		initializerStatements.WriteString(datatype_definition_real.GongMarshallField(stage, "LAST_CHANGE"))
 		initializerStatements.WriteString(datatype_definition_real.GongMarshallField(stage, "LONG_NAME"))
-		initializerStatements.WriteString(datatype_definition_real.GongMarshallField(stage, "MAX"))
-		initializerStatements.WriteString(datatype_definition_real.GongMarshallField(stage, "MIN"))
+		initializerStatements.WriteString(datatype_definition_real.GongMarshallField(stage, "MAX_XSD"))
+		initializerStatements.WriteString(datatype_definition_real.GongMarshallField(stage, "MIN_XSD"))
 		pointersInitializesStatements.WriteString(datatype_definition_real.GongMarshallField(stage, "ALTERNATIVE_ID"))
 	}
 	initRes = initializerStatements.String()
@@ -6502,7 +6519,7 @@ func (relation_group *RELATION_GROUP) GongMarshallAllFields(stage *Stage) (initR
 		pointersInitializesStatements.WriteString(relation_group.GongMarshallField(stage, "SOURCE_SPECIFICATION"))
 		pointersInitializesStatements.WriteString(relation_group.GongMarshallField(stage, "SPEC_RELATIONS"))
 		pointersInitializesStatements.WriteString(relation_group.GongMarshallField(stage, "TARGET_SPECIFICATION"))
-		pointersInitializesStatements.WriteString(relation_group.GongMarshallField(stage, "TYPE"))
+		pointersInitializesStatements.WriteString(relation_group.GongMarshallField(stage, "TYPE_XSD"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -6600,7 +6617,7 @@ func (specification *SPECIFICATION) GongMarshallAllFields(stage *Stage) (initRes
 		pointersInitializesStatements.WriteString(specification.GongMarshallField(stage, "ALTERNATIVE_ID"))
 		pointersInitializesStatements.WriteString(specification.GongMarshallField(stage, "CHILDREN"))
 		pointersInitializesStatements.WriteString(specification.GongMarshallField(stage, "VALUES"))
-		pointersInitializesStatements.WriteString(specification.GongMarshallField(stage, "TYPE"))
+		pointersInitializesStatements.WriteString(specification.GongMarshallField(stage, "TYPE_XSD"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -6656,7 +6673,7 @@ func (spec_object *SPEC_OBJECT) GongMarshallAllFields(stage *Stage) (initRes str
 		initializerStatements.WriteString(spec_object.GongMarshallField(stage, "LONG_NAME"))
 		pointersInitializesStatements.WriteString(spec_object.GongMarshallField(stage, "ALTERNATIVE_ID"))
 		pointersInitializesStatements.WriteString(spec_object.GongMarshallField(stage, "VALUES"))
-		pointersInitializesStatements.WriteString(spec_object.GongMarshallField(stage, "TYPE"))
+		pointersInitializesStatements.WriteString(spec_object.GongMarshallField(stage, "TYPE_XSD"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -6693,7 +6710,7 @@ func (spec_relation *SPEC_RELATION) GongMarshallAllFields(stage *Stage) (initRes
 		pointersInitializesStatements.WriteString(spec_relation.GongMarshallField(stage, "VALUES"))
 		pointersInitializesStatements.WriteString(spec_relation.GongMarshallField(stage, "SOURCE"))
 		pointersInitializesStatements.WriteString(spec_relation.GongMarshallField(stage, "TARGET"))
-		pointersInitializesStatements.WriteString(spec_relation.GongMarshallField(stage, "TYPE"))
+		pointersInitializesStatements.WriteString(spec_relation.GongMarshallField(stage, "TYPE_XSD"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

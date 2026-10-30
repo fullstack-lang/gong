@@ -245,13 +245,13 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongIsStaged(stage *
 	return ok
 }
 
-func (a_source_1 *A_SOURCE_1) GongIsStaged(stage *Stage) bool {
-	_, ok := stage.A_SOURCE_1s[a_source_1]
+func (a_source *A_SOURCE) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SOURCEs[a_source]
 	return ok
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongIsStaged(stage *Stage) bool {
-	_, ok := stage.A_SOURCE_SPECIFICATION_1s[a_source_specification_1]
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.A_SOURCE_SPECIFICATIONs[a_source_specification]
 	return ok
 }
 
@@ -474,8 +474,8 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongStageBranc
 	if attribute_definition_boolean.DEFAULT_VALUE != nil {
 		stage.StageBranch(attribute_definition_boolean.DEFAULT_VALUE)
 	}
-	if attribute_definition_boolean.TYPE != nil {
-		stage.StageBranch(attribute_definition_boolean.TYPE)
+	if attribute_definition_boolean.TYPE_XSD != nil {
+		stage.StageBranch(attribute_definition_boolean.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -498,8 +498,8 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongStageBranch(stag
 	if attribute_definition_date.DEFAULT_VALUE != nil {
 		stage.StageBranch(attribute_definition_date.DEFAULT_VALUE)
 	}
-	if attribute_definition_date.TYPE != nil {
-		stage.StageBranch(attribute_definition_date.TYPE)
+	if attribute_definition_date.TYPE_XSD != nil {
+		stage.StageBranch(attribute_definition_date.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -522,8 +522,8 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongSt
 	if attribute_definition_enumeration.DEFAULT_VALUE != nil {
 		stage.StageBranch(attribute_definition_enumeration.DEFAULT_VALUE)
 	}
-	if attribute_definition_enumeration.TYPE != nil {
-		stage.StageBranch(attribute_definition_enumeration.TYPE)
+	if attribute_definition_enumeration.TYPE_XSD != nil {
+		stage.StageBranch(attribute_definition_enumeration.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -546,8 +546,8 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongStageBranc
 	if attribute_definition_integer.DEFAULT_VALUE != nil {
 		stage.StageBranch(attribute_definition_integer.DEFAULT_VALUE)
 	}
-	if attribute_definition_integer.TYPE != nil {
-		stage.StageBranch(attribute_definition_integer.TYPE)
+	if attribute_definition_integer.TYPE_XSD != nil {
+		stage.StageBranch(attribute_definition_integer.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -570,8 +570,8 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongStageBranch(stag
 	if attribute_definition_real.DEFAULT_VALUE != nil {
 		stage.StageBranch(attribute_definition_real.DEFAULT_VALUE)
 	}
-	if attribute_definition_real.TYPE != nil {
-		stage.StageBranch(attribute_definition_real.TYPE)
+	if attribute_definition_real.TYPE_XSD != nil {
+		stage.StageBranch(attribute_definition_real.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -594,8 +594,8 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongStageBranch(
 	if attribute_definition_string.DEFAULT_VALUE != nil {
 		stage.StageBranch(attribute_definition_string.DEFAULT_VALUE)
 	}
-	if attribute_definition_string.TYPE != nil {
-		stage.StageBranch(attribute_definition_string.TYPE)
+	if attribute_definition_string.TYPE_XSD != nil {
+		stage.StageBranch(attribute_definition_string.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -618,8 +618,8 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongStageBranch(st
 	if attribute_definition_xhtml.DEFAULT_VALUE != nil {
 		stage.StageBranch(attribute_definition_xhtml.DEFAULT_VALUE)
 	}
-	if attribute_definition_xhtml.TYPE != nil {
-		stage.StageBranch(attribute_definition_xhtml.TYPE)
+	if attribute_definition_xhtml.TYPE_XSD != nil {
+		stage.StageBranch(attribute_definition_xhtml.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1301,14 +1301,14 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongStageBranch(stag
 
 }
 
-func (a_source_1 *A_SOURCE_1) GongStageBranch(stage *Stage) {
+func (a_source *A_SOURCE) GongStageBranch(stage *Stage) {
 
 	// check if instance is already staged
-	if stage.IsStaged(a_source_1) {
+	if stage.IsStaged(a_source) {
 		return
 	}
 
-	a_source_1.Stage(stage)
+	a_source.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1316,14 +1316,14 @@ func (a_source_1 *A_SOURCE_1) GongStageBranch(stage *Stage) {
 
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongStageBranch(stage *Stage) {
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongStageBranch(stage *Stage) {
 
 	// check if instance is already staged
-	if stage.IsStaged(a_source_specification_1) {
+	if stage.IsStaged(a_source_specification) {
 		return
 	}
 
-	a_source_specification_1.Stage(stage)
+	a_source_specification.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1767,8 +1767,8 @@ func (relation_group *RELATION_GROUP) GongStageBranch(stage *Stage) {
 	if relation_group.TARGET_SPECIFICATION != nil {
 		stage.StageBranch(relation_group.TARGET_SPECIFICATION)
 	}
-	if relation_group.TYPE != nil {
-		stage.StageBranch(relation_group.TYPE)
+	if relation_group.TYPE_XSD != nil {
+		stage.StageBranch(relation_group.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1902,8 +1902,8 @@ func (specification *SPECIFICATION) GongStageBranch(stage *Stage) {
 	if specification.VALUES != nil {
 		stage.StageBranch(specification.VALUES)
 	}
-	if specification.TYPE != nil {
-		stage.StageBranch(specification.TYPE)
+	if specification.TYPE_XSD != nil {
+		stage.StageBranch(specification.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1974,8 +1974,8 @@ func (spec_object *SPEC_OBJECT) GongStageBranch(stage *Stage) {
 	if spec_object.VALUES != nil {
 		stage.StageBranch(spec_object.VALUES)
 	}
-	if spec_object.TYPE != nil {
-		stage.StageBranch(spec_object.TYPE)
+	if spec_object.TYPE_XSD != nil {
+		stage.StageBranch(spec_object.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2025,8 +2025,8 @@ func (spec_relation *SPEC_RELATION) GongStageBranch(stage *Stage) {
 	if spec_relation.TARGET != nil {
 		stage.StageBranch(spec_relation.TARGET)
 	}
-	if spec_relation.TYPE != nil {
-		stage.StageBranch(spec_relation.TYPE)
+	if spec_relation.TYPE_XSD != nil {
+		stage.StageBranch(spec_relation.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2264,12 +2264,12 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchA_RELATION_GROUP_TYPE_REF(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *A_SOURCE_1:
-		toT := GongCopyBranchA_SOURCE_1(mapOrigCopy, fromT)
+	case *A_SOURCE:
+		toT := GongCopyBranchA_SOURCE(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *A_SOURCE_SPECIFICATION_1:
-		toT := GongCopyBranchA_SOURCE_SPECIFICATION_1(mapOrigCopy, fromT)
+	case *A_SOURCE_SPECIFICATION:
+		toT := GongCopyBranchA_SOURCE_SPECIFICATION(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *A_SPECIFICATIONS:
@@ -2453,8 +2453,8 @@ func GongCopyBranchATTRIBUTE_DEFINITION_BOOLEAN(mapOrigCopy map[any]any, attribu
 	if attribute_definition_booleanFrom.DEFAULT_VALUE != nil {
 		attribute_definition_booleanTo.DEFAULT_VALUE = GongCopyBranchA_ATTRIBUTE_VALUE_BOOLEAN(mapOrigCopy, attribute_definition_booleanFrom.DEFAULT_VALUE)
 	}
-	if attribute_definition_booleanFrom.TYPE != nil {
-		attribute_definition_booleanTo.TYPE = GongCopyBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(mapOrigCopy, attribute_definition_booleanFrom.TYPE)
+	if attribute_definition_booleanFrom.TYPE_XSD != nil {
+		attribute_definition_booleanTo.TYPE_XSD = GongCopyBranchA_DATATYPE_DEFINITION_BOOLEAN_REF(mapOrigCopy, attribute_definition_booleanFrom.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2477,8 +2477,8 @@ func GongCopyBranchATTRIBUTE_DEFINITION_DATE(mapOrigCopy map[any]any, attribute_
 	if attribute_definition_dateFrom.DEFAULT_VALUE != nil {
 		attribute_definition_dateTo.DEFAULT_VALUE = GongCopyBranchA_ATTRIBUTE_VALUE_DATE(mapOrigCopy, attribute_definition_dateFrom.DEFAULT_VALUE)
 	}
-	if attribute_definition_dateFrom.TYPE != nil {
-		attribute_definition_dateTo.TYPE = GongCopyBranchA_DATATYPE_DEFINITION_DATE_REF(mapOrigCopy, attribute_definition_dateFrom.TYPE)
+	if attribute_definition_dateFrom.TYPE_XSD != nil {
+		attribute_definition_dateTo.TYPE_XSD = GongCopyBranchA_DATATYPE_DEFINITION_DATE_REF(mapOrigCopy, attribute_definition_dateFrom.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2501,8 +2501,8 @@ func GongCopyBranchATTRIBUTE_DEFINITION_ENUMERATION(mapOrigCopy map[any]any, att
 	if attribute_definition_enumerationFrom.DEFAULT_VALUE != nil {
 		attribute_definition_enumerationTo.DEFAULT_VALUE = GongCopyBranchA_ATTRIBUTE_VALUE_ENUMERATION(mapOrigCopy, attribute_definition_enumerationFrom.DEFAULT_VALUE)
 	}
-	if attribute_definition_enumerationFrom.TYPE != nil {
-		attribute_definition_enumerationTo.TYPE = GongCopyBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(mapOrigCopy, attribute_definition_enumerationFrom.TYPE)
+	if attribute_definition_enumerationFrom.TYPE_XSD != nil {
+		attribute_definition_enumerationTo.TYPE_XSD = GongCopyBranchA_DATATYPE_DEFINITION_ENUMERATION_REF(mapOrigCopy, attribute_definition_enumerationFrom.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2525,8 +2525,8 @@ func GongCopyBranchATTRIBUTE_DEFINITION_INTEGER(mapOrigCopy map[any]any, attribu
 	if attribute_definition_integerFrom.DEFAULT_VALUE != nil {
 		attribute_definition_integerTo.DEFAULT_VALUE = GongCopyBranchA_ATTRIBUTE_VALUE_INTEGER(mapOrigCopy, attribute_definition_integerFrom.DEFAULT_VALUE)
 	}
-	if attribute_definition_integerFrom.TYPE != nil {
-		attribute_definition_integerTo.TYPE = GongCopyBranchA_DATATYPE_DEFINITION_INTEGER_REF(mapOrigCopy, attribute_definition_integerFrom.TYPE)
+	if attribute_definition_integerFrom.TYPE_XSD != nil {
+		attribute_definition_integerTo.TYPE_XSD = GongCopyBranchA_DATATYPE_DEFINITION_INTEGER_REF(mapOrigCopy, attribute_definition_integerFrom.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2549,8 +2549,8 @@ func GongCopyBranchATTRIBUTE_DEFINITION_REAL(mapOrigCopy map[any]any, attribute_
 	if attribute_definition_realFrom.DEFAULT_VALUE != nil {
 		attribute_definition_realTo.DEFAULT_VALUE = GongCopyBranchA_ATTRIBUTE_VALUE_REAL(mapOrigCopy, attribute_definition_realFrom.DEFAULT_VALUE)
 	}
-	if attribute_definition_realFrom.TYPE != nil {
-		attribute_definition_realTo.TYPE = GongCopyBranchA_DATATYPE_DEFINITION_REAL_REF(mapOrigCopy, attribute_definition_realFrom.TYPE)
+	if attribute_definition_realFrom.TYPE_XSD != nil {
+		attribute_definition_realTo.TYPE_XSD = GongCopyBranchA_DATATYPE_DEFINITION_REAL_REF(mapOrigCopy, attribute_definition_realFrom.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2573,8 +2573,8 @@ func GongCopyBranchATTRIBUTE_DEFINITION_STRING(mapOrigCopy map[any]any, attribut
 	if attribute_definition_stringFrom.DEFAULT_VALUE != nil {
 		attribute_definition_stringTo.DEFAULT_VALUE = GongCopyBranchA_ATTRIBUTE_VALUE_STRING(mapOrigCopy, attribute_definition_stringFrom.DEFAULT_VALUE)
 	}
-	if attribute_definition_stringFrom.TYPE != nil {
-		attribute_definition_stringTo.TYPE = GongCopyBranchA_DATATYPE_DEFINITION_STRING_REF(mapOrigCopy, attribute_definition_stringFrom.TYPE)
+	if attribute_definition_stringFrom.TYPE_XSD != nil {
+		attribute_definition_stringTo.TYPE_XSD = GongCopyBranchA_DATATYPE_DEFINITION_STRING_REF(mapOrigCopy, attribute_definition_stringFrom.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2597,8 +2597,8 @@ func GongCopyBranchATTRIBUTE_DEFINITION_XHTML(mapOrigCopy map[any]any, attribute
 	if attribute_definition_xhtmlFrom.DEFAULT_VALUE != nil {
 		attribute_definition_xhtmlTo.DEFAULT_VALUE = GongCopyBranchA_ATTRIBUTE_VALUE_XHTML(mapOrigCopy, attribute_definition_xhtmlFrom.DEFAULT_VALUE)
 	}
-	if attribute_definition_xhtmlFrom.TYPE != nil {
-		attribute_definition_xhtmlTo.TYPE = GongCopyBranchA_DATATYPE_DEFINITION_XHTML_REF(mapOrigCopy, attribute_definition_xhtmlFrom.TYPE)
+	if attribute_definition_xhtmlFrom.TYPE_XSD != nil {
+		attribute_definition_xhtmlTo.TYPE_XSD = GongCopyBranchA_DATATYPE_DEFINITION_XHTML_REF(mapOrigCopy, attribute_definition_xhtmlFrom.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -3281,13 +3281,13 @@ func GongCopyBranchA_RELATION_GROUP_TYPE_REF(mapOrigCopy map[any]any, a_relation
 	return
 }
 
-func GongCopyBranchA_SOURCE_1(mapOrigCopy map[any]any, a_source_1From *A_SOURCE_1) (a_source_1To *A_SOURCE_1) {
+func GongCopyBranchA_SOURCE(mapOrigCopy map[any]any, a_sourceFrom *A_SOURCE) (a_sourceTo *A_SOURCE) {
 	var alreadyCopied bool
-	a_source_1To, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_source_1From)
+	a_sourceTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_sourceFrom)
 	if alreadyCopied {
 		return
 	}
-	a_source_1From.GongCopyBasicFields(a_source_1To)
+	a_sourceFrom.GongCopyBasicFields(a_sourceTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -3296,13 +3296,13 @@ func GongCopyBranchA_SOURCE_1(mapOrigCopy map[any]any, a_source_1From *A_SOURCE_
 	return
 }
 
-func GongCopyBranchA_SOURCE_SPECIFICATION_1(mapOrigCopy map[any]any, a_source_specification_1From *A_SOURCE_SPECIFICATION_1) (a_source_specification_1To *A_SOURCE_SPECIFICATION_1) {
+func GongCopyBranchA_SOURCE_SPECIFICATION(mapOrigCopy map[any]any, a_source_specificationFrom *A_SOURCE_SPECIFICATION) (a_source_specificationTo *A_SOURCE_SPECIFICATION) {
 	var alreadyCopied bool
-	a_source_specification_1To, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_source_specification_1From)
+	a_source_specificationTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, a_source_specificationFrom)
 	if alreadyCopied {
 		return
 	}
-	a_source_specification_1From.GongCopyBasicFields(a_source_specification_1To)
+	a_source_specificationFrom.GongCopyBasicFields(a_source_specificationTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -3738,16 +3738,16 @@ func GongCopyBranchRELATION_GROUP(mapOrigCopy map[any]any, relation_groupFrom *R
 		relation_groupTo.ALTERNATIVE_ID = GongCopyBranchA_ALTERNATIVE_ID(mapOrigCopy, relation_groupFrom.ALTERNATIVE_ID)
 	}
 	if relation_groupFrom.SOURCE_SPECIFICATION != nil {
-		relation_groupTo.SOURCE_SPECIFICATION = GongCopyBranchA_SOURCE_SPECIFICATION_1(mapOrigCopy, relation_groupFrom.SOURCE_SPECIFICATION)
+		relation_groupTo.SOURCE_SPECIFICATION = GongCopyBranchA_SOURCE_SPECIFICATION(mapOrigCopy, relation_groupFrom.SOURCE_SPECIFICATION)
 	}
 	if relation_groupFrom.SPEC_RELATIONS != nil {
 		relation_groupTo.SPEC_RELATIONS = GongCopyBranchA_SPEC_RELATION_REF(mapOrigCopy, relation_groupFrom.SPEC_RELATIONS)
 	}
 	if relation_groupFrom.TARGET_SPECIFICATION != nil {
-		relation_groupTo.TARGET_SPECIFICATION = GongCopyBranchA_SOURCE_SPECIFICATION_1(mapOrigCopy, relation_groupFrom.TARGET_SPECIFICATION)
+		relation_groupTo.TARGET_SPECIFICATION = GongCopyBranchA_SOURCE_SPECIFICATION(mapOrigCopy, relation_groupFrom.TARGET_SPECIFICATION)
 	}
-	if relation_groupFrom.TYPE != nil {
-		relation_groupTo.TYPE = GongCopyBranchA_RELATION_GROUP_TYPE_REF(mapOrigCopy, relation_groupFrom.TYPE)
+	if relation_groupFrom.TYPE_XSD != nil {
+		relation_groupTo.TYPE_XSD = GongCopyBranchA_RELATION_GROUP_TYPE_REF(mapOrigCopy, relation_groupFrom.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -3881,8 +3881,8 @@ func GongCopyBranchSPECIFICATION(mapOrigCopy map[any]any, specificationFrom *SPE
 	if specificationFrom.VALUES != nil {
 		specificationTo.VALUES = GongCopyBranchA_ATTRIBUTE_VALUE_XHTML_1(mapOrigCopy, specificationFrom.VALUES)
 	}
-	if specificationFrom.TYPE != nil {
-		specificationTo.TYPE = GongCopyBranchA_SPECIFICATION_TYPE_REF(mapOrigCopy, specificationFrom.TYPE)
+	if specificationFrom.TYPE_XSD != nil {
+		specificationTo.TYPE_XSD = GongCopyBranchA_SPECIFICATION_TYPE_REF(mapOrigCopy, specificationFrom.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -3953,8 +3953,8 @@ func GongCopyBranchSPEC_OBJECT(mapOrigCopy map[any]any, spec_objectFrom *SPEC_OB
 	if spec_objectFrom.VALUES != nil {
 		spec_objectTo.VALUES = GongCopyBranchA_ATTRIBUTE_VALUE_XHTML_1(mapOrigCopy, spec_objectFrom.VALUES)
 	}
-	if spec_objectFrom.TYPE != nil {
-		spec_objectTo.TYPE = GongCopyBranchA_SPEC_OBJECT_TYPE_REF(mapOrigCopy, spec_objectFrom.TYPE)
+	if spec_objectFrom.TYPE_XSD != nil {
+		spec_objectTo.TYPE_XSD = GongCopyBranchA_SPEC_OBJECT_TYPE_REF(mapOrigCopy, spec_objectFrom.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -3999,13 +3999,13 @@ func GongCopyBranchSPEC_RELATION(mapOrigCopy map[any]any, spec_relationFrom *SPE
 		spec_relationTo.VALUES = GongCopyBranchA_ATTRIBUTE_VALUE_XHTML_1(mapOrigCopy, spec_relationFrom.VALUES)
 	}
 	if spec_relationFrom.SOURCE != nil {
-		spec_relationTo.SOURCE = GongCopyBranchA_SOURCE_1(mapOrigCopy, spec_relationFrom.SOURCE)
+		spec_relationTo.SOURCE = GongCopyBranchA_SOURCE(mapOrigCopy, spec_relationFrom.SOURCE)
 	}
 	if spec_relationFrom.TARGET != nil {
-		spec_relationTo.TARGET = GongCopyBranchA_SOURCE_1(mapOrigCopy, spec_relationFrom.TARGET)
+		spec_relationTo.TARGET = GongCopyBranchA_SOURCE(mapOrigCopy, spec_relationFrom.TARGET)
 	}
-	if spec_relationFrom.TYPE != nil {
-		spec_relationTo.TYPE = GongCopyBranchA_SPEC_RELATION_TYPE_REF(mapOrigCopy, spec_relationFrom.TYPE)
+	if spec_relationFrom.TYPE_XSD != nil {
+		spec_relationTo.TYPE_XSD = GongCopyBranchA_SPEC_RELATION_TYPE_REF(mapOrigCopy, spec_relationFrom.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4092,8 +4092,8 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongUnstageBra
 	if attribute_definition_boolean.DEFAULT_VALUE != nil {
 		stage.UnstageBranch(attribute_definition_boolean.DEFAULT_VALUE)
 	}
-	if attribute_definition_boolean.TYPE != nil {
-		stage.UnstageBranch(attribute_definition_boolean.TYPE)
+	if attribute_definition_boolean.TYPE_XSD != nil {
+		stage.UnstageBranch(attribute_definition_boolean.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4116,8 +4116,8 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongUnstageBranch(st
 	if attribute_definition_date.DEFAULT_VALUE != nil {
 		stage.UnstageBranch(attribute_definition_date.DEFAULT_VALUE)
 	}
-	if attribute_definition_date.TYPE != nil {
-		stage.UnstageBranch(attribute_definition_date.TYPE)
+	if attribute_definition_date.TYPE_XSD != nil {
+		stage.UnstageBranch(attribute_definition_date.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4140,8 +4140,8 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongUn
 	if attribute_definition_enumeration.DEFAULT_VALUE != nil {
 		stage.UnstageBranch(attribute_definition_enumeration.DEFAULT_VALUE)
 	}
-	if attribute_definition_enumeration.TYPE != nil {
-		stage.UnstageBranch(attribute_definition_enumeration.TYPE)
+	if attribute_definition_enumeration.TYPE_XSD != nil {
+		stage.UnstageBranch(attribute_definition_enumeration.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4164,8 +4164,8 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongUnstageBra
 	if attribute_definition_integer.DEFAULT_VALUE != nil {
 		stage.UnstageBranch(attribute_definition_integer.DEFAULT_VALUE)
 	}
-	if attribute_definition_integer.TYPE != nil {
-		stage.UnstageBranch(attribute_definition_integer.TYPE)
+	if attribute_definition_integer.TYPE_XSD != nil {
+		stage.UnstageBranch(attribute_definition_integer.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4188,8 +4188,8 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongUnstageBranch(st
 	if attribute_definition_real.DEFAULT_VALUE != nil {
 		stage.UnstageBranch(attribute_definition_real.DEFAULT_VALUE)
 	}
-	if attribute_definition_real.TYPE != nil {
-		stage.UnstageBranch(attribute_definition_real.TYPE)
+	if attribute_definition_real.TYPE_XSD != nil {
+		stage.UnstageBranch(attribute_definition_real.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4212,8 +4212,8 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongUnstageBranc
 	if attribute_definition_string.DEFAULT_VALUE != nil {
 		stage.UnstageBranch(attribute_definition_string.DEFAULT_VALUE)
 	}
-	if attribute_definition_string.TYPE != nil {
-		stage.UnstageBranch(attribute_definition_string.TYPE)
+	if attribute_definition_string.TYPE_XSD != nil {
+		stage.UnstageBranch(attribute_definition_string.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4236,8 +4236,8 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongUnstageBranch(
 	if attribute_definition_xhtml.DEFAULT_VALUE != nil {
 		stage.UnstageBranch(attribute_definition_xhtml.DEFAULT_VALUE)
 	}
-	if attribute_definition_xhtml.TYPE != nil {
-		stage.UnstageBranch(attribute_definition_xhtml.TYPE)
+	if attribute_definition_xhtml.TYPE_XSD != nil {
+		stage.UnstageBranch(attribute_definition_xhtml.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4919,14 +4919,14 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongUnstageBranch(st
 
 }
 
-func (a_source_1 *A_SOURCE_1) GongUnstageBranch(stage *Stage) {
+func (a_source *A_SOURCE) GongUnstageBranch(stage *Stage) {
 
 	// check if instance is already staged
-	if !stage.IsStaged(a_source_1) {
+	if !stage.IsStaged(a_source) {
 		return
 	}
 
-	a_source_1.Unstage(stage)
+	a_source.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -4934,14 +4934,14 @@ func (a_source_1 *A_SOURCE_1) GongUnstageBranch(stage *Stage) {
 
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongUnstageBranch(stage *Stage) {
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongUnstageBranch(stage *Stage) {
 
 	// check if instance is already staged
-	if !stage.IsStaged(a_source_specification_1) {
+	if !stage.IsStaged(a_source_specification) {
 		return
 	}
 
-	a_source_specification_1.Unstage(stage)
+	a_source_specification.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -5385,8 +5385,8 @@ func (relation_group *RELATION_GROUP) GongUnstageBranch(stage *Stage) {
 	if relation_group.TARGET_SPECIFICATION != nil {
 		stage.UnstageBranch(relation_group.TARGET_SPECIFICATION)
 	}
-	if relation_group.TYPE != nil {
-		stage.UnstageBranch(relation_group.TYPE)
+	if relation_group.TYPE_XSD != nil {
+		stage.UnstageBranch(relation_group.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5520,8 +5520,8 @@ func (specification *SPECIFICATION) GongUnstageBranch(stage *Stage) {
 	if specification.VALUES != nil {
 		stage.UnstageBranch(specification.VALUES)
 	}
-	if specification.TYPE != nil {
-		stage.UnstageBranch(specification.TYPE)
+	if specification.TYPE_XSD != nil {
+		stage.UnstageBranch(specification.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5592,8 +5592,8 @@ func (spec_object *SPEC_OBJECT) GongUnstageBranch(stage *Stage) {
 	if spec_object.VALUES != nil {
 		stage.UnstageBranch(spec_object.VALUES)
 	}
-	if spec_object.TYPE != nil {
-		stage.UnstageBranch(spec_object.TYPE)
+	if spec_object.TYPE_XSD != nil {
+		stage.UnstageBranch(spec_object.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5643,8 +5643,8 @@ func (spec_relation *SPEC_RELATION) GongUnstageBranch(stage *Stage) {
 	if spec_relation.TARGET != nil {
 		stage.UnstageBranch(spec_relation.TARGET)
 	}
-	if spec_relation.TYPE != nil {
-		stage.UnstageBranch(spec_relation.TYPE)
+	if spec_relation.TYPE_XSD != nil {
+		stage.UnstageBranch(spec_relation.TYPE_XSD)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5697,7 +5697,7 @@ func (reference *ATTRIBUTE_DEFINITION_BOOLEAN) GongReconstructPointersFromRefere
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	__gong__reconstructPointer(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_BOOLEANs_reference, instance.DEFAULT_VALUE)
-	__gong__reconstructPointer(&reference.TYPE, stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_reference, instance.TYPE)
+	__gong__reconstructPointer(&reference.TYPE_XSD, stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_reference, instance.TYPE_XSD)
 	// insertion point for slice of pointers field
 }
 
@@ -5705,7 +5705,7 @@ func (reference *ATTRIBUTE_DEFINITION_DATE) GongReconstructPointersFromReference
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	__gong__reconstructPointer(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_DATEs_reference, instance.DEFAULT_VALUE)
-	__gong__reconstructPointer(&reference.TYPE, stage.A_DATATYPE_DEFINITION_DATE_REFs_reference, instance.TYPE)
+	__gong__reconstructPointer(&reference.TYPE_XSD, stage.A_DATATYPE_DEFINITION_DATE_REFs_reference, instance.TYPE_XSD)
 	// insertion point for slice of pointers field
 }
 
@@ -5713,7 +5713,7 @@ func (reference *ATTRIBUTE_DEFINITION_ENUMERATION) GongReconstructPointersFromRe
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	__gong__reconstructPointer(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_reference, instance.DEFAULT_VALUE)
-	__gong__reconstructPointer(&reference.TYPE, stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_reference, instance.TYPE)
+	__gong__reconstructPointer(&reference.TYPE_XSD, stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_reference, instance.TYPE_XSD)
 	// insertion point for slice of pointers field
 }
 
@@ -5721,7 +5721,7 @@ func (reference *ATTRIBUTE_DEFINITION_INTEGER) GongReconstructPointersFromRefere
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	__gong__reconstructPointer(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_INTEGERs_reference, instance.DEFAULT_VALUE)
-	__gong__reconstructPointer(&reference.TYPE, stage.A_DATATYPE_DEFINITION_INTEGER_REFs_reference, instance.TYPE)
+	__gong__reconstructPointer(&reference.TYPE_XSD, stage.A_DATATYPE_DEFINITION_INTEGER_REFs_reference, instance.TYPE_XSD)
 	// insertion point for slice of pointers field
 }
 
@@ -5729,7 +5729,7 @@ func (reference *ATTRIBUTE_DEFINITION_REAL) GongReconstructPointersFromReference
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	__gong__reconstructPointer(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_REALs_reference, instance.DEFAULT_VALUE)
-	__gong__reconstructPointer(&reference.TYPE, stage.A_DATATYPE_DEFINITION_REAL_REFs_reference, instance.TYPE)
+	__gong__reconstructPointer(&reference.TYPE_XSD, stage.A_DATATYPE_DEFINITION_REAL_REFs_reference, instance.TYPE_XSD)
 	// insertion point for slice of pointers field
 }
 
@@ -5737,7 +5737,7 @@ func (reference *ATTRIBUTE_DEFINITION_STRING) GongReconstructPointersFromReferen
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	__gong__reconstructPointer(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_STRINGs_reference, instance.DEFAULT_VALUE)
-	__gong__reconstructPointer(&reference.TYPE, stage.A_DATATYPE_DEFINITION_STRING_REFs_reference, instance.TYPE)
+	__gong__reconstructPointer(&reference.TYPE_XSD, stage.A_DATATYPE_DEFINITION_STRING_REFs_reference, instance.TYPE_XSD)
 	// insertion point for slice of pointers field
 }
 
@@ -5745,7 +5745,7 @@ func (reference *ATTRIBUTE_DEFINITION_XHTML) GongReconstructPointersFromReferenc
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	__gong__reconstructPointer(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_XHTMLs_reference, instance.DEFAULT_VALUE)
-	__gong__reconstructPointer(&reference.TYPE, stage.A_DATATYPE_DEFINITION_XHTML_REFs_reference, instance.TYPE)
+	__gong__reconstructPointer(&reference.TYPE_XSD, stage.A_DATATYPE_DEFINITION_XHTML_REFs_reference, instance.TYPE_XSD)
 	// insertion point for slice of pointers field
 }
 
@@ -5974,12 +5974,12 @@ func (reference *A_RELATION_GROUP_TYPE_REF) GongReconstructPointersFromReference
 	// insertion point for slice of pointers field
 }
 
-func (reference *A_SOURCE_1) GongReconstructPointersFromReferences(stage *Stage, instance *A_SOURCE_1) {
+func (reference *A_SOURCE) GongReconstructPointersFromReferences(stage *Stage, instance *A_SOURCE) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
 
-func (reference *A_SOURCE_SPECIFICATION_1) GongReconstructPointersFromReferences(stage *Stage, instance *A_SOURCE_SPECIFICATION_1) {
+func (reference *A_SOURCE_SPECIFICATION) GongReconstructPointersFromReferences(stage *Stage, instance *A_SOURCE_SPECIFICATION) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -6125,10 +6125,10 @@ func (reference *ENUM_VALUE) GongReconstructPointersFromReferences(stage *Stage,
 func (reference *RELATION_GROUP) GongReconstructPointersFromReferences(stage *Stage, instance *RELATION_GROUP) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
-	__gong__reconstructPointer(&reference.SOURCE_SPECIFICATION, stage.A_SOURCE_SPECIFICATION_1s_reference, instance.SOURCE_SPECIFICATION)
+	__gong__reconstructPointer(&reference.SOURCE_SPECIFICATION, stage.A_SOURCE_SPECIFICATIONs_reference, instance.SOURCE_SPECIFICATION)
 	__gong__reconstructPointer(&reference.SPEC_RELATIONS, stage.A_SPEC_RELATION_REFs_reference, instance.SPEC_RELATIONS)
-	__gong__reconstructPointer(&reference.TARGET_SPECIFICATION, stage.A_SOURCE_SPECIFICATION_1s_reference, instance.TARGET_SPECIFICATION)
-	__gong__reconstructPointer(&reference.TYPE, stage.A_RELATION_GROUP_TYPE_REFs_reference, instance.TYPE)
+	__gong__reconstructPointer(&reference.TARGET_SPECIFICATION, stage.A_SOURCE_SPECIFICATIONs_reference, instance.TARGET_SPECIFICATION)
+	__gong__reconstructPointer(&reference.TYPE_XSD, stage.A_RELATION_GROUP_TYPE_REFs_reference, instance.TYPE_XSD)
 	// insertion point for slice of pointers field
 }
 
@@ -6173,7 +6173,7 @@ func (reference *SPECIFICATION) GongReconstructPointersFromReferences(stage *Sta
 	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	__gong__reconstructPointer(&reference.CHILDREN, stage.A_CHILDRENs_reference, instance.CHILDREN)
 	__gong__reconstructPointer(&reference.VALUES, stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference, instance.VALUES)
-	__gong__reconstructPointer(&reference.TYPE, stage.A_SPECIFICATION_TYPE_REFs_reference, instance.TYPE)
+	__gong__reconstructPointer(&reference.TYPE_XSD, stage.A_SPECIFICATION_TYPE_REFs_reference, instance.TYPE_XSD)
 	// insertion point for slice of pointers field
 }
 
@@ -6197,7 +6197,7 @@ func (reference *SPEC_OBJECT) GongReconstructPointersFromReferences(stage *Stage
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	__gong__reconstructPointer(&reference.VALUES, stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference, instance.VALUES)
-	__gong__reconstructPointer(&reference.TYPE, stage.A_SPEC_OBJECT_TYPE_REFs_reference, instance.TYPE)
+	__gong__reconstructPointer(&reference.TYPE_XSD, stage.A_SPEC_OBJECT_TYPE_REFs_reference, instance.TYPE_XSD)
 	// insertion point for slice of pointers field
 }
 
@@ -6212,9 +6212,9 @@ func (reference *SPEC_RELATION) GongReconstructPointersFromReferences(stage *Sta
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_reference, instance.ALTERNATIVE_ID)
 	__gong__reconstructPointer(&reference.VALUES, stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference, instance.VALUES)
-	__gong__reconstructPointer(&reference.SOURCE, stage.A_SOURCE_1s_reference, instance.SOURCE)
-	__gong__reconstructPointer(&reference.TARGET, stage.A_SOURCE_1s_reference, instance.TARGET)
-	__gong__reconstructPointer(&reference.TYPE, stage.A_SPEC_RELATION_TYPE_REFs_reference, instance.TYPE)
+	__gong__reconstructPointer(&reference.SOURCE, stage.A_SOURCEs_reference, instance.SOURCE)
+	__gong__reconstructPointer(&reference.TARGET, stage.A_SOURCEs_reference, instance.TARGET)
+	__gong__reconstructPointer(&reference.TYPE_XSD, stage.A_SPEC_RELATION_TYPE_REFs_reference, instance.TYPE_XSD)
 	// insertion point for slice of pointers field
 }
 
@@ -6240,7 +6240,7 @@ func (reference *ATTRIBUTE_DEFINITION_BOOLEAN) GongReconstructPointersFromInstan
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	__gong__reconstructPointerFromInstance(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_BOOLEANs_instance)
-	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE_XSD, stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -6248,7 +6248,7 @@ func (reference *ATTRIBUTE_DEFINITION_DATE) GongReconstructPointersFromInstances
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	__gong__reconstructPointerFromInstance(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_DATEs_instance)
-	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_DATATYPE_DEFINITION_DATE_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE_XSD, stage.A_DATATYPE_DEFINITION_DATE_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -6256,7 +6256,7 @@ func (reference *ATTRIBUTE_DEFINITION_ENUMERATION) GongReconstructPointersFromIn
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	__gong__reconstructPointerFromInstance(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_instance)
-	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE_XSD, stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -6264,7 +6264,7 @@ func (reference *ATTRIBUTE_DEFINITION_INTEGER) GongReconstructPointersFromInstan
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	__gong__reconstructPointerFromInstance(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_INTEGERs_instance)
-	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_DATATYPE_DEFINITION_INTEGER_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE_XSD, stage.A_DATATYPE_DEFINITION_INTEGER_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -6272,7 +6272,7 @@ func (reference *ATTRIBUTE_DEFINITION_REAL) GongReconstructPointersFromInstances
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	__gong__reconstructPointerFromInstance(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_REALs_instance)
-	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_DATATYPE_DEFINITION_REAL_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE_XSD, stage.A_DATATYPE_DEFINITION_REAL_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -6280,7 +6280,7 @@ func (reference *ATTRIBUTE_DEFINITION_STRING) GongReconstructPointersFromInstanc
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	__gong__reconstructPointerFromInstance(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_STRINGs_instance)
-	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_DATATYPE_DEFINITION_STRING_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE_XSD, stage.A_DATATYPE_DEFINITION_STRING_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -6288,7 +6288,7 @@ func (reference *ATTRIBUTE_DEFINITION_XHTML) GongReconstructPointersFromInstance
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	__gong__reconstructPointerFromInstance(&reference.DEFAULT_VALUE, stage.A_ATTRIBUTE_VALUE_XHTMLs_instance)
-	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_DATATYPE_DEFINITION_XHTML_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE_XSD, stage.A_DATATYPE_DEFINITION_XHTML_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -6517,12 +6517,12 @@ func (reference *A_RELATION_GROUP_TYPE_REF) GongReconstructPointersFromInstances
 	// insertion point for slice of pointers fields
 }
 
-func (reference *A_SOURCE_1) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *A_SOURCE) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
 
-func (reference *A_SOURCE_SPECIFICATION_1) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *A_SOURCE_SPECIFICATION) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -6668,10 +6668,10 @@ func (reference *ENUM_VALUE) GongReconstructPointersFromInstances(stage *Stage) 
 func (reference *RELATION_GROUP) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
-	__gong__reconstructPointerFromInstance(&reference.SOURCE_SPECIFICATION, stage.A_SOURCE_SPECIFICATION_1s_instance)
+	__gong__reconstructPointerFromInstance(&reference.SOURCE_SPECIFICATION, stage.A_SOURCE_SPECIFICATIONs_instance)
 	__gong__reconstructPointerFromInstance(&reference.SPEC_RELATIONS, stage.A_SPEC_RELATION_REFs_instance)
-	__gong__reconstructPointerFromInstance(&reference.TARGET_SPECIFICATION, stage.A_SOURCE_SPECIFICATION_1s_instance)
-	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_RELATION_GROUP_TYPE_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TARGET_SPECIFICATION, stage.A_SOURCE_SPECIFICATIONs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE_XSD, stage.A_RELATION_GROUP_TYPE_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -6716,7 +6716,7 @@ func (reference *SPECIFICATION) GongReconstructPointersFromInstances(stage *Stag
 	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	__gong__reconstructPointerFromInstance(&reference.CHILDREN, stage.A_CHILDRENs_instance)
 	__gong__reconstructPointerFromInstance(&reference.VALUES, stage.A_ATTRIBUTE_VALUE_XHTML_1s_instance)
-	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_SPECIFICATION_TYPE_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE_XSD, stage.A_SPECIFICATION_TYPE_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -6740,7 +6740,7 @@ func (reference *SPEC_OBJECT) GongReconstructPointersFromInstances(stage *Stage)
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	__gong__reconstructPointerFromInstance(&reference.VALUES, stage.A_ATTRIBUTE_VALUE_XHTML_1s_instance)
-	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_SPEC_OBJECT_TYPE_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE_XSD, stage.A_SPEC_OBJECT_TYPE_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -6755,9 +6755,9 @@ func (reference *SPEC_RELATION) GongReconstructPointersFromInstances(stage *Stag
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.ALTERNATIVE_ID, stage.A_ALTERNATIVE_IDs_instance)
 	__gong__reconstructPointerFromInstance(&reference.VALUES, stage.A_ATTRIBUTE_VALUE_XHTML_1s_instance)
-	__gong__reconstructPointerFromInstance(&reference.SOURCE, stage.A_SOURCE_1s_instance)
-	__gong__reconstructPointerFromInstance(&reference.TARGET, stage.A_SOURCE_1s_instance)
-	__gong__reconstructPointerFromInstance(&reference.TYPE, stage.A_SPEC_RELATION_TYPE_REFs_instance)
+	__gong__reconstructPointerFromInstance(&reference.SOURCE, stage.A_SOURCEs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TARGET, stage.A_SOURCEs_instance)
+	__gong__reconstructPointerFromInstance(&reference.TYPE_XSD, stage.A_SPEC_RELATION_TYPE_REFs_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -6816,8 +6816,8 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongDiff(stage
 	if attribute_definition_boolean.DEFAULT_VALUE != attribute_definition_booleanOther.DEFAULT_VALUE {
 		diffs = append(diffs, attribute_definition_boolean.GongMarshallField(stage, "DEFAULT_VALUE"))
 	}
-	if attribute_definition_boolean.TYPE != attribute_definition_booleanOther.TYPE {
-		diffs = append(diffs, attribute_definition_boolean.GongMarshallField(stage, "TYPE"))
+	if attribute_definition_boolean.TYPE_XSD != attribute_definition_booleanOther.TYPE_XSD {
+		diffs = append(diffs, attribute_definition_boolean.GongMarshallField(stage, "TYPE_XSD"))
 	}
 
 	return
@@ -6851,8 +6851,8 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongDiff(stage *Stag
 	if attribute_definition_date.DEFAULT_VALUE != attribute_definition_dateOther.DEFAULT_VALUE {
 		diffs = append(diffs, attribute_definition_date.GongMarshallField(stage, "DEFAULT_VALUE"))
 	}
-	if attribute_definition_date.TYPE != attribute_definition_dateOther.TYPE {
-		diffs = append(diffs, attribute_definition_date.GongMarshallField(stage, "TYPE"))
+	if attribute_definition_date.TYPE_XSD != attribute_definition_dateOther.TYPE_XSD {
+		diffs = append(diffs, attribute_definition_date.GongMarshallField(stage, "TYPE_XSD"))
 	}
 
 	return
@@ -6889,8 +6889,8 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongDi
 	if attribute_definition_enumeration.DEFAULT_VALUE != attribute_definition_enumerationOther.DEFAULT_VALUE {
 		diffs = append(diffs, attribute_definition_enumeration.GongMarshallField(stage, "DEFAULT_VALUE"))
 	}
-	if attribute_definition_enumeration.TYPE != attribute_definition_enumerationOther.TYPE {
-		diffs = append(diffs, attribute_definition_enumeration.GongMarshallField(stage, "TYPE"))
+	if attribute_definition_enumeration.TYPE_XSD != attribute_definition_enumerationOther.TYPE_XSD {
+		diffs = append(diffs, attribute_definition_enumeration.GongMarshallField(stage, "TYPE_XSD"))
 	}
 
 	return
@@ -6924,8 +6924,8 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongDiff(stage
 	if attribute_definition_integer.DEFAULT_VALUE != attribute_definition_integerOther.DEFAULT_VALUE {
 		diffs = append(diffs, attribute_definition_integer.GongMarshallField(stage, "DEFAULT_VALUE"))
 	}
-	if attribute_definition_integer.TYPE != attribute_definition_integerOther.TYPE {
-		diffs = append(diffs, attribute_definition_integer.GongMarshallField(stage, "TYPE"))
+	if attribute_definition_integer.TYPE_XSD != attribute_definition_integerOther.TYPE_XSD {
+		diffs = append(diffs, attribute_definition_integer.GongMarshallField(stage, "TYPE_XSD"))
 	}
 
 	return
@@ -6959,8 +6959,8 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongDiff(stage *Stag
 	if attribute_definition_real.DEFAULT_VALUE != attribute_definition_realOther.DEFAULT_VALUE {
 		diffs = append(diffs, attribute_definition_real.GongMarshallField(stage, "DEFAULT_VALUE"))
 	}
-	if attribute_definition_real.TYPE != attribute_definition_realOther.TYPE {
-		diffs = append(diffs, attribute_definition_real.GongMarshallField(stage, "TYPE"))
+	if attribute_definition_real.TYPE_XSD != attribute_definition_realOther.TYPE_XSD {
+		diffs = append(diffs, attribute_definition_real.GongMarshallField(stage, "TYPE_XSD"))
 	}
 
 	return
@@ -6994,8 +6994,8 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongDiff(stage *
 	if attribute_definition_string.DEFAULT_VALUE != attribute_definition_stringOther.DEFAULT_VALUE {
 		diffs = append(diffs, attribute_definition_string.GongMarshallField(stage, "DEFAULT_VALUE"))
 	}
-	if attribute_definition_string.TYPE != attribute_definition_stringOther.TYPE {
-		diffs = append(diffs, attribute_definition_string.GongMarshallField(stage, "TYPE"))
+	if attribute_definition_string.TYPE_XSD != attribute_definition_stringOther.TYPE_XSD {
+		diffs = append(diffs, attribute_definition_string.GongMarshallField(stage, "TYPE_XSD"))
 	}
 
 	return
@@ -7029,8 +7029,8 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongDiff(stage *St
 	if attribute_definition_xhtml.DEFAULT_VALUE != attribute_definition_xhtmlOther.DEFAULT_VALUE {
 		diffs = append(diffs, attribute_definition_xhtml.GongMarshallField(stage, "DEFAULT_VALUE"))
 	}
-	if attribute_definition_xhtml.TYPE != attribute_definition_xhtmlOther.TYPE {
-		diffs = append(diffs, attribute_definition_xhtml.GongMarshallField(stage, "TYPE"))
+	if attribute_definition_xhtml.TYPE_XSD != attribute_definition_xhtmlOther.TYPE_XSD {
+		diffs = append(diffs, attribute_definition_xhtml.GongMarshallField(stage, "TYPE_XSD"))
 	}
 
 	return
@@ -7651,13 +7651,13 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongDiff(stage *Stag
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (a_source_1 *A_SOURCE_1) GongDiff(stage *Stage, a_source_1Other *A_SOURCE_1) (diffs []string) {
+func (a_source *A_SOURCE) GongDiff(stage *Stage, a_sourceOther *A_SOURCE) (diffs []string) {
 	// insertion point for field diffs
-	if a_source_1.Name != a_source_1Other.Name {
-		diffs = append(diffs, a_source_1.GongMarshallField(stage, "Name"))
+	if a_source.Name != a_sourceOther.Name {
+		diffs = append(diffs, a_source.GongMarshallField(stage, "Name"))
 	}
-	if a_source_1.SPEC_OBJECT_REF != a_source_1Other.SPEC_OBJECT_REF {
-		diffs = append(diffs, a_source_1.GongMarshallField(stage, "SPEC_OBJECT_REF"))
+	if a_source.SPEC_OBJECT_REF != a_sourceOther.SPEC_OBJECT_REF {
+		diffs = append(diffs, a_source.GongMarshallField(stage, "SPEC_OBJECT_REF"))
 	}
 
 	return
@@ -7665,13 +7665,13 @@ func (a_source_1 *A_SOURCE_1) GongDiff(stage *Stage, a_source_1Other *A_SOURCE_1
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongDiff(stage *Stage, a_source_specification_1Other *A_SOURCE_SPECIFICATION_1) (diffs []string) {
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongDiff(stage *Stage, a_source_specificationOther *A_SOURCE_SPECIFICATION) (diffs []string) {
 	// insertion point for field diffs
-	if a_source_specification_1.Name != a_source_specification_1Other.Name {
-		diffs = append(diffs, a_source_specification_1.GongMarshallField(stage, "Name"))
+	if a_source_specification.Name != a_source_specificationOther.Name {
+		diffs = append(diffs, a_source_specification.GongMarshallField(stage, "Name"))
 	}
-	if a_source_specification_1.SPECIFICATION_REF != a_source_specification_1Other.SPECIFICATION_REF {
-		diffs = append(diffs, a_source_specification_1.GongMarshallField(stage, "SPECIFICATION_REF"))
+	if a_source_specification.SPECIFICATION_REF != a_source_specificationOther.SPECIFICATION_REF {
+		diffs = append(diffs, a_source_specification.GongMarshallField(stage, "SPECIFICATION_REF"))
 	}
 
 	return
@@ -7986,11 +7986,11 @@ func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongDiff(stage *
 	if datatype_definition_integer.LONG_NAME != datatype_definition_integerOther.LONG_NAME {
 		diffs = append(diffs, datatype_definition_integer.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if datatype_definition_integer.MAX != datatype_definition_integerOther.MAX {
-		diffs = append(diffs, datatype_definition_integer.GongMarshallField(stage, "MAX"))
+	if datatype_definition_integer.MAX_XSD != datatype_definition_integerOther.MAX_XSD {
+		diffs = append(diffs, datatype_definition_integer.GongMarshallField(stage, "MAX_XSD"))
 	}
-	if datatype_definition_integer.MIN != datatype_definition_integerOther.MIN {
-		diffs = append(diffs, datatype_definition_integer.GongMarshallField(stage, "MIN"))
+	if datatype_definition_integer.MIN_XSD != datatype_definition_integerOther.MIN_XSD {
+		diffs = append(diffs, datatype_definition_integer.GongMarshallField(stage, "MIN_XSD"))
 	}
 	if datatype_definition_integer.ALTERNATIVE_ID != datatype_definition_integerOther.ALTERNATIVE_ID {
 		diffs = append(diffs, datatype_definition_integer.GongMarshallField(stage, "ALTERNATIVE_ID"))
@@ -8021,11 +8021,11 @@ func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongDiff(stage *Stage,
 	if datatype_definition_real.LONG_NAME != datatype_definition_realOther.LONG_NAME {
 		diffs = append(diffs, datatype_definition_real.GongMarshallField(stage, "LONG_NAME"))
 	}
-	if datatype_definition_real.MAX != datatype_definition_realOther.MAX {
-		diffs = append(diffs, datatype_definition_real.GongMarshallField(stage, "MAX"))
+	if datatype_definition_real.MAX_XSD != datatype_definition_realOther.MAX_XSD {
+		diffs = append(diffs, datatype_definition_real.GongMarshallField(stage, "MAX_XSD"))
 	}
-	if datatype_definition_real.MIN != datatype_definition_realOther.MIN {
-		diffs = append(diffs, datatype_definition_real.GongMarshallField(stage, "MIN"))
+	if datatype_definition_real.MIN_XSD != datatype_definition_realOther.MIN_XSD {
+		diffs = append(diffs, datatype_definition_real.GongMarshallField(stage, "MIN_XSD"))
 	}
 	if datatype_definition_real.ALTERNATIVE_ID != datatype_definition_realOther.ALTERNATIVE_ID {
 		diffs = append(diffs, datatype_definition_real.GongMarshallField(stage, "ALTERNATIVE_ID"))
@@ -8166,8 +8166,8 @@ func (relation_group *RELATION_GROUP) GongDiff(stage *Stage, relation_groupOther
 	if relation_group.TARGET_SPECIFICATION != relation_groupOther.TARGET_SPECIFICATION {
 		diffs = append(diffs, relation_group.GongMarshallField(stage, "TARGET_SPECIFICATION"))
 	}
-	if relation_group.TYPE != relation_groupOther.TYPE {
-		diffs = append(diffs, relation_group.GongMarshallField(stage, "TYPE"))
+	if relation_group.TYPE_XSD != relation_groupOther.TYPE_XSD {
+		diffs = append(diffs, relation_group.GongMarshallField(stage, "TYPE_XSD"))
 	}
 
 	return
@@ -8328,8 +8328,8 @@ func (specification *SPECIFICATION) GongDiff(stage *Stage, specificationOther *S
 	if specification.VALUES != specificationOther.VALUES {
 		diffs = append(diffs, specification.GongMarshallField(stage, "VALUES"))
 	}
-	if specification.TYPE != specificationOther.TYPE {
-		diffs = append(diffs, specification.GongMarshallField(stage, "TYPE"))
+	if specification.TYPE_XSD != specificationOther.TYPE_XSD {
+		diffs = append(diffs, specification.GongMarshallField(stage, "TYPE_XSD"))
 	}
 
 	return
@@ -8430,8 +8430,8 @@ func (spec_object *SPEC_OBJECT) GongDiff(stage *Stage, spec_objectOther *SPEC_OB
 	if spec_object.VALUES != spec_objectOther.VALUES {
 		diffs = append(diffs, spec_object.GongMarshallField(stage, "VALUES"))
 	}
-	if spec_object.TYPE != spec_objectOther.TYPE {
-		diffs = append(diffs, spec_object.GongMarshallField(stage, "TYPE"))
+	if spec_object.TYPE_XSD != spec_objectOther.TYPE_XSD {
+		diffs = append(diffs, spec_object.GongMarshallField(stage, "TYPE_XSD"))
 	}
 
 	return
@@ -8497,8 +8497,8 @@ func (spec_relation *SPEC_RELATION) GongDiff(stage *Stage, spec_relationOther *S
 	if spec_relation.TARGET != spec_relationOther.TARGET {
 		diffs = append(diffs, spec_relation.GongMarshallField(stage, "TARGET"))
 	}
-	if spec_relation.TYPE != spec_relationOther.TYPE {
-		diffs = append(diffs, spec_relation.GongMarshallField(stage, "TYPE"))
+	if spec_relation.TYPE_XSD != spec_relationOther.TYPE_XSD {
+		diffs = append(diffs, spec_relation.GongMarshallField(stage, "TYPE_XSD"))
 	}
 
 	return

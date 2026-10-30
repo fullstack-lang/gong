@@ -42,6 +42,13 @@ func (inst *All) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongRe
 				res = _group.Name
 			}
 		}
+	case "Restriction":
+		switch reverseField.Fieldname {
+		case "Alls":
+			if _restriction, ok := stage.Restriction_Alls_reverseMap[inst]; ok {
+				res = _restriction.Name
+			}
+		}
 	case "Sequence":
 		switch reverseField.Fieldname {
 		case "Alls":
@@ -84,6 +91,20 @@ func (inst *Attribute) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 				res = _extension.Name
 			}
 		}
+	case "Restriction":
+		switch reverseField.Fieldname {
+		case "Attributes":
+			if _restriction, ok := stage.Restriction_Attributes_reverseMap[inst]; ok {
+				res = _restriction.Name
+			}
+		}
+	case "Schema":
+		switch reverseField.Fieldname {
+		case "Attributes":
+			if _schema, ok := stage.Schema_Attributes_reverseMap[inst]; ok {
+				res = _schema.Name
+			}
+		}
 	}
 	return
 }
@@ -112,6 +133,13 @@ func (inst *AttributeGroup) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 		case "AttributeGroups":
 			if _extension, ok := stage.Extension_AttributeGroups_reverseMap[inst]; ok {
 				res = _extension.Name
+			}
+		}
+	case "Restriction":
+		switch reverseField.Fieldname {
+		case "AttributeGroups":
+			if _restriction, ok := stage.Restriction_AttributeGroups_reverseMap[inst]; ok {
+				res = _restriction.Name
 			}
 		}
 	case "Schema":
@@ -163,6 +191,13 @@ func (inst *Choice) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Gon
 		case "Choices":
 			if _group, ok := stage.Group_Choices_reverseMap[inst]; ok {
 				res = _group.Name
+			}
+		}
+	case "Restriction":
+		switch reverseField.Fieldname {
+		case "Choices":
+			if _restriction, ok := stage.Restriction_Choices_reverseMap[inst]; ok {
+				res = _restriction.Name
 			}
 		}
 	case "Sequence":
@@ -253,6 +288,13 @@ func (inst *Element) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Go
 				res = _group.Name
 			}
 		}
+	case "Restriction":
+		switch reverseField.Fieldname {
+		case "Elements":
+			if _restriction, ok := stage.Restriction_Elements_reverseMap[inst]; ok {
+				res = _restriction.Name
+			}
+		}
 	case "Schema":
 		switch reverseField.Fieldname {
 		case "Elements":
@@ -288,6 +330,41 @@ func (inst *Enumeration) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 }
 
 func (inst *Extension) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+	res = ""
+	return
+}
+
+func (inst *FieldXPath) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Key":
+		switch reverseField.Fieldname {
+		case "Fields":
+			if _key, ok := stage.Key_Fields_reverseMap[inst]; ok {
+				res = _key.Name
+			}
+		}
+	case "KeyRef":
+		switch reverseField.Fieldname {
+		case "Fields":
+			if _keyref, ok := stage.KeyRef_Fields_reverseMap[inst]; ok {
+				res = _keyref.Name
+			}
+		}
+	case "Unique":
+		switch reverseField.Fieldname {
+		case "Fields":
+			if _unique, ok := stage.Unique_Fields_reverseMap[inst]; ok {
+				res = _unique.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *FractionDigit) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return
 }
@@ -339,6 +416,13 @@ func (inst *Group) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Gong
 				res = _group.Name
 			}
 		}
+	case "Restriction":
+		switch reverseField.Fieldname {
+		case "Groups":
+			if _restriction, ok := stage.Restriction_Groups_reverseMap[inst]; ok {
+				res = _restriction.Name
+			}
+		}
 	case "Schema":
 		switch reverseField.Fieldname {
 		case "Groups":
@@ -357,7 +441,63 @@ func (inst *Group) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Gong
 	return
 }
 
+func (inst *Key) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Element":
+		switch reverseField.Fieldname {
+		case "Keys":
+			if _element, ok := stage.Element_Keys_reverseMap[inst]; ok {
+				res = _element.Name
+			}
+		}
+	case "Schema":
+		switch reverseField.Fieldname {
+		case "Keys":
+			if _schema, ok := stage.Schema_Keys_reverseMap[inst]; ok {
+				res = _schema.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *KeyRef) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Element":
+		switch reverseField.Fieldname {
+		case "KeyRefs":
+			if _element, ok := stage.Element_KeyRefs_reverseMap[inst]; ok {
+				res = _element.Name
+			}
+		}
+	case "Schema":
+		switch reverseField.Fieldname {
+		case "KeyRefs":
+			if _schema, ok := stage.Schema_KeyRefs_reverseMap[inst]; ok {
+				res = _schema.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *Length) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+	res = ""
+	return
+}
+
+func (inst *List) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+	res = ""
+	return
+}
+
+func (inst *MaxExclusive) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return
 }
@@ -368,6 +508,11 @@ func (inst *MaxInclusive) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 }
 
 func (inst *MaxLength) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+	res = ""
+	return
+}
+
+func (inst *MinExclusive) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return
 }
@@ -393,6 +538,11 @@ func (inst *Restriction) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 }
 
 func (inst *Schema) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+	res = ""
+	return
+}
+
+func (inst *Selector) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return
 }
@@ -437,6 +587,13 @@ func (inst *Sequence) GongGetReverseFieldOwnerName(stage *Stage, reverseField *G
 				res = _group.Name
 			}
 		}
+	case "Restriction":
+		switch reverseField.Fieldname {
+		case "Sequences":
+			if _restriction, ok := stage.Restriction_Sequences_reverseMap[inst]; ok {
+				res = _restriction.Name
+			}
+		}
 	case "Sequence":
 		switch reverseField.Fieldname {
 		case "Sequences":
@@ -465,6 +622,13 @@ func (inst *SimpleType) GongGetReverseFieldOwnerName(stage *Stage, reverseField 
 				res = _schema.Name
 			}
 		}
+	case "Union":
+		switch reverseField.Fieldname {
+		case "SimpleTypes":
+			if _union, ok := stage.Union_SimpleTypes_reverseMap[inst]; ok {
+				res = _union.Name
+			}
+		}
 	}
 	return
 }
@@ -479,7 +643,62 @@ func (inst *Union) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Gong
 	return
 }
 
+func (inst *Unique) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Element":
+		switch reverseField.Fieldname {
+		case "Uniques":
+			if _element, ok := stage.Element_Uniques_reverseMap[inst]; ok {
+				res = _element.Name
+			}
+		}
+	case "Schema":
+		switch reverseField.Fieldname {
+		case "Uniques":
+			if _schema, ok := stage.Schema_Uniques_reverseMap[inst]; ok {
+				res = _schema.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *WhiteSpace) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
+	return
+}
+
+func (inst *XSDImport) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Schema":
+		switch reverseField.Fieldname {
+		case "Imports":
+			if _schema, ok := stage.Schema_Imports_reverseMap[inst]; ok {
+				res = _schema.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *XSDInclude) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Schema":
+		switch reverseField.Fieldname {
+		case "Includes":
+			if _schema, ok := stage.Schema_Includes_reverseMap[inst]; ok {
+				res = _schema.Name
+			}
+		}
+	}
 	return
 }

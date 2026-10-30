@@ -70,13 +70,43 @@ func (extension *Extension) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
+func (fieldxpath *FieldXPath) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.FieldXPaths[fieldxpath]
+	return ok
+}
+
+func (fractiondigit *FractionDigit) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.FractionDigits[fractiondigit]
+	return ok
+}
+
 func (group *Group) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.Groups[group]
 	return ok
 }
 
+func (key *Key) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Keys[key]
+	return ok
+}
+
+func (keyref *KeyRef) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.KeyRefs[keyref]
+	return ok
+}
+
 func (length *Length) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.Lengths[length]
+	return ok
+}
+
+func (list *List) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Lists[list]
+	return ok
+}
+
+func (maxexclusive *MaxExclusive) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.MaxExclusives[maxexclusive]
 	return ok
 }
 
@@ -87,6 +117,11 @@ func (maxinclusive *MaxInclusive) GongIsStaged(stage *Stage) bool {
 
 func (maxlength *MaxLength) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.MaxLengths[maxlength]
+	return ok
+}
+
+func (minexclusive *MinExclusive) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.MinExclusives[minexclusive]
 	return ok
 }
 
@@ -115,6 +150,11 @@ func (schema *Schema) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
+func (selector *Selector) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Selectors[selector]
+	return ok
+}
+
 func (sequence *Sequence) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.Sequences[sequence]
 	return ok
@@ -140,8 +180,23 @@ func (union *Union) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
+func (unique *Unique) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Uniques[unique]
+	return ok
+}
+
 func (whitespace *WhiteSpace) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.WhiteSpaces[whitespace]
+	return ok
+}
+
+func (xsdimport *XSDImport) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.XSDImports[xsdimport]
+	return ok
+}
+
+func (xsdinclude *XSDInclude) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.XSDIncludes[xsdinclude]
 	return ok
 }
 
@@ -217,6 +272,9 @@ func (attribute *Attribute) GongStageBranch(stage *Stage) {
 	if attribute.Annotation != nil {
 		stage.StageBranch(attribute.Annotation)
 	}
+	if attribute.InnerSimpleType != nil {
+		stage.StageBranch(attribute.InnerSimpleType)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -289,6 +347,15 @@ func (complexcontent *ComplexContent) GongStageBranch(stage *Stage) {
 	complexcontent.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if complexcontent.Annotation != nil {
+		stage.StageBranch(complexcontent.Annotation)
+	}
+	if complexcontent.Extension != nil {
+		stage.StageBranch(complexcontent.Extension)
+	}
+	if complexcontent.Restriction != nil {
+		stage.StageBranch(complexcontent.Restriction)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -384,6 +451,15 @@ func (element *Element) GongStageBranch(stage *Stage) {
 	for _, _group := range element.Groups {
 		stage.StageBranch(_group)
 	}
+	for _, _key := range element.Keys {
+		stage.StageBranch(_key)
+	}
+	for _, _unique := range element.Uniques {
+		stage.StageBranch(_unique)
+	}
+	for _, _keyref := range element.KeyRefs {
+		stage.StageBranch(_keyref)
+	}
 
 }
 
@@ -441,6 +517,39 @@ func (extension *Extension) GongStageBranch(stage *Stage) {
 
 }
 
+func (fieldxpath *FieldXPath) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(fieldxpath) {
+		return
+	}
+
+	fieldxpath.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (fractiondigit *FractionDigit) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(fractiondigit) {
+		return
+	}
+
+	fractiondigit.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if fractiondigit.Annotation != nil {
+		stage.StageBranch(fractiondigit.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (group *Group) GongStageBranch(stage *Stage) {
 
 	// check if instance is already staged
@@ -477,6 +586,54 @@ func (group *Group) GongStageBranch(stage *Stage) {
 
 }
 
+func (key *Key) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(key) {
+		return
+	}
+
+	key.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if key.Annotation != nil {
+		stage.StageBranch(key.Annotation)
+	}
+	if key.Selector != nil {
+		stage.StageBranch(key.Selector)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _fieldxpath := range key.Fields {
+		stage.StageBranch(_fieldxpath)
+	}
+
+}
+
+func (keyref *KeyRef) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(keyref) {
+		return
+	}
+
+	keyref.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if keyref.Annotation != nil {
+		stage.StageBranch(keyref.Annotation)
+	}
+	if keyref.Selector != nil {
+		stage.StageBranch(keyref.Selector)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _fieldxpath := range keyref.Fields {
+		stage.StageBranch(_fieldxpath)
+	}
+
+}
+
 func (length *Length) GongStageBranch(stage *Stage) {
 
 	// check if instance is already staged
@@ -489,6 +646,45 @@ func (length *Length) GongStageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by pointers
 	if length.Annotation != nil {
 		stage.StageBranch(length.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (list *List) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(list) {
+		return
+	}
+
+	list.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if list.Annotation != nil {
+		stage.StageBranch(list.Annotation)
+	}
+	if list.SimpleType != nil {
+		stage.StageBranch(list.SimpleType)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (maxexclusive *MaxExclusive) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(maxexclusive) {
+		return
+	}
+
+	maxexclusive.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if maxexclusive.Annotation != nil {
+		stage.StageBranch(maxexclusive.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -525,6 +721,24 @@ func (maxlength *MaxLength) GongStageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by pointers
 	if maxlength.Annotation != nil {
 		stage.StageBranch(maxlength.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (minexclusive *MinExclusive) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(minexclusive) {
+		return
+	}
+
+	minexclusive.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if minexclusive.Annotation != nil {
+		stage.StageBranch(minexclusive.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -598,11 +812,20 @@ func (restriction *Restriction) GongStageBranch(stage *Stage) {
 	if restriction.Annotation != nil {
 		stage.StageBranch(restriction.Annotation)
 	}
+	if restriction.SimpleType != nil {
+		stage.StageBranch(restriction.SimpleType)
+	}
 	if restriction.MinInclusive != nil {
 		stage.StageBranch(restriction.MinInclusive)
 	}
 	if restriction.MaxInclusive != nil {
 		stage.StageBranch(restriction.MaxInclusive)
+	}
+	if restriction.MinExclusive != nil {
+		stage.StageBranch(restriction.MinExclusive)
+	}
+	if restriction.MaxExclusive != nil {
+		stage.StageBranch(restriction.MaxExclusive)
 	}
 	if restriction.Pattern != nil {
 		stage.StageBranch(restriction.Pattern)
@@ -622,10 +845,34 @@ func (restriction *Restriction) GongStageBranch(stage *Stage) {
 	if restriction.TotalDigit != nil {
 		stage.StageBranch(restriction.TotalDigit)
 	}
+	if restriction.FractionDigit != nil {
+		stage.StageBranch(restriction.FractionDigit)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _enumeration := range restriction.Enumerations {
 		stage.StageBranch(_enumeration)
+	}
+	for _, _sequence := range restriction.Sequences {
+		stage.StageBranch(_sequence)
+	}
+	for _, _all := range restriction.Alls {
+		stage.StageBranch(_all)
+	}
+	for _, _choice := range restriction.Choices {
+		stage.StageBranch(_choice)
+	}
+	for _, _group := range restriction.Groups {
+		stage.StageBranch(_group)
+	}
+	for _, _element := range restriction.Elements {
+		stage.StageBranch(_element)
+	}
+	for _, _attribute := range restriction.Attributes {
+		stage.StageBranch(_attribute)
+	}
+	for _, _attributegroup := range restriction.AttributeGroups {
+		stage.StageBranch(_attributegroup)
 	}
 
 }
@@ -645,8 +892,17 @@ func (schema *Schema) GongStageBranch(stage *Stage) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _xsdimport := range schema.Imports {
+		stage.StageBranch(_xsdimport)
+	}
+	for _, _xsdinclude := range schema.Includes {
+		stage.StageBranch(_xsdinclude)
+	}
 	for _, _element := range schema.Elements {
 		stage.StageBranch(_element)
+	}
+	for _, _attribute := range schema.Attributes {
+		stage.StageBranch(_attribute)
 	}
 	for _, _simpletype := range schema.SimpleTypes {
 		stage.StageBranch(_simpletype)
@@ -660,6 +916,30 @@ func (schema *Schema) GongStageBranch(stage *Stage) {
 	for _, _group := range schema.Groups {
 		stage.StageBranch(_group)
 	}
+	for _, _key := range schema.Keys {
+		stage.StageBranch(_key)
+	}
+	for _, _unique := range schema.Uniques {
+		stage.StageBranch(_unique)
+	}
+	for _, _keyref := range schema.KeyRefs {
+		stage.StageBranch(_keyref)
+	}
+
+}
+
+func (selector *Selector) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(selector) {
+		return
+	}
+
+	selector.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -736,6 +1016,9 @@ func (simpletype *SimpleType) GongStageBranch(stage *Stage) {
 	if simpletype.Union != nil {
 		stage.StageBranch(simpletype.Union)
 	}
+	if simpletype.List != nil {
+		stage.StageBranch(simpletype.List)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -774,6 +1057,33 @@ func (union *Union) GongStageBranch(stage *Stage) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _simpletype := range union.SimpleTypes {
+		stage.StageBranch(_simpletype)
+	}
+
+}
+
+func (unique *Unique) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(unique) {
+		return
+	}
+
+	unique.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if unique.Annotation != nil {
+		stage.StageBranch(unique.Annotation)
+	}
+	if unique.Selector != nil {
+		stage.StageBranch(unique.Selector)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _fieldxpath := range unique.Fields {
+		stage.StageBranch(_fieldxpath)
+	}
 
 }
 
@@ -789,6 +1099,42 @@ func (whitespace *WhiteSpace) GongStageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by pointers
 	if whitespace.Annotation != nil {
 		stage.StageBranch(whitespace.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (xsdimport *XSDImport) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(xsdimport) {
+		return
+	}
+
+	xsdimport.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if xsdimport.Annotation != nil {
+		stage.StageBranch(xsdimport.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (xsdinclude *XSDInclude) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(xsdinclude) {
+		return
+	}
+
+	xsdinclude.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if xsdinclude.Annotation != nil {
+		stage.StageBranch(xsdinclude.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -850,12 +1196,36 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchExtension(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *FieldXPath:
+		toT := GongCopyBranchFieldXPath(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *FractionDigit:
+		toT := GongCopyBranchFractionDigit(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Group:
 		toT := GongCopyBranchGroup(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Key:
+		toT := GongCopyBranchKey(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *KeyRef:
+		toT := GongCopyBranchKeyRef(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Length:
 		toT := GongCopyBranchLength(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *List:
+		toT := GongCopyBranchList(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *MaxExclusive:
+		toT := GongCopyBranchMaxExclusive(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *MaxInclusive:
@@ -864,6 +1234,10 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *MaxLength:
 		toT := GongCopyBranchMaxLength(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *MinExclusive:
+		toT := GongCopyBranchMinExclusive(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *MinInclusive:
@@ -886,6 +1260,10 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchSchema(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Selector:
+		toT := GongCopyBranchSelector(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Sequence:
 		toT := GongCopyBranchSequence(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -906,8 +1284,20 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchUnion(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Unique:
+		toT := GongCopyBranchUnique(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *WhiteSpace:
 		toT := GongCopyBranchWhiteSpace(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *XSDImport:
+		toT := GongCopyBranchXSDImport(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *XSDInclude:
+		toT := GongCopyBranchXSDInclude(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -979,6 +1369,9 @@ func GongCopyBranchAttribute(mapOrigCopy map[any]any, attributeFrom *Attribute) 
 	//insertion point for the staging of instances referenced by pointers
 	if attributeFrom.Annotation != nil {
 		attributeTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, attributeFrom.Annotation)
+	}
+	if attributeFrom.InnerSimpleType != nil {
+		attributeTo.InnerSimpleType = GongCopyBranchSimpleType(mapOrigCopy, attributeFrom.InnerSimpleType)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1052,6 +1445,15 @@ func GongCopyBranchComplexContent(mapOrigCopy map[any]any, complexcontentFrom *C
 	complexcontentFrom.GongCopyBasicFields(complexcontentTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if complexcontentFrom.Annotation != nil {
+		complexcontentTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, complexcontentFrom.Annotation)
+	}
+	if complexcontentFrom.Extension != nil {
+		complexcontentTo.Extension = GongCopyBranchExtension(mapOrigCopy, complexcontentFrom.Extension)
+	}
+	if complexcontentFrom.Restriction != nil {
+		complexcontentTo.Restriction = GongCopyBranchRestriction(mapOrigCopy, complexcontentFrom.Restriction)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1147,6 +1549,15 @@ func GongCopyBranchElement(mapOrigCopy map[any]any, elementFrom *Element) (eleme
 	for _, _group := range elementFrom.Groups {
 		elementTo.Groups = append(elementTo.Groups, GongCopyBranchGroup(mapOrigCopy, _group))
 	}
+	for _, _key := range elementFrom.Keys {
+		elementTo.Keys = append(elementTo.Keys, GongCopyBranchKey(mapOrigCopy, _key))
+	}
+	for _, _unique := range elementFrom.Uniques {
+		elementTo.Uniques = append(elementTo.Uniques, GongCopyBranchUnique(mapOrigCopy, _unique))
+	}
+	for _, _keyref := range elementFrom.KeyRefs {
+		elementTo.KeyRefs = append(elementTo.KeyRefs, GongCopyBranchKeyRef(mapOrigCopy, _keyref))
+	}
 
 	return
 }
@@ -1205,6 +1616,39 @@ func GongCopyBranchExtension(mapOrigCopy map[any]any, extensionFrom *Extension) 
 	return
 }
 
+func GongCopyBranchFieldXPath(mapOrigCopy map[any]any, fieldxpathFrom *FieldXPath) (fieldxpathTo *FieldXPath) {
+	var alreadyCopied bool
+	fieldxpathTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, fieldxpathFrom)
+	if alreadyCopied {
+		return
+	}
+	fieldxpathFrom.GongCopyBasicFields(fieldxpathTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchFractionDigit(mapOrigCopy map[any]any, fractiondigitFrom *FractionDigit) (fractiondigitTo *FractionDigit) {
+	var alreadyCopied bool
+	fractiondigitTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, fractiondigitFrom)
+	if alreadyCopied {
+		return
+	}
+	fractiondigitFrom.GongCopyBasicFields(fractiondigitTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if fractiondigitFrom.Annotation != nil {
+		fractiondigitTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, fractiondigitFrom.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func GongCopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group) {
 	var alreadyCopied bool
 	groupTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, groupFrom)
@@ -1241,6 +1685,54 @@ func GongCopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Gr
 	return
 }
 
+func GongCopyBranchKey(mapOrigCopy map[any]any, keyFrom *Key) (keyTo *Key) {
+	var alreadyCopied bool
+	keyTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, keyFrom)
+	if alreadyCopied {
+		return
+	}
+	keyFrom.GongCopyBasicFields(keyTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if keyFrom.Annotation != nil {
+		keyTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, keyFrom.Annotation)
+	}
+	if keyFrom.Selector != nil {
+		keyTo.Selector = GongCopyBranchSelector(mapOrigCopy, keyFrom.Selector)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _fieldxpath := range keyFrom.Fields {
+		keyTo.Fields = append(keyTo.Fields, GongCopyBranchFieldXPath(mapOrigCopy, _fieldxpath))
+	}
+
+	return
+}
+
+func GongCopyBranchKeyRef(mapOrigCopy map[any]any, keyrefFrom *KeyRef) (keyrefTo *KeyRef) {
+	var alreadyCopied bool
+	keyrefTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, keyrefFrom)
+	if alreadyCopied {
+		return
+	}
+	keyrefFrom.GongCopyBasicFields(keyrefTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if keyrefFrom.Annotation != nil {
+		keyrefTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, keyrefFrom.Annotation)
+	}
+	if keyrefFrom.Selector != nil {
+		keyrefTo.Selector = GongCopyBranchSelector(mapOrigCopy, keyrefFrom.Selector)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _fieldxpath := range keyrefFrom.Fields {
+		keyrefTo.Fields = append(keyrefTo.Fields, GongCopyBranchFieldXPath(mapOrigCopy, _fieldxpath))
+	}
+
+	return
+}
+
 func GongCopyBranchLength(mapOrigCopy map[any]any, lengthFrom *Length) (lengthTo *Length) {
 	var alreadyCopied bool
 	lengthTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, lengthFrom)
@@ -1252,6 +1744,45 @@ func GongCopyBranchLength(mapOrigCopy map[any]any, lengthFrom *Length) (lengthTo
 	//insertion point for the staging of instances referenced by pointers
 	if lengthFrom.Annotation != nil {
 		lengthTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, lengthFrom.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchList(mapOrigCopy map[any]any, listFrom *List) (listTo *List) {
+	var alreadyCopied bool
+	listTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, listFrom)
+	if alreadyCopied {
+		return
+	}
+	listFrom.GongCopyBasicFields(listTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if listFrom.Annotation != nil {
+		listTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, listFrom.Annotation)
+	}
+	if listFrom.SimpleType != nil {
+		listTo.SimpleType = GongCopyBranchSimpleType(mapOrigCopy, listFrom.SimpleType)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchMaxExclusive(mapOrigCopy map[any]any, maxexclusiveFrom *MaxExclusive) (maxexclusiveTo *MaxExclusive) {
+	var alreadyCopied bool
+	maxexclusiveTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, maxexclusiveFrom)
+	if alreadyCopied {
+		return
+	}
+	maxexclusiveFrom.GongCopyBasicFields(maxexclusiveTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if maxexclusiveFrom.Annotation != nil {
+		maxexclusiveTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, maxexclusiveFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1288,6 +1819,24 @@ func GongCopyBranchMaxLength(mapOrigCopy map[any]any, maxlengthFrom *MaxLength) 
 	//insertion point for the staging of instances referenced by pointers
 	if maxlengthFrom.Annotation != nil {
 		maxlengthTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, maxlengthFrom.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchMinExclusive(mapOrigCopy map[any]any, minexclusiveFrom *MinExclusive) (minexclusiveTo *MinExclusive) {
+	var alreadyCopied bool
+	minexclusiveTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, minexclusiveFrom)
+	if alreadyCopied {
+		return
+	}
+	minexclusiveFrom.GongCopyBasicFields(minexclusiveTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if minexclusiveFrom.Annotation != nil {
+		minexclusiveTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, minexclusiveFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1361,11 +1910,20 @@ func GongCopyBranchRestriction(mapOrigCopy map[any]any, restrictionFrom *Restric
 	if restrictionFrom.Annotation != nil {
 		restrictionTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, restrictionFrom.Annotation)
 	}
+	if restrictionFrom.SimpleType != nil {
+		restrictionTo.SimpleType = GongCopyBranchSimpleType(mapOrigCopy, restrictionFrom.SimpleType)
+	}
 	if restrictionFrom.MinInclusive != nil {
 		restrictionTo.MinInclusive = GongCopyBranchMinInclusive(mapOrigCopy, restrictionFrom.MinInclusive)
 	}
 	if restrictionFrom.MaxInclusive != nil {
 		restrictionTo.MaxInclusive = GongCopyBranchMaxInclusive(mapOrigCopy, restrictionFrom.MaxInclusive)
+	}
+	if restrictionFrom.MinExclusive != nil {
+		restrictionTo.MinExclusive = GongCopyBranchMinExclusive(mapOrigCopy, restrictionFrom.MinExclusive)
+	}
+	if restrictionFrom.MaxExclusive != nil {
+		restrictionTo.MaxExclusive = GongCopyBranchMaxExclusive(mapOrigCopy, restrictionFrom.MaxExclusive)
 	}
 	if restrictionFrom.Pattern != nil {
 		restrictionTo.Pattern = GongCopyBranchPattern(mapOrigCopy, restrictionFrom.Pattern)
@@ -1385,10 +1943,34 @@ func GongCopyBranchRestriction(mapOrigCopy map[any]any, restrictionFrom *Restric
 	if restrictionFrom.TotalDigit != nil {
 		restrictionTo.TotalDigit = GongCopyBranchTotalDigit(mapOrigCopy, restrictionFrom.TotalDigit)
 	}
+	if restrictionFrom.FractionDigit != nil {
+		restrictionTo.FractionDigit = GongCopyBranchFractionDigit(mapOrigCopy, restrictionFrom.FractionDigit)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _enumeration := range restrictionFrom.Enumerations {
 		restrictionTo.Enumerations = append(restrictionTo.Enumerations, GongCopyBranchEnumeration(mapOrigCopy, _enumeration))
+	}
+	for _, _sequence := range restrictionFrom.Sequences {
+		restrictionTo.Sequences = append(restrictionTo.Sequences, GongCopyBranchSequence(mapOrigCopy, _sequence))
+	}
+	for _, _all := range restrictionFrom.Alls {
+		restrictionTo.Alls = append(restrictionTo.Alls, GongCopyBranchAll(mapOrigCopy, _all))
+	}
+	for _, _choice := range restrictionFrom.Choices {
+		restrictionTo.Choices = append(restrictionTo.Choices, GongCopyBranchChoice(mapOrigCopy, _choice))
+	}
+	for _, _group := range restrictionFrom.Groups {
+		restrictionTo.Groups = append(restrictionTo.Groups, GongCopyBranchGroup(mapOrigCopy, _group))
+	}
+	for _, _element := range restrictionFrom.Elements {
+		restrictionTo.Elements = append(restrictionTo.Elements, GongCopyBranchElement(mapOrigCopy, _element))
+	}
+	for _, _attribute := range restrictionFrom.Attributes {
+		restrictionTo.Attributes = append(restrictionTo.Attributes, GongCopyBranchAttribute(mapOrigCopy, _attribute))
+	}
+	for _, _attributegroup := range restrictionFrom.AttributeGroups {
+		restrictionTo.AttributeGroups = append(restrictionTo.AttributeGroups, GongCopyBranchAttributeGroup(mapOrigCopy, _attributegroup))
 	}
 
 	return
@@ -1408,8 +1990,17 @@ func GongCopyBranchSchema(mapOrigCopy map[any]any, schemaFrom *Schema) (schemaTo
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _xsdimport := range schemaFrom.Imports {
+		schemaTo.Imports = append(schemaTo.Imports, GongCopyBranchXSDImport(mapOrigCopy, _xsdimport))
+	}
+	for _, _xsdinclude := range schemaFrom.Includes {
+		schemaTo.Includes = append(schemaTo.Includes, GongCopyBranchXSDInclude(mapOrigCopy, _xsdinclude))
+	}
 	for _, _element := range schemaFrom.Elements {
 		schemaTo.Elements = append(schemaTo.Elements, GongCopyBranchElement(mapOrigCopy, _element))
+	}
+	for _, _attribute := range schemaFrom.Attributes {
+		schemaTo.Attributes = append(schemaTo.Attributes, GongCopyBranchAttribute(mapOrigCopy, _attribute))
 	}
 	for _, _simpletype := range schemaFrom.SimpleTypes {
 		schemaTo.SimpleTypes = append(schemaTo.SimpleTypes, GongCopyBranchSimpleType(mapOrigCopy, _simpletype))
@@ -1423,6 +2014,30 @@ func GongCopyBranchSchema(mapOrigCopy map[any]any, schemaFrom *Schema) (schemaTo
 	for _, _group := range schemaFrom.Groups {
 		schemaTo.Groups = append(schemaTo.Groups, GongCopyBranchGroup(mapOrigCopy, _group))
 	}
+	for _, _key := range schemaFrom.Keys {
+		schemaTo.Keys = append(schemaTo.Keys, GongCopyBranchKey(mapOrigCopy, _key))
+	}
+	for _, _unique := range schemaFrom.Uniques {
+		schemaTo.Uniques = append(schemaTo.Uniques, GongCopyBranchUnique(mapOrigCopy, _unique))
+	}
+	for _, _keyref := range schemaFrom.KeyRefs {
+		schemaTo.KeyRefs = append(schemaTo.KeyRefs, GongCopyBranchKeyRef(mapOrigCopy, _keyref))
+	}
+
+	return
+}
+
+func GongCopyBranchSelector(mapOrigCopy map[any]any, selectorFrom *Selector) (selectorTo *Selector) {
+	var alreadyCopied bool
+	selectorTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, selectorFrom)
+	if alreadyCopied {
+		return
+	}
+	selectorFrom.GongCopyBasicFields(selectorTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -1499,6 +2114,9 @@ func GongCopyBranchSimpleType(mapOrigCopy map[any]any, simpletypeFrom *SimpleTyp
 	if simpletypeFrom.Union != nil {
 		simpletypeTo.Union = GongCopyBranchUnion(mapOrigCopy, simpletypeFrom.Union)
 	}
+	if simpletypeFrom.List != nil {
+		simpletypeTo.List = GongCopyBranchList(mapOrigCopy, simpletypeFrom.List)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1537,6 +2155,33 @@ func GongCopyBranchUnion(mapOrigCopy map[any]any, unionFrom *Union) (unionTo *Un
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _simpletype := range unionFrom.SimpleTypes {
+		unionTo.SimpleTypes = append(unionTo.SimpleTypes, GongCopyBranchSimpleType(mapOrigCopy, _simpletype))
+	}
+
+	return
+}
+
+func GongCopyBranchUnique(mapOrigCopy map[any]any, uniqueFrom *Unique) (uniqueTo *Unique) {
+	var alreadyCopied bool
+	uniqueTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, uniqueFrom)
+	if alreadyCopied {
+		return
+	}
+	uniqueFrom.GongCopyBasicFields(uniqueTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if uniqueFrom.Annotation != nil {
+		uniqueTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, uniqueFrom.Annotation)
+	}
+	if uniqueFrom.Selector != nil {
+		uniqueTo.Selector = GongCopyBranchSelector(mapOrigCopy, uniqueFrom.Selector)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _fieldxpath := range uniqueFrom.Fields {
+		uniqueTo.Fields = append(uniqueTo.Fields, GongCopyBranchFieldXPath(mapOrigCopy, _fieldxpath))
+	}
 
 	return
 }
@@ -1552,6 +2197,42 @@ func GongCopyBranchWhiteSpace(mapOrigCopy map[any]any, whitespaceFrom *WhiteSpac
 	//insertion point for the staging of instances referenced by pointers
 	if whitespaceFrom.Annotation != nil {
 		whitespaceTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, whitespaceFrom.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchXSDImport(mapOrigCopy map[any]any, xsdimportFrom *XSDImport) (xsdimportTo *XSDImport) {
+	var alreadyCopied bool
+	xsdimportTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, xsdimportFrom)
+	if alreadyCopied {
+		return
+	}
+	xsdimportFrom.GongCopyBasicFields(xsdimportTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if xsdimportFrom.Annotation != nil {
+		xsdimportTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, xsdimportFrom.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchXSDInclude(mapOrigCopy map[any]any, xsdincludeFrom *XSDInclude) (xsdincludeTo *XSDInclude) {
+	var alreadyCopied bool
+	xsdincludeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, xsdincludeFrom)
+	if alreadyCopied {
+		return
+	}
+	xsdincludeFrom.GongCopyBasicFields(xsdincludeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if xsdincludeFrom.Annotation != nil {
+		xsdincludeTo.Annotation = GongCopyBranchAnnotation(mapOrigCopy, xsdincludeFrom.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1635,6 +2316,9 @@ func (attribute *Attribute) GongUnstageBranch(stage *Stage) {
 	if attribute.Annotation != nil {
 		stage.UnstageBranch(attribute.Annotation)
 	}
+	if attribute.InnerSimpleType != nil {
+		stage.UnstageBranch(attribute.InnerSimpleType)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1707,6 +2391,15 @@ func (complexcontent *ComplexContent) GongUnstageBranch(stage *Stage) {
 	complexcontent.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if complexcontent.Annotation != nil {
+		stage.UnstageBranch(complexcontent.Annotation)
+	}
+	if complexcontent.Extension != nil {
+		stage.UnstageBranch(complexcontent.Extension)
+	}
+	if complexcontent.Restriction != nil {
+		stage.UnstageBranch(complexcontent.Restriction)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1802,6 +2495,15 @@ func (element *Element) GongUnstageBranch(stage *Stage) {
 	for _, _group := range element.Groups {
 		stage.UnstageBranch(_group)
 	}
+	for _, _key := range element.Keys {
+		stage.UnstageBranch(_key)
+	}
+	for _, _unique := range element.Uniques {
+		stage.UnstageBranch(_unique)
+	}
+	for _, _keyref := range element.KeyRefs {
+		stage.UnstageBranch(_keyref)
+	}
 
 }
 
@@ -1859,6 +2561,39 @@ func (extension *Extension) GongUnstageBranch(stage *Stage) {
 
 }
 
+func (fieldxpath *FieldXPath) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(fieldxpath) {
+		return
+	}
+
+	fieldxpath.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (fractiondigit *FractionDigit) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(fractiondigit) {
+		return
+	}
+
+	fractiondigit.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if fractiondigit.Annotation != nil {
+		stage.UnstageBranch(fractiondigit.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (group *Group) GongUnstageBranch(stage *Stage) {
 
 	// check if instance is already staged
@@ -1895,6 +2630,54 @@ func (group *Group) GongUnstageBranch(stage *Stage) {
 
 }
 
+func (key *Key) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(key) {
+		return
+	}
+
+	key.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if key.Annotation != nil {
+		stage.UnstageBranch(key.Annotation)
+	}
+	if key.Selector != nil {
+		stage.UnstageBranch(key.Selector)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _fieldxpath := range key.Fields {
+		stage.UnstageBranch(_fieldxpath)
+	}
+
+}
+
+func (keyref *KeyRef) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(keyref) {
+		return
+	}
+
+	keyref.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if keyref.Annotation != nil {
+		stage.UnstageBranch(keyref.Annotation)
+	}
+	if keyref.Selector != nil {
+		stage.UnstageBranch(keyref.Selector)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _fieldxpath := range keyref.Fields {
+		stage.UnstageBranch(_fieldxpath)
+	}
+
+}
+
 func (length *Length) GongUnstageBranch(stage *Stage) {
 
 	// check if instance is already staged
@@ -1907,6 +2690,45 @@ func (length *Length) GongUnstageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by pointers
 	if length.Annotation != nil {
 		stage.UnstageBranch(length.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (list *List) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(list) {
+		return
+	}
+
+	list.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if list.Annotation != nil {
+		stage.UnstageBranch(list.Annotation)
+	}
+	if list.SimpleType != nil {
+		stage.UnstageBranch(list.SimpleType)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (maxexclusive *MaxExclusive) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(maxexclusive) {
+		return
+	}
+
+	maxexclusive.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if maxexclusive.Annotation != nil {
+		stage.UnstageBranch(maxexclusive.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1943,6 +2765,24 @@ func (maxlength *MaxLength) GongUnstageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by pointers
 	if maxlength.Annotation != nil {
 		stage.UnstageBranch(maxlength.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (minexclusive *MinExclusive) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(minexclusive) {
+		return
+	}
+
+	minexclusive.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if minexclusive.Annotation != nil {
+		stage.UnstageBranch(minexclusive.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2016,11 +2856,20 @@ func (restriction *Restriction) GongUnstageBranch(stage *Stage) {
 	if restriction.Annotation != nil {
 		stage.UnstageBranch(restriction.Annotation)
 	}
+	if restriction.SimpleType != nil {
+		stage.UnstageBranch(restriction.SimpleType)
+	}
 	if restriction.MinInclusive != nil {
 		stage.UnstageBranch(restriction.MinInclusive)
 	}
 	if restriction.MaxInclusive != nil {
 		stage.UnstageBranch(restriction.MaxInclusive)
+	}
+	if restriction.MinExclusive != nil {
+		stage.UnstageBranch(restriction.MinExclusive)
+	}
+	if restriction.MaxExclusive != nil {
+		stage.UnstageBranch(restriction.MaxExclusive)
 	}
 	if restriction.Pattern != nil {
 		stage.UnstageBranch(restriction.Pattern)
@@ -2040,10 +2889,34 @@ func (restriction *Restriction) GongUnstageBranch(stage *Stage) {
 	if restriction.TotalDigit != nil {
 		stage.UnstageBranch(restriction.TotalDigit)
 	}
+	if restriction.FractionDigit != nil {
+		stage.UnstageBranch(restriction.FractionDigit)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _enumeration := range restriction.Enumerations {
 		stage.UnstageBranch(_enumeration)
+	}
+	for _, _sequence := range restriction.Sequences {
+		stage.UnstageBranch(_sequence)
+	}
+	for _, _all := range restriction.Alls {
+		stage.UnstageBranch(_all)
+	}
+	for _, _choice := range restriction.Choices {
+		stage.UnstageBranch(_choice)
+	}
+	for _, _group := range restriction.Groups {
+		stage.UnstageBranch(_group)
+	}
+	for _, _element := range restriction.Elements {
+		stage.UnstageBranch(_element)
+	}
+	for _, _attribute := range restriction.Attributes {
+		stage.UnstageBranch(_attribute)
+	}
+	for _, _attributegroup := range restriction.AttributeGroups {
+		stage.UnstageBranch(_attributegroup)
 	}
 
 }
@@ -2063,8 +2936,17 @@ func (schema *Schema) GongUnstageBranch(stage *Stage) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _xsdimport := range schema.Imports {
+		stage.UnstageBranch(_xsdimport)
+	}
+	for _, _xsdinclude := range schema.Includes {
+		stage.UnstageBranch(_xsdinclude)
+	}
 	for _, _element := range schema.Elements {
 		stage.UnstageBranch(_element)
+	}
+	for _, _attribute := range schema.Attributes {
+		stage.UnstageBranch(_attribute)
 	}
 	for _, _simpletype := range schema.SimpleTypes {
 		stage.UnstageBranch(_simpletype)
@@ -2078,6 +2960,30 @@ func (schema *Schema) GongUnstageBranch(stage *Stage) {
 	for _, _group := range schema.Groups {
 		stage.UnstageBranch(_group)
 	}
+	for _, _key := range schema.Keys {
+		stage.UnstageBranch(_key)
+	}
+	for _, _unique := range schema.Uniques {
+		stage.UnstageBranch(_unique)
+	}
+	for _, _keyref := range schema.KeyRefs {
+		stage.UnstageBranch(_keyref)
+	}
+
+}
+
+func (selector *Selector) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(selector) {
+		return
+	}
+
+	selector.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -2154,6 +3060,9 @@ func (simpletype *SimpleType) GongUnstageBranch(stage *Stage) {
 	if simpletype.Union != nil {
 		stage.UnstageBranch(simpletype.Union)
 	}
+	if simpletype.List != nil {
+		stage.UnstageBranch(simpletype.List)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -2192,6 +3101,33 @@ func (union *Union) GongUnstageBranch(stage *Stage) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _simpletype := range union.SimpleTypes {
+		stage.UnstageBranch(_simpletype)
+	}
+
+}
+
+func (unique *Unique) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(unique) {
+		return
+	}
+
+	unique.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if unique.Annotation != nil {
+		stage.UnstageBranch(unique.Annotation)
+	}
+	if unique.Selector != nil {
+		stage.UnstageBranch(unique.Selector)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _fieldxpath := range unique.Fields {
+		stage.UnstageBranch(_fieldxpath)
+	}
 
 }
 
@@ -2207,6 +3143,42 @@ func (whitespace *WhiteSpace) GongUnstageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by pointers
 	if whitespace.Annotation != nil {
 		stage.UnstageBranch(whitespace.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (xsdimport *XSDImport) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(xsdimport) {
+		return
+	}
+
+	xsdimport.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if xsdimport.Annotation != nil {
+		stage.UnstageBranch(xsdimport.Annotation)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (xsdinclude *XSDInclude) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(xsdinclude) {
+		return
+	}
+
+	xsdinclude.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if xsdinclude.Annotation != nil {
+		stage.UnstageBranch(xsdinclude.Annotation)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2234,6 +3206,7 @@ func (reference *Annotation) GongReconstructPointersFromReferences(stage *Stage,
 func (reference *Attribute) GongReconstructPointersFromReferences(stage *Stage, instance *Attribute) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	__gong__reconstructPointer(&reference.InnerSimpleType, stage.SimpleTypes_reference, instance.InnerSimpleType)
 	// insertion point for slice of pointers field
 }
 
@@ -2258,6 +3231,9 @@ func (reference *Choice) GongReconstructPointersFromReferences(stage *Stage, ins
 
 func (reference *ComplexContent) GongReconstructPointersFromReferences(stage *Stage, instance *ComplexContent) {
 	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	__gong__reconstructPointer(&reference.Extension, stage.Extensions_reference, instance.Extension)
+	__gong__reconstructPointer(&reference.Restriction, stage.Restrictions_reference, instance.Restriction)
 	// insertion point for slice of pointers field
 }
 
@@ -2290,6 +3266,9 @@ func (reference *Element) GongReconstructPointersFromReferences(stage *Stage, in
 	__gong__reconstructPointer(&reference.ComplexType, stage.ComplexTypes_reference, instance.ComplexType)
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Groups, stage.Groups_reference, instance.Groups)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Keys, stage.Keys_reference, instance.Keys)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Uniques, stage.Uniques_reference, instance.Uniques)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.KeyRefs, stage.KeyRefs_reference, instance.KeyRefs)
 }
 
 func (reference *Enumeration) GongReconstructPointersFromReferences(stage *Stage, instance *Enumeration) {
@@ -2310,6 +3289,17 @@ func (reference *Extension) GongReconstructPointersFromReferences(stage *Stage, 
 	__gong__reconstructSliceOfPointersFromReferences(&reference.AttributeGroups, stage.AttributeGroups_reference, instance.AttributeGroups)
 }
 
+func (reference *FieldXPath) GongReconstructPointersFromReferences(stage *Stage, instance *FieldXPath) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *FractionDigit) GongReconstructPointersFromReferences(stage *Stage, instance *FractionDigit) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	// insertion point for slice of pointers field
+}
+
 func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, instance *Group) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
@@ -2322,7 +3312,36 @@ func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, inst
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Elements, stage.Elements_reference, instance.Elements)
 }
 
+func (reference *Key) GongReconstructPointersFromReferences(stage *Stage, instance *Key) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	__gong__reconstructPointer(&reference.Selector, stage.Selectors_reference, instance.Selector)
+	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Fields, stage.FieldXPaths_reference, instance.Fields)
+}
+
+func (reference *KeyRef) GongReconstructPointersFromReferences(stage *Stage, instance *KeyRef) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	__gong__reconstructPointer(&reference.Selector, stage.Selectors_reference, instance.Selector)
+	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Fields, stage.FieldXPaths_reference, instance.Fields)
+}
+
 func (reference *Length) GongReconstructPointersFromReferences(stage *Stage, instance *Length) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	// insertion point for slice of pointers field
+}
+
+func (reference *List) GongReconstructPointersFromReferences(stage *Stage, instance *List) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	__gong__reconstructPointer(&reference.SimpleType, stage.SimpleTypes_reference, instance.SimpleType)
+	// insertion point for slice of pointers field
+}
+
+func (reference *MaxExclusive) GongReconstructPointersFromReferences(stage *Stage, instance *MaxExclusive) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
@@ -2335,6 +3354,12 @@ func (reference *MaxInclusive) GongReconstructPointersFromReferences(stage *Stag
 }
 
 func (reference *MaxLength) GongReconstructPointersFromReferences(stage *Stage, instance *MaxLength) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	// insertion point for slice of pointers field
+}
+
+func (reference *MinExclusive) GongReconstructPointersFromReferences(stage *Stage, instance *MinExclusive) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
@@ -2361,27 +3386,49 @@ func (reference *Pattern) GongReconstructPointersFromReferences(stage *Stage, in
 func (reference *Restriction) GongReconstructPointersFromReferences(stage *Stage, instance *Restriction) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	__gong__reconstructPointer(&reference.SimpleType, stage.SimpleTypes_reference, instance.SimpleType)
 	__gong__reconstructPointer(&reference.MinInclusive, stage.MinInclusives_reference, instance.MinInclusive)
 	__gong__reconstructPointer(&reference.MaxInclusive, stage.MaxInclusives_reference, instance.MaxInclusive)
+	__gong__reconstructPointer(&reference.MinExclusive, stage.MinExclusives_reference, instance.MinExclusive)
+	__gong__reconstructPointer(&reference.MaxExclusive, stage.MaxExclusives_reference, instance.MaxExclusive)
 	__gong__reconstructPointer(&reference.Pattern, stage.Patterns_reference, instance.Pattern)
 	__gong__reconstructPointer(&reference.WhiteSpace, stage.WhiteSpaces_reference, instance.WhiteSpace)
 	__gong__reconstructPointer(&reference.MinLength, stage.MinLengths_reference, instance.MinLength)
 	__gong__reconstructPointer(&reference.MaxLength, stage.MaxLengths_reference, instance.MaxLength)
 	__gong__reconstructPointer(&reference.Length, stage.Lengths_reference, instance.Length)
 	__gong__reconstructPointer(&reference.TotalDigit, stage.TotalDigits_reference, instance.TotalDigit)
+	__gong__reconstructPointer(&reference.FractionDigit, stage.FractionDigits_reference, instance.FractionDigit)
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Enumerations, stage.Enumerations_reference, instance.Enumerations)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Sequences, stage.Sequences_reference, instance.Sequences)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Alls, stage.Alls_reference, instance.Alls)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Choices, stage.Choices_reference, instance.Choices)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Groups, stage.Groups_reference, instance.Groups)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Elements, stage.Elements_reference, instance.Elements)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Attributes, stage.Attributes_reference, instance.Attributes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.AttributeGroups, stage.AttributeGroups_reference, instance.AttributeGroups)
 }
 
 func (reference *Schema) GongReconstructPointersFromReferences(stage *Stage, instance *Schema) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Imports, stage.XSDImports_reference, instance.Imports)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Includes, stage.XSDIncludes_reference, instance.Includes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Elements, stage.Elements_reference, instance.Elements)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Attributes, stage.Attributes_reference, instance.Attributes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.SimpleTypes, stage.SimpleTypes_reference, instance.SimpleTypes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ComplexTypes, stage.ComplexTypes_reference, instance.ComplexTypes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.AttributeGroups, stage.AttributeGroups_reference, instance.AttributeGroups)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Groups, stage.Groups_reference, instance.Groups)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Keys, stage.Keys_reference, instance.Keys)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Uniques, stage.Uniques_reference, instance.Uniques)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.KeyRefs, stage.KeyRefs_reference, instance.KeyRefs)
+}
+
+func (reference *Selector) GongReconstructPointersFromReferences(stage *Stage, instance *Selector) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
 }
 
 func (reference *Sequence) GongReconstructPointersFromReferences(stage *Stage, instance *Sequence) {
@@ -2407,6 +3454,7 @@ func (reference *SimpleType) GongReconstructPointersFromReferences(stage *Stage,
 	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	__gong__reconstructPointer(&reference.Restriction, stage.Restrictions_reference, instance.Restriction)
 	__gong__reconstructPointer(&reference.Union, stage.Unions_reference, instance.Union)
+	__gong__reconstructPointer(&reference.List, stage.Lists_reference, instance.List)
 	// insertion point for slice of pointers field
 }
 
@@ -2420,9 +3468,30 @@ func (reference *Union) GongReconstructPointersFromReferences(stage *Stage, inst
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SimpleTypes, stage.SimpleTypes_reference, instance.SimpleTypes)
+}
+
+func (reference *Unique) GongReconstructPointersFromReferences(stage *Stage, instance *Unique) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	__gong__reconstructPointer(&reference.Selector, stage.Selectors_reference, instance.Selector)
+	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Fields, stage.FieldXPaths_reference, instance.Fields)
 }
 
 func (reference *WhiteSpace) GongReconstructPointersFromReferences(stage *Stage, instance *WhiteSpace) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	// insertion point for slice of pointers field
+}
+
+func (reference *XSDImport) GongReconstructPointersFromReferences(stage *Stage, instance *XSDImport) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
+	// insertion point for slice of pointers field
+}
+
+func (reference *XSDInclude) GongReconstructPointersFromReferences(stage *Stage, instance *XSDInclude) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Annotation, stage.Annotations_reference, instance.Annotation)
 	// insertion point for slice of pointers field
@@ -2449,6 +3518,7 @@ func (reference *Annotation) GongReconstructPointersFromInstances(stage *Stage) 
 func (reference *Attribute) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	__gong__reconstructPointerFromInstance(&reference.InnerSimpleType, stage.SimpleTypes_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -2473,6 +3543,9 @@ func (reference *Choice) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *ComplexContent) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	__gong__reconstructPointerFromInstance(&reference.Extension, stage.Extensions_instance)
+	__gong__reconstructPointerFromInstance(&reference.Restriction, stage.Restrictions_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -2505,6 +3578,9 @@ func (reference *Element) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructPointerFromInstance(&reference.ComplexType, stage.ComplexTypes_instance)
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Groups, stage.Groups_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Keys, stage.Keys_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Uniques, stage.Uniques_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.KeyRefs, stage.KeyRefs_instance)
 }
 
 func (reference *Enumeration) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2525,6 +3601,17 @@ func (reference *Extension) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.AttributeGroups, stage.AttributeGroups_instance)
 }
 
+func (reference *FieldXPath) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *FractionDigit) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	// insertion point for slice of pointers fields
+}
+
 func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
@@ -2537,7 +3624,36 @@ func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Elements, stage.Elements_instance)
 }
 
+func (reference *Key) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	__gong__reconstructPointerFromInstance(&reference.Selector, stage.Selectors_instance)
+	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Fields, stage.FieldXPaths_instance)
+}
+
+func (reference *KeyRef) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	__gong__reconstructPointerFromInstance(&reference.Selector, stage.Selectors_instance)
+	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Fields, stage.FieldXPaths_instance)
+}
+
 func (reference *Length) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	// insertion point for slice of pointers fields
+}
+
+func (reference *List) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	__gong__reconstructPointerFromInstance(&reference.SimpleType, stage.SimpleTypes_instance)
+	// insertion point for slice of pointers fields
+}
+
+func (reference *MaxExclusive) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
@@ -2550,6 +3666,12 @@ func (reference *MaxInclusive) GongReconstructPointersFromInstances(stage *Stage
 }
 
 func (reference *MaxLength) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	// insertion point for slice of pointers fields
+}
+
+func (reference *MinExclusive) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
@@ -2576,27 +3698,49 @@ func (reference *Pattern) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Restriction) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	__gong__reconstructPointerFromInstance(&reference.SimpleType, stage.SimpleTypes_instance)
 	__gong__reconstructPointerFromInstance(&reference.MinInclusive, stage.MinInclusives_instance)
 	__gong__reconstructPointerFromInstance(&reference.MaxInclusive, stage.MaxInclusives_instance)
+	__gong__reconstructPointerFromInstance(&reference.MinExclusive, stage.MinExclusives_instance)
+	__gong__reconstructPointerFromInstance(&reference.MaxExclusive, stage.MaxExclusives_instance)
 	__gong__reconstructPointerFromInstance(&reference.Pattern, stage.Patterns_instance)
 	__gong__reconstructPointerFromInstance(&reference.WhiteSpace, stage.WhiteSpaces_instance)
 	__gong__reconstructPointerFromInstance(&reference.MinLength, stage.MinLengths_instance)
 	__gong__reconstructPointerFromInstance(&reference.MaxLength, stage.MaxLengths_instance)
 	__gong__reconstructPointerFromInstance(&reference.Length, stage.Lengths_instance)
 	__gong__reconstructPointerFromInstance(&reference.TotalDigit, stage.TotalDigits_instance)
+	__gong__reconstructPointerFromInstance(&reference.FractionDigit, stage.FractionDigits_instance)
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Enumerations, stage.Enumerations_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Sequences, stage.Sequences_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Alls, stage.Alls_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Choices, stage.Choices_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Groups, stage.Groups_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Elements, stage.Elements_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Attributes, stage.Attributes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.AttributeGroups, stage.AttributeGroups_instance)
 }
 
 func (reference *Schema) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Imports, stage.XSDImports_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Includes, stage.XSDIncludes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Elements, stage.Elements_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Attributes, stage.Attributes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.SimpleTypes, stage.SimpleTypes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ComplexTypes, stage.ComplexTypes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.AttributeGroups, stage.AttributeGroups_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Groups, stage.Groups_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Keys, stage.Keys_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Uniques, stage.Uniques_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.KeyRefs, stage.KeyRefs_instance)
+}
+
+func (reference *Selector) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
 }
 
 func (reference *Sequence) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2622,6 +3766,7 @@ func (reference *SimpleType) GongReconstructPointersFromInstances(stage *Stage) 
 	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	__gong__reconstructPointerFromInstance(&reference.Restriction, stage.Restrictions_instance)
 	__gong__reconstructPointerFromInstance(&reference.Union, stage.Unions_instance)
+	__gong__reconstructPointerFromInstance(&reference.List, stage.Lists_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -2635,9 +3780,30 @@ func (reference *Union) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SimpleTypes, stage.SimpleTypes_instance)
+}
+
+func (reference *Unique) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	__gong__reconstructPointerFromInstance(&reference.Selector, stage.Selectors_instance)
+	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Fields, stage.FieldXPaths_instance)
 }
 
 func (reference *WhiteSpace) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	// insertion point for slice of pointers fields
+}
+
+func (reference *XSDImport) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
+	// insertion point for slice of pointers fields
+}
+
+func (reference *XSDInclude) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Annotation, stage.Annotations_instance)
 	// insertion point for slice of pointers fields
@@ -2745,8 +3911,17 @@ func (attribute *Attribute) GongDiff(stage *Stage, attributeOther *Attribute) (d
 	if attribute.SimpleType != attributeOther.SimpleType {
 		diffs = append(diffs, attribute.GongMarshallField(stage, "SimpleType"))
 	}
+	if attribute.InnerSimpleType != attributeOther.InnerSimpleType {
+		diffs = append(diffs, attribute.GongMarshallField(stage, "InnerSimpleType"))
+	}
 	if attribute.IDXSD != attributeOther.IDXSD {
 		diffs = append(diffs, attribute.GongMarshallField(stage, "IDXSD"))
+	}
+	if attribute.Order != attributeOther.Order {
+		diffs = append(diffs, attribute.GongMarshallField(stage, "Order"))
+	}
+	if attribute.Depth != attributeOther.Depth {
+		diffs = append(diffs, attribute.GongMarshallField(stage, "Depth"))
 	}
 
 	return
@@ -2843,6 +4018,18 @@ func (complexcontent *ComplexContent) GongDiff(stage *Stage, complexcontentOther
 	// insertion point for field diffs
 	if complexcontent.Name != complexcontentOther.Name {
 		diffs = append(diffs, complexcontent.GongMarshallField(stage, "Name"))
+	}
+	if complexcontent.Annotation != complexcontentOther.Annotation {
+		diffs = append(diffs, complexcontent.GongMarshallField(stage, "Annotation"))
+	}
+	if complexcontent.Mixed != complexcontentOther.Mixed {
+		diffs = append(diffs, complexcontent.GongMarshallField(stage, "Mixed"))
+	}
+	if complexcontent.Extension != complexcontentOther.Extension {
+		diffs = append(diffs, complexcontent.GongMarshallField(stage, "Extension"))
+	}
+	if complexcontent.Restriction != complexcontentOther.Restriction {
+		diffs = append(diffs, complexcontent.GongMarshallField(stage, "Restriction"))
 	}
 
 	return
@@ -3003,6 +4190,9 @@ func (element *Element) GongDiff(stage *Stage, elementOther *Element) (diffs []s
 	if element.Final != elementOther.Final {
 		diffs = append(diffs, element.GongMarshallField(stage, "Final"))
 	}
+	if element.SubstitutionGroup != elementOther.SubstitutionGroup {
+		diffs = append(diffs, element.GongMarshallField(stage, "SubstitutionGroup"))
+	}
 	if element.SimpleType != elementOther.SimpleType {
 		diffs = append(diffs, element.GongMarshallField(stage, "SimpleType"))
 	}
@@ -3010,6 +4200,15 @@ func (element *Element) GongDiff(stage *Stage, elementOther *Element) (diffs []s
 		diffs = append(diffs, element.GongMarshallField(stage, "ComplexType"))
 	}
 	if ops := __gong__diffSliceOfPointers(stage, element, "Groups", elementOther.Groups, element.Groups); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, element, "Keys", elementOther.Keys, element.Keys); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, element, "Uniques", elementOther.Uniques, element.Uniques); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, element, "KeyRefs", elementOther.KeyRefs, element.KeyRefs); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if element.IsDuplicatedInXSD != elementOther.IsDuplicatedInXSD {
@@ -3091,6 +4290,37 @@ func (extension *Extension) GongDiff(stage *Stage, extensionOther *Extension) (d
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (fieldxpath *FieldXPath) GongDiff(stage *Stage, fieldxpathOther *FieldXPath) (diffs []string) {
+	// insertion point for field diffs
+	if fieldxpath.Name != fieldxpathOther.Name {
+		diffs = append(diffs, fieldxpath.GongMarshallField(stage, "Name"))
+	}
+	if fieldxpath.XPath != fieldxpathOther.XPath {
+		diffs = append(diffs, fieldxpath.GongMarshallField(stage, "XPath"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (fractiondigit *FractionDigit) GongDiff(stage *Stage, fractiondigitOther *FractionDigit) (diffs []string) {
+	// insertion point for field diffs
+	if fractiondigit.Name != fractiondigitOther.Name {
+		diffs = append(diffs, fractiondigit.GongMarshallField(stage, "Name"))
+	}
+	if fractiondigit.Annotation != fractiondigitOther.Annotation {
+		diffs = append(diffs, fractiondigit.GongMarshallField(stage, "Annotation"))
+	}
+	if fractiondigit.Value != fractiondigitOther.Value {
+		diffs = append(diffs, fractiondigit.GongMarshallField(stage, "Value"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 	// insertion point for field diffs
 	if group.Name != groupOther.Name {
@@ -3153,6 +4383,55 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (key *Key) GongDiff(stage *Stage, keyOther *Key) (diffs []string) {
+	// insertion point for field diffs
+	if key.Name != keyOther.Name {
+		diffs = append(diffs, key.GongMarshallField(stage, "Name"))
+	}
+	if key.Annotation != keyOther.Annotation {
+		diffs = append(diffs, key.GongMarshallField(stage, "Annotation"))
+	}
+	if key.NameXSD != keyOther.NameXSD {
+		diffs = append(diffs, key.GongMarshallField(stage, "NameXSD"))
+	}
+	if key.Selector != keyOther.Selector {
+		diffs = append(diffs, key.GongMarshallField(stage, "Selector"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, key, "Fields", keyOther.Fields, key.Fields); ops != "" {
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (keyref *KeyRef) GongDiff(stage *Stage, keyrefOther *KeyRef) (diffs []string) {
+	// insertion point for field diffs
+	if keyref.Name != keyrefOther.Name {
+		diffs = append(diffs, keyref.GongMarshallField(stage, "Name"))
+	}
+	if keyref.Annotation != keyrefOther.Annotation {
+		diffs = append(diffs, keyref.GongMarshallField(stage, "Annotation"))
+	}
+	if keyref.NameXSD != keyrefOther.NameXSD {
+		diffs = append(diffs, keyref.GongMarshallField(stage, "NameXSD"))
+	}
+	if keyref.Refer != keyrefOther.Refer {
+		diffs = append(diffs, keyref.GongMarshallField(stage, "Refer"))
+	}
+	if keyref.Selector != keyrefOther.Selector {
+		diffs = append(diffs, keyref.GongMarshallField(stage, "Selector"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, keyref, "Fields", keyrefOther.Fields, keyref.Fields); ops != "" {
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (length *Length) GongDiff(stage *Stage, lengthOther *Length) (diffs []string) {
 	// insertion point for field diffs
 	if length.Name != lengthOther.Name {
@@ -3163,6 +4442,43 @@ func (length *Length) GongDiff(stage *Stage, lengthOther *Length) (diffs []strin
 	}
 	if length.Value != lengthOther.Value {
 		diffs = append(diffs, length.GongMarshallField(stage, "Value"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (list *List) GongDiff(stage *Stage, listOther *List) (diffs []string) {
+	// insertion point for field diffs
+	if list.Name != listOther.Name {
+		diffs = append(diffs, list.GongMarshallField(stage, "Name"))
+	}
+	if list.Annotation != listOther.Annotation {
+		diffs = append(diffs, list.GongMarshallField(stage, "Annotation"))
+	}
+	if list.ItemType != listOther.ItemType {
+		diffs = append(diffs, list.GongMarshallField(stage, "ItemType"))
+	}
+	if list.SimpleType != listOther.SimpleType {
+		diffs = append(diffs, list.GongMarshallField(stage, "SimpleType"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (maxexclusive *MaxExclusive) GongDiff(stage *Stage, maxexclusiveOther *MaxExclusive) (diffs []string) {
+	// insertion point for field diffs
+	if maxexclusive.Name != maxexclusiveOther.Name {
+		diffs = append(diffs, maxexclusive.GongMarshallField(stage, "Name"))
+	}
+	if maxexclusive.Annotation != maxexclusiveOther.Annotation {
+		diffs = append(diffs, maxexclusive.GongMarshallField(stage, "Annotation"))
+	}
+	if maxexclusive.Value != maxexclusiveOther.Value {
+		diffs = append(diffs, maxexclusive.GongMarshallField(stage, "Value"))
 	}
 
 	return
@@ -3197,6 +4513,23 @@ func (maxlength *MaxLength) GongDiff(stage *Stage, maxlengthOther *MaxLength) (d
 	}
 	if maxlength.Value != maxlengthOther.Value {
 		diffs = append(diffs, maxlength.GongMarshallField(stage, "Value"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (minexclusive *MinExclusive) GongDiff(stage *Stage, minexclusiveOther *MinExclusive) (diffs []string) {
+	// insertion point for field diffs
+	if minexclusive.Name != minexclusiveOther.Name {
+		diffs = append(diffs, minexclusive.GongMarshallField(stage, "Name"))
+	}
+	if minexclusive.Annotation != minexclusiveOther.Annotation {
+		diffs = append(diffs, minexclusive.GongMarshallField(stage, "Annotation"))
+	}
+	if minexclusive.Value != minexclusiveOther.Value {
+		diffs = append(diffs, minexclusive.GongMarshallField(stage, "Value"))
 	}
 
 	return
@@ -3266,6 +4599,9 @@ func (restriction *Restriction) GongDiff(stage *Stage, restrictionOther *Restric
 	if restriction.Base != restrictionOther.Base {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "Base"))
 	}
+	if restriction.SimpleType != restrictionOther.SimpleType {
+		diffs = append(diffs, restriction.GongMarshallField(stage, "SimpleType"))
+	}
 	if ops := __gong__diffSliceOfPointers(stage, restriction, "Enumerations", restrictionOther.Enumerations, restriction.Enumerations); ops != "" {
 		diffs = append(diffs, ops)
 	}
@@ -3274,6 +4610,12 @@ func (restriction *Restriction) GongDiff(stage *Stage, restrictionOther *Restric
 	}
 	if restriction.MaxInclusive != restrictionOther.MaxInclusive {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "MaxInclusive"))
+	}
+	if restriction.MinExclusive != restrictionOther.MinExclusive {
+		diffs = append(diffs, restriction.GongMarshallField(stage, "MinExclusive"))
+	}
+	if restriction.MaxExclusive != restrictionOther.MaxExclusive {
+		diffs = append(diffs, restriction.GongMarshallField(stage, "MaxExclusive"))
 	}
 	if restriction.Pattern != restrictionOther.Pattern {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "Pattern"))
@@ -3293,6 +4635,45 @@ func (restriction *Restriction) GongDiff(stage *Stage, restrictionOther *Restric
 	if restriction.TotalDigit != restrictionOther.TotalDigit {
 		diffs = append(diffs, restriction.GongMarshallField(stage, "TotalDigit"))
 	}
+	if restriction.FractionDigit != restrictionOther.FractionDigit {
+		diffs = append(diffs, restriction.GongMarshallField(stage, "FractionDigit"))
+	}
+	if restriction.OuterElementName != restrictionOther.OuterElementName {
+		diffs = append(diffs, restriction.GongMarshallField(stage, "OuterElementName"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, restriction, "Sequences", restrictionOther.Sequences, restriction.Sequences); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, restriction, "Alls", restrictionOther.Alls, restriction.Alls); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, restriction, "Choices", restrictionOther.Choices, restriction.Choices); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, restriction, "Groups", restrictionOther.Groups, restriction.Groups); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, restriction, "Elements", restrictionOther.Elements, restriction.Elements); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if restriction.Order != restrictionOther.Order {
+		diffs = append(diffs, restriction.GongMarshallField(stage, "Order"))
+	}
+	if restriction.Depth != restrictionOther.Depth {
+		diffs = append(diffs, restriction.GongMarshallField(stage, "Depth"))
+	}
+	if restriction.MinOccurs != restrictionOther.MinOccurs {
+		diffs = append(diffs, restriction.GongMarshallField(stage, "MinOccurs"))
+	}
+	if restriction.MaxOccurs != restrictionOther.MaxOccurs {
+		diffs = append(diffs, restriction.GongMarshallField(stage, "MaxOccurs"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, restriction, "Attributes", restrictionOther.Attributes, restriction.Attributes); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, restriction, "AttributeGroups", restrictionOther.AttributeGroups, restriction.AttributeGroups); ops != "" {
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -3307,10 +4688,43 @@ func (schema *Schema) GongDiff(stage *Stage, schemaOther *Schema) (diffs []strin
 	if schema.Xs != schemaOther.Xs {
 		diffs = append(diffs, schema.GongMarshallField(stage, "Xs"))
 	}
+	if schema.TargetNamespace != schemaOther.TargetNamespace {
+		diffs = append(diffs, schema.GongMarshallField(stage, "TargetNamespace"))
+	}
+	if schema.ElementFormDefault != schemaOther.ElementFormDefault {
+		diffs = append(diffs, schema.GongMarshallField(stage, "ElementFormDefault"))
+	}
+	if schema.AttributeFormDefault != schemaOther.AttributeFormDefault {
+		diffs = append(diffs, schema.GongMarshallField(stage, "AttributeFormDefault"))
+	}
+	if schema.Version != schemaOther.Version {
+		diffs = append(diffs, schema.GongMarshallField(stage, "Version"))
+	}
+	if schema.FilePath != schemaOther.FilePath {
+		diffs = append(diffs, schema.GongMarshallField(stage, "FilePath"))
+	}
+	if schema.PackageName != schemaOther.PackageName {
+		diffs = append(diffs, schema.GongMarshallField(stage, "PackageName"))
+	}
+	if schema.PackageRelDir != schemaOther.PackageRelDir {
+		diffs = append(diffs, schema.GongMarshallField(stage, "PackageRelDir"))
+	}
+	if schema.IsRootSchema != schemaOther.IsRootSchema {
+		diffs = append(diffs, schema.GongMarshallField(stage, "IsRootSchema"))
+	}
 	if schema.Annotation != schemaOther.Annotation {
 		diffs = append(diffs, schema.GongMarshallField(stage, "Annotation"))
 	}
+	if ops := __gong__diffSliceOfPointers(stage, schema, "Imports", schemaOther.Imports, schema.Imports); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, schema, "Includes", schemaOther.Includes, schema.Includes); ops != "" {
+		diffs = append(diffs, ops)
+	}
 	if ops := __gong__diffSliceOfPointers(stage, schema, "Elements", schemaOther.Elements, schema.Elements); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, schema, "Attributes", schemaOther.Attributes, schema.Attributes); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, schema, "SimpleTypes", schemaOther.SimpleTypes, schema.SimpleTypes); ops != "" {
@@ -3325,11 +4739,34 @@ func (schema *Schema) GongDiff(stage *Stage, schemaOther *Schema) (diffs []strin
 	if ops := __gong__diffSliceOfPointers(stage, schema, "Groups", schemaOther.Groups, schema.Groups); ops != "" {
 		diffs = append(diffs, ops)
 	}
+	if ops := __gong__diffSliceOfPointers(stage, schema, "Keys", schemaOther.Keys, schema.Keys); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, schema, "Uniques", schemaOther.Uniques, schema.Uniques); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, schema, "KeyRefs", schemaOther.KeyRefs, schema.KeyRefs); ops != "" {
+		diffs = append(diffs, ops)
+	}
 	if schema.Order != schemaOther.Order {
 		diffs = append(diffs, schema.GongMarshallField(stage, "Order"))
 	}
 	if schema.Depth != schemaOther.Depth {
 		diffs = append(diffs, schema.GongMarshallField(stage, "Depth"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (selector *Selector) GongDiff(stage *Stage, selectorOther *Selector) (diffs []string) {
+	// insertion point for field diffs
+	if selector.Name != selectorOther.Name {
+		diffs = append(diffs, selector.GongMarshallField(stage, "Name"))
+	}
+	if selector.XPath != selectorOther.XPath {
+		diffs = append(diffs, selector.GongMarshallField(stage, "XPath"))
 	}
 
 	return
@@ -3415,6 +4852,15 @@ func (simpletype *SimpleType) GongDiff(stage *Stage, simpletypeOther *SimpleType
 	if simpletype.Union != simpletypeOther.Union {
 		diffs = append(diffs, simpletype.GongMarshallField(stage, "Union"))
 	}
+	if simpletype.List != simpletypeOther.List {
+		diffs = append(diffs, simpletype.GongMarshallField(stage, "List"))
+	}
+	if simpletype.HasNameConflict != simpletypeOther.HasNameConflict {
+		diffs = append(diffs, simpletype.GongMarshallField(stage, "HasNameConflict"))
+	}
+	if simpletype.GoIdentifier != simpletypeOther.GoIdentifier {
+		diffs = append(diffs, simpletype.GongMarshallField(stage, "GoIdentifier"))
+	}
 	if simpletype.Order != simpletypeOther.Order {
 		diffs = append(diffs, simpletype.GongMarshallField(stage, "Order"))
 	}
@@ -3455,6 +4901,32 @@ func (union *Union) GongDiff(stage *Stage, unionOther *Union) (diffs []string) {
 	if union.MemberTypes != unionOther.MemberTypes {
 		diffs = append(diffs, union.GongMarshallField(stage, "MemberTypes"))
 	}
+	if ops := __gong__diffSliceOfPointers(stage, union, "SimpleTypes", unionOther.SimpleTypes, union.SimpleTypes); ops != "" {
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (unique *Unique) GongDiff(stage *Stage, uniqueOther *Unique) (diffs []string) {
+	// insertion point for field diffs
+	if unique.Name != uniqueOther.Name {
+		diffs = append(diffs, unique.GongMarshallField(stage, "Name"))
+	}
+	if unique.Annotation != uniqueOther.Annotation {
+		diffs = append(diffs, unique.GongMarshallField(stage, "Annotation"))
+	}
+	if unique.NameXSD != uniqueOther.NameXSD {
+		diffs = append(diffs, unique.GongMarshallField(stage, "NameXSD"))
+	}
+	if unique.Selector != uniqueOther.Selector {
+		diffs = append(diffs, unique.GongMarshallField(stage, "Selector"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, unique, "Fields", uniqueOther.Fields, unique.Fields); ops != "" {
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -3471,6 +4943,43 @@ func (whitespace *WhiteSpace) GongDiff(stage *Stage, whitespaceOther *WhiteSpace
 	}
 	if whitespace.Value != whitespaceOther.Value {
 		diffs = append(diffs, whitespace.GongMarshallField(stage, "Value"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (xsdimport *XSDImport) GongDiff(stage *Stage, xsdimportOther *XSDImport) (diffs []string) {
+	// insertion point for field diffs
+	if xsdimport.Name != xsdimportOther.Name {
+		diffs = append(diffs, xsdimport.GongMarshallField(stage, "Name"))
+	}
+	if xsdimport.Annotation != xsdimportOther.Annotation {
+		diffs = append(diffs, xsdimport.GongMarshallField(stage, "Annotation"))
+	}
+	if xsdimport.Namespace != xsdimportOther.Namespace {
+		diffs = append(diffs, xsdimport.GongMarshallField(stage, "Namespace"))
+	}
+	if xsdimport.SchemaLocation != xsdimportOther.SchemaLocation {
+		diffs = append(diffs, xsdimport.GongMarshallField(stage, "SchemaLocation"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (xsdinclude *XSDInclude) GongDiff(stage *Stage, xsdincludeOther *XSDInclude) (diffs []string) {
+	// insertion point for field diffs
+	if xsdinclude.Name != xsdincludeOther.Name {
+		diffs = append(diffs, xsdinclude.GongMarshallField(stage, "Name"))
+	}
+	if xsdinclude.Annotation != xsdincludeOther.Annotation {
+		diffs = append(diffs, xsdinclude.GongMarshallField(stage, "Annotation"))
+	}
+	if xsdinclude.SchemaLocation != xsdincludeOther.SchemaLocation {
+		diffs = append(diffs, xsdinclude.GongMarshallField(stage, "SchemaLocation"))
 	}
 
 	return

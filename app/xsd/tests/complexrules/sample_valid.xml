@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="http://example.com/complex" xmlns:refs="http://example.com/refs">
+    <target id="TGT-1" status="ACTIVE" createdBy="alice">
+        <label>Primary Target</label>
+    </target>
+    <target id="TGT-2" status="INACTIVE" createdBy="bob">
+        <label>Secondary Target</label>
+    </target>
+    <item targetRef="TGT-1">
+        <code>ITEM_01</code>
+        <score>42.5</score>
+        <optionA>Alpha Option</optionA>
+    </item>
+    <item targetRef="TGT-2">
+        <code>ITEM_02</code>
+        <score>88.0</score>
+        <optionB>7</optionB>
+    </item>
+</catalog>

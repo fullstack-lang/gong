@@ -347,7 +347,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", booktypeIdent, __gong__toRawStringLiteral(booktype.Title)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Author = %s", booktypeIdent, __gong__toRawStringLiteral(booktype.Author)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Year = %d", booktypeIdent, booktype.Year))
-			values.WriteString(fmt.Sprintf("\n\t%s.Format = %s", booktypeIdent, __gong__toRawStringLiteral(booktype.Format)))
+			if booktype.Format.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Format = models.%s", booktypeIdent, booktype.Format.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Format = \"\"", booktypeIdent))
+			}
 			for _, elem := range booktype.Credit {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -531,7 +535,7 @@ func (booktype *BookType) GongMarshallField(stage *Stage, fieldName string) (res
 	case "Year":
 		res = __gong__marshallInt(ident, "Year", booktype.Year)
 	case "Format":
-		res = __gong__marshallString(ident, "Format", booktype.Format)
+		res = __gong__marshallEnumString(ident, "Format", booktype.Format.ToCodeString())
 
 	case "Credit":
 		var sb strings.Builder

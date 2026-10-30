@@ -114,3 +114,42 @@ func (e *ComplexType) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error
 
 	return err
 }
+
+func (ct *ComplexType) SetParentAndChildren(parent Particle) {
+	ct.ModelGroup.SetParentAndChildren(parent)
+	for _, attr := range ct.Attributes {
+		attr.SetParentAndChildren(ct)
+	}
+	if ct.Extension != nil {
+		ct.Extension.ModelGroup.SetParentAndChildren(ct)
+		for _, attr := range ct.Extension.Attributes {
+			attr.SetParentAndChildren(ct)
+		}
+	}
+	if ct.ComplexContent != nil {
+		if ct.ComplexContent.Extension != nil {
+			ct.ComplexContent.Extension.ModelGroup.SetParentAndChildren(ct)
+			for _, attr := range ct.ComplexContent.Extension.Attributes {
+				attr.SetParentAndChildren(ct)
+			}
+		}
+		if ct.ComplexContent.Restriction != nil {
+			ct.ComplexContent.Restriction.ModelGroup.SetParentAndChildren(ct)
+			for _, attr := range ct.ComplexContent.Restriction.Attributes {
+				attr.SetParentAndChildren(ct)
+			}
+		}
+	}
+	if ct.SimpleContent != nil {
+		if ct.SimpleContent.Extension != nil {
+			for _, attr := range ct.SimpleContent.Extension.Attributes {
+				attr.SetParentAndChildren(ct)
+			}
+		}
+		if ct.SimpleContent.Restriction != nil {
+			for _, attr := range ct.SimpleContent.Restriction.Attributes {
+				attr.SetParentAndChildren(ct)
+			}
+		}
+	}
+}

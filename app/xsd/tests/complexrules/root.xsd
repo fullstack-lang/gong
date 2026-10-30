@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://example.com/complex"
+           xmlns:tns="http://example.com/complex"
+           xmlns:refs="http://example.com/refs"
+           elementFormDefault="qualified">
+
+    <xs:include schemaLocation="common.xsd"/>
+    <xs:import namespace="http://example.com/refs" schemaLocation="refs.xsd"/>
+
+    <xs:complexType name="derivedItemType">
+        <xs:complexContent>
+            <xs:extension base="tns:baseItemType">
+                <xs:sequence>
+                    <xs:choice>
+                        <xs:element name="optionA" type="xs:string"/>
+                        <xs:element name="optionB" type="xs:int"/>
+                    </xs:choice>
+                </xs:sequence>
+                <xs:attribute name="targetRef" type="xs:IDREF" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="catalog">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="target" type="refs:refTargetType" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="item" type="tns:derivedItemType" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

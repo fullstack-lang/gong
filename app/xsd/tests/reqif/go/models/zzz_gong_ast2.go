@@ -14,6 +14,7 @@ import (
 	"time"
 
 	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
+	"github.com/fullstack-lang/gong/app/xsd/tests/reqif/go/models/xmlxsd"
 )
 
 var (
@@ -96,6 +97,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 
 	identifierMap := make(map[string]any)
 
+	if stage.XmlxsdStage != nil {
+		for _, instance := range stage.XmlxsdStage.GetInstances() {
+			identifierMap[instance.GongGetIdentifier(stage.XmlxsdStage)] = instance
+		}
+	}
 	if stage != nil {
 		for _, instance := range stage.GetInstances() {
 			identifierMap[instance.GongGetIdentifier(stage)] = instance
@@ -110,6 +116,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 			alias = imp.Name.Name
 		}
 		switch p {
+		case "github.com/fullstack-lang/gong/app/xsd/tests/reqif/go/models/xmlxsd":
+			aliasToCanonical[alias] = "xmlxsd"
 		case "github.com/fullstack-lang/gong/app/xsd/tests/reqif/go/models":
 			aliasToCanonical[alias] = "models"
 		}
@@ -158,6 +166,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					}
 
 					switch pkgAlias {
+			case "xmlxsd":
+				switch typeName {
+				case "Xmlxsd_SchemaElement":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(xmlxsd.Xmlxsd_SchemaElement), stage.XmlxsdStage, ident.Name, instanceName, preserveOrder)
+				}
 			case "models":
 				switch typeName {
 				case "ALTERNATIVE_ID":
@@ -252,10 +265,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(A_PROPERTIES), stage, ident.Name, instanceName, preserveOrder)
 				case "A_RELATION_GROUP_TYPE_REF":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(A_RELATION_GROUP_TYPE_REF), stage, ident.Name, instanceName, preserveOrder)
-				case "A_SOURCE_1":
-					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SOURCE_1), stage, ident.Name, instanceName, preserveOrder)
-				case "A_SOURCE_SPECIFICATION_1":
-					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SOURCE_SPECIFICATION_1), stage, ident.Name, instanceName, preserveOrder)
+				case "A_SOURCE":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SOURCE), stage, ident.Name, instanceName, preserveOrder)
+				case "A_SOURCE_SPECIFICATION":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SOURCE_SPECIFICATION), stage, ident.Name, instanceName, preserveOrder)
 				case "A_SPECIFICATIONS":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(A_SPECIFICATIONS), stage, ident.Name, instanceName, preserveOrder)
 				case "A_SPECIFICATION_TYPE_REF":
@@ -342,6 +355,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 							fieldName := selExpr.Sel.Name
 							rhs := node.Rhs[0]
 							switch inst := instance.(type) {
+				case *xmlxsd.Xmlxsd_SchemaElement:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
 				case *ALTERNATIVE_ID:
 					switch fieldName {
 					case "Name":
@@ -367,8 +385,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "DEFAULT_VALUE":
 						__gong__assignPointer(&inst.DEFAULT_VALUE, rhs, identifierMap)
-					case "TYPE":
-						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
+					case "TYPE_XSD":
+						__gong__assignPointer(&inst.TYPE_XSD, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_DEFINITION_DATE:
 					switch fieldName {
@@ -388,8 +406,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "DEFAULT_VALUE":
 						__gong__assignPointer(&inst.DEFAULT_VALUE, rhs, identifierMap)
-					case "TYPE":
-						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
+					case "TYPE_XSD":
+						__gong__assignPointer(&inst.TYPE_XSD, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_DEFINITION_ENUMERATION:
 					switch fieldName {
@@ -411,8 +429,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "DEFAULT_VALUE":
 						__gong__assignPointer(&inst.DEFAULT_VALUE, rhs, identifierMap)
-					case "TYPE":
-						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
+					case "TYPE_XSD":
+						__gong__assignPointer(&inst.TYPE_XSD, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_DEFINITION_INTEGER:
 					switch fieldName {
@@ -432,8 +450,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "DEFAULT_VALUE":
 						__gong__assignPointer(&inst.DEFAULT_VALUE, rhs, identifierMap)
-					case "TYPE":
-						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
+					case "TYPE_XSD":
+						__gong__assignPointer(&inst.TYPE_XSD, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_DEFINITION_REAL:
 					switch fieldName {
@@ -453,8 +471,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "DEFAULT_VALUE":
 						__gong__assignPointer(&inst.DEFAULT_VALUE, rhs, identifierMap)
-					case "TYPE":
-						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
+					case "TYPE_XSD":
+						__gong__assignPointer(&inst.TYPE_XSD, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_DEFINITION_STRING:
 					switch fieldName {
@@ -474,8 +492,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "DEFAULT_VALUE":
 						__gong__assignPointer(&inst.DEFAULT_VALUE, rhs, identifierMap)
-					case "TYPE":
-						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
+					case "TYPE_XSD":
+						__gong__assignPointer(&inst.TYPE_XSD, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_DEFINITION_XHTML:
 					switch fieldName {
@@ -495,8 +513,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "DEFAULT_VALUE":
 						__gong__assignPointer(&inst.DEFAULT_VALUE, rhs, identifierMap)
-					case "TYPE":
-						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
+					case "TYPE_XSD":
+						__gong__assignPointer(&inst.TYPE_XSD, rhs, identifierMap)
 					}
 				case *ATTRIBUTE_VALUE_BOOLEAN:
 					switch fieldName {
@@ -818,19 +836,19 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "RELATION_GROUP_TYPE_REF":
 						inst.RELATION_GROUP_TYPE_REF = GongExtractString(rhs)
 					}
-				case *A_SOURCE_1:
+				case *A_SOURCE:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "SPEC_OBJECT_REF":
 						inst.SPEC_OBJECT_REF = GongExtractString(rhs)
 					}
-				case *A_SOURCE_SPECIFICATION_1:
+				case *A_SOURCE_SPECIFICATION:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "SPECIFICATION_REF":
-						GongUnmarshallEnum(&inst.SPECIFICATION_REF, rhs)
+						inst.SPECIFICATION_REF = GongExtractString(rhs)
 					}
 				case *A_SPECIFICATIONS:
 					switch fieldName {
@@ -1000,10 +1018,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.LAST_CHANGE = GongExtractString(rhs)
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
-					case "MAX":
-						inst.MAX = GongExtractInt(rhs)
-					case "MIN":
-						inst.MIN = GongExtractInt(rhs)
+					case "MAX_XSD":
+						inst.MAX_XSD = GongExtractInt(rhs)
+					case "MIN_XSD":
+						inst.MIN_XSD = GongExtractInt(rhs)
 					case "ALTERNATIVE_ID":
 						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					}
@@ -1021,10 +1039,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.LAST_CHANGE = GongExtractString(rhs)
 					case "LONG_NAME":
 						inst.LONG_NAME = GongExtractString(rhs)
-					case "MAX":
-						inst.MAX = GongExtractFloat(rhs)
-					case "MIN":
-						inst.MIN = GongExtractFloat(rhs)
+					case "MAX_XSD":
+						inst.MAX_XSD = GongExtractFloat(rhs)
+					case "MIN_XSD":
+						inst.MIN_XSD = GongExtractFloat(rhs)
 					case "ALTERNATIVE_ID":
 						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					}
@@ -1106,8 +1124,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.SPEC_RELATIONS, rhs, identifierMap)
 					case "TARGET_SPECIFICATION":
 						__gong__assignPointer(&inst.TARGET_SPECIFICATION, rhs, identifierMap)
-					case "TYPE":
-						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
+					case "TYPE_XSD":
+						__gong__assignPointer(&inst.TYPE_XSD, rhs, identifierMap)
 					}
 				case *RELATION_GROUP_TYPE:
 					switch fieldName {
@@ -1200,8 +1218,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.CHILDREN, rhs, identifierMap)
 					case "VALUES":
 						__gong__assignPointer(&inst.VALUES, rhs, identifierMap)
-					case "TYPE":
-						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
+					case "TYPE_XSD":
+						__gong__assignPointer(&inst.TYPE_XSD, rhs, identifierMap)
 					}
 				case *SPECIFICATION_TYPE:
 					switch fieldName {
@@ -1261,8 +1279,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.ALTERNATIVE_ID, rhs, identifierMap)
 					case "VALUES":
 						__gong__assignPointer(&inst.VALUES, rhs, identifierMap)
-					case "TYPE":
-						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
+					case "TYPE_XSD":
+						__gong__assignPointer(&inst.TYPE_XSD, rhs, identifierMap)
 					}
 				case *SPEC_OBJECT_TYPE:
 					switch fieldName {
@@ -1301,8 +1319,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.SOURCE, rhs, identifierMap)
 					case "TARGET":
 						__gong__assignPointer(&inst.TARGET, rhs, identifierMap)
-					case "TYPE":
-						__gong__assignPointer(&inst.TYPE, rhs, identifierMap)
+					case "TYPE_XSD":
+						__gong__assignPointer(&inst.TYPE_XSD, rhs, identifierMap)
 					}
 				case *SPEC_RELATION_TYPE:
 					switch fieldName {
@@ -1339,6 +1357,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					if sel.Sel.Name == "Unstage" {
 						if ident, ok := sel.X.(*ast.Ident); ok {
 							if instance, ok := identifierMap[ident.Name]; ok {
+								if inst, ok := instance.(xmlxsd.GongstructIF); ok && stage.XmlxsdStage != nil {
+									inst.UnstageVoid(stage.XmlxsdStage)
+								}
 								if inst, ok := instance.(GongstructIF); ok {
 									inst.UnstageVoid(stage)
 								}
@@ -1553,8 +1574,8 @@ func (u *ATTRIBUTE_DEFINITION_BOOLEANUnmarshaller) UnmarshallField(stage *Stage,
 		GongUnmarshallPointer(&instance.ALTERNATIVE_ID, valueExpr, identifierMap)
 	case "DEFAULT_VALUE":
 		GongUnmarshallPointer(&instance.DEFAULT_VALUE, valueExpr, identifierMap)
-	case "TYPE":
-		GongUnmarshallPointer(&instance.TYPE, valueExpr, identifierMap)
+	case "TYPE_XSD":
+		GongUnmarshallPointer(&instance.TYPE_XSD, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1586,8 +1607,8 @@ func (u *ATTRIBUTE_DEFINITION_DATEUnmarshaller) UnmarshallField(stage *Stage, i 
 		GongUnmarshallPointer(&instance.ALTERNATIVE_ID, valueExpr, identifierMap)
 	case "DEFAULT_VALUE":
 		GongUnmarshallPointer(&instance.DEFAULT_VALUE, valueExpr, identifierMap)
-	case "TYPE":
-		GongUnmarshallPointer(&instance.TYPE, valueExpr, identifierMap)
+	case "TYPE_XSD":
+		GongUnmarshallPointer(&instance.TYPE_XSD, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1621,8 +1642,8 @@ func (u *ATTRIBUTE_DEFINITION_ENUMERATIONUnmarshaller) UnmarshallField(stage *St
 		GongUnmarshallPointer(&instance.ALTERNATIVE_ID, valueExpr, identifierMap)
 	case "DEFAULT_VALUE":
 		GongUnmarshallPointer(&instance.DEFAULT_VALUE, valueExpr, identifierMap)
-	case "TYPE":
-		GongUnmarshallPointer(&instance.TYPE, valueExpr, identifierMap)
+	case "TYPE_XSD":
+		GongUnmarshallPointer(&instance.TYPE_XSD, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1654,8 +1675,8 @@ func (u *ATTRIBUTE_DEFINITION_INTEGERUnmarshaller) UnmarshallField(stage *Stage,
 		GongUnmarshallPointer(&instance.ALTERNATIVE_ID, valueExpr, identifierMap)
 	case "DEFAULT_VALUE":
 		GongUnmarshallPointer(&instance.DEFAULT_VALUE, valueExpr, identifierMap)
-	case "TYPE":
-		GongUnmarshallPointer(&instance.TYPE, valueExpr, identifierMap)
+	case "TYPE_XSD":
+		GongUnmarshallPointer(&instance.TYPE_XSD, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1687,8 +1708,8 @@ func (u *ATTRIBUTE_DEFINITION_REALUnmarshaller) UnmarshallField(stage *Stage, i 
 		GongUnmarshallPointer(&instance.ALTERNATIVE_ID, valueExpr, identifierMap)
 	case "DEFAULT_VALUE":
 		GongUnmarshallPointer(&instance.DEFAULT_VALUE, valueExpr, identifierMap)
-	case "TYPE":
-		GongUnmarshallPointer(&instance.TYPE, valueExpr, identifierMap)
+	case "TYPE_XSD":
+		GongUnmarshallPointer(&instance.TYPE_XSD, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1720,8 +1741,8 @@ func (u *ATTRIBUTE_DEFINITION_STRINGUnmarshaller) UnmarshallField(stage *Stage, 
 		GongUnmarshallPointer(&instance.ALTERNATIVE_ID, valueExpr, identifierMap)
 	case "DEFAULT_VALUE":
 		GongUnmarshallPointer(&instance.DEFAULT_VALUE, valueExpr, identifierMap)
-	case "TYPE":
-		GongUnmarshallPointer(&instance.TYPE, valueExpr, identifierMap)
+	case "TYPE_XSD":
+		GongUnmarshallPointer(&instance.TYPE_XSD, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1753,8 +1774,8 @@ func (u *ATTRIBUTE_DEFINITION_XHTMLUnmarshaller) UnmarshallField(stage *Stage, i
 		GongUnmarshallPointer(&instance.ALTERNATIVE_ID, valueExpr, identifierMap)
 	case "DEFAULT_VALUE":
 		GongUnmarshallPointer(&instance.DEFAULT_VALUE, valueExpr, identifierMap)
-	case "TYPE":
-		GongUnmarshallPointer(&instance.TYPE, valueExpr, identifierMap)
+	case "TYPE_XSD":
+		GongUnmarshallPointer(&instance.TYPE_XSD, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -2535,14 +2556,14 @@ func (u *A_RELATION_GROUP_TYPE_REFUnmarshaller) UnmarshallField(stage *Stage, i 
 	return nil
 }
 
-type A_SOURCE_1Unmarshaller struct{}
+type A_SOURCEUnmarshaller struct{}
 
-func (u *A_SOURCE_1Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	return GongInitialize(new(A_SOURCE_1), stage, identifier, instanceName, preserveOrder)
+func (u *A_SOURCEUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(A_SOURCE), stage, identifier, instanceName, preserveOrder)
 }
 
-func (u *A_SOURCE_1Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*A_SOURCE_1)
+func (u *A_SOURCEUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*A_SOURCE)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -2554,21 +2575,21 @@ func (u *A_SOURCE_1Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	return nil
 }
 
-type A_SOURCE_SPECIFICATION_1Unmarshaller struct{}
+type A_SOURCE_SPECIFICATIONUnmarshaller struct{}
 
-func (u *A_SOURCE_SPECIFICATION_1Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	return GongInitialize(new(A_SOURCE_SPECIFICATION_1), stage, identifier, instanceName, preserveOrder)
+func (u *A_SOURCE_SPECIFICATIONUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(A_SOURCE_SPECIFICATION), stage, identifier, instanceName, preserveOrder)
 }
 
-func (u *A_SOURCE_SPECIFICATION_1Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*A_SOURCE_SPECIFICATION_1)
+func (u *A_SOURCE_SPECIFICATIONUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*A_SOURCE_SPECIFICATION)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "SPECIFICATION_REF":
-		GongUnmarshallEnum(&instance.SPECIFICATION_REF, valueExpr)
+		instance.SPECIFICATION_REF = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -2942,10 +2963,10 @@ func (u *DATATYPE_DEFINITION_INTEGERUnmarshaller) UnmarshallField(stage *Stage, 
 		instance.LAST_CHANGE = GongExtractString(valueExpr)
 	case "LONG_NAME":
 		instance.LONG_NAME = GongExtractString(valueExpr)
-	case "MAX":
-		instance.MAX = GongExtractInt(valueExpr)
-	case "MIN":
-		instance.MIN = GongExtractInt(valueExpr)
+	case "MAX_XSD":
+		instance.MAX_XSD = GongExtractInt(valueExpr)
+	case "MIN_XSD":
+		instance.MIN_XSD = GongExtractInt(valueExpr)
 	case "ALTERNATIVE_ID":
 		GongUnmarshallPointer(&instance.ALTERNATIVE_ID, valueExpr, identifierMap)
 	}
@@ -2975,10 +2996,10 @@ func (u *DATATYPE_DEFINITION_REALUnmarshaller) UnmarshallField(stage *Stage, i G
 		instance.LAST_CHANGE = GongExtractString(valueExpr)
 	case "LONG_NAME":
 		instance.LONG_NAME = GongExtractString(valueExpr)
-	case "MAX":
-		instance.MAX = GongExtractFloat(valueExpr)
-	case "MIN":
-		instance.MIN = GongExtractFloat(valueExpr)
+	case "MAX_XSD":
+		instance.MAX_XSD = GongExtractFloat(valueExpr)
+	case "MIN_XSD":
+		instance.MIN_XSD = GongExtractFloat(valueExpr)
 	case "ALTERNATIVE_ID":
 		GongUnmarshallPointer(&instance.ALTERNATIVE_ID, valueExpr, identifierMap)
 	}
@@ -3120,8 +3141,8 @@ func (u *RELATION_GROUPUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		GongUnmarshallPointer(&instance.SPEC_RELATIONS, valueExpr, identifierMap)
 	case "TARGET_SPECIFICATION":
 		GongUnmarshallPointer(&instance.TARGET_SPECIFICATION, valueExpr, identifierMap)
-	case "TYPE":
-		GongUnmarshallPointer(&instance.TYPE, valueExpr, identifierMap)
+	case "TYPE_XSD":
+		GongUnmarshallPointer(&instance.TYPE_XSD, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -3286,8 +3307,8 @@ func (u *SPECIFICATIONUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		GongUnmarshallPointer(&instance.CHILDREN, valueExpr, identifierMap)
 	case "VALUES":
 		GongUnmarshallPointer(&instance.VALUES, valueExpr, identifierMap)
-	case "TYPE":
-		GongUnmarshallPointer(&instance.TYPE, valueExpr, identifierMap)
+	case "TYPE_XSD":
+		GongUnmarshallPointer(&instance.TYPE_XSD, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -3383,8 +3404,8 @@ func (u *SPEC_OBJECTUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallPointer(&instance.ALTERNATIVE_ID, valueExpr, identifierMap)
 	case "VALUES":
 		GongUnmarshallPointer(&instance.VALUES, valueExpr, identifierMap)
-	case "TYPE":
-		GongUnmarshallPointer(&instance.TYPE, valueExpr, identifierMap)
+	case "TYPE_XSD":
+		GongUnmarshallPointer(&instance.TYPE_XSD, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -3447,8 +3468,8 @@ func (u *SPEC_RELATIONUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		GongUnmarshallPointer(&instance.SOURCE, valueExpr, identifierMap)
 	case "TARGET":
 		GongUnmarshallPointer(&instance.TARGET, valueExpr, identifierMap)
-	case "TYPE":
-		GongUnmarshallPointer(&instance.TYPE, valueExpr, identifierMap)
+	case "TYPE_XSD":
+		GongUnmarshallPointer(&instance.TYPE_XSD, valueExpr, identifierMap)
 	}
 	return nil
 }

@@ -13,6 +13,7 @@ import (
 	"time"
 
 	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
+	"github.com/fullstack-lang/gong/app/xsd/tests/reqif/go/models/xmlxsd"
 )
 
 // can be used for
@@ -805,33 +806,33 @@ type Stage struct {
 	OnAfterA_RELATION_GROUP_TYPE_REFUpdateCallback GongOnAfterUpdateInterface[A_RELATION_GROUP_TYPE_REF]
 	OnAfterA_RELATION_GROUP_TYPE_REFDeleteCallback GongOnAfterDeleteInterface[A_RELATION_GROUP_TYPE_REF]
 
-	A_SOURCE_1s                map[*A_SOURCE_1]struct{}
-	A_SOURCE_1s_instance       map[*A_SOURCE_1]*A_SOURCE_1
-	A_SOURCE_1s_mapString      map[string]*A_SOURCE_1
-	A_SOURCE_1Order            uint
-	A_SOURCE_1_stagedOrder     map[*A_SOURCE_1]uint
-	A_SOURCE_1_orderStaged     map[uint]*A_SOURCE_1
-	A_SOURCE_1s_reference      map[*A_SOURCE_1]*A_SOURCE_1
-	A_SOURCE_1s_referenceOrder map[*A_SOURCE_1]uint
+	A_SOURCEs                map[*A_SOURCE]struct{}
+	A_SOURCEs_instance       map[*A_SOURCE]*A_SOURCE
+	A_SOURCEs_mapString      map[string]*A_SOURCE
+	A_SOURCEOrder            uint
+	A_SOURCE_stagedOrder     map[*A_SOURCE]uint
+	A_SOURCE_orderStaged     map[uint]*A_SOURCE
+	A_SOURCEs_reference      map[*A_SOURCE]*A_SOURCE
+	A_SOURCEs_referenceOrder map[*A_SOURCE]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_SOURCE_1CreateCallback GongOnAfterCreateInterface[A_SOURCE_1]
-	OnAfterA_SOURCE_1UpdateCallback GongOnAfterUpdateInterface[A_SOURCE_1]
-	OnAfterA_SOURCE_1DeleteCallback GongOnAfterDeleteInterface[A_SOURCE_1]
+	OnAfterA_SOURCECreateCallback GongOnAfterCreateInterface[A_SOURCE]
+	OnAfterA_SOURCEUpdateCallback GongOnAfterUpdateInterface[A_SOURCE]
+	OnAfterA_SOURCEDeleteCallback GongOnAfterDeleteInterface[A_SOURCE]
 
-	A_SOURCE_SPECIFICATION_1s                map[*A_SOURCE_SPECIFICATION_1]struct{}
-	A_SOURCE_SPECIFICATION_1s_instance       map[*A_SOURCE_SPECIFICATION_1]*A_SOURCE_SPECIFICATION_1
-	A_SOURCE_SPECIFICATION_1s_mapString      map[string]*A_SOURCE_SPECIFICATION_1
-	A_SOURCE_SPECIFICATION_1Order            uint
-	A_SOURCE_SPECIFICATION_1_stagedOrder     map[*A_SOURCE_SPECIFICATION_1]uint
-	A_SOURCE_SPECIFICATION_1_orderStaged     map[uint]*A_SOURCE_SPECIFICATION_1
-	A_SOURCE_SPECIFICATION_1s_reference      map[*A_SOURCE_SPECIFICATION_1]*A_SOURCE_SPECIFICATION_1
-	A_SOURCE_SPECIFICATION_1s_referenceOrder map[*A_SOURCE_SPECIFICATION_1]uint
+	A_SOURCE_SPECIFICATIONs                map[*A_SOURCE_SPECIFICATION]struct{}
+	A_SOURCE_SPECIFICATIONs_instance       map[*A_SOURCE_SPECIFICATION]*A_SOURCE_SPECIFICATION
+	A_SOURCE_SPECIFICATIONs_mapString      map[string]*A_SOURCE_SPECIFICATION
+	A_SOURCE_SPECIFICATIONOrder            uint
+	A_SOURCE_SPECIFICATION_stagedOrder     map[*A_SOURCE_SPECIFICATION]uint
+	A_SOURCE_SPECIFICATION_orderStaged     map[uint]*A_SOURCE_SPECIFICATION
+	A_SOURCE_SPECIFICATIONs_reference      map[*A_SOURCE_SPECIFICATION]*A_SOURCE_SPECIFICATION
+	A_SOURCE_SPECIFICATIONs_referenceOrder map[*A_SOURCE_SPECIFICATION]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterA_SOURCE_SPECIFICATION_1CreateCallback GongOnAfterCreateInterface[A_SOURCE_SPECIFICATION_1]
-	OnAfterA_SOURCE_SPECIFICATION_1UpdateCallback GongOnAfterUpdateInterface[A_SOURCE_SPECIFICATION_1]
-	OnAfterA_SOURCE_SPECIFICATION_1DeleteCallback GongOnAfterDeleteInterface[A_SOURCE_SPECIFICATION_1]
+	OnAfterA_SOURCE_SPECIFICATIONCreateCallback GongOnAfterCreateInterface[A_SOURCE_SPECIFICATION]
+	OnAfterA_SOURCE_SPECIFICATIONUpdateCallback GongOnAfterUpdateInterface[A_SOURCE_SPECIFICATION]
+	OnAfterA_SOURCE_SPECIFICATIONDeleteCallback GongOnAfterDeleteInterface[A_SOURCE_SPECIFICATION]
 
 	A_SPECIFICATIONSs                map[*A_SPECIFICATIONS]struct{}
 	A_SPECIFICATIONSs_instance       map[*A_SPECIFICATIONS]*A_SPECIFICATIONS
@@ -1402,6 +1403,7 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF GongProbeIF
+	XmlxsdStage *xmlxsd.Stage
 }
 
 type GongStage = Stage
@@ -1544,9 +1546,9 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.A_RELATION_GROUP_TYPE_REFs_reference, &stage.A_RELATION_GROUP_TYPE_REFs_instance, &stage.A_RELATION_GROUP_TYPE_REFs_referenceOrder)
 
-	__gong__clearReferences(&stage.A_SOURCE_1s_reference, &stage.A_SOURCE_1s_instance, &stage.A_SOURCE_1s_referenceOrder)
+	__gong__clearReferences(&stage.A_SOURCEs_reference, &stage.A_SOURCEs_instance, &stage.A_SOURCEs_referenceOrder)
 
-	__gong__clearReferences(&stage.A_SOURCE_SPECIFICATION_1s_reference, &stage.A_SOURCE_SPECIFICATION_1s_instance, &stage.A_SOURCE_SPECIFICATION_1s_referenceOrder)
+	__gong__clearReferences(&stage.A_SOURCE_SPECIFICATIONs_reference, &stage.A_SOURCE_SPECIFICATIONs_instance, &stage.A_SOURCE_SPECIFICATIONs_referenceOrder)
 
 	__gong__clearReferences(&stage.A_SPECIFICATIONSs_reference, &stage.A_SPECIFICATIONSs_instance, &stage.A_SPECIFICATIONSs_referenceOrder)
 
@@ -1735,9 +1737,9 @@ func (stage *Stage) recomputeOrders() {
 
 	stage.A_RELATION_GROUP_TYPE_REFOrder = __gong__recomputeOrder(stage.A_RELATION_GROUP_TYPE_REF_stagedOrder)
 
-	stage.A_SOURCE_1Order = __gong__recomputeOrder(stage.A_SOURCE_1_stagedOrder)
+	stage.A_SOURCEOrder = __gong__recomputeOrder(stage.A_SOURCE_stagedOrder)
 
-	stage.A_SOURCE_SPECIFICATION_1Order = __gong__recomputeOrder(stage.A_SOURCE_SPECIFICATION_1_stagedOrder)
+	stage.A_SOURCE_SPECIFICATIONOrder = __gong__recomputeOrder(stage.A_SOURCE_SPECIFICATION_stagedOrder)
 
 	stage.A_SPECIFICATIONSOrder = __gong__recomputeOrder(stage.A_SPECIFICATIONS_stagedOrder)
 
@@ -2747,44 +2749,44 @@ func (*A_RELATION_GROUP_TYPE_REF) GongNewInstance() any {
 	return new(A_RELATION_GROUP_TYPE_REF)
 }
 
-func (*A_SOURCE_1) GongGetInstancesByOrder(stage *Stage) any {
-	return __gong__getStructInstancesByOrder(stage.A_SOURCE_1s, stage.A_SOURCE_1_stagedOrder)
+func (*A_SOURCE) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SOURCEs, stage.A_SOURCE_stagedOrder)
 }
 
-func (*A_SOURCE_1) GongGetInstanceFromOrder(stage *Stage, order uint) any {
-	return stage.A_SOURCE_1_orderStaged[order]
+func (*A_SOURCE) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SOURCE_orderStaged[order]
 }
 
-func (*A_SOURCE_1) GongGetInstancesMapByName(stage *Stage) any {
-	return stage.A_SOURCE_1s_mapString
+func (*A_SOURCE) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SOURCEs_mapString
 }
 
-func (*A_SOURCE_1) GongGetInstancesSet(stage *Stage) any {
-	return &stage.A_SOURCE_1s
+func (*A_SOURCE) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SOURCEs
 }
 
-func (*A_SOURCE_1) GongNewInstance() any {
-	return new(A_SOURCE_1)
+func (*A_SOURCE) GongNewInstance() any {
+	return new(A_SOURCE)
 }
 
-func (*A_SOURCE_SPECIFICATION_1) GongGetInstancesByOrder(stage *Stage) any {
-	return __gong__getStructInstancesByOrder(stage.A_SOURCE_SPECIFICATION_1s, stage.A_SOURCE_SPECIFICATION_1_stagedOrder)
+func (*A_SOURCE_SPECIFICATION) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.A_SOURCE_SPECIFICATIONs, stage.A_SOURCE_SPECIFICATION_stagedOrder)
 }
 
-func (*A_SOURCE_SPECIFICATION_1) GongGetInstanceFromOrder(stage *Stage, order uint) any {
-	return stage.A_SOURCE_SPECIFICATION_1_orderStaged[order]
+func (*A_SOURCE_SPECIFICATION) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.A_SOURCE_SPECIFICATION_orderStaged[order]
 }
 
-func (*A_SOURCE_SPECIFICATION_1) GongGetInstancesMapByName(stage *Stage) any {
-	return stage.A_SOURCE_SPECIFICATION_1s_mapString
+func (*A_SOURCE_SPECIFICATION) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.A_SOURCE_SPECIFICATIONs_mapString
 }
 
-func (*A_SOURCE_SPECIFICATION_1) GongGetInstancesSet(stage *Stage) any {
-	return &stage.A_SOURCE_SPECIFICATION_1s
+func (*A_SOURCE_SPECIFICATION) GongGetInstancesSet(stage *Stage) any {
+	return &stage.A_SOURCE_SPECIFICATIONs
 }
 
-func (*A_SOURCE_SPECIFICATION_1) GongNewInstance() any {
-	return new(A_SOURCE_SPECIFICATION_1)
+func (*A_SOURCE_SPECIFICATION) GongNewInstance() any {
+	return new(A_SOURCE_SPECIFICATION)
 }
 
 func (*A_SPECIFICATIONS) GongGetInstancesByOrder(stage *Stage) any {
@@ -3826,11 +3828,11 @@ func NewStage(name string) (stage *Stage) {
 		A_RELATION_GROUP_TYPE_REFs:           make(map[*A_RELATION_GROUP_TYPE_REF]struct{}),
 		A_RELATION_GROUP_TYPE_REFs_mapString: make(map[string]*A_RELATION_GROUP_TYPE_REF),
 
-		A_SOURCE_1s:           make(map[*A_SOURCE_1]struct{}),
-		A_SOURCE_1s_mapString: make(map[string]*A_SOURCE_1),
+		A_SOURCEs:           make(map[*A_SOURCE]struct{}),
+		A_SOURCEs_mapString: make(map[string]*A_SOURCE),
 
-		A_SOURCE_SPECIFICATION_1s:           make(map[*A_SOURCE_SPECIFICATION_1]struct{}),
-		A_SOURCE_SPECIFICATION_1s_mapString: make(map[string]*A_SOURCE_SPECIFICATION_1),
+		A_SOURCE_SPECIFICATIONs:           make(map[*A_SOURCE_SPECIFICATION]struct{}),
+		A_SOURCE_SPECIFICATIONs_mapString: make(map[string]*A_SOURCE_SPECIFICATION),
 
 		A_SPECIFICATIONSs:           make(map[*A_SPECIFICATIONS]struct{}),
 		A_SPECIFICATIONSs_mapString: make(map[string]*A_SPECIFICATIONS),
@@ -4132,13 +4134,13 @@ func NewStage(name string) (stage *Stage) {
 		A_RELATION_GROUP_TYPE_REF_orderStaged: make(map[uint]*A_RELATION_GROUP_TYPE_REF),
 		A_RELATION_GROUP_TYPE_REFs_reference:  make(map[*A_RELATION_GROUP_TYPE_REF]*A_RELATION_GROUP_TYPE_REF),
 
-		A_SOURCE_1_stagedOrder: make(map[*A_SOURCE_1]uint),
-		A_SOURCE_1_orderStaged: make(map[uint]*A_SOURCE_1),
-		A_SOURCE_1s_reference:  make(map[*A_SOURCE_1]*A_SOURCE_1),
+		A_SOURCE_stagedOrder: make(map[*A_SOURCE]uint),
+		A_SOURCE_orderStaged: make(map[uint]*A_SOURCE),
+		A_SOURCEs_reference:  make(map[*A_SOURCE]*A_SOURCE),
 
-		A_SOURCE_SPECIFICATION_1_stagedOrder: make(map[*A_SOURCE_SPECIFICATION_1]uint),
-		A_SOURCE_SPECIFICATION_1_orderStaged: make(map[uint]*A_SOURCE_SPECIFICATION_1),
-		A_SOURCE_SPECIFICATION_1s_reference:  make(map[*A_SOURCE_SPECIFICATION_1]*A_SOURCE_SPECIFICATION_1),
+		A_SOURCE_SPECIFICATION_stagedOrder: make(map[*A_SOURCE_SPECIFICATION]uint),
+		A_SOURCE_SPECIFICATION_orderStaged: make(map[uint]*A_SOURCE_SPECIFICATION),
+		A_SOURCE_SPECIFICATIONs_reference:  make(map[*A_SOURCE_SPECIFICATION]*A_SOURCE_SPECIFICATION),
 
 		A_SPECIFICATIONS_stagedOrder: make(map[*A_SPECIFICATIONS]uint),
 		A_SPECIFICATIONS_orderStaged: make(map[uint]*A_SPECIFICATIONS),
@@ -4378,9 +4380,9 @@ func NewStage(name string) (stage *Stage) {
 
 			"A_RELATION_GROUP_TYPE_REF": &A_RELATION_GROUP_TYPE_REFUnmarshaller{},
 
-			"A_SOURCE_1": &A_SOURCE_1Unmarshaller{},
+			"A_SOURCE": &A_SOURCEUnmarshaller{},
 
-			"A_SOURCE_SPECIFICATION_1": &A_SOURCE_SPECIFICATION_1Unmarshaller{},
+			"A_SOURCE_SPECIFICATION": &A_SOURCE_SPECIFICATIONUnmarshaller{},
 
 			"A_SPECIFICATIONS": &A_SPECIFICATIONSUnmarshaller{},
 
@@ -4459,6 +4461,11 @@ func NewStage(name string) (stage *Stage) {
 	}
 	stage.StageCore.SetName(name)
 	stage.StageCore.SetNavigationMode(GongNavigationModeNormal)
+	subPath_XmlxsdStage := "xmlxsd"
+	if name != "" {
+		subPath_XmlxsdStage = name + "_xmlxsd"
+	}
+	stage.XmlxsdStage = xmlxsd.NewStage(subPath_XmlxsdStage)
 
 	return
 }
@@ -4498,6 +4505,9 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 }
 
 func (stage *Stage) Commit() {
+	if stage.XmlxsdStage != nil {
+		stage.XmlxsdStage.Commit()
+	}
 	stage.ComputeReverseMaps()
 
 	if stage.OnInitCommitCallback != nil {
@@ -4535,6 +4545,9 @@ func (stage *Stage) Commit() {
 }
 
 func (stage *Stage) ComputeInstancesNb() {
+	if stage.XmlxsdStage != nil {
+		stage.XmlxsdStage.ComputeInstancesNb()
+	}
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["ALTERNATIVE_ID"] = len(stage.ALTERNATIVE_IDs)
 	stage.Map_GongStructName_InstancesNb["ATTRIBUTE_DEFINITION_BOOLEAN"] = len(stage.ATTRIBUTE_DEFINITION_BOOLEANs)
@@ -4582,8 +4595,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["A_OBJECT"] = len(stage.A_OBJECTs)
 	stage.Map_GongStructName_InstancesNb["A_PROPERTIES"] = len(stage.A_PROPERTIESs)
 	stage.Map_GongStructName_InstancesNb["A_RELATION_GROUP_TYPE_REF"] = len(stage.A_RELATION_GROUP_TYPE_REFs)
-	stage.Map_GongStructName_InstancesNb["A_SOURCE_1"] = len(stage.A_SOURCE_1s)
-	stage.Map_GongStructName_InstancesNb["A_SOURCE_SPECIFICATION_1"] = len(stage.A_SOURCE_SPECIFICATION_1s)
+	stage.Map_GongStructName_InstancesNb["A_SOURCE"] = len(stage.A_SOURCEs)
+	stage.Map_GongStructName_InstancesNb["A_SOURCE_SPECIFICATION"] = len(stage.A_SOURCE_SPECIFICATIONs)
 	stage.Map_GongStructName_InstancesNb["A_SPECIFICATIONS"] = len(stage.A_SPECIFICATIONSs)
 	stage.Map_GongStructName_InstancesNb["A_SPECIFICATION_TYPE_REF"] = len(stage.A_SPECIFICATION_TYPE_REFs)
 	stage.Map_GongStructName_InstancesNb["A_SPECIFIED_VALUES"] = len(stage.A_SPECIFIED_VALUESs)
@@ -4623,6 +4636,9 @@ func (stage *Stage) ComputeInstancesNb() {
 }
 
 func (stage *Stage) Checkout() {
+	if stage.XmlxsdStage != nil {
+		stage.XmlxsdStage.Checkout()
+	}
 	if stage.BackRepo != nil {
 		stage.BackRepo.Checkout(stage)
 	}
@@ -6500,84 +6516,84 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) SetName(name string)
 	a_relation_group_type_ref.Name = name
 }
 
-// Stage puts a_source_1 to the model stage
-func (a_source_1 *A_SOURCE_1) Stage(stage *Stage) *A_SOURCE_1 {
-	__gong__stage(stage.A_SOURCE_1s, stage.A_SOURCE_1_stagedOrder, stage.A_SOURCE_1_orderStaged, &stage.A_SOURCE_1Order, stage.A_SOURCE_1s_mapString, a_source_1, a_source_1.Name)
-	return a_source_1
+// Stage puts a_source to the model stage
+func (a_source *A_SOURCE) Stage(stage *Stage) *A_SOURCE {
+	__gong__stage(stage.A_SOURCEs, stage.A_SOURCE_stagedOrder, stage.A_SOURCE_orderStaged, &stage.A_SOURCEOrder, stage.A_SOURCEs_mapString, a_source, a_source.Name)
+	return a_source
 }
 
-// StagePreserveOrder puts a_source_1 to the model stage, and if the astrtuct
+// StagePreserveOrder puts a_source to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.A_SOURCE_1Order
-// - update stage.A_SOURCE_1Order accordingly
-func (a_source_1 *A_SOURCE_1) StagePreserveOrder(stage *Stage, order uint) {
-	__gong__stagePreserveOrder(stage.A_SOURCE_1s, stage.A_SOURCE_1_stagedOrder, stage.A_SOURCE_1_orderStaged, &stage.A_SOURCE_1Order, stage.A_SOURCE_1s_mapString, a_source_1, order, a_source_1.Name)
+// - force the order if the order is equal or greater than the stage.A_SOURCEOrder
+// - update stage.A_SOURCEOrder accordingly
+func (a_source *A_SOURCE) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.A_SOURCEs, stage.A_SOURCE_stagedOrder, stage.A_SOURCE_orderStaged, &stage.A_SOURCEOrder, stage.A_SOURCEs_mapString, a_source, order, a_source.Name)
 }
 
-// Unstage removes a_source_1 off the model stage
-func (a_source_1 *A_SOURCE_1) Unstage(stage *Stage) *A_SOURCE_1 {
-	__gong__unstage(stage.A_SOURCE_1s, stage.A_SOURCE_1s_mapString, a_source_1, a_source_1.Name)
-	return a_source_1
+// Unstage removes a_source off the model stage
+func (a_source *A_SOURCE) Unstage(stage *Stage) *A_SOURCE {
+	__gong__unstage(stage.A_SOURCEs, stage.A_SOURCEs_mapString, a_source, a_source.Name)
+	return a_source
 }
 
-// UnstageVoid removes a_source_1 off the model stage
-func (a_source_1 *A_SOURCE_1) UnstageVoid(stage *Stage) {
-	a_source_1.Unstage(stage)
+// UnstageVoid removes a_source off the model stage
+func (a_source *A_SOURCE) UnstageVoid(stage *Stage) {
+	a_source.Unstage(stage)
 }
 
-func (a_source_1 *A_SOURCE_1) StageVoid(stage *Stage) {
-	a_source_1.Stage(stage)
-}
-
-// for satisfaction of GongStruct interface
-func (a_source_1 *A_SOURCE_1) GetName() (res string) {
-	return a_source_1.Name
+func (a_source *A_SOURCE) StageVoid(stage *Stage) {
+	a_source.Stage(stage)
 }
 
 // for satisfaction of GongStruct interface
-func (a_source_1 *A_SOURCE_1) SetName(name string) {
-	a_source_1.Name = name
+func (a_source *A_SOURCE) GetName() (res string) {
+	return a_source.Name
 }
 
-// Stage puts a_source_specification_1 to the model stage
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) Stage(stage *Stage) *A_SOURCE_SPECIFICATION_1 {
-	__gong__stage(stage.A_SOURCE_SPECIFICATION_1s, stage.A_SOURCE_SPECIFICATION_1_stagedOrder, stage.A_SOURCE_SPECIFICATION_1_orderStaged, &stage.A_SOURCE_SPECIFICATION_1Order, stage.A_SOURCE_SPECIFICATION_1s_mapString, a_source_specification_1, a_source_specification_1.Name)
-	return a_source_specification_1
+// for satisfaction of GongStruct interface
+func (a_source *A_SOURCE) SetName(name string) {
+	a_source.Name = name
 }
 
-// StagePreserveOrder puts a_source_specification_1 to the model stage, and if the astrtuct
+// Stage puts a_source_specification to the model stage
+func (a_source_specification *A_SOURCE_SPECIFICATION) Stage(stage *Stage) *A_SOURCE_SPECIFICATION {
+	__gong__stage(stage.A_SOURCE_SPECIFICATIONs, stage.A_SOURCE_SPECIFICATION_stagedOrder, stage.A_SOURCE_SPECIFICATION_orderStaged, &stage.A_SOURCE_SPECIFICATIONOrder, stage.A_SOURCE_SPECIFICATIONs_mapString, a_source_specification, a_source_specification.Name)
+	return a_source_specification
+}
+
+// StagePreserveOrder puts a_source_specification to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.A_SOURCE_SPECIFICATION_1Order
-// - update stage.A_SOURCE_SPECIFICATION_1Order accordingly
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) StagePreserveOrder(stage *Stage, order uint) {
-	__gong__stagePreserveOrder(stage.A_SOURCE_SPECIFICATION_1s, stage.A_SOURCE_SPECIFICATION_1_stagedOrder, stage.A_SOURCE_SPECIFICATION_1_orderStaged, &stage.A_SOURCE_SPECIFICATION_1Order, stage.A_SOURCE_SPECIFICATION_1s_mapString, a_source_specification_1, order, a_source_specification_1.Name)
+// - force the order if the order is equal or greater than the stage.A_SOURCE_SPECIFICATIONOrder
+// - update stage.A_SOURCE_SPECIFICATIONOrder accordingly
+func (a_source_specification *A_SOURCE_SPECIFICATION) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.A_SOURCE_SPECIFICATIONs, stage.A_SOURCE_SPECIFICATION_stagedOrder, stage.A_SOURCE_SPECIFICATION_orderStaged, &stage.A_SOURCE_SPECIFICATIONOrder, stage.A_SOURCE_SPECIFICATIONs_mapString, a_source_specification, order, a_source_specification.Name)
 }
 
-// Unstage removes a_source_specification_1 off the model stage
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) Unstage(stage *Stage) *A_SOURCE_SPECIFICATION_1 {
-	__gong__unstage(stage.A_SOURCE_SPECIFICATION_1s, stage.A_SOURCE_SPECIFICATION_1s_mapString, a_source_specification_1, a_source_specification_1.Name)
-	return a_source_specification_1
+// Unstage removes a_source_specification off the model stage
+func (a_source_specification *A_SOURCE_SPECIFICATION) Unstage(stage *Stage) *A_SOURCE_SPECIFICATION {
+	__gong__unstage(stage.A_SOURCE_SPECIFICATIONs, stage.A_SOURCE_SPECIFICATIONs_mapString, a_source_specification, a_source_specification.Name)
+	return a_source_specification
 }
 
-// UnstageVoid removes a_source_specification_1 off the model stage
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) UnstageVoid(stage *Stage) {
-	a_source_specification_1.Unstage(stage)
+// UnstageVoid removes a_source_specification off the model stage
+func (a_source_specification *A_SOURCE_SPECIFICATION) UnstageVoid(stage *Stage) {
+	a_source_specification.Unstage(stage)
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) StageVoid(stage *Stage) {
-	a_source_specification_1.Stage(stage)
-}
-
-// for satisfaction of GongStruct interface
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GetName() (res string) {
-	return a_source_specification_1.Name
+func (a_source_specification *A_SOURCE_SPECIFICATION) StageVoid(stage *Stage) {
+	a_source_specification.Stage(stage)
 }
 
 // for satisfaction of GongStruct interface
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) SetName(name string) {
-	a_source_specification_1.Name = name
+func (a_source_specification *A_SOURCE_SPECIFICATION) GetName() (res string) {
+	return a_source_specification.Name
+}
+
+// for satisfaction of GongStruct interface
+func (a_source_specification *A_SOURCE_SPECIFICATION) SetName(name string) {
+	a_source_specification.Name = name
 }
 
 // Stage puts a_specifications to the model stage
@@ -8113,9 +8129,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.A_RELATION_GROUP_TYPE_REFs, &stage.A_RELATION_GROUP_TYPE_REFs_mapString, &stage.A_RELATION_GROUP_TYPE_REF_stagedOrder, &stage.A_RELATION_GROUP_TYPE_REFOrder)
 
-	__gong__resetStageType(&stage.A_SOURCE_1s, &stage.A_SOURCE_1s_mapString, &stage.A_SOURCE_1_stagedOrder, &stage.A_SOURCE_1Order)
+	__gong__resetStageType(&stage.A_SOURCEs, &stage.A_SOURCEs_mapString, &stage.A_SOURCE_stagedOrder, &stage.A_SOURCEOrder)
 
-	__gong__resetStageType(&stage.A_SOURCE_SPECIFICATION_1s, &stage.A_SOURCE_SPECIFICATION_1s_mapString, &stage.A_SOURCE_SPECIFICATION_1_stagedOrder, &stage.A_SOURCE_SPECIFICATION_1Order)
+	__gong__resetStageType(&stage.A_SOURCE_SPECIFICATIONs, &stage.A_SOURCE_SPECIFICATIONs_mapString, &stage.A_SOURCE_SPECIFICATION_stagedOrder, &stage.A_SOURCE_SPECIFICATIONOrder)
 
 	__gong__resetStageType(&stage.A_SPECIFICATIONSs, &stage.A_SPECIFICATIONSs_mapString, &stage.A_SPECIFICATIONS_stagedOrder, &stage.A_SPECIFICATIONSOrder)
 
@@ -8189,6 +8205,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.XHTML_CONTENTs, &stage.XHTML_CONTENTs_mapString, &stage.XHTML_CONTENT_stagedOrder, &stage.XHTML_CONTENTOrder)
 
+	if stage.XmlxsdStage != nil {
+		stage.XmlxsdStage.Reset()
+	}
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
@@ -8302,7 +8321,7 @@ func (ATTRIBUTE_DEFINITION_BOOLEAN) GongGetAssociationName() any {
 	return &ATTRIBUTE_DEFINITION_BOOLEAN{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_BOOLEAN{Name: "DEFAULT_VALUE"},
-			TYPE: &A_DATATYPE_DEFINITION_BOOLEAN_REF{Name: "TYPE"},
+			TYPE_XSD: &A_DATATYPE_DEFINITION_BOOLEAN_REF{Name: "TYPE_XSD"},
 	}
 }
 
@@ -8310,7 +8329,7 @@ func (ATTRIBUTE_DEFINITION_DATE) GongGetAssociationName() any {
 	return &ATTRIBUTE_DEFINITION_DATE{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_DATE{Name: "DEFAULT_VALUE"},
-			TYPE: &A_DATATYPE_DEFINITION_DATE_REF{Name: "TYPE"},
+			TYPE_XSD: &A_DATATYPE_DEFINITION_DATE_REF{Name: "TYPE_XSD"},
 	}
 }
 
@@ -8318,7 +8337,7 @@ func (ATTRIBUTE_DEFINITION_ENUMERATION) GongGetAssociationName() any {
 	return &ATTRIBUTE_DEFINITION_ENUMERATION{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_ENUMERATION{Name: "DEFAULT_VALUE"},
-			TYPE: &A_DATATYPE_DEFINITION_ENUMERATION_REF{Name: "TYPE"},
+			TYPE_XSD: &A_DATATYPE_DEFINITION_ENUMERATION_REF{Name: "TYPE_XSD"},
 	}
 }
 
@@ -8326,7 +8345,7 @@ func (ATTRIBUTE_DEFINITION_INTEGER) GongGetAssociationName() any {
 	return &ATTRIBUTE_DEFINITION_INTEGER{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_INTEGER{Name: "DEFAULT_VALUE"},
-			TYPE: &A_DATATYPE_DEFINITION_INTEGER_REF{Name: "TYPE"},
+			TYPE_XSD: &A_DATATYPE_DEFINITION_INTEGER_REF{Name: "TYPE_XSD"},
 	}
 }
 
@@ -8334,7 +8353,7 @@ func (ATTRIBUTE_DEFINITION_REAL) GongGetAssociationName() any {
 	return &ATTRIBUTE_DEFINITION_REAL{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_REAL{Name: "DEFAULT_VALUE"},
-			TYPE: &A_DATATYPE_DEFINITION_REAL_REF{Name: "TYPE"},
+			TYPE_XSD: &A_DATATYPE_DEFINITION_REAL_REF{Name: "TYPE_XSD"},
 	}
 }
 
@@ -8342,7 +8361,7 @@ func (ATTRIBUTE_DEFINITION_STRING) GongGetAssociationName() any {
 	return &ATTRIBUTE_DEFINITION_STRING{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_STRING{Name: "DEFAULT_VALUE"},
-			TYPE: &A_DATATYPE_DEFINITION_STRING_REF{Name: "TYPE"},
+			TYPE_XSD: &A_DATATYPE_DEFINITION_STRING_REF{Name: "TYPE_XSD"},
 	}
 }
 
@@ -8350,7 +8369,7 @@ func (ATTRIBUTE_DEFINITION_XHTML) GongGetAssociationName() any {
 	return &ATTRIBUTE_DEFINITION_XHTML{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			DEFAULT_VALUE: &A_ATTRIBUTE_VALUE_XHTML{Name: "DEFAULT_VALUE"},
-			TYPE: &A_DATATYPE_DEFINITION_XHTML_REF{Name: "TYPE"},
+			TYPE_XSD: &A_DATATYPE_DEFINITION_XHTML_REF{Name: "TYPE_XSD"},
 	}
 }
 
@@ -8579,13 +8598,13 @@ func (A_RELATION_GROUP_TYPE_REF) GongGetAssociationName() any {
 	}
 }
 
-func (A_SOURCE_1) GongGetAssociationName() any {
-	return &A_SOURCE_1{
+func (A_SOURCE) GongGetAssociationName() any {
+	return &A_SOURCE{
 	}
 }
 
-func (A_SOURCE_SPECIFICATION_1) GongGetAssociationName() any {
-	return &A_SOURCE_SPECIFICATION_1{
+func (A_SOURCE_SPECIFICATION) GongGetAssociationName() any {
+	return &A_SOURCE_SPECIFICATION{
 	}
 }
 
@@ -8730,10 +8749,10 @@ func (ENUM_VALUE) GongGetAssociationName() any {
 func (RELATION_GROUP) GongGetAssociationName() any {
 	return &RELATION_GROUP{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
-			SOURCE_SPECIFICATION: &A_SOURCE_SPECIFICATION_1{Name: "SOURCE_SPECIFICATION"},
+			SOURCE_SPECIFICATION: &A_SOURCE_SPECIFICATION{Name: "SOURCE_SPECIFICATION"},
 			SPEC_RELATIONS: &A_SPEC_RELATION_REF{Name: "SPEC_RELATIONS"},
-			TARGET_SPECIFICATION: &A_SOURCE_SPECIFICATION_1{Name: "TARGET_SPECIFICATION"},
-			TYPE: &A_RELATION_GROUP_TYPE_REF{Name: "TYPE"},
+			TARGET_SPECIFICATION: &A_SOURCE_SPECIFICATION{Name: "TARGET_SPECIFICATION"},
+			TYPE_XSD: &A_RELATION_GROUP_TYPE_REF{Name: "TYPE_XSD"},
 	}
 }
 
@@ -8778,7 +8797,7 @@ func (SPECIFICATION) GongGetAssociationName() any {
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			CHILDREN: &A_CHILDREN{Name: "CHILDREN"},
 			VALUES: &A_ATTRIBUTE_VALUE_XHTML_1{Name: "VALUES"},
-			TYPE: &A_SPECIFICATION_TYPE_REF{Name: "TYPE"},
+			TYPE_XSD: &A_SPECIFICATION_TYPE_REF{Name: "TYPE_XSD"},
 	}
 }
 
@@ -8802,7 +8821,7 @@ func (SPEC_OBJECT) GongGetAssociationName() any {
 	return &SPEC_OBJECT{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			VALUES: &A_ATTRIBUTE_VALUE_XHTML_1{Name: "VALUES"},
-			TYPE: &A_SPEC_OBJECT_TYPE_REF{Name: "TYPE"},
+			TYPE_XSD: &A_SPEC_OBJECT_TYPE_REF{Name: "TYPE_XSD"},
 	}
 }
 
@@ -8817,9 +8836,9 @@ func (SPEC_RELATION) GongGetAssociationName() any {
 	return &SPEC_RELATION{
 			ALTERNATIVE_ID: &A_ALTERNATIVE_ID{Name: "ALTERNATIVE_ID"},
 			VALUES: &A_ATTRIBUTE_VALUE_XHTML_1{Name: "VALUES"},
-			SOURCE: &A_SOURCE_1{Name: "SOURCE"},
-			TARGET: &A_SOURCE_1{Name: "TARGET"},
-			TYPE: &A_SPEC_RELATION_TYPE_REF{Name: "TYPE"},
+			SOURCE: &A_SOURCE{Name: "SOURCE"},
+			TARGET: &A_SOURCE{Name: "TARGET"},
+			TYPE_XSD: &A_SPEC_RELATION_TYPE_REF{Name: "TYPE_XSD"},
 	}
 }
 
@@ -8901,11 +8920,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TYPE":
+		case "TYPE_XSD":
 			res := make(map[*A_DATATYPE_DEFINITION_BOOLEAN_REF][]*ATTRIBUTE_DEFINITION_BOOLEAN)
 			for attribute_definition_boolean := range stage.ATTRIBUTE_DEFINITION_BOOLEANs {
-				if attribute_definition_boolean.TYPE != nil {
-					a_datatype_definition_boolean_ref_ := attribute_definition_boolean.TYPE
+				if attribute_definition_boolean.TYPE_XSD != nil {
+					a_datatype_definition_boolean_ref_ := attribute_definition_boolean.TYPE_XSD
 					var attribute_definition_booleans []*ATTRIBUTE_DEFINITION_BOOLEAN
 					_, ok := res[a_datatype_definition_boolean_ref_]
 					if ok {
@@ -8957,11 +8976,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TYPE":
+		case "TYPE_XSD":
 			res := make(map[*A_DATATYPE_DEFINITION_DATE_REF][]*ATTRIBUTE_DEFINITION_DATE)
 			for attribute_definition_date := range stage.ATTRIBUTE_DEFINITION_DATEs {
-				if attribute_definition_date.TYPE != nil {
-					a_datatype_definition_date_ref_ := attribute_definition_date.TYPE
+				if attribute_definition_date.TYPE_XSD != nil {
+					a_datatype_definition_date_ref_ := attribute_definition_date.TYPE_XSD
 					var attribute_definition_dates []*ATTRIBUTE_DEFINITION_DATE
 					_, ok := res[a_datatype_definition_date_ref_]
 					if ok {
@@ -9013,11 +9032,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TYPE":
+		case "TYPE_XSD":
 			res := make(map[*A_DATATYPE_DEFINITION_ENUMERATION_REF][]*ATTRIBUTE_DEFINITION_ENUMERATION)
 			for attribute_definition_enumeration := range stage.ATTRIBUTE_DEFINITION_ENUMERATIONs {
-				if attribute_definition_enumeration.TYPE != nil {
-					a_datatype_definition_enumeration_ref_ := attribute_definition_enumeration.TYPE
+				if attribute_definition_enumeration.TYPE_XSD != nil {
+					a_datatype_definition_enumeration_ref_ := attribute_definition_enumeration.TYPE_XSD
 					var attribute_definition_enumerations []*ATTRIBUTE_DEFINITION_ENUMERATION
 					_, ok := res[a_datatype_definition_enumeration_ref_]
 					if ok {
@@ -9069,11 +9088,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TYPE":
+		case "TYPE_XSD":
 			res := make(map[*A_DATATYPE_DEFINITION_INTEGER_REF][]*ATTRIBUTE_DEFINITION_INTEGER)
 			for attribute_definition_integer := range stage.ATTRIBUTE_DEFINITION_INTEGERs {
-				if attribute_definition_integer.TYPE != nil {
-					a_datatype_definition_integer_ref_ := attribute_definition_integer.TYPE
+				if attribute_definition_integer.TYPE_XSD != nil {
+					a_datatype_definition_integer_ref_ := attribute_definition_integer.TYPE_XSD
 					var attribute_definition_integers []*ATTRIBUTE_DEFINITION_INTEGER
 					_, ok := res[a_datatype_definition_integer_ref_]
 					if ok {
@@ -9125,11 +9144,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TYPE":
+		case "TYPE_XSD":
 			res := make(map[*A_DATATYPE_DEFINITION_REAL_REF][]*ATTRIBUTE_DEFINITION_REAL)
 			for attribute_definition_real := range stage.ATTRIBUTE_DEFINITION_REALs {
-				if attribute_definition_real.TYPE != nil {
-					a_datatype_definition_real_ref_ := attribute_definition_real.TYPE
+				if attribute_definition_real.TYPE_XSD != nil {
+					a_datatype_definition_real_ref_ := attribute_definition_real.TYPE_XSD
 					var attribute_definition_reals []*ATTRIBUTE_DEFINITION_REAL
 					_, ok := res[a_datatype_definition_real_ref_]
 					if ok {
@@ -9181,11 +9200,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TYPE":
+		case "TYPE_XSD":
 			res := make(map[*A_DATATYPE_DEFINITION_STRING_REF][]*ATTRIBUTE_DEFINITION_STRING)
 			for attribute_definition_string := range stage.ATTRIBUTE_DEFINITION_STRINGs {
-				if attribute_definition_string.TYPE != nil {
-					a_datatype_definition_string_ref_ := attribute_definition_string.TYPE
+				if attribute_definition_string.TYPE_XSD != nil {
+					a_datatype_definition_string_ref_ := attribute_definition_string.TYPE_XSD
 					var attribute_definition_strings []*ATTRIBUTE_DEFINITION_STRING
 					_, ok := res[a_datatype_definition_string_ref_]
 					if ok {
@@ -9237,11 +9256,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TYPE":
+		case "TYPE_XSD":
 			res := make(map[*A_DATATYPE_DEFINITION_XHTML_REF][]*ATTRIBUTE_DEFINITION_XHTML)
 			for attribute_definition_xhtml := range stage.ATTRIBUTE_DEFINITION_XHTMLs {
-				if attribute_definition_xhtml.TYPE != nil {
-					a_datatype_definition_xhtml_ref_ := attribute_definition_xhtml.TYPE
+				if attribute_definition_xhtml.TYPE_XSD != nil {
+					a_datatype_definition_xhtml_ref_ := attribute_definition_xhtml.TYPE_XSD
 					var attribute_definition_xhtmls []*ATTRIBUTE_DEFINITION_XHTML
 					_, ok := res[a_datatype_definition_xhtml_ref_]
 					if ok {
@@ -9666,13 +9685,13 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of A_SOURCE_1
-	case A_SOURCE_1:
+	// reverse maps of direct associations of A_SOURCE
+	case A_SOURCE:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of A_SOURCE_SPECIFICATION_1
-	case A_SOURCE_SPECIFICATION_1:
+	// reverse maps of direct associations of A_SOURCE_SPECIFICATION
+	case A_SOURCE_SPECIFICATION:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -9995,19 +10014,19 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 			}
 			return any(res).(map[*End][]*Start)
 		case "SOURCE_SPECIFICATION":
-			res := make(map[*A_SOURCE_SPECIFICATION_1][]*RELATION_GROUP)
+			res := make(map[*A_SOURCE_SPECIFICATION][]*RELATION_GROUP)
 			for relation_group := range stage.RELATION_GROUPs {
 				if relation_group.SOURCE_SPECIFICATION != nil {
-					a_source_specification_1_ := relation_group.SOURCE_SPECIFICATION
+					a_source_specification_ := relation_group.SOURCE_SPECIFICATION
 					var relation_groups []*RELATION_GROUP
-					_, ok := res[a_source_specification_1_]
+					_, ok := res[a_source_specification_]
 					if ok {
-						relation_groups = res[a_source_specification_1_]
+						relation_groups = res[a_source_specification_]
 					} else {
 						relation_groups = make([]*RELATION_GROUP, 0)
 					}
 					relation_groups = append(relation_groups, relation_group)
-					res[a_source_specification_1_] = relation_groups
+					res[a_source_specification_] = relation_groups
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -10029,27 +10048,27 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 			}
 			return any(res).(map[*End][]*Start)
 		case "TARGET_SPECIFICATION":
-			res := make(map[*A_SOURCE_SPECIFICATION_1][]*RELATION_GROUP)
+			res := make(map[*A_SOURCE_SPECIFICATION][]*RELATION_GROUP)
 			for relation_group := range stage.RELATION_GROUPs {
 				if relation_group.TARGET_SPECIFICATION != nil {
-					a_source_specification_1_ := relation_group.TARGET_SPECIFICATION
+					a_source_specification_ := relation_group.TARGET_SPECIFICATION
 					var relation_groups []*RELATION_GROUP
-					_, ok := res[a_source_specification_1_]
+					_, ok := res[a_source_specification_]
 					if ok {
-						relation_groups = res[a_source_specification_1_]
+						relation_groups = res[a_source_specification_]
 					} else {
 						relation_groups = make([]*RELATION_GROUP, 0)
 					}
 					relation_groups = append(relation_groups, relation_group)
-					res[a_source_specification_1_] = relation_groups
+					res[a_source_specification_] = relation_groups
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TYPE":
+		case "TYPE_XSD":
 			res := make(map[*A_RELATION_GROUP_TYPE_REF][]*RELATION_GROUP)
 			for relation_group := range stage.RELATION_GROUPs {
-				if relation_group.TYPE != nil {
-					a_relation_group_type_ref_ := relation_group.TYPE
+				if relation_group.TYPE_XSD != nil {
+					a_relation_group_type_ref_ := relation_group.TYPE_XSD
 					var relation_groups []*RELATION_GROUP
 					_, ok := res[a_relation_group_type_ref_]
 					if ok {
@@ -10330,11 +10349,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TYPE":
+		case "TYPE_XSD":
 			res := make(map[*A_SPECIFICATION_TYPE_REF][]*SPECIFICATION)
 			for specification := range stage.SPECIFICATIONs {
-				if specification.TYPE != nil {
-					a_specification_type_ref_ := specification.TYPE
+				if specification.TYPE_XSD != nil {
+					a_specification_type_ref_ := specification.TYPE_XSD
 					var specifications []*SPECIFICATION
 					_, ok := res[a_specification_type_ref_]
 					if ok {
@@ -10498,11 +10517,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TYPE":
+		case "TYPE_XSD":
 			res := make(map[*A_SPEC_OBJECT_TYPE_REF][]*SPEC_OBJECT)
 			for spec_object := range stage.SPEC_OBJECTs {
-				if spec_object.TYPE != nil {
-					a_spec_object_type_ref_ := spec_object.TYPE
+				if spec_object.TYPE_XSD != nil {
+					a_spec_object_type_ref_ := spec_object.TYPE_XSD
 					var spec_objects []*SPEC_OBJECT
 					_, ok := res[a_spec_object_type_ref_]
 					if ok {
@@ -10594,44 +10613,44 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 			}
 			return any(res).(map[*End][]*Start)
 		case "SOURCE":
-			res := make(map[*A_SOURCE_1][]*SPEC_RELATION)
+			res := make(map[*A_SOURCE][]*SPEC_RELATION)
 			for spec_relation := range stage.SPEC_RELATIONs {
 				if spec_relation.SOURCE != nil {
-					a_source_1_ := spec_relation.SOURCE
+					a_source_ := spec_relation.SOURCE
 					var spec_relations []*SPEC_RELATION
-					_, ok := res[a_source_1_]
+					_, ok := res[a_source_]
 					if ok {
-						spec_relations = res[a_source_1_]
+						spec_relations = res[a_source_]
 					} else {
 						spec_relations = make([]*SPEC_RELATION, 0)
 					}
 					spec_relations = append(spec_relations, spec_relation)
-					res[a_source_1_] = spec_relations
+					res[a_source_] = spec_relations
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TARGET":
-			res := make(map[*A_SOURCE_1][]*SPEC_RELATION)
+			res := make(map[*A_SOURCE][]*SPEC_RELATION)
 			for spec_relation := range stage.SPEC_RELATIONs {
 				if spec_relation.TARGET != nil {
-					a_source_1_ := spec_relation.TARGET
+					a_source_ := spec_relation.TARGET
 					var spec_relations []*SPEC_RELATION
-					_, ok := res[a_source_1_]
+					_, ok := res[a_source_]
 					if ok {
-						spec_relations = res[a_source_1_]
+						spec_relations = res[a_source_]
 					} else {
 						spec_relations = make([]*SPEC_RELATION, 0)
 					}
 					spec_relations = append(spec_relations, spec_relation)
-					res[a_source_1_] = spec_relations
+					res[a_source_] = spec_relations
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TYPE":
+		case "TYPE_XSD":
 			res := make(map[*A_SPEC_RELATION_TYPE_REF][]*SPEC_RELATION)
 			for spec_relation := range stage.SPEC_RELATIONs {
-				if spec_relation.TYPE != nil {
-					a_spec_relation_type_ref_ := spec_relation.TYPE
+				if spec_relation.TYPE_XSD != nil {
+					a_spec_relation_type_ref_ := spec_relation.TYPE_XSD
 					var spec_relations []*SPEC_RELATION
 					_, ok := res[a_spec_relation_type_ref_]
 					if ok {
@@ -11105,13 +11124,13 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of A_SOURCE_1
-	case A_SOURCE_1:
+	// reverse maps of direct associations of A_SOURCE
+	case A_SOURCE:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of A_SOURCE_SPECIFICATION_1
-	case A_SOURCE_SPECIFICATION_1:
+	// reverse maps of direct associations of A_SOURCE_SPECIFICATION
+	case A_SOURCE_SPECIFICATION:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -11794,12 +11813,12 @@ func (*A_RELATION_GROUP_TYPE_REF) GongGetReverseFields() []GongReverseField {
 	}
 }
 
-func (*A_SOURCE_1) GongGetReverseFields() []GongReverseField {
+func (*A_SOURCE) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 	}
 }
 
-func (*A_SOURCE_SPECIFICATION_1) GongGetReverseFields() []GongReverseField {
+func (*A_SOURCE_SPECIFICATION) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 	}
 }
@@ -12123,7 +12142,7 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongGetFieldHe
 			TargetGongstructName: "A_ATTRIBUTE_VALUE_BOOLEAN",
 		},
 		{
-			Name:                 "TYPE",
+			Name:                 "TYPE_XSD",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "A_DATATYPE_DEFINITION_BOOLEAN_REF",
 		},
@@ -12169,7 +12188,7 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongGetFieldHeaders(
 			TargetGongstructName: "A_ATTRIBUTE_VALUE_DATE",
 		},
 		{
-			Name:                 "TYPE",
+			Name:                 "TYPE_XSD",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "A_DATATYPE_DEFINITION_DATE_REF",
 		},
@@ -12219,7 +12238,7 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongGe
 			TargetGongstructName: "A_ATTRIBUTE_VALUE_ENUMERATION",
 		},
 		{
-			Name:                 "TYPE",
+			Name:                 "TYPE_XSD",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "A_DATATYPE_DEFINITION_ENUMERATION_REF",
 		},
@@ -12265,7 +12284,7 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongGetFieldHe
 			TargetGongstructName: "A_ATTRIBUTE_VALUE_INTEGER",
 		},
 		{
-			Name:                 "TYPE",
+			Name:                 "TYPE_XSD",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "A_DATATYPE_DEFINITION_INTEGER_REF",
 		},
@@ -12311,7 +12330,7 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongGetFieldHeaders(
 			TargetGongstructName: "A_ATTRIBUTE_VALUE_REAL",
 		},
 		{
-			Name:                 "TYPE",
+			Name:                 "TYPE_XSD",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "A_DATATYPE_DEFINITION_REAL_REF",
 		},
@@ -12357,7 +12376,7 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongGetFieldHead
 			TargetGongstructName: "A_ATTRIBUTE_VALUE_STRING",
 		},
 		{
-			Name:                 "TYPE",
+			Name:                 "TYPE_XSD",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "A_DATATYPE_DEFINITION_STRING_REF",
 		},
@@ -12403,7 +12422,7 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongGetFieldHeader
 			TargetGongstructName: "A_ATTRIBUTE_VALUE_XHTML",
 		},
 		{
-			Name:                 "TYPE",
+			Name:                 "TYPE_XSD",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "A_DATATYPE_DEFINITION_XHTML_REF",
 		},
@@ -13124,7 +13143,7 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongGetFieldHeaders(
 	return
 }
 
-func (a_source_1 *A_SOURCE_1) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (a_source *A_SOURCE) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -13139,7 +13158,7 @@ func (a_source_1 *A_SOURCE_1) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -13147,9 +13166,8 @@ func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongGetFieldHeaders() 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "SPECIFICATION_REF",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "Enum_GLOBAL_REF",
+			Name:               "SPECIFICATION_REF",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -13529,11 +13547,11 @@ func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongGetFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "MAX",
+			Name:               "MAX_XSD",
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:               "MIN",
+			Name:               "MIN_XSD",
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
@@ -13573,11 +13591,11 @@ func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongGetFieldHeaders() 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "MAX",
+			Name:               "MAX_XSD",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "MIN",
+			Name:               "MIN_XSD",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
@@ -13744,7 +13762,7 @@ func (relation_group *RELATION_GROUP) GongGetFieldHeaders() (res []GongFieldHead
 		{
 			Name:                 "SOURCE_SPECIFICATION",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "A_SOURCE_SPECIFICATION_1",
+			TargetGongstructName: "A_SOURCE_SPECIFICATION",
 		},
 		{
 			Name:                 "SPEC_RELATIONS",
@@ -13754,10 +13772,10 @@ func (relation_group *RELATION_GROUP) GongGetFieldHeaders() (res []GongFieldHead
 		{
 			Name:                 "TARGET_SPECIFICATION",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "A_SOURCE_SPECIFICATION_1",
+			TargetGongstructName: "A_SOURCE_SPECIFICATION",
 		},
 		{
-			Name:                 "TYPE",
+			Name:                 "TYPE_XSD",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "A_RELATION_GROUP_TYPE_REF",
 		},
@@ -13966,7 +13984,7 @@ func (specification *SPECIFICATION) GongGetFieldHeaders() (res []GongFieldHeader
 			TargetGongstructName: "A_ATTRIBUTE_VALUE_XHTML_1",
 		},
 		{
-			Name:                 "TYPE",
+			Name:                 "TYPE_XSD",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "A_SPECIFICATION_TYPE_REF",
 		},
@@ -14100,7 +14118,7 @@ func (spec_object *SPEC_OBJECT) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "A_ATTRIBUTE_VALUE_XHTML_1",
 		},
 		{
-			Name:                 "TYPE",
+			Name:                 "TYPE_XSD",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "A_SPEC_OBJECT_TYPE_REF",
 		},
@@ -14181,15 +14199,15 @@ func (spec_relation *SPEC_RELATION) GongGetFieldHeaders() (res []GongFieldHeader
 		{
 			Name:                 "SOURCE",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "A_SOURCE_1",
+			TargetGongstructName: "A_SOURCE",
 		},
 		{
 			Name:                 "TARGET",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "A_SOURCE_1",
+			TargetGongstructName: "A_SOURCE",
 		},
 		{
-			Name:                 "TYPE",
+			Name:                 "TYPE_XSD",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "A_SPEC_RELATION_TYPE_REF",
 		},
@@ -14348,11 +14366,11 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongGetFieldVa
 			res.valueString = attribute_definition_boolean.DEFAULT_VALUE.Name
 			res.ids = attribute_definition_boolean.DEFAULT_VALUE.GongGetUUID(stage)
 		}
-	case "TYPE":
+	case "TYPE_XSD":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if attribute_definition_boolean.TYPE != nil {
-			res.valueString = attribute_definition_boolean.TYPE.Name
-			res.ids = attribute_definition_boolean.TYPE.GongGetUUID(stage)
+		if attribute_definition_boolean.TYPE_XSD != nil {
+			res.valueString = attribute_definition_boolean.TYPE_XSD.Name
+			res.ids = attribute_definition_boolean.TYPE_XSD.GongGetUUID(stage)
 		}
 	}
 	return
@@ -14387,11 +14405,11 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongGetFieldValue(fi
 			res.valueString = attribute_definition_date.DEFAULT_VALUE.Name
 			res.ids = attribute_definition_date.DEFAULT_VALUE.GongGetUUID(stage)
 		}
-	case "TYPE":
+	case "TYPE_XSD":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if attribute_definition_date.TYPE != nil {
-			res.valueString = attribute_definition_date.TYPE.Name
-			res.ids = attribute_definition_date.TYPE.GongGetUUID(stage)
+		if attribute_definition_date.TYPE_XSD != nil {
+			res.valueString = attribute_definition_date.TYPE_XSD.Name
+			res.ids = attribute_definition_date.TYPE_XSD.GongGetUUID(stage)
 		}
 	}
 	return
@@ -14430,11 +14448,11 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongGe
 			res.valueString = attribute_definition_enumeration.DEFAULT_VALUE.Name
 			res.ids = attribute_definition_enumeration.DEFAULT_VALUE.GongGetUUID(stage)
 		}
-	case "TYPE":
+	case "TYPE_XSD":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if attribute_definition_enumeration.TYPE != nil {
-			res.valueString = attribute_definition_enumeration.TYPE.Name
-			res.ids = attribute_definition_enumeration.TYPE.GongGetUUID(stage)
+		if attribute_definition_enumeration.TYPE_XSD != nil {
+			res.valueString = attribute_definition_enumeration.TYPE_XSD.Name
+			res.ids = attribute_definition_enumeration.TYPE_XSD.GongGetUUID(stage)
 		}
 	}
 	return
@@ -14469,11 +14487,11 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongGetFieldVa
 			res.valueString = attribute_definition_integer.DEFAULT_VALUE.Name
 			res.ids = attribute_definition_integer.DEFAULT_VALUE.GongGetUUID(stage)
 		}
-	case "TYPE":
+	case "TYPE_XSD":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if attribute_definition_integer.TYPE != nil {
-			res.valueString = attribute_definition_integer.TYPE.Name
-			res.ids = attribute_definition_integer.TYPE.GongGetUUID(stage)
+		if attribute_definition_integer.TYPE_XSD != nil {
+			res.valueString = attribute_definition_integer.TYPE_XSD.Name
+			res.ids = attribute_definition_integer.TYPE_XSD.GongGetUUID(stage)
 		}
 	}
 	return
@@ -14508,11 +14526,11 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongGetFieldValue(fi
 			res.valueString = attribute_definition_real.DEFAULT_VALUE.Name
 			res.ids = attribute_definition_real.DEFAULT_VALUE.GongGetUUID(stage)
 		}
-	case "TYPE":
+	case "TYPE_XSD":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if attribute_definition_real.TYPE != nil {
-			res.valueString = attribute_definition_real.TYPE.Name
-			res.ids = attribute_definition_real.TYPE.GongGetUUID(stage)
+		if attribute_definition_real.TYPE_XSD != nil {
+			res.valueString = attribute_definition_real.TYPE_XSD.Name
+			res.ids = attribute_definition_real.TYPE_XSD.GongGetUUID(stage)
 		}
 	}
 	return
@@ -14547,11 +14565,11 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongGetFieldValu
 			res.valueString = attribute_definition_string.DEFAULT_VALUE.Name
 			res.ids = attribute_definition_string.DEFAULT_VALUE.GongGetUUID(stage)
 		}
-	case "TYPE":
+	case "TYPE_XSD":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if attribute_definition_string.TYPE != nil {
-			res.valueString = attribute_definition_string.TYPE.Name
-			res.ids = attribute_definition_string.TYPE.GongGetUUID(stage)
+		if attribute_definition_string.TYPE_XSD != nil {
+			res.valueString = attribute_definition_string.TYPE_XSD.Name
+			res.ids = attribute_definition_string.TYPE_XSD.GongGetUUID(stage)
 		}
 	}
 	return
@@ -14586,11 +14604,11 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongGetFieldValue(
 			res.valueString = attribute_definition_xhtml.DEFAULT_VALUE.Name
 			res.ids = attribute_definition_xhtml.DEFAULT_VALUE.GongGetUUID(stage)
 		}
-	case "TYPE":
+	case "TYPE_XSD":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if attribute_definition_xhtml.TYPE != nil {
-			res.valueString = attribute_definition_xhtml.TYPE.Name
-			res.ids = attribute_definition_xhtml.TYPE.GongGetUUID(stage)
+		if attribute_definition_xhtml.TYPE_XSD != nil {
+			res.valueString = attribute_definition_xhtml.TYPE_XSD.Name
+			res.ids = attribute_definition_xhtml.TYPE_XSD.GongGetUUID(stage)
 		}
 	}
 	return
@@ -15304,25 +15322,24 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongGetFieldValue(fi
 	return
 }
 
-func (a_source_1 *A_SOURCE_1) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (a_source *A_SOURCE) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = a_source_1.Name
+		res.valueString = a_source.Name
 	case "SPEC_OBJECT_REF":
-		res.valueString = a_source_1.SPEC_OBJECT_REF
+		res.valueString = a_source.SPEC_OBJECT_REF
 	}
 	return
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = a_source_specification_1.Name
+		res.valueString = a_source_specification.Name
 	case "SPECIFICATION_REF":
-		enum := a_source_specification_1.SPECIFICATION_REF
-		res.valueString = enum.ToCodeString()
+		res.valueString = a_source_specification.SPECIFICATION_REF
 	}
 	return
 }
@@ -15716,13 +15733,13 @@ func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongGetFieldValu
 		res.valueString = datatype_definition_integer.LAST_CHANGE
 	case "LONG_NAME":
 		res.valueString = datatype_definition_integer.LONG_NAME
-	case "MAX":
-		res.valueString = fmt.Sprintf("%d", datatype_definition_integer.MAX)
-		res.valueInt = datatype_definition_integer.MAX
+	case "MAX_XSD":
+		res.valueString = fmt.Sprintf("%d", datatype_definition_integer.MAX_XSD)
+		res.valueInt = datatype_definition_integer.MAX_XSD
 		res.GongFieldValueType = GongFieldValueTypeInt
-	case "MIN":
-		res.valueString = fmt.Sprintf("%d", datatype_definition_integer.MIN)
-		res.valueInt = datatype_definition_integer.MIN
+	case "MIN_XSD":
+		res.valueString = fmt.Sprintf("%d", datatype_definition_integer.MIN_XSD)
+		res.valueInt = datatype_definition_integer.MIN_XSD
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "ALTERNATIVE_ID":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -15751,13 +15768,13 @@ func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongGetFieldValue(fiel
 		res.valueString = datatype_definition_real.LAST_CHANGE
 	case "LONG_NAME":
 		res.valueString = datatype_definition_real.LONG_NAME
-	case "MAX":
-		res.valueString = fmt.Sprintf("%f", datatype_definition_real.MAX)
-		res.valueFloat = datatype_definition_real.MAX
+	case "MAX_XSD":
+		res.valueString = fmt.Sprintf("%f", datatype_definition_real.MAX_XSD)
+		res.valueFloat = datatype_definition_real.MAX_XSD
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "MIN":
-		res.valueString = fmt.Sprintf("%f", datatype_definition_real.MIN)
-		res.valueFloat = datatype_definition_real.MIN
+	case "MIN_XSD":
+		res.valueString = fmt.Sprintf("%f", datatype_definition_real.MIN_XSD)
+		res.valueFloat = datatype_definition_real.MIN_XSD
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "ALTERNATIVE_ID":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -15900,11 +15917,11 @@ func (relation_group *RELATION_GROUP) GongGetFieldValue(fieldName string, stage 
 			res.valueString = relation_group.TARGET_SPECIFICATION.Name
 			res.ids = relation_group.TARGET_SPECIFICATION.GongGetUUID(stage)
 		}
-	case "TYPE":
+	case "TYPE_XSD":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if relation_group.TYPE != nil {
-			res.valueString = relation_group.TYPE.Name
-			res.ids = relation_group.TYPE.GongGetUUID(stage)
+		if relation_group.TYPE_XSD != nil {
+			res.valueString = relation_group.TYPE_XSD.Name
+			res.ids = relation_group.TYPE_XSD.GongGetUUID(stage)
 		}
 	}
 	return
@@ -16078,11 +16095,11 @@ func (specification *SPECIFICATION) GongGetFieldValue(fieldName string, stage *S
 			res.valueString = specification.VALUES.Name
 			res.ids = specification.VALUES.GongGetUUID(stage)
 		}
-	case "TYPE":
+	case "TYPE_XSD":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if specification.TYPE != nil {
-			res.valueString = specification.TYPE.Name
-			res.ids = specification.TYPE.GongGetUUID(stage)
+		if specification.TYPE_XSD != nil {
+			res.valueString = specification.TYPE_XSD.Name
+			res.ids = specification.TYPE_XSD.GongGetUUID(stage)
 		}
 	}
 	return
@@ -16191,11 +16208,11 @@ func (spec_object *SPEC_OBJECT) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString = spec_object.VALUES.Name
 			res.ids = spec_object.VALUES.GongGetUUID(stage)
 		}
-	case "TYPE":
+	case "TYPE_XSD":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if spec_object.TYPE != nil {
-			res.valueString = spec_object.TYPE.Name
-			res.ids = spec_object.TYPE.GongGetUUID(stage)
+		if spec_object.TYPE_XSD != nil {
+			res.valueString = spec_object.TYPE_XSD.Name
+			res.ids = spec_object.TYPE_XSD.GongGetUUID(stage)
 		}
 	}
 	return
@@ -16267,11 +16284,11 @@ func (spec_relation *SPEC_RELATION) GongGetFieldValue(fieldName string, stage *S
 			res.valueString = spec_relation.TARGET.Name
 			res.ids = spec_relation.TARGET.GongGetUUID(stage)
 		}
-	case "TYPE":
+	case "TYPE_XSD":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if spec_relation.TYPE != nil {
-			res.valueString = spec_relation.TYPE.Name
-			res.ids = spec_relation.TYPE.GongGetUUID(stage)
+		if spec_relation.TYPE_XSD != nil {
+			res.valueString = spec_relation.TYPE_XSD.Name
+			res.ids = spec_relation.TYPE_XSD.GongGetUUID(stage)
 		}
 	}
 	return
@@ -16511,12 +16528,12 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongGetGongstructNam
 	return "A_RELATION_GROUP_TYPE_REF"
 }
 
-func (a_source_1 *A_SOURCE_1) GongGetGongstructName() string {
-	return "A_SOURCE_1"
+func (a_source *A_SOURCE) GongGetGongstructName() string {
+	return "A_SOURCE"
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongGetGongstructName() string {
-	return "A_SOURCE_SPECIFICATION_1"
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongGetGongstructName() string {
+	return "A_SOURCE_SPECIFICATION"
 }
 
 func (a_specifications *A_SPECIFICATIONS) GongGetGongstructName() string {
@@ -16766,9 +16783,9 @@ func (stage *Stage) ResetMapStrings() {
 
 	__gong__rebuildMapString(stage.A_RELATION_GROUP_TYPE_REFs, &stage.A_RELATION_GROUP_TYPE_REFs_mapString)
 
-	__gong__rebuildMapString(stage.A_SOURCE_1s, &stage.A_SOURCE_1s_mapString)
+	__gong__rebuildMapString(stage.A_SOURCEs, &stage.A_SOURCEs_mapString)
 
-	__gong__rebuildMapString(stage.A_SOURCE_SPECIFICATION_1s, &stage.A_SOURCE_SPECIFICATION_1s_mapString)
+	__gong__rebuildMapString(stage.A_SOURCE_SPECIFICATIONs, &stage.A_SOURCE_SPECIFICATIONs_mapString)
 
 	__gong__rebuildMapString(stage.A_SPECIFICATIONSs, &stage.A_SPECIFICATIONSs_mapString)
 

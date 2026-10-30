@@ -184,6 +184,27 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Element_Groups_reverseMap[_group] = element
 		}
 	}
+	stage.Element_Keys_reverseMap = make(map[*Key]*Element)
+	for element := range stage.Elements {
+		_ = element
+		for _, _key := range element.Keys {
+			stage.Element_Keys_reverseMap[_key] = element
+		}
+	}
+	stage.Element_Uniques_reverseMap = make(map[*Unique]*Element)
+	for element := range stage.Elements {
+		_ = element
+		for _, _unique := range element.Uniques {
+			stage.Element_Uniques_reverseMap[_unique] = element
+		}
+	}
+	stage.Element_KeyRefs_reverseMap = make(map[*KeyRef]*Element)
+	for element := range stage.Elements {
+		_ = element
+		for _, _keyref := range element.KeyRefs {
+			stage.Element_KeyRefs_reverseMap[_keyref] = element
+		}
+	}
 
 	// Compute reverse map for named struct Extension
 	// insertion point per field
@@ -275,6 +296,26 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct Key
+	// insertion point per field
+	stage.Key_Fields_reverseMap = make(map[*FieldXPath]*Key)
+	for key := range stage.Keys {
+		_ = key
+		for _, _fieldxpath := range key.Fields {
+			stage.Key_Fields_reverseMap[_fieldxpath] = key
+		}
+	}
+
+	// Compute reverse map for named struct KeyRef
+	// insertion point per field
+	stage.KeyRef_Fields_reverseMap = make(map[*FieldXPath]*KeyRef)
+	for keyref := range stage.KeyRefs {
+		_ = keyref
+		for _, _fieldxpath := range keyref.Fields {
+			stage.KeyRef_Fields_reverseMap[_fieldxpath] = keyref
+		}
+	}
+
 	// Compute reverse map for named struct Restriction
 	// insertion point per field
 	stage.Restriction_Enumerations_reverseMap = make(map[*Enumeration]*Restriction)
@@ -284,14 +325,84 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Restriction_Enumerations_reverseMap[_enumeration] = restriction
 		}
 	}
+	stage.Restriction_Sequences_reverseMap = make(map[*Sequence]*Restriction)
+	for restriction := range stage.Restrictions {
+		_ = restriction
+		for _, _sequence := range restriction.Sequences {
+			stage.Restriction_Sequences_reverseMap[_sequence] = restriction
+		}
+	}
+	stage.Restriction_Alls_reverseMap = make(map[*All]*Restriction)
+	for restriction := range stage.Restrictions {
+		_ = restriction
+		for _, _all := range restriction.Alls {
+			stage.Restriction_Alls_reverseMap[_all] = restriction
+		}
+	}
+	stage.Restriction_Choices_reverseMap = make(map[*Choice]*Restriction)
+	for restriction := range stage.Restrictions {
+		_ = restriction
+		for _, _choice := range restriction.Choices {
+			stage.Restriction_Choices_reverseMap[_choice] = restriction
+		}
+	}
+	stage.Restriction_Groups_reverseMap = make(map[*Group]*Restriction)
+	for restriction := range stage.Restrictions {
+		_ = restriction
+		for _, _group := range restriction.Groups {
+			stage.Restriction_Groups_reverseMap[_group] = restriction
+		}
+	}
+	stage.Restriction_Elements_reverseMap = make(map[*Element]*Restriction)
+	for restriction := range stage.Restrictions {
+		_ = restriction
+		for _, _element := range restriction.Elements {
+			stage.Restriction_Elements_reverseMap[_element] = restriction
+		}
+	}
+	stage.Restriction_Attributes_reverseMap = make(map[*Attribute]*Restriction)
+	for restriction := range stage.Restrictions {
+		_ = restriction
+		for _, _attribute := range restriction.Attributes {
+			stage.Restriction_Attributes_reverseMap[_attribute] = restriction
+		}
+	}
+	stage.Restriction_AttributeGroups_reverseMap = make(map[*AttributeGroup]*Restriction)
+	for restriction := range stage.Restrictions {
+		_ = restriction
+		for _, _attributegroup := range restriction.AttributeGroups {
+			stage.Restriction_AttributeGroups_reverseMap[_attributegroup] = restriction
+		}
+	}
 
 	// Compute reverse map for named struct Schema
 	// insertion point per field
+	stage.Schema_Imports_reverseMap = make(map[*XSDImport]*Schema)
+	for schema := range stage.Schemas {
+		_ = schema
+		for _, _xsdimport := range schema.Imports {
+			stage.Schema_Imports_reverseMap[_xsdimport] = schema
+		}
+	}
+	stage.Schema_Includes_reverseMap = make(map[*XSDInclude]*Schema)
+	for schema := range stage.Schemas {
+		_ = schema
+		for _, _xsdinclude := range schema.Includes {
+			stage.Schema_Includes_reverseMap[_xsdinclude] = schema
+		}
+	}
 	stage.Schema_Elements_reverseMap = make(map[*Element]*Schema)
 	for schema := range stage.Schemas {
 		_ = schema
 		for _, _element := range schema.Elements {
 			stage.Schema_Elements_reverseMap[_element] = schema
+		}
+	}
+	stage.Schema_Attributes_reverseMap = make(map[*Attribute]*Schema)
+	for schema := range stage.Schemas {
+		_ = schema
+		for _, _attribute := range schema.Attributes {
+			stage.Schema_Attributes_reverseMap[_attribute] = schema
 		}
 	}
 	stage.Schema_SimpleTypes_reverseMap = make(map[*SimpleType]*Schema)
@@ -320,6 +431,27 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = schema
 		for _, _group := range schema.Groups {
 			stage.Schema_Groups_reverseMap[_group] = schema
+		}
+	}
+	stage.Schema_Keys_reverseMap = make(map[*Key]*Schema)
+	for schema := range stage.Schemas {
+		_ = schema
+		for _, _key := range schema.Keys {
+			stage.Schema_Keys_reverseMap[_key] = schema
+		}
+	}
+	stage.Schema_Uniques_reverseMap = make(map[*Unique]*Schema)
+	for schema := range stage.Schemas {
+		_ = schema
+		for _, _unique := range schema.Uniques {
+			stage.Schema_Uniques_reverseMap[_unique] = schema
+		}
+	}
+	stage.Schema_KeyRefs_reverseMap = make(map[*KeyRef]*Schema)
+	for schema := range stage.Schemas {
+		_ = schema
+		for _, _keyref := range schema.KeyRefs {
+			stage.Schema_KeyRefs_reverseMap[_keyref] = schema
 		}
 	}
 
@@ -361,6 +493,26 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct Union
+	// insertion point per field
+	stage.Union_SimpleTypes_reverseMap = make(map[*SimpleType]*Union)
+	for union := range stage.Unions {
+		_ = union
+		for _, _simpletype := range union.SimpleTypes {
+			stage.Union_SimpleTypes_reverseMap[_simpletype] = union
+		}
+	}
+
+	// Compute reverse map for named struct Unique
+	// insertion point per field
+	stage.Unique_Fields_reverseMap = make(map[*FieldXPath]*Unique)
+	for unique := range stage.Uniques {
+		_ = unique
+		for _, _fieldxpath := range unique.Fields {
+			stage.Unique_Fields_reverseMap[_fieldxpath] = unique
+		}
+	}
+
 	// end of insertion point per named struct
 }
 
@@ -388,13 +540,27 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.Extensions)
 
+	res = __gong__appendInstances(res, stage.FieldXPaths)
+
+	res = __gong__appendInstances(res, stage.FractionDigits)
+
 	res = __gong__appendInstances(res, stage.Groups)
 
+	res = __gong__appendInstances(res, stage.Keys)
+
+	res = __gong__appendInstances(res, stage.KeyRefs)
+
 	res = __gong__appendInstances(res, stage.Lengths)
+
+	res = __gong__appendInstances(res, stage.Lists)
+
+	res = __gong__appendInstances(res, stage.MaxExclusives)
 
 	res = __gong__appendInstances(res, stage.MaxInclusives)
 
 	res = __gong__appendInstances(res, stage.MaxLengths)
+
+	res = __gong__appendInstances(res, stage.MinExclusives)
 
 	res = __gong__appendInstances(res, stage.MinInclusives)
 
@@ -406,6 +572,8 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.Schemas)
 
+	res = __gong__appendInstances(res, stage.Selectors)
+
 	res = __gong__appendInstances(res, stage.Sequences)
 
 	res = __gong__appendInstances(res, stage.SimpleContents)
@@ -416,7 +584,13 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.Unions)
 
+	res = __gong__appendInstances(res, stage.Uniques)
+
 	res = __gong__appendInstances(res, stage.WhiteSpaces)
+
+	res = __gong__appendInstances(res, stage.XSDImports)
+
+	res = __gong__appendInstances(res, stage.XSDIncludes)
 
 	return
 }
@@ -488,15 +662,51 @@ func (extension *Extension) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (fieldxpath *FieldXPath) GongCopy() GongstructIF {
+	newInstance := new(FieldXPath)
+	fieldxpath.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (fractiondigit *FractionDigit) GongCopy() GongstructIF {
+	newInstance := new(FractionDigit)
+	fractiondigit.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (group *Group) GongCopy() GongstructIF {
 	newInstance := new(Group)
 	group.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
+func (key *Key) GongCopy() GongstructIF {
+	newInstance := new(Key)
+	key.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (keyref *KeyRef) GongCopy() GongstructIF {
+	newInstance := new(KeyRef)
+	keyref.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (length *Length) GongCopy() GongstructIF {
 	newInstance := new(Length)
 	length.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (list *List) GongCopy() GongstructIF {
+	newInstance := new(List)
+	list.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (maxexclusive *MaxExclusive) GongCopy() GongstructIF {
+	newInstance := new(MaxExclusive)
+	maxexclusive.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -509,6 +719,12 @@ func (maxinclusive *MaxInclusive) GongCopy() GongstructIF {
 func (maxlength *MaxLength) GongCopy() GongstructIF {
 	newInstance := new(MaxLength)
 	maxlength.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (minexclusive *MinExclusive) GongCopy() GongstructIF {
+	newInstance := new(MinExclusive)
+	minexclusive.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -542,6 +758,12 @@ func (schema *Schema) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (selector *Selector) GongCopy() GongstructIF {
+	newInstance := new(Selector)
+	selector.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (sequence *Sequence) GongCopy() GongstructIF {
 	newInstance := new(Sequence)
 	sequence.GongCopyBasicFields(newInstance)
@@ -572,9 +794,27 @@ func (union *Union) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (unique *Unique) GongCopy() GongstructIF {
+	newInstance := new(Unique)
+	unique.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (whitespace *WhiteSpace) GongCopy() GongstructIF {
 	newInstance := new(WhiteSpace)
 	whitespace.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (xsdimport *XSDImport) GongCopy() GongstructIF {
+	newInstance := new(XSDImport)
+	xsdimport.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (xsdinclude *XSDInclude) GongCopy() GongstructIF {
+	newInstance := new(XSDInclude)
+	xsdinclude.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -623,12 +863,36 @@ func (extension *Extension) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, extension)
 }
 
+func (fieldxpath *FieldXPath) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, fieldxpath)
+}
+
+func (fractiondigit *FractionDigit) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, fractiondigit)
+}
+
 func (group *Group) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, group)
 }
 
+func (key *Key) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, key)
+}
+
+func (keyref *KeyRef) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, keyref)
+}
+
 func (length *Length) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, length)
+}
+
+func (list *List) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, list)
+}
+
+func (maxexclusive *MaxExclusive) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, maxexclusive)
 }
 
 func (maxinclusive *MaxInclusive) GongGetUUID(stage *Stage) string {
@@ -637,6 +901,10 @@ func (maxinclusive *MaxInclusive) GongGetUUID(stage *Stage) string {
 
 func (maxlength *MaxLength) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, maxlength)
+}
+
+func (minexclusive *MinExclusive) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, minexclusive)
 }
 
 func (mininclusive *MinInclusive) GongGetUUID(stage *Stage) string {
@@ -659,6 +927,10 @@ func (schema *Schema) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, schema)
 }
 
+func (selector *Selector) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, selector)
+}
+
 func (sequence *Sequence) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, sequence)
 }
@@ -679,8 +951,20 @@ func (union *Union) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, union)
 }
 
+func (unique *Unique) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, unique)
+}
+
 func (whitespace *WhiteSpace) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, whitespace)
+}
+
+func (xsdimport *XSDImport) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, xsdimport)
+}
+
+func (xsdinclude *XSDInclude) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, xsdinclude)
 }
 
 
@@ -972,6 +1256,40 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
+		stage.FieldXPaths,
+		stage.FieldXPath_stagedOrder,
+		stage.FieldXPaths_reference,
+		&stage.FieldXPaths_referenceOrder,
+		stage.FieldXPaths_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.FractionDigits,
+		stage.FractionDigit_stagedOrder,
+		stage.FractionDigits_reference,
+		&stage.FractionDigits_referenceOrder,
+		stage.FractionDigits_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
 		stage.Groups,
 		stage.Group_stagedOrder,
 		stage.Groups_reference,
@@ -989,11 +1307,79 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
+		stage.Keys,
+		stage.Key_stagedOrder,
+		stage.Keys_reference,
+		&stage.Keys_referenceOrder,
+		stage.Keys_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.KeyRefs,
+		stage.KeyRef_stagedOrder,
+		stage.KeyRefs_reference,
+		&stage.KeyRefs_referenceOrder,
+		stage.KeyRefs_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
 		stage.Lengths,
 		stage.Length_stagedOrder,
 		stage.Lengths_reference,
 		&stage.Lengths_referenceOrder,
 		stage.Lengths_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.Lists,
+		stage.List_stagedOrder,
+		stage.Lists_reference,
+		&stage.Lists_referenceOrder,
+		stage.Lists_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.MaxExclusives,
+		stage.MaxExclusive_stagedOrder,
+		stage.MaxExclusives_reference,
+		&stage.MaxExclusives_referenceOrder,
+		stage.MaxExclusives_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -1028,6 +1414,23 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		stage.MaxLengths_reference,
 		&stage.MaxLengths_referenceOrder,
 		stage.MaxLengths_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.MinExclusives,
+		stage.MinExclusive_stagedOrder,
+		stage.MinExclusives_reference,
+		&stage.MinExclusives_referenceOrder,
+		stage.MinExclusives_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -1125,6 +1528,23 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
+		stage.Selectors,
+		stage.Selector_stagedOrder,
+		stage.Selectors_reference,
+		&stage.Selectors_referenceOrder,
+		stage.Selectors_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
 		stage.Sequences,
 		stage.Sequence_stagedOrder,
 		stage.Sequences_reference,
@@ -1210,11 +1630,62 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
+		stage.Uniques,
+		stage.Unique_stagedOrder,
+		stage.Uniques_reference,
+		&stage.Uniques_referenceOrder,
+		stage.Uniques_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
 		stage.WhiteSpaces,
 		stage.WhiteSpace_stagedOrder,
 		stage.WhiteSpaces_reference,
 		&stage.WhiteSpaces_referenceOrder,
 		stage.WhiteSpaces_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.XSDImports,
+		stage.XSDImport_stagedOrder,
+		stage.XSDImports_reference,
+		&stage.XSDImports_referenceOrder,
+		stage.XSDImports_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.XSDIncludes,
+		stage.XSDInclude_stagedOrder,
+		stage.XSDIncludes_reference,
+		&stage.XSDIncludes_referenceOrder,
+		stage.XSDIncludes_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -1282,13 +1753,27 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.Extensions, &stage.Extensions_reference, &stage.Extensions_referenceOrder, &stage.Extensions_instance)
 
+	__gong__computeReferencePass1(stage, stage.FieldXPaths, &stage.FieldXPaths_reference, &stage.FieldXPaths_referenceOrder, &stage.FieldXPaths_instance)
+
+	__gong__computeReferencePass1(stage, stage.FractionDigits, &stage.FractionDigits_reference, &stage.FractionDigits_referenceOrder, &stage.FractionDigits_instance)
+
 	__gong__computeReferencePass1(stage, stage.Groups, &stage.Groups_reference, &stage.Groups_referenceOrder, &stage.Groups_instance)
 
+	__gong__computeReferencePass1(stage, stage.Keys, &stage.Keys_reference, &stage.Keys_referenceOrder, &stage.Keys_instance)
+
+	__gong__computeReferencePass1(stage, stage.KeyRefs, &stage.KeyRefs_reference, &stage.KeyRefs_referenceOrder, &stage.KeyRefs_instance)
+
 	__gong__computeReferencePass1(stage, stage.Lengths, &stage.Lengths_reference, &stage.Lengths_referenceOrder, &stage.Lengths_instance)
+
+	__gong__computeReferencePass1(stage, stage.Lists, &stage.Lists_reference, &stage.Lists_referenceOrder, &stage.Lists_instance)
+
+	__gong__computeReferencePass1(stage, stage.MaxExclusives, &stage.MaxExclusives_reference, &stage.MaxExclusives_referenceOrder, &stage.MaxExclusives_instance)
 
 	__gong__computeReferencePass1(stage, stage.MaxInclusives, &stage.MaxInclusives_reference, &stage.MaxInclusives_referenceOrder, &stage.MaxInclusives_instance)
 
 	__gong__computeReferencePass1(stage, stage.MaxLengths, &stage.MaxLengths_reference, &stage.MaxLengths_referenceOrder, &stage.MaxLengths_instance)
+
+	__gong__computeReferencePass1(stage, stage.MinExclusives, &stage.MinExclusives_reference, &stage.MinExclusives_referenceOrder, &stage.MinExclusives_instance)
 
 	__gong__computeReferencePass1(stage, stage.MinInclusives, &stage.MinInclusives_reference, &stage.MinInclusives_referenceOrder, &stage.MinInclusives_instance)
 
@@ -1300,6 +1785,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.Schemas, &stage.Schemas_reference, &stage.Schemas_referenceOrder, &stage.Schemas_instance)
 
+	__gong__computeReferencePass1(stage, stage.Selectors, &stage.Selectors_reference, &stage.Selectors_referenceOrder, &stage.Selectors_instance)
+
 	__gong__computeReferencePass1(stage, stage.Sequences, &stage.Sequences_reference, &stage.Sequences_referenceOrder, &stage.Sequences_instance)
 
 	__gong__computeReferencePass1(stage, stage.SimpleContents, &stage.SimpleContents_reference, &stage.SimpleContents_referenceOrder, &stage.SimpleContents_instance)
@@ -1310,7 +1797,13 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.Unions, &stage.Unions_reference, &stage.Unions_referenceOrder, &stage.Unions_instance)
 
+	__gong__computeReferencePass1(stage, stage.Uniques, &stage.Uniques_reference, &stage.Uniques_referenceOrder, &stage.Uniques_instance)
+
 	__gong__computeReferencePass1(stage, stage.WhiteSpaces, &stage.WhiteSpaces_reference, &stage.WhiteSpaces_referenceOrder, &stage.WhiteSpaces_instance)
+
+	__gong__computeReferencePass1(stage, stage.XSDImports, &stage.XSDImports_reference, &stage.XSDImports_referenceOrder, &stage.XSDImports_instance)
+
+	__gong__computeReferencePass1(stage, stage.XSDIncludes, &stage.XSDIncludes_reference, &stage.XSDIncludes_referenceOrder, &stage.XSDIncludes_instance)
 
 	// insertion point per named struct
 	__gong__computeReferencePass2(stage.Alls, stage.Alls_reference, stage)
@@ -1335,13 +1828,27 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass2(stage.Extensions, stage.Extensions_reference, stage)
 
+	__gong__computeReferencePass2(stage.FieldXPaths, stage.FieldXPaths_reference, stage)
+
+	__gong__computeReferencePass2(stage.FractionDigits, stage.FractionDigits_reference, stage)
+
 	__gong__computeReferencePass2(stage.Groups, stage.Groups_reference, stage)
 
+	__gong__computeReferencePass2(stage.Keys, stage.Keys_reference, stage)
+
+	__gong__computeReferencePass2(stage.KeyRefs, stage.KeyRefs_reference, stage)
+
 	__gong__computeReferencePass2(stage.Lengths, stage.Lengths_reference, stage)
+
+	__gong__computeReferencePass2(stage.Lists, stage.Lists_reference, stage)
+
+	__gong__computeReferencePass2(stage.MaxExclusives, stage.MaxExclusives_reference, stage)
 
 	__gong__computeReferencePass2(stage.MaxInclusives, stage.MaxInclusives_reference, stage)
 
 	__gong__computeReferencePass2(stage.MaxLengths, stage.MaxLengths_reference, stage)
+
+	__gong__computeReferencePass2(stage.MinExclusives, stage.MinExclusives_reference, stage)
 
 	__gong__computeReferencePass2(stage.MinInclusives, stage.MinInclusives_reference, stage)
 
@@ -1353,6 +1860,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass2(stage.Schemas, stage.Schemas_reference, stage)
 
+	__gong__computeReferencePass2(stage.Selectors, stage.Selectors_reference, stage)
+
 	__gong__computeReferencePass2(stage.Sequences, stage.Sequences_reference, stage)
 
 	__gong__computeReferencePass2(stage.SimpleContents, stage.SimpleContents_reference, stage)
@@ -1363,7 +1872,13 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass2(stage.Unions, stage.Unions_reference, stage)
 
+	__gong__computeReferencePass2(stage.Uniques, stage.Uniques_reference, stage)
+
 	__gong__computeReferencePass2(stage.WhiteSpaces, stage.WhiteSpaces_reference, stage)
+
+	__gong__computeReferencePass2(stage.XSDImports, stage.XSDImports_reference, stage)
+
+	__gong__computeReferencePass2(stage.XSDIncludes, stage.XSDIncludes_reference, stage)
 
 	stage.recomputeOrders()
 }
@@ -1419,12 +1934,36 @@ func (extension *Extension) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Extension_stagedOrder, stage.Extensions_referenceOrder, extension, "Extension")
 }
 
+func (fieldxpath *FieldXPath) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.FieldXPath_stagedOrder, stage.FieldXPaths_referenceOrder, fieldxpath, "FieldXPath")
+}
+
+func (fractiondigit *FractionDigit) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.FractionDigit_stagedOrder, stage.FractionDigits_referenceOrder, fractiondigit, "FractionDigit")
+}
+
 func (group *Group) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Group_stagedOrder, stage.Groups_referenceOrder, group, "Group")
 }
 
+func (key *Key) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.Key_stagedOrder, stage.Keys_referenceOrder, key, "Key")
+}
+
+func (keyref *KeyRef) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.KeyRef_stagedOrder, stage.KeyRefs_referenceOrder, keyref, "KeyRef")
+}
+
 func (length *Length) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Length_stagedOrder, stage.Lengths_referenceOrder, length, "Length")
+}
+
+func (list *List) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.List_stagedOrder, stage.Lists_referenceOrder, list, "List")
+}
+
+func (maxexclusive *MaxExclusive) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.MaxExclusive_stagedOrder, stage.MaxExclusives_referenceOrder, maxexclusive, "MaxExclusive")
 }
 
 func (maxinclusive *MaxInclusive) GongGetOrder(stage *Stage) uint {
@@ -1433,6 +1972,10 @@ func (maxinclusive *MaxInclusive) GongGetOrder(stage *Stage) uint {
 
 func (maxlength *MaxLength) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.MaxLength_stagedOrder, stage.MaxLengths_referenceOrder, maxlength, "MaxLength")
+}
+
+func (minexclusive *MinExclusive) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.MinExclusive_stagedOrder, stage.MinExclusives_referenceOrder, minexclusive, "MinExclusive")
 }
 
 func (mininclusive *MinInclusive) GongGetOrder(stage *Stage) uint {
@@ -1455,6 +1998,10 @@ func (schema *Schema) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Schema_stagedOrder, stage.Schemas_referenceOrder, schema, "Schema")
 }
 
+func (selector *Selector) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.Selector_stagedOrder, stage.Selectors_referenceOrder, selector, "Selector")
+}
+
 func (sequence *Sequence) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Sequence_stagedOrder, stage.Sequences_referenceOrder, sequence, "Sequence")
 }
@@ -1475,8 +2022,20 @@ func (union *Union) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Union_stagedOrder, stage.Unions_referenceOrder, union, "Union")
 }
 
+func (unique *Unique) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.Unique_stagedOrder, stage.Uniques_referenceOrder, unique, "Unique")
+}
+
 func (whitespace *WhiteSpace) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.WhiteSpace_stagedOrder, stage.WhiteSpaces_referenceOrder, whitespace, "WhiteSpace")
+}
+
+func (xsdimport *XSDImport) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.XSDImport_stagedOrder, stage.XSDImports_referenceOrder, xsdimport, "XSDImport")
+}
+
+func (xsdinclude *XSDInclude) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.XSDInclude_stagedOrder, stage.XSDIncludes_referenceOrder, xsdinclude, "XSDInclude")
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -1583,6 +2142,24 @@ func (extension *Extension) GongGetReferenceIdentifier(stage *Stage) string {
 	return extension.GongGetIdentifier(stage)
 }
 
+func (fieldxpath *FieldXPath) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(fieldxpath, fieldxpath.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (fieldxpath *FieldXPath) GongGetReferenceIdentifier(stage *Stage) string {
+	return fieldxpath.GongGetIdentifier(stage)
+}
+
+func (fractiondigit *FractionDigit) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(fractiondigit, fractiondigit.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (fractiondigit *FractionDigit) GongGetReferenceIdentifier(stage *Stage) string {
+	return fractiondigit.GongGetIdentifier(stage)
+}
+
 func (group *Group) GongGetIdentifier(stage *Stage) string {
 	return __gong__formatIdentifier(group, group.GongGetOrder(stage))
 }
@@ -1592,6 +2169,24 @@ func (group *Group) GongGetReferenceIdentifier(stage *Stage) string {
 	return group.GongGetIdentifier(stage)
 }
 
+func (key *Key) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(key, key.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (key *Key) GongGetReferenceIdentifier(stage *Stage) string {
+	return key.GongGetIdentifier(stage)
+}
+
+func (keyref *KeyRef) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(keyref, keyref.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (keyref *KeyRef) GongGetReferenceIdentifier(stage *Stage) string {
+	return keyref.GongGetIdentifier(stage)
+}
+
 func (length *Length) GongGetIdentifier(stage *Stage) string {
 	return __gong__formatIdentifier(length, length.GongGetOrder(stage))
 }
@@ -1599,6 +2194,24 @@ func (length *Length) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (length *Length) GongGetReferenceIdentifier(stage *Stage) string {
 	return length.GongGetIdentifier(stage)
+}
+
+func (list *List) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(list, list.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (list *List) GongGetReferenceIdentifier(stage *Stage) string {
+	return list.GongGetIdentifier(stage)
+}
+
+func (maxexclusive *MaxExclusive) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(maxexclusive, maxexclusive.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (maxexclusive *MaxExclusive) GongGetReferenceIdentifier(stage *Stage) string {
+	return maxexclusive.GongGetIdentifier(stage)
 }
 
 func (maxinclusive *MaxInclusive) GongGetIdentifier(stage *Stage) string {
@@ -1617,6 +2230,15 @@ func (maxlength *MaxLength) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (maxlength *MaxLength) GongGetReferenceIdentifier(stage *Stage) string {
 	return maxlength.GongGetIdentifier(stage)
+}
+
+func (minexclusive *MinExclusive) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(minexclusive, minexclusive.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (minexclusive *MinExclusive) GongGetReferenceIdentifier(stage *Stage) string {
+	return minexclusive.GongGetIdentifier(stage)
 }
 
 func (mininclusive *MinInclusive) GongGetIdentifier(stage *Stage) string {
@@ -1664,6 +2286,15 @@ func (schema *Schema) GongGetReferenceIdentifier(stage *Stage) string {
 	return schema.GongGetIdentifier(stage)
 }
 
+func (selector *Selector) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(selector, selector.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (selector *Selector) GongGetReferenceIdentifier(stage *Stage) string {
+	return selector.GongGetIdentifier(stage)
+}
+
 func (sequence *Sequence) GongGetIdentifier(stage *Stage) string {
 	return __gong__formatIdentifier(sequence, sequence.GongGetOrder(stage))
 }
@@ -1709,6 +2340,15 @@ func (union *Union) GongGetReferenceIdentifier(stage *Stage) string {
 	return union.GongGetIdentifier(stage)
 }
 
+func (unique *Unique) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(unique, unique.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (unique *Unique) GongGetReferenceIdentifier(stage *Stage) string {
+	return unique.GongGetIdentifier(stage)
+}
+
 func (whitespace *WhiteSpace) GongGetIdentifier(stage *Stage) string {
 	return __gong__formatIdentifier(whitespace, whitespace.GongGetOrder(stage))
 }
@@ -1716,6 +2356,24 @@ func (whitespace *WhiteSpace) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (whitespace *WhiteSpace) GongGetReferenceIdentifier(stage *Stage) string {
 	return whitespace.GongGetIdentifier(stage)
+}
+
+func (xsdimport *XSDImport) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(xsdimport, xsdimport.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (xsdimport *XSDImport) GongGetReferenceIdentifier(stage *Stage) string {
+	return xsdimport.GongGetIdentifier(stage)
+}
+
+func (xsdinclude *XSDInclude) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(xsdinclude, xsdinclude.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (xsdinclude *XSDInclude) GongGetReferenceIdentifier(stage *Stage) string {
+	return xsdinclude.GongGetIdentifier(stage)
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
@@ -1765,12 +2423,36 @@ func (extension *Extension) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(extension.GongGetIdentifier(stage), "Extension", extension.Name)
 }
 
+func (fieldxpath *FieldXPath) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(fieldxpath.GongGetIdentifier(stage), "FieldXPath", fieldxpath.Name)
+}
+
+func (fractiondigit *FractionDigit) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(fractiondigit.GongGetIdentifier(stage), "FractionDigit", fractiondigit.Name)
+}
+
 func (group *Group) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(group.GongGetIdentifier(stage), "Group", group.Name)
 }
 
+func (key *Key) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(key.GongGetIdentifier(stage), "Key", key.Name)
+}
+
+func (keyref *KeyRef) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(keyref.GongGetIdentifier(stage), "KeyRef", keyref.Name)
+}
+
 func (length *Length) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(length.GongGetIdentifier(stage), "Length", length.Name)
+}
+
+func (list *List) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(list.GongGetIdentifier(stage), "List", list.Name)
+}
+
+func (maxexclusive *MaxExclusive) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(maxexclusive.GongGetIdentifier(stage), "MaxExclusive", maxexclusive.Name)
 }
 
 func (maxinclusive *MaxInclusive) GongMarshallIdentifier(stage *Stage) string {
@@ -1779,6 +2461,10 @@ func (maxinclusive *MaxInclusive) GongMarshallIdentifier(stage *Stage) string {
 
 func (maxlength *MaxLength) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(maxlength.GongGetIdentifier(stage), "MaxLength", maxlength.Name)
+}
+
+func (minexclusive *MinExclusive) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(minexclusive.GongGetIdentifier(stage), "MinExclusive", minexclusive.Name)
 }
 
 func (mininclusive *MinInclusive) GongMarshallIdentifier(stage *Stage) string {
@@ -1801,6 +2487,10 @@ func (schema *Schema) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(schema.GongGetIdentifier(stage), "Schema", schema.Name)
 }
 
+func (selector *Selector) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(selector.GongGetIdentifier(stage), "Selector", selector.Name)
+}
+
 func (sequence *Sequence) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(sequence.GongGetIdentifier(stage), "Sequence", sequence.Name)
 }
@@ -1821,8 +2511,20 @@ func (union *Union) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(union.GongGetIdentifier(stage), "Union", union.Name)
 }
 
+func (unique *Unique) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(unique.GongGetIdentifier(stage), "Unique", unique.Name)
+}
+
 func (whitespace *WhiteSpace) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(whitespace.GongGetIdentifier(stage), "WhiteSpace", whitespace.Name)
+}
+
+func (xsdimport *XSDImport) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(xsdimport.GongGetIdentifier(stage), "XSDImport", xsdimport.Name)
+}
+
+func (xsdinclude *XSDInclude) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(xsdinclude.GongGetIdentifier(stage), "XSDInclude", xsdinclude.Name)
 }
 
 // insertion point for unstaging
@@ -1870,12 +2572,36 @@ func (extension *Extension) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(extension.GongGetReferenceIdentifier(stage))
 }
 
+func (fieldxpath *FieldXPath) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(fieldxpath.GongGetReferenceIdentifier(stage))
+}
+
+func (fractiondigit *FractionDigit) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(fractiondigit.GongGetReferenceIdentifier(stage))
+}
+
 func (group *Group) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(group.GongGetReferenceIdentifier(stage))
 }
 
+func (key *Key) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(key.GongGetReferenceIdentifier(stage))
+}
+
+func (keyref *KeyRef) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(keyref.GongGetReferenceIdentifier(stage))
+}
+
 func (length *Length) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(length.GongGetReferenceIdentifier(stage))
+}
+
+func (list *List) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(list.GongGetReferenceIdentifier(stage))
+}
+
+func (maxexclusive *MaxExclusive) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(maxexclusive.GongGetReferenceIdentifier(stage))
 }
 
 func (maxinclusive *MaxInclusive) GongMarshallUnstaging(stage *Stage) string {
@@ -1884,6 +2610,10 @@ func (maxinclusive *MaxInclusive) GongMarshallUnstaging(stage *Stage) string {
 
 func (maxlength *MaxLength) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(maxlength.GongGetReferenceIdentifier(stage))
+}
+
+func (minexclusive *MinExclusive) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(minexclusive.GongGetReferenceIdentifier(stage))
 }
 
 func (mininclusive *MinInclusive) GongMarshallUnstaging(stage *Stage) string {
@@ -1906,6 +2636,10 @@ func (schema *Schema) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(schema.GongGetReferenceIdentifier(stage))
 }
 
+func (selector *Selector) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(selector.GongGetReferenceIdentifier(stage))
+}
+
 func (sequence *Sequence) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(sequence.GongGetReferenceIdentifier(stage))
 }
@@ -1926,8 +2660,20 @@ func (union *Union) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(union.GongGetReferenceIdentifier(stage))
 }
 
+func (unique *Unique) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(unique.GongGetReferenceIdentifier(stage))
+}
+
 func (whitespace *WhiteSpace) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(whitespace.GongGetReferenceIdentifier(stage))
+}
+
+func (xsdimport *XSDImport) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(xsdimport.GongGetReferenceIdentifier(stage))
+}
+
+func (xsdinclude *XSDInclude) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(xsdinclude.GongGetReferenceIdentifier(stage))
 }
 
 func GongIntToLetters(number int32) (letters string) {

@@ -281,6 +281,12 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Element_Groups_reverseMap map[*Group]*Element
 
+	Element_Keys_reverseMap map[*Key]*Element
+
+	Element_Uniques_reverseMap map[*Unique]*Element
+
+	Element_KeyRefs_reverseMap map[*KeyRef]*Element
+
 	OnAfterElementCreateCallback GongOnAfterCreateInterface[Element]
 	OnAfterElementUpdateCallback GongOnAfterUpdateInterface[Element]
 	OnAfterElementDeleteCallback GongOnAfterDeleteInterface[Element]
@@ -327,6 +333,34 @@ type Stage struct {
 	OnAfterExtensionUpdateCallback GongOnAfterUpdateInterface[Extension]
 	OnAfterExtensionDeleteCallback GongOnAfterDeleteInterface[Extension]
 
+	FieldXPaths                map[*FieldXPath]struct{}
+	FieldXPaths_instance       map[*FieldXPath]*FieldXPath
+	FieldXPaths_mapString      map[string]*FieldXPath
+	FieldXPathOrder            uint
+	FieldXPath_stagedOrder     map[*FieldXPath]uint
+	FieldXPath_orderStaged     map[uint]*FieldXPath
+	FieldXPaths_reference      map[*FieldXPath]*FieldXPath
+	FieldXPaths_referenceOrder map[*FieldXPath]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterFieldXPathCreateCallback GongOnAfterCreateInterface[FieldXPath]
+	OnAfterFieldXPathUpdateCallback GongOnAfterUpdateInterface[FieldXPath]
+	OnAfterFieldXPathDeleteCallback GongOnAfterDeleteInterface[FieldXPath]
+
+	FractionDigits                map[*FractionDigit]struct{}
+	FractionDigits_instance       map[*FractionDigit]*FractionDigit
+	FractionDigits_mapString      map[string]*FractionDigit
+	FractionDigitOrder            uint
+	FractionDigit_stagedOrder     map[*FractionDigit]uint
+	FractionDigit_orderStaged     map[uint]*FractionDigit
+	FractionDigits_reference      map[*FractionDigit]*FractionDigit
+	FractionDigits_referenceOrder map[*FractionDigit]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterFractionDigitCreateCallback GongOnAfterCreateInterface[FractionDigit]
+	OnAfterFractionDigitUpdateCallback GongOnAfterUpdateInterface[FractionDigit]
+	OnAfterFractionDigitDeleteCallback GongOnAfterDeleteInterface[FractionDigit]
+
 	Groups                map[*Group]struct{}
 	Groups_instance       map[*Group]*Group
 	Groups_mapString      map[string]*Group
@@ -351,6 +385,38 @@ type Stage struct {
 	OnAfterGroupUpdateCallback GongOnAfterUpdateInterface[Group]
 	OnAfterGroupDeleteCallback GongOnAfterDeleteInterface[Group]
 
+	Keys                map[*Key]struct{}
+	Keys_instance       map[*Key]*Key
+	Keys_mapString      map[string]*Key
+	KeyOrder            uint
+	Key_stagedOrder     map[*Key]uint
+	Key_orderStaged     map[uint]*Key
+	Keys_reference      map[*Key]*Key
+	Keys_referenceOrder map[*Key]uint
+
+	// insertion point for slice of pointers maps
+	Key_Fields_reverseMap map[*FieldXPath]*Key
+
+	OnAfterKeyCreateCallback GongOnAfterCreateInterface[Key]
+	OnAfterKeyUpdateCallback GongOnAfterUpdateInterface[Key]
+	OnAfterKeyDeleteCallback GongOnAfterDeleteInterface[Key]
+
+	KeyRefs                map[*KeyRef]struct{}
+	KeyRefs_instance       map[*KeyRef]*KeyRef
+	KeyRefs_mapString      map[string]*KeyRef
+	KeyRefOrder            uint
+	KeyRef_stagedOrder     map[*KeyRef]uint
+	KeyRef_orderStaged     map[uint]*KeyRef
+	KeyRefs_reference      map[*KeyRef]*KeyRef
+	KeyRefs_referenceOrder map[*KeyRef]uint
+
+	// insertion point for slice of pointers maps
+	KeyRef_Fields_reverseMap map[*FieldXPath]*KeyRef
+
+	OnAfterKeyRefCreateCallback GongOnAfterCreateInterface[KeyRef]
+	OnAfterKeyRefUpdateCallback GongOnAfterUpdateInterface[KeyRef]
+	OnAfterKeyRefDeleteCallback GongOnAfterDeleteInterface[KeyRef]
+
 	Lengths                map[*Length]struct{}
 	Lengths_instance       map[*Length]*Length
 	Lengths_mapString      map[string]*Length
@@ -364,6 +430,34 @@ type Stage struct {
 	OnAfterLengthCreateCallback GongOnAfterCreateInterface[Length]
 	OnAfterLengthUpdateCallback GongOnAfterUpdateInterface[Length]
 	OnAfterLengthDeleteCallback GongOnAfterDeleteInterface[Length]
+
+	Lists                map[*List]struct{}
+	Lists_instance       map[*List]*List
+	Lists_mapString      map[string]*List
+	ListOrder            uint
+	List_stagedOrder     map[*List]uint
+	List_orderStaged     map[uint]*List
+	Lists_reference      map[*List]*List
+	Lists_referenceOrder map[*List]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterListCreateCallback GongOnAfterCreateInterface[List]
+	OnAfterListUpdateCallback GongOnAfterUpdateInterface[List]
+	OnAfterListDeleteCallback GongOnAfterDeleteInterface[List]
+
+	MaxExclusives                map[*MaxExclusive]struct{}
+	MaxExclusives_instance       map[*MaxExclusive]*MaxExclusive
+	MaxExclusives_mapString      map[string]*MaxExclusive
+	MaxExclusiveOrder            uint
+	MaxExclusive_stagedOrder     map[*MaxExclusive]uint
+	MaxExclusive_orderStaged     map[uint]*MaxExclusive
+	MaxExclusives_reference      map[*MaxExclusive]*MaxExclusive
+	MaxExclusives_referenceOrder map[*MaxExclusive]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterMaxExclusiveCreateCallback GongOnAfterCreateInterface[MaxExclusive]
+	OnAfterMaxExclusiveUpdateCallback GongOnAfterUpdateInterface[MaxExclusive]
+	OnAfterMaxExclusiveDeleteCallback GongOnAfterDeleteInterface[MaxExclusive]
 
 	MaxInclusives                map[*MaxInclusive]struct{}
 	MaxInclusives_instance       map[*MaxInclusive]*MaxInclusive
@@ -392,6 +486,20 @@ type Stage struct {
 	OnAfterMaxLengthCreateCallback GongOnAfterCreateInterface[MaxLength]
 	OnAfterMaxLengthUpdateCallback GongOnAfterUpdateInterface[MaxLength]
 	OnAfterMaxLengthDeleteCallback GongOnAfterDeleteInterface[MaxLength]
+
+	MinExclusives                map[*MinExclusive]struct{}
+	MinExclusives_instance       map[*MinExclusive]*MinExclusive
+	MinExclusives_mapString      map[string]*MinExclusive
+	MinExclusiveOrder            uint
+	MinExclusive_stagedOrder     map[*MinExclusive]uint
+	MinExclusive_orderStaged     map[uint]*MinExclusive
+	MinExclusives_reference      map[*MinExclusive]*MinExclusive
+	MinExclusives_referenceOrder map[*MinExclusive]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterMinExclusiveCreateCallback GongOnAfterCreateInterface[MinExclusive]
+	OnAfterMinExclusiveUpdateCallback GongOnAfterUpdateInterface[MinExclusive]
+	OnAfterMinExclusiveDeleteCallback GongOnAfterDeleteInterface[MinExclusive]
 
 	MinInclusives                map[*MinInclusive]struct{}
 	MinInclusives_instance       map[*MinInclusive]*MinInclusive
@@ -447,6 +555,20 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Restriction_Enumerations_reverseMap map[*Enumeration]*Restriction
 
+	Restriction_Sequences_reverseMap map[*Sequence]*Restriction
+
+	Restriction_Alls_reverseMap map[*All]*Restriction
+
+	Restriction_Choices_reverseMap map[*Choice]*Restriction
+
+	Restriction_Groups_reverseMap map[*Group]*Restriction
+
+	Restriction_Elements_reverseMap map[*Element]*Restriction
+
+	Restriction_Attributes_reverseMap map[*Attribute]*Restriction
+
+	Restriction_AttributeGroups_reverseMap map[*AttributeGroup]*Restriction
+
 	OnAfterRestrictionCreateCallback GongOnAfterCreateInterface[Restriction]
 	OnAfterRestrictionUpdateCallback GongOnAfterUpdateInterface[Restriction]
 	OnAfterRestrictionDeleteCallback GongOnAfterDeleteInterface[Restriction]
@@ -461,7 +583,13 @@ type Stage struct {
 	Schemas_referenceOrder map[*Schema]uint
 
 	// insertion point for slice of pointers maps
+	Schema_Imports_reverseMap map[*XSDImport]*Schema
+
+	Schema_Includes_reverseMap map[*XSDInclude]*Schema
+
 	Schema_Elements_reverseMap map[*Element]*Schema
+
+	Schema_Attributes_reverseMap map[*Attribute]*Schema
 
 	Schema_SimpleTypes_reverseMap map[*SimpleType]*Schema
 
@@ -471,9 +599,29 @@ type Stage struct {
 
 	Schema_Groups_reverseMap map[*Group]*Schema
 
+	Schema_Keys_reverseMap map[*Key]*Schema
+
+	Schema_Uniques_reverseMap map[*Unique]*Schema
+
+	Schema_KeyRefs_reverseMap map[*KeyRef]*Schema
+
 	OnAfterSchemaCreateCallback GongOnAfterCreateInterface[Schema]
 	OnAfterSchemaUpdateCallback GongOnAfterUpdateInterface[Schema]
 	OnAfterSchemaDeleteCallback GongOnAfterDeleteInterface[Schema]
+
+	Selectors                map[*Selector]struct{}
+	Selectors_instance       map[*Selector]*Selector
+	Selectors_mapString      map[string]*Selector
+	SelectorOrder            uint
+	Selector_stagedOrder     map[*Selector]uint
+	Selector_orderStaged     map[uint]*Selector
+	Selectors_reference      map[*Selector]*Selector
+	Selectors_referenceOrder map[*Selector]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterSelectorCreateCallback GongOnAfterCreateInterface[Selector]
+	OnAfterSelectorUpdateCallback GongOnAfterUpdateInterface[Selector]
+	OnAfterSelectorDeleteCallback GongOnAfterDeleteInterface[Selector]
 
 	Sequences                map[*Sequence]struct{}
 	Sequences_instance       map[*Sequence]*Sequence
@@ -551,9 +699,27 @@ type Stage struct {
 	Unions_referenceOrder map[*Union]uint
 
 	// insertion point for slice of pointers maps
+	Union_SimpleTypes_reverseMap map[*SimpleType]*Union
+
 	OnAfterUnionCreateCallback GongOnAfterCreateInterface[Union]
 	OnAfterUnionUpdateCallback GongOnAfterUpdateInterface[Union]
 	OnAfterUnionDeleteCallback GongOnAfterDeleteInterface[Union]
+
+	Uniques                map[*Unique]struct{}
+	Uniques_instance       map[*Unique]*Unique
+	Uniques_mapString      map[string]*Unique
+	UniqueOrder            uint
+	Unique_stagedOrder     map[*Unique]uint
+	Unique_orderStaged     map[uint]*Unique
+	Uniques_reference      map[*Unique]*Unique
+	Uniques_referenceOrder map[*Unique]uint
+
+	// insertion point for slice of pointers maps
+	Unique_Fields_reverseMap map[*FieldXPath]*Unique
+
+	OnAfterUniqueCreateCallback GongOnAfterCreateInterface[Unique]
+	OnAfterUniqueUpdateCallback GongOnAfterUpdateInterface[Unique]
+	OnAfterUniqueDeleteCallback GongOnAfterDeleteInterface[Unique]
 
 	WhiteSpaces                map[*WhiteSpace]struct{}
 	WhiteSpaces_instance       map[*WhiteSpace]*WhiteSpace
@@ -568,6 +734,34 @@ type Stage struct {
 	OnAfterWhiteSpaceCreateCallback GongOnAfterCreateInterface[WhiteSpace]
 	OnAfterWhiteSpaceUpdateCallback GongOnAfterUpdateInterface[WhiteSpace]
 	OnAfterWhiteSpaceDeleteCallback GongOnAfterDeleteInterface[WhiteSpace]
+
+	XSDImports                map[*XSDImport]struct{}
+	XSDImports_instance       map[*XSDImport]*XSDImport
+	XSDImports_mapString      map[string]*XSDImport
+	XSDImportOrder            uint
+	XSDImport_stagedOrder     map[*XSDImport]uint
+	XSDImport_orderStaged     map[uint]*XSDImport
+	XSDImports_reference      map[*XSDImport]*XSDImport
+	XSDImports_referenceOrder map[*XSDImport]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterXSDImportCreateCallback GongOnAfterCreateInterface[XSDImport]
+	OnAfterXSDImportUpdateCallback GongOnAfterUpdateInterface[XSDImport]
+	OnAfterXSDImportDeleteCallback GongOnAfterDeleteInterface[XSDImport]
+
+	XSDIncludes                map[*XSDInclude]struct{}
+	XSDIncludes_instance       map[*XSDInclude]*XSDInclude
+	XSDIncludes_mapString      map[string]*XSDInclude
+	XSDIncludeOrder            uint
+	XSDInclude_stagedOrder     map[*XSDInclude]uint
+	XSDInclude_orderStaged     map[uint]*XSDInclude
+	XSDIncludes_reference      map[*XSDInclude]*XSDInclude
+	XSDIncludes_referenceOrder map[*XSDInclude]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterXSDIncludeCreateCallback GongOnAfterCreateInterface[XSDInclude]
+	OnAfterXSDIncludeUpdateCallback GongOnAfterUpdateInterface[XSDInclude]
+	OnAfterXSDIncludeDeleteCallback GongOnAfterDeleteInterface[XSDInclude]
 
 	BackRepo GongBackRepoInterface
 
@@ -672,13 +866,27 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.Extensions_reference, &stage.Extensions_instance, &stage.Extensions_referenceOrder)
 
+	__gong__clearReferences(&stage.FieldXPaths_reference, &stage.FieldXPaths_instance, &stage.FieldXPaths_referenceOrder)
+
+	__gong__clearReferences(&stage.FractionDigits_reference, &stage.FractionDigits_instance, &stage.FractionDigits_referenceOrder)
+
 	__gong__clearReferences(&stage.Groups_reference, &stage.Groups_instance, &stage.Groups_referenceOrder)
 
+	__gong__clearReferences(&stage.Keys_reference, &stage.Keys_instance, &stage.Keys_referenceOrder)
+
+	__gong__clearReferences(&stage.KeyRefs_reference, &stage.KeyRefs_instance, &stage.KeyRefs_referenceOrder)
+
 	__gong__clearReferences(&stage.Lengths_reference, &stage.Lengths_instance, &stage.Lengths_referenceOrder)
+
+	__gong__clearReferences(&stage.Lists_reference, &stage.Lists_instance, &stage.Lists_referenceOrder)
+
+	__gong__clearReferences(&stage.MaxExclusives_reference, &stage.MaxExclusives_instance, &stage.MaxExclusives_referenceOrder)
 
 	__gong__clearReferences(&stage.MaxInclusives_reference, &stage.MaxInclusives_instance, &stage.MaxInclusives_referenceOrder)
 
 	__gong__clearReferences(&stage.MaxLengths_reference, &stage.MaxLengths_instance, &stage.MaxLengths_referenceOrder)
+
+	__gong__clearReferences(&stage.MinExclusives_reference, &stage.MinExclusives_instance, &stage.MinExclusives_referenceOrder)
 
 	__gong__clearReferences(&stage.MinInclusives_reference, &stage.MinInclusives_instance, &stage.MinInclusives_referenceOrder)
 
@@ -690,6 +898,8 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.Schemas_reference, &stage.Schemas_instance, &stage.Schemas_referenceOrder)
 
+	__gong__clearReferences(&stage.Selectors_reference, &stage.Selectors_instance, &stage.Selectors_referenceOrder)
+
 	__gong__clearReferences(&stage.Sequences_reference, &stage.Sequences_instance, &stage.Sequences_referenceOrder)
 
 	__gong__clearReferences(&stage.SimpleContents_reference, &stage.SimpleContents_instance, &stage.SimpleContents_referenceOrder)
@@ -700,7 +910,13 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.Unions_reference, &stage.Unions_instance, &stage.Unions_referenceOrder)
 
+	__gong__clearReferences(&stage.Uniques_reference, &stage.Uniques_instance, &stage.Uniques_referenceOrder)
+
 	__gong__clearReferences(&stage.WhiteSpaces_reference, &stage.WhiteSpaces_instance, &stage.WhiteSpaces_referenceOrder)
+
+	__gong__clearReferences(&stage.XSDImports_reference, &stage.XSDImports_instance, &stage.XSDImports_referenceOrder)
+
+	__gong__clearReferences(&stage.XSDIncludes_reference, &stage.XSDIncludes_instance, &stage.XSDIncludes_referenceOrder)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -747,13 +963,27 @@ func (stage *Stage) recomputeOrders() {
 
 	stage.ExtensionOrder = __gong__recomputeOrder(stage.Extension_stagedOrder)
 
+	stage.FieldXPathOrder = __gong__recomputeOrder(stage.FieldXPath_stagedOrder)
+
+	stage.FractionDigitOrder = __gong__recomputeOrder(stage.FractionDigit_stagedOrder)
+
 	stage.GroupOrder = __gong__recomputeOrder(stage.Group_stagedOrder)
 
+	stage.KeyOrder = __gong__recomputeOrder(stage.Key_stagedOrder)
+
+	stage.KeyRefOrder = __gong__recomputeOrder(stage.KeyRef_stagedOrder)
+
 	stage.LengthOrder = __gong__recomputeOrder(stage.Length_stagedOrder)
+
+	stage.ListOrder = __gong__recomputeOrder(stage.List_stagedOrder)
+
+	stage.MaxExclusiveOrder = __gong__recomputeOrder(stage.MaxExclusive_stagedOrder)
 
 	stage.MaxInclusiveOrder = __gong__recomputeOrder(stage.MaxInclusive_stagedOrder)
 
 	stage.MaxLengthOrder = __gong__recomputeOrder(stage.MaxLength_stagedOrder)
+
+	stage.MinExclusiveOrder = __gong__recomputeOrder(stage.MinExclusive_stagedOrder)
 
 	stage.MinInclusiveOrder = __gong__recomputeOrder(stage.MinInclusive_stagedOrder)
 
@@ -765,6 +995,8 @@ func (stage *Stage) recomputeOrders() {
 
 	stage.SchemaOrder = __gong__recomputeOrder(stage.Schema_stagedOrder)
 
+	stage.SelectorOrder = __gong__recomputeOrder(stage.Selector_stagedOrder)
+
 	stage.SequenceOrder = __gong__recomputeOrder(stage.Sequence_stagedOrder)
 
 	stage.SimpleContentOrder = __gong__recomputeOrder(stage.SimpleContent_stagedOrder)
@@ -775,7 +1007,13 @@ func (stage *Stage) recomputeOrders() {
 
 	stage.UnionOrder = __gong__recomputeOrder(stage.Union_stagedOrder)
 
+	stage.UniqueOrder = __gong__recomputeOrder(stage.Unique_stagedOrder)
+
 	stage.WhiteSpaceOrder = __gong__recomputeOrder(stage.WhiteSpace_stagedOrder)
+
+	stage.XSDImportOrder = __gong__recomputeOrder(stage.XSDImport_stagedOrder)
+
+	stage.XSDIncludeOrder = __gong__recomputeOrder(stage.XSDInclude_stagedOrder)
 
 	// end of insertion point for max order recomputation
 }
@@ -1013,6 +1251,46 @@ func (*Extension) GongNewInstance() any {
 	return new(Extension)
 }
 
+func (*FieldXPath) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FieldXPaths, stage.FieldXPath_stagedOrder)
+}
+
+func (*FieldXPath) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FieldXPath_orderStaged[order]
+}
+
+func (*FieldXPath) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FieldXPaths_mapString
+}
+
+func (*FieldXPath) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FieldXPaths
+}
+
+func (*FieldXPath) GongNewInstance() any {
+	return new(FieldXPath)
+}
+
+func (*FractionDigit) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.FractionDigits, stage.FractionDigit_stagedOrder)
+}
+
+func (*FractionDigit) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.FractionDigit_orderStaged[order]
+}
+
+func (*FractionDigit) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.FractionDigits_mapString
+}
+
+func (*FractionDigit) GongGetInstancesSet(stage *Stage) any {
+	return &stage.FractionDigits
+}
+
+func (*FractionDigit) GongNewInstance() any {
+	return new(FractionDigit)
+}
+
 func (*Group) GongGetInstancesByOrder(stage *Stage) any {
 	return __gong__getStructInstancesByOrder(stage.Groups, stage.Group_stagedOrder)
 }
@@ -1033,6 +1311,46 @@ func (*Group) GongNewInstance() any {
 	return new(Group)
 }
 
+func (*Key) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Keys, stage.Key_stagedOrder)
+}
+
+func (*Key) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Key_orderStaged[order]
+}
+
+func (*Key) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Keys_mapString
+}
+
+func (*Key) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Keys
+}
+
+func (*Key) GongNewInstance() any {
+	return new(Key)
+}
+
+func (*KeyRef) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.KeyRefs, stage.KeyRef_stagedOrder)
+}
+
+func (*KeyRef) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.KeyRef_orderStaged[order]
+}
+
+func (*KeyRef) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.KeyRefs_mapString
+}
+
+func (*KeyRef) GongGetInstancesSet(stage *Stage) any {
+	return &stage.KeyRefs
+}
+
+func (*KeyRef) GongNewInstance() any {
+	return new(KeyRef)
+}
+
 func (*Length) GongGetInstancesByOrder(stage *Stage) any {
 	return __gong__getStructInstancesByOrder(stage.Lengths, stage.Length_stagedOrder)
 }
@@ -1051,6 +1369,46 @@ func (*Length) GongGetInstancesSet(stage *Stage) any {
 
 func (*Length) GongNewInstance() any {
 	return new(Length)
+}
+
+func (*List) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Lists, stage.List_stagedOrder)
+}
+
+func (*List) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.List_orderStaged[order]
+}
+
+func (*List) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Lists_mapString
+}
+
+func (*List) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Lists
+}
+
+func (*List) GongNewInstance() any {
+	return new(List)
+}
+
+func (*MaxExclusive) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.MaxExclusives, stage.MaxExclusive_stagedOrder)
+}
+
+func (*MaxExclusive) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.MaxExclusive_orderStaged[order]
+}
+
+func (*MaxExclusive) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.MaxExclusives_mapString
+}
+
+func (*MaxExclusive) GongGetInstancesSet(stage *Stage) any {
+	return &stage.MaxExclusives
+}
+
+func (*MaxExclusive) GongNewInstance() any {
+	return new(MaxExclusive)
 }
 
 func (*MaxInclusive) GongGetInstancesByOrder(stage *Stage) any {
@@ -1091,6 +1449,26 @@ func (*MaxLength) GongGetInstancesSet(stage *Stage) any {
 
 func (*MaxLength) GongNewInstance() any {
 	return new(MaxLength)
+}
+
+func (*MinExclusive) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.MinExclusives, stage.MinExclusive_stagedOrder)
+}
+
+func (*MinExclusive) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.MinExclusive_orderStaged[order]
+}
+
+func (*MinExclusive) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.MinExclusives_mapString
+}
+
+func (*MinExclusive) GongGetInstancesSet(stage *Stage) any {
+	return &stage.MinExclusives
+}
+
+func (*MinExclusive) GongNewInstance() any {
+	return new(MinExclusive)
 }
 
 func (*MinInclusive) GongGetInstancesByOrder(stage *Stage) any {
@@ -1193,6 +1571,26 @@ func (*Schema) GongNewInstance() any {
 	return new(Schema)
 }
 
+func (*Selector) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Selectors, stage.Selector_stagedOrder)
+}
+
+func (*Selector) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Selector_orderStaged[order]
+}
+
+func (*Selector) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Selectors_mapString
+}
+
+func (*Selector) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Selectors
+}
+
+func (*Selector) GongNewInstance() any {
+	return new(Selector)
+}
+
 func (*Sequence) GongGetInstancesByOrder(stage *Stage) any {
 	return __gong__getStructInstancesByOrder(stage.Sequences, stage.Sequence_stagedOrder)
 }
@@ -1293,6 +1691,26 @@ func (*Union) GongNewInstance() any {
 	return new(Union)
 }
 
+func (*Unique) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Uniques, stage.Unique_stagedOrder)
+}
+
+func (*Unique) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Unique_orderStaged[order]
+}
+
+func (*Unique) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Uniques_mapString
+}
+
+func (*Unique) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Uniques
+}
+
+func (*Unique) GongNewInstance() any {
+	return new(Unique)
+}
+
 func (*WhiteSpace) GongGetInstancesByOrder(stage *Stage) any {
 	return __gong__getStructInstancesByOrder(stage.WhiteSpaces, stage.WhiteSpace_stagedOrder)
 }
@@ -1311,6 +1729,46 @@ func (*WhiteSpace) GongGetInstancesSet(stage *Stage) any {
 
 func (*WhiteSpace) GongNewInstance() any {
 	return new(WhiteSpace)
+}
+
+func (*XSDImport) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.XSDImports, stage.XSDImport_stagedOrder)
+}
+
+func (*XSDImport) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.XSDImport_orderStaged[order]
+}
+
+func (*XSDImport) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.XSDImports_mapString
+}
+
+func (*XSDImport) GongGetInstancesSet(stage *Stage) any {
+	return &stage.XSDImports
+}
+
+func (*XSDImport) GongNewInstance() any {
+	return new(XSDImport)
+}
+
+func (*XSDInclude) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.XSDIncludes, stage.XSDInclude_stagedOrder)
+}
+
+func (*XSDInclude) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.XSDInclude_orderStaged[order]
+}
+
+func (*XSDInclude) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.XSDIncludes_mapString
+}
+
+func (*XSDInclude) GongGetInstancesSet(stage *Stage) any {
+	return &stage.XSDIncludes
+}
+
+func (*XSDInclude) GongNewInstance() any {
+	return new(XSDInclude)
 }
 
 
@@ -1527,17 +1985,38 @@ func NewStage(name string) (stage *Stage) {
 		Extensions:           make(map[*Extension]struct{}),
 		Extensions_mapString: make(map[string]*Extension),
 
+		FieldXPaths:           make(map[*FieldXPath]struct{}),
+		FieldXPaths_mapString: make(map[string]*FieldXPath),
+
+		FractionDigits:           make(map[*FractionDigit]struct{}),
+		FractionDigits_mapString: make(map[string]*FractionDigit),
+
 		Groups:           make(map[*Group]struct{}),
 		Groups_mapString: make(map[string]*Group),
 
+		Keys:           make(map[*Key]struct{}),
+		Keys_mapString: make(map[string]*Key),
+
+		KeyRefs:           make(map[*KeyRef]struct{}),
+		KeyRefs_mapString: make(map[string]*KeyRef),
+
 		Lengths:           make(map[*Length]struct{}),
 		Lengths_mapString: make(map[string]*Length),
+
+		Lists:           make(map[*List]struct{}),
+		Lists_mapString: make(map[string]*List),
+
+		MaxExclusives:           make(map[*MaxExclusive]struct{}),
+		MaxExclusives_mapString: make(map[string]*MaxExclusive),
 
 		MaxInclusives:           make(map[*MaxInclusive]struct{}),
 		MaxInclusives_mapString: make(map[string]*MaxInclusive),
 
 		MaxLengths:           make(map[*MaxLength]struct{}),
 		MaxLengths_mapString: make(map[string]*MaxLength),
+
+		MinExclusives:           make(map[*MinExclusive]struct{}),
+		MinExclusives_mapString: make(map[string]*MinExclusive),
 
 		MinInclusives:           make(map[*MinInclusive]struct{}),
 		MinInclusives_mapString: make(map[string]*MinInclusive),
@@ -1554,6 +2033,9 @@ func NewStage(name string) (stage *Stage) {
 		Schemas:           make(map[*Schema]struct{}),
 		Schemas_mapString: make(map[string]*Schema),
 
+		Selectors:           make(map[*Selector]struct{}),
+		Selectors_mapString: make(map[string]*Selector),
+
 		Sequences:           make(map[*Sequence]struct{}),
 		Sequences_mapString: make(map[string]*Sequence),
 
@@ -1569,8 +2051,17 @@ func NewStage(name string) (stage *Stage) {
 		Unions:           make(map[*Union]struct{}),
 		Unions_mapString: make(map[string]*Union),
 
+		Uniques:           make(map[*Unique]struct{}),
+		Uniques_mapString: make(map[string]*Unique),
+
 		WhiteSpaces:           make(map[*WhiteSpace]struct{}),
 		WhiteSpaces_mapString: make(map[string]*WhiteSpace),
+
+		XSDImports:           make(map[*XSDImport]struct{}),
+		XSDImports_mapString: make(map[string]*XSDImport),
+
+		XSDIncludes:           make(map[*XSDInclude]struct{}),
+		XSDIncludes_mapString: make(map[string]*XSDInclude),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -1624,13 +2115,37 @@ func NewStage(name string) (stage *Stage) {
 		Extension_orderStaged: make(map[uint]*Extension),
 		Extensions_reference:  make(map[*Extension]*Extension),
 
+		FieldXPath_stagedOrder: make(map[*FieldXPath]uint),
+		FieldXPath_orderStaged: make(map[uint]*FieldXPath),
+		FieldXPaths_reference:  make(map[*FieldXPath]*FieldXPath),
+
+		FractionDigit_stagedOrder: make(map[*FractionDigit]uint),
+		FractionDigit_orderStaged: make(map[uint]*FractionDigit),
+		FractionDigits_reference:  make(map[*FractionDigit]*FractionDigit),
+
 		Group_stagedOrder: make(map[*Group]uint),
 		Group_orderStaged: make(map[uint]*Group),
 		Groups_reference:  make(map[*Group]*Group),
 
+		Key_stagedOrder: make(map[*Key]uint),
+		Key_orderStaged: make(map[uint]*Key),
+		Keys_reference:  make(map[*Key]*Key),
+
+		KeyRef_stagedOrder: make(map[*KeyRef]uint),
+		KeyRef_orderStaged: make(map[uint]*KeyRef),
+		KeyRefs_reference:  make(map[*KeyRef]*KeyRef),
+
 		Length_stagedOrder: make(map[*Length]uint),
 		Length_orderStaged: make(map[uint]*Length),
 		Lengths_reference:  make(map[*Length]*Length),
+
+		List_stagedOrder: make(map[*List]uint),
+		List_orderStaged: make(map[uint]*List),
+		Lists_reference:  make(map[*List]*List),
+
+		MaxExclusive_stagedOrder: make(map[*MaxExclusive]uint),
+		MaxExclusive_orderStaged: make(map[uint]*MaxExclusive),
+		MaxExclusives_reference:  make(map[*MaxExclusive]*MaxExclusive),
 
 		MaxInclusive_stagedOrder: make(map[*MaxInclusive]uint),
 		MaxInclusive_orderStaged: make(map[uint]*MaxInclusive),
@@ -1639,6 +2154,10 @@ func NewStage(name string) (stage *Stage) {
 		MaxLength_stagedOrder: make(map[*MaxLength]uint),
 		MaxLength_orderStaged: make(map[uint]*MaxLength),
 		MaxLengths_reference:  make(map[*MaxLength]*MaxLength),
+
+		MinExclusive_stagedOrder: make(map[*MinExclusive]uint),
+		MinExclusive_orderStaged: make(map[uint]*MinExclusive),
+		MinExclusives_reference:  make(map[*MinExclusive]*MinExclusive),
 
 		MinInclusive_stagedOrder: make(map[*MinInclusive]uint),
 		MinInclusive_orderStaged: make(map[uint]*MinInclusive),
@@ -1660,6 +2179,10 @@ func NewStage(name string) (stage *Stage) {
 		Schema_orderStaged: make(map[uint]*Schema),
 		Schemas_reference:  make(map[*Schema]*Schema),
 
+		Selector_stagedOrder: make(map[*Selector]uint),
+		Selector_orderStaged: make(map[uint]*Selector),
+		Selectors_reference:  make(map[*Selector]*Selector),
+
 		Sequence_stagedOrder: make(map[*Sequence]uint),
 		Sequence_orderStaged: make(map[uint]*Sequence),
 		Sequences_reference:  make(map[*Sequence]*Sequence),
@@ -1680,9 +2203,21 @@ func NewStage(name string) (stage *Stage) {
 		Union_orderStaged: make(map[uint]*Union),
 		Unions_reference:  make(map[*Union]*Union),
 
+		Unique_stagedOrder: make(map[*Unique]uint),
+		Unique_orderStaged: make(map[uint]*Unique),
+		Uniques_reference:  make(map[*Unique]*Unique),
+
 		WhiteSpace_stagedOrder: make(map[*WhiteSpace]uint),
 		WhiteSpace_orderStaged: make(map[uint]*WhiteSpace),
 		WhiteSpaces_reference:  make(map[*WhiteSpace]*WhiteSpace),
+
+		XSDImport_stagedOrder: make(map[*XSDImport]uint),
+		XSDImport_orderStaged: make(map[uint]*XSDImport),
+		XSDImports_reference:  make(map[*XSDImport]*XSDImport),
+
+		XSDInclude_stagedOrder: make(map[*XSDInclude]uint),
+		XSDInclude_orderStaged: make(map[uint]*XSDInclude),
+		XSDIncludes_reference:  make(map[*XSDInclude]*XSDInclude),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]GongModelUnmarshaller{ // insertion point for unmarshallers
@@ -1708,13 +2243,27 @@ func NewStage(name string) (stage *Stage) {
 
 			"Extension": &ExtensionUnmarshaller{},
 
+			"FieldXPath": &FieldXPathUnmarshaller{},
+
+			"FractionDigit": &FractionDigitUnmarshaller{},
+
 			"Group": &GroupUnmarshaller{},
 
+			"Key": &KeyUnmarshaller{},
+
+			"KeyRef": &KeyRefUnmarshaller{},
+
 			"Length": &LengthUnmarshaller{},
+
+			"List": &ListUnmarshaller{},
+
+			"MaxExclusive": &MaxExclusiveUnmarshaller{},
 
 			"MaxInclusive": &MaxInclusiveUnmarshaller{},
 
 			"MaxLength": &MaxLengthUnmarshaller{},
+
+			"MinExclusive": &MinExclusiveUnmarshaller{},
 
 			"MinInclusive": &MinInclusiveUnmarshaller{},
 
@@ -1726,6 +2275,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"Schema": &SchemaUnmarshaller{},
 
+			"Selector": &SelectorUnmarshaller{},
+
 			"Sequence": &SequenceUnmarshaller{},
 
 			"SimpleContent": &SimpleContentUnmarshaller{},
@@ -1736,7 +2287,13 @@ func NewStage(name string) (stage *Stage) {
 
 			"Union": &UnionUnmarshaller{},
 
+			"Unique": &UniqueUnmarshaller{},
+
 			"WhiteSpace": &WhiteSpaceUnmarshaller{},
+
+			"XSDImport": &XSDImportUnmarshaller{},
+
+			"XSDInclude": &XSDIncludeUnmarshaller{},
 
 			// end of insertion point
 		},
@@ -1831,21 +2388,32 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Element"] = len(stage.Elements)
 	stage.Map_GongStructName_InstancesNb["Enumeration"] = len(stage.Enumerations)
 	stage.Map_GongStructName_InstancesNb["Extension"] = len(stage.Extensions)
+	stage.Map_GongStructName_InstancesNb["FieldXPath"] = len(stage.FieldXPaths)
+	stage.Map_GongStructName_InstancesNb["FractionDigit"] = len(stage.FractionDigits)
 	stage.Map_GongStructName_InstancesNb["Group"] = len(stage.Groups)
+	stage.Map_GongStructName_InstancesNb["Key"] = len(stage.Keys)
+	stage.Map_GongStructName_InstancesNb["KeyRef"] = len(stage.KeyRefs)
 	stage.Map_GongStructName_InstancesNb["Length"] = len(stage.Lengths)
+	stage.Map_GongStructName_InstancesNb["List"] = len(stage.Lists)
+	stage.Map_GongStructName_InstancesNb["MaxExclusive"] = len(stage.MaxExclusives)
 	stage.Map_GongStructName_InstancesNb["MaxInclusive"] = len(stage.MaxInclusives)
 	stage.Map_GongStructName_InstancesNb["MaxLength"] = len(stage.MaxLengths)
+	stage.Map_GongStructName_InstancesNb["MinExclusive"] = len(stage.MinExclusives)
 	stage.Map_GongStructName_InstancesNb["MinInclusive"] = len(stage.MinInclusives)
 	stage.Map_GongStructName_InstancesNb["MinLength"] = len(stage.MinLengths)
 	stage.Map_GongStructName_InstancesNb["Pattern"] = len(stage.Patterns)
 	stage.Map_GongStructName_InstancesNb["Restriction"] = len(stage.Restrictions)
 	stage.Map_GongStructName_InstancesNb["Schema"] = len(stage.Schemas)
+	stage.Map_GongStructName_InstancesNb["Selector"] = len(stage.Selectors)
 	stage.Map_GongStructName_InstancesNb["Sequence"] = len(stage.Sequences)
 	stage.Map_GongStructName_InstancesNb["SimpleContent"] = len(stage.SimpleContents)
 	stage.Map_GongStructName_InstancesNb["SimpleType"] = len(stage.SimpleTypes)
 	stage.Map_GongStructName_InstancesNb["TotalDigit"] = len(stage.TotalDigits)
 	stage.Map_GongStructName_InstancesNb["Union"] = len(stage.Unions)
+	stage.Map_GongStructName_InstancesNb["Unique"] = len(stage.Uniques)
 	stage.Map_GongStructName_InstancesNb["WhiteSpace"] = len(stage.WhiteSpaces)
+	stage.Map_GongStructName_InstancesNb["XSDImport"] = len(stage.XSDImports)
+	stage.Map_GongStructName_InstancesNb["XSDInclude"] = len(stage.XSDIncludes)
 }
 
 func (stage *Stage) Checkout() {
@@ -2326,6 +2894,86 @@ func (extension *Extension) SetName(name string) {
 	extension.Name = name
 }
 
+// Stage puts fieldxpath to the model stage
+func (fieldxpath *FieldXPath) Stage(stage *Stage) *FieldXPath {
+	__gong__stage(stage.FieldXPaths, stage.FieldXPath_stagedOrder, stage.FieldXPath_orderStaged, &stage.FieldXPathOrder, stage.FieldXPaths_mapString, fieldxpath, fieldxpath.Name)
+	return fieldxpath
+}
+
+// StagePreserveOrder puts fieldxpath to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FieldXPathOrder
+// - update stage.FieldXPathOrder accordingly
+func (fieldxpath *FieldXPath) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.FieldXPaths, stage.FieldXPath_stagedOrder, stage.FieldXPath_orderStaged, &stage.FieldXPathOrder, stage.FieldXPaths_mapString, fieldxpath, order, fieldxpath.Name)
+}
+
+// Unstage removes fieldxpath off the model stage
+func (fieldxpath *FieldXPath) Unstage(stage *Stage) *FieldXPath {
+	__gong__unstage(stage.FieldXPaths, stage.FieldXPaths_mapString, fieldxpath, fieldxpath.Name)
+	return fieldxpath
+}
+
+// UnstageVoid removes fieldxpath off the model stage
+func (fieldxpath *FieldXPath) UnstageVoid(stage *Stage) {
+	fieldxpath.Unstage(stage)
+}
+
+func (fieldxpath *FieldXPath) StageVoid(stage *Stage) {
+	fieldxpath.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (fieldxpath *FieldXPath) GetName() (res string) {
+	return fieldxpath.Name
+}
+
+// for satisfaction of GongStruct interface
+func (fieldxpath *FieldXPath) SetName(name string) {
+	fieldxpath.Name = name
+}
+
+// Stage puts fractiondigit to the model stage
+func (fractiondigit *FractionDigit) Stage(stage *Stage) *FractionDigit {
+	__gong__stage(stage.FractionDigits, stage.FractionDigit_stagedOrder, stage.FractionDigit_orderStaged, &stage.FractionDigitOrder, stage.FractionDigits_mapString, fractiondigit, fractiondigit.Name)
+	return fractiondigit
+}
+
+// StagePreserveOrder puts fractiondigit to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FractionDigitOrder
+// - update stage.FractionDigitOrder accordingly
+func (fractiondigit *FractionDigit) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.FractionDigits, stage.FractionDigit_stagedOrder, stage.FractionDigit_orderStaged, &stage.FractionDigitOrder, stage.FractionDigits_mapString, fractiondigit, order, fractiondigit.Name)
+}
+
+// Unstage removes fractiondigit off the model stage
+func (fractiondigit *FractionDigit) Unstage(stage *Stage) *FractionDigit {
+	__gong__unstage(stage.FractionDigits, stage.FractionDigits_mapString, fractiondigit, fractiondigit.Name)
+	return fractiondigit
+}
+
+// UnstageVoid removes fractiondigit off the model stage
+func (fractiondigit *FractionDigit) UnstageVoid(stage *Stage) {
+	fractiondigit.Unstage(stage)
+}
+
+func (fractiondigit *FractionDigit) StageVoid(stage *Stage) {
+	fractiondigit.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (fractiondigit *FractionDigit) GetName() (res string) {
+	return fractiondigit.Name
+}
+
+// for satisfaction of GongStruct interface
+func (fractiondigit *FractionDigit) SetName(name string) {
+	fractiondigit.Name = name
+}
+
 // Stage puts group to the model stage
 func (group *Group) Stage(stage *Stage) *Group {
 	__gong__stage(stage.Groups, stage.Group_stagedOrder, stage.Group_orderStaged, &stage.GroupOrder, stage.Groups_mapString, group, group.Name)
@@ -2366,6 +3014,86 @@ func (group *Group) SetName(name string) {
 	group.Name = name
 }
 
+// Stage puts key to the model stage
+func (key *Key) Stage(stage *Stage) *Key {
+	__gong__stage(stage.Keys, stage.Key_stagedOrder, stage.Key_orderStaged, &stage.KeyOrder, stage.Keys_mapString, key, key.Name)
+	return key
+}
+
+// StagePreserveOrder puts key to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.KeyOrder
+// - update stage.KeyOrder accordingly
+func (key *Key) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.Keys, stage.Key_stagedOrder, stage.Key_orderStaged, &stage.KeyOrder, stage.Keys_mapString, key, order, key.Name)
+}
+
+// Unstage removes key off the model stage
+func (key *Key) Unstage(stage *Stage) *Key {
+	__gong__unstage(stage.Keys, stage.Keys_mapString, key, key.Name)
+	return key
+}
+
+// UnstageVoid removes key off the model stage
+func (key *Key) UnstageVoid(stage *Stage) {
+	key.Unstage(stage)
+}
+
+func (key *Key) StageVoid(stage *Stage) {
+	key.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (key *Key) GetName() (res string) {
+	return key.Name
+}
+
+// for satisfaction of GongStruct interface
+func (key *Key) SetName(name string) {
+	key.Name = name
+}
+
+// Stage puts keyref to the model stage
+func (keyref *KeyRef) Stage(stage *Stage) *KeyRef {
+	__gong__stage(stage.KeyRefs, stage.KeyRef_stagedOrder, stage.KeyRef_orderStaged, &stage.KeyRefOrder, stage.KeyRefs_mapString, keyref, keyref.Name)
+	return keyref
+}
+
+// StagePreserveOrder puts keyref to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.KeyRefOrder
+// - update stage.KeyRefOrder accordingly
+func (keyref *KeyRef) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.KeyRefs, stage.KeyRef_stagedOrder, stage.KeyRef_orderStaged, &stage.KeyRefOrder, stage.KeyRefs_mapString, keyref, order, keyref.Name)
+}
+
+// Unstage removes keyref off the model stage
+func (keyref *KeyRef) Unstage(stage *Stage) *KeyRef {
+	__gong__unstage(stage.KeyRefs, stage.KeyRefs_mapString, keyref, keyref.Name)
+	return keyref
+}
+
+// UnstageVoid removes keyref off the model stage
+func (keyref *KeyRef) UnstageVoid(stage *Stage) {
+	keyref.Unstage(stage)
+}
+
+func (keyref *KeyRef) StageVoid(stage *Stage) {
+	keyref.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (keyref *KeyRef) GetName() (res string) {
+	return keyref.Name
+}
+
+// for satisfaction of GongStruct interface
+func (keyref *KeyRef) SetName(name string) {
+	keyref.Name = name
+}
+
 // Stage puts length to the model stage
 func (length *Length) Stage(stage *Stage) *Length {
 	__gong__stage(stage.Lengths, stage.Length_stagedOrder, stage.Length_orderStaged, &stage.LengthOrder, stage.Lengths_mapString, length, length.Name)
@@ -2404,6 +3132,86 @@ func (length *Length) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (length *Length) SetName(name string) {
 	length.Name = name
+}
+
+// Stage puts list to the model stage
+func (list *List) Stage(stage *Stage) *List {
+	__gong__stage(stage.Lists, stage.List_stagedOrder, stage.List_orderStaged, &stage.ListOrder, stage.Lists_mapString, list, list.Name)
+	return list
+}
+
+// StagePreserveOrder puts list to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ListOrder
+// - update stage.ListOrder accordingly
+func (list *List) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.Lists, stage.List_stagedOrder, stage.List_orderStaged, &stage.ListOrder, stage.Lists_mapString, list, order, list.Name)
+}
+
+// Unstage removes list off the model stage
+func (list *List) Unstage(stage *Stage) *List {
+	__gong__unstage(stage.Lists, stage.Lists_mapString, list, list.Name)
+	return list
+}
+
+// UnstageVoid removes list off the model stage
+func (list *List) UnstageVoid(stage *Stage) {
+	list.Unstage(stage)
+}
+
+func (list *List) StageVoid(stage *Stage) {
+	list.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (list *List) GetName() (res string) {
+	return list.Name
+}
+
+// for satisfaction of GongStruct interface
+func (list *List) SetName(name string) {
+	list.Name = name
+}
+
+// Stage puts maxexclusive to the model stage
+func (maxexclusive *MaxExclusive) Stage(stage *Stage) *MaxExclusive {
+	__gong__stage(stage.MaxExclusives, stage.MaxExclusive_stagedOrder, stage.MaxExclusive_orderStaged, &stage.MaxExclusiveOrder, stage.MaxExclusives_mapString, maxexclusive, maxexclusive.Name)
+	return maxexclusive
+}
+
+// StagePreserveOrder puts maxexclusive to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MaxExclusiveOrder
+// - update stage.MaxExclusiveOrder accordingly
+func (maxexclusive *MaxExclusive) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.MaxExclusives, stage.MaxExclusive_stagedOrder, stage.MaxExclusive_orderStaged, &stage.MaxExclusiveOrder, stage.MaxExclusives_mapString, maxexclusive, order, maxexclusive.Name)
+}
+
+// Unstage removes maxexclusive off the model stage
+func (maxexclusive *MaxExclusive) Unstage(stage *Stage) *MaxExclusive {
+	__gong__unstage(stage.MaxExclusives, stage.MaxExclusives_mapString, maxexclusive, maxexclusive.Name)
+	return maxexclusive
+}
+
+// UnstageVoid removes maxexclusive off the model stage
+func (maxexclusive *MaxExclusive) UnstageVoid(stage *Stage) {
+	maxexclusive.Unstage(stage)
+}
+
+func (maxexclusive *MaxExclusive) StageVoid(stage *Stage) {
+	maxexclusive.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (maxexclusive *MaxExclusive) GetName() (res string) {
+	return maxexclusive.Name
+}
+
+// for satisfaction of GongStruct interface
+func (maxexclusive *MaxExclusive) SetName(name string) {
+	maxexclusive.Name = name
 }
 
 // Stage puts maxinclusive to the model stage
@@ -2484,6 +3292,46 @@ func (maxlength *MaxLength) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (maxlength *MaxLength) SetName(name string) {
 	maxlength.Name = name
+}
+
+// Stage puts minexclusive to the model stage
+func (minexclusive *MinExclusive) Stage(stage *Stage) *MinExclusive {
+	__gong__stage(stage.MinExclusives, stage.MinExclusive_stagedOrder, stage.MinExclusive_orderStaged, &stage.MinExclusiveOrder, stage.MinExclusives_mapString, minexclusive, minexclusive.Name)
+	return minexclusive
+}
+
+// StagePreserveOrder puts minexclusive to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MinExclusiveOrder
+// - update stage.MinExclusiveOrder accordingly
+func (minexclusive *MinExclusive) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.MinExclusives, stage.MinExclusive_stagedOrder, stage.MinExclusive_orderStaged, &stage.MinExclusiveOrder, stage.MinExclusives_mapString, minexclusive, order, minexclusive.Name)
+}
+
+// Unstage removes minexclusive off the model stage
+func (minexclusive *MinExclusive) Unstage(stage *Stage) *MinExclusive {
+	__gong__unstage(stage.MinExclusives, stage.MinExclusives_mapString, minexclusive, minexclusive.Name)
+	return minexclusive
+}
+
+// UnstageVoid removes minexclusive off the model stage
+func (minexclusive *MinExclusive) UnstageVoid(stage *Stage) {
+	minexclusive.Unstage(stage)
+}
+
+func (minexclusive *MinExclusive) StageVoid(stage *Stage) {
+	minexclusive.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (minexclusive *MinExclusive) GetName() (res string) {
+	return minexclusive.Name
+}
+
+// for satisfaction of GongStruct interface
+func (minexclusive *MinExclusive) SetName(name string) {
+	minexclusive.Name = name
 }
 
 // Stage puts mininclusive to the model stage
@@ -2686,6 +3534,46 @@ func (schema *Schema) SetName(name string) {
 	schema.Name = name
 }
 
+// Stage puts selector to the model stage
+func (selector *Selector) Stage(stage *Stage) *Selector {
+	__gong__stage(stage.Selectors, stage.Selector_stagedOrder, stage.Selector_orderStaged, &stage.SelectorOrder, stage.Selectors_mapString, selector, selector.Name)
+	return selector
+}
+
+// StagePreserveOrder puts selector to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.SelectorOrder
+// - update stage.SelectorOrder accordingly
+func (selector *Selector) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.Selectors, stage.Selector_stagedOrder, stage.Selector_orderStaged, &stage.SelectorOrder, stage.Selectors_mapString, selector, order, selector.Name)
+}
+
+// Unstage removes selector off the model stage
+func (selector *Selector) Unstage(stage *Stage) *Selector {
+	__gong__unstage(stage.Selectors, stage.Selectors_mapString, selector, selector.Name)
+	return selector
+}
+
+// UnstageVoid removes selector off the model stage
+func (selector *Selector) UnstageVoid(stage *Stage) {
+	selector.Unstage(stage)
+}
+
+func (selector *Selector) StageVoid(stage *Stage) {
+	selector.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (selector *Selector) GetName() (res string) {
+	return selector.Name
+}
+
+// for satisfaction of GongStruct interface
+func (selector *Selector) SetName(name string) {
+	selector.Name = name
+}
+
 // Stage puts sequence to the model stage
 func (sequence *Sequence) Stage(stage *Stage) *Sequence {
 	__gong__stage(stage.Sequences, stage.Sequence_stagedOrder, stage.Sequence_orderStaged, &stage.SequenceOrder, stage.Sequences_mapString, sequence, sequence.Name)
@@ -2886,6 +3774,46 @@ func (union *Union) SetName(name string) {
 	union.Name = name
 }
 
+// Stage puts unique to the model stage
+func (unique *Unique) Stage(stage *Stage) *Unique {
+	__gong__stage(stage.Uniques, stage.Unique_stagedOrder, stage.Unique_orderStaged, &stage.UniqueOrder, stage.Uniques_mapString, unique, unique.Name)
+	return unique
+}
+
+// StagePreserveOrder puts unique to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.UniqueOrder
+// - update stage.UniqueOrder accordingly
+func (unique *Unique) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.Uniques, stage.Unique_stagedOrder, stage.Unique_orderStaged, &stage.UniqueOrder, stage.Uniques_mapString, unique, order, unique.Name)
+}
+
+// Unstage removes unique off the model stage
+func (unique *Unique) Unstage(stage *Stage) *Unique {
+	__gong__unstage(stage.Uniques, stage.Uniques_mapString, unique, unique.Name)
+	return unique
+}
+
+// UnstageVoid removes unique off the model stage
+func (unique *Unique) UnstageVoid(stage *Stage) {
+	unique.Unstage(stage)
+}
+
+func (unique *Unique) StageVoid(stage *Stage) {
+	unique.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (unique *Unique) GetName() (res string) {
+	return unique.Name
+}
+
+// for satisfaction of GongStruct interface
+func (unique *Unique) SetName(name string) {
+	unique.Name = name
+}
+
 // Stage puts whitespace to the model stage
 func (whitespace *WhiteSpace) Stage(stage *Stage) *WhiteSpace {
 	__gong__stage(stage.WhiteSpaces, stage.WhiteSpace_stagedOrder, stage.WhiteSpace_orderStaged, &stage.WhiteSpaceOrder, stage.WhiteSpaces_mapString, whitespace, whitespace.Name)
@@ -2926,6 +3854,86 @@ func (whitespace *WhiteSpace) SetName(name string) {
 	whitespace.Name = name
 }
 
+// Stage puts xsdimport to the model stage
+func (xsdimport *XSDImport) Stage(stage *Stage) *XSDImport {
+	__gong__stage(stage.XSDImports, stage.XSDImport_stagedOrder, stage.XSDImport_orderStaged, &stage.XSDImportOrder, stage.XSDImports_mapString, xsdimport, xsdimport.Name)
+	return xsdimport
+}
+
+// StagePreserveOrder puts xsdimport to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.XSDImportOrder
+// - update stage.XSDImportOrder accordingly
+func (xsdimport *XSDImport) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.XSDImports, stage.XSDImport_stagedOrder, stage.XSDImport_orderStaged, &stage.XSDImportOrder, stage.XSDImports_mapString, xsdimport, order, xsdimport.Name)
+}
+
+// Unstage removes xsdimport off the model stage
+func (xsdimport *XSDImport) Unstage(stage *Stage) *XSDImport {
+	__gong__unstage(stage.XSDImports, stage.XSDImports_mapString, xsdimport, xsdimport.Name)
+	return xsdimport
+}
+
+// UnstageVoid removes xsdimport off the model stage
+func (xsdimport *XSDImport) UnstageVoid(stage *Stage) {
+	xsdimport.Unstage(stage)
+}
+
+func (xsdimport *XSDImport) StageVoid(stage *Stage) {
+	xsdimport.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (xsdimport *XSDImport) GetName() (res string) {
+	return xsdimport.Name
+}
+
+// for satisfaction of GongStruct interface
+func (xsdimport *XSDImport) SetName(name string) {
+	xsdimport.Name = name
+}
+
+// Stage puts xsdinclude to the model stage
+func (xsdinclude *XSDInclude) Stage(stage *Stage) *XSDInclude {
+	__gong__stage(stage.XSDIncludes, stage.XSDInclude_stagedOrder, stage.XSDInclude_orderStaged, &stage.XSDIncludeOrder, stage.XSDIncludes_mapString, xsdinclude, xsdinclude.Name)
+	return xsdinclude
+}
+
+// StagePreserveOrder puts xsdinclude to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.XSDIncludeOrder
+// - update stage.XSDIncludeOrder accordingly
+func (xsdinclude *XSDInclude) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.XSDIncludes, stage.XSDInclude_stagedOrder, stage.XSDInclude_orderStaged, &stage.XSDIncludeOrder, stage.XSDIncludes_mapString, xsdinclude, order, xsdinclude.Name)
+}
+
+// Unstage removes xsdinclude off the model stage
+func (xsdinclude *XSDInclude) Unstage(stage *Stage) *XSDInclude {
+	__gong__unstage(stage.XSDIncludes, stage.XSDIncludes_mapString, xsdinclude, xsdinclude.Name)
+	return xsdinclude
+}
+
+// UnstageVoid removes xsdinclude off the model stage
+func (xsdinclude *XSDInclude) UnstageVoid(stage *Stage) {
+	xsdinclude.Unstage(stage)
+}
+
+func (xsdinclude *XSDInclude) StageVoid(stage *Stage) {
+	xsdinclude.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (xsdinclude *XSDInclude) GetName() (res string) {
+	return xsdinclude.Name
+}
+
+// for satisfaction of GongStruct interface
+func (xsdinclude *XSDInclude) SetName(name string) {
+	xsdinclude.Name = name
+}
+
 func (stage *Stage) Reset() { // insertion point for array reset
 	__gong__resetStageType(&stage.Alls, &stage.Alls_mapString, &stage.All_stagedOrder, &stage.AllOrder)
 
@@ -2949,13 +3957,27 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.Extensions, &stage.Extensions_mapString, &stage.Extension_stagedOrder, &stage.ExtensionOrder)
 
+	__gong__resetStageType(&stage.FieldXPaths, &stage.FieldXPaths_mapString, &stage.FieldXPath_stagedOrder, &stage.FieldXPathOrder)
+
+	__gong__resetStageType(&stage.FractionDigits, &stage.FractionDigits_mapString, &stage.FractionDigit_stagedOrder, &stage.FractionDigitOrder)
+
 	__gong__resetStageType(&stage.Groups, &stage.Groups_mapString, &stage.Group_stagedOrder, &stage.GroupOrder)
 
+	__gong__resetStageType(&stage.Keys, &stage.Keys_mapString, &stage.Key_stagedOrder, &stage.KeyOrder)
+
+	__gong__resetStageType(&stage.KeyRefs, &stage.KeyRefs_mapString, &stage.KeyRef_stagedOrder, &stage.KeyRefOrder)
+
 	__gong__resetStageType(&stage.Lengths, &stage.Lengths_mapString, &stage.Length_stagedOrder, &stage.LengthOrder)
+
+	__gong__resetStageType(&stage.Lists, &stage.Lists_mapString, &stage.List_stagedOrder, &stage.ListOrder)
+
+	__gong__resetStageType(&stage.MaxExclusives, &stage.MaxExclusives_mapString, &stage.MaxExclusive_stagedOrder, &stage.MaxExclusiveOrder)
 
 	__gong__resetStageType(&stage.MaxInclusives, &stage.MaxInclusives_mapString, &stage.MaxInclusive_stagedOrder, &stage.MaxInclusiveOrder)
 
 	__gong__resetStageType(&stage.MaxLengths, &stage.MaxLengths_mapString, &stage.MaxLength_stagedOrder, &stage.MaxLengthOrder)
+
+	__gong__resetStageType(&stage.MinExclusives, &stage.MinExclusives_mapString, &stage.MinExclusive_stagedOrder, &stage.MinExclusiveOrder)
 
 	__gong__resetStageType(&stage.MinInclusives, &stage.MinInclusives_mapString, &stage.MinInclusive_stagedOrder, &stage.MinInclusiveOrder)
 
@@ -2967,6 +3989,8 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.Schemas, &stage.Schemas_mapString, &stage.Schema_stagedOrder, &stage.SchemaOrder)
 
+	__gong__resetStageType(&stage.Selectors, &stage.Selectors_mapString, &stage.Selector_stagedOrder, &stage.SelectorOrder)
+
 	__gong__resetStageType(&stage.Sequences, &stage.Sequences_mapString, &stage.Sequence_stagedOrder, &stage.SequenceOrder)
 
 	__gong__resetStageType(&stage.SimpleContents, &stage.SimpleContents_mapString, &stage.SimpleContent_stagedOrder, &stage.SimpleContentOrder)
@@ -2977,7 +4001,13 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.Unions, &stage.Unions_mapString, &stage.Union_stagedOrder, &stage.UnionOrder)
 
+	__gong__resetStageType(&stage.Uniques, &stage.Uniques_mapString, &stage.Unique_stagedOrder, &stage.UniqueOrder)
+
 	__gong__resetStageType(&stage.WhiteSpaces, &stage.WhiteSpaces_mapString, &stage.WhiteSpace_stagedOrder, &stage.WhiteSpaceOrder)
+
+	__gong__resetStageType(&stage.XSDImports, &stage.XSDImports_mapString, &stage.XSDImport_stagedOrder, &stage.XSDImportOrder)
+
+	__gong__resetStageType(&stage.XSDIncludes, &stage.XSDIncludes_mapString, &stage.XSDInclude_stagedOrder, &stage.XSDIncludeOrder)
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -3103,6 +4133,7 @@ func (Annotation) GongGetAssociationName() any {
 func (Attribute) GongGetAssociationName() any {
 	return &Attribute{
 			Annotation: &Annotation{Name: "Annotation"},
+			InnerSimpleType: &SimpleType{Name: "InnerSimpleType"},
 	}
 }
 
@@ -3127,6 +4158,9 @@ func (Choice) GongGetAssociationName() any {
 
 func (ComplexContent) GongGetAssociationName() any {
 	return &ComplexContent{
+			Annotation: &Annotation{Name: "Annotation"},
+			Extension: &Extension{Name: "Extension"},
+			Restriction: &Restriction{Name: "Restriction"},
 	}
 }
 
@@ -3158,6 +4192,9 @@ func (Element) GongGetAssociationName() any {
 			SimpleType: &SimpleType{Name: "SimpleType"},
 			ComplexType: &ComplexType{Name: "ComplexType"},
 			Groups: []*Group{{Name: "Groups"}},
+			Keys: []*Key{{Name: "Keys"}},
+			Uniques: []*Unique{{Name: "Uniques"}},
+			KeyRefs: []*KeyRef{{Name: "KeyRefs"}},
 	}
 }
 
@@ -3179,6 +4216,17 @@ func (Extension) GongGetAssociationName() any {
 	}
 }
 
+func (FieldXPath) GongGetAssociationName() any {
+	return &FieldXPath{
+	}
+}
+
+func (FractionDigit) GongGetAssociationName() any {
+	return &FractionDigit{
+			Annotation: &Annotation{Name: "Annotation"},
+	}
+}
+
 func (Group) GongGetAssociationName() any {
 	return &Group{
 			Annotation: &Annotation{Name: "Annotation"},
@@ -3191,8 +4239,37 @@ func (Group) GongGetAssociationName() any {
 	}
 }
 
+func (Key) GongGetAssociationName() any {
+	return &Key{
+			Annotation: &Annotation{Name: "Annotation"},
+			Selector: &Selector{Name: "Selector"},
+			Fields: []*FieldXPath{{Name: "Fields"}},
+	}
+}
+
+func (KeyRef) GongGetAssociationName() any {
+	return &KeyRef{
+			Annotation: &Annotation{Name: "Annotation"},
+			Selector: &Selector{Name: "Selector"},
+			Fields: []*FieldXPath{{Name: "Fields"}},
+	}
+}
+
 func (Length) GongGetAssociationName() any {
 	return &Length{
+			Annotation: &Annotation{Name: "Annotation"},
+	}
+}
+
+func (List) GongGetAssociationName() any {
+	return &List{
+			Annotation: &Annotation{Name: "Annotation"},
+			SimpleType: &SimpleType{Name: "SimpleType"},
+	}
+}
+
+func (MaxExclusive) GongGetAssociationName() any {
+	return &MaxExclusive{
 			Annotation: &Annotation{Name: "Annotation"},
 	}
 }
@@ -3205,6 +4282,12 @@ func (MaxInclusive) GongGetAssociationName() any {
 
 func (MaxLength) GongGetAssociationName() any {
 	return &MaxLength{
+			Annotation: &Annotation{Name: "Annotation"},
+	}
+}
+
+func (MinExclusive) GongGetAssociationName() any {
+	return &MinExclusive{
 			Annotation: &Annotation{Name: "Annotation"},
 	}
 }
@@ -3230,26 +4313,48 @@ func (Pattern) GongGetAssociationName() any {
 func (Restriction) GongGetAssociationName() any {
 	return &Restriction{
 			Annotation: &Annotation{Name: "Annotation"},
+			SimpleType: &SimpleType{Name: "SimpleType"},
 			Enumerations: []*Enumeration{{Name: "Enumerations"}},
 			MinInclusive: &MinInclusive{Name: "MinInclusive"},
 			MaxInclusive: &MaxInclusive{Name: "MaxInclusive"},
+			MinExclusive: &MinExclusive{Name: "MinExclusive"},
+			MaxExclusive: &MaxExclusive{Name: "MaxExclusive"},
 			Pattern: &Pattern{Name: "Pattern"},
 			WhiteSpace: &WhiteSpace{Name: "WhiteSpace"},
 			MinLength: &MinLength{Name: "MinLength"},
 			MaxLength: &MaxLength{Name: "MaxLength"},
 			Length: &Length{Name: "Length"},
 			TotalDigit: &TotalDigit{Name: "TotalDigit"},
+			FractionDigit: &FractionDigit{Name: "FractionDigit"},
+			Sequences: []*Sequence{{Name: "Sequences"}},
+			Alls: []*All{{Name: "Alls"}},
+			Choices: []*Choice{{Name: "Choices"}},
+			Groups: []*Group{{Name: "Groups"}},
+			Elements: []*Element{{Name: "Elements"}},
+			Attributes: []*Attribute{{Name: "Attributes"}},
+			AttributeGroups: []*AttributeGroup{{Name: "AttributeGroups"}},
 	}
 }
 
 func (Schema) GongGetAssociationName() any {
 	return &Schema{
 			Annotation: &Annotation{Name: "Annotation"},
+			Imports: []*XSDImport{{Name: "Imports"}},
+			Includes: []*XSDInclude{{Name: "Includes"}},
 			Elements: []*Element{{Name: "Elements"}},
+			Attributes: []*Attribute{{Name: "Attributes"}},
 			SimpleTypes: []*SimpleType{{Name: "SimpleTypes"}},
 			ComplexTypes: []*ComplexType{{Name: "ComplexTypes"}},
 			AttributeGroups: []*AttributeGroup{{Name: "AttributeGroups"}},
 			Groups: []*Group{{Name: "Groups"}},
+			Keys: []*Key{{Name: "Keys"}},
+			Uniques: []*Unique{{Name: "Uniques"}},
+			KeyRefs: []*KeyRef{{Name: "KeyRefs"}},
+	}
+}
+
+func (Selector) GongGetAssociationName() any {
+	return &Selector{
 	}
 }
 
@@ -3276,6 +4381,7 @@ func (SimpleType) GongGetAssociationName() any {
 			Annotation: &Annotation{Name: "Annotation"},
 			Restriction: &Restriction{Name: "Restriction"},
 			Union: &Union{Name: "Union"},
+			List: &List{Name: "List"},
 	}
 }
 
@@ -3288,11 +4394,32 @@ func (TotalDigit) GongGetAssociationName() any {
 func (Union) GongGetAssociationName() any {
 	return &Union{
 			Annotation: &Annotation{Name: "Annotation"},
+			SimpleTypes: []*SimpleType{{Name: "SimpleTypes"}},
+	}
+}
+
+func (Unique) GongGetAssociationName() any {
+	return &Unique{
+			Annotation: &Annotation{Name: "Annotation"},
+			Selector: &Selector{Name: "Selector"},
+			Fields: []*FieldXPath{{Name: "Fields"}},
 	}
 }
 
 func (WhiteSpace) GongGetAssociationName() any {
 	return &WhiteSpace{
+			Annotation: &Annotation{Name: "Annotation"},
+	}
+}
+
+func (XSDImport) GongGetAssociationName() any {
+	return &XSDImport{
+			Annotation: &Annotation{Name: "Annotation"},
+	}
+}
+
+func (XSDInclude) GongGetAssociationName() any {
+	return &XSDInclude{
 			Annotation: &Annotation{Name: "Annotation"},
 	}
 }
@@ -3368,6 +4495,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "InnerSimpleType":
+			res := make(map[*SimpleType][]*Attribute)
+			for attribute := range stage.Attributes {
+				if attribute.InnerSimpleType != nil {
+					simpletype_ := attribute.InnerSimpleType
+					var attributes []*Attribute
+					_, ok := res[simpletype_]
+					if ok {
+						attributes = res[simpletype_]
+					} else {
+						attributes = make([]*Attribute, 0)
+					}
+					attributes = append(attributes, attribute)
+					res[simpletype_] = attributes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of AttributeGroup
 	case AttributeGroup:
@@ -3417,6 +4561,57 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 	case ComplexContent:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Annotation":
+			res := make(map[*Annotation][]*ComplexContent)
+			for complexcontent := range stage.ComplexContents {
+				if complexcontent.Annotation != nil {
+					annotation_ := complexcontent.Annotation
+					var complexcontents []*ComplexContent
+					_, ok := res[annotation_]
+					if ok {
+						complexcontents = res[annotation_]
+					} else {
+						complexcontents = make([]*ComplexContent, 0)
+					}
+					complexcontents = append(complexcontents, complexcontent)
+					res[annotation_] = complexcontents
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Extension":
+			res := make(map[*Extension][]*ComplexContent)
+			for complexcontent := range stage.ComplexContents {
+				if complexcontent.Extension != nil {
+					extension_ := complexcontent.Extension
+					var complexcontents []*ComplexContent
+					_, ok := res[extension_]
+					if ok {
+						complexcontents = res[extension_]
+					} else {
+						complexcontents = make([]*ComplexContent, 0)
+					}
+					complexcontents = append(complexcontents, complexcontent)
+					res[extension_] = complexcontents
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Restriction":
+			res := make(map[*Restriction][]*ComplexContent)
+			for complexcontent := range stage.ComplexContents {
+				if complexcontent.Restriction != nil {
+					restriction_ := complexcontent.Restriction
+					var complexcontents []*ComplexContent
+					_, ok := res[restriction_]
+					if ok {
+						complexcontents = res[restriction_]
+					} else {
+						complexcontents = make([]*ComplexContent, 0)
+					}
+					complexcontents = append(complexcontents, complexcontent)
+					res[restriction_] = complexcontents
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ComplexType
 	case ComplexType:
@@ -3596,6 +4791,33 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of FieldXPath
+	case FieldXPath:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of FractionDigit
+	case FractionDigit:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Annotation":
+			res := make(map[*Annotation][]*FractionDigit)
+			for fractiondigit := range stage.FractionDigits {
+				if fractiondigit.Annotation != nil {
+					annotation_ := fractiondigit.Annotation
+					var fractiondigits []*FractionDigit
+					_, ok := res[annotation_]
+					if ok {
+						fractiondigits = res[annotation_]
+					} else {
+						fractiondigits = make([]*FractionDigit, 0)
+					}
+					fractiondigits = append(fractiondigits, fractiondigit)
+					res[annotation_] = fractiondigits
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of Group
 	case Group:
 		switch fieldname {
@@ -3635,6 +4857,84 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of Key
+	case Key:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Annotation":
+			res := make(map[*Annotation][]*Key)
+			for key := range stage.Keys {
+				if key.Annotation != nil {
+					annotation_ := key.Annotation
+					var keys []*Key
+					_, ok := res[annotation_]
+					if ok {
+						keys = res[annotation_]
+					} else {
+						keys = make([]*Key, 0)
+					}
+					keys = append(keys, key)
+					res[annotation_] = keys
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Selector":
+			res := make(map[*Selector][]*Key)
+			for key := range stage.Keys {
+				if key.Selector != nil {
+					selector_ := key.Selector
+					var keys []*Key
+					_, ok := res[selector_]
+					if ok {
+						keys = res[selector_]
+					} else {
+						keys = make([]*Key, 0)
+					}
+					keys = append(keys, key)
+					res[selector_] = keys
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of KeyRef
+	case KeyRef:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Annotation":
+			res := make(map[*Annotation][]*KeyRef)
+			for keyref := range stage.KeyRefs {
+				if keyref.Annotation != nil {
+					annotation_ := keyref.Annotation
+					var keyrefs []*KeyRef
+					_, ok := res[annotation_]
+					if ok {
+						keyrefs = res[annotation_]
+					} else {
+						keyrefs = make([]*KeyRef, 0)
+					}
+					keyrefs = append(keyrefs, keyref)
+					res[annotation_] = keyrefs
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Selector":
+			res := make(map[*Selector][]*KeyRef)
+			for keyref := range stage.KeyRefs {
+				if keyref.Selector != nil {
+					selector_ := keyref.Selector
+					var keyrefs []*KeyRef
+					_, ok := res[selector_]
+					if ok {
+						keyrefs = res[selector_]
+					} else {
+						keyrefs = make([]*KeyRef, 0)
+					}
+					keyrefs = append(keyrefs, keyref)
+					res[selector_] = keyrefs
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of Length
 	case Length:
 		switch fieldname {
@@ -3653,6 +4953,67 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					lengths = append(lengths, length)
 					res[annotation_] = lengths
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of List
+	case List:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Annotation":
+			res := make(map[*Annotation][]*List)
+			for list := range stage.Lists {
+				if list.Annotation != nil {
+					annotation_ := list.Annotation
+					var lists []*List
+					_, ok := res[annotation_]
+					if ok {
+						lists = res[annotation_]
+					} else {
+						lists = make([]*List, 0)
+					}
+					lists = append(lists, list)
+					res[annotation_] = lists
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SimpleType":
+			res := make(map[*SimpleType][]*List)
+			for list := range stage.Lists {
+				if list.SimpleType != nil {
+					simpletype_ := list.SimpleType
+					var lists []*List
+					_, ok := res[simpletype_]
+					if ok {
+						lists = res[simpletype_]
+					} else {
+						lists = make([]*List, 0)
+					}
+					lists = append(lists, list)
+					res[simpletype_] = lists
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of MaxExclusive
+	case MaxExclusive:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Annotation":
+			res := make(map[*Annotation][]*MaxExclusive)
+			for maxexclusive := range stage.MaxExclusives {
+				if maxexclusive.Annotation != nil {
+					annotation_ := maxexclusive.Annotation
+					var maxexclusives []*MaxExclusive
+					_, ok := res[annotation_]
+					if ok {
+						maxexclusives = res[annotation_]
+					} else {
+						maxexclusives = make([]*MaxExclusive, 0)
+					}
+					maxexclusives = append(maxexclusives, maxexclusive)
+					res[annotation_] = maxexclusives
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -3697,6 +5058,28 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					maxlengths = append(maxlengths, maxlength)
 					res[annotation_] = maxlengths
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of MinExclusive
+	case MinExclusive:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Annotation":
+			res := make(map[*Annotation][]*MinExclusive)
+			for minexclusive := range stage.MinExclusives {
+				if minexclusive.Annotation != nil {
+					annotation_ := minexclusive.Annotation
+					var minexclusives []*MinExclusive
+					_, ok := res[annotation_]
+					if ok {
+						minexclusives = res[annotation_]
+					} else {
+						minexclusives = make([]*MinExclusive, 0)
+					}
+					minexclusives = append(minexclusives, minexclusive)
+					res[annotation_] = minexclusives
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -3788,6 +5171,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "SimpleType":
+			res := make(map[*SimpleType][]*Restriction)
+			for restriction := range stage.Restrictions {
+				if restriction.SimpleType != nil {
+					simpletype_ := restriction.SimpleType
+					var restrictions []*Restriction
+					_, ok := res[simpletype_]
+					if ok {
+						restrictions = res[simpletype_]
+					} else {
+						restrictions = make([]*Restriction, 0)
+					}
+					restrictions = append(restrictions, restriction)
+					res[simpletype_] = restrictions
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "MinInclusive":
 			res := make(map[*MinInclusive][]*Restriction)
 			for restriction := range stage.Restrictions {
@@ -3819,6 +5219,40 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					restrictions = append(restrictions, restriction)
 					res[maxinclusive_] = restrictions
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "MinExclusive":
+			res := make(map[*MinExclusive][]*Restriction)
+			for restriction := range stage.Restrictions {
+				if restriction.MinExclusive != nil {
+					minexclusive_ := restriction.MinExclusive
+					var restrictions []*Restriction
+					_, ok := res[minexclusive_]
+					if ok {
+						restrictions = res[minexclusive_]
+					} else {
+						restrictions = make([]*Restriction, 0)
+					}
+					restrictions = append(restrictions, restriction)
+					res[minexclusive_] = restrictions
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "MaxExclusive":
+			res := make(map[*MaxExclusive][]*Restriction)
+			for restriction := range stage.Restrictions {
+				if restriction.MaxExclusive != nil {
+					maxexclusive_ := restriction.MaxExclusive
+					var restrictions []*Restriction
+					_, ok := res[maxexclusive_]
+					if ok {
+						restrictions = res[maxexclusive_]
+					} else {
+						restrictions = make([]*Restriction, 0)
+					}
+					restrictions = append(restrictions, restriction)
+					res[maxexclusive_] = restrictions
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -3924,6 +5358,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "FractionDigit":
+			res := make(map[*FractionDigit][]*Restriction)
+			for restriction := range stage.Restrictions {
+				if restriction.FractionDigit != nil {
+					fractiondigit_ := restriction.FractionDigit
+					var restrictions []*Restriction
+					_, ok := res[fractiondigit_]
+					if ok {
+						restrictions = res[fractiondigit_]
+					} else {
+						restrictions = make([]*Restriction, 0)
+					}
+					restrictions = append(restrictions, restriction)
+					res[fractiondigit_] = restrictions
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Schema
 	case Schema:
@@ -3946,6 +5397,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Selector
+	case Selector:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Sequence
 	case Sequence:
@@ -4063,6 +5519,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "List":
+			res := make(map[*List][]*SimpleType)
+			for simpletype := range stage.SimpleTypes {
+				if simpletype.List != nil {
+					list_ := simpletype.List
+					var simpletypes []*SimpleType
+					_, ok := res[list_]
+					if ok {
+						simpletypes = res[list_]
+					} else {
+						simpletypes = make([]*SimpleType, 0)
+					}
+					simpletypes = append(simpletypes, simpletype)
+					res[list_] = simpletypes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of TotalDigit
 	case TotalDigit:
@@ -4108,6 +5581,45 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of Unique
+	case Unique:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Annotation":
+			res := make(map[*Annotation][]*Unique)
+			for unique := range stage.Uniques {
+				if unique.Annotation != nil {
+					annotation_ := unique.Annotation
+					var uniques []*Unique
+					_, ok := res[annotation_]
+					if ok {
+						uniques = res[annotation_]
+					} else {
+						uniques = make([]*Unique, 0)
+					}
+					uniques = append(uniques, unique)
+					res[annotation_] = uniques
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Selector":
+			res := make(map[*Selector][]*Unique)
+			for unique := range stage.Uniques {
+				if unique.Selector != nil {
+					selector_ := unique.Selector
+					var uniques []*Unique
+					_, ok := res[selector_]
+					if ok {
+						uniques = res[selector_]
+					} else {
+						uniques = make([]*Unique, 0)
+					}
+					uniques = append(uniques, unique)
+					res[selector_] = uniques
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of WhiteSpace
 	case WhiteSpace:
 		switch fieldname {
@@ -4126,6 +5638,50 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					whitespaces = append(whitespaces, whitespace)
 					res[annotation_] = whitespaces
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of XSDImport
+	case XSDImport:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Annotation":
+			res := make(map[*Annotation][]*XSDImport)
+			for xsdimport := range stage.XSDImports {
+				if xsdimport.Annotation != nil {
+					annotation_ := xsdimport.Annotation
+					var xsdimports []*XSDImport
+					_, ok := res[annotation_]
+					if ok {
+						xsdimports = res[annotation_]
+					} else {
+						xsdimports = make([]*XSDImport, 0)
+					}
+					xsdimports = append(xsdimports, xsdimport)
+					res[annotation_] = xsdimports
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of XSDInclude
+	case XSDInclude:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Annotation":
+			res := make(map[*Annotation][]*XSDInclude)
+			for xsdinclude := range stage.XSDIncludes {
+				if xsdinclude.Annotation != nil {
+					annotation_ := xsdinclude.Annotation
+					var xsdincludes []*XSDInclude
+					_, ok := res[annotation_]
+					if ok {
+						xsdincludes = res[annotation_]
+					} else {
+						xsdincludes = make([]*XSDInclude, 0)
+					}
+					xsdincludes = append(xsdincludes, xsdinclude)
+					res[annotation_] = xsdincludes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4352,6 +5908,30 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Keys":
+			res := make(map[*Key][]*Element)
+			for element := range stage.Elements {
+				for _, key_ := range element.Keys {
+					res[key_] = append(res[key_], element)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Uniques":
+			res := make(map[*Unique][]*Element)
+			for element := range stage.Elements {
+				for _, unique_ := range element.Uniques {
+					res[unique_] = append(res[unique_], element)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "KeyRefs":
+			res := make(map[*KeyRef][]*Element)
+			for element := range stage.Elements {
+				for _, keyref_ := range element.KeyRefs {
+					res[keyref_] = append(res[keyref_], element)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Enumeration
 	case Enumeration:
@@ -4419,6 +5999,16 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of FieldXPath
+	case FieldXPath:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of FractionDigit
+	case FractionDigit:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Group
 	case Group:
 		switch fieldname {
@@ -4464,8 +6054,44 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of Key
+	case Key:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Fields":
+			res := make(map[*FieldXPath][]*Key)
+			for key := range stage.Keys {
+				for _, fieldxpath_ := range key.Fields {
+					res[fieldxpath_] = append(res[fieldxpath_], key)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of KeyRef
+	case KeyRef:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Fields":
+			res := make(map[*FieldXPath][]*KeyRef)
+			for keyref := range stage.KeyRefs {
+				for _, fieldxpath_ := range keyref.Fields {
+					res[fieldxpath_] = append(res[fieldxpath_], keyref)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of Length
 	case Length:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of List
+	case List:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of MaxExclusive
+	case MaxExclusive:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -4476,6 +6102,11 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		}
 	// reverse maps of direct associations of MaxLength
 	case MaxLength:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of MinExclusive
+	case MinExclusive:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -4506,16 +6137,96 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Sequences":
+			res := make(map[*Sequence][]*Restriction)
+			for restriction := range stage.Restrictions {
+				for _, sequence_ := range restriction.Sequences {
+					res[sequence_] = append(res[sequence_], restriction)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Alls":
+			res := make(map[*All][]*Restriction)
+			for restriction := range stage.Restrictions {
+				for _, all_ := range restriction.Alls {
+					res[all_] = append(res[all_], restriction)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Choices":
+			res := make(map[*Choice][]*Restriction)
+			for restriction := range stage.Restrictions {
+				for _, choice_ := range restriction.Choices {
+					res[choice_] = append(res[choice_], restriction)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Groups":
+			res := make(map[*Group][]*Restriction)
+			for restriction := range stage.Restrictions {
+				for _, group_ := range restriction.Groups {
+					res[group_] = append(res[group_], restriction)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Elements":
+			res := make(map[*Element][]*Restriction)
+			for restriction := range stage.Restrictions {
+				for _, element_ := range restriction.Elements {
+					res[element_] = append(res[element_], restriction)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Attributes":
+			res := make(map[*Attribute][]*Restriction)
+			for restriction := range stage.Restrictions {
+				for _, attribute_ := range restriction.Attributes {
+					res[attribute_] = append(res[attribute_], restriction)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "AttributeGroups":
+			res := make(map[*AttributeGroup][]*Restriction)
+			for restriction := range stage.Restrictions {
+				for _, attributegroup_ := range restriction.AttributeGroups {
+					res[attributegroup_] = append(res[attributegroup_], restriction)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Schema
 	case Schema:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Imports":
+			res := make(map[*XSDImport][]*Schema)
+			for schema := range stage.Schemas {
+				for _, xsdimport_ := range schema.Imports {
+					res[xsdimport_] = append(res[xsdimport_], schema)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Includes":
+			res := make(map[*XSDInclude][]*Schema)
+			for schema := range stage.Schemas {
+				for _, xsdinclude_ := range schema.Includes {
+					res[xsdinclude_] = append(res[xsdinclude_], schema)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Elements":
 			res := make(map[*Element][]*Schema)
 			for schema := range stage.Schemas {
 				for _, element_ := range schema.Elements {
 					res[element_] = append(res[element_], schema)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Attributes":
+			res := make(map[*Attribute][]*Schema)
+			for schema := range stage.Schemas {
+				for _, attribute_ := range schema.Attributes {
+					res[attribute_] = append(res[attribute_], schema)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4551,6 +6262,35 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Keys":
+			res := make(map[*Key][]*Schema)
+			for schema := range stage.Schemas {
+				for _, key_ := range schema.Keys {
+					res[key_] = append(res[key_], schema)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Uniques":
+			res := make(map[*Unique][]*Schema)
+			for schema := range stage.Schemas {
+				for _, unique_ := range schema.Uniques {
+					res[unique_] = append(res[unique_], schema)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "KeyRefs":
+			res := make(map[*KeyRef][]*Schema)
+			for schema := range stage.Schemas {
+				for _, keyref_ := range schema.KeyRefs {
+					res[keyref_] = append(res[keyref_], schema)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Selector
+	case Selector:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Sequence
 	case Sequence:
@@ -4616,9 +6356,40 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	case Union:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "SimpleTypes":
+			res := make(map[*SimpleType][]*Union)
+			for union := range stage.Unions {
+				for _, simpletype_ := range union.SimpleTypes {
+					res[simpletype_] = append(res[simpletype_], union)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Unique
+	case Unique:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Fields":
+			res := make(map[*FieldXPath][]*Unique)
+			for unique := range stage.Uniques {
+				for _, fieldxpath_ := range unique.Fields {
+					res[fieldxpath_] = append(res[fieldxpath_], unique)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of WhiteSpace
 	case WhiteSpace:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of XSDImport
+	case XSDImport:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of XSDInclude
+	case XSDInclude:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -4694,6 +6465,10 @@ func (*All) GongGetReverseFields() []GongReverseField {
 			Fieldname: "Alls",
 		},
 		{
+			GongstructName: "Restriction",
+			Fieldname: "Alls",
+		},
+		{
 			GongstructName: "Sequence",
 			Fieldname: "Alls",
 		},
@@ -4719,6 +6494,14 @@ func (*Attribute) GongGetReverseFields() []GongReverseField {
 			GongstructName: "Extension",
 			Fieldname: "Attributes",
 		},
+		{
+			GongstructName: "Restriction",
+			Fieldname: "Attributes",
+		},
+		{
+			GongstructName: "Schema",
+			Fieldname: "Attributes",
+		},
 	}
 }
 
@@ -4734,6 +6517,10 @@ func (*AttributeGroup) GongGetReverseFields() []GongReverseField {
 		},
 		{
 			GongstructName: "Extension",
+			Fieldname: "AttributeGroups",
+		},
+		{
+			GongstructName: "Restriction",
 			Fieldname: "AttributeGroups",
 		},
 		{
@@ -4763,6 +6550,10 @@ func (*Choice) GongGetReverseFields() []GongReverseField {
 		},
 		{
 			GongstructName: "Group",
+			Fieldname: "Choices",
+		},
+		{
+			GongstructName: "Restriction",
 			Fieldname: "Choices",
 		},
 		{
@@ -4818,6 +6609,10 @@ func (*Element) GongGetReverseFields() []GongReverseField {
 			Fieldname: "Elements",
 		},
 		{
+			GongstructName: "Restriction",
+			Fieldname: "Elements",
+		},
+		{
 			GongstructName: "Schema",
 			Fieldname: "Elements",
 		},
@@ -4838,6 +6633,28 @@ func (*Enumeration) GongGetReverseFields() []GongReverseField {
 }
 
 func (*Extension) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*FieldXPath) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Key",
+			Fieldname: "Fields",
+		},
+		{
+			GongstructName: "KeyRef",
+			Fieldname: "Fields",
+		},
+		{
+			GongstructName: "Unique",
+			Fieldname: "Fields",
+		},
+	}
+}
+
+func (*FractionDigit) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 	}
 }
@@ -4869,6 +6686,10 @@ func (*Group) GongGetReverseFields() []GongReverseField {
 			Fieldname: "Groups",
 		},
 		{
+			GongstructName: "Restriction",
+			Fieldname: "Groups",
+		},
+		{
 			GongstructName: "Schema",
 			Fieldname: "Groups",
 		},
@@ -4879,7 +6700,43 @@ func (*Group) GongGetReverseFields() []GongReverseField {
 	}
 }
 
+func (*Key) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Element",
+			Fieldname: "Keys",
+		},
+		{
+			GongstructName: "Schema",
+			Fieldname: "Keys",
+		},
+	}
+}
+
+func (*KeyRef) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Element",
+			Fieldname: "KeyRefs",
+		},
+		{
+			GongstructName: "Schema",
+			Fieldname: "KeyRefs",
+		},
+	}
+}
+
 func (*Length) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*List) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*MaxExclusive) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 	}
 }
@@ -4890,6 +6747,11 @@ func (*MaxInclusive) GongGetReverseFields() []GongReverseField {
 }
 
 func (*MaxLength) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
+func (*MinExclusive) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 	}
 }
@@ -4919,6 +6781,11 @@ func (*Schema) GongGetReverseFields() []GongReverseField {
 	}
 }
 
+func (*Selector) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
 func (*Sequence) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 		{
@@ -4942,6 +6809,10 @@ func (*Sequence) GongGetReverseFields() []GongReverseField {
 			Fieldname: "Sequences",
 		},
 		{
+			GongstructName: "Restriction",
+			Fieldname: "Sequences",
+		},
+		{
 			GongstructName: "Sequence",
 			Fieldname: "Sequences",
 		},
@@ -4959,6 +6830,10 @@ func (*SimpleType) GongGetReverseFields() []GongReverseField {
 			GongstructName: "Schema",
 			Fieldname: "SimpleTypes",
 		},
+		{
+			GongstructName: "Union",
+			Fieldname: "SimpleTypes",
+		},
 	}
 }
 
@@ -4972,8 +6847,39 @@ func (*Union) GongGetReverseFields() []GongReverseField {
 	}
 }
 
+func (*Unique) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Element",
+			Fieldname: "Uniques",
+		},
+		{
+			GongstructName: "Schema",
+			Fieldname: "Uniques",
+		},
+	}
+}
+
 func (*WhiteSpace) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
+	}
+}
+
+func (*XSDImport) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Schema",
+			Fieldname: "Imports",
+		},
+	}
+}
+
+func (*XSDInclude) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Schema",
+			Fieldname: "Includes",
+		},
 	}
 }
 
@@ -5125,8 +7031,21 @@ func (attribute *Attribute) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:                 "InnerSimpleType",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "SimpleType",
+		},
+		{
 			Name:               "IDXSD",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Order",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "Depth",
+			GongFieldValueType: GongFieldValueTypeInt,
 		},
 	}
 	return
@@ -5253,6 +7172,25 @@ func (complexcontent *ComplexContent) GongGetFieldHeaders() (res []GongFieldHead
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Annotation",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Annotation",
+		},
+		{
+			Name:               "Mixed",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Extension",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Extension",
+		},
+		{
+			Name:                 "Restriction",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Restriction",
 		},
 	}
 	return
@@ -5469,6 +7407,10 @@ func (element *Element) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "SubstitutionGroup",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:                 "SimpleType",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "SimpleType",
@@ -5482,6 +7424,21 @@ func (element *Element) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Groups",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Group",
+		},
+		{
+			Name:                 "Keys",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Key",
+		},
+		{
+			Name:                 "Uniques",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Unique",
+		},
+		{
+			Name:                 "KeyRefs",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "KeyRef",
 		},
 		{
 			Name:               "IsDuplicatedInXSD",
@@ -5585,6 +7542,41 @@ func (extension *Extension) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (fieldxpath *FieldXPath) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "XPath",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (fractiondigit *FractionDigit) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Annotation",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Annotation",
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (group *Group) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -5671,7 +7663,116 @@ func (group *Group) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (key *Key) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Annotation",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Annotation",
+		},
+		{
+			Name:               "NameXSD",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Selector",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Selector",
+		},
+		{
+			Name:                 "Fields",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "FieldXPath",
+		},
+	}
+	return
+}
+
+func (keyref *KeyRef) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Annotation",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Annotation",
+		},
+		{
+			Name:               "NameXSD",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Refer",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Selector",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Selector",
+		},
+		{
+			Name:                 "Fields",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "FieldXPath",
+		},
+	}
+	return
+}
+
 func (length *Length) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Annotation",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Annotation",
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (list *List) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Annotation",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Annotation",
+		},
+		{
+			Name:               "ItemType",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "SimpleType",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "SimpleType",
+		},
+	}
+	return
+}
+
+func (maxexclusive *MaxExclusive) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -5712,6 +7813,26 @@ func (maxinclusive *MaxInclusive) GongGetFieldHeaders() (res []GongFieldHeader) 
 }
 
 func (maxlength *MaxLength) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Annotation",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Annotation",
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (minexclusive *MinExclusive) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -5808,6 +7929,11 @@ func (restriction *Restriction) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:                 "SimpleType",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "SimpleType",
+		},
+		{
 			Name:                 "Enumerations",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Enumeration",
@@ -5821,6 +7947,16 @@ func (restriction *Restriction) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "MaxInclusive",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "MaxInclusive",
+		},
+		{
+			Name:                 "MinExclusive",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "MinExclusive",
+		},
+		{
+			Name:                 "MaxExclusive",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "MaxExclusive",
 		},
 		{
 			Name:                 "Pattern",
@@ -5852,6 +7988,66 @@ func (restriction *Restriction) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "TotalDigit",
 		},
+		{
+			Name:                 "FractionDigit",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "FractionDigit",
+		},
+		{
+			Name:               "OuterElementName",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Sequences",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Sequence",
+		},
+		{
+			Name:                 "Alls",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "All",
+		},
+		{
+			Name:                 "Choices",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Choice",
+		},
+		{
+			Name:                 "Groups",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Group",
+		},
+		{
+			Name:                 "Elements",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Element",
+		},
+		{
+			Name:               "Order",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "Depth",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "MinOccurs",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "MaxOccurs",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Attributes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Attribute",
+		},
+		{
+			Name:                 "AttributeGroups",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "AttributeGroup",
+		},
 	}
 	return
 }
@@ -5868,14 +8064,61 @@ func (schema *Schema) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "TargetNamespace",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ElementFormDefault",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "AttributeFormDefault",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Version",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FilePath",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "PackageName",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "PackageRelDir",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsRootSchema",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "Annotation",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Annotation",
 		},
 		{
+			Name:                 "Imports",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "XSDImport",
+		},
+		{
+			Name:                 "Includes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "XSDInclude",
+		},
+		{
 			Name:                 "Elements",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Element",
+		},
+		{
+			Name:                 "Attributes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Attribute",
 		},
 		{
 			Name:                 "SimpleTypes",
@@ -5898,12 +8141,42 @@ func (schema *Schema) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Group",
 		},
 		{
+			Name:                 "Keys",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Key",
+		},
+		{
+			Name:                 "Uniques",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Unique",
+		},
+		{
+			Name:                 "KeyRefs",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "KeyRef",
+		},
+		{
 			Name:               "Order",
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
 			Name:               "Depth",
 			GongFieldValueType: GongFieldValueTypeInt,
+		},
+	}
+	return
+}
+
+func (selector *Selector) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "XPath",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -6018,6 +8291,19 @@ func (simpletype *SimpleType) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Union",
 		},
 		{
+			Name:                 "List",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "List",
+		},
+		{
+			Name:               "HasNameConflict",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "GoIdentifier",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "Order",
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
@@ -6065,6 +8351,41 @@ func (union *Union) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "MemberTypes",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
+		{
+			Name:                 "SimpleTypes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "SimpleType",
+		},
+	}
+	return
+}
+
+func (unique *Unique) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Annotation",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Annotation",
+		},
+		{
+			Name:               "NameXSD",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Selector",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Selector",
+		},
+		{
+			Name:                 "Fields",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "FieldXPath",
+		},
 	}
 	return
 }
@@ -6083,6 +8404,50 @@ func (whitespace *WhiteSpace) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (xsdimport *XSDImport) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Annotation",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Annotation",
+		},
+		{
+			Name:               "Namespace",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "SchemaLocation",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (xsdinclude *XSDInclude) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Annotation",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Annotation",
+		},
+		{
+			Name:               "SchemaLocation",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
@@ -6281,8 +8646,22 @@ func (attribute *Attribute) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = attribute.TargetNamespace
 	case "SimpleType":
 		res.valueString = attribute.SimpleType
+	case "InnerSimpleType":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if attribute.InnerSimpleType != nil {
+			res.valueString = attribute.InnerSimpleType.Name
+			res.ids = attribute.InnerSimpleType.GongGetUUID(stage)
+		}
 	case "IDXSD":
 		res.valueString = attribute.IDXSD
+	case "Order":
+		res.valueString = fmt.Sprintf("%d", attribute.Order)
+		res.valueInt = attribute.Order
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Depth":
+		res.valueString = fmt.Sprintf("%d", attribute.Depth)
+		res.valueInt = attribute.Depth
+		res.GongFieldValueType = GongFieldValueTypeInt
 	}
 	return
 }
@@ -6428,6 +8807,26 @@ func (complexcontent *ComplexContent) GongGetFieldValue(fieldName string, stage 
 	// string value of fields
 	case "Name":
 		res.valueString = complexcontent.Name
+	case "Annotation":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if complexcontent.Annotation != nil {
+			res.valueString = complexcontent.Annotation.Name
+			res.ids = complexcontent.Annotation.GongGetUUID(stage)
+		}
+	case "Mixed":
+		res.valueString = complexcontent.Mixed
+	case "Extension":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if complexcontent.Extension != nil {
+			res.valueString = complexcontent.Extension.Name
+			res.ids = complexcontent.Extension.GongGetUUID(stage)
+		}
+	case "Restriction":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if complexcontent.Restriction != nil {
+			res.valueString = complexcontent.Restriction.Name
+			res.ids = complexcontent.Restriction.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -6635,6 +9034,8 @@ func (element *Element) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = element.Block
 	case "Final":
 		res.valueString = element.Final
+	case "SubstitutionGroup":
+		res.valueString = element.SubstitutionGroup
 	case "SimpleType":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if element.SimpleType != nil {
@@ -6650,6 +9051,36 @@ func (element *Element) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "Groups":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range element.Groups {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Keys":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range element.Keys {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Uniques":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range element.Uniques {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "KeyRefs":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range element.KeyRefs {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -6779,6 +9210,34 @@ func (extension *Extension) GongGetFieldValue(fieldName string, stage *Stage) (r
 	return
 }
 
+func (fieldxpath *FieldXPath) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = fieldxpath.Name
+	case "XPath":
+		res.valueString = fieldxpath.XPath
+	}
+	return
+}
+
+func (fractiondigit *FractionDigit) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = fractiondigit.Name
+	case "Annotation":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if fractiondigit.Annotation != nil {
+			res.valueString = fractiondigit.Annotation.Name
+			res.ids = fractiondigit.Annotation.GongGetUUID(stage)
+		}
+	case "Value":
+		res.valueString = fractiondigit.Value
+	}
+	return
+}
+
 func (group *Group) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6878,6 +9337,74 @@ func (group *Group) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	return
 }
 
+func (key *Key) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = key.Name
+	case "Annotation":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if key.Annotation != nil {
+			res.valueString = key.Annotation.Name
+			res.ids = key.Annotation.GongGetUUID(stage)
+		}
+	case "NameXSD":
+		res.valueString = key.NameXSD
+	case "Selector":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if key.Selector != nil {
+			res.valueString = key.Selector.Name
+			res.ids = key.Selector.GongGetUUID(stage)
+		}
+	case "Fields":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range key.Fields {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (keyref *KeyRef) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = keyref.Name
+	case "Annotation":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if keyref.Annotation != nil {
+			res.valueString = keyref.Annotation.Name
+			res.ids = keyref.Annotation.GongGetUUID(stage)
+		}
+	case "NameXSD":
+		res.valueString = keyref.NameXSD
+	case "Refer":
+		res.valueString = keyref.Refer
+	case "Selector":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if keyref.Selector != nil {
+			res.valueString = keyref.Selector.Name
+			res.ids = keyref.Selector.GongGetUUID(stage)
+		}
+	case "Fields":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range keyref.Fields {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (length *Length) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6891,6 +9418,46 @@ func (length *Length) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		}
 	case "Value":
 		res.valueString = length.Value
+	}
+	return
+}
+
+func (list *List) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = list.Name
+	case "Annotation":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if list.Annotation != nil {
+			res.valueString = list.Annotation.Name
+			res.ids = list.Annotation.GongGetUUID(stage)
+		}
+	case "ItemType":
+		res.valueString = list.ItemType
+	case "SimpleType":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if list.SimpleType != nil {
+			res.valueString = list.SimpleType.Name
+			res.ids = list.SimpleType.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (maxexclusive *MaxExclusive) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = maxexclusive.Name
+	case "Annotation":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if maxexclusive.Annotation != nil {
+			res.valueString = maxexclusive.Annotation.Name
+			res.ids = maxexclusive.Annotation.GongGetUUID(stage)
+		}
+	case "Value":
+		res.valueString = maxexclusive.Value
 	}
 	return
 }
@@ -6925,6 +9492,23 @@ func (maxlength *MaxLength) GongGetFieldValue(fieldName string, stage *Stage) (r
 		}
 	case "Value":
 		res.valueString = maxlength.Value
+	}
+	return
+}
+
+func (minexclusive *MinExclusive) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = minexclusive.Name
+	case "Annotation":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if minexclusive.Annotation != nil {
+			res.valueString = minexclusive.Annotation.Name
+			res.ids = minexclusive.Annotation.GongGetUUID(stage)
+		}
+	case "Value":
+		res.valueString = minexclusive.Value
 	}
 	return
 }
@@ -6993,6 +9577,12 @@ func (restriction *Restriction) GongGetFieldValue(fieldName string, stage *Stage
 		}
 	case "Base":
 		res.valueString = restriction.Base
+	case "SimpleType":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if restriction.SimpleType != nil {
+			res.valueString = restriction.SimpleType.Name
+			res.ids = restriction.SimpleType.GongGetUUID(stage)
+		}
 	case "Enumerations":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range restriction.Enumerations {
@@ -7014,6 +9604,18 @@ func (restriction *Restriction) GongGetFieldValue(fieldName string, stage *Stage
 		if restriction.MaxInclusive != nil {
 			res.valueString = restriction.MaxInclusive.Name
 			res.ids = restriction.MaxInclusive.GongGetUUID(stage)
+		}
+	case "MinExclusive":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if restriction.MinExclusive != nil {
+			res.valueString = restriction.MinExclusive.Name
+			res.ids = restriction.MinExclusive.GongGetUUID(stage)
+		}
+	case "MaxExclusive":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if restriction.MaxExclusive != nil {
+			res.valueString = restriction.MaxExclusive.Name
+			res.ids = restriction.MaxExclusive.GongGetUUID(stage)
 		}
 	case "Pattern":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -7051,6 +9653,96 @@ func (restriction *Restriction) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString = restriction.TotalDigit.Name
 			res.ids = restriction.TotalDigit.GongGetUUID(stage)
 		}
+	case "FractionDigit":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if restriction.FractionDigit != nil {
+			res.valueString = restriction.FractionDigit.Name
+			res.ids = restriction.FractionDigit.GongGetUUID(stage)
+		}
+	case "OuterElementName":
+		res.valueString = restriction.OuterElementName
+	case "Sequences":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range restriction.Sequences {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Alls":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range restriction.Alls {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Choices":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range restriction.Choices {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Groups":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range restriction.Groups {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Elements":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range restriction.Elements {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Order":
+		res.valueString = fmt.Sprintf("%d", restriction.Order)
+		res.valueInt = restriction.Order
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Depth":
+		res.valueString = fmt.Sprintf("%d", restriction.Depth)
+		res.valueInt = restriction.Depth
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "MinOccurs":
+		res.valueString = restriction.MinOccurs
+	case "MaxOccurs":
+		res.valueString = restriction.MaxOccurs
+	case "Attributes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range restriction.Attributes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "AttributeGroups":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range restriction.AttributeGroups {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -7062,15 +9754,63 @@ func (schema *Schema) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.valueString = schema.Name
 	case "Xs":
 		res.valueString = schema.Xs
+	case "TargetNamespace":
+		res.valueString = schema.TargetNamespace
+	case "ElementFormDefault":
+		res.valueString = schema.ElementFormDefault
+	case "AttributeFormDefault":
+		res.valueString = schema.AttributeFormDefault
+	case "Version":
+		res.valueString = schema.Version
+	case "FilePath":
+		res.valueString = schema.FilePath
+	case "PackageName":
+		res.valueString = schema.PackageName
+	case "PackageRelDir":
+		res.valueString = schema.PackageRelDir
+	case "IsRootSchema":
+		res.valueString = fmt.Sprintf("%t", schema.IsRootSchema)
+		res.valueBool = schema.IsRootSchema
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Annotation":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if schema.Annotation != nil {
 			res.valueString = schema.Annotation.Name
 			res.ids = schema.Annotation.GongGetUUID(stage)
 		}
+	case "Imports":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range schema.Imports {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Includes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range schema.Includes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "Elements":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range schema.Elements {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Attributes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range schema.Attributes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7118,6 +9858,36 @@ func (schema *Schema) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "Keys":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range schema.Keys {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Uniques":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range schema.Uniques {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "KeyRefs":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range schema.KeyRefs {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "Order":
 		res.valueString = fmt.Sprintf("%d", schema.Order)
 		res.valueInt = schema.Order
@@ -7126,6 +9896,17 @@ func (schema *Schema) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.valueString = fmt.Sprintf("%d", schema.Depth)
 		res.valueInt = schema.Depth
 		res.GongFieldValueType = GongFieldValueTypeInt
+	}
+	return
+}
+
+func (selector *Selector) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = selector.Name
+	case "XPath":
+		res.valueString = selector.XPath
 	}
 	return
 }
@@ -7255,6 +10036,18 @@ func (simpletype *SimpleType) GongGetFieldValue(fieldName string, stage *Stage) 
 			res.valueString = simpletype.Union.Name
 			res.ids = simpletype.Union.GongGetUUID(stage)
 		}
+	case "List":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if simpletype.List != nil {
+			res.valueString = simpletype.List.Name
+			res.ids = simpletype.List.GongGetUUID(stage)
+		}
+	case "HasNameConflict":
+		res.valueString = fmt.Sprintf("%t", simpletype.HasNameConflict)
+		res.valueBool = simpletype.HasNameConflict
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "GoIdentifier":
+		res.valueString = simpletype.GoIdentifier
 	case "Order":
 		res.valueString = fmt.Sprintf("%d", simpletype.Order)
 		res.valueInt = simpletype.Order
@@ -7297,6 +10090,49 @@ func (union *Union) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		}
 	case "MemberTypes":
 		res.valueString = union.MemberTypes
+	case "SimpleTypes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range union.SimpleTypes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (unique *Unique) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = unique.Name
+	case "Annotation":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if unique.Annotation != nil {
+			res.valueString = unique.Annotation.Name
+			res.ids = unique.Annotation.GongGetUUID(stage)
+		}
+	case "NameXSD":
+		res.valueString = unique.NameXSD
+	case "Selector":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if unique.Selector != nil {
+			res.valueString = unique.Selector.Name
+			res.ids = unique.Selector.GongGetUUID(stage)
+		}
+	case "Fields":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range unique.Fields {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -7314,6 +10150,42 @@ func (whitespace *WhiteSpace) GongGetFieldValue(fieldName string, stage *Stage) 
 		}
 	case "Value":
 		res.valueString = whitespace.Value
+	}
+	return
+}
+
+func (xsdimport *XSDImport) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = xsdimport.Name
+	case "Annotation":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if xsdimport.Annotation != nil {
+			res.valueString = xsdimport.Annotation.Name
+			res.ids = xsdimport.Annotation.GongGetUUID(stage)
+		}
+	case "Namespace":
+		res.valueString = xsdimport.Namespace
+	case "SchemaLocation":
+		res.valueString = xsdimport.SchemaLocation
+	}
+	return
+}
+
+func (xsdinclude *XSDInclude) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = xsdinclude.Name
+	case "Annotation":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if xsdinclude.Annotation != nil {
+			res.valueString = xsdinclude.Annotation.Name
+			res.ids = xsdinclude.Annotation.GongGetUUID(stage)
+		}
+	case "SchemaLocation":
+		res.valueString = xsdinclude.SchemaLocation
 	}
 	return
 }
@@ -7372,12 +10244,36 @@ func (extension *Extension) GongGetGongstructName() string {
 	return "Extension"
 }
 
+func (fieldxpath *FieldXPath) GongGetGongstructName() string {
+	return "FieldXPath"
+}
+
+func (fractiondigit *FractionDigit) GongGetGongstructName() string {
+	return "FractionDigit"
+}
+
 func (group *Group) GongGetGongstructName() string {
 	return "Group"
 }
 
+func (key *Key) GongGetGongstructName() string {
+	return "Key"
+}
+
+func (keyref *KeyRef) GongGetGongstructName() string {
+	return "KeyRef"
+}
+
 func (length *Length) GongGetGongstructName() string {
 	return "Length"
+}
+
+func (list *List) GongGetGongstructName() string {
+	return "List"
+}
+
+func (maxexclusive *MaxExclusive) GongGetGongstructName() string {
+	return "MaxExclusive"
 }
 
 func (maxinclusive *MaxInclusive) GongGetGongstructName() string {
@@ -7386,6 +10282,10 @@ func (maxinclusive *MaxInclusive) GongGetGongstructName() string {
 
 func (maxlength *MaxLength) GongGetGongstructName() string {
 	return "MaxLength"
+}
+
+func (minexclusive *MinExclusive) GongGetGongstructName() string {
+	return "MinExclusive"
 }
 
 func (mininclusive *MinInclusive) GongGetGongstructName() string {
@@ -7408,6 +10308,10 @@ func (schema *Schema) GongGetGongstructName() string {
 	return "Schema"
 }
 
+func (selector *Selector) GongGetGongstructName() string {
+	return "Selector"
+}
+
 func (sequence *Sequence) GongGetGongstructName() string {
 	return "Sequence"
 }
@@ -7428,8 +10332,20 @@ func (union *Union) GongGetGongstructName() string {
 	return "Union"
 }
 
+func (unique *Unique) GongGetGongstructName() string {
+	return "Unique"
+}
+
 func (whitespace *WhiteSpace) GongGetGongstructName() string {
 	return "WhiteSpace"
+}
+
+func (xsdimport *XSDImport) GongGetGongstructName() string {
+	return "XSDImport"
+}
+
+func (xsdinclude *XSDInclude) GongGetGongstructName() string {
+	return "XSDInclude"
 }
 
 func GongGetGongstructNameFromPointer(instance GongstructIF) (res string) {
@@ -7465,13 +10381,27 @@ func (stage *Stage) ResetMapStrings() {
 
 	__gong__rebuildMapString(stage.Extensions, &stage.Extensions_mapString)
 
+	__gong__rebuildMapString(stage.FieldXPaths, &stage.FieldXPaths_mapString)
+
+	__gong__rebuildMapString(stage.FractionDigits, &stage.FractionDigits_mapString)
+
 	__gong__rebuildMapString(stage.Groups, &stage.Groups_mapString)
 
+	__gong__rebuildMapString(stage.Keys, &stage.Keys_mapString)
+
+	__gong__rebuildMapString(stage.KeyRefs, &stage.KeyRefs_mapString)
+
 	__gong__rebuildMapString(stage.Lengths, &stage.Lengths_mapString)
+
+	__gong__rebuildMapString(stage.Lists, &stage.Lists_mapString)
+
+	__gong__rebuildMapString(stage.MaxExclusives, &stage.MaxExclusives_mapString)
 
 	__gong__rebuildMapString(stage.MaxInclusives, &stage.MaxInclusives_mapString)
 
 	__gong__rebuildMapString(stage.MaxLengths, &stage.MaxLengths_mapString)
+
+	__gong__rebuildMapString(stage.MinExclusives, &stage.MinExclusives_mapString)
 
 	__gong__rebuildMapString(stage.MinInclusives, &stage.MinInclusives_mapString)
 
@@ -7483,6 +10413,8 @@ func (stage *Stage) ResetMapStrings() {
 
 	__gong__rebuildMapString(stage.Schemas, &stage.Schemas_mapString)
 
+	__gong__rebuildMapString(stage.Selectors, &stage.Selectors_mapString)
+
 	__gong__rebuildMapString(stage.Sequences, &stage.Sequences_mapString)
 
 	__gong__rebuildMapString(stage.SimpleContents, &stage.SimpleContents_mapString)
@@ -7493,7 +10425,13 @@ func (stage *Stage) ResetMapStrings() {
 
 	__gong__rebuildMapString(stage.Unions, &stage.Unions_mapString)
 
+	__gong__rebuildMapString(stage.Uniques, &stage.Uniques_mapString)
+
 	__gong__rebuildMapString(stage.WhiteSpaces, &stage.WhiteSpaces_mapString)
+
+	__gong__rebuildMapString(stage.XSDImports, &stage.XSDImports_mapString)
+
+	__gong__rebuildMapString(stage.XSDIncludes, &stage.XSDIncludes_mapString)
 
 	// end of insertion point for generic get gongstruct name
 }

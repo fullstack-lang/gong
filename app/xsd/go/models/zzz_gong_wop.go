@@ -72,6 +72,10 @@ type Attribute_WOP struct {
 	SimpleType string
 
 	IDXSD string
+
+	Order int
+
+	Depth int
 }
 
 func (from *Attribute) GongCopyBasicFields(to *Attribute) {
@@ -89,6 +93,8 @@ func (from *Attribute) GongCopyBasicFields(to *Attribute) {
 	to.TargetNamespace = from.TargetNamespace
 	to.SimpleType = from.SimpleType
 	to.IDXSD = from.IDXSD
+	to.Order = from.Order
+	to.Depth = from.Depth
 }
 
 type AttributeGroup_WOP struct {
@@ -153,11 +159,14 @@ type ComplexContent_WOP struct {
 	// insertion point
 
 	Name string
+
+	Mixed string
 }
 
 func (from *ComplexContent) GongCopyBasicFields(to *ComplexContent) {
 	// insertion point
-	*to = *from
+	to.Name = from.Name
+	to.Mixed = from.Mixed
 }
 
 type ComplexType_WOP struct {
@@ -255,6 +264,8 @@ type Element_WOP struct {
 
 	Final string
 
+	SubstitutionGroup string
+
 	IsDuplicatedInXSD bool
 }
 
@@ -277,6 +288,7 @@ func (from *Element) GongCopyBasicFields(to *Element) {
 	to.Form = from.Form
 	to.Block = from.Block
 	to.Final = from.Final
+	to.SubstitutionGroup = from.SubstitutionGroup
 	to.IsDuplicatedInXSD = from.IsDuplicatedInXSD
 }
 
@@ -326,6 +338,33 @@ func (from *Extension) GongCopyBasicFields(to *Extension) {
 	to.Ref = from.Ref
 }
 
+type FieldXPath_WOP struct {
+	// insertion point
+
+	Name string
+
+	XPath string
+}
+
+func (from *FieldXPath) GongCopyBasicFields(to *FieldXPath) {
+	// insertion point
+	*to = *from
+}
+
+type FractionDigit_WOP struct {
+	// insertion point
+
+	Name string
+
+	Value string
+}
+
+func (from *FractionDigit) GongCopyBasicFields(to *FractionDigit) {
+	// insertion point
+	to.Name = from.Name
+	to.Value = from.Value
+}
+
 type Group_WOP struct {
 	// insertion point
 
@@ -367,6 +406,37 @@ func (from *Group) GongCopyBasicFields(to *Group) {
 	to.MaxOccurs = from.MaxOccurs
 }
 
+type Key_WOP struct {
+	// insertion point
+
+	Name string
+
+	NameXSD string
+}
+
+func (from *Key) GongCopyBasicFields(to *Key) {
+	// insertion point
+	to.Name = from.Name
+	to.NameXSD = from.NameXSD
+}
+
+type KeyRef_WOP struct {
+	// insertion point
+
+	Name string
+
+	NameXSD string
+
+	Refer string
+}
+
+func (from *KeyRef) GongCopyBasicFields(to *KeyRef) {
+	// insertion point
+	to.Name = from.Name
+	to.NameXSD = from.NameXSD
+	to.Refer = from.Refer
+}
+
 type Length_WOP struct {
 	// insertion point
 
@@ -376,6 +446,34 @@ type Length_WOP struct {
 }
 
 func (from *Length) GongCopyBasicFields(to *Length) {
+	// insertion point
+	to.Name = from.Name
+	to.Value = from.Value
+}
+
+type List_WOP struct {
+	// insertion point
+
+	Name string
+
+	ItemType string
+}
+
+func (from *List) GongCopyBasicFields(to *List) {
+	// insertion point
+	to.Name = from.Name
+	to.ItemType = from.ItemType
+}
+
+type MaxExclusive_WOP struct {
+	// insertion point
+
+	Name string
+
+	Value string
+}
+
+func (from *MaxExclusive) GongCopyBasicFields(to *MaxExclusive) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -404,6 +502,20 @@ type MaxLength_WOP struct {
 }
 
 func (from *MaxLength) GongCopyBasicFields(to *MaxLength) {
+	// insertion point
+	to.Name = from.Name
+	to.Value = from.Value
+}
+
+type MinExclusive_WOP struct {
+	// insertion point
+
+	Name string
+
+	Value string
+}
+
+func (from *MinExclusive) GongCopyBasicFields(to *MinExclusive) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
@@ -457,12 +569,27 @@ type Restriction_WOP struct {
 	Name string
 
 	Base string
+
+	OuterElementName string
+
+	Order int
+
+	Depth int
+
+	MinOccurs string
+
+	MaxOccurs string
 }
 
 func (from *Restriction) GongCopyBasicFields(to *Restriction) {
 	// insertion point
 	to.Name = from.Name
 	to.Base = from.Base
+	to.OuterElementName = from.OuterElementName
+	to.Order = from.Order
+	to.Depth = from.Depth
+	to.MinOccurs = from.MinOccurs
+	to.MaxOccurs = from.MaxOccurs
 }
 
 type Schema_WOP struct {
@@ -471,6 +598,22 @@ type Schema_WOP struct {
 	Name string
 
 	Xs string
+
+	TargetNamespace string
+
+	ElementFormDefault string
+
+	AttributeFormDefault string
+
+	Version string
+
+	FilePath string
+
+	PackageName string
+
+	PackageRelDir string
+
+	IsRootSchema bool
 
 	Order int
 
@@ -481,8 +624,29 @@ func (from *Schema) GongCopyBasicFields(to *Schema) {
 	// insertion point
 	to.Name = from.Name
 	to.Xs = from.Xs
+	to.TargetNamespace = from.TargetNamespace
+	to.ElementFormDefault = from.ElementFormDefault
+	to.AttributeFormDefault = from.AttributeFormDefault
+	to.Version = from.Version
+	to.FilePath = from.FilePath
+	to.PackageName = from.PackageName
+	to.PackageRelDir = from.PackageRelDir
+	to.IsRootSchema = from.IsRootSchema
 	to.Order = from.Order
 	to.Depth = from.Depth
+}
+
+type Selector_WOP struct {
+	// insertion point
+
+	Name string
+
+	XPath string
+}
+
+func (from *Selector) GongCopyBasicFields(to *Selector) {
+	// insertion point
+	*to = *from
 }
 
 type Sequence_WOP struct {
@@ -529,6 +693,10 @@ type SimpleType_WOP struct {
 
 	NameXSD string
 
+	HasNameConflict bool
+
+	GoIdentifier string
+
 	Order int
 
 	Depth int
@@ -538,6 +706,8 @@ func (from *SimpleType) GongCopyBasicFields(to *SimpleType) {
 	// insertion point
 	to.Name = from.Name
 	to.NameXSD = from.NameXSD
+	to.HasNameConflict = from.HasNameConflict
+	to.GoIdentifier = from.GoIdentifier
 	to.Order = from.Order
 	to.Depth = from.Depth
 }
@@ -570,6 +740,20 @@ func (from *Union) GongCopyBasicFields(to *Union) {
 	to.MemberTypes = from.MemberTypes
 }
 
+type Unique_WOP struct {
+	// insertion point
+
+	Name string
+
+	NameXSD string
+}
+
+func (from *Unique) GongCopyBasicFields(to *Unique) {
+	// insertion point
+	to.Name = from.Name
+	to.NameXSD = from.NameXSD
+}
+
 type WhiteSpace_WOP struct {
 	// insertion point
 
@@ -582,6 +766,37 @@ func (from *WhiteSpace) GongCopyBasicFields(to *WhiteSpace) {
 	// insertion point
 	to.Name = from.Name
 	to.Value = from.Value
+}
+
+type XSDImport_WOP struct {
+	// insertion point
+
+	Name string
+
+	Namespace string
+
+	SchemaLocation string
+}
+
+func (from *XSDImport) GongCopyBasicFields(to *XSDImport) {
+	// insertion point
+	to.Name = from.Name
+	to.Namespace = from.Namespace
+	to.SchemaLocation = from.SchemaLocation
+}
+
+type XSDInclude_WOP struct {
+	// insertion point
+
+	Name string
+
+	SchemaLocation string
+}
+
+func (from *XSDInclude) GongCopyBasicFields(to *XSDInclude) {
+	// insertion point
+	to.Name = from.Name
+	to.SchemaLocation = from.SchemaLocation
 }
 
 // end of insertion point

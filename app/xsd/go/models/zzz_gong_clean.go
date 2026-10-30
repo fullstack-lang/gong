@@ -68,6 +68,7 @@ func (attribute *Attribute) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&attribute.Annotation) || modified
+	modified = stage.CleanPointer(&attribute.InnerSimpleType) || modified
 	return
 }
 
@@ -94,6 +95,16 @@ func (choice *Choice) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by ComplexContent
+func (complexcontent *ComplexContent) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&complexcontent.Annotation) || modified
+	modified = stage.CleanPointer(&complexcontent.Extension) || modified
+	modified = stage.CleanPointer(&complexcontent.Restriction) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by ComplexType
 func (complextype *ComplexType) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -117,6 +128,9 @@ func (complextype *ComplexType) GongClean(stage *Stage) (modified bool) {
 func (element *Element) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&element.Groups) || modified
+	modified = stage.CleanSlice(&element.Keys) || modified
+	modified = stage.CleanSlice(&element.Uniques) || modified
+	modified = stage.CleanSlice(&element.KeyRefs) || modified
 	// insertion point per field
 	modified = stage.CleanPointer(&element.Annotation) || modified
 	modified = stage.CleanPointer(&element.SimpleType) || modified
@@ -146,6 +160,14 @@ func (extension *Extension) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by FractionDigit
+func (fractiondigit *FractionDigit) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&fractiondigit.Annotation) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Group
 func (group *Group) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -160,11 +182,48 @@ func (group *Group) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Key
+func (key *Key) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = stage.CleanSlice(&key.Fields) || modified
+	// insertion point per field
+	modified = stage.CleanPointer(&key.Annotation) || modified
+	modified = stage.CleanPointer(&key.Selector) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by KeyRef
+func (keyref *KeyRef) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = stage.CleanSlice(&keyref.Fields) || modified
+	// insertion point per field
+	modified = stage.CleanPointer(&keyref.Annotation) || modified
+	modified = stage.CleanPointer(&keyref.Selector) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Length
 func (length *Length) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&length.Annotation) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by List
+func (list *List) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&list.Annotation) || modified
+	modified = stage.CleanPointer(&list.SimpleType) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by MaxExclusive
+func (maxexclusive *MaxExclusive) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&maxexclusive.Annotation) || modified
 	return
 }
 
@@ -181,6 +240,14 @@ func (maxlength *MaxLength) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&maxlength.Annotation) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by MinExclusive
+func (minexclusive *MinExclusive) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&minexclusive.Annotation) || modified
 	return
 }
 
@@ -212,27 +279,44 @@ func (pattern *Pattern) GongClean(stage *Stage) (modified bool) {
 func (restriction *Restriction) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&restriction.Enumerations) || modified
+	modified = stage.CleanSlice(&restriction.Sequences) || modified
+	modified = stage.CleanSlice(&restriction.Alls) || modified
+	modified = stage.CleanSlice(&restriction.Choices) || modified
+	modified = stage.CleanSlice(&restriction.Groups) || modified
+	modified = stage.CleanSlice(&restriction.Elements) || modified
+	modified = stage.CleanSlice(&restriction.Attributes) || modified
+	modified = stage.CleanSlice(&restriction.AttributeGroups) || modified
 	// insertion point per field
 	modified = stage.CleanPointer(&restriction.Annotation) || modified
+	modified = stage.CleanPointer(&restriction.SimpleType) || modified
 	modified = stage.CleanPointer(&restriction.MinInclusive) || modified
 	modified = stage.CleanPointer(&restriction.MaxInclusive) || modified
+	modified = stage.CleanPointer(&restriction.MinExclusive) || modified
+	modified = stage.CleanPointer(&restriction.MaxExclusive) || modified
 	modified = stage.CleanPointer(&restriction.Pattern) || modified
 	modified = stage.CleanPointer(&restriction.WhiteSpace) || modified
 	modified = stage.CleanPointer(&restriction.MinLength) || modified
 	modified = stage.CleanPointer(&restriction.MaxLength) || modified
 	modified = stage.CleanPointer(&restriction.Length) || modified
 	modified = stage.CleanPointer(&restriction.TotalDigit) || modified
+	modified = stage.CleanPointer(&restriction.FractionDigit) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Schema
 func (schema *Schema) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = stage.CleanSlice(&schema.Imports) || modified
+	modified = stage.CleanSlice(&schema.Includes) || modified
 	modified = stage.CleanSlice(&schema.Elements) || modified
+	modified = stage.CleanSlice(&schema.Attributes) || modified
 	modified = stage.CleanSlice(&schema.SimpleTypes) || modified
 	modified = stage.CleanSlice(&schema.ComplexTypes) || modified
 	modified = stage.CleanSlice(&schema.AttributeGroups) || modified
 	modified = stage.CleanSlice(&schema.Groups) || modified
+	modified = stage.CleanSlice(&schema.Keys) || modified
+	modified = stage.CleanSlice(&schema.Uniques) || modified
+	modified = stage.CleanSlice(&schema.KeyRefs) || modified
 	// insertion point per field
 	modified = stage.CleanPointer(&schema.Annotation) || modified
 	return
@@ -267,6 +351,7 @@ func (simpletype *SimpleType) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanPointer(&simpletype.Annotation) || modified
 	modified = stage.CleanPointer(&simpletype.Restriction) || modified
 	modified = stage.CleanPointer(&simpletype.Union) || modified
+	modified = stage.CleanPointer(&simpletype.List) || modified
 	return
 }
 
@@ -281,8 +366,19 @@ func (totaldigit *TotalDigit) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Union
 func (union *Union) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = stage.CleanSlice(&union.SimpleTypes) || modified
 	// insertion point per field
 	modified = stage.CleanPointer(&union.Annotation) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Unique
+func (unique *Unique) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = stage.CleanSlice(&unique.Fields) || modified
+	// insertion point per field
+	modified = stage.CleanPointer(&unique.Annotation) || modified
+	modified = stage.CleanPointer(&unique.Selector) || modified
 	return
 }
 
@@ -291,6 +387,22 @@ func (whitespace *WhiteSpace) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&whitespace.Annotation) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by XSDImport
+func (xsdimport *XSDImport) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&xsdimport.Annotation) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by XSDInclude
+func (xsdinclude *XSDInclude) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&xsdinclude.Annotation) || modified
 	return
 }
 

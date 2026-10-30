@@ -182,14 +182,28 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Enumeration), stage, ident.Name, instanceName, preserveOrder)
 				case "Extension":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Extension), stage, ident.Name, instanceName, preserveOrder)
+				case "FieldXPath":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FieldXPath), stage, ident.Name, instanceName, preserveOrder)
+				case "FractionDigit":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(FractionDigit), stage, ident.Name, instanceName, preserveOrder)
 				case "Group":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Group), stage, ident.Name, instanceName, preserveOrder)
+				case "Key":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Key), stage, ident.Name, instanceName, preserveOrder)
+				case "KeyRef":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(KeyRef), stage, ident.Name, instanceName, preserveOrder)
 				case "Length":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Length), stage, ident.Name, instanceName, preserveOrder)
+				case "List":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(List), stage, ident.Name, instanceName, preserveOrder)
+				case "MaxExclusive":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(MaxExclusive), stage, ident.Name, instanceName, preserveOrder)
 				case "MaxInclusive":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(MaxInclusive), stage, ident.Name, instanceName, preserveOrder)
 				case "MaxLength":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(MaxLength), stage, ident.Name, instanceName, preserveOrder)
+				case "MinExclusive":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(MinExclusive), stage, ident.Name, instanceName, preserveOrder)
 				case "MinInclusive":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(MinInclusive), stage, ident.Name, instanceName, preserveOrder)
 				case "MinLength":
@@ -200,6 +214,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Restriction), stage, ident.Name, instanceName, preserveOrder)
 				case "Schema":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Schema), stage, ident.Name, instanceName, preserveOrder)
+				case "Selector":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Selector), stage, ident.Name, instanceName, preserveOrder)
 				case "Sequence":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Sequence), stage, ident.Name, instanceName, preserveOrder)
 				case "SimpleContent":
@@ -210,8 +226,14 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(TotalDigit), stage, ident.Name, instanceName, preserveOrder)
 				case "Union":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Union), stage, ident.Name, instanceName, preserveOrder)
+				case "Unique":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Unique), stage, ident.Name, instanceName, preserveOrder)
 				case "WhiteSpace":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(WhiteSpace), stage, ident.Name, instanceName, preserveOrder)
+				case "XSDImport":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(XSDImport), stage, ident.Name, instanceName, preserveOrder)
+				case "XSDInclude":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(XSDInclude), stage, ident.Name, instanceName, preserveOrder)
 				}
 					}
 				}
@@ -288,8 +310,14 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.TargetNamespace = GongExtractString(rhs)
 					case "SimpleType":
 						inst.SimpleType = GongExtractString(rhs)
+					case "InnerSimpleType":
+						__gong__assignPointer(&inst.InnerSimpleType, rhs, identifierMap)
 					case "IDXSD":
 						inst.IDXSD = GongExtractString(rhs)
+					case "Order":
+						inst.Order = GongExtractInt(rhs)
+					case "Depth":
+						inst.Depth = GongExtractInt(rhs)
 					}
 				case *AttributeGroup:
 					switch fieldName {
@@ -347,6 +375,14 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "Annotation":
+						__gong__assignPointer(&inst.Annotation, rhs, identifierMap)
+					case "Mixed":
+						inst.Mixed = GongExtractString(rhs)
+					case "Extension":
+						__gong__assignPointer(&inst.Extension, rhs, identifierMap)
+					case "Restriction":
+						__gong__assignPointer(&inst.Restriction, rhs, identifierMap)
 					}
 				case *ComplexType:
 					switch fieldName {
@@ -446,12 +482,20 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Block = GongExtractString(rhs)
 					case "Final":
 						inst.Final = GongExtractString(rhs)
+					case "SubstitutionGroup":
+						inst.SubstitutionGroup = GongExtractString(rhs)
 					case "SimpleType":
 						__gong__assignPointer(&inst.SimpleType, rhs, identifierMap)
 					case "ComplexType":
 						__gong__assignPointer(&inst.ComplexType, rhs, identifierMap)
 					case "Groups":
 						__gong__assignSliceOfPointers(&inst.Groups, rhs, identifierMap)
+					case "Keys":
+						__gong__assignSliceOfPointers(&inst.Keys, rhs, identifierMap)
+					case "Uniques":
+						__gong__assignSliceOfPointers(&inst.Uniques, rhs, identifierMap)
+					case "KeyRefs":
+						__gong__assignSliceOfPointers(&inst.KeyRefs, rhs, identifierMap)
 					case "IsDuplicatedInXSD":
 						inst.IsDuplicatedInXSD = GongExtractBool(rhs)
 					}
@@ -497,6 +541,22 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "AttributeGroups":
 						__gong__assignSliceOfPointers(&inst.AttributeGroups, rhs, identifierMap)
 					}
+				case *FieldXPath:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "XPath":
+						inst.XPath = GongExtractString(rhs)
+					}
+				case *FractionDigit:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Annotation":
+						__gong__assignPointer(&inst.Annotation, rhs, identifierMap)
+					case "Value":
+						inst.Value = GongExtractString(rhs)
+					}
 				case *Group:
 					switch fieldName {
 					case "Name":
@@ -536,7 +596,55 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "MaxOccurs":
 						inst.MaxOccurs = GongExtractString(rhs)
 					}
+				case *Key:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Annotation":
+						__gong__assignPointer(&inst.Annotation, rhs, identifierMap)
+					case "NameXSD":
+						inst.NameXSD = GongExtractString(rhs)
+					case "Selector":
+						__gong__assignPointer(&inst.Selector, rhs, identifierMap)
+					case "Fields":
+						__gong__assignSliceOfPointers(&inst.Fields, rhs, identifierMap)
+					}
+				case *KeyRef:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Annotation":
+						__gong__assignPointer(&inst.Annotation, rhs, identifierMap)
+					case "NameXSD":
+						inst.NameXSD = GongExtractString(rhs)
+					case "Refer":
+						inst.Refer = GongExtractString(rhs)
+					case "Selector":
+						__gong__assignPointer(&inst.Selector, rhs, identifierMap)
+					case "Fields":
+						__gong__assignSliceOfPointers(&inst.Fields, rhs, identifierMap)
+					}
 				case *Length:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Annotation":
+						__gong__assignPointer(&inst.Annotation, rhs, identifierMap)
+					case "Value":
+						inst.Value = GongExtractString(rhs)
+					}
+				case *List:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Annotation":
+						__gong__assignPointer(&inst.Annotation, rhs, identifierMap)
+					case "ItemType":
+						inst.ItemType = GongExtractString(rhs)
+					case "SimpleType":
+						__gong__assignPointer(&inst.SimpleType, rhs, identifierMap)
+					}
+				case *MaxExclusive:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
@@ -555,6 +663,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Value = GongExtractString(rhs)
 					}
 				case *MaxLength:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Annotation":
+						__gong__assignPointer(&inst.Annotation, rhs, identifierMap)
+					case "Value":
+						inst.Value = GongExtractString(rhs)
+					}
+				case *MinExclusive:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
@@ -598,12 +715,18 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Annotation, rhs, identifierMap)
 					case "Base":
 						inst.Base = GongExtractString(rhs)
+					case "SimpleType":
+						__gong__assignPointer(&inst.SimpleType, rhs, identifierMap)
 					case "Enumerations":
 						__gong__assignSliceOfPointers(&inst.Enumerations, rhs, identifierMap)
 					case "MinInclusive":
 						__gong__assignPointer(&inst.MinInclusive, rhs, identifierMap)
 					case "MaxInclusive":
 						__gong__assignPointer(&inst.MaxInclusive, rhs, identifierMap)
+					case "MinExclusive":
+						__gong__assignPointer(&inst.MinExclusive, rhs, identifierMap)
+					case "MaxExclusive":
+						__gong__assignPointer(&inst.MaxExclusive, rhs, identifierMap)
 					case "Pattern":
 						__gong__assignPointer(&inst.Pattern, rhs, identifierMap)
 					case "WhiteSpace":
@@ -616,6 +739,32 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Length, rhs, identifierMap)
 					case "TotalDigit":
 						__gong__assignPointer(&inst.TotalDigit, rhs, identifierMap)
+					case "FractionDigit":
+						__gong__assignPointer(&inst.FractionDigit, rhs, identifierMap)
+					case "OuterElementName":
+						inst.OuterElementName = GongExtractString(rhs)
+					case "Sequences":
+						__gong__assignSliceOfPointers(&inst.Sequences, rhs, identifierMap)
+					case "Alls":
+						__gong__assignSliceOfPointers(&inst.Alls, rhs, identifierMap)
+					case "Choices":
+						__gong__assignSliceOfPointers(&inst.Choices, rhs, identifierMap)
+					case "Groups":
+						__gong__assignSliceOfPointers(&inst.Groups, rhs, identifierMap)
+					case "Elements":
+						__gong__assignSliceOfPointers(&inst.Elements, rhs, identifierMap)
+					case "Order":
+						inst.Order = GongExtractInt(rhs)
+					case "Depth":
+						inst.Depth = GongExtractInt(rhs)
+					case "MinOccurs":
+						inst.MinOccurs = GongExtractString(rhs)
+					case "MaxOccurs":
+						inst.MaxOccurs = GongExtractString(rhs)
+					case "Attributes":
+						__gong__assignSliceOfPointers(&inst.Attributes, rhs, identifierMap)
+					case "AttributeGroups":
+						__gong__assignSliceOfPointers(&inst.AttributeGroups, rhs, identifierMap)
 					}
 				case *Schema:
 					switch fieldName {
@@ -623,10 +772,32 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Name = GongExtractString(rhs)
 					case "Xs":
 						inst.Xs = GongExtractString(rhs)
+					case "TargetNamespace":
+						inst.TargetNamespace = GongExtractString(rhs)
+					case "ElementFormDefault":
+						inst.ElementFormDefault = GongExtractString(rhs)
+					case "AttributeFormDefault":
+						inst.AttributeFormDefault = GongExtractString(rhs)
+					case "Version":
+						inst.Version = GongExtractString(rhs)
+					case "FilePath":
+						inst.FilePath = GongExtractString(rhs)
+					case "PackageName":
+						inst.PackageName = GongExtractString(rhs)
+					case "PackageRelDir":
+						inst.PackageRelDir = GongExtractString(rhs)
+					case "IsRootSchema":
+						inst.IsRootSchema = GongExtractBool(rhs)
 					case "Annotation":
 						__gong__assignPointer(&inst.Annotation, rhs, identifierMap)
+					case "Imports":
+						__gong__assignSliceOfPointers(&inst.Imports, rhs, identifierMap)
+					case "Includes":
+						__gong__assignSliceOfPointers(&inst.Includes, rhs, identifierMap)
 					case "Elements":
 						__gong__assignSliceOfPointers(&inst.Elements, rhs, identifierMap)
+					case "Attributes":
+						__gong__assignSliceOfPointers(&inst.Attributes, rhs, identifierMap)
 					case "SimpleTypes":
 						__gong__assignSliceOfPointers(&inst.SimpleTypes, rhs, identifierMap)
 					case "ComplexTypes":
@@ -635,10 +806,23 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignSliceOfPointers(&inst.AttributeGroups, rhs, identifierMap)
 					case "Groups":
 						__gong__assignSliceOfPointers(&inst.Groups, rhs, identifierMap)
+					case "Keys":
+						__gong__assignSliceOfPointers(&inst.Keys, rhs, identifierMap)
+					case "Uniques":
+						__gong__assignSliceOfPointers(&inst.Uniques, rhs, identifierMap)
+					case "KeyRefs":
+						__gong__assignSliceOfPointers(&inst.KeyRefs, rhs, identifierMap)
 					case "Order":
 						inst.Order = GongExtractInt(rhs)
 					case "Depth":
 						inst.Depth = GongExtractInt(rhs)
+					}
+				case *Selector:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "XPath":
+						inst.XPath = GongExtractString(rhs)
 					}
 				case *Sequence:
 					switch fieldName {
@@ -688,6 +872,12 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Restriction, rhs, identifierMap)
 					case "Union":
 						__gong__assignPointer(&inst.Union, rhs, identifierMap)
+					case "List":
+						__gong__assignPointer(&inst.List, rhs, identifierMap)
+					case "HasNameConflict":
+						inst.HasNameConflict = GongExtractBool(rhs)
+					case "GoIdentifier":
+						inst.GoIdentifier = GongExtractString(rhs)
 					case "Order":
 						inst.Order = GongExtractInt(rhs)
 					case "Depth":
@@ -710,6 +900,21 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Annotation, rhs, identifierMap)
 					case "MemberTypes":
 						inst.MemberTypes = GongExtractString(rhs)
+					case "SimpleTypes":
+						__gong__assignSliceOfPointers(&inst.SimpleTypes, rhs, identifierMap)
+					}
+				case *Unique:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Annotation":
+						__gong__assignPointer(&inst.Annotation, rhs, identifierMap)
+					case "NameXSD":
+						inst.NameXSD = GongExtractString(rhs)
+					case "Selector":
+						__gong__assignPointer(&inst.Selector, rhs, identifierMap)
+					case "Fields":
+						__gong__assignSliceOfPointers(&inst.Fields, rhs, identifierMap)
 					}
 				case *WhiteSpace:
 					switch fieldName {
@@ -719,6 +924,26 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Annotation, rhs, identifierMap)
 					case "Value":
 						inst.Value = GongExtractString(rhs)
+					}
+				case *XSDImport:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Annotation":
+						__gong__assignPointer(&inst.Annotation, rhs, identifierMap)
+					case "Namespace":
+						inst.Namespace = GongExtractString(rhs)
+					case "SchemaLocation":
+						inst.SchemaLocation = GongExtractString(rhs)
+					}
+				case *XSDInclude:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Annotation":
+						__gong__assignPointer(&inst.Annotation, rhs, identifierMap)
+					case "SchemaLocation":
+						inst.SchemaLocation = GongExtractString(rhs)
 					}
 							}
 						}
@@ -994,8 +1219,14 @@ func (u *AttributeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.TargetNamespace = GongExtractString(valueExpr)
 	case "SimpleType":
 		instance.SimpleType = GongExtractString(valueExpr)
+	case "InnerSimpleType":
+		GongUnmarshallPointer(&instance.InnerSimpleType, valueExpr, identifierMap)
 	case "IDXSD":
 		instance.IDXSD = GongExtractString(valueExpr)
+	case "Order":
+		instance.Order = GongExtractInt(valueExpr)
+	case "Depth":
+		instance.Depth = GongExtractInt(valueExpr)
 	}
 	return nil
 }
@@ -1089,6 +1320,14 @@ func (u *ComplexContentUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Annotation":
+		GongUnmarshallPointer(&instance.Annotation, valueExpr, identifierMap)
+	case "Mixed":
+		instance.Mixed = GongExtractString(valueExpr)
+	case "Extension":
+		GongUnmarshallPointer(&instance.Extension, valueExpr, identifierMap)
+	case "Restriction":
+		GongUnmarshallPointer(&instance.Restriction, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1224,12 +1463,20 @@ func (u *ElementUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Block = GongExtractString(valueExpr)
 	case "Final":
 		instance.Final = GongExtractString(valueExpr)
+	case "SubstitutionGroup":
+		instance.SubstitutionGroup = GongExtractString(valueExpr)
 	case "SimpleType":
 		GongUnmarshallPointer(&instance.SimpleType, valueExpr, identifierMap)
 	case "ComplexType":
 		GongUnmarshallPointer(&instance.ComplexType, valueExpr, identifierMap)
 	case "Groups":
 		GongUnmarshallSliceOfPointers(&instance.Groups, valueExpr, identifierMap)
+	case "Keys":
+		GongUnmarshallSliceOfPointers(&instance.Keys, valueExpr, identifierMap)
+	case "Uniques":
+		GongUnmarshallSliceOfPointers(&instance.Uniques, valueExpr, identifierMap)
+	case "KeyRefs":
+		GongUnmarshallSliceOfPointers(&instance.KeyRefs, valueExpr, identifierMap)
 	case "IsDuplicatedInXSD":
 		instance.IsDuplicatedInXSD = GongExtractBool(valueExpr)
 	}
@@ -1302,6 +1549,46 @@ func (u *ExtensionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	return nil
 }
 
+type FieldXPathUnmarshaller struct{}
+
+func (u *FieldXPathUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(FieldXPath), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *FieldXPathUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*FieldXPath)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "XPath":
+		instance.XPath = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type FractionDigitUnmarshaller struct{}
+
+func (u *FractionDigitUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(FractionDigit), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *FractionDigitUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*FractionDigit)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Annotation":
+		GongUnmarshallPointer(&instance.Annotation, valueExpr, identifierMap)
+	case "Value":
+		instance.Value = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type GroupUnmarshaller struct{}
 
 func (u *GroupUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1353,6 +1640,58 @@ func (u *GroupUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	return nil
 }
 
+type KeyUnmarshaller struct{}
+
+func (u *KeyUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(Key), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *KeyUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Key)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Annotation":
+		GongUnmarshallPointer(&instance.Annotation, valueExpr, identifierMap)
+	case "NameXSD":
+		instance.NameXSD = GongExtractString(valueExpr)
+	case "Selector":
+		GongUnmarshallPointer(&instance.Selector, valueExpr, identifierMap)
+	case "Fields":
+		GongUnmarshallSliceOfPointers(&instance.Fields, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type KeyRefUnmarshaller struct{}
+
+func (u *KeyRefUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(KeyRef), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *KeyRefUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*KeyRef)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Annotation":
+		GongUnmarshallPointer(&instance.Annotation, valueExpr, identifierMap)
+	case "NameXSD":
+		instance.NameXSD = GongExtractString(valueExpr)
+	case "Refer":
+		instance.Refer = GongExtractString(valueExpr)
+	case "Selector":
+		GongUnmarshallPointer(&instance.Selector, valueExpr, identifierMap)
+	case "Fields":
+		GongUnmarshallSliceOfPointers(&instance.Fields, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type LengthUnmarshaller struct{}
 
 func (u *LengthUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1361,6 +1700,50 @@ func (u *LengthUnmarshaller) Initialize(stage *Stage, identifier string, instanc
 
 func (u *LengthUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
 	instance := i.(*Length)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Annotation":
+		GongUnmarshallPointer(&instance.Annotation, valueExpr, identifierMap)
+	case "Value":
+		instance.Value = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type ListUnmarshaller struct{}
+
+func (u *ListUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(List), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *ListUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*List)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Annotation":
+		GongUnmarshallPointer(&instance.Annotation, valueExpr, identifierMap)
+	case "ItemType":
+		instance.ItemType = GongExtractString(valueExpr)
+	case "SimpleType":
+		GongUnmarshallPointer(&instance.SimpleType, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type MaxExclusiveUnmarshaller struct{}
+
+func (u *MaxExclusiveUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(MaxExclusive), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *MaxExclusiveUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*MaxExclusive)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -1403,6 +1786,27 @@ func (u *MaxLengthUnmarshaller) Initialize(stage *Stage, identifier string, inst
 
 func (u *MaxLengthUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
 	instance := i.(*MaxLength)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Annotation":
+		GongUnmarshallPointer(&instance.Annotation, valueExpr, identifierMap)
+	case "Value":
+		instance.Value = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type MinExclusiveUnmarshaller struct{}
+
+func (u *MinExclusiveUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(MinExclusive), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *MinExclusiveUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*MinExclusive)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -1496,12 +1900,18 @@ func (u *RestrictionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallPointer(&instance.Annotation, valueExpr, identifierMap)
 	case "Base":
 		instance.Base = GongExtractString(valueExpr)
+	case "SimpleType":
+		GongUnmarshallPointer(&instance.SimpleType, valueExpr, identifierMap)
 	case "Enumerations":
 		GongUnmarshallSliceOfPointers(&instance.Enumerations, valueExpr, identifierMap)
 	case "MinInclusive":
 		GongUnmarshallPointer(&instance.MinInclusive, valueExpr, identifierMap)
 	case "MaxInclusive":
 		GongUnmarshallPointer(&instance.MaxInclusive, valueExpr, identifierMap)
+	case "MinExclusive":
+		GongUnmarshallPointer(&instance.MinExclusive, valueExpr, identifierMap)
+	case "MaxExclusive":
+		GongUnmarshallPointer(&instance.MaxExclusive, valueExpr, identifierMap)
 	case "Pattern":
 		GongUnmarshallPointer(&instance.Pattern, valueExpr, identifierMap)
 	case "WhiteSpace":
@@ -1514,6 +1924,32 @@ func (u *RestrictionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallPointer(&instance.Length, valueExpr, identifierMap)
 	case "TotalDigit":
 		GongUnmarshallPointer(&instance.TotalDigit, valueExpr, identifierMap)
+	case "FractionDigit":
+		GongUnmarshallPointer(&instance.FractionDigit, valueExpr, identifierMap)
+	case "OuterElementName":
+		instance.OuterElementName = GongExtractString(valueExpr)
+	case "Sequences":
+		GongUnmarshallSliceOfPointers(&instance.Sequences, valueExpr, identifierMap)
+	case "Alls":
+		GongUnmarshallSliceOfPointers(&instance.Alls, valueExpr, identifierMap)
+	case "Choices":
+		GongUnmarshallSliceOfPointers(&instance.Choices, valueExpr, identifierMap)
+	case "Groups":
+		GongUnmarshallSliceOfPointers(&instance.Groups, valueExpr, identifierMap)
+	case "Elements":
+		GongUnmarshallSliceOfPointers(&instance.Elements, valueExpr, identifierMap)
+	case "Order":
+		instance.Order = GongExtractInt(valueExpr)
+	case "Depth":
+		instance.Depth = GongExtractInt(valueExpr)
+	case "MinOccurs":
+		instance.MinOccurs = GongExtractString(valueExpr)
+	case "MaxOccurs":
+		instance.MaxOccurs = GongExtractString(valueExpr)
+	case "Attributes":
+		GongUnmarshallSliceOfPointers(&instance.Attributes, valueExpr, identifierMap)
+	case "AttributeGroups":
+		GongUnmarshallSliceOfPointers(&instance.AttributeGroups, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1533,10 +1969,32 @@ func (u *SchemaUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.Name = GongExtractString(valueExpr)
 	case "Xs":
 		instance.Xs = GongExtractString(valueExpr)
+	case "TargetNamespace":
+		instance.TargetNamespace = GongExtractString(valueExpr)
+	case "ElementFormDefault":
+		instance.ElementFormDefault = GongExtractString(valueExpr)
+	case "AttributeFormDefault":
+		instance.AttributeFormDefault = GongExtractString(valueExpr)
+	case "Version":
+		instance.Version = GongExtractString(valueExpr)
+	case "FilePath":
+		instance.FilePath = GongExtractString(valueExpr)
+	case "PackageName":
+		instance.PackageName = GongExtractString(valueExpr)
+	case "PackageRelDir":
+		instance.PackageRelDir = GongExtractString(valueExpr)
+	case "IsRootSchema":
+		instance.IsRootSchema = GongExtractBool(valueExpr)
 	case "Annotation":
 		GongUnmarshallPointer(&instance.Annotation, valueExpr, identifierMap)
+	case "Imports":
+		GongUnmarshallSliceOfPointers(&instance.Imports, valueExpr, identifierMap)
+	case "Includes":
+		GongUnmarshallSliceOfPointers(&instance.Includes, valueExpr, identifierMap)
 	case "Elements":
 		GongUnmarshallSliceOfPointers(&instance.Elements, valueExpr, identifierMap)
+	case "Attributes":
+		GongUnmarshallSliceOfPointers(&instance.Attributes, valueExpr, identifierMap)
 	case "SimpleTypes":
 		GongUnmarshallSliceOfPointers(&instance.SimpleTypes, valueExpr, identifierMap)
 	case "ComplexTypes":
@@ -1545,10 +2003,35 @@ func (u *SchemaUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		GongUnmarshallSliceOfPointers(&instance.AttributeGroups, valueExpr, identifierMap)
 	case "Groups":
 		GongUnmarshallSliceOfPointers(&instance.Groups, valueExpr, identifierMap)
+	case "Keys":
+		GongUnmarshallSliceOfPointers(&instance.Keys, valueExpr, identifierMap)
+	case "Uniques":
+		GongUnmarshallSliceOfPointers(&instance.Uniques, valueExpr, identifierMap)
+	case "KeyRefs":
+		GongUnmarshallSliceOfPointers(&instance.KeyRefs, valueExpr, identifierMap)
 	case "Order":
 		instance.Order = GongExtractInt(valueExpr)
 	case "Depth":
 		instance.Depth = GongExtractInt(valueExpr)
+	}
+	return nil
+}
+
+type SelectorUnmarshaller struct{}
+
+func (u *SelectorUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(Selector), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *SelectorUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Selector)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "XPath":
+		instance.XPath = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -1634,6 +2117,12 @@ func (u *SimpleTypeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 		GongUnmarshallPointer(&instance.Restriction, valueExpr, identifierMap)
 	case "Union":
 		GongUnmarshallPointer(&instance.Union, valueExpr, identifierMap)
+	case "List":
+		GongUnmarshallPointer(&instance.List, valueExpr, identifierMap)
+	case "HasNameConflict":
+		instance.HasNameConflict = GongExtractBool(valueExpr)
+	case "GoIdentifier":
+		instance.GoIdentifier = GongExtractString(valueExpr)
 	case "Order":
 		instance.Order = GongExtractInt(valueExpr)
 	case "Depth":
@@ -1680,6 +2169,33 @@ func (u *UnionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.Annotation, valueExpr, identifierMap)
 	case "MemberTypes":
 		instance.MemberTypes = GongExtractString(valueExpr)
+	case "SimpleTypes":
+		GongUnmarshallSliceOfPointers(&instance.SimpleTypes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type UniqueUnmarshaller struct{}
+
+func (u *UniqueUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(Unique), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *UniqueUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Unique)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Annotation":
+		GongUnmarshallPointer(&instance.Annotation, valueExpr, identifierMap)
+	case "NameXSD":
+		instance.NameXSD = GongExtractString(valueExpr)
+	case "Selector":
+		GongUnmarshallPointer(&instance.Selector, valueExpr, identifierMap)
+	case "Fields":
+		GongUnmarshallSliceOfPointers(&instance.Fields, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1701,6 +2217,50 @@ func (u *WhiteSpaceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 		GongUnmarshallPointer(&instance.Annotation, valueExpr, identifierMap)
 	case "Value":
 		instance.Value = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type XSDImportUnmarshaller struct{}
+
+func (u *XSDImportUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(XSDImport), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *XSDImportUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*XSDImport)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Annotation":
+		GongUnmarshallPointer(&instance.Annotation, valueExpr, identifierMap)
+	case "Namespace":
+		instance.Namespace = GongExtractString(valueExpr)
+	case "SchemaLocation":
+		instance.SchemaLocation = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type XSDIncludeUnmarshaller struct{}
+
+func (u *XSDIncludeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(XSDInclude), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *XSDIncludeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*XSDInclude)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Annotation":
+		GongUnmarshallPointer(&instance.Annotation, valueExpr, identifierMap)
+	case "SchemaLocation":
+		instance.SchemaLocation = GongExtractString(valueExpr)
 	}
 	return nil
 }

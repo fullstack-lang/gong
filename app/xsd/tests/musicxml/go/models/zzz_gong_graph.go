@@ -885,8 +885,8 @@ func (principal_voice *Principal_voice) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
-func (print *Print) GongIsStaged(stage *Stage) bool {
-	_, ok := stage.Prints[print]
+func (print_xsd *Print_XSD) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Print_XSDs[print_xsd]
 	return ok
 }
 
@@ -1226,8 +1226,8 @@ func (a_measure *A_measure) GongStageBranch(stage *Stage) {
 	for _, _figured_bass := range a_measure.Figured_bass {
 		stage.StageBranch(_figured_bass)
 	}
-	for _, _print := range a_measure.Print {
-		stage.StageBranch(_print)
+	for _, _print_xsd := range a_measure.Print_XSD {
+		stage.StageBranch(_print_xsd)
 	}
 	for _, _sound := range a_measure.Sound {
 		stage.StageBranch(_sound)
@@ -1319,8 +1319,8 @@ func (a_part_1 *A_part_1) GongStageBranch(stage *Stage) {
 	for _, _figured_bass := range a_part_1.Figured_bass {
 		stage.StageBranch(_figured_bass)
 	}
-	for _, _print := range a_part_1.Print {
-		stage.StageBranch(_print)
+	for _, _print_xsd := range a_part_1.Print_XSD {
+		stage.StageBranch(_print_xsd)
 	}
 	for _, _sound := range a_part_1.Sound {
 		stage.StageBranch(_sound)
@@ -1582,9 +1582,6 @@ func (attributes *Attributes) GongStageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _key := range attributes.Key {
 		stage.StageBranch(_key)
-	}
-	for _, _time := range attributes.Time {
-		stage.StageBranch(_time)
 	}
 	for _, _clef := range attributes.Clef {
 		stage.StageBranch(_clef)
@@ -1938,6 +1935,12 @@ func (credit *Credit) GongStageBranch(stage *Stage) {
 	if credit.Credit_image != nil {
 		stage.StageBranch(credit.Credit_image)
 	}
+	if credit.Credit_words != nil {
+		stage.StageBranch(credit.Credit_words)
+	}
+	if credit.Credit_symbol != nil {
+		stage.StageBranch(credit.Credit_symbol)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _link := range credit.Link {
@@ -1945,12 +1948,6 @@ func (credit *Credit) GongStageBranch(stage *Stage) {
 	}
 	for _, _bookmark := range credit.Bookmark {
 		stage.StageBranch(_bookmark)
-	}
-	for _, _formatted_text_id := range credit.Credit_words {
-		stage.StageBranch(_formatted_text_id)
-	}
-	for _, _formatted_symbol_id := range credit.Credit_symbol {
-		stage.StageBranch(_formatted_symbol_id)
 	}
 
 }
@@ -2730,8 +2727,8 @@ func (frame_note *Frame_note) GongStageBranch(stage *Stage) {
 	frame_note.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if frame_note.String != nil {
-		stage.StageBranch(frame_note.String)
+	if frame_note.String_XSD != nil {
+		stage.StageBranch(frame_note.String_XSD)
 	}
 	if frame_note.Fret != nil {
 		stage.StageBranch(frame_note.Fret)
@@ -3417,6 +3414,9 @@ func (lyric *Lyric) GongStageBranch(stage *Stage) {
 	lyric.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if lyric.Text != nil {
+		stage.StageBranch(lyric.Text)
+	}
 	if lyric.Extend != nil {
 		stage.StageBranch(lyric.Extend)
 	}
@@ -3430,9 +3430,6 @@ func (lyric *Lyric) GongStageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _elision := range lyric.Elision {
 		stage.StageBranch(_elision)
-	}
-	for _, _text_element_data := range lyric.Text {
-		stage.StageBranch(_text_element_data)
 	}
 
 }
@@ -3885,8 +3882,8 @@ func (note *Note) GongStageBranch(stage *Stage) {
 	if note.Level != nil {
 		stage.StageBranch(note.Level)
 	}
-	if note.Type != nil {
-		stage.StageBranch(note.Type)
+	if note.Type_XSD != nil {
+		stage.StageBranch(note.Type_XSD)
 	}
 	if note.Accidental != nil {
 		stage.StageBranch(note.Accidental)
@@ -4616,37 +4613,37 @@ func (principal_voice *Principal_voice) GongStageBranch(stage *Stage) {
 
 }
 
-func (print *Print) GongStageBranch(stage *Stage) {
+func (print_xsd *Print_XSD) GongStageBranch(stage *Stage) {
 
 	// check if instance is already staged
-	if stage.IsStaged(print) {
+	if stage.IsStaged(print_xsd) {
 		return
 	}
 
-	print.Stage(stage)
+	print_xsd.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if print.Page_layout != nil {
-		stage.StageBranch(print.Page_layout)
+	if print_xsd.Page_layout != nil {
+		stage.StageBranch(print_xsd.Page_layout)
 	}
-	if print.System_layout != nil {
-		stage.StageBranch(print.System_layout)
+	if print_xsd.System_layout != nil {
+		stage.StageBranch(print_xsd.System_layout)
 	}
-	if print.Measure_layout != nil {
-		stage.StageBranch(print.Measure_layout)
+	if print_xsd.Measure_layout != nil {
+		stage.StageBranch(print_xsd.Measure_layout)
 	}
-	if print.Measure_numbering != nil {
-		stage.StageBranch(print.Measure_numbering)
+	if print_xsd.Measure_numbering != nil {
+		stage.StageBranch(print_xsd.Measure_numbering)
 	}
-	if print.Part_name_display != nil {
-		stage.StageBranch(print.Part_name_display)
+	if print_xsd.Part_name_display != nil {
+		stage.StageBranch(print_xsd.Part_name_display)
 	}
-	if print.Part_abbreviation_display != nil {
-		stage.StageBranch(print.Part_abbreviation_display)
+	if print_xsd.Part_abbreviation_display != nil {
+		stage.StageBranch(print_xsd.Part_abbreviation_display)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _staff_layout := range print.Staff_layout {
+	for _, _staff_layout := range print_xsd.Staff_layout {
 		stage.StageBranch(_staff_layout)
 	}
 
@@ -5327,7 +5324,7 @@ func (technical *Technical) GongStageBranch(stage *Stage) {
 	for _, _fret := range technical.Fret {
 		stage.StageBranch(_fret)
 	}
-	for _, _string_type := range technical.String {
+	for _, _string_type := range technical.String_XSD {
 		stage.StageBranch(_string_type)
 	}
 	for _, _hammer_on_pull_off := range technical.Hammer_on {
@@ -6430,8 +6427,8 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchPrincipal_voice(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *Print:
-		toT := GongCopyBranchPrint(mapOrigCopy, fromT)
+	case *Print_XSD:
+		toT := GongCopyBranchPrint_XSD(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Release:
@@ -6712,8 +6709,8 @@ func GongCopyBranchA_measure(mapOrigCopy map[any]any, a_measureFrom *A_measure) 
 	for _, _figured_bass := range a_measureFrom.Figured_bass {
 		a_measureTo.Figured_bass = append(a_measureTo.Figured_bass, GongCopyBranchFigured_bass(mapOrigCopy, _figured_bass))
 	}
-	for _, _print := range a_measureFrom.Print {
-		a_measureTo.Print = append(a_measureTo.Print, GongCopyBranchPrint(mapOrigCopy, _print))
+	for _, _print_xsd := range a_measureFrom.Print_XSD {
+		a_measureTo.Print_XSD = append(a_measureTo.Print_XSD, GongCopyBranchPrint_XSD(mapOrigCopy, _print_xsd))
 	}
 	for _, _sound := range a_measureFrom.Sound {
 		a_measureTo.Sound = append(a_measureTo.Sound, GongCopyBranchSound(mapOrigCopy, _sound))
@@ -6805,8 +6802,8 @@ func GongCopyBranchA_part_1(mapOrigCopy map[any]any, a_part_1From *A_part_1) (a_
 	for _, _figured_bass := range a_part_1From.Figured_bass {
 		a_part_1To.Figured_bass = append(a_part_1To.Figured_bass, GongCopyBranchFigured_bass(mapOrigCopy, _figured_bass))
 	}
-	for _, _print := range a_part_1From.Print {
-		a_part_1To.Print = append(a_part_1To.Print, GongCopyBranchPrint(mapOrigCopy, _print))
+	for _, _print_xsd := range a_part_1From.Print_XSD {
+		a_part_1To.Print_XSD = append(a_part_1To.Print_XSD, GongCopyBranchPrint_XSD(mapOrigCopy, _print_xsd))
 	}
 	for _, _sound := range a_part_1From.Sound {
 		a_part_1To.Sound = append(a_part_1To.Sound, GongCopyBranchSound(mapOrigCopy, _sound))
@@ -7068,9 +7065,6 @@ func GongCopyBranchAttributes(mapOrigCopy map[any]any, attributesFrom *Attribute
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _key := range attributesFrom.Key {
 		attributesTo.Key = append(attributesTo.Key, GongCopyBranchKey(mapOrigCopy, _key))
-	}
-	for _, _time := range attributesFrom.Time {
-		attributesTo.Time = append(attributesTo.Time, GongCopyBranchTime(mapOrigCopy, _time))
 	}
 	for _, _clef := range attributesFrom.Clef {
 		attributesTo.Clef = append(attributesTo.Clef, GongCopyBranchClef(mapOrigCopy, _clef))
@@ -7424,6 +7418,12 @@ func GongCopyBranchCredit(mapOrigCopy map[any]any, creditFrom *Credit) (creditTo
 	if creditFrom.Credit_image != nil {
 		creditTo.Credit_image = GongCopyBranchImage(mapOrigCopy, creditFrom.Credit_image)
 	}
+	if creditFrom.Credit_words != nil {
+		creditTo.Credit_words = GongCopyBranchFormatted_text_id(mapOrigCopy, creditFrom.Credit_words)
+	}
+	if creditFrom.Credit_symbol != nil {
+		creditTo.Credit_symbol = GongCopyBranchFormatted_symbol_id(mapOrigCopy, creditFrom.Credit_symbol)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _link := range creditFrom.Link {
@@ -7431,12 +7431,6 @@ func GongCopyBranchCredit(mapOrigCopy map[any]any, creditFrom *Credit) (creditTo
 	}
 	for _, _bookmark := range creditFrom.Bookmark {
 		creditTo.Bookmark = append(creditTo.Bookmark, GongCopyBranchBookmark(mapOrigCopy, _bookmark))
-	}
-	for _, _formatted_text_id := range creditFrom.Credit_words {
-		creditTo.Credit_words = append(creditTo.Credit_words, GongCopyBranchFormatted_text_id(mapOrigCopy, _formatted_text_id))
-	}
-	for _, _formatted_symbol_id := range creditFrom.Credit_symbol {
-		creditTo.Credit_symbol = append(creditTo.Credit_symbol, GongCopyBranchFormatted_symbol_id(mapOrigCopy, _formatted_symbol_id))
 	}
 
 	return
@@ -8216,8 +8210,8 @@ func GongCopyBranchFrame_note(mapOrigCopy map[any]any, frame_noteFrom *Frame_not
 	frame_noteFrom.GongCopyBasicFields(frame_noteTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if frame_noteFrom.String != nil {
-		frame_noteTo.String = GongCopyBranchString_type(mapOrigCopy, frame_noteFrom.String)
+	if frame_noteFrom.String_XSD != nil {
+		frame_noteTo.String_XSD = GongCopyBranchString_type(mapOrigCopy, frame_noteFrom.String_XSD)
 	}
 	if frame_noteFrom.Fret != nil {
 		frame_noteTo.Fret = GongCopyBranchFret(mapOrigCopy, frame_noteFrom.Fret)
@@ -8903,6 +8897,9 @@ func GongCopyBranchLyric(mapOrigCopy map[any]any, lyricFrom *Lyric) (lyricTo *Ly
 	lyricFrom.GongCopyBasicFields(lyricTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if lyricFrom.Text != nil {
+		lyricTo.Text = GongCopyBranchText_element_data(mapOrigCopy, lyricFrom.Text)
+	}
 	if lyricFrom.Extend != nil {
 		lyricTo.Extend = GongCopyBranchExtend(mapOrigCopy, lyricFrom.Extend)
 	}
@@ -8916,9 +8913,6 @@ func GongCopyBranchLyric(mapOrigCopy map[any]any, lyricFrom *Lyric) (lyricTo *Ly
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _elision := range lyricFrom.Elision {
 		lyricTo.Elision = append(lyricTo.Elision, GongCopyBranchElision(mapOrigCopy, _elision))
-	}
-	for _, _text_element_data := range lyricFrom.Text {
-		lyricTo.Text = append(lyricTo.Text, GongCopyBranchText_element_data(mapOrigCopy, _text_element_data))
 	}
 
 	return
@@ -9371,8 +9365,8 @@ func GongCopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) 
 	if noteFrom.Level != nil {
 		noteTo.Level = GongCopyBranchLevel(mapOrigCopy, noteFrom.Level)
 	}
-	if noteFrom.Type != nil {
-		noteTo.Type = GongCopyBranchNote_type(mapOrigCopy, noteFrom.Type)
+	if noteFrom.Type_XSD != nil {
+		noteTo.Type_XSD = GongCopyBranchNote_type(mapOrigCopy, noteFrom.Type_XSD)
 	}
 	if noteFrom.Accidental != nil {
 		noteTo.Accidental = GongCopyBranchAccidental(mapOrigCopy, noteFrom.Accidental)
@@ -10103,37 +10097,37 @@ func GongCopyBranchPrincipal_voice(mapOrigCopy map[any]any, principal_voiceFrom 
 	return
 }
 
-func GongCopyBranchPrint(mapOrigCopy map[any]any, printFrom *Print) (printTo *Print) {
+func GongCopyBranchPrint_XSD(mapOrigCopy map[any]any, print_xsdFrom *Print_XSD) (print_xsdTo *Print_XSD) {
 	var alreadyCopied bool
-	printTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, printFrom)
+	print_xsdTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, print_xsdFrom)
 	if alreadyCopied {
 		return
 	}
-	printFrom.GongCopyBasicFields(printTo)
+	print_xsdFrom.GongCopyBasicFields(print_xsdTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if printFrom.Page_layout != nil {
-		printTo.Page_layout = GongCopyBranchPage_layout(mapOrigCopy, printFrom.Page_layout)
+	if print_xsdFrom.Page_layout != nil {
+		print_xsdTo.Page_layout = GongCopyBranchPage_layout(mapOrigCopy, print_xsdFrom.Page_layout)
 	}
-	if printFrom.System_layout != nil {
-		printTo.System_layout = GongCopyBranchSystem_layout(mapOrigCopy, printFrom.System_layout)
+	if print_xsdFrom.System_layout != nil {
+		print_xsdTo.System_layout = GongCopyBranchSystem_layout(mapOrigCopy, print_xsdFrom.System_layout)
 	}
-	if printFrom.Measure_layout != nil {
-		printTo.Measure_layout = GongCopyBranchMeasure_layout(mapOrigCopy, printFrom.Measure_layout)
+	if print_xsdFrom.Measure_layout != nil {
+		print_xsdTo.Measure_layout = GongCopyBranchMeasure_layout(mapOrigCopy, print_xsdFrom.Measure_layout)
 	}
-	if printFrom.Measure_numbering != nil {
-		printTo.Measure_numbering = GongCopyBranchMeasure_numbering(mapOrigCopy, printFrom.Measure_numbering)
+	if print_xsdFrom.Measure_numbering != nil {
+		print_xsdTo.Measure_numbering = GongCopyBranchMeasure_numbering(mapOrigCopy, print_xsdFrom.Measure_numbering)
 	}
-	if printFrom.Part_name_display != nil {
-		printTo.Part_name_display = GongCopyBranchName_display(mapOrigCopy, printFrom.Part_name_display)
+	if print_xsdFrom.Part_name_display != nil {
+		print_xsdTo.Part_name_display = GongCopyBranchName_display(mapOrigCopy, print_xsdFrom.Part_name_display)
 	}
-	if printFrom.Part_abbreviation_display != nil {
-		printTo.Part_abbreviation_display = GongCopyBranchName_display(mapOrigCopy, printFrom.Part_abbreviation_display)
+	if print_xsdFrom.Part_abbreviation_display != nil {
+		print_xsdTo.Part_abbreviation_display = GongCopyBranchName_display(mapOrigCopy, print_xsdFrom.Part_abbreviation_display)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _staff_layout := range printFrom.Staff_layout {
-		printTo.Staff_layout = append(printTo.Staff_layout, GongCopyBranchStaff_layout(mapOrigCopy, _staff_layout))
+	for _, _staff_layout := range print_xsdFrom.Staff_layout {
+		print_xsdTo.Staff_layout = append(print_xsdTo.Staff_layout, GongCopyBranchStaff_layout(mapOrigCopy, _staff_layout))
 	}
 
 	return
@@ -10813,8 +10807,8 @@ func GongCopyBranchTechnical(mapOrigCopy map[any]any, technicalFrom *Technical) 
 	for _, _fret := range technicalFrom.Fret {
 		technicalTo.Fret = append(technicalTo.Fret, GongCopyBranchFret(mapOrigCopy, _fret))
 	}
-	for _, _string_type := range technicalFrom.String {
-		technicalTo.String = append(technicalTo.String, GongCopyBranchString_type(mapOrigCopy, _string_type))
+	for _, _string_type := range technicalFrom.String_XSD {
+		technicalTo.String_XSD = append(technicalTo.String_XSD, GongCopyBranchString_type(mapOrigCopy, _string_type))
 	}
 	for _, _hammer_on_pull_off := range technicalFrom.Hammer_on {
 		technicalTo.Hammer_on = append(technicalTo.Hammer_on, GongCopyBranchHammer_on_pull_off(mapOrigCopy, _hammer_on_pull_off))
@@ -11270,8 +11264,8 @@ func (a_measure *A_measure) GongUnstageBranch(stage *Stage) {
 	for _, _figured_bass := range a_measure.Figured_bass {
 		stage.UnstageBranch(_figured_bass)
 	}
-	for _, _print := range a_measure.Print {
-		stage.UnstageBranch(_print)
+	for _, _print_xsd := range a_measure.Print_XSD {
+		stage.UnstageBranch(_print_xsd)
 	}
 	for _, _sound := range a_measure.Sound {
 		stage.UnstageBranch(_sound)
@@ -11363,8 +11357,8 @@ func (a_part_1 *A_part_1) GongUnstageBranch(stage *Stage) {
 	for _, _figured_bass := range a_part_1.Figured_bass {
 		stage.UnstageBranch(_figured_bass)
 	}
-	for _, _print := range a_part_1.Print {
-		stage.UnstageBranch(_print)
+	for _, _print_xsd := range a_part_1.Print_XSD {
+		stage.UnstageBranch(_print_xsd)
 	}
 	for _, _sound := range a_part_1.Sound {
 		stage.UnstageBranch(_sound)
@@ -11626,9 +11620,6 @@ func (attributes *Attributes) GongUnstageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _key := range attributes.Key {
 		stage.UnstageBranch(_key)
-	}
-	for _, _time := range attributes.Time {
-		stage.UnstageBranch(_time)
 	}
 	for _, _clef := range attributes.Clef {
 		stage.UnstageBranch(_clef)
@@ -11982,6 +11973,12 @@ func (credit *Credit) GongUnstageBranch(stage *Stage) {
 	if credit.Credit_image != nil {
 		stage.UnstageBranch(credit.Credit_image)
 	}
+	if credit.Credit_words != nil {
+		stage.UnstageBranch(credit.Credit_words)
+	}
+	if credit.Credit_symbol != nil {
+		stage.UnstageBranch(credit.Credit_symbol)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _link := range credit.Link {
@@ -11989,12 +11986,6 @@ func (credit *Credit) GongUnstageBranch(stage *Stage) {
 	}
 	for _, _bookmark := range credit.Bookmark {
 		stage.UnstageBranch(_bookmark)
-	}
-	for _, _formatted_text_id := range credit.Credit_words {
-		stage.UnstageBranch(_formatted_text_id)
-	}
-	for _, _formatted_symbol_id := range credit.Credit_symbol {
-		stage.UnstageBranch(_formatted_symbol_id)
 	}
 
 }
@@ -12774,8 +12765,8 @@ func (frame_note *Frame_note) GongUnstageBranch(stage *Stage) {
 	frame_note.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if frame_note.String != nil {
-		stage.UnstageBranch(frame_note.String)
+	if frame_note.String_XSD != nil {
+		stage.UnstageBranch(frame_note.String_XSD)
 	}
 	if frame_note.Fret != nil {
 		stage.UnstageBranch(frame_note.Fret)
@@ -13461,6 +13452,9 @@ func (lyric *Lyric) GongUnstageBranch(stage *Stage) {
 	lyric.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if lyric.Text != nil {
+		stage.UnstageBranch(lyric.Text)
+	}
 	if lyric.Extend != nil {
 		stage.UnstageBranch(lyric.Extend)
 	}
@@ -13474,9 +13468,6 @@ func (lyric *Lyric) GongUnstageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _elision := range lyric.Elision {
 		stage.UnstageBranch(_elision)
-	}
-	for _, _text_element_data := range lyric.Text {
-		stage.UnstageBranch(_text_element_data)
 	}
 
 }
@@ -13929,8 +13920,8 @@ func (note *Note) GongUnstageBranch(stage *Stage) {
 	if note.Level != nil {
 		stage.UnstageBranch(note.Level)
 	}
-	if note.Type != nil {
-		stage.UnstageBranch(note.Type)
+	if note.Type_XSD != nil {
+		stage.UnstageBranch(note.Type_XSD)
 	}
 	if note.Accidental != nil {
 		stage.UnstageBranch(note.Accidental)
@@ -14660,37 +14651,37 @@ func (principal_voice *Principal_voice) GongUnstageBranch(stage *Stage) {
 
 }
 
-func (print *Print) GongUnstageBranch(stage *Stage) {
+func (print_xsd *Print_XSD) GongUnstageBranch(stage *Stage) {
 
 	// check if instance is already staged
-	if !stage.IsStaged(print) {
+	if !stage.IsStaged(print_xsd) {
 		return
 	}
 
-	print.Unstage(stage)
+	print_xsd.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if print.Page_layout != nil {
-		stage.UnstageBranch(print.Page_layout)
+	if print_xsd.Page_layout != nil {
+		stage.UnstageBranch(print_xsd.Page_layout)
 	}
-	if print.System_layout != nil {
-		stage.UnstageBranch(print.System_layout)
+	if print_xsd.System_layout != nil {
+		stage.UnstageBranch(print_xsd.System_layout)
 	}
-	if print.Measure_layout != nil {
-		stage.UnstageBranch(print.Measure_layout)
+	if print_xsd.Measure_layout != nil {
+		stage.UnstageBranch(print_xsd.Measure_layout)
 	}
-	if print.Measure_numbering != nil {
-		stage.UnstageBranch(print.Measure_numbering)
+	if print_xsd.Measure_numbering != nil {
+		stage.UnstageBranch(print_xsd.Measure_numbering)
 	}
-	if print.Part_name_display != nil {
-		stage.UnstageBranch(print.Part_name_display)
+	if print_xsd.Part_name_display != nil {
+		stage.UnstageBranch(print_xsd.Part_name_display)
 	}
-	if print.Part_abbreviation_display != nil {
-		stage.UnstageBranch(print.Part_abbreviation_display)
+	if print_xsd.Part_abbreviation_display != nil {
+		stage.UnstageBranch(print_xsd.Part_abbreviation_display)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _staff_layout := range print.Staff_layout {
+	for _, _staff_layout := range print_xsd.Staff_layout {
 		stage.UnstageBranch(_staff_layout)
 	}
 
@@ -15371,7 +15362,7 @@ func (technical *Technical) GongUnstageBranch(stage *Stage) {
 	for _, _fret := range technical.Fret {
 		stage.UnstageBranch(_fret)
 	}
-	for _, _string_type := range technical.String {
+	for _, _string_type := range technical.String_XSD {
 		stage.UnstageBranch(_string_type)
 	}
 	for _, _hammer_on_pull_off := range technical.Hammer_on {
@@ -15783,7 +15774,7 @@ func (reference *A_measure) GongReconstructPointersFromReferences(stage *Stage, 
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Attributes, stage.Attributess_reference, instance.Attributes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Harmony, stage.Harmonys_reference, instance.Harmony)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Figured_bass, stage.Figured_basss_reference, instance.Figured_bass)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.Print, stage.Prints_reference, instance.Print)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Print_XSD, stage.Print_XSDs_reference, instance.Print_XSD)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Sound, stage.Sounds_reference, instance.Sound)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Listening, stage.Listenings_reference, instance.Listening)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Barline, stage.Barlines_reference, instance.Barline)
@@ -15814,7 +15805,7 @@ func (reference *A_part_1) GongReconstructPointersFromReferences(stage *Stage, i
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Attributes, stage.Attributess_reference, instance.Attributes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Harmony, stage.Harmonys_reference, instance.Harmony)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Figured_bass, stage.Figured_basss_reference, instance.Figured_bass)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.Print, stage.Prints_reference, instance.Print)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Print_XSD, stage.Print_XSDs_reference, instance.Print_XSD)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Sound, stage.Sounds_reference, instance.Sound)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Listening, stage.Listenings_reference, instance.Listening)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Barline, stage.Barlines_reference, instance.Barline)
@@ -15902,7 +15893,6 @@ func (reference *Attributes) GongReconstructPointersFromReferences(stage *Stage,
 	__gong__reconstructPointer(&reference.Part_symbol, stage.Part_symbols_reference, instance.Part_symbol)
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Key, stage.Keys_reference, instance.Key)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.Time, stage.Times_reference, instance.Time)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Clef, stage.Clefs_reference, instance.Clef)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Staff_details, stage.Staff_detailss_reference, instance.Staff_details)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Transpose, stage.Transposes_reference, instance.Transpose)
@@ -16020,11 +16010,11 @@ func (reference *Coda) GongReconstructPointersFromReferences(stage *Stage, insta
 func (reference *Credit) GongReconstructPointersFromReferences(stage *Stage, instance *Credit) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Credit_image, stage.Images_reference, instance.Credit_image)
+	__gong__reconstructPointer(&reference.Credit_words, stage.Formatted_text_ids_reference, instance.Credit_words)
+	__gong__reconstructPointer(&reference.Credit_symbol, stage.Formatted_symbol_ids_reference, instance.Credit_symbol)
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Link, stage.Links_reference, instance.Link)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Bookmark, stage.Bookmarks_reference, instance.Bookmark)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.Credit_words, stage.Formatted_text_ids_reference, instance.Credit_words)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.Credit_symbol, stage.Formatted_symbol_ids_reference, instance.Credit_symbol)
 }
 
 func (reference *Dashes) GongReconstructPointersFromReferences(stage *Stage, instance *Dashes) {
@@ -16284,7 +16274,7 @@ func (reference *Frame) GongReconstructPointersFromReferences(stage *Stage, inst
 
 func (reference *Frame_note) GongReconstructPointersFromReferences(stage *Stage, instance *Frame_note) {
 	// insertion point for pointers field
-	__gong__reconstructPointer(&reference.String, stage.String_types_reference, instance.String)
+	__gong__reconstructPointer(&reference.String_XSD, stage.String_types_reference, instance.String_XSD)
 	__gong__reconstructPointer(&reference.Fret, stage.Frets_reference, instance.Fret)
 	__gong__reconstructPointer(&reference.Fingering, stage.Fingerings_reference, instance.Fingering)
 	__gong__reconstructPointer(&reference.Barre, stage.Barres_reference, instance.Barre)
@@ -16513,12 +16503,12 @@ func (reference *Listening) GongReconstructPointersFromReferences(stage *Stage, 
 
 func (reference *Lyric) GongReconstructPointersFromReferences(stage *Stage, instance *Lyric) {
 	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Text, stage.Text_element_datas_reference, instance.Text)
 	__gong__reconstructPointer(&reference.Extend, stage.Extends_reference, instance.Extend)
 	__gong__reconstructPointer(&reference.Footnote, stage.Formatted_texts_reference, instance.Footnote)
 	__gong__reconstructPointer(&reference.Level, stage.Levels_reference, instance.Level)
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Elision, stage.Elisions_reference, instance.Elision)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.Text, stage.Text_element_datas_reference, instance.Text)
 }
 
 func (reference *Lyric_font) GongReconstructPointersFromReferences(stage *Stage, instance *Lyric_font) {
@@ -16669,7 +16659,7 @@ func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, insta
 	__gong__reconstructPointer(&reference.Tie, stage.Ties_reference, instance.Tie)
 	__gong__reconstructPointer(&reference.Footnote, stage.Formatted_texts_reference, instance.Footnote)
 	__gong__reconstructPointer(&reference.Level, stage.Levels_reference, instance.Level)
-	__gong__reconstructPointer(&reference.Type, stage.Note_types_reference, instance.Type)
+	__gong__reconstructPointer(&reference.Type_XSD, stage.Note_types_reference, instance.Type_XSD)
 	__gong__reconstructPointer(&reference.Accidental, stage.Accidentals_reference, instance.Accidental)
 	__gong__reconstructPointer(&reference.Time_modification, stage.Time_modifications_reference, instance.Time_modification)
 	__gong__reconstructPointer(&reference.Stem, stage.Stems_reference, instance.Stem)
@@ -16914,7 +16904,7 @@ func (reference *Principal_voice) GongReconstructPointersFromReferences(stage *S
 	// insertion point for slice of pointers field
 }
 
-func (reference *Print) GongReconstructPointersFromReferences(stage *Stage, instance *Print) {
+func (reference *Print_XSD) GongReconstructPointersFromReferences(stage *Stage, instance *Print_XSD) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Page_layout, stage.Page_layouts_reference, instance.Page_layout)
 	__gong__reconstructPointer(&reference.System_layout, stage.System_layouts_reference, instance.System_layout)
@@ -17150,7 +17140,7 @@ func (reference *Technical) GongReconstructPointersFromReferences(stage *Stage, 
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Stopped, stage.Empty_placement_smufls_reference, instance.Stopped)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Snap_pizzicato, stage.Empty_placements_reference, instance.Snap_pizzicato)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Fret, stage.Frets_reference, instance.Fret)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.String, stage.String_types_reference, instance.String)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.String_XSD, stage.String_types_reference, instance.String_XSD)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Hammer_on, stage.Hammer_on_pull_offs_reference, instance.Hammer_on)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Pull_off, stage.Hammer_on_pull_offs_reference, instance.Pull_off)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Bend, stage.Bends_reference, instance.Bend)
@@ -17299,7 +17289,7 @@ func (reference *A_measure) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Attributes, stage.Attributess_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Harmony, stage.Harmonys_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Figured_bass, stage.Figured_basss_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.Print, stage.Prints_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Print_XSD, stage.Print_XSDs_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Sound, stage.Sounds_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Listening, stage.Listenings_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Barline, stage.Barlines_instance)
@@ -17330,7 +17320,7 @@ func (reference *A_part_1) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Attributes, stage.Attributess_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Harmony, stage.Harmonys_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Figured_bass, stage.Figured_basss_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.Print, stage.Prints_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Print_XSD, stage.Print_XSDs_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Sound, stage.Sounds_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Listening, stage.Listenings_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Barline, stage.Barlines_instance)
@@ -17418,7 +17408,6 @@ func (reference *Attributes) GongReconstructPointersFromInstances(stage *Stage) 
 	__gong__reconstructPointerFromInstance(&reference.Part_symbol, stage.Part_symbols_instance)
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Key, stage.Keys_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.Time, stage.Times_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Clef, stage.Clefs_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Staff_details, stage.Staff_detailss_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Transpose, stage.Transposes_instance)
@@ -17536,11 +17525,11 @@ func (reference *Coda) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Credit) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Credit_image, stage.Images_instance)
+	__gong__reconstructPointerFromInstance(&reference.Credit_words, stage.Formatted_text_ids_instance)
+	__gong__reconstructPointerFromInstance(&reference.Credit_symbol, stage.Formatted_symbol_ids_instance)
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Link, stage.Links_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Bookmark, stage.Bookmarks_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.Credit_words, stage.Formatted_text_ids_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.Credit_symbol, stage.Formatted_symbol_ids_instance)
 }
 
 func (reference *Dashes) GongReconstructPointersFromInstances(stage *Stage) {
@@ -17800,7 +17789,7 @@ func (reference *Frame) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *Frame_note) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	__gong__reconstructPointerFromInstance(&reference.String, stage.String_types_instance)
+	__gong__reconstructPointerFromInstance(&reference.String_XSD, stage.String_types_instance)
 	__gong__reconstructPointerFromInstance(&reference.Fret, stage.Frets_instance)
 	__gong__reconstructPointerFromInstance(&reference.Fingering, stage.Fingerings_instance)
 	__gong__reconstructPointerFromInstance(&reference.Barre, stage.Barres_instance)
@@ -18029,12 +18018,12 @@ func (reference *Listening) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *Lyric) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Text, stage.Text_element_datas_instance)
 	__gong__reconstructPointerFromInstance(&reference.Extend, stage.Extends_instance)
 	__gong__reconstructPointerFromInstance(&reference.Footnote, stage.Formatted_texts_instance)
 	__gong__reconstructPointerFromInstance(&reference.Level, stage.Levels_instance)
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Elision, stage.Elisions_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.Text, stage.Text_element_datas_instance)
 }
 
 func (reference *Lyric_font) GongReconstructPointersFromInstances(stage *Stage) {
@@ -18185,7 +18174,7 @@ func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructPointerFromInstance(&reference.Tie, stage.Ties_instance)
 	__gong__reconstructPointerFromInstance(&reference.Footnote, stage.Formatted_texts_instance)
 	__gong__reconstructPointerFromInstance(&reference.Level, stage.Levels_instance)
-	__gong__reconstructPointerFromInstance(&reference.Type, stage.Note_types_instance)
+	__gong__reconstructPointerFromInstance(&reference.Type_XSD, stage.Note_types_instance)
 	__gong__reconstructPointerFromInstance(&reference.Accidental, stage.Accidentals_instance)
 	__gong__reconstructPointerFromInstance(&reference.Time_modification, stage.Time_modifications_instance)
 	__gong__reconstructPointerFromInstance(&reference.Stem, stage.Stems_instance)
@@ -18430,7 +18419,7 @@ func (reference *Principal_voice) GongReconstructPointersFromInstances(stage *St
 	// insertion point for slice of pointers fields
 }
 
-func (reference *Print) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *Print_XSD) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Page_layout, stage.Page_layouts_instance)
 	__gong__reconstructPointerFromInstance(&reference.System_layout, stage.System_layouts_instance)
@@ -18666,7 +18655,7 @@ func (reference *Technical) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Stopped, stage.Empty_placement_smufls_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Snap_pizzicato, stage.Empty_placements_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Fret, stage.Frets_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.String, stage.String_types_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.String_XSD, stage.String_types_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Hammer_on, stage.Hammer_on_pull_offs_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Pull_off, stage.Hammer_on_pull_offs_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Bend, stage.Bends_instance)
@@ -18890,7 +18879,7 @@ func (a_measure *A_measure) GongDiff(stage *Stage, a_measureOther *A_measure) (d
 	if ops := __gong__diffSliceOfPointers(stage, a_measure, "Figured_bass", a_measureOther.Figured_bass, a_measure.Figured_bass); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if ops := __gong__diffSliceOfPointers(stage, a_measure, "Print", a_measureOther.Print, a_measure.Print); ops != "" {
+	if ops := __gong__diffSliceOfPointers(stage, a_measure, "Print_XSD", a_measureOther.Print_XSD, a_measure.Print_XSD); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, a_measure, "Sound", a_measureOther.Sound, a_measure.Sound); ops != "" {
@@ -18995,7 +18984,7 @@ func (a_part_1 *A_part_1) GongDiff(stage *Stage, a_part_1Other *A_part_1) (diffs
 	if ops := __gong__diffSliceOfPointers(stage, a_part_1, "Figured_bass", a_part_1Other.Figured_bass, a_part_1.Figured_bass); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if ops := __gong__diffSliceOfPointers(stage, a_part_1, "Print", a_part_1Other.Print, a_part_1.Print); ops != "" {
+	if ops := __gong__diffSliceOfPointers(stage, a_part_1, "Print_XSD", a_part_1Other.Print_XSD, a_part_1.Print_XSD); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, a_part_1, "Sound", a_part_1Other.Sound, a_part_1.Sound); ops != "" {
@@ -19228,8 +19217,8 @@ func (accord *Accord) GongDiff(stage *Stage, accordOther *Accord) (diffs []strin
 	if accord.Name != accordOther.Name {
 		diffs = append(diffs, accord.GongMarshallField(stage, "Name"))
 	}
-	if accord.String != accordOther.String {
-		diffs = append(diffs, accord.GongMarshallField(stage, "String"))
+	if accord.String_XSD != accordOther.String_XSD {
+		diffs = append(diffs, accord.GongMarshallField(stage, "String_XSD"))
 	}
 	if accord.Tuning_step != accordOther.Tuning_step {
 		diffs = append(diffs, accord.GongMarshallField(stage, "Tuning_step"))
@@ -19495,8 +19484,8 @@ func (assess *Assess) GongDiff(stage *Stage, assessOther *Assess) (diffs []strin
 	if assess.Name != assessOther.Name {
 		diffs = append(diffs, assess.GongMarshallField(stage, "Name"))
 	}
-	if assess.Type != assessOther.Type {
-		diffs = append(diffs, assess.GongMarshallField(stage, "Type"))
+	if assess.Type_XSD != assessOther.Type_XSD {
+		diffs = append(diffs, assess.GongMarshallField(stage, "Type_XSD"))
 	}
 	if assess.Player != assessOther.Player {
 		diffs = append(diffs, assess.GongMarshallField(stage, "Player"))
@@ -19527,8 +19516,8 @@ func (attributes *Attributes) GongDiff(stage *Stage, attributesOther *Attributes
 	if ops := __gong__diffSliceOfPointers(stage, attributes, "Key", attributesOther.Key, attributes.Key); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if ops := __gong__diffSliceOfPointers(stage, attributes, "Time", attributesOther.Time, attributes.Time); ops != "" {
-		diffs = append(diffs, ops)
+	if attributes.Time != attributesOther.Time {
+		diffs = append(diffs, attributes.GongMarshallField(stage, "Time"))
 	}
 	if attributes.Staves != attributesOther.Staves {
 		diffs = append(diffs, attributes.GongMarshallField(stage, "Staves"))
@@ -19567,9 +19556,6 @@ func (backup *Backup) GongDiff(stage *Stage, backupOther *Backup) (diffs []strin
 	// insertion point for field diffs
 	if backup.Name != backupOther.Name {
 		diffs = append(diffs, backup.GongMarshallField(stage, "Name"))
-	}
-	if backup.Duration != backupOther.Duration {
-		diffs = append(diffs, backup.GongMarshallField(stage, "Duration"))
 	}
 	if backup.Footnote != backupOther.Footnote {
 		diffs = append(diffs, backup.GongMarshallField(stage, "Footnote"))
@@ -19658,8 +19644,8 @@ func (barre *Barre) GongDiff(stage *Stage, barreOther *Barre) (diffs []string) {
 	if barre.Name != barreOther.Name {
 		diffs = append(diffs, barre.GongMarshallField(stage, "Name"))
 	}
-	if barre.Type != barreOther.Type {
-		diffs = append(diffs, barre.GongMarshallField(stage, "Type"))
+	if barre.Type_XSD != barreOther.Type_XSD {
+		diffs = append(diffs, barre.GongMarshallField(stage, "Type_XSD"))
 	}
 	if barre.Color != barreOther.Color {
 		diffs = append(diffs, barre.GongMarshallField(stage, "Color"))
@@ -19771,8 +19757,8 @@ func (beat_repeat *Beat_repeat) GongDiff(stage *Stage, beat_repeatOther *Beat_re
 	if beat_repeat.Name != beat_repeatOther.Name {
 		diffs = append(diffs, beat_repeat.GongMarshallField(stage, "Name"))
 	}
-	if beat_repeat.Type != beat_repeatOther.Type {
-		diffs = append(diffs, beat_repeat.GongMarshallField(stage, "Type"))
+	if beat_repeat.Type_XSD != beat_repeatOther.Type_XSD {
+		diffs = append(diffs, beat_repeat.GongMarshallField(stage, "Type_XSD"))
 	}
 	if beat_repeat.Slashes != beat_repeatOther.Slashes {
 		diffs = append(diffs, beat_repeat.GongMarshallField(stage, "Slashes"))
@@ -19922,8 +19908,8 @@ func (bracket *Bracket) GongDiff(stage *Stage, bracketOther *Bracket) (diffs []s
 	if bracket.Name != bracketOther.Name {
 		diffs = append(diffs, bracket.GongMarshallField(stage, "Name"))
 	}
-	if bracket.Type != bracketOther.Type {
-		diffs = append(diffs, bracket.GongMarshallField(stage, "Type"))
+	if bracket.Type_XSD != bracketOther.Type_XSD {
+		diffs = append(diffs, bracket.GongMarshallField(stage, "Type_XSD"))
 	}
 	if bracket.Number != bracketOther.Number {
 		diffs = append(diffs, bracket.GongMarshallField(stage, "Number"))
@@ -20201,20 +20187,20 @@ func (credit *Credit) GongDiff(stage *Stage, creditOther *Credit) (diffs []strin
 	if credit.Credit_type != creditOther.Credit_type {
 		diffs = append(diffs, credit.GongMarshallField(stage, "Credit_type"))
 	}
-	if credit.Credit_image != creditOther.Credit_image {
-		diffs = append(diffs, credit.GongMarshallField(stage, "Credit_image"))
-	}
 	if ops := __gong__diffSliceOfPointers(stage, credit, "Link", creditOther.Link, credit.Link); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, credit, "Bookmark", creditOther.Bookmark, credit.Bookmark); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if ops := __gong__diffSliceOfPointers(stage, credit, "Credit_words", creditOther.Credit_words, credit.Credit_words); ops != "" {
-		diffs = append(diffs, ops)
+	if credit.Credit_image != creditOther.Credit_image {
+		diffs = append(diffs, credit.GongMarshallField(stage, "Credit_image"))
 	}
-	if ops := __gong__diffSliceOfPointers(stage, credit, "Credit_symbol", creditOther.Credit_symbol, credit.Credit_symbol); ops != "" {
-		diffs = append(diffs, ops)
+	if credit.Credit_words != creditOther.Credit_words {
+		diffs = append(diffs, credit.GongMarshallField(stage, "Credit_words"))
+	}
+	if credit.Credit_symbol != creditOther.Credit_symbol {
+		diffs = append(diffs, credit.GongMarshallField(stage, "Credit_symbol"))
 	}
 
 	return
@@ -20227,8 +20213,8 @@ func (dashes *Dashes) GongDiff(stage *Stage, dashesOther *Dashes) (diffs []strin
 	if dashes.Name != dashesOther.Name {
 		diffs = append(diffs, dashes.GongMarshallField(stage, "Name"))
 	}
-	if dashes.Type != dashesOther.Type {
-		diffs = append(diffs, dashes.GongMarshallField(stage, "Type"))
+	if dashes.Type_XSD != dashesOther.Type_XSD {
+		diffs = append(diffs, dashes.GongMarshallField(stage, "Type_XSD"))
 	}
 	if dashes.Number != dashesOther.Number {
 		diffs = append(diffs, dashes.GongMarshallField(stage, "Number"))
@@ -20600,8 +20586,8 @@ func (distance *Distance) GongDiff(stage *Stage, distanceOther *Distance) (diffs
 	if distance.Name != distanceOther.Name {
 		diffs = append(diffs, distance.GongMarshallField(stage, "Name"))
 	}
-	if distance.Type != distanceOther.Type {
-		diffs = append(diffs, distance.GongMarshallField(stage, "Type"))
+	if distance.Type_XSD != distanceOther.Type_XSD {
+		diffs = append(diffs, distance.GongMarshallField(stage, "Type_XSD"))
 	}
 	if distance.EnclosedText != distanceOther.EnclosedText {
 		diffs = append(diffs, distance.GongMarshallField(stage, "EnclosedText"))
@@ -21236,6 +21222,9 @@ func (encoding *Encoding) GongDiff(stage *Stage, encodingOther *Encoding) (diffs
 	if encoding.Name != encodingOther.Name {
 		diffs = append(diffs, encoding.GongMarshallField(stage, "Name"))
 	}
+	if encoding.Encoding_date != encodingOther.Encoding_date {
+		diffs = append(diffs, encoding.GongMarshallField(stage, "Encoding_date"))
+	}
 	if ops := __gong__diffSliceOfPointers(stage, encoding, "Encoder", encodingOther.Encoder, encoding.Encoder); ops != "" {
 		diffs = append(diffs, ops)
 	}
@@ -21262,8 +21251,8 @@ func (ending *Ending) GongDiff(stage *Stage, endingOther *Ending) (diffs []strin
 	if ending.Number != endingOther.Number {
 		diffs = append(diffs, ending.GongMarshallField(stage, "Number"))
 	}
-	if ending.Type != endingOther.Type {
-		diffs = append(diffs, ending.GongMarshallField(stage, "Type"))
+	if ending.Type_XSD != endingOther.Type_XSD {
+		diffs = append(diffs, ending.GongMarshallField(stage, "Type_XSD"))
 	}
 	if ending.End_length != endingOther.End_length {
 		diffs = append(diffs, ending.GongMarshallField(stage, "End_length"))
@@ -21321,8 +21310,8 @@ func (extend *Extend) GongDiff(stage *Stage, extendOther *Extend) (diffs []strin
 	if extend.Name != extendOther.Name {
 		diffs = append(diffs, extend.GongMarshallField(stage, "Name"))
 	}
-	if extend.Type != extendOther.Type {
-		diffs = append(diffs, extend.GongMarshallField(stage, "Type"))
+	if extend.Type_XSD != extendOther.Type_XSD {
+		diffs = append(diffs, extend.GongMarshallField(stage, "Type_XSD"))
 	}
 	if extend.Default_x != extendOther.Default_x {
 		diffs = append(diffs, extend.GongMarshallField(stage, "Default_x"))
@@ -21350,8 +21339,8 @@ func (feature *Feature) GongDiff(stage *Stage, featureOther *Feature) (diffs []s
 	if feature.Name != featureOther.Name {
 		diffs = append(diffs, feature.GongMarshallField(stage, "Name"))
 	}
-	if feature.Type != featureOther.Type {
-		diffs = append(diffs, feature.GongMarshallField(stage, "Type"))
+	if feature.Type_XSD != featureOther.Type_XSD {
+		diffs = append(diffs, feature.GongMarshallField(stage, "Type_XSD"))
 	}
 	if feature.EnclosedText != featureOther.EnclosedText {
 		diffs = append(diffs, feature.GongMarshallField(stage, "EnclosedText"))
@@ -21367,8 +21356,8 @@ func (fermata *Fermata) GongDiff(stage *Stage, fermataOther *Fermata) (diffs []s
 	if fermata.Name != fermataOther.Name {
 		diffs = append(diffs, fermata.GongMarshallField(stage, "Name"))
 	}
-	if fermata.Type != fermataOther.Type {
-		diffs = append(diffs, fermata.GongMarshallField(stage, "Type"))
+	if fermata.Type_XSD != fermataOther.Type_XSD {
+		diffs = append(diffs, fermata.GongMarshallField(stage, "Type_XSD"))
 	}
 	if fermata.Default_x != fermataOther.Default_x {
 		diffs = append(diffs, fermata.GongMarshallField(stage, "Default_x"))
@@ -21499,9 +21488,6 @@ func (figured_bass *Figured_bass) GongDiff(stage *Stage, figured_bassOther *Figu
 	}
 	if ops := __gong__diffSliceOfPointers(stage, figured_bass, "Figure", figured_bassOther.Figure, figured_bass.Figure); ops != "" {
 		diffs = append(diffs, ops)
-	}
-	if figured_bass.Duration != figured_bassOther.Duration {
-		diffs = append(diffs, figured_bass.GongMarshallField(stage, "Duration"))
 	}
 	if figured_bass.Footnote != figured_bassOther.Footnote {
 		diffs = append(diffs, figured_bass.GongMarshallField(stage, "Footnote"))
@@ -21927,9 +21913,6 @@ func (forward *Forward) GongDiff(stage *Stage, forwardOther *Forward) (diffs []s
 	if forward.Name != forwardOther.Name {
 		diffs = append(diffs, forward.GongMarshallField(stage, "Name"))
 	}
-	if forward.Duration != forwardOther.Duration {
-		diffs = append(diffs, forward.GongMarshallField(stage, "Duration"))
-	}
 	if forward.Footnote != forwardOther.Footnote {
 		diffs = append(diffs, forward.GongMarshallField(stage, "Footnote"))
 	}
@@ -22009,8 +21992,8 @@ func (frame_note *Frame_note) GongDiff(stage *Stage, frame_noteOther *Frame_note
 	if frame_note.Name != frame_noteOther.Name {
 		diffs = append(diffs, frame_note.GongMarshallField(stage, "Name"))
 	}
-	if frame_note.String != frame_noteOther.String {
-		diffs = append(diffs, frame_note.GongMarshallField(stage, "String"))
+	if frame_note.String_XSD != frame_noteOther.String_XSD {
+		diffs = append(diffs, frame_note.GongMarshallField(stage, "String_XSD"))
 	}
 	if frame_note.Fret != frame_noteOther.Fret {
 		diffs = append(diffs, frame_note.GongMarshallField(stage, "Fret"))
@@ -22078,8 +22061,8 @@ func (glissando *Glissando) GongDiff(stage *Stage, glissandoOther *Glissando) (d
 	if glissando.Name != glissandoOther.Name {
 		diffs = append(diffs, glissando.GongMarshallField(stage, "Name"))
 	}
-	if glissando.Type != glissandoOther.Type {
-		diffs = append(diffs, glissando.GongMarshallField(stage, "Type"))
+	if glissando.Type_XSD != glissandoOther.Type_XSD {
+		diffs = append(diffs, glissando.GongMarshallField(stage, "Type_XSD"))
 	}
 	if glissando.Number != glissandoOther.Number {
 		diffs = append(diffs, glissando.GongMarshallField(stage, "Number"))
@@ -22137,8 +22120,8 @@ func (glyph *Glyph) GongDiff(stage *Stage, glyphOther *Glyph) (diffs []string) {
 	if glyph.Name != glyphOther.Name {
 		diffs = append(diffs, glyph.GongMarshallField(stage, "Name"))
 	}
-	if glyph.Type != glyphOther.Type {
-		diffs = append(diffs, glyph.GongMarshallField(stage, "Type"))
+	if glyph.Type_XSD != glyphOther.Type_XSD {
+		diffs = append(diffs, glyph.GongMarshallField(stage, "Type_XSD"))
 	}
 	if glyph.EnclosedText != glyphOther.EnclosedText {
 		diffs = append(diffs, glyph.GongMarshallField(stage, "EnclosedText"))
@@ -22267,8 +22250,8 @@ func (grouping *Grouping) GongDiff(stage *Stage, groupingOther *Grouping) (diffs
 	if grouping.Name != groupingOther.Name {
 		diffs = append(diffs, grouping.GongMarshallField(stage, "Name"))
 	}
-	if grouping.Type != groupingOther.Type {
-		diffs = append(diffs, grouping.GongMarshallField(stage, "Type"))
+	if grouping.Type_XSD != groupingOther.Type_XSD {
+		diffs = append(diffs, grouping.GongMarshallField(stage, "Type_XSD"))
 	}
 	if grouping.Number != groupingOther.Number {
 		diffs = append(diffs, grouping.GongMarshallField(stage, "Number"))
@@ -22293,8 +22276,8 @@ func (hammer_on_pull_off *Hammer_on_pull_off) GongDiff(stage *Stage, hammer_on_p
 	if hammer_on_pull_off.Name != hammer_on_pull_offOther.Name {
 		diffs = append(diffs, hammer_on_pull_off.GongMarshallField(stage, "Name"))
 	}
-	if hammer_on_pull_off.Type != hammer_on_pull_offOther.Type {
-		diffs = append(diffs, hammer_on_pull_off.GongMarshallField(stage, "Type"))
+	if hammer_on_pull_off.Type_XSD != hammer_on_pull_offOther.Type_XSD {
+		diffs = append(diffs, hammer_on_pull_off.GongMarshallField(stage, "Type_XSD"))
 	}
 	if hammer_on_pull_off.Number != hammer_on_pull_offOther.Number {
 		diffs = append(diffs, hammer_on_pull_off.GongMarshallField(stage, "Number"))
@@ -22507,8 +22490,8 @@ func (harmony *Harmony) GongDiff(stage *Stage, harmonyOther *Harmony) (diffs []s
 	if harmony.Name != harmonyOther.Name {
 		diffs = append(diffs, harmony.GongMarshallField(stage, "Name"))
 	}
-	if harmony.Type != harmonyOther.Type {
-		diffs = append(diffs, harmony.GongMarshallField(stage, "Type"))
+	if harmony.Type_XSD != harmonyOther.Type_XSD {
+		diffs = append(diffs, harmony.GongMarshallField(stage, "Type_XSD"))
 	}
 	if harmony.Print_frame != harmonyOther.Print_frame {
 		diffs = append(diffs, harmony.GongMarshallField(stage, "Print_frame"))
@@ -22699,6 +22682,39 @@ func (heel_toe *Heel_toe) GongDiff(stage *Stage, heel_toeOther *Heel_toe) (diffs
 	if heel_toe.Name != heel_toeOther.Name {
 		diffs = append(diffs, heel_toe.GongMarshallField(stage, "Name"))
 	}
+	if heel_toe.Default_x != heel_toeOther.Default_x {
+		diffs = append(diffs, heel_toe.GongMarshallField(stage, "Default_x"))
+	}
+	if heel_toe.Default_y != heel_toeOther.Default_y {
+		diffs = append(diffs, heel_toe.GongMarshallField(stage, "Default_y"))
+	}
+	if heel_toe.Relative_x != heel_toeOther.Relative_x {
+		diffs = append(diffs, heel_toe.GongMarshallField(stage, "Relative_x"))
+	}
+	if heel_toe.Relative_y != heel_toeOther.Relative_y {
+		diffs = append(diffs, heel_toe.GongMarshallField(stage, "Relative_y"))
+	}
+	if heel_toe.Font_family != heel_toeOther.Font_family {
+		diffs = append(diffs, heel_toe.GongMarshallField(stage, "Font_family"))
+	}
+	if heel_toe.Font_style != heel_toeOther.Font_style {
+		diffs = append(diffs, heel_toe.GongMarshallField(stage, "Font_style"))
+	}
+	if heel_toe.Font_size != heel_toeOther.Font_size {
+		diffs = append(diffs, heel_toe.GongMarshallField(stage, "Font_size"))
+	}
+	if heel_toe.Font_weight != heel_toeOther.Font_weight {
+		diffs = append(diffs, heel_toe.GongMarshallField(stage, "Font_weight"))
+	}
+	if heel_toe.Color != heel_toeOther.Color {
+		diffs = append(diffs, heel_toe.GongMarshallField(stage, "Color"))
+	}
+	if heel_toe.Placement != heel_toeOther.Placement {
+		diffs = append(diffs, heel_toe.GongMarshallField(stage, "Placement"))
+	}
+	if heel_toe.Substitution != heel_toeOther.Substitution {
+		diffs = append(diffs, heel_toe.GongMarshallField(stage, "Substitution"))
+	}
 
 	return
 }
@@ -22874,8 +22890,8 @@ func (image *Image) GongDiff(stage *Stage, imageOther *Image) (diffs []string) {
 	if image.Source != imageOther.Source {
 		diffs = append(diffs, image.GongMarshallField(stage, "Source"))
 	}
-	if image.Type != imageOther.Type {
-		diffs = append(diffs, image.GongMarshallField(stage, "Type"))
+	if image.Type_XSD != imageOther.Type_XSD {
+		diffs = append(diffs, image.GongMarshallField(stage, "Type_XSD"))
 	}
 	if image.Height != imageOther.Height {
 		diffs = append(diffs, image.GongMarshallField(stage, "Height"))
@@ -23206,11 +23222,11 @@ func (level *Level) GongDiff(stage *Stage, levelOther *Level) (diffs []string) {
 	if level.Name != levelOther.Name {
 		diffs = append(diffs, level.GongMarshallField(stage, "Name"))
 	}
-	if level.Reference != levelOther.Reference {
-		diffs = append(diffs, level.GongMarshallField(stage, "Reference"))
+	if level.Reference_XSD != levelOther.Reference_XSD {
+		diffs = append(diffs, level.GongMarshallField(stage, "Reference_XSD"))
 	}
-	if level.Type != levelOther.Type {
-		diffs = append(diffs, level.GongMarshallField(stage, "Type"))
+	if level.Type_XSD != levelOther.Type_XSD {
+		diffs = append(diffs, level.GongMarshallField(stage, "Type_XSD"))
 	}
 	if level.Parentheses != levelOther.Parentheses {
 		diffs = append(diffs, level.GongMarshallField(stage, "Parentheses"))
@@ -23261,8 +23277,8 @@ func (line_width *Line_width) GongDiff(stage *Stage, line_widthOther *Line_width
 	if line_width.Name != line_widthOther.Name {
 		diffs = append(diffs, line_width.GongMarshallField(stage, "Name"))
 	}
-	if line_width.Type != line_widthOther.Type {
-		diffs = append(diffs, line_width.GongMarshallField(stage, "Type"))
+	if line_width.Type_XSD != line_widthOther.Type_XSD {
+		diffs = append(diffs, line_width.GongMarshallField(stage, "Type_XSD"))
 	}
 	if line_width.EnclosedText != line_widthOther.EnclosedText {
 		diffs = append(diffs, line_width.GongMarshallField(stage, "EnclosedText"))
@@ -23284,8 +23300,8 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 	if link.Href != linkOther.Href {
 		diffs = append(diffs, link.GongMarshallField(stage, "Href"))
 	}
-	if link.Type != linkOther.Type {
-		diffs = append(diffs, link.GongMarshallField(stage, "Type"))
+	if link.Type_XSD != linkOther.Type_XSD {
+		diffs = append(diffs, link.GongMarshallField(stage, "Type_XSD"))
 	}
 	if link.Role != linkOther.Role {
 		diffs = append(diffs, link.GongMarshallField(stage, "Role"))
@@ -23404,13 +23420,13 @@ func (lyric *Lyric) GongDiff(stage *Stage, lyricOther *Lyric) (diffs []string) {
 	if lyric.Id != lyricOther.Id {
 		diffs = append(diffs, lyric.GongMarshallField(stage, "Id"))
 	}
-	if ops := __gong__diffSliceOfPointers(stage, lyric, "Elision", lyricOther.Elision, lyric.Elision); ops != "" {
-		diffs = append(diffs, ops)
-	}
 	if lyric.Syllabic != lyricOther.Syllabic {
 		diffs = append(diffs, lyric.GongMarshallField(stage, "Syllabic"))
 	}
-	if ops := __gong__diffSliceOfPointers(stage, lyric, "Text", lyricOther.Text, lyric.Text); ops != "" {
+	if lyric.Text != lyricOther.Text {
+		diffs = append(diffs, lyric.GongMarshallField(stage, "Text"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, lyric, "Elision", lyricOther.Elision, lyric.Elision); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if lyric.Extend != lyricOther.Extend {
@@ -23567,8 +23583,8 @@ func (measure_repeat *Measure_repeat) GongDiff(stage *Stage, measure_repeatOther
 	if measure_repeat.Name != measure_repeatOther.Name {
 		diffs = append(diffs, measure_repeat.GongMarshallField(stage, "Name"))
 	}
-	if measure_repeat.Type != measure_repeatOther.Type {
-		diffs = append(diffs, measure_repeat.GongMarshallField(stage, "Type"))
+	if measure_repeat.Type_XSD != measure_repeatOther.Type_XSD {
+		diffs = append(diffs, measure_repeat.GongMarshallField(stage, "Type_XSD"))
 	}
 	if measure_repeat.Slashes != measure_repeatOther.Slashes {
 		diffs = append(diffs, measure_repeat.GongMarshallField(stage, "Slashes"))
@@ -23716,20 +23732,20 @@ func (metronome *Metronome) GongDiff(stage *Stage, metronomeOther *Metronome) (d
 	if metronome.Beat_unit_dot != metronomeOther.Beat_unit_dot {
 		diffs = append(diffs, metronome.GongMarshallField(stage, "Beat_unit_dot"))
 	}
-	if metronome.Per_minute != metronomeOther.Per_minute {
-		diffs = append(diffs, metronome.GongMarshallField(stage, "Per_minute"))
-	}
 	if ops := __gong__diffSliceOfPointers(stage, metronome, "Beat_unit_tied", metronomeOther.Beat_unit_tied, metronome.Beat_unit_tied); ops != "" {
 		diffs = append(diffs, ops)
+	}
+	if metronome.Per_minute != metronomeOther.Per_minute {
+		diffs = append(diffs, metronome.GongMarshallField(stage, "Per_minute"))
 	}
 	if metronome.Metronome_arrows != metronomeOther.Metronome_arrows {
 		diffs = append(diffs, metronome.GongMarshallField(stage, "Metronome_arrows"))
 	}
-	if metronome.Metronome_relation != metronomeOther.Metronome_relation {
-		diffs = append(diffs, metronome.GongMarshallField(stage, "Metronome_relation"))
-	}
 	if ops := __gong__diffSliceOfPointers(stage, metronome, "Metronome_note", metronomeOther.Metronome_note, metronome.Metronome_note); ops != "" {
 		diffs = append(diffs, ops)
+	}
+	if metronome.Metronome_relation != metronomeOther.Metronome_relation {
+		diffs = append(diffs, metronome.GongMarshallField(stage, "Metronome_relation"))
 	}
 
 	return
@@ -23785,8 +23801,8 @@ func (metronome_tied *Metronome_tied) GongDiff(stage *Stage, metronome_tiedOther
 	if metronome_tied.Name != metronome_tiedOther.Name {
 		diffs = append(diffs, metronome_tied.GongMarshallField(stage, "Name"))
 	}
-	if metronome_tied.Type != metronome_tiedOther.Type {
-		diffs = append(diffs, metronome_tied.GongMarshallField(stage, "Type"))
+	if metronome_tied.Type_XSD != metronome_tiedOther.Type_XSD {
+		diffs = append(diffs, metronome_tied.GongMarshallField(stage, "Type_XSD"))
 	}
 
 	return
@@ -23798,6 +23814,27 @@ func (metronome_tuplet *Metronome_tuplet) GongDiff(stage *Stage, metronome_tuple
 	// insertion point for field diffs
 	if metronome_tuplet.Name != metronome_tupletOther.Name {
 		diffs = append(diffs, metronome_tuplet.GongMarshallField(stage, "Name"))
+	}
+	if metronome_tuplet.Actual_notes != metronome_tupletOther.Actual_notes {
+		diffs = append(diffs, metronome_tuplet.GongMarshallField(stage, "Actual_notes"))
+	}
+	if metronome_tuplet.Normal_notes != metronome_tupletOther.Normal_notes {
+		diffs = append(diffs, metronome_tuplet.GongMarshallField(stage, "Normal_notes"))
+	}
+	if metronome_tuplet.Normal_type != metronome_tupletOther.Normal_type {
+		diffs = append(diffs, metronome_tuplet.GongMarshallField(stage, "Normal_type"))
+	}
+	if metronome_tuplet.Normal_dot != metronome_tupletOther.Normal_dot {
+		diffs = append(diffs, metronome_tuplet.GongMarshallField(stage, "Normal_dot"))
+	}
+	if metronome_tuplet.Type_XSD != metronome_tupletOther.Type_XSD {
+		diffs = append(diffs, metronome_tuplet.GongMarshallField(stage, "Type_XSD"))
+	}
+	if metronome_tuplet.Bracket != metronome_tupletOther.Bracket {
+		diffs = append(diffs, metronome_tuplet.GongMarshallField(stage, "Bracket"))
+	}
+	if metronome_tuplet.Show_number != metronome_tupletOther.Show_number {
+		diffs = append(diffs, metronome_tuplet.GongMarshallField(stage, "Show_number"))
 	}
 
 	return
@@ -23899,6 +23936,66 @@ func (mordent *Mordent) GongDiff(stage *Stage, mordentOther *Mordent) (diffs []s
 	if mordent.Name != mordentOther.Name {
 		diffs = append(diffs, mordent.GongMarshallField(stage, "Name"))
 	}
+	if mordent.Default_x != mordentOther.Default_x {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Default_x"))
+	}
+	if mordent.Default_y != mordentOther.Default_y {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Default_y"))
+	}
+	if mordent.Relative_x != mordentOther.Relative_x {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Relative_x"))
+	}
+	if mordent.Relative_y != mordentOther.Relative_y {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Relative_y"))
+	}
+	if mordent.Font_family != mordentOther.Font_family {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Font_family"))
+	}
+	if mordent.Font_style != mordentOther.Font_style {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Font_style"))
+	}
+	if mordent.Font_size != mordentOther.Font_size {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Font_size"))
+	}
+	if mordent.Font_weight != mordentOther.Font_weight {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Font_weight"))
+	}
+	if mordent.Color != mordentOther.Color {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Color"))
+	}
+	if mordent.Placement != mordentOther.Placement {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Placement"))
+	}
+	if mordent.Start_note != mordentOther.Start_note {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Start_note"))
+	}
+	if mordent.Trill_step != mordentOther.Trill_step {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Trill_step"))
+	}
+	if mordent.Two_note_turn != mordentOther.Two_note_turn {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Two_note_turn"))
+	}
+	if mordent.Accelerate != mordentOther.Accelerate {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Accelerate"))
+	}
+	if mordent.Beats != mordentOther.Beats {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Beats"))
+	}
+	if mordent.Second_beat != mordentOther.Second_beat {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Second_beat"))
+	}
+	if mordent.Last_beat != mordentOther.Last_beat {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Last_beat"))
+	}
+	if mordent.Long != mordentOther.Long {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Long"))
+	}
+	if mordent.Approach != mordentOther.Approach {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Approach"))
+	}
+	if mordent.Departure != mordentOther.Departure {
+		diffs = append(diffs, mordent.GongMarshallField(stage, "Departure"))
+	}
 
 	return
 }
@@ -23947,8 +24044,8 @@ func (non_arpeggiate *Non_arpeggiate) GongDiff(stage *Stage, non_arpeggiateOther
 	if non_arpeggiate.Name != non_arpeggiateOther.Name {
 		diffs = append(diffs, non_arpeggiate.GongMarshallField(stage, "Name"))
 	}
-	if non_arpeggiate.Type != non_arpeggiateOther.Type {
-		diffs = append(diffs, non_arpeggiate.GongMarshallField(stage, "Type"))
+	if non_arpeggiate.Type_XSD != non_arpeggiateOther.Type_XSD {
+		diffs = append(diffs, non_arpeggiate.GongMarshallField(stage, "Type_XSD"))
 	}
 	if non_arpeggiate.Number != non_arpeggiateOther.Number {
 		diffs = append(diffs, non_arpeggiate.GongMarshallField(stage, "Number"))
@@ -24134,9 +24231,6 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	if note.Cue != noteOther.Cue {
 		diffs = append(diffs, note.GongMarshallField(stage, "Cue"))
 	}
-	if note.Duration != noteOther.Duration {
-		diffs = append(diffs, note.GongMarshallField(stage, "Duration"))
-	}
 	if ops := __gong__diffSliceOfPointers(stage, note, "Instrument", noteOther.Instrument, note.Instrument); ops != "" {
 		diffs = append(diffs, ops)
 	}
@@ -24149,8 +24243,8 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	if note.Voice != noteOther.Voice {
 		diffs = append(diffs, note.GongMarshallField(stage, "Voice"))
 	}
-	if note.Type != noteOther.Type {
-		diffs = append(diffs, note.GongMarshallField(stage, "Type"))
+	if note.Type_XSD != noteOther.Type_XSD {
+		diffs = append(diffs, note.GongMarshallField(stage, "Type_XSD"))
 	}
 	if ops := __gong__diffSliceOfPointers(stage, note, "Dot", noteOther.Dot, note.Dot); ops != "" {
 		diffs = append(diffs, ops)
@@ -24199,8 +24293,8 @@ func (note_size *Note_size) GongDiff(stage *Stage, note_sizeOther *Note_size) (d
 	if note_size.Name != note_sizeOther.Name {
 		diffs = append(diffs, note_size.GongMarshallField(stage, "Name"))
 	}
-	if note_size.Type != note_sizeOther.Type {
-		diffs = append(diffs, note_size.GongMarshallField(stage, "Type"))
+	if note_size.Type_XSD != note_sizeOther.Type_XSD {
+		diffs = append(diffs, note_size.GongMarshallField(stage, "Type_XSD"))
 	}
 	if note_size.EnclosedText != note_sizeOther.EnclosedText {
 		diffs = append(diffs, note_size.GongMarshallField(stage, "EnclosedText"))
@@ -24372,8 +24466,8 @@ func (octave_shift *Octave_shift) GongDiff(stage *Stage, octave_shiftOther *Octa
 	if octave_shift.Name != octave_shiftOther.Name {
 		diffs = append(diffs, octave_shift.GongMarshallField(stage, "Name"))
 	}
-	if octave_shift.Type != octave_shiftOther.Type {
-		diffs = append(diffs, octave_shift.GongMarshallField(stage, "Type"))
+	if octave_shift.Type_XSD != octave_shiftOther.Type_XSD {
+		diffs = append(diffs, octave_shift.GongMarshallField(stage, "Type_XSD"))
 	}
 	if octave_shift.Number != octave_shiftOther.Number {
 		diffs = append(diffs, octave_shift.GongMarshallField(stage, "Number"))
@@ -24448,8 +24542,8 @@ func (opus *Opus) GongDiff(stage *Stage, opusOther *Opus) (diffs []string) {
 	if opus.Href != opusOther.Href {
 		diffs = append(diffs, opus.GongMarshallField(stage, "Href"))
 	}
-	if opus.Type != opusOther.Type {
-		diffs = append(diffs, opus.GongMarshallField(stage, "Type"))
+	if opus.Type_XSD != opusOther.Type_XSD {
+		diffs = append(diffs, opus.GongMarshallField(stage, "Type_XSD"))
 	}
 	if opus.Role != opusOther.Role {
 		diffs = append(diffs, opus.GongMarshallField(stage, "Role"))
@@ -24536,8 +24630,8 @@ func (other_appearance *Other_appearance) GongDiff(stage *Stage, other_appearanc
 	if other_appearance.Name != other_appearanceOther.Name {
 		diffs = append(diffs, other_appearance.GongMarshallField(stage, "Name"))
 	}
-	if other_appearance.Type != other_appearanceOther.Type {
-		diffs = append(diffs, other_appearance.GongMarshallField(stage, "Type"))
+	if other_appearance.Type_XSD != other_appearanceOther.Type_XSD {
+		diffs = append(diffs, other_appearance.GongMarshallField(stage, "Type_XSD"))
 	}
 	if other_appearance.EnclosedText != other_appearanceOther.EnclosedText {
 		diffs = append(diffs, other_appearance.GongMarshallField(stage, "EnclosedText"))
@@ -24609,8 +24703,8 @@ func (other_listening *Other_listening) GongDiff(stage *Stage, other_listeningOt
 	if other_listening.Name != other_listeningOther.Name {
 		diffs = append(diffs, other_listening.GongMarshallField(stage, "Name"))
 	}
-	if other_listening.Type != other_listeningOther.Type {
-		diffs = append(diffs, other_listening.GongMarshallField(stage, "Type"))
+	if other_listening.Type_XSD != other_listeningOther.Type_XSD {
+		diffs = append(diffs, other_listening.GongMarshallField(stage, "Type_XSD"))
 	}
 	if other_listening.Player != other_listeningOther.Player {
 		diffs = append(diffs, other_listening.GongMarshallField(stage, "Player"))
@@ -24632,8 +24726,8 @@ func (other_notation *Other_notation) GongDiff(stage *Stage, other_notationOther
 	if other_notation.Name != other_notationOther.Name {
 		diffs = append(diffs, other_notation.GongMarshallField(stage, "Name"))
 	}
-	if other_notation.Type != other_notationOther.Type {
-		diffs = append(diffs, other_notation.GongMarshallField(stage, "Type"))
+	if other_notation.Type_XSD != other_notationOther.Type_XSD {
+		diffs = append(diffs, other_notation.GongMarshallField(stage, "Type_XSD"))
 	}
 	if other_notation.Number != other_notationOther.Number {
 		diffs = append(diffs, other_notation.GongMarshallField(stage, "Number"))
@@ -24738,8 +24832,8 @@ func (other_play *Other_play) GongDiff(stage *Stage, other_playOther *Other_play
 	if other_play.Name != other_playOther.Name {
 		diffs = append(diffs, other_play.GongMarshallField(stage, "Name"))
 	}
-	if other_play.Type != other_playOther.Type {
-		diffs = append(diffs, other_play.GongMarshallField(stage, "Type"))
+	if other_play.Type_XSD != other_playOther.Type_XSD {
+		diffs = append(diffs, other_play.GongMarshallField(stage, "Type_XSD"))
 	}
 	if other_play.EnclosedText != other_playOther.EnclosedText {
 		diffs = append(diffs, other_play.GongMarshallField(stage, "EnclosedText"))
@@ -24792,8 +24886,8 @@ func (page_margins *Page_margins) GongDiff(stage *Stage, page_marginsOther *Page
 	if page_margins.Name != page_marginsOther.Name {
 		diffs = append(diffs, page_margins.GongMarshallField(stage, "Name"))
 	}
-	if page_margins.Type != page_marginsOther.Type {
-		diffs = append(diffs, page_margins.GongMarshallField(stage, "Type"))
+	if page_margins.Type_XSD != page_marginsOther.Type_XSD {
+		diffs = append(diffs, page_margins.GongMarshallField(stage, "Type_XSD"))
 	}
 	if page_margins.Left_margin != page_marginsOther.Left_margin {
 		diffs = append(diffs, page_margins.GongMarshallField(stage, "Left_margin"))
@@ -24838,8 +24932,8 @@ func (part_group *Part_group) GongDiff(stage *Stage, part_groupOther *Part_group
 	if part_group.Name != part_groupOther.Name {
 		diffs = append(diffs, part_group.GongMarshallField(stage, "Name"))
 	}
-	if part_group.Type != part_groupOther.Type {
-		diffs = append(diffs, part_group.GongMarshallField(stage, "Type"))
+	if part_group.Type_XSD != part_groupOther.Type_XSD {
+		diffs = append(diffs, part_group.GongMarshallField(stage, "Type_XSD"))
 	}
 	if part_group.Number != part_groupOther.Number {
 		diffs = append(diffs, part_group.GongMarshallField(stage, "Number"))
@@ -24885,8 +24979,8 @@ func (part_link *Part_link) GongDiff(stage *Stage, part_linkOther *Part_link) (d
 	if part_link.Href != part_linkOther.Href {
 		diffs = append(diffs, part_link.GongMarshallField(stage, "Href"))
 	}
-	if part_link.Type != part_linkOther.Type {
-		diffs = append(diffs, part_link.GongMarshallField(stage, "Type"))
+	if part_link.Type_XSD != part_linkOther.Type_XSD {
+		diffs = append(diffs, part_link.GongMarshallField(stage, "Type_XSD"))
 	}
 	if part_link.Role != part_linkOther.Role {
 		diffs = append(diffs, part_link.GongMarshallField(stage, "Role"))
@@ -25039,8 +25133,8 @@ func (pedal *Pedal) GongDiff(stage *Stage, pedalOther *Pedal) (diffs []string) {
 	if pedal.Name != pedalOther.Name {
 		diffs = append(diffs, pedal.GongMarshallField(stage, "Name"))
 	}
-	if pedal.Type != pedalOther.Type {
-		diffs = append(diffs, pedal.GongMarshallField(stage, "Type"))
+	if pedal.Type_XSD != pedalOther.Type_XSD {
+		diffs = append(diffs, pedal.GongMarshallField(stage, "Type_XSD"))
 	}
 	if pedal.Number != pedalOther.Number {
 		diffs = append(diffs, pedal.GongMarshallField(stage, "Number"))
@@ -25351,8 +25445,8 @@ func (principal_voice *Principal_voice) GongDiff(stage *Stage, principal_voiceOt
 	if principal_voice.Name != principal_voiceOther.Name {
 		diffs = append(diffs, principal_voice.GongMarshallField(stage, "Name"))
 	}
-	if principal_voice.Type != principal_voiceOther.Type {
-		diffs = append(diffs, principal_voice.GongMarshallField(stage, "Type"))
+	if principal_voice.Type_XSD != principal_voiceOther.Type_XSD {
+		diffs = append(diffs, principal_voice.GongMarshallField(stage, "Type_XSD"))
 	}
 	if principal_voice.Symbol != principal_voiceOther.Symbol {
 		diffs = append(diffs, principal_voice.GongMarshallField(stage, "Symbol"))
@@ -25402,49 +25496,49 @@ func (principal_voice *Principal_voice) GongDiff(stage *Stage, principal_voiceOt
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (print *Print) GongDiff(stage *Stage, printOther *Print) (diffs []string) {
+func (print_xsd *Print_XSD) GongDiff(stage *Stage, print_xsdOther *Print_XSD) (diffs []string) {
 	// insertion point for field diffs
-	if print.Name != printOther.Name {
-		diffs = append(diffs, print.GongMarshallField(stage, "Name"))
+	if print_xsd.Name != print_xsdOther.Name {
+		diffs = append(diffs, print_xsd.GongMarshallField(stage, "Name"))
 	}
-	if print.Staff_spacing != printOther.Staff_spacing {
-		diffs = append(diffs, print.GongMarshallField(stage, "Staff_spacing"))
+	if print_xsd.Staff_spacing != print_xsdOther.Staff_spacing {
+		diffs = append(diffs, print_xsd.GongMarshallField(stage, "Staff_spacing"))
 	}
-	if print.New_system != printOther.New_system {
-		diffs = append(diffs, print.GongMarshallField(stage, "New_system"))
+	if print_xsd.New_system != print_xsdOther.New_system {
+		diffs = append(diffs, print_xsd.GongMarshallField(stage, "New_system"))
 	}
-	if print.New_page != printOther.New_page {
-		diffs = append(diffs, print.GongMarshallField(stage, "New_page"))
+	if print_xsd.New_page != print_xsdOther.New_page {
+		diffs = append(diffs, print_xsd.GongMarshallField(stage, "New_page"))
 	}
-	if print.Blank_page != printOther.Blank_page {
-		diffs = append(diffs, print.GongMarshallField(stage, "Blank_page"))
+	if print_xsd.Blank_page != print_xsdOther.Blank_page {
+		diffs = append(diffs, print_xsd.GongMarshallField(stage, "Blank_page"))
 	}
-	if print.Page_number != printOther.Page_number {
-		diffs = append(diffs, print.GongMarshallField(stage, "Page_number"))
+	if print_xsd.Page_number != print_xsdOther.Page_number {
+		diffs = append(diffs, print_xsd.GongMarshallField(stage, "Page_number"))
 	}
-	if print.Id != printOther.Id {
-		diffs = append(diffs, print.GongMarshallField(stage, "Id"))
+	if print_xsd.Id != print_xsdOther.Id {
+		diffs = append(diffs, print_xsd.GongMarshallField(stage, "Id"))
 	}
-	if print.Page_layout != printOther.Page_layout {
-		diffs = append(diffs, print.GongMarshallField(stage, "Page_layout"))
+	if print_xsd.Page_layout != print_xsdOther.Page_layout {
+		diffs = append(diffs, print_xsd.GongMarshallField(stage, "Page_layout"))
 	}
-	if print.System_layout != printOther.System_layout {
-		diffs = append(diffs, print.GongMarshallField(stage, "System_layout"))
+	if print_xsd.System_layout != print_xsdOther.System_layout {
+		diffs = append(diffs, print_xsd.GongMarshallField(stage, "System_layout"))
 	}
-	if ops := __gong__diffSliceOfPointers(stage, print, "Staff_layout", printOther.Staff_layout, print.Staff_layout); ops != "" {
+	if ops := __gong__diffSliceOfPointers(stage, print_xsd, "Staff_layout", print_xsdOther.Staff_layout, print_xsd.Staff_layout); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if print.Measure_layout != printOther.Measure_layout {
-		diffs = append(diffs, print.GongMarshallField(stage, "Measure_layout"))
+	if print_xsd.Measure_layout != print_xsdOther.Measure_layout {
+		diffs = append(diffs, print_xsd.GongMarshallField(stage, "Measure_layout"))
 	}
-	if print.Measure_numbering != printOther.Measure_numbering {
-		diffs = append(diffs, print.GongMarshallField(stage, "Measure_numbering"))
+	if print_xsd.Measure_numbering != print_xsdOther.Measure_numbering {
+		diffs = append(diffs, print_xsd.GongMarshallField(stage, "Measure_numbering"))
 	}
-	if print.Part_name_display != printOther.Part_name_display {
-		diffs = append(diffs, print.GongMarshallField(stage, "Part_name_display"))
+	if print_xsd.Part_name_display != print_xsdOther.Part_name_display {
+		diffs = append(diffs, print_xsd.GongMarshallField(stage, "Part_name_display"))
 	}
-	if print.Part_abbreviation_display != printOther.Part_abbreviation_display {
-		diffs = append(diffs, print.GongMarshallField(stage, "Part_abbreviation_display"))
+	if print_xsd.Part_abbreviation_display != print_xsdOther.Part_abbreviation_display {
+		diffs = append(diffs, print_xsd.GongMarshallField(stage, "Part_abbreviation_display"))
 	}
 
 	return
@@ -25456,6 +25550,9 @@ func (release *Release) GongDiff(stage *Stage, releaseOther *Release) (diffs []s
 	// insertion point for field diffs
 	if release.Name != releaseOther.Name {
 		diffs = append(diffs, release.GongMarshallField(stage, "Name"))
+	}
+	if release.Offset != releaseOther.Offset {
+		diffs = append(diffs, release.GongMarshallField(stage, "Offset"))
 	}
 
 	return
@@ -25811,8 +25908,8 @@ func (slash *Slash) GongDiff(stage *Stage, slashOther *Slash) (diffs []string) {
 	if slash.Name != slashOther.Name {
 		diffs = append(diffs, slash.GongMarshallField(stage, "Name"))
 	}
-	if slash.Type != slashOther.Type {
-		diffs = append(diffs, slash.GongMarshallField(stage, "Type"))
+	if slash.Type_XSD != slashOther.Type_XSD {
+		diffs = append(diffs, slash.GongMarshallField(stage, "Type_XSD"))
 	}
 	if slash.Use_dots != slashOther.Use_dots {
 		diffs = append(diffs, slash.GongMarshallField(stage, "Use_dots"))
@@ -25840,8 +25937,8 @@ func (slide *Slide) GongDiff(stage *Stage, slideOther *Slide) (diffs []string) {
 	if slide.Name != slideOther.Name {
 		diffs = append(diffs, slide.GongMarshallField(stage, "Name"))
 	}
-	if slide.Type != slideOther.Type {
-		diffs = append(diffs, slide.GongMarshallField(stage, "Type"))
+	if slide.Type_XSD != slideOther.Type_XSD {
+		diffs = append(diffs, slide.GongMarshallField(stage, "Type_XSD"))
 	}
 	if slide.Number != slideOther.Number {
 		diffs = append(diffs, slide.GongMarshallField(stage, "Number"))
@@ -25911,8 +26008,8 @@ func (slur *Slur) GongDiff(stage *Stage, slurOther *Slur) (diffs []string) {
 	if slur.Name != slurOther.Name {
 		diffs = append(diffs, slur.GongMarshallField(stage, "Name"))
 	}
-	if slur.Type != slurOther.Type {
-		diffs = append(diffs, slur.GongMarshallField(stage, "Type"))
+	if slur.Type_XSD != slurOther.Type_XSD {
+		diffs = append(diffs, slur.GongMarshallField(stage, "Type_XSD"))
 	}
 	if slur.Number != slurOther.Number {
 		diffs = append(diffs, slur.GongMarshallField(stage, "Number"))
@@ -26103,8 +26200,8 @@ func (staff_divide *Staff_divide) GongDiff(stage *Stage, staff_divideOther *Staf
 	if staff_divide.Name != staff_divideOther.Name {
 		diffs = append(diffs, staff_divide.GongMarshallField(stage, "Name"))
 	}
-	if staff_divide.Type != staff_divideOther.Type {
-		diffs = append(diffs, staff_divide.GongMarshallField(stage, "Type"))
+	if staff_divide.Type_XSD != staff_divideOther.Type_XSD {
+		diffs = append(diffs, staff_divide.GongMarshallField(stage, "Type_XSD"))
 	}
 	if staff_divide.Default_x != staff_divideOther.Default_x {
 		diffs = append(diffs, staff_divide.GongMarshallField(stage, "Default_x"))
@@ -26265,8 +26362,8 @@ func (string_mute *String_mute) GongDiff(stage *Stage, string_muteOther *String_
 	if string_mute.Name != string_muteOther.Name {
 		diffs = append(diffs, string_mute.GongMarshallField(stage, "Name"))
 	}
-	if string_mute.Type != string_muteOther.Type {
-		diffs = append(diffs, string_mute.GongMarshallField(stage, "Type"))
+	if string_mute.Type_XSD != string_muteOther.Type_XSD {
+		diffs = append(diffs, string_mute.GongMarshallField(stage, "Type_XSD"))
 	}
 	if string_mute.Default_x != string_muteOther.Default_x {
 		diffs = append(diffs, string_mute.GongMarshallField(stage, "Default_x"))
@@ -26359,6 +26456,39 @@ func (strong_accent *Strong_accent) GongDiff(stage *Stage, strong_accentOther *S
 	if strong_accent.Name != strong_accentOther.Name {
 		diffs = append(diffs, strong_accent.GongMarshallField(stage, "Name"))
 	}
+	if strong_accent.Default_x != strong_accentOther.Default_x {
+		diffs = append(diffs, strong_accent.GongMarshallField(stage, "Default_x"))
+	}
+	if strong_accent.Default_y != strong_accentOther.Default_y {
+		diffs = append(diffs, strong_accent.GongMarshallField(stage, "Default_y"))
+	}
+	if strong_accent.Relative_x != strong_accentOther.Relative_x {
+		diffs = append(diffs, strong_accent.GongMarshallField(stage, "Relative_x"))
+	}
+	if strong_accent.Relative_y != strong_accentOther.Relative_y {
+		diffs = append(diffs, strong_accent.GongMarshallField(stage, "Relative_y"))
+	}
+	if strong_accent.Font_family != strong_accentOther.Font_family {
+		diffs = append(diffs, strong_accent.GongMarshallField(stage, "Font_family"))
+	}
+	if strong_accent.Font_style != strong_accentOther.Font_style {
+		diffs = append(diffs, strong_accent.GongMarshallField(stage, "Font_style"))
+	}
+	if strong_accent.Font_size != strong_accentOther.Font_size {
+		diffs = append(diffs, strong_accent.GongMarshallField(stage, "Font_size"))
+	}
+	if strong_accent.Font_weight != strong_accentOther.Font_weight {
+		diffs = append(diffs, strong_accent.GongMarshallField(stage, "Font_weight"))
+	}
+	if strong_accent.Color != strong_accentOther.Color {
+		diffs = append(diffs, strong_accent.GongMarshallField(stage, "Color"))
+	}
+	if strong_accent.Placement != strong_accentOther.Placement {
+		diffs = append(diffs, strong_accent.GongMarshallField(stage, "Placement"))
+	}
+	if strong_accent.Type_XSD != strong_accentOther.Type_XSD {
+		diffs = append(diffs, strong_accent.GongMarshallField(stage, "Type_XSD"))
+	}
 
 	return
 }
@@ -26411,8 +26541,8 @@ func (supports *Supports) GongDiff(stage *Stage, supportsOther *Supports) (diffs
 	if supports.Name != supportsOther.Name {
 		diffs = append(diffs, supports.GongMarshallField(stage, "Name"))
 	}
-	if supports.Type != supportsOther.Type {
-		diffs = append(diffs, supports.GongMarshallField(stage, "Type"))
+	if supports.Type_XSD != supportsOther.Type_XSD {
+		diffs = append(diffs, supports.GongMarshallField(stage, "Type_XSD"))
 	}
 	if supports.Element != supportsOther.Element {
 		diffs = append(diffs, supports.GongMarshallField(stage, "Element"))
@@ -26460,8 +26590,8 @@ func (sync *Sync) GongDiff(stage *Stage, syncOther *Sync) (diffs []string) {
 	if sync.Name != syncOther.Name {
 		diffs = append(diffs, sync.GongMarshallField(stage, "Name"))
 	}
-	if sync.Type != syncOther.Type {
-		diffs = append(diffs, sync.GongMarshallField(stage, "Type"))
+	if sync.Type_XSD != syncOther.Type_XSD {
+		diffs = append(diffs, sync.GongMarshallField(stage, "Type_XSD"))
 	}
 	if sync.Latency != syncOther.Latency {
 		diffs = append(diffs, sync.GongMarshallField(stage, "Latency"))
@@ -26626,7 +26756,7 @@ func (technical *Technical) GongDiff(stage *Stage, technicalOther *Technical) (d
 	if ops := __gong__diffSliceOfPointers(stage, technical, "Fret", technicalOther.Fret, technical.Fret); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if ops := __gong__diffSliceOfPointers(stage, technical, "String", technicalOther.String, technical.String); ops != "" {
+	if ops := __gong__diffSliceOfPointers(stage, technical, "String_XSD", technicalOther.String_XSD, technical.String_XSD); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, technical, "Hammer_on", technicalOther.Hammer_on, technical.Hammer_on); ops != "" {
@@ -26744,8 +26874,8 @@ func (tie *Tie) GongDiff(stage *Stage, tieOther *Tie) (diffs []string) {
 	if tie.Name != tieOther.Name {
 		diffs = append(diffs, tie.GongMarshallField(stage, "Name"))
 	}
-	if tie.Type != tieOther.Type {
-		diffs = append(diffs, tie.GongMarshallField(stage, "Type"))
+	if tie.Type_XSD != tieOther.Type_XSD {
+		diffs = append(diffs, tie.GongMarshallField(stage, "Type_XSD"))
 	}
 	if tie.Time_only != tieOther.Time_only {
 		diffs = append(diffs, tie.GongMarshallField(stage, "Time_only"))
@@ -26761,8 +26891,8 @@ func (tied *Tied) GongDiff(stage *Stage, tiedOther *Tied) (diffs []string) {
 	if tied.Name != tiedOther.Name {
 		diffs = append(diffs, tied.GongMarshallField(stage, "Name"))
 	}
-	if tied.Type != tiedOther.Type {
-		diffs = append(diffs, tied.GongMarshallField(stage, "Type"))
+	if tied.Type_XSD != tiedOther.Type_XSD {
+		diffs = append(diffs, tied.GongMarshallField(stage, "Type_XSD"))
 	}
 	if tied.Number != tiedOther.Number {
 		diffs = append(diffs, tied.GongMarshallField(stage, "Number"))
@@ -26966,8 +27096,8 @@ func (tremolo *Tremolo) GongDiff(stage *Stage, tremoloOther *Tremolo) (diffs []s
 	if tremolo.Name != tremoloOther.Name {
 		diffs = append(diffs, tremolo.GongMarshallField(stage, "Name"))
 	}
-	if tremolo.Type != tremoloOther.Type {
-		diffs = append(diffs, tremolo.GongMarshallField(stage, "Type"))
+	if tremolo.Type_XSD != tremoloOther.Type_XSD {
+		diffs = append(diffs, tremolo.GongMarshallField(stage, "Type_XSD"))
 	}
 	if tremolo.Default_x != tremoloOther.Default_x {
 		diffs = append(diffs, tremolo.GongMarshallField(stage, "Default_x"))
@@ -27016,8 +27146,8 @@ func (tuplet *Tuplet) GongDiff(stage *Stage, tupletOther *Tuplet) (diffs []strin
 	if tuplet.Name != tupletOther.Name {
 		diffs = append(diffs, tuplet.GongMarshallField(stage, "Name"))
 	}
-	if tuplet.Type != tupletOther.Type {
-		diffs = append(diffs, tuplet.GongMarshallField(stage, "Type"))
+	if tuplet.Type_XSD != tupletOther.Type_XSD {
+		diffs = append(diffs, tuplet.GongMarshallField(stage, "Type_XSD"))
 	}
 	if tuplet.Number != tupletOther.Number {
 		diffs = append(diffs, tuplet.GongMarshallField(stage, "Number"))
@@ -27173,8 +27303,8 @@ func (typed_text *Typed_text) GongDiff(stage *Stage, typed_textOther *Typed_text
 	if typed_text.Name != typed_textOther.Name {
 		diffs = append(diffs, typed_text.GongMarshallField(stage, "Name"))
 	}
-	if typed_text.Type != typed_textOther.Type {
-		diffs = append(diffs, typed_text.GongMarshallField(stage, "Type"))
+	if typed_text.Type_XSD != typed_textOther.Type_XSD {
+		diffs = append(diffs, typed_text.GongMarshallField(stage, "Type_XSD"))
 	}
 	if typed_text.EnclosedText != typed_textOther.EnclosedText {
 		diffs = append(diffs, typed_text.GongMarshallField(stage, "EnclosedText"))
@@ -27241,8 +27371,8 @@ func (wavy_line *Wavy_line) GongDiff(stage *Stage, wavy_lineOther *Wavy_line) (d
 	if wavy_line.Name != wavy_lineOther.Name {
 		diffs = append(diffs, wavy_line.GongMarshallField(stage, "Name"))
 	}
-	if wavy_line.Type != wavy_lineOther.Type {
-		diffs = append(diffs, wavy_line.GongMarshallField(stage, "Type"))
+	if wavy_line.Type_XSD != wavy_lineOther.Type_XSD {
+		diffs = append(diffs, wavy_line.GongMarshallField(stage, "Type_XSD"))
 	}
 	if wavy_line.Number != wavy_lineOther.Number {
 		diffs = append(diffs, wavy_line.GongMarshallField(stage, "Number"))
@@ -27300,8 +27430,8 @@ func (wedge *Wedge) GongDiff(stage *Stage, wedgeOther *Wedge) (diffs []string) {
 	if wedge.Name != wedgeOther.Name {
 		diffs = append(diffs, wedge.GongMarshallField(stage, "Name"))
 	}
-	if wedge.Type != wedgeOther.Type {
-		diffs = append(diffs, wedge.GongMarshallField(stage, "Type"))
+	if wedge.Type_XSD != wedgeOther.Type_XSD {
+		diffs = append(diffs, wedge.GongMarshallField(stage, "Type_XSD"))
 	}
 	if wedge.Number != wedgeOther.Number {
 		diffs = append(diffs, wedge.GongMarshallField(stage, "Number"))

@@ -11,7 +11,7 @@ func computeIsBounded(particle Particle) (res bool) {
 			return true
 		} else {
 			// check if outer particle is unbounded recursively
-			if parent := particle.GetParent(); parent != nil {
+			if parent := particle.GetParent(); parent != nil && parent != particle {
 				return computeIsBounded(parent)
 			}
 		}

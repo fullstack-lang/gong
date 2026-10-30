@@ -1,7 +1,9 @@
 // generated code - do not edit
 package models
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+)
 
 // to avoid compilation error if no xml element is generated
 var _ xml.Attr
@@ -16,30 +18,23 @@ const (
 	Enum_BookFormatEnum_Hardcover Enum_BookFormatEnum = "Hardcover"
 )
 
-// From xsd simple type with enumerate restriction "titleType"
-type Enum_TitleType string
-
-const ()
-
 // insertion point for gongstructs declarations
 
 // BookType Named source named complex type "bookType"
-//
-//	This complex type defines the structure of a book, including title,
-//
-// author, year, and format.
+//  This complex type defines the structure of a book, including title,
+// author, year, and format. 
 type BookType struct {
 	Name string `xml:"-"`
 
 	// insertion point for fields
 
-	// generated from attribute group "extendedAttributes
+	// generated from attribute group "extendedAttributes"
 	AttributeGroup_extendedAttributes
 
-	// generated from group with order 3 depth 1
+	// generated from group "bookDetailsGroup" with order 4 depth 2
 	Group_bookDetailsGroup
 
-	// generated from element "credit" of type credit order 4 depth 1
+	// generated from element "credit" of complex type credit
 	Credit []*Credit `xml:"credit,omitempty"`
 }
 
@@ -48,20 +43,20 @@ type Group_bookDetailsGroup struct {
 
 	// insertion point for fields
 
-	// generated from element "title" of type titleType order 7 depth 1
+	// generated from element "title" of simple type titleType
 	Title string `xml:"title,omitempty"`
 
-	// generated from element "author" of type string order 8 depth 1
+	// generated from element "author" of simple type xs:string
 	Author string `xml:"author,omitempty"`
 
-	// generated from element "year" of type yearType order 9 depth 1
+	// generated from element "year" of simple type yearType
 	Year int `xml:"year,omitempty"`
 
-	// generated from element "format" of type bookFormatEnum order 10 depth 1
-	Format string `xml:"format,omitempty"`
+	// generated from element "format" of simple type bookFormatEnum
+	Format Enum_BookFormatEnum `xml:"format,omitempty"`
 }
 
-// Books Named source element books within root schema
+// Books Named source element books within schema
 type Books struct {
 	Name string `xml:"-"`
 
@@ -70,7 +65,7 @@ type Books struct {
 	// necessary since it is a root element
 	XMLName xml.Name `xml:"books"`
 
-	// generated from element "book" of type bookType order 15 depth 2
+	// generated from element "book" of complex type bookType
 	Book []*BookType `xml:"book,omitempty"`
 }
 
@@ -79,10 +74,10 @@ type AttributeGroup_commonAttributes struct {
 
 	// insertion point for fields
 
-	// generated from attribute "isbn
+	// generated from attribute "isbn"
 	Isbn string `xml:"isbn,attr,omitempty"`
 
-	// generated from attribute "bestseller
+	// generated from attribute "bestseller"
 	Bestseller bool `xml:"bestseller,attr,omitempty"`
 }
 
@@ -91,33 +86,33 @@ type AttributeGroup_extendedAttributes struct {
 
 	// insertion point for fields
 
-	// generated from attribute "edition
+	// generated from attribute "edition"
 	Edition string `xml:"edition,attr,omitempty"`
 
-	// generated from attribute group "commonAttributes
+	// generated from attribute group "commonAttributes"
 	AttributeGroup_commonAttributes
 }
 
 // Credit Named source named complex type "credit"
-// The credit type ..
+// The credit type .. 
 type Credit struct {
 	Name string `xml:"-"`
 
 	// insertion point for fields
 
-	// generated from attribute "page
+	// generated from attribute "page"
 	Page int `xml:"page,attr,omitempty"`
 
-	// generated from element "credit-type" of type string order 20 depth 1
+	// generated from element "credit-type" of simple type xs:string
 	Credit_type string `xml:"credit-type,omitempty"`
 
-	// generated from element "link" of type link order 24 depth 1
+	// generated from element "link" of complex type link
 	Link []*Link `xml:"link,omitempty"`
 
-	// generated from element "credit-words" of type string order 25 depth 1
+	// generated from element "credit-words" of simple type xs:string
 	Credit_words string `xml:"credit-words,omitempty"`
 
-	// generated from element "credit-symbol" of type string order 26 depth 1
+	// generated from element "credit-symbol" of simple type xs:string
 	Credit_symbol string `xml:"credit-symbol,omitempty"`
 }
 
@@ -130,9 +125,9 @@ type Link struct {
 
 	// insertion point for fields
 
-	// generated from attribute "name
+	// generated from attribute "name"
 	NameXSD string `xml:"name,attr,omitempty"`
 
-	// in case the extension has base type xs:string, one has to had the chardata stuff
+	// simpleContent character data
 	EnclosedText string `xml:",chardata"`
 }

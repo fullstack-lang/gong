@@ -128,7 +128,7 @@ func saveBookTypeFields(
 		case "Year":
 			FormDivBasicFieldToField(&(_instance.Year), formDiv)
 		case "Format":
-			FormDivBasicFieldToField(&(_instance.Format), formDiv)
+			FormDivEnumStringFieldToField(&(_instance.Format), formDiv)
 		case "Credit":
 			FormDivSliceOfPointersToField(_instance, "Credit", &(_instance.Credit), formDiv, probe)
 		case "Books:Book":

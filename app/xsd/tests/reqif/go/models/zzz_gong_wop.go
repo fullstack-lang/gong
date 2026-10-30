@@ -689,7 +689,7 @@ func (from *A_RELATION_GROUP_TYPE_REF) GongCopyBasicFields(to *A_RELATION_GROUP_
 	*to = *from
 }
 
-type A_SOURCE_1_WOP struct {
+type A_SOURCE_WOP struct {
 	// insertion point
 
 	Name string
@@ -697,20 +697,20 @@ type A_SOURCE_1_WOP struct {
 	SPEC_OBJECT_REF string
 }
 
-func (from *A_SOURCE_1) GongCopyBasicFields(to *A_SOURCE_1) {
+func (from *A_SOURCE) GongCopyBasicFields(to *A_SOURCE) {
 	// insertion point
 	*to = *from
 }
 
-type A_SOURCE_SPECIFICATION_1_WOP struct {
+type A_SOURCE_SPECIFICATION_WOP struct {
 	// insertion point
 
 	Name string
 
-	SPECIFICATION_REF Enum_GLOBAL_REF
+	SPECIFICATION_REF string
 }
 
-func (from *A_SOURCE_SPECIFICATION_1) GongCopyBasicFields(to *A_SOURCE_SPECIFICATION_1) {
+func (from *A_SOURCE_SPECIFICATION) GongCopyBasicFields(to *A_SOURCE_SPECIFICATION) {
 	// insertion point
 	*to = *from
 }
@@ -948,9 +948,9 @@ type DATATYPE_DEFINITION_INTEGER_WOP struct {
 
 	LONG_NAME string
 
-	MAX int
+	MAX_XSD int
 
-	MIN int
+	MIN_XSD int
 }
 
 func (from *DATATYPE_DEFINITION_INTEGER) GongCopyBasicFields(to *DATATYPE_DEFINITION_INTEGER) {
@@ -960,8 +960,8 @@ func (from *DATATYPE_DEFINITION_INTEGER) GongCopyBasicFields(to *DATATYPE_DEFINI
 	to.IDENTIFIER = from.IDENTIFIER
 	to.LAST_CHANGE = from.LAST_CHANGE
 	to.LONG_NAME = from.LONG_NAME
-	to.MAX = from.MAX
-	to.MIN = from.MIN
+	to.MAX_XSD = from.MAX_XSD
+	to.MIN_XSD = from.MIN_XSD
 }
 
 type DATATYPE_DEFINITION_REAL_WOP struct {
@@ -979,9 +979,9 @@ type DATATYPE_DEFINITION_REAL_WOP struct {
 
 	LONG_NAME string
 
-	MAX float64
+	MAX_XSD float64
 
-	MIN float64
+	MIN_XSD float64
 }
 
 func (from *DATATYPE_DEFINITION_REAL) GongCopyBasicFields(to *DATATYPE_DEFINITION_REAL) {
@@ -992,8 +992,8 @@ func (from *DATATYPE_DEFINITION_REAL) GongCopyBasicFields(to *DATATYPE_DEFINITIO
 	to.IDENTIFIER = from.IDENTIFIER
 	to.LAST_CHANGE = from.LAST_CHANGE
 	to.LONG_NAME = from.LONG_NAME
-	to.MAX = from.MAX
-	to.MIN = from.MIN
+	to.MAX_XSD = from.MAX_XSD
+	to.MIN_XSD = from.MIN_XSD
 }
 
 type DATATYPE_DEFINITION_STRING_WOP struct {

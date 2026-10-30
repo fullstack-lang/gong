@@ -162,6 +162,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.FieldXPath:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "FieldXPath",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__FieldXPathFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.FractionDigit:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "FractionDigit",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__FractionDigitFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Group:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -175,6 +201,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Key:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Key",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__KeyFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.KeyRef:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "KeyRef",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__KeyRefFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Length:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -182,6 +234,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "Length",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LengthFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.List:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "List",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ListFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.MaxExclusive:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "MaxExclusive",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MaxExclusiveFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
@@ -208,6 +286,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "MaxLength",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__MaxLengthFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.MinExclusive:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "MinExclusive",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MinExclusiveFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
@@ -279,6 +370,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Selector:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Selector",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SelectorFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Sequence:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -344,6 +448,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Unique:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Unique",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__UniqueFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.WhiteSpace:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -351,6 +468,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "WhiteSpace",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__WhiteSpaceFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.XSDImport:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "XSDImport",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__XSDImportFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.XSDInclude:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "XSDInclude",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__XSDIncludeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

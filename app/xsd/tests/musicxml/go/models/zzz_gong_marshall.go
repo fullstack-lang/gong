@@ -324,6 +324,227 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 	_ = lastStageVal
 	_ = lastStagePtr
 
+	if stage.XmlxsdStage != nil {
+		for _, xmlxsd_schemaelement := range __gong__sortStageSetInstances(stage.XmlxsdStage.Xmlxsd_SchemaElements, stage.XmlxsdStage.Xmlxsd_SchemaElement_stagedOrder) {
+			if lastStageDecl != "XmlxsdStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "XmlxsdStage"
+			}
+			xmlxsd_schemaelementIdent := xmlxsd_schemaelement.GongGetIdentifier(stage.XmlxsdStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xmlxsd.Xmlxsd_SchemaElement{Name: %s}).Stage(stage.XmlxsdStage)", xmlxsd_schemaelementIdent, __gong__toRawStringLiteral(xmlxsd_schemaelement.Name)))
+			if lastStageVal != "XmlxsdStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "XmlxsdStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xmlxsd_schemaelementIdent, __gong__toRawStringLiteral(xmlxsd_schemaelement.Name)))
+		}
+	}
+	if stage.XlinkStage != nil {
+		for _, arctype := range __gong__sortStageSetInstances(stage.XlinkStage.ArcTypes, stage.XlinkStage.ArcType_stagedOrder) {
+			if lastStageDecl != "XlinkStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "XlinkStage"
+			}
+			arctypeIdent := arctype.GongGetIdentifier(stage.XlinkStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xlink.ArcType{Name: %s}).Stage(stage.XlinkStage)", arctypeIdent, __gong__toRawStringLiteral(arctype.Name)))
+			if lastStageVal != "XlinkStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "XlinkStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.Actuate)))
+			values.WriteString(fmt.Sprintf("\n\t%s.From = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.From)))
+			values.WriteString(fmt.Sprintf("\n\t%s.To = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.To)))
+			for _, elem := range arctype.Title_1 {
+				if lastStagePtr != "XlinkStage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "XlinkStage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage.XlinkStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Title_1 = append(%s.Title_1, %s)", arctypeIdent, arctypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage.XlinkStage != nil {
+		for _, extended := range __gong__sortStageSetInstances(stage.XlinkStage.Extendeds, stage.XlinkStage.Extended_stagedOrder) {
+			if lastStageDecl != "XlinkStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "XlinkStage"
+			}
+			extendedIdent := extended.GongGetIdentifier(stage.XlinkStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xlink.Extended{Name: %s}).Stage(stage.XlinkStage)", extendedIdent, __gong__toRawStringLiteral(extended.Name)))
+			if lastStageVal != "XlinkStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "XlinkStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", extendedIdent, __gong__toRawStringLiteral(extended.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", extendedIdent, __gong__toRawStringLiteral(extended.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", extendedIdent, __gong__toRawStringLiteral(extended.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", extendedIdent, __gong__toRawStringLiteral(extended.Title)))
+			if extended.Title_1 != nil {
+				if lastStagePtr != "XlinkStage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "XlinkStage"
+				}
+				targetIdent := extended.Title_1.GongGetIdentifier(stage.XlinkStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Title_1 = %s", extendedIdent, targetIdent))
+			}
+			if extended.Resource != nil {
+				if lastStagePtr != "XlinkStage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "XlinkStage"
+				}
+				targetIdent := extended.Resource.GongGetIdentifier(stage.XlinkStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Resource = %s", extendedIdent, targetIdent))
+			}
+			if extended.Locator != nil {
+				if lastStagePtr != "XlinkStage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "XlinkStage"
+				}
+				targetIdent := extended.Locator.GongGetIdentifier(stage.XlinkStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Locator = %s", extendedIdent, targetIdent))
+			}
+			if extended.Arc != nil {
+				if lastStagePtr != "XlinkStage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "XlinkStage"
+				}
+				targetIdent := extended.Arc.GongGetIdentifier(stage.XlinkStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Arc = %s", extendedIdent, targetIdent))
+			}
+		}
+	}
+	if stage.XlinkStage != nil {
+		for _, locatortype := range __gong__sortStageSetInstances(stage.XlinkStage.LocatorTypes, stage.XlinkStage.LocatorType_stagedOrder) {
+			if lastStageDecl != "XlinkStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "XlinkStage"
+			}
+			locatortypeIdent := locatortype.GongGetIdentifier(stage.XlinkStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xlink.LocatorType{Name: %s}).Stage(stage.XlinkStage)", locatortypeIdent, __gong__toRawStringLiteral(locatortype.Name)))
+			if lastStageVal != "XlinkStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "XlinkStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", locatortypeIdent, __gong__toRawStringLiteral(locatortype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", locatortypeIdent, __gong__toRawStringLiteral(locatortype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", locatortypeIdent, __gong__toRawStringLiteral(locatortype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", locatortypeIdent, __gong__toRawStringLiteral(locatortype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", locatortypeIdent, __gong__toRawStringLiteral(locatortype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Label = %s", locatortypeIdent, __gong__toRawStringLiteral(locatortype.Label)))
+			for _, elem := range locatortype.Title_1 {
+				if lastStagePtr != "XlinkStage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "XlinkStage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage.XlinkStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Title_1 = append(%s.Title_1, %s)", locatortypeIdent, locatortypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage.XlinkStage != nil {
+		for _, resourcetype := range __gong__sortStageSetInstances(stage.XlinkStage.ResourceTypes, stage.XlinkStage.ResourceType_stagedOrder) {
+			if lastStageDecl != "XlinkStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "XlinkStage"
+			}
+			resourcetypeIdent := resourcetype.GongGetIdentifier(stage.XlinkStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xlink.ResourceType{Name: %s}).Stage(stage.XlinkStage)", resourcetypeIdent, __gong__toRawStringLiteral(resourcetype.Name)))
+			if lastStageVal != "XlinkStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "XlinkStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", resourcetypeIdent, __gong__toRawStringLiteral(resourcetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", resourcetypeIdent, __gong__toRawStringLiteral(resourcetype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", resourcetypeIdent, __gong__toRawStringLiteral(resourcetype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", resourcetypeIdent, __gong__toRawStringLiteral(resourcetype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Label = %s", resourcetypeIdent, __gong__toRawStringLiteral(resourcetype.Label)))
+		}
+	}
+	if stage.XlinkStage != nil {
+		for _, simple := range __gong__sortStageSetInstances(stage.XlinkStage.Simples, stage.XlinkStage.Simple_stagedOrder) {
+			if lastStageDecl != "XlinkStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "XlinkStage"
+			}
+			simpleIdent := simple.GongGetIdentifier(stage.XlinkStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xlink.Simple{Name: %s}).Stage(stage.XlinkStage)", simpleIdent, __gong__toRawStringLiteral(simple.Name)))
+			if lastStageVal != "XlinkStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "XlinkStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", simpleIdent, __gong__toRawStringLiteral(simple.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", simpleIdent, __gong__toRawStringLiteral(simple.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", simpleIdent, __gong__toRawStringLiteral(simple.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", simpleIdent, __gong__toRawStringLiteral(simple.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", simpleIdent, __gong__toRawStringLiteral(simple.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", simpleIdent, __gong__toRawStringLiteral(simple.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", simpleIdent, __gong__toRawStringLiteral(simple.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", simpleIdent, __gong__toRawStringLiteral(simple.Actuate)))
+		}
+	}
+	if stage.XlinkStage != nil {
+		for _, titleelttype := range __gong__sortStageSetInstances(stage.XlinkStage.TitleEltTypes, stage.XlinkStage.TitleEltType_stagedOrder) {
+			if lastStageDecl != "XlinkStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "XlinkStage"
+			}
+			titleelttypeIdent := titleelttype.GongGetIdentifier(stage.XlinkStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xlink.TitleEltType{Name: %s}).Stage(stage.XlinkStage)", titleelttypeIdent, __gong__toRawStringLiteral(titleelttype.Name)))
+			if lastStageVal != "XlinkStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "XlinkStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", titleelttypeIdent, __gong__toRawStringLiteral(titleelttype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", titleelttypeIdent, __gong__toRawStringLiteral(titleelttype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Lang = %s", titleelttypeIdent, __gong__toRawStringLiteral(titleelttype.Lang)))
+		}
+	}
 	if stage != nil {
 		for _, a_directive := range __gong__sortStageSetInstances(stage.A_directives, stage.A_directive_stagedOrder) {
 			if lastStageDecl != "Stage" {
@@ -347,9 +568,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", a_directiveIdent, __gong__toRawStringLiteral(a_directive.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", a_directiveIdent, __gong__toRawStringLiteral(a_directive.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", a_directiveIdent, __gong__toRawStringLiteral(a_directive.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", a_directiveIdent, __gong__toRawStringLiteral(a_directive.Font_style)))
+			if a_directive.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", a_directiveIdent, a_directive.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", a_directiveIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", a_directiveIdent, __gong__toRawStringLiteral(a_directive.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", a_directiveIdent, __gong__toRawStringLiteral(a_directive.Font_weight)))
+			if a_directive.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", a_directiveIdent, a_directive.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", a_directiveIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", a_directiveIdent, __gong__toRawStringLiteral(a_directive.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", a_directiveIdent, __gong__toRawStringLiteral(a_directive.EnclosedText)))
 		}
@@ -455,7 +684,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Figured_bass = append(%s.Figured_bass, %s)", a_measureIdent, a_measureIdent, targetIdent))
 			}
-			for _, elem := range a_measure.Print {
+			for _, elem := range a_measure.Print_XSD {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
@@ -463,7 +692,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					lastStagePtr = "Stage"
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Print = append(%s.Print, %s)", a_measureIdent, a_measureIdent, targetIdent))
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Print_XSD = append(%s.Print_XSD, %s)", a_measureIdent, a_measureIdent, targetIdent))
 			}
 			for _, elem := range a_measure.Sound {
 				if lastStagePtr != "Stage" {
@@ -688,7 +917,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Figured_bass = append(%s.Figured_bass, %s)", a_part_1Ident, a_part_1Ident, targetIdent))
 			}
-			for _, elem := range a_part_1.Print {
+			for _, elem := range a_part_1.Print_XSD {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
@@ -696,7 +925,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					lastStagePtr = "Stage"
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Print = append(%s.Print, %s)", a_part_1Ident, a_part_1Ident, targetIdent))
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Print_XSD = append(%s.Print_XSD, %s)", a_part_1Ident, a_part_1Ident, targetIdent))
 			}
 			for _, elem := range a_part_1.Sound {
 				if lastStagePtr != "Stage" {
@@ -777,7 +1006,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Cautionary = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Cautionary)))
+			if accidental.Cautionary.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Cautionary = models.%s", accidentalIdent, accidental.Cautionary.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Cautionary = \"\"", accidentalIdent))
+			}
 			if accidental.Editorial.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Editorial = models.%s", accidentalIdent, accidental.Editorial.ToCodeString()))
 			} else {
@@ -804,11 +1037,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Font_style)))
+			if accidental.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", accidentalIdent, accidental.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", accidentalIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Font_weight)))
+			if accidental.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", accidentalIdent, accidental.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", accidentalIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", accidentalIdent, __gong__toRawStringLiteral(accidental.EnclosedText)))
+			if accidental.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", accidentalIdent, accidental.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", accidentalIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -849,11 +1094,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Font_style)))
+			if accidental_mark.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", accidental_markIdent, accidental_mark.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", accidental_markIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Font_weight)))
+			if accidental_mark.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", accidental_markIdent, accidental_mark.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", accidental_markIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Placement)))
+			if accidental_mark.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", accidental_markIdent, accidental_mark.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", accidental_markIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", accidental_markIdent, __gong__toRawStringLiteral(accidental_mark.Id)))
 			if accidental_mark.EnclosedText.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", accidental_markIdent, accidental_mark.EnclosedText.ToCodeString()))
@@ -892,20 +1149,44 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Font_style)))
+			if accidental_text.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", accidental_textIdent, accidental_text.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", accidental_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Font_weight)))
+			if accidental_text.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", accidental_textIdent, accidental_text.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", accidental_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Valign)))
+			if accidental_text.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", accidental_textIdent, accidental_text.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", accidental_textIdent))
+			}
+			if accidental_text.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", accidental_textIdent, accidental_text.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", accidental_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Underline = %d", accidental_textIdent, accidental_text.Underline))
 			values.WriteString(fmt.Sprintf("\n\t%s.Overline = %d", accidental_textIdent, accidental_text.Overline))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_through = %d", accidental_textIdent, accidental_text.Line_through))
 			values.WriteString(fmt.Sprintf("\n\t%s.Rotation = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Rotation)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Letter_spacing = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Letter_spacing)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_height = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Line_height)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Dir = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Dir)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = %s", accidental_textIdent, __gong__toRawStringLiteral(accidental_text.Enclosure)))
+			if accidental_text.Dir.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dir = models.%s", accidental_textIdent, accidental_text.Dir.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dir = \"\"", accidental_textIdent))
+			}
+			if accidental_text.Enclosure.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = models.%s", accidental_textIdent, accidental_text.Enclosure.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = \"\"", accidental_textIdent))
+			}
 			if accidental_text.EnclosedText.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", accidental_textIdent, accidental_text.EnclosedText.ToCodeString()))
 			} else {
@@ -930,7 +1211,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", accordIdent, __gong__toRawStringLiteral(accord.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.String = %d", accordIdent, accord.String))
+			values.WriteString(fmt.Sprintf("\n\t%s.String_XSD = %d", accordIdent, accord.String_XSD))
 			if accord.Tuning_step.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Tuning_step = models.%s", accordIdent, accord.Tuning_step.ToCodeString()))
 			} else {
@@ -962,12 +1243,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", accordion_registrationIdent, __gong__toRawStringLiteral(accordion_registration.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", accordion_registrationIdent, __gong__toRawStringLiteral(accordion_registration.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", accordion_registrationIdent, __gong__toRawStringLiteral(accordion_registration.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", accordion_registrationIdent, __gong__toRawStringLiteral(accordion_registration.Font_style)))
+			if accordion_registration.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", accordion_registrationIdent, accordion_registration.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", accordion_registrationIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", accordion_registrationIdent, __gong__toRawStringLiteral(accordion_registration.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", accordion_registrationIdent, __gong__toRawStringLiteral(accordion_registration.Font_weight)))
+			if accordion_registration.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", accordion_registrationIdent, accordion_registration.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", accordion_registrationIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", accordion_registrationIdent, __gong__toRawStringLiteral(accordion_registration.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", accordion_registrationIdent, __gong__toRawStringLiteral(accordion_registration.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", accordion_registrationIdent, __gong__toRawStringLiteral(accordion_registration.Valign)))
+			if accordion_registration.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", accordion_registrationIdent, accordion_registration.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", accordion_registrationIdent))
+			}
+			if accordion_registration.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", accordion_registrationIdent, accordion_registration.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", accordion_registrationIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", accordion_registrationIdent, __gong__toRawStringLiteral(accordion_registration.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Accordion_high = %s", accordion_registrationIdent, __gong__toRawStringLiteral(accordion_registration.Accordion_high)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Accordion_middle = %d", accordion_registrationIdent, accordion_registration.Accordion_middle))
@@ -1061,7 +1358,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", arpeggiateIdent, __gong__toRawStringLiteral(arpeggiate.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", arpeggiateIdent, arpeggiate.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.Direction = %s", arpeggiateIdent, __gong__toRawStringLiteral(arpeggiate.Direction)))
+			if arpeggiate.Direction.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = models.%s", arpeggiateIdent, arpeggiate.Direction.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = \"\"", arpeggiateIdent))
+			}
 			if arpeggiate.Unbroken.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Unbroken = models.%s", arpeggiateIdent, arpeggiate.Unbroken.ToCodeString()))
 			} else {
@@ -1071,7 +1372,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", arpeggiateIdent, __gong__toRawStringLiteral(arpeggiate.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", arpeggiateIdent, __gong__toRawStringLiteral(arpeggiate.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", arpeggiateIdent, __gong__toRawStringLiteral(arpeggiate.Relative_y)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", arpeggiateIdent, __gong__toRawStringLiteral(arpeggiate.Placement)))
+			if arpeggiate.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", arpeggiateIdent, arpeggiate.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", arpeggiateIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", arpeggiateIdent, __gong__toRawStringLiteral(arpeggiate.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", arpeggiateIdent, __gong__toRawStringLiteral(arpeggiate.Id)))
 		}
@@ -1098,16 +1403,40 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", arrowIdent, __gong__toRawStringLiteral(arrow.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", arrowIdent, __gong__toRawStringLiteral(arrow.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", arrowIdent, __gong__toRawStringLiteral(arrow.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", arrowIdent, __gong__toRawStringLiteral(arrow.Font_style)))
+			if arrow.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", arrowIdent, arrow.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", arrowIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", arrowIdent, __gong__toRawStringLiteral(arrow.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", arrowIdent, __gong__toRawStringLiteral(arrow.Font_weight)))
+			if arrow.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", arrowIdent, arrow.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", arrowIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", arrowIdent, __gong__toRawStringLiteral(arrow.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", arrowIdent, __gong__toRawStringLiteral(arrow.Placement)))
+			if arrow.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", arrowIdent, arrow.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", arrowIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", arrowIdent, __gong__toRawStringLiteral(arrow.Smufl)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Arrow_direction = %s", arrowIdent, __gong__toRawStringLiteral(arrow.Arrow_direction)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Arrow_style = %s", arrowIdent, __gong__toRawStringLiteral(arrow.Arrow_style)))
+			if arrow.Arrow_direction.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Arrow_direction = models.%s", arrowIdent, arrow.Arrow_direction.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Arrow_direction = \"\"", arrowIdent))
+			}
+			if arrow.Arrow_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Arrow_style = models.%s", arrowIdent, arrow.Arrow_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Arrow_style = \"\"", arrowIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Arrowhead = %s", arrowIdent, __gong__toRawStringLiteral(arrow.Arrowhead)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Circular_arrow = %s", arrowIdent, __gong__toRawStringLiteral(arrow.Circular_arrow)))
+			if arrow.Circular_arrow.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Circular_arrow = models.%s", arrowIdent, arrow.Circular_arrow.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Circular_arrow = \"\"", arrowIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -1317,10 +1646,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", assessIdent, __gong__toRawStringLiteral(assess.Name)))
-			if assess.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", assessIdent, assess.Type.ToCodeString()))
+			if assess.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", assessIdent, assess.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", assessIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", assessIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Player = %s", assessIdent, __gong__toRawStringLiteral(assess.Player)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", assessIdent, __gong__toRawStringLiteral(assess.Time_only)))
@@ -1344,6 +1673,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attributesIdent, __gong__toRawStringLiteral(attributes.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Divisions = %s", attributesIdent, __gong__toRawStringLiteral(attributes.Divisions)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Time = %s", attributesIdent, __gong__toRawStringLiteral(attributes.Time)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Staves = %d", attributesIdent, attributes.Staves))
 			values.WriteString(fmt.Sprintf("\n\t%s.Instruments = %d", attributesIdent, attributes.Instruments))
 			if attributes.Footnote != nil {
@@ -1375,16 +1705,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Key = append(%s.Key, %s)", attributesIdent, attributesIdent, targetIdent))
-			}
-			for _, elem := range attributes.Time {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := elem.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Time = append(%s.Time, %s)", attributesIdent, attributesIdent, targetIdent))
 			}
 			if attributes.Part_symbol != nil {
 				if lastStagePtr != "Stage" {
@@ -1475,7 +1795,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", backupIdent, __gong__toRawStringLiteral(backup.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Duration = %s", backupIdent, __gong__toRawStringLiteral(backup.Duration)))
 			if backup.Footnote != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1516,7 +1835,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bar_style_colorIdent, __gong__toRawStringLiteral(bar_style_color.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", bar_style_colorIdent, __gong__toRawStringLiteral(bar_style_color.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", bar_style_colorIdent, __gong__toRawStringLiteral(bar_style_color.EnclosedText)))
+			if bar_style_color.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", bar_style_colorIdent, bar_style_color.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", bar_style_colorIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -1536,7 +1859,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", barlineIdent, __gong__toRawStringLiteral(barline.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Location = %s", barlineIdent, __gong__toRawStringLiteral(barline.Location)))
+			if barline.Location.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Location = models.%s", barlineIdent, barline.Location.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Location = \"\"", barlineIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Segno = %s", barlineIdent, __gong__toRawStringLiteral(barline.Segno)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Coda = %s", barlineIdent, __gong__toRawStringLiteral(barline.Coda)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Divisions = %s", barlineIdent, __gong__toRawStringLiteral(barline.Divisions)))
@@ -1650,7 +1977,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", barreIdent, __gong__toRawStringLiteral(barre.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", barreIdent, __gong__toRawStringLiteral(barre.Type)))
+			if barre.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", barreIdent, barre.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", barreIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", barreIdent, __gong__toRawStringLiteral(barre.Color)))
 		}
 	}
@@ -1671,7 +2002,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bassIdent, __gong__toRawStringLiteral(bass.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Arrangement = %s", bassIdent, __gong__toRawStringLiteral(bass.Arrangement)))
+			if bass.Arrangement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Arrangement = models.%s", bassIdent, bass.Arrangement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Arrangement = \"\"", bassIdent))
+			}
 			if bass.Bass_separator != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1727,11 +2062,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", bass_stepIdent, __gong__toRawStringLiteral(bass_step.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", bass_stepIdent, __gong__toRawStringLiteral(bass_step.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", bass_stepIdent, __gong__toRawStringLiteral(bass_step.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", bass_stepIdent, __gong__toRawStringLiteral(bass_step.Font_style)))
+			if bass_step.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", bass_stepIdent, bass_step.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", bass_stepIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", bass_stepIdent, __gong__toRawStringLiteral(bass_step.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", bass_stepIdent, __gong__toRawStringLiteral(bass_step.Font_weight)))
+			if bass_step.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", bass_stepIdent, bass_step.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", bass_stepIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", bass_stepIdent, __gong__toRawStringLiteral(bass_step.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", bass_stepIdent, __gong__toRawStringLiteral(bass_step.EnclosedText)))
+			if bass_step.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", bass_stepIdent, bass_step.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", bass_stepIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -1757,10 +2104,18 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			} else {
 				values.WriteString(fmt.Sprintf("\n\t%s.Repeater = \"\"", beamIdent))
 			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Fan = %s", beamIdent, __gong__toRawStringLiteral(beam.Fan)))
+			if beam.Fan.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Fan = models.%s", beamIdent, beam.Fan.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Fan = \"\"", beamIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", beamIdent, __gong__toRawStringLiteral(beam.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", beamIdent, __gong__toRawStringLiteral(beam.Id)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", beamIdent, __gong__toRawStringLiteral(beam.EnclosedText)))
+			if beam.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", beamIdent, beam.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", beamIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -1780,10 +2135,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", beat_repeatIdent, __gong__toRawStringLiteral(beat_repeat.Name)))
-			if beat_repeat.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", beat_repeatIdent, beat_repeat.Type.ToCodeString()))
+			if beat_repeat.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", beat_repeatIdent, beat_repeat.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", beat_repeatIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", beat_repeatIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Slashes = %d", beat_repeatIdent, beat_repeat.Slashes))
 			if beat_repeat.Use_dots.ToCodeString() != "" {
@@ -1842,8 +2197,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", beaterIdent, __gong__toRawStringLiteral(beater.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Tip = %s", beaterIdent, __gong__toRawStringLiteral(beater.Tip)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", beaterIdent, __gong__toRawStringLiteral(beater.EnclosedText)))
+			if beater.Tip.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Tip = models.%s", beaterIdent, beater.Tip.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Tip = \"\"", beaterIdent))
+			}
+			if beater.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", beaterIdent, beater.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", beaterIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -1863,15 +2226,27 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bendIdent, __gong__toRawStringLiteral(bend.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Shape = %s", bendIdent, __gong__toRawStringLiteral(bend.Shape)))
+			if bend.Shape.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Shape = models.%s", bendIdent, bend.Shape.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Shape = \"\"", bendIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", bendIdent, __gong__toRawStringLiteral(bend.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", bendIdent, __gong__toRawStringLiteral(bend.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", bendIdent, __gong__toRawStringLiteral(bend.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", bendIdent, __gong__toRawStringLiteral(bend.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", bendIdent, __gong__toRawStringLiteral(bend.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", bendIdent, __gong__toRawStringLiteral(bend.Font_style)))
+			if bend.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", bendIdent, bend.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", bendIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", bendIdent, __gong__toRawStringLiteral(bend.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", bendIdent, __gong__toRawStringLiteral(bend.Font_weight)))
+			if bend.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", bendIdent, bend.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", bendIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", bendIdent, __gong__toRawStringLiteral(bend.Color)))
 			if bend.Accelerate.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = models.%s", bendIdent, bend.Accelerate.ToCodeString()))
@@ -1945,11 +2320,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bracketIdent, __gong__toRawStringLiteral(bracket.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", bracketIdent, __gong__toRawStringLiteral(bracket.Type)))
+			if bracket.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", bracketIdent, bracket.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", bracketIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", bracketIdent, bracket.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.Line_end = %s", bracketIdent, __gong__toRawStringLiteral(bracket.Line_end)))
+			if bracket.Line_end.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_end = models.%s", bracketIdent, bracket.Line_end.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_end = \"\"", bracketIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.End_length = %s", bracketIdent, __gong__toRawStringLiteral(bracket.End_length)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Line_type = %s", bracketIdent, __gong__toRawStringLiteral(bracket.Line_type)))
+			if bracket.Line_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = models.%s", bracketIdent, bracket.Line_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = \"\"", bracketIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Dash_length = %s", bracketIdent, __gong__toRawStringLiteral(bracket.Dash_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Space_length = %s", bracketIdent, __gong__toRawStringLiteral(bracket.Space_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", bracketIdent, __gong__toRawStringLiteral(bracket.Default_x)))
@@ -1982,12 +2369,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", breath_markIdent, __gong__toRawStringLiteral(breath_mark.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", breath_markIdent, __gong__toRawStringLiteral(breath_mark.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", breath_markIdent, __gong__toRawStringLiteral(breath_mark.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", breath_markIdent, __gong__toRawStringLiteral(breath_mark.Font_style)))
+			if breath_mark.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", breath_markIdent, breath_mark.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", breath_markIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", breath_markIdent, __gong__toRawStringLiteral(breath_mark.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", breath_markIdent, __gong__toRawStringLiteral(breath_mark.Font_weight)))
+			if breath_mark.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", breath_markIdent, breath_mark.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", breath_markIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", breath_markIdent, __gong__toRawStringLiteral(breath_mark.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", breath_markIdent, __gong__toRawStringLiteral(breath_mark.Placement)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", breath_markIdent, __gong__toRawStringLiteral(breath_mark.EnclosedText)))
+			if breath_mark.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", breath_markIdent, breath_mark.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", breath_markIdent))
+			}
+			if breath_mark.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", breath_markIdent, breath_mark.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", breath_markIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -2012,12 +2415,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", caesuraIdent, __gong__toRawStringLiteral(caesura.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", caesuraIdent, __gong__toRawStringLiteral(caesura.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", caesuraIdent, __gong__toRawStringLiteral(caesura.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", caesuraIdent, __gong__toRawStringLiteral(caesura.Font_style)))
+			if caesura.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", caesuraIdent, caesura.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", caesuraIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", caesuraIdent, __gong__toRawStringLiteral(caesura.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", caesuraIdent, __gong__toRawStringLiteral(caesura.Font_weight)))
+			if caesura.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", caesuraIdent, caesura.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", caesuraIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", caesuraIdent, __gong__toRawStringLiteral(caesura.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", caesuraIdent, __gong__toRawStringLiteral(caesura.Placement)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", caesuraIdent, __gong__toRawStringLiteral(caesura.EnclosedText)))
+			if caesura.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", caesuraIdent, caesura.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", caesuraIdent))
+			}
+			if caesura.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", caesuraIdent, caesura.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", caesuraIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -2037,7 +2456,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cancelIdent, __gong__toRawStringLiteral(cancel.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Location = %s", cancelIdent, __gong__toRawStringLiteral(cancel.Location)))
+			if cancel.Location.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Location = models.%s", cancelIdent, cancel.Location.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Location = \"\"", cancelIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %d", cancelIdent, cancel.EnclosedText))
 		}
 	}
@@ -2064,7 +2487,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			} else {
 				values.WriteString(fmt.Sprintf("\n\t%s.Additional = \"\"", clefIdent))
 			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Size = %s", clefIdent, __gong__toRawStringLiteral(clef.Size)))
+			if clef.Size.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Size = models.%s", clefIdent, clef.Size.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Size = \"\"", clefIdent))
+			}
 			if clef.After_barline.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.After_barline = models.%s", clefIdent, clef.After_barline.ToCodeString()))
 			} else {
@@ -2075,9 +2502,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", clefIdent, __gong__toRawStringLiteral(clef.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", clefIdent, __gong__toRawStringLiteral(clef.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", clefIdent, __gong__toRawStringLiteral(clef.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", clefIdent, __gong__toRawStringLiteral(clef.Font_style)))
+			if clef.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", clefIdent, clef.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", clefIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", clefIdent, __gong__toRawStringLiteral(clef.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", clefIdent, __gong__toRawStringLiteral(clef.Font_weight)))
+			if clef.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", clefIdent, clef.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", clefIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", clefIdent, __gong__toRawStringLiteral(clef.Color)))
 			if clef.Print_object.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", clefIdent, clef.Print_object.ToCodeString()))
@@ -2085,7 +2520,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", clefIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", clefIdent, __gong__toRawStringLiteral(clef.Id)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Sign = %s", clefIdent, __gong__toRawStringLiteral(clef.Sign)))
+			if clef.Sign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Sign = models.%s", clefIdent, clef.Sign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Sign = \"\"", clefIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Line = %d", clefIdent, clef.Line))
 			values.WriteString(fmt.Sprintf("\n\t%s.Clef_octave_change = %d", clefIdent, clef.Clef_octave_change))
 		}
@@ -2113,12 +2552,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", codaIdent, __gong__toRawStringLiteral(coda.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", codaIdent, __gong__toRawStringLiteral(coda.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", codaIdent, __gong__toRawStringLiteral(coda.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", codaIdent, __gong__toRawStringLiteral(coda.Font_style)))
+			if coda.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", codaIdent, coda.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", codaIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", codaIdent, __gong__toRawStringLiteral(coda.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", codaIdent, __gong__toRawStringLiteral(coda.Font_weight)))
+			if coda.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", codaIdent, coda.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", codaIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", codaIdent, __gong__toRawStringLiteral(coda.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", codaIdent, __gong__toRawStringLiteral(coda.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", codaIdent, __gong__toRawStringLiteral(coda.Valign)))
+			if coda.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", codaIdent, coda.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", codaIdent))
+			}
+			if coda.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", codaIdent, coda.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", codaIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", codaIdent, __gong__toRawStringLiteral(coda.Id)))
 		}
 	}
@@ -2142,16 +2597,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Page = %d", creditIdent, credit.Page))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", creditIdent, __gong__toRawStringLiteral(credit.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Credit_type = %s", creditIdent, __gong__toRawStringLiteral(credit.Credit_type)))
-			if credit.Credit_image != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := credit.Credit_image.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Credit_image = %s", creditIdent, targetIdent))
-			}
 			for _, elem := range credit.Link {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -2172,25 +2617,35 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Bookmark = append(%s.Bookmark, %s)", creditIdent, creditIdent, targetIdent))
 			}
-			for _, elem := range credit.Credit_words {
+			if credit.Credit_image != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := elem.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Credit_words = append(%s.Credit_words, %s)", creditIdent, creditIdent, targetIdent))
+				targetIdent := credit.Credit_image.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Credit_image = %s", creditIdent, targetIdent))
 			}
-			for _, elem := range credit.Credit_symbol {
+			if credit.Credit_words != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := elem.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Credit_symbol = append(%s.Credit_symbol, %s)", creditIdent, creditIdent, targetIdent))
+				targetIdent := credit.Credit_words.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Credit_words = %s", creditIdent, targetIdent))
+			}
+			if credit.Credit_symbol != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := credit.Credit_symbol.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Credit_symbol = %s", creditIdent, targetIdent))
 			}
 		}
 	}
@@ -2211,10 +2666,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dashesIdent, __gong__toRawStringLiteral(dashes.Name)))
-			if dashes.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", dashesIdent, dashes.Type.ToCodeString()))
+			if dashes.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", dashesIdent, dashes.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", dashesIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", dashesIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", dashesIdent, dashes.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Dash_length = %s", dashesIdent, __gong__toRawStringLiteral(dashes.Dash_length)))
@@ -2418,9 +2873,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", degree_alterIdent, __gong__toRawStringLiteral(degree_alter.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", degree_alterIdent, __gong__toRawStringLiteral(degree_alter.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", degree_alterIdent, __gong__toRawStringLiteral(degree_alter.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", degree_alterIdent, __gong__toRawStringLiteral(degree_alter.Font_style)))
+			if degree_alter.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", degree_alterIdent, degree_alter.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", degree_alterIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", degree_alterIdent, __gong__toRawStringLiteral(degree_alter.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", degree_alterIdent, __gong__toRawStringLiteral(degree_alter.Font_weight)))
+			if degree_alter.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", degree_alterIdent, degree_alter.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", degree_alterIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", degree_alterIdent, __gong__toRawStringLiteral(degree_alter.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", degree_alterIdent, __gong__toRawStringLiteral(degree_alter.EnclosedText)))
 		}
@@ -2448,11 +2911,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", degree_typeIdent, __gong__toRawStringLiteral(degree_type.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", degree_typeIdent, __gong__toRawStringLiteral(degree_type.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", degree_typeIdent, __gong__toRawStringLiteral(degree_type.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", degree_typeIdent, __gong__toRawStringLiteral(degree_type.Font_style)))
+			if degree_type.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", degree_typeIdent, degree_type.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", degree_typeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", degree_typeIdent, __gong__toRawStringLiteral(degree_type.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", degree_typeIdent, __gong__toRawStringLiteral(degree_type.Font_weight)))
+			if degree_type.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", degree_typeIdent, degree_type.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", degree_typeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", degree_typeIdent, __gong__toRawStringLiteral(degree_type.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", degree_typeIdent, __gong__toRawStringLiteral(degree_type.EnclosedText)))
+			if degree_type.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", degree_typeIdent, degree_type.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", degree_typeIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -2472,16 +2947,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", degree_valueIdent, __gong__toRawStringLiteral(degree_value.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Symbol = %s", degree_valueIdent, __gong__toRawStringLiteral(degree_value.Symbol)))
+			if degree_value.Symbol.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Symbol = models.%s", degree_valueIdent, degree_value.Symbol.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Symbol = \"\"", degree_valueIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Text = %s", degree_valueIdent, __gong__toRawStringLiteral(degree_value.Text)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", degree_valueIdent, __gong__toRawStringLiteral(degree_value.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", degree_valueIdent, __gong__toRawStringLiteral(degree_value.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", degree_valueIdent, __gong__toRawStringLiteral(degree_value.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", degree_valueIdent, __gong__toRawStringLiteral(degree_value.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", degree_valueIdent, __gong__toRawStringLiteral(degree_value.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", degree_valueIdent, __gong__toRawStringLiteral(degree_value.Font_style)))
+			if degree_value.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", degree_valueIdent, degree_value.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", degree_valueIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", degree_valueIdent, __gong__toRawStringLiteral(degree_value.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", degree_valueIdent, __gong__toRawStringLiteral(degree_value.Font_weight)))
+			if degree_value.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", degree_valueIdent, degree_value.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", degree_valueIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", degree_valueIdent, __gong__toRawStringLiteral(degree_value.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %d", degree_valueIdent, degree_value.EnclosedText))
 		}
@@ -2503,17 +2990,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", directionIdent, __gong__toRawStringLiteral(direction.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", directionIdent, __gong__toRawStringLiteral(direction.Placement)))
+			if direction.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", directionIdent, direction.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", directionIdent))
+			}
 			if direction.Directive.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Directive = models.%s", directionIdent, direction.Directive.ToCodeString()))
 			} else {
 				values.WriteString(fmt.Sprintf("\n\t%s.Directive = \"\"", directionIdent))
 			}
-			if direction.System.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.System = models.%s", directionIdent, direction.System.ToCodeString()))
-			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.System = \"\"", directionIdent))
-			}
+			values.WriteString(fmt.Sprintf("\n\t%s.System = %s", directionIdent, __gong__toRawStringLiteral(direction.System)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", directionIdent, __gong__toRawStringLiteral(direction.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Voice = %s", directionIdent, __gong__toRawStringLiteral(direction.Voice)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Staff = %d", directionIdent, direction.Staff))
@@ -2856,7 +3343,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", distanceIdent, __gong__toRawStringLiteral(distance.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", distanceIdent, __gong__toRawStringLiteral(distance.Type)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", distanceIdent, __gong__toRawStringLiteral(distance.Type_XSD)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", distanceIdent, __gong__toRawStringLiteral(distance.EnclosedText)))
 		}
 	}
@@ -2906,17 +3393,41 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", dynamicsIdent, __gong__toRawStringLiteral(dynamics.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", dynamicsIdent, __gong__toRawStringLiteral(dynamics.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", dynamicsIdent, __gong__toRawStringLiteral(dynamics.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", dynamicsIdent, __gong__toRawStringLiteral(dynamics.Font_style)))
+			if dynamics.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", dynamicsIdent, dynamics.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", dynamicsIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", dynamicsIdent, __gong__toRawStringLiteral(dynamics.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", dynamicsIdent, __gong__toRawStringLiteral(dynamics.Font_weight)))
+			if dynamics.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", dynamicsIdent, dynamics.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", dynamicsIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", dynamicsIdent, __gong__toRawStringLiteral(dynamics.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", dynamicsIdent, __gong__toRawStringLiteral(dynamics.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", dynamicsIdent, __gong__toRawStringLiteral(dynamics.Valign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", dynamicsIdent, __gong__toRawStringLiteral(dynamics.Placement)))
+			if dynamics.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", dynamicsIdent, dynamics.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", dynamicsIdent))
+			}
+			if dynamics.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", dynamicsIdent, dynamics.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", dynamicsIdent))
+			}
+			if dynamics.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", dynamicsIdent, dynamics.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", dynamicsIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Underline = %d", dynamicsIdent, dynamics.Underline))
 			values.WriteString(fmt.Sprintf("\n\t%s.Overline = %d", dynamicsIdent, dynamics.Overline))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_through = %d", dynamicsIdent, dynamics.Line_through))
-			values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = %s", dynamicsIdent, __gong__toRawStringLiteral(dynamics.Enclosure)))
+			if dynamics.Enclosure.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = models.%s", dynamicsIdent, dynamics.Enclosure.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = \"\"", dynamicsIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", dynamicsIdent, __gong__toRawStringLiteral(dynamics.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.P = %s", dynamicsIdent, __gong__toRawStringLiteral(dynamics.P)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Pp = %s", dynamicsIdent, __gong__toRawStringLiteral(dynamics.Pp)))
@@ -2974,7 +3485,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", effectIdent, __gong__toRawStringLiteral(effect.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", effectIdent, __gong__toRawStringLiteral(effect.Smufl)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", effectIdent, __gong__toRawStringLiteral(effect.EnclosedText)))
+			if effect.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", effectIdent, effect.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", effectIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -2996,9 +3511,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", elisionIdent, __gong__toRawStringLiteral(elision.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", elisionIdent, __gong__toRawStringLiteral(elision.Smufl)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", elisionIdent, __gong__toRawStringLiteral(elision.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", elisionIdent, __gong__toRawStringLiteral(elision.Font_style)))
+			if elision.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", elisionIdent, elision.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", elisionIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", elisionIdent, __gong__toRawStringLiteral(elision.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", elisionIdent, __gong__toRawStringLiteral(elision.Font_weight)))
+			if elision.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", elisionIdent, elision.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", elisionIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", elisionIdent, __gong__toRawStringLiteral(elision.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", elisionIdent, __gong__toRawStringLiteral(elision.EnclosedText)))
 		}
@@ -3040,9 +3563,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", empty_fontIdent, __gong__toRawStringLiteral(empty_font.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", empty_fontIdent, __gong__toRawStringLiteral(empty_font.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", empty_fontIdent, __gong__toRawStringLiteral(empty_font.Font_style)))
+			if empty_font.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", empty_fontIdent, empty_font.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", empty_fontIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", empty_fontIdent, __gong__toRawStringLiteral(empty_font.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", empty_fontIdent, __gong__toRawStringLiteral(empty_font.Font_weight)))
+			if empty_font.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", empty_fontIdent, empty_font.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", empty_fontIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -3062,9 +3593,21 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Line_shape = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Line_shape)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Line_type = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Line_type)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Line_length = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Line_length)))
+			if empty_line.Line_shape.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_shape = models.%s", empty_lineIdent, empty_line.Line_shape.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_shape = \"\"", empty_lineIdent))
+			}
+			if empty_line.Line_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = models.%s", empty_lineIdent, empty_line.Line_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = \"\"", empty_lineIdent))
+			}
+			if empty_line.Line_length.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_length = models.%s", empty_lineIdent, empty_line.Line_length.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_length = \"\"", empty_lineIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Dash_length = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Dash_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Space_length = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Space_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Default_x)))
@@ -3072,11 +3615,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Font_style)))
+			if empty_line.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", empty_lineIdent, empty_line.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", empty_lineIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Font_weight)))
+			if empty_line.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", empty_lineIdent, empty_line.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", empty_lineIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", empty_lineIdent, __gong__toRawStringLiteral(empty_line.Placement)))
+			if empty_line.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", empty_lineIdent, empty_line.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", empty_lineIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -3101,11 +3656,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", empty_placementIdent, __gong__toRawStringLiteral(empty_placement.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", empty_placementIdent, __gong__toRawStringLiteral(empty_placement.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", empty_placementIdent, __gong__toRawStringLiteral(empty_placement.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", empty_placementIdent, __gong__toRawStringLiteral(empty_placement.Font_style)))
+			if empty_placement.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", empty_placementIdent, empty_placement.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", empty_placementIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", empty_placementIdent, __gong__toRawStringLiteral(empty_placement.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", empty_placementIdent, __gong__toRawStringLiteral(empty_placement.Font_weight)))
+			if empty_placement.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", empty_placementIdent, empty_placement.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", empty_placementIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", empty_placementIdent, __gong__toRawStringLiteral(empty_placement.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", empty_placementIdent, __gong__toRawStringLiteral(empty_placement.Placement)))
+			if empty_placement.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", empty_placementIdent, empty_placement.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", empty_placementIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -3130,11 +3697,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", empty_placement_smuflIdent, __gong__toRawStringLiteral(empty_placement_smufl.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", empty_placement_smuflIdent, __gong__toRawStringLiteral(empty_placement_smufl.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", empty_placement_smuflIdent, __gong__toRawStringLiteral(empty_placement_smufl.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", empty_placement_smuflIdent, __gong__toRawStringLiteral(empty_placement_smufl.Font_style)))
+			if empty_placement_smufl.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", empty_placement_smuflIdent, empty_placement_smufl.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", empty_placement_smuflIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", empty_placement_smuflIdent, __gong__toRawStringLiteral(empty_placement_smufl.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", empty_placement_smuflIdent, __gong__toRawStringLiteral(empty_placement_smufl.Font_weight)))
+			if empty_placement_smufl.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", empty_placement_smuflIdent, empty_placement_smufl.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", empty_placement_smuflIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", empty_placement_smuflIdent, __gong__toRawStringLiteral(empty_placement_smufl.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", empty_placement_smuflIdent, __gong__toRawStringLiteral(empty_placement_smufl.Placement)))
+			if empty_placement_smufl.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", empty_placement_smuflIdent, empty_placement_smufl.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", empty_placement_smuflIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", empty_placement_smuflIdent, __gong__toRawStringLiteral(empty_placement_smufl.Smufl)))
 		}
 	}
@@ -3165,12 +3744,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", empty_print_object_style_alignIdent, __gong__toRawStringLiteral(empty_print_object_style_align.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", empty_print_object_style_alignIdent, __gong__toRawStringLiteral(empty_print_object_style_align.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", empty_print_object_style_alignIdent, __gong__toRawStringLiteral(empty_print_object_style_align.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", empty_print_object_style_alignIdent, __gong__toRawStringLiteral(empty_print_object_style_align.Font_style)))
+			if empty_print_object_style_align.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", empty_print_object_style_alignIdent, empty_print_object_style_align.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", empty_print_object_style_alignIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", empty_print_object_style_alignIdent, __gong__toRawStringLiteral(empty_print_object_style_align.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", empty_print_object_style_alignIdent, __gong__toRawStringLiteral(empty_print_object_style_align.Font_weight)))
+			if empty_print_object_style_align.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", empty_print_object_style_alignIdent, empty_print_object_style_align.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", empty_print_object_style_alignIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", empty_print_object_style_alignIdent, __gong__toRawStringLiteral(empty_print_object_style_align.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", empty_print_object_style_alignIdent, __gong__toRawStringLiteral(empty_print_object_style_align.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", empty_print_object_style_alignIdent, __gong__toRawStringLiteral(empty_print_object_style_align.Valign)))
+			if empty_print_object_style_align.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", empty_print_object_style_alignIdent, empty_print_object_style_align.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", empty_print_object_style_alignIdent))
+			}
+			if empty_print_object_style_align.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", empty_print_object_style_alignIdent, empty_print_object_style_align.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", empty_print_object_style_alignIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -3195,9 +3790,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", empty_print_styleIdent, __gong__toRawStringLiteral(empty_print_style.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", empty_print_styleIdent, __gong__toRawStringLiteral(empty_print_style.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", empty_print_styleIdent, __gong__toRawStringLiteral(empty_print_style.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", empty_print_styleIdent, __gong__toRawStringLiteral(empty_print_style.Font_style)))
+			if empty_print_style.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", empty_print_styleIdent, empty_print_style.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", empty_print_styleIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", empty_print_styleIdent, __gong__toRawStringLiteral(empty_print_style.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", empty_print_styleIdent, __gong__toRawStringLiteral(empty_print_style.Font_weight)))
+			if empty_print_style.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", empty_print_styleIdent, empty_print_style.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", empty_print_styleIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", empty_print_styleIdent, __gong__toRawStringLiteral(empty_print_style.Color)))
 		}
 	}
@@ -3223,12 +3826,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", empty_print_style_alignIdent, __gong__toRawStringLiteral(empty_print_style_align.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", empty_print_style_alignIdent, __gong__toRawStringLiteral(empty_print_style_align.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", empty_print_style_alignIdent, __gong__toRawStringLiteral(empty_print_style_align.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", empty_print_style_alignIdent, __gong__toRawStringLiteral(empty_print_style_align.Font_style)))
+			if empty_print_style_align.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", empty_print_style_alignIdent, empty_print_style_align.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", empty_print_style_alignIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", empty_print_style_alignIdent, __gong__toRawStringLiteral(empty_print_style_align.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", empty_print_style_alignIdent, __gong__toRawStringLiteral(empty_print_style_align.Font_weight)))
+			if empty_print_style_align.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", empty_print_style_alignIdent, empty_print_style_align.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", empty_print_style_alignIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", empty_print_style_alignIdent, __gong__toRawStringLiteral(empty_print_style_align.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", empty_print_style_alignIdent, __gong__toRawStringLiteral(empty_print_style_align.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", empty_print_style_alignIdent, __gong__toRawStringLiteral(empty_print_style_align.Valign)))
+			if empty_print_style_align.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", empty_print_style_alignIdent, empty_print_style_align.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", empty_print_style_alignIdent))
+			}
+			if empty_print_style_align.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", empty_print_style_alignIdent, empty_print_style_align.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", empty_print_style_alignIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -3253,12 +3872,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", empty_print_style_align_idIdent, __gong__toRawStringLiteral(empty_print_style_align_id.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", empty_print_style_align_idIdent, __gong__toRawStringLiteral(empty_print_style_align_id.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", empty_print_style_align_idIdent, __gong__toRawStringLiteral(empty_print_style_align_id.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", empty_print_style_align_idIdent, __gong__toRawStringLiteral(empty_print_style_align_id.Font_style)))
+			if empty_print_style_align_id.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", empty_print_style_align_idIdent, empty_print_style_align_id.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", empty_print_style_align_idIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", empty_print_style_align_idIdent, __gong__toRawStringLiteral(empty_print_style_align_id.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", empty_print_style_align_idIdent, __gong__toRawStringLiteral(empty_print_style_align_id.Font_weight)))
+			if empty_print_style_align_id.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", empty_print_style_align_idIdent, empty_print_style_align_id.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", empty_print_style_align_idIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", empty_print_style_align_idIdent, __gong__toRawStringLiteral(empty_print_style_align_id.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", empty_print_style_align_idIdent, __gong__toRawStringLiteral(empty_print_style_align_id.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", empty_print_style_align_idIdent, __gong__toRawStringLiteral(empty_print_style_align_id.Valign)))
+			if empty_print_style_align_id.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", empty_print_style_align_idIdent, empty_print_style_align_id.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", empty_print_style_align_idIdent))
+			}
+			if empty_print_style_align_id.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", empty_print_style_align_idIdent, empty_print_style_align_id.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", empty_print_style_align_idIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", empty_print_style_align_idIdent, __gong__toRawStringLiteral(empty_print_style_align_id.Id)))
 		}
 	}
@@ -3284,14 +3919,38 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Font_style)))
+			if empty_trill_sound.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", empty_trill_soundIdent, empty_trill_sound.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", empty_trill_soundIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Font_weight)))
+			if empty_trill_sound.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", empty_trill_soundIdent, empty_trill_sound.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", empty_trill_soundIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Placement)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Start_note = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Start_note)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Trill_step = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Trill_step)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Two_note_turn = %s", empty_trill_soundIdent, __gong__toRawStringLiteral(empty_trill_sound.Two_note_turn)))
+			if empty_trill_sound.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", empty_trill_soundIdent, empty_trill_sound.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", empty_trill_soundIdent))
+			}
+			if empty_trill_sound.Start_note.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Start_note = models.%s", empty_trill_soundIdent, empty_trill_sound.Start_note.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Start_note = \"\"", empty_trill_soundIdent))
+			}
+			if empty_trill_sound.Trill_step.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Trill_step = models.%s", empty_trill_soundIdent, empty_trill_sound.Trill_step.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Trill_step = \"\"", empty_trill_soundIdent))
+			}
+			if empty_trill_sound.Two_note_turn.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Two_note_turn = models.%s", empty_trill_soundIdent, empty_trill_sound.Two_note_turn.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Two_note_turn = \"\"", empty_trill_soundIdent))
+			}
 			if empty_trill_sound.Accelerate.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = models.%s", empty_trill_soundIdent, empty_trill_sound.Accelerate.ToCodeString()))
 			} else {
@@ -3319,6 +3978,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", encodingIdent, __gong__toRawStringLiteral(encoding.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Encoding_date = %s", encodingIdent, __gong__toRawStringLiteral(encoding.Encoding_date)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Software = %s", encodingIdent, __gong__toRawStringLiteral(encoding.Software)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Encoding_description = %s", encodingIdent, __gong__toRawStringLiteral(encoding.Encoding_description)))
 			for _, elem := range encoding.Encoder {
@@ -3361,7 +4021,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", endingIdent, __gong__toRawStringLiteral(ending.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %s", endingIdent, __gong__toRawStringLiteral(ending.Number)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", endingIdent, __gong__toRawStringLiteral(ending.Type)))
+			if ending.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", endingIdent, ending.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", endingIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.End_length = %s", endingIdent, __gong__toRawStringLiteral(ending.End_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Text_x = %s", endingIdent, __gong__toRawStringLiteral(ending.Text_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Text_y = %s", endingIdent, __gong__toRawStringLiteral(ending.Text_y)))
@@ -3375,15 +4039,19 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", endingIdent, __gong__toRawStringLiteral(ending.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", endingIdent, __gong__toRawStringLiteral(ending.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", endingIdent, __gong__toRawStringLiteral(ending.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", endingIdent, __gong__toRawStringLiteral(ending.Font_style)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", endingIdent, __gong__toRawStringLiteral(ending.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", endingIdent, __gong__toRawStringLiteral(ending.Font_weight)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", endingIdent, __gong__toRawStringLiteral(ending.Color)))
-			if ending.System.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.System = models.%s", endingIdent, ending.System.ToCodeString()))
+			if ending.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", endingIdent, ending.Font_style.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.System = \"\"", endingIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", endingIdent))
 			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", endingIdent, __gong__toRawStringLiteral(ending.Font_size)))
+			if ending.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", endingIdent, ending.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", endingIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", endingIdent, __gong__toRawStringLiteral(ending.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.System = %s", endingIdent, __gong__toRawStringLiteral(ending.System)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", endingIdent, __gong__toRawStringLiteral(ending.EnclosedText)))
 		}
 	}
@@ -3404,10 +4072,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", extendIdent, __gong__toRawStringLiteral(extend.Name)))
-			if extend.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", extendIdent, extend.Type.ToCodeString()))
+			if extend.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", extendIdent, extend.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", extendIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", extendIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", extendIdent, __gong__toRawStringLiteral(extend.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", extendIdent, __gong__toRawStringLiteral(extend.Default_y)))
@@ -3433,7 +4101,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", featureIdent, __gong__toRawStringLiteral(feature.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", featureIdent, __gong__toRawStringLiteral(feature.Type)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", featureIdent, __gong__toRawStringLiteral(feature.Type_XSD)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", featureIdent, __gong__toRawStringLiteral(feature.EnclosedText)))
 		}
 	}
@@ -3454,18 +4122,34 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", fermataIdent, __gong__toRawStringLiteral(fermata.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", fermataIdent, __gong__toRawStringLiteral(fermata.Type)))
+			if fermata.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", fermataIdent, fermata.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", fermataIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", fermataIdent, __gong__toRawStringLiteral(fermata.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", fermataIdent, __gong__toRawStringLiteral(fermata.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", fermataIdent, __gong__toRawStringLiteral(fermata.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", fermataIdent, __gong__toRawStringLiteral(fermata.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", fermataIdent, __gong__toRawStringLiteral(fermata.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", fermataIdent, __gong__toRawStringLiteral(fermata.Font_style)))
+			if fermata.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", fermataIdent, fermata.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", fermataIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", fermataIdent, __gong__toRawStringLiteral(fermata.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", fermataIdent, __gong__toRawStringLiteral(fermata.Font_weight)))
+			if fermata.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", fermataIdent, fermata.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", fermataIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", fermataIdent, __gong__toRawStringLiteral(fermata.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", fermataIdent, __gong__toRawStringLiteral(fermata.Id)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", fermataIdent, __gong__toRawStringLiteral(fermata.EnclosedText)))
+			if fermata.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", fermataIdent, fermata.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", fermataIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -3574,13 +4258,33 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Font_style)))
+			if figured_bass.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", figured_bassIdent, figured_bass.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", figured_bassIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Font_weight)))
+			if figured_bass.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", figured_bassIdent, figured_bass.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", figured_bassIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Valign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Placement)))
+			if figured_bass.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", figured_bassIdent, figured_bass.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", figured_bassIdent))
+			}
+			if figured_bass.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", figured_bassIdent, figured_bass.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", figured_bassIdent))
+			}
+			if figured_bass.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", figured_bassIdent, figured_bass.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", figured_bassIdent))
+			}
 			if figured_bass.Print_dot.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_dot = models.%s", figured_bassIdent, figured_bass.Print_dot.ToCodeString()))
 			} else {
@@ -3602,7 +4306,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_spacing = \"\"", figured_bassIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Id)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Duration = %s", figured_bassIdent, __gong__toRawStringLiteral(figured_bass.Duration)))
 			for _, elem := range figured_bass.Figure {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -3667,11 +4370,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", fingeringIdent, __gong__toRawStringLiteral(fingering.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", fingeringIdent, __gong__toRawStringLiteral(fingering.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", fingeringIdent, __gong__toRawStringLiteral(fingering.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", fingeringIdent, __gong__toRawStringLiteral(fingering.Font_style)))
+			if fingering.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", fingeringIdent, fingering.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", fingeringIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", fingeringIdent, __gong__toRawStringLiteral(fingering.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", fingeringIdent, __gong__toRawStringLiteral(fingering.Font_weight)))
+			if fingering.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", fingeringIdent, fingering.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", fingeringIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", fingeringIdent, __gong__toRawStringLiteral(fingering.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", fingeringIdent, __gong__toRawStringLiteral(fingering.Placement)))
+			if fingering.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", fingeringIdent, fingering.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", fingeringIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", fingeringIdent, __gong__toRawStringLiteral(fingering.EnclosedText)))
 		}
 	}
@@ -3693,7 +4408,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", first_fretIdent, __gong__toRawStringLiteral(first_fret.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Text = %s", first_fretIdent, __gong__toRawStringLiteral(first_fret.Text)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Location = %s", first_fretIdent, __gong__toRawStringLiteral(first_fret.Location)))
+			if first_fret.Location.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Location = models.%s", first_fretIdent, first_fret.Location.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Location = \"\"", first_fretIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %d", first_fretIdent, first_fret.EnclosedText))
 		}
 	}
@@ -3765,20 +4484,44 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Font_style)))
+			if formatted_symbol.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", formatted_symbolIdent, formatted_symbol.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", formatted_symbolIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Font_weight)))
+			if formatted_symbol.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", formatted_symbolIdent, formatted_symbol.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", formatted_symbolIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Valign)))
+			if formatted_symbol.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", formatted_symbolIdent, formatted_symbol.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", formatted_symbolIdent))
+			}
+			if formatted_symbol.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", formatted_symbolIdent, formatted_symbol.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", formatted_symbolIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Underline = %d", formatted_symbolIdent, formatted_symbol.Underline))
 			values.WriteString(fmt.Sprintf("\n\t%s.Overline = %d", formatted_symbolIdent, formatted_symbol.Overline))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_through = %d", formatted_symbolIdent, formatted_symbol.Line_through))
 			values.WriteString(fmt.Sprintf("\n\t%s.Rotation = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Rotation)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Letter_spacing = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Letter_spacing)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_height = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Line_height)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Dir = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Dir)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.Enclosure)))
+			if formatted_symbol.Dir.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dir = models.%s", formatted_symbolIdent, formatted_symbol.Dir.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dir = \"\"", formatted_symbolIdent))
+			}
+			if formatted_symbol.Enclosure.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = models.%s", formatted_symbolIdent, formatted_symbol.Enclosure.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = \"\"", formatted_symbolIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", formatted_symbolIdent, __gong__toRawStringLiteral(formatted_symbol.EnclosedText)))
 		}
 	}
@@ -3809,20 +4552,44 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Font_style)))
+			if formatted_symbol_id.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", formatted_symbol_idIdent, formatted_symbol_id.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", formatted_symbol_idIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Font_weight)))
+			if formatted_symbol_id.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", formatted_symbol_idIdent, formatted_symbol_id.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", formatted_symbol_idIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Valign)))
+			if formatted_symbol_id.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", formatted_symbol_idIdent, formatted_symbol_id.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", formatted_symbol_idIdent))
+			}
+			if formatted_symbol_id.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", formatted_symbol_idIdent, formatted_symbol_id.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", formatted_symbol_idIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Underline = %d", formatted_symbol_idIdent, formatted_symbol_id.Underline))
 			values.WriteString(fmt.Sprintf("\n\t%s.Overline = %d", formatted_symbol_idIdent, formatted_symbol_id.Overline))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_through = %d", formatted_symbol_idIdent, formatted_symbol_id.Line_through))
 			values.WriteString(fmt.Sprintf("\n\t%s.Rotation = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Rotation)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Letter_spacing = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Letter_spacing)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_height = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Line_height)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Dir = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Dir)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Enclosure)))
+			if formatted_symbol_id.Dir.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dir = models.%s", formatted_symbol_idIdent, formatted_symbol_id.Dir.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dir = \"\"", formatted_symbol_idIdent))
+			}
+			if formatted_symbol_id.Enclosure.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = models.%s", formatted_symbol_idIdent, formatted_symbol_id.Enclosure.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = \"\"", formatted_symbol_idIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", formatted_symbol_idIdent, __gong__toRawStringLiteral(formatted_symbol_id.EnclosedText)))
 		}
@@ -3856,20 +4623,44 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Font_style)))
+			if formatted_text.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", formatted_textIdent, formatted_text.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", formatted_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Font_weight)))
+			if formatted_text.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", formatted_textIdent, formatted_text.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", formatted_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Valign)))
+			if formatted_text.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", formatted_textIdent, formatted_text.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", formatted_textIdent))
+			}
+			if formatted_text.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", formatted_textIdent, formatted_text.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", formatted_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Underline = %d", formatted_textIdent, formatted_text.Underline))
 			values.WriteString(fmt.Sprintf("\n\t%s.Overline = %d", formatted_textIdent, formatted_text.Overline))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_through = %d", formatted_textIdent, formatted_text.Line_through))
 			values.WriteString(fmt.Sprintf("\n\t%s.Rotation = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Rotation)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Letter_spacing = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Letter_spacing)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_height = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Line_height)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Dir = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Dir)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.Enclosure)))
+			if formatted_text.Dir.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dir = models.%s", formatted_textIdent, formatted_text.Dir.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dir = \"\"", formatted_textIdent))
+			}
+			if formatted_text.Enclosure.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = models.%s", formatted_textIdent, formatted_text.Enclosure.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = \"\"", formatted_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", formatted_textIdent, __gong__toRawStringLiteral(formatted_text.EnclosedText)))
 		}
 	}
@@ -3902,20 +4693,44 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Font_style)))
+			if formatted_text_id.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", formatted_text_idIdent, formatted_text_id.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", formatted_text_idIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Font_weight)))
+			if formatted_text_id.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", formatted_text_idIdent, formatted_text_id.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", formatted_text_idIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Valign)))
+			if formatted_text_id.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", formatted_text_idIdent, formatted_text_id.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", formatted_text_idIdent))
+			}
+			if formatted_text_id.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", formatted_text_idIdent, formatted_text_id.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", formatted_text_idIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Underline = %d", formatted_text_idIdent, formatted_text_id.Underline))
 			values.WriteString(fmt.Sprintf("\n\t%s.Overline = %d", formatted_text_idIdent, formatted_text_id.Overline))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_through = %d", formatted_text_idIdent, formatted_text_id.Line_through))
 			values.WriteString(fmt.Sprintf("\n\t%s.Rotation = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Rotation)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Letter_spacing = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Letter_spacing)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_height = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Line_height)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Dir = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Dir)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Enclosure)))
+			if formatted_text_id.Dir.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dir = models.%s", formatted_text_idIdent, formatted_text_id.Dir.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dir = \"\"", formatted_text_idIdent))
+			}
+			if formatted_text_id.Enclosure.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = models.%s", formatted_text_idIdent, formatted_text_id.Enclosure.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = \"\"", formatted_text_idIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", formatted_text_idIdent, __gong__toRawStringLiteral(formatted_text_id.EnclosedText)))
 		}
@@ -3937,7 +4752,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", forwardIdent, __gong__toRawStringLiteral(forward.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Duration = %s", forwardIdent, __gong__toRawStringLiteral(forward.Duration)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Voice = %s", forwardIdent, __gong__toRawStringLiteral(forward.Voice)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Staff = %d", forwardIdent, forward.Staff))
 			if forward.Footnote != nil {
@@ -3987,8 +4801,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", frameIdent, __gong__toRawStringLiteral(frame.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", frameIdent, __gong__toRawStringLiteral(frame.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", frameIdent, __gong__toRawStringLiteral(frame.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", frameIdent, __gong__toRawStringLiteral(frame.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", frameIdent, __gong__toRawStringLiteral(frame.Valign)))
+			if frame.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", frameIdent, frame.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", frameIdent))
+			}
+			if frame.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", frameIdent, frame.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", frameIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", frameIdent, __gong__toRawStringLiteral(frame.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Frame_strings = %d", frameIdent, frame.Frame_strings))
 			values.WriteString(fmt.Sprintf("\n\t%s.Frame_frets = %d", frameIdent, frame.Frame_frets))
@@ -4031,15 +4853,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", frame_noteIdent, __gong__toRawStringLiteral(frame_note.Name)))
-			if frame_note.String != nil {
+			if frame_note.String_XSD != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := frame_note.String.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.String = %s", frame_noteIdent, targetIdent))
+				targetIdent := frame_note.String_XSD.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.String_XSD = %s", frame_noteIdent, targetIdent))
 			}
 			if frame_note.Fret != nil {
 				if lastStagePtr != "Stage" {
@@ -4091,9 +4913,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", fretIdent, __gong__toRawStringLiteral(fret.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", fretIdent, __gong__toRawStringLiteral(fret.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", fretIdent, __gong__toRawStringLiteral(fret.Font_style)))
+			if fret.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", fretIdent, fret.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", fretIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", fretIdent, __gong__toRawStringLiteral(fret.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", fretIdent, __gong__toRawStringLiteral(fret.Font_weight)))
+			if fret.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", fretIdent, fret.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", fretIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", fretIdent, __gong__toRawStringLiteral(fret.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %d", fretIdent, fret.EnclosedText))
 		}
@@ -4116,7 +4946,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", glassIdent, __gong__toRawStringLiteral(glass.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", glassIdent, __gong__toRawStringLiteral(glass.Smufl)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", glassIdent, __gong__toRawStringLiteral(glass.EnclosedText)))
+			if glass.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", glassIdent, glass.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", glassIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -4136,13 +4970,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Name)))
-			if glissando.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", glissandoIdent, glissando.Type.ToCodeString()))
+			if glissando.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", glissandoIdent, glissando.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", glissandoIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", glissandoIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", glissandoIdent, glissando.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.Line_type = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Line_type)))
+			if glissando.Line_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = models.%s", glissandoIdent, glissando.Line_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = \"\"", glissandoIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Dash_length = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Dash_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Space_length = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Space_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Default_x)))
@@ -4150,9 +4988,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Font_style)))
+			if glissando.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", glissandoIdent, glissando.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", glissandoIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Font_weight)))
+			if glissando.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", glissandoIdent, glissando.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", glissandoIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", glissandoIdent, __gong__toRawStringLiteral(glissando.EnclosedText)))
@@ -4175,7 +5021,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", glyphIdent, __gong__toRawStringLiteral(glyph.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", glyphIdent, __gong__toRawStringLiteral(glyph.Type)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", glyphIdent, __gong__toRawStringLiteral(glyph.Type_XSD)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", glyphIdent, __gong__toRawStringLiteral(glyph.EnclosedText)))
 		}
 	}
@@ -4224,7 +5070,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", group_barlineIdent, __gong__toRawStringLiteral(group_barline.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", group_barlineIdent, __gong__toRawStringLiteral(group_barline.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", group_barlineIdent, __gong__toRawStringLiteral(group_barline.EnclosedText)))
+			if group_barline.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", group_barlineIdent, group_barline.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", group_barlineIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -4249,9 +5099,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", group_nameIdent, __gong__toRawStringLiteral(group_name.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", group_nameIdent, __gong__toRawStringLiteral(group_name.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", group_nameIdent, __gong__toRawStringLiteral(group_name.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", group_nameIdent, __gong__toRawStringLiteral(group_name.Font_style)))
+			if group_name.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", group_nameIdent, group_name.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", group_nameIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", group_nameIdent, __gong__toRawStringLiteral(group_name.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", group_nameIdent, __gong__toRawStringLiteral(group_name.Font_weight)))
+			if group_name.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", group_nameIdent, group_name.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", group_nameIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", group_nameIdent, __gong__toRawStringLiteral(group_name.Color)))
 			if group_name.Justify.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Justify = models.%s", group_nameIdent, group_name.Justify.ToCodeString()))
@@ -4283,7 +5141,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", group_symbolIdent, __gong__toRawStringLiteral(group_symbol.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", group_symbolIdent, __gong__toRawStringLiteral(group_symbol.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", group_symbolIdent, __gong__toRawStringLiteral(group_symbol.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", group_symbolIdent, __gong__toRawStringLiteral(group_symbol.EnclosedText)))
+			if group_symbol.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", group_symbolIdent, group_symbol.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", group_symbolIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -4303,7 +5165,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", groupingIdent, __gong__toRawStringLiteral(grouping.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", groupingIdent, __gong__toRawStringLiteral(grouping.Type)))
+			if grouping.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", groupingIdent, grouping.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", groupingIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %s", groupingIdent, __gong__toRawStringLiteral(grouping.Number)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Member_of = %s", groupingIdent, __gong__toRawStringLiteral(grouping.Member_of)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", groupingIdent, __gong__toRawStringLiteral(grouping.Id)))
@@ -4336,10 +5202,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(hammer_on_pull_off.Name)))
-			if hammer_on_pull_off.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", hammer_on_pull_offIdent, hammer_on_pull_off.Type.ToCodeString()))
+			if hammer_on_pull_off.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", hammer_on_pull_offIdent, hammer_on_pull_off.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", hammer_on_pull_offIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", hammer_on_pull_offIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", hammer_on_pull_offIdent, hammer_on_pull_off.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(hammer_on_pull_off.Default_x)))
@@ -4347,11 +5213,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(hammer_on_pull_off.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(hammer_on_pull_off.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(hammer_on_pull_off.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(hammer_on_pull_off.Font_style)))
+			if hammer_on_pull_off.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", hammer_on_pull_offIdent, hammer_on_pull_off.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", hammer_on_pull_offIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(hammer_on_pull_off.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(hammer_on_pull_off.Font_weight)))
+			if hammer_on_pull_off.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", hammer_on_pull_offIdent, hammer_on_pull_off.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", hammer_on_pull_offIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(hammer_on_pull_off.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(hammer_on_pull_off.Placement)))
+			if hammer_on_pull_off.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", hammer_on_pull_offIdent, hammer_on_pull_off.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", hammer_on_pull_offIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", hammer_on_pull_offIdent, __gong__toRawStringLiteral(hammer_on_pull_off.EnclosedText)))
 		}
 	}
@@ -4377,12 +5255,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", handbellIdent, __gong__toRawStringLiteral(handbell.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", handbellIdent, __gong__toRawStringLiteral(handbell.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", handbellIdent, __gong__toRawStringLiteral(handbell.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", handbellIdent, __gong__toRawStringLiteral(handbell.Font_style)))
+			if handbell.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", handbellIdent, handbell.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", handbellIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", handbellIdent, __gong__toRawStringLiteral(handbell.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", handbellIdent, __gong__toRawStringLiteral(handbell.Font_weight)))
+			if handbell.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", handbellIdent, handbell.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", handbellIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", handbellIdent, __gong__toRawStringLiteral(handbell.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", handbellIdent, __gong__toRawStringLiteral(handbell.Placement)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", handbellIdent, __gong__toRawStringLiteral(handbell.EnclosedText)))
+			if handbell.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", handbellIdent, handbell.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", handbellIdent))
+			}
+			if handbell.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", handbellIdent, handbell.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", handbellIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -4402,8 +5296,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", harmon_closedIdent, __gong__toRawStringLiteral(harmon_closed.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Location = %s", harmon_closedIdent, __gong__toRawStringLiteral(harmon_closed.Location)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", harmon_closedIdent, __gong__toRawStringLiteral(harmon_closed.EnclosedText)))
+			if harmon_closed.Location.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Location = models.%s", harmon_closedIdent, harmon_closed.Location.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Location = \"\"", harmon_closedIdent))
+			}
+			if harmon_closed.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", harmon_closedIdent, harmon_closed.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", harmon_closedIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -4428,11 +5330,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", harmon_muteIdent, __gong__toRawStringLiteral(harmon_mute.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", harmon_muteIdent, __gong__toRawStringLiteral(harmon_mute.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", harmon_muteIdent, __gong__toRawStringLiteral(harmon_mute.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", harmon_muteIdent, __gong__toRawStringLiteral(harmon_mute.Font_style)))
+			if harmon_mute.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", harmon_muteIdent, harmon_mute.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", harmon_muteIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", harmon_muteIdent, __gong__toRawStringLiteral(harmon_mute.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", harmon_muteIdent, __gong__toRawStringLiteral(harmon_mute.Font_weight)))
+			if harmon_mute.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", harmon_muteIdent, harmon_mute.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", harmon_muteIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", harmon_muteIdent, __gong__toRawStringLiteral(harmon_mute.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", harmon_muteIdent, __gong__toRawStringLiteral(harmon_mute.Placement)))
+			if harmon_mute.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", harmon_muteIdent, harmon_mute.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", harmon_muteIdent))
+			}
 			if harmon_mute.Harmon_closed != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -4472,11 +5386,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Font_style)))
+			if harmonic.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", harmonicIdent, harmonic.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", harmonicIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Font_weight)))
+			if harmonic.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", harmonicIdent, harmonic.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", harmonicIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Placement)))
+			if harmonic.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", harmonicIdent, harmonic.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", harmonicIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Natural = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Natural)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Artificial = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Artificial)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Base_pitch = %s", harmonicIdent, __gong__toRawStringLiteral(harmonic.Base_pitch)))
@@ -4501,7 +5427,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Type)))
+			if harmony.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", harmonyIdent, harmony.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", harmonyIdent))
+			}
 			if harmony.Print_frame.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_frame = models.%s", harmonyIdent, harmony.Print_frame.ToCodeString()))
 			} else {
@@ -4522,16 +5452,24 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Font_style)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Font_weight)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Placement)))
-			if harmony.System.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.System = models.%s", harmonyIdent, harmony.System.ToCodeString()))
+			if harmony.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", harmonyIdent, harmony.Font_style.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.System = \"\"", harmonyIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", harmonyIdent))
 			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Font_size)))
+			if harmony.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", harmonyIdent, harmony.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", harmonyIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Color)))
+			if harmony.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", harmonyIdent, harmony.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", harmonyIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.System = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.System)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", harmonyIdent, __gong__toRawStringLiteral(harmony.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Staff = %d", harmonyIdent, harmony.Staff))
 			if harmony.Root != nil {
@@ -4678,9 +5616,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", harmony_alterIdent, __gong__toRawStringLiteral(harmony_alter.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", harmony_alterIdent, __gong__toRawStringLiteral(harmony_alter.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", harmony_alterIdent, __gong__toRawStringLiteral(harmony_alter.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", harmony_alterIdent, __gong__toRawStringLiteral(harmony_alter.Font_style)))
+			if harmony_alter.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", harmony_alterIdent, harmony_alter.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", harmony_alterIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", harmony_alterIdent, __gong__toRawStringLiteral(harmony_alter.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", harmony_alterIdent, __gong__toRawStringLiteral(harmony_alter.Font_weight)))
+			if harmony_alter.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", harmony_alterIdent, harmony_alter.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", harmony_alterIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", harmony_alterIdent, __gong__toRawStringLiteral(harmony_alter.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", harmony_alterIdent, __gong__toRawStringLiteral(harmony_alter.EnclosedText)))
 		}
@@ -4707,12 +5653,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", harp_pedalsIdent, __gong__toRawStringLiteral(harp_pedals.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", harp_pedalsIdent, __gong__toRawStringLiteral(harp_pedals.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", harp_pedalsIdent, __gong__toRawStringLiteral(harp_pedals.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", harp_pedalsIdent, __gong__toRawStringLiteral(harp_pedals.Font_style)))
+			if harp_pedals.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", harp_pedalsIdent, harp_pedals.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", harp_pedalsIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", harp_pedalsIdent, __gong__toRawStringLiteral(harp_pedals.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", harp_pedalsIdent, __gong__toRawStringLiteral(harp_pedals.Font_weight)))
+			if harp_pedals.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", harp_pedalsIdent, harp_pedals.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", harp_pedalsIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", harp_pedalsIdent, __gong__toRawStringLiteral(harp_pedals.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", harp_pedalsIdent, __gong__toRawStringLiteral(harp_pedals.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", harp_pedalsIdent, __gong__toRawStringLiteral(harp_pedals.Valign)))
+			if harp_pedals.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", harp_pedalsIdent, harp_pedals.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", harp_pedalsIdent))
+			}
+			if harp_pedals.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", harp_pedalsIdent, harp_pedals.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", harp_pedalsIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", harp_pedalsIdent, __gong__toRawStringLiteral(harp_pedals.Id)))
 			for _, elem := range harp_pedals.Pedal_tuning {
 				if lastStagePtr != "Stage" {
@@ -4743,6 +5705,33 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", heel_toeIdent, __gong__toRawStringLiteral(heel_toe.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", heel_toeIdent, __gong__toRawStringLiteral(heel_toe.Default_x)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", heel_toeIdent, __gong__toRawStringLiteral(heel_toe.Default_y)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", heel_toeIdent, __gong__toRawStringLiteral(heel_toe.Relative_x)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", heel_toeIdent, __gong__toRawStringLiteral(heel_toe.Relative_y)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", heel_toeIdent, __gong__toRawStringLiteral(heel_toe.Font_family)))
+			if heel_toe.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", heel_toeIdent, heel_toe.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", heel_toeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", heel_toeIdent, __gong__toRawStringLiteral(heel_toe.Font_size)))
+			if heel_toe.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", heel_toeIdent, heel_toe.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", heel_toeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", heel_toeIdent, __gong__toRawStringLiteral(heel_toe.Color)))
+			if heel_toe.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", heel_toeIdent, heel_toe.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", heel_toeIdent))
+			}
+			if heel_toe.Substitution.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Substitution = models.%s", heel_toeIdent, heel_toe.Substitution.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Substitution = \"\"", heel_toeIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -4767,11 +5756,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", holeIdent, __gong__toRawStringLiteral(hole.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", holeIdent, __gong__toRawStringLiteral(hole.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", holeIdent, __gong__toRawStringLiteral(hole.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", holeIdent, __gong__toRawStringLiteral(hole.Font_style)))
+			if hole.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", holeIdent, hole.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", holeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", holeIdent, __gong__toRawStringLiteral(hole.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", holeIdent, __gong__toRawStringLiteral(hole.Font_weight)))
+			if hole.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", holeIdent, hole.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", holeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", holeIdent, __gong__toRawStringLiteral(hole.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", holeIdent, __gong__toRawStringLiteral(hole.Placement)))
+			if hole.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", holeIdent, hole.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", holeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Hole_type = %s", holeIdent, __gong__toRawStringLiteral(hole.Hole_type)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Hole_shape = %s", holeIdent, __gong__toRawStringLiteral(hole.Hole_shape)))
 			if hole.Hole_closed != nil {
@@ -4803,8 +5804,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", hole_closedIdent, __gong__toRawStringLiteral(hole_closed.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Location = %s", hole_closedIdent, __gong__toRawStringLiteral(hole_closed.Location)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", hole_closedIdent, __gong__toRawStringLiteral(hole_closed.EnclosedText)))
+			if hole_closed.Location.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Location = models.%s", hole_closedIdent, hole_closed.Location.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Location = \"\"", hole_closedIdent))
+			}
+			if hole_closed.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", hole_closedIdent, hole_closed.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", hole_closedIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -4834,14 +5843,38 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Font_style)))
+			if horizontal_turn.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", horizontal_turnIdent, horizontal_turn.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", horizontal_turnIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Font_weight)))
+			if horizontal_turn.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", horizontal_turnIdent, horizontal_turn.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", horizontal_turnIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Placement)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Start_note = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Start_note)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Trill_step = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Trill_step)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Two_note_turn = %s", horizontal_turnIdent, __gong__toRawStringLiteral(horizontal_turn.Two_note_turn)))
+			if horizontal_turn.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", horizontal_turnIdent, horizontal_turn.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", horizontal_turnIdent))
+			}
+			if horizontal_turn.Start_note.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Start_note = models.%s", horizontal_turnIdent, horizontal_turn.Start_note.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Start_note = \"\"", horizontal_turnIdent))
+			}
+			if horizontal_turn.Trill_step.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Trill_step = models.%s", horizontal_turnIdent, horizontal_turn.Trill_step.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Trill_step = \"\"", horizontal_turnIdent))
+			}
+			if horizontal_turn.Two_note_turn.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Two_note_turn = models.%s", horizontal_turnIdent, horizontal_turn.Two_note_turn.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Two_note_turn = \"\"", horizontal_turnIdent))
+			}
 			if horizontal_turn.Accelerate.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = models.%s", horizontal_turnIdent, horizontal_turn.Accelerate.ToCodeString()))
 			} else {
@@ -4940,15 +5973,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", imageIdent, __gong__toRawStringLiteral(image.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Source = %s", imageIdent, __gong__toRawStringLiteral(image.Source)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", imageIdent, __gong__toRawStringLiteral(image.Type)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", imageIdent, __gong__toRawStringLiteral(image.Type_XSD)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %s", imageIdent, __gong__toRawStringLiteral(image.Height)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %s", imageIdent, __gong__toRawStringLiteral(image.Width)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", imageIdent, __gong__toRawStringLiteral(image.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", imageIdent, __gong__toRawStringLiteral(image.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", imageIdent, __gong__toRawStringLiteral(image.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", imageIdent, __gong__toRawStringLiteral(image.Relative_y)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", imageIdent, __gong__toRawStringLiteral(image.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", imageIdent, __gong__toRawStringLiteral(image.Valign)))
+			if image.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", imageIdent, image.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", imageIdent))
+			}
+			if image.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", imageIdent, image.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", imageIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", imageIdent, __gong__toRawStringLiteral(image.Id)))
 		}
 	}
@@ -5042,9 +6083,21 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", interchangeableIdent, __gong__toRawStringLiteral(interchangeable.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Symbol = %s", interchangeableIdent, __gong__toRawStringLiteral(interchangeable.Symbol)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Separator = %s", interchangeableIdent, __gong__toRawStringLiteral(interchangeable.Separator)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Time_relation = %s", interchangeableIdent, __gong__toRawStringLiteral(interchangeable.Time_relation)))
+			if interchangeable.Symbol.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Symbol = models.%s", interchangeableIdent, interchangeable.Symbol.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Symbol = \"\"", interchangeableIdent))
+			}
+			if interchangeable.Separator.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Separator = models.%s", interchangeableIdent, interchangeable.Separator.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Separator = \"\"", interchangeableIdent))
+			}
+			if interchangeable.Time_relation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_relation = models.%s", interchangeableIdent, interchangeable.Time_relation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Time_relation = \"\"", interchangeableIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Beats = %s", interchangeableIdent, __gong__toRawStringLiteral(interchangeable.Beats)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Beat_type = %s", interchangeableIdent, __gong__toRawStringLiteral(interchangeable.Beat_type)))
 		}
@@ -5072,9 +6125,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", inversionIdent, __gong__toRawStringLiteral(inversion.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", inversionIdent, __gong__toRawStringLiteral(inversion.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", inversionIdent, __gong__toRawStringLiteral(inversion.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", inversionIdent, __gong__toRawStringLiteral(inversion.Font_style)))
+			if inversion.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", inversionIdent, inversion.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", inversionIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", inversionIdent, __gong__toRawStringLiteral(inversion.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", inversionIdent, __gong__toRawStringLiteral(inversion.Font_weight)))
+			if inversion.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", inversionIdent, inversion.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", inversionIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", inversionIdent, __gong__toRawStringLiteral(inversion.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %d", inversionIdent, inversion.EnclosedText))
 		}
@@ -5102,9 +6163,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", keyIdent, __gong__toRawStringLiteral(key.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", keyIdent, __gong__toRawStringLiteral(key.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", keyIdent, __gong__toRawStringLiteral(key.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", keyIdent, __gong__toRawStringLiteral(key.Font_style)))
+			if key.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", keyIdent, key.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", keyIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", keyIdent, __gong__toRawStringLiteral(key.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", keyIdent, __gong__toRawStringLiteral(key.Font_weight)))
+			if key.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", keyIdent, key.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", keyIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", keyIdent, __gong__toRawStringLiteral(key.Color)))
 			if key.Print_object.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", keyIdent, key.Print_object.ToCodeString()))
@@ -5246,13 +6315,33 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", kindIdent, __gong__toRawStringLiteral(kind.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", kindIdent, __gong__toRawStringLiteral(kind.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", kindIdent, __gong__toRawStringLiteral(kind.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", kindIdent, __gong__toRawStringLiteral(kind.Font_style)))
+			if kind.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", kindIdent, kind.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", kindIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", kindIdent, __gong__toRawStringLiteral(kind.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", kindIdent, __gong__toRawStringLiteral(kind.Font_weight)))
+			if kind.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", kindIdent, kind.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", kindIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", kindIdent, __gong__toRawStringLiteral(kind.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", kindIdent, __gong__toRawStringLiteral(kind.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", kindIdent, __gong__toRawStringLiteral(kind.Valign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", kindIdent, __gong__toRawStringLiteral(kind.EnclosedText)))
+			if kind.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", kindIdent, kind.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", kindIdent))
+			}
+			if kind.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", kindIdent, kind.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", kindIdent))
+			}
+			if kind.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", kindIdent, kind.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", kindIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -5272,15 +6361,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", levelIdent, __gong__toRawStringLiteral(level.Name)))
-			if level.Reference.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Reference = models.%s", levelIdent, level.Reference.ToCodeString()))
+			if level.Reference_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Reference_XSD = models.%s", levelIdent, level.Reference_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Reference = \"\"", levelIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Reference_XSD = \"\"", levelIdent))
 			}
-			if level.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", levelIdent, level.Type.ToCodeString()))
+			if level.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", levelIdent, level.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", levelIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", levelIdent))
 			}
 			if level.Parentheses.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = models.%s", levelIdent, level.Parentheses.ToCodeString()))
@@ -5320,7 +6409,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Line = %d", line_detailIdent, line_detail.Line))
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %s", line_detailIdent, __gong__toRawStringLiteral(line_detail.Width)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", line_detailIdent, __gong__toRawStringLiteral(line_detail.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Line_type = %s", line_detailIdent, __gong__toRawStringLiteral(line_detail.Line_type)))
+			if line_detail.Line_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = models.%s", line_detailIdent, line_detail.Line_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = \"\"", line_detailIdent))
+			}
 			if line_detail.Print_object.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", line_detailIdent, line_detail.Print_object.ToCodeString()))
 			} else {
@@ -5345,7 +6438,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", line_widthIdent, __gong__toRawStringLiteral(line_width.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", line_widthIdent, __gong__toRawStringLiteral(line_width.Type)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", line_widthIdent, __gong__toRawStringLiteral(line_width.Type_XSD)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", line_widthIdent, __gong__toRawStringLiteral(line_width.EnclosedText)))
 		}
 	}
@@ -5368,7 +6461,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", linkIdent, __gong__toRawStringLiteral(link.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", linkIdent, __gong__toRawStringLiteral(link.NameXSD)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", linkIdent, __gong__toRawStringLiteral(link.Href)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", linkIdent, __gong__toRawStringLiteral(link.Type)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", linkIdent, __gong__toRawStringLiteral(link.Type_XSD)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", linkIdent, __gong__toRawStringLiteral(link.Role)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", linkIdent, __gong__toRawStringLiteral(link.Title)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", linkIdent, __gong__toRawStringLiteral(link.Show)))
@@ -5498,11 +6591,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Number)))
 			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", lyricIdent, __gong__toRawStringLiteral(lyric.NameXSD)))
-			if lyric.Time_only.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = models.%s", lyricIdent, lyric.Time_only.ToCodeString()))
-			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = \"\"", lyricIdent))
-			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Time_only)))
 			if lyric.Justify.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Justify = models.%s", lyricIdent, lyric.Justify.ToCodeString()))
 			} else {
@@ -5512,7 +6601,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Relative_y)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Placement)))
+			if lyric.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", lyricIdent, lyric.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", lyricIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Color)))
 			if lyric.Print_object.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", lyricIdent, lyric.Print_object.ToCodeString()))
@@ -5520,11 +6613,25 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", lyricIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Id)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Syllabic = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Syllabic)))
+			if lyric.Syllabic.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Syllabic = models.%s", lyricIdent, lyric.Syllabic.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Syllabic = \"\"", lyricIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Laughing = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Laughing)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Humming = %s", lyricIdent, __gong__toRawStringLiteral(lyric.Humming)))
 			values.WriteString(fmt.Sprintf("\n\t%s.End_line = %s", lyricIdent, __gong__toRawStringLiteral(lyric.End_line)))
 			values.WriteString(fmt.Sprintf("\n\t%s.End_paragraph = %s", lyricIdent, __gong__toRawStringLiteral(lyric.End_paragraph)))
+			if lyric.Text != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := lyric.Text.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Text = %s", lyricIdent, targetIdent))
+			}
 			for _, elem := range lyric.Elision {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -5534,16 +6641,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Elision = append(%s.Elision, %s)", lyricIdent, lyricIdent, targetIdent))
-			}
-			for _, elem := range lyric.Text {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := elem.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Text = append(%s.Text, %s)", lyricIdent, lyricIdent, targetIdent))
 			}
 			if lyric.Extend != nil {
 				if lastStagePtr != "Stage" {
@@ -5597,9 +6694,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %s", lyric_fontIdent, __gong__toRawStringLiteral(lyric_font.Number)))
 			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", lyric_fontIdent, __gong__toRawStringLiteral(lyric_font.NameXSD)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", lyric_fontIdent, __gong__toRawStringLiteral(lyric_font.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", lyric_fontIdent, __gong__toRawStringLiteral(lyric_font.Font_style)))
+			if lyric_font.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", lyric_fontIdent, lyric_font.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", lyric_fontIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", lyric_fontIdent, __gong__toRawStringLiteral(lyric_font.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", lyric_fontIdent, __gong__toRawStringLiteral(lyric_font.Font_weight)))
+			if lyric_font.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", lyric_fontIdent, lyric_font.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", lyric_fontIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -5661,7 +6766,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.System = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.System)))
+			if measure_numbering.System.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.System = models.%s", measure_numberingIdent, measure_numbering.System.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.System = \"\"", measure_numberingIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Staff = %d", measure_numberingIdent, measure_numbering.Staff))
 			if measure_numbering.Multiple_rest_always.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Multiple_rest_always = models.%s", measure_numberingIdent, measure_numbering.Multiple_rest_always.ToCodeString()))
@@ -5678,13 +6787,33 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.Font_style)))
+			if measure_numbering.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", measure_numberingIdent, measure_numbering.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", measure_numberingIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.Font_weight)))
+			if measure_numbering.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", measure_numberingIdent, measure_numbering.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", measure_numberingIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.Valign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", measure_numberingIdent, __gong__toRawStringLiteral(measure_numbering.EnclosedText)))
+			if measure_numbering.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", measure_numberingIdent, measure_numbering.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", measure_numberingIdent))
+			}
+			if measure_numbering.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", measure_numberingIdent, measure_numbering.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", measure_numberingIdent))
+			}
+			if measure_numbering.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", measure_numberingIdent, measure_numbering.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", measure_numberingIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -5704,10 +6833,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", measure_repeatIdent, __gong__toRawStringLiteral(measure_repeat.Name)))
-			if measure_repeat.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", measure_repeatIdent, measure_repeat.Type.ToCodeString()))
+			if measure_repeat.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", measure_repeatIdent, measure_repeat.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", measure_repeatIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", measure_repeatIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Slashes = %d", measure_repeatIdent, measure_repeat.Slashes))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", measure_repeatIdent, __gong__toRawStringLiteral(measure_repeat.EnclosedText)))
@@ -5732,9 +6861,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", measure_styleIdent, __gong__toRawStringLiteral(measure_style.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", measure_styleIdent, measure_style.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", measure_styleIdent, __gong__toRawStringLiteral(measure_style.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", measure_styleIdent, __gong__toRawStringLiteral(measure_style.Font_style)))
+			if measure_style.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", measure_styleIdent, measure_style.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", measure_styleIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", measure_styleIdent, __gong__toRawStringLiteral(measure_style.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", measure_styleIdent, __gong__toRawStringLiteral(measure_style.Font_weight)))
+			if measure_style.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", measure_styleIdent, measure_style.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", measure_styleIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", measure_styleIdent, __gong__toRawStringLiteral(measure_style.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", measure_styleIdent, __gong__toRawStringLiteral(measure_style.Id)))
 			if measure_style.Multiple_rest != nil {
@@ -5797,7 +6934,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", membraneIdent, __gong__toRawStringLiteral(membrane.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", membraneIdent, __gong__toRawStringLiteral(membrane.Smufl)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", membraneIdent, __gong__toRawStringLiteral(membrane.EnclosedText)))
+			if membrane.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", membraneIdent, membrane.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", membraneIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -5818,7 +6959,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", metalIdent, __gong__toRawStringLiteral(metal.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", metalIdent, __gong__toRawStringLiteral(metal.Smufl)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", metalIdent, __gong__toRawStringLiteral(metal.EnclosedText)))
+			if metal.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", metalIdent, metal.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", metalIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -5848,12 +6993,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Font_style)))
+			if metronome.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", metronomeIdent, metronome.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", metronomeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Font_weight)))
+			if metronome.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", metronomeIdent, metronome.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", metronomeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Valign)))
+			if metronome.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", metronomeIdent, metronome.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", metronomeIdent))
+			}
+			if metronome.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", metronomeIdent, metronome.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", metronomeIdent))
+			}
 			if metronome.Print_object.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", metronomeIdent, metronome.Print_object.ToCodeString()))
 			} else {
@@ -5873,16 +7034,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Beat_unit_dot = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Beat_unit_dot)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Metronome_arrows = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Metronome_arrows)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Metronome_relation = %s", metronomeIdent, __gong__toRawStringLiteral(metronome.Metronome_relation)))
-			if metronome.Per_minute != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := metronome.Per_minute.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Per_minute = %s", metronomeIdent, targetIdent))
-			}
 			for _, elem := range metronome.Beat_unit_tied {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -5892,6 +7043,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Beat_unit_tied = append(%s.Beat_unit_tied, %s)", metronomeIdent, metronomeIdent, targetIdent))
+			}
+			if metronome.Per_minute != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := metronome.Per_minute.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Per_minute = %s", metronomeIdent, targetIdent))
 			}
 			for _, elem := range metronome.Metronome_note {
 				if lastStagePtr != "Stage" {
@@ -5947,7 +7108,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", metronome_noteIdent, __gong__toRawStringLiteral(metronome_note.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Metronome_type = %s", metronome_noteIdent, __gong__toRawStringLiteral(metronome_note.Metronome_type)))
+			if metronome_note.Metronome_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Metronome_type = models.%s", metronome_noteIdent, metronome_note.Metronome_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Metronome_type = \"\"", metronome_noteIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Metronome_dot = %s", metronome_noteIdent, __gong__toRawStringLiteral(metronome_note.Metronome_dot)))
 			for _, elem := range metronome_note.Metronome_beam {
 				if lastStagePtr != "Stage" {
@@ -5998,10 +7163,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", metronome_tiedIdent, __gong__toRawStringLiteral(metronome_tied.Name)))
-			if metronome_tied.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", metronome_tiedIdent, metronome_tied.Type.ToCodeString()))
+			if metronome_tied.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", metronome_tiedIdent, metronome_tied.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", metronome_tiedIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", metronome_tiedIdent))
 			}
 		}
 	}
@@ -6022,6 +7187,29 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", metronome_tupletIdent, __gong__toRawStringLiteral(metronome_tuplet.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actual_notes = %d", metronome_tupletIdent, metronome_tuplet.Actual_notes))
+			values.WriteString(fmt.Sprintf("\n\t%s.Normal_notes = %d", metronome_tupletIdent, metronome_tuplet.Normal_notes))
+			if metronome_tuplet.Normal_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Normal_type = models.%s", metronome_tupletIdent, metronome_tuplet.Normal_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Normal_type = \"\"", metronome_tupletIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Normal_dot = %s", metronome_tupletIdent, __gong__toRawStringLiteral(metronome_tuplet.Normal_dot)))
+			if metronome_tuplet.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", metronome_tupletIdent, metronome_tuplet.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", metronome_tupletIdent))
+			}
+			if metronome_tuplet.Bracket.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Bracket = models.%s", metronome_tupletIdent, metronome_tuplet.Bracket.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Bracket = \"\"", metronome_tupletIdent))
+			}
+			if metronome_tuplet.Show_number.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Show_number = models.%s", metronome_tupletIdent, metronome_tuplet.Show_number.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Show_number = \"\"", metronome_tupletIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -6141,6 +7329,66 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", mordentIdent, __gong__toRawStringLiteral(mordent.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", mordentIdent, __gong__toRawStringLiteral(mordent.Default_x)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", mordentIdent, __gong__toRawStringLiteral(mordent.Default_y)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", mordentIdent, __gong__toRawStringLiteral(mordent.Relative_x)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", mordentIdent, __gong__toRawStringLiteral(mordent.Relative_y)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", mordentIdent, __gong__toRawStringLiteral(mordent.Font_family)))
+			if mordent.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", mordentIdent, mordent.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", mordentIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", mordentIdent, __gong__toRawStringLiteral(mordent.Font_size)))
+			if mordent.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", mordentIdent, mordent.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", mordentIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", mordentIdent, __gong__toRawStringLiteral(mordent.Color)))
+			if mordent.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", mordentIdent, mordent.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", mordentIdent))
+			}
+			if mordent.Start_note.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Start_note = models.%s", mordentIdent, mordent.Start_note.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Start_note = \"\"", mordentIdent))
+			}
+			if mordent.Trill_step.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Trill_step = models.%s", mordentIdent, mordent.Trill_step.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Trill_step = \"\"", mordentIdent))
+			}
+			if mordent.Two_note_turn.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Two_note_turn = models.%s", mordentIdent, mordent.Two_note_turn.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Two_note_turn = \"\"", mordentIdent))
+			}
+			if mordent.Accelerate.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = models.%s", mordentIdent, mordent.Accelerate.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = \"\"", mordentIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Beats = %s", mordentIdent, __gong__toRawStringLiteral(mordent.Beats)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Second_beat = %s", mordentIdent, __gong__toRawStringLiteral(mordent.Second_beat)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Last_beat = %s", mordentIdent, __gong__toRawStringLiteral(mordent.Last_beat)))
+			if mordent.Long.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Long = models.%s", mordentIdent, mordent.Long.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Long = \"\"", mordentIdent))
+			}
+			if mordent.Approach.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Approach = models.%s", mordentIdent, mordent.Approach.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Approach = \"\"", mordentIdent))
+			}
+			if mordent.Departure.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Departure = models.%s", mordentIdent, mordent.Departure.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Departure = \"\"", mordentIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -6229,13 +7477,21 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", non_arpeggiateIdent, __gong__toRawStringLiteral(non_arpeggiate.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", non_arpeggiateIdent, __gong__toRawStringLiteral(non_arpeggiate.Type)))
+			if non_arpeggiate.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", non_arpeggiateIdent, non_arpeggiate.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", non_arpeggiateIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", non_arpeggiateIdent, non_arpeggiate.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", non_arpeggiateIdent, __gong__toRawStringLiteral(non_arpeggiate.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", non_arpeggiateIdent, __gong__toRawStringLiteral(non_arpeggiate.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", non_arpeggiateIdent, __gong__toRawStringLiteral(non_arpeggiate.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", non_arpeggiateIdent, __gong__toRawStringLiteral(non_arpeggiate.Relative_y)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", non_arpeggiateIdent, __gong__toRawStringLiteral(non_arpeggiate.Placement)))
+			if non_arpeggiate.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", non_arpeggiateIdent, non_arpeggiate.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", non_arpeggiateIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", non_arpeggiateIdent, __gong__toRawStringLiteral(non_arpeggiate.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", non_arpeggiateIdent, __gong__toRawStringLiteral(non_arpeggiate.Id)))
 		}
@@ -6451,11 +7707,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.End_dynamics = %s", noteIdent, __gong__toRawStringLiteral(note.End_dynamics)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Attack = %s", noteIdent, __gong__toRawStringLiteral(note.Attack)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Release = %s", noteIdent, __gong__toRawStringLiteral(note.Release)))
-			if note.Time_only.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = models.%s", noteIdent, note.Time_only.ToCodeString()))
-			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = \"\"", noteIdent))
-			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", noteIdent, __gong__toRawStringLiteral(note.Time_only)))
 			if note.Pizzicato.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Pizzicato = models.%s", noteIdent, note.Pizzicato.ToCodeString()))
 			} else {
@@ -6466,9 +7718,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", noteIdent, __gong__toRawStringLiteral(note.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", noteIdent, __gong__toRawStringLiteral(note.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", noteIdent, __gong__toRawStringLiteral(note.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", noteIdent, __gong__toRawStringLiteral(note.Font_style)))
+			if note.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", noteIdent, note.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", noteIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", noteIdent, __gong__toRawStringLiteral(note.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", noteIdent, __gong__toRawStringLiteral(note.Font_weight)))
+			if note.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", noteIdent, note.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", noteIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", noteIdent, __gong__toRawStringLiteral(note.Color)))
 			if note.Print_dot.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_dot = models.%s", noteIdent, note.Print_dot.ToCodeString()))
@@ -6493,7 +7753,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", noteIdent, __gong__toRawStringLiteral(note.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Chord = %s", noteIdent, __gong__toRawStringLiteral(note.Chord)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Cue = %s", noteIdent, __gong__toRawStringLiteral(note.Cue)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Duration = %s", noteIdent, __gong__toRawStringLiteral(note.Duration)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Voice = %s", noteIdent, __gong__toRawStringLiteral(note.Voice)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Staff = %d", noteIdent, note.Staff))
 			if note.Grace != nil {
@@ -6576,15 +7835,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := note.Level.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Level = %s", noteIdent, targetIdent))
 			}
-			if note.Type != nil {
+			if note.Type_XSD != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := note.Type.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Type = %s", noteIdent, targetIdent))
+				targetIdent := note.Type_XSD.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", noteIdent, targetIdent))
 			}
 			for _, elem := range note.Dot {
 				if lastStagePtr != "Stage" {
@@ -6715,7 +7974,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", note_sizeIdent, __gong__toRawStringLiteral(note_size.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", note_sizeIdent, __gong__toRawStringLiteral(note_size.Type)))
+			if note_size.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", note_sizeIdent, note_size.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", note_sizeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", note_sizeIdent, __gong__toRawStringLiteral(note_size.EnclosedText)))
 		}
 	}
@@ -6776,12 +8039,24 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				values.WriteString(fmt.Sprintf("\n\t%s.Parentheses = \"\"", noteheadIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", noteheadIdent, __gong__toRawStringLiteral(notehead.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", noteheadIdent, __gong__toRawStringLiteral(notehead.Font_style)))
+			if notehead.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", noteheadIdent, notehead.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", noteheadIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", noteheadIdent, __gong__toRawStringLiteral(notehead.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", noteheadIdent, __gong__toRawStringLiteral(notehead.Font_weight)))
+			if notehead.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", noteheadIdent, notehead.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", noteheadIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", noteheadIdent, __gong__toRawStringLiteral(notehead.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", noteheadIdent, __gong__toRawStringLiteral(notehead.Smufl)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", noteheadIdent, __gong__toRawStringLiteral(notehead.EnclosedText)))
+			if notehead.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", noteheadIdent, notehead.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", noteheadIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -6895,7 +8170,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = \"\"", numeral_keyIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Numeral_fifths = %d", numeral_keyIdent, numeral_key.Numeral_fifths))
-			values.WriteString(fmt.Sprintf("\n\t%s.Numeral_mode = %s", numeral_keyIdent, __gong__toRawStringLiteral(numeral_key.Numeral_mode)))
+			if numeral_key.Numeral_mode.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Numeral_mode = models.%s", numeral_keyIdent, numeral_key.Numeral_mode.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Numeral_mode = \"\"", numeral_keyIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -6921,9 +8200,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", numeral_rootIdent, __gong__toRawStringLiteral(numeral_root.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", numeral_rootIdent, __gong__toRawStringLiteral(numeral_root.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", numeral_rootIdent, __gong__toRawStringLiteral(numeral_root.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", numeral_rootIdent, __gong__toRawStringLiteral(numeral_root.Font_style)))
+			if numeral_root.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", numeral_rootIdent, numeral_root.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", numeral_rootIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", numeral_rootIdent, __gong__toRawStringLiteral(numeral_root.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", numeral_rootIdent, __gong__toRawStringLiteral(numeral_root.Font_weight)))
+			if numeral_root.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", numeral_rootIdent, numeral_root.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", numeral_rootIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", numeral_rootIdent, __gong__toRawStringLiteral(numeral_root.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %d", numeral_rootIdent, numeral_root.EnclosedText))
 		}
@@ -6945,7 +8232,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", octave_shiftIdent, __gong__toRawStringLiteral(octave_shift.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", octave_shiftIdent, __gong__toRawStringLiteral(octave_shift.Type)))
+			if octave_shift.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", octave_shiftIdent, octave_shift.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", octave_shiftIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", octave_shiftIdent, octave_shift.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Size = %d", octave_shiftIdent, octave_shift.Size))
 			values.WriteString(fmt.Sprintf("\n\t%s.Dash_length = %s", octave_shiftIdent, __gong__toRawStringLiteral(octave_shift.Dash_length)))
@@ -6955,9 +8246,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", octave_shiftIdent, __gong__toRawStringLiteral(octave_shift.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", octave_shiftIdent, __gong__toRawStringLiteral(octave_shift.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", octave_shiftIdent, __gong__toRawStringLiteral(octave_shift.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", octave_shiftIdent, __gong__toRawStringLiteral(octave_shift.Font_style)))
+			if octave_shift.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", octave_shiftIdent, octave_shift.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", octave_shiftIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", octave_shiftIdent, __gong__toRawStringLiteral(octave_shift.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", octave_shiftIdent, __gong__toRawStringLiteral(octave_shift.Font_weight)))
+			if octave_shift.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", octave_shiftIdent, octave_shift.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", octave_shiftIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", octave_shiftIdent, __gong__toRawStringLiteral(octave_shift.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", octave_shiftIdent, __gong__toRawStringLiteral(octave_shift.Id)))
 		}
@@ -7005,7 +8304,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", opusIdent, __gong__toRawStringLiteral(opus.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", opusIdent, __gong__toRawStringLiteral(opus.Href)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", opusIdent, __gong__toRawStringLiteral(opus.Type)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", opusIdent, __gong__toRawStringLiteral(opus.Type_XSD)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", opusIdent, __gong__toRawStringLiteral(opus.Role)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", opusIdent, __gong__toRawStringLiteral(opus.Title)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", opusIdent, __gong__toRawStringLiteral(opus.Show)))
@@ -7209,7 +8508,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", other_appearanceIdent, __gong__toRawStringLiteral(other_appearance.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", other_appearanceIdent, __gong__toRawStringLiteral(other_appearance.Type)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", other_appearanceIdent, __gong__toRawStringLiteral(other_appearance.Type_XSD)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", other_appearanceIdent, __gong__toRawStringLiteral(other_appearance.EnclosedText)))
 		}
 	}
@@ -7240,12 +8539,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Font_style)))
+			if other_direction.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", other_directionIdent, other_direction.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", other_directionIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Font_weight)))
+			if other_direction.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", other_directionIdent, other_direction.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", other_directionIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Valign)))
+			if other_direction.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", other_directionIdent, other_direction.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", other_directionIdent))
+			}
+			if other_direction.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", other_directionIdent, other_direction.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", other_directionIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Smufl)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", other_directionIdent, __gong__toRawStringLiteral(other_direction.EnclosedText)))
@@ -7268,13 +8583,9 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", other_listeningIdent, __gong__toRawStringLiteral(other_listening.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", other_listeningIdent, __gong__toRawStringLiteral(other_listening.Type)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", other_listeningIdent, __gong__toRawStringLiteral(other_listening.Type_XSD)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Player = %s", other_listeningIdent, __gong__toRawStringLiteral(other_listening.Player)))
-			if other_listening.Time_only.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = models.%s", other_listeningIdent, other_listening.Time_only.ToCodeString()))
-			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = \"\"", other_listeningIdent))
-			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", other_listeningIdent, __gong__toRawStringLiteral(other_listening.Time_only)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", other_listeningIdent, __gong__toRawStringLiteral(other_listening.EnclosedText)))
 		}
 	}
@@ -7295,10 +8606,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Name)))
-			if other_notation.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", other_notationIdent, other_notation.Type.ToCodeString()))
+			if other_notation.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", other_notationIdent, other_notation.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", other_notationIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", other_notationIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", other_notationIdent, other_notation.Number))
 			if other_notation.Print_object.ToCodeString() != "" {
@@ -7311,11 +8622,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Font_style)))
+			if other_notation.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", other_notationIdent, other_notation.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", other_notationIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Font_weight)))
+			if other_notation.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", other_notationIdent, other_notation.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", other_notationIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Placement)))
+			if other_notation.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", other_notationIdent, other_notation.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", other_notationIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Smufl)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", other_notationIdent, __gong__toRawStringLiteral(other_notation.EnclosedText)))
@@ -7343,11 +8666,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", other_placement_textIdent, __gong__toRawStringLiteral(other_placement_text.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", other_placement_textIdent, __gong__toRawStringLiteral(other_placement_text.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", other_placement_textIdent, __gong__toRawStringLiteral(other_placement_text.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", other_placement_textIdent, __gong__toRawStringLiteral(other_placement_text.Font_style)))
+			if other_placement_text.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", other_placement_textIdent, other_placement_text.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", other_placement_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", other_placement_textIdent, __gong__toRawStringLiteral(other_placement_text.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", other_placement_textIdent, __gong__toRawStringLiteral(other_placement_text.Font_weight)))
+			if other_placement_text.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", other_placement_textIdent, other_placement_text.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", other_placement_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", other_placement_textIdent, __gong__toRawStringLiteral(other_placement_text.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", other_placement_textIdent, __gong__toRawStringLiteral(other_placement_text.Placement)))
+			if other_placement_text.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", other_placement_textIdent, other_placement_text.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", other_placement_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", other_placement_textIdent, __gong__toRawStringLiteral(other_placement_text.Smufl)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", other_placement_textIdent, __gong__toRawStringLiteral(other_placement_text.EnclosedText)))
 		}
@@ -7369,7 +8704,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", other_playIdent, __gong__toRawStringLiteral(other_play.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", other_playIdent, __gong__toRawStringLiteral(other_play.Type)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", other_playIdent, __gong__toRawStringLiteral(other_play.Type_XSD)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", other_playIdent, __gong__toRawStringLiteral(other_play.EnclosedText)))
 		}
 	}
@@ -7442,7 +8777,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", page_marginsIdent, __gong__toRawStringLiteral(page_margins.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", page_marginsIdent, __gong__toRawStringLiteral(page_margins.Type)))
+			if page_margins.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", page_marginsIdent, page_margins.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", page_marginsIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Left_margin = %s", page_marginsIdent, __gong__toRawStringLiteral(page_margins.Left_margin)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Right_margin = %s", page_marginsIdent, __gong__toRawStringLiteral(page_margins.Right_margin)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Top_margin = %s", page_marginsIdent, __gong__toRawStringLiteral(page_margins.Top_margin)))
@@ -7466,7 +8805,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", part_clefIdent, __gong__toRawStringLiteral(part_clef.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Sign = %s", part_clefIdent, __gong__toRawStringLiteral(part_clef.Sign)))
+			if part_clef.Sign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Sign = models.%s", part_clefIdent, part_clef.Sign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Sign = \"\"", part_clefIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Line = %d", part_clefIdent, part_clef.Line))
 			values.WriteString(fmt.Sprintf("\n\t%s.Clef_octave_change = %d", part_clefIdent, part_clef.Clef_octave_change))
 		}
@@ -7488,10 +8831,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", part_groupIdent, __gong__toRawStringLiteral(part_group.Name)))
-			if part_group.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", part_groupIdent, part_group.Type.ToCodeString()))
+			if part_group.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", part_groupIdent, part_group.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", part_groupIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", part_groupIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %s", part_groupIdent, __gong__toRawStringLiteral(part_group.Number)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Group_time = %s", part_groupIdent, __gong__toRawStringLiteral(part_group.Group_time)))
@@ -7595,7 +8938,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", part_linkIdent, __gong__toRawStringLiteral(part_link.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", part_linkIdent, __gong__toRawStringLiteral(part_link.Href)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", part_linkIdent, __gong__toRawStringLiteral(part_link.Type)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", part_linkIdent, __gong__toRawStringLiteral(part_link.Type_XSD)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", part_linkIdent, __gong__toRawStringLiteral(part_link.Role)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", part_linkIdent, __gong__toRawStringLiteral(part_link.Title)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", part_linkIdent, __gong__toRawStringLiteral(part_link.Show)))
@@ -7674,9 +9017,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", part_nameIdent, __gong__toRawStringLiteral(part_name.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", part_nameIdent, __gong__toRawStringLiteral(part_name.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", part_nameIdent, __gong__toRawStringLiteral(part_name.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", part_nameIdent, __gong__toRawStringLiteral(part_name.Font_style)))
+			if part_name.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", part_nameIdent, part_name.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", part_nameIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", part_nameIdent, __gong__toRawStringLiteral(part_name.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", part_nameIdent, __gong__toRawStringLiteral(part_name.Font_weight)))
+			if part_name.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", part_nameIdent, part_name.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", part_nameIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", part_nameIdent, __gong__toRawStringLiteral(part_name.Color)))
 			if part_name.Print_object.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", part_nameIdent, part_name.Print_object.ToCodeString()))
@@ -7762,7 +9113,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Type)))
+			if pedal.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", pedalIdent, pedal.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", pedalIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", pedalIdent, pedal.Number))
 			if pedal.Line.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Line = models.%s", pedalIdent, pedal.Line.ToCodeString()))
@@ -7784,12 +9139,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Font_style)))
+			if pedal.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", pedalIdent, pedal.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", pedalIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Font_weight)))
+			if pedal.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", pedalIdent, pedal.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", pedalIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Valign)))
+			if pedal.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", pedalIdent, pedal.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", pedalIdent))
+			}
+			if pedal.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", pedalIdent, pedal.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", pedalIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", pedalIdent, __gong__toRawStringLiteral(pedal.Id)))
 		}
 	}
@@ -7836,9 +9207,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", per_minuteIdent, __gong__toRawStringLiteral(per_minute.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", per_minuteIdent, __gong__toRawStringLiteral(per_minute.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", per_minuteIdent, __gong__toRawStringLiteral(per_minute.Font_style)))
+			if per_minute.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", per_minuteIdent, per_minute.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", per_minuteIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", per_minuteIdent, __gong__toRawStringLiteral(per_minute.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", per_minuteIdent, __gong__toRawStringLiteral(per_minute.Font_weight)))
+			if per_minute.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", per_minuteIdent, per_minute.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", per_minuteIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", per_minuteIdent, __gong__toRawStringLiteral(per_minute.EnclosedText)))
 		}
 	}
@@ -7864,15 +9243,39 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", percussionIdent, __gong__toRawStringLiteral(percussion.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", percussionIdent, __gong__toRawStringLiteral(percussion.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", percussionIdent, __gong__toRawStringLiteral(percussion.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", percussionIdent, __gong__toRawStringLiteral(percussion.Font_style)))
+			if percussion.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", percussionIdent, percussion.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", percussionIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", percussionIdent, __gong__toRawStringLiteral(percussion.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", percussionIdent, __gong__toRawStringLiteral(percussion.Font_weight)))
+			if percussion.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", percussionIdent, percussion.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", percussionIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", percussionIdent, __gong__toRawStringLiteral(percussion.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", percussionIdent, __gong__toRawStringLiteral(percussion.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", percussionIdent, __gong__toRawStringLiteral(percussion.Valign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = %s", percussionIdent, __gong__toRawStringLiteral(percussion.Enclosure)))
+			if percussion.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", percussionIdent, percussion.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", percussionIdent))
+			}
+			if percussion.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", percussionIdent, percussion.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", percussionIdent))
+			}
+			if percussion.Enclosure.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = models.%s", percussionIdent, percussion.Enclosure.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Enclosure = \"\"", percussionIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", percussionIdent, __gong__toRawStringLiteral(percussion.Id)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Stick_location = %s", percussionIdent, __gong__toRawStringLiteral(percussion.Stick_location)))
+			if percussion.Stick_location.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Stick_location = models.%s", percussionIdent, percussion.Stick_location.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Stick_location = \"\"", percussionIdent))
+			}
 			if percussion.Glass != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -8019,7 +9422,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", pitchedIdent, __gong__toRawStringLiteral(pitched.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", pitchedIdent, __gong__toRawStringLiteral(pitched.Smufl)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", pitchedIdent, __gong__toRawStringLiteral(pitched.EnclosedText)))
+			if pitched.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", pitchedIdent, pitched.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", pitchedIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -8044,11 +9451,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", placement_textIdent, __gong__toRawStringLiteral(placement_text.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", placement_textIdent, __gong__toRawStringLiteral(placement_text.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", placement_textIdent, __gong__toRawStringLiteral(placement_text.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", placement_textIdent, __gong__toRawStringLiteral(placement_text.Font_style)))
+			if placement_text.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", placement_textIdent, placement_text.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", placement_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", placement_textIdent, __gong__toRawStringLiteral(placement_text.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", placement_textIdent, __gong__toRawStringLiteral(placement_text.Font_weight)))
+			if placement_text.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", placement_textIdent, placement_text.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", placement_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", placement_textIdent, __gong__toRawStringLiteral(placement_text.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", placement_textIdent, __gong__toRawStringLiteral(placement_text.Placement)))
+			if placement_text.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", placement_textIdent, placement_text.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", placement_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", placement_textIdent, __gong__toRawStringLiteral(placement_text.EnclosedText)))
 		}
 	}
@@ -8071,8 +9490,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", playIdent, __gong__toRawStringLiteral(play.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", playIdent, __gong__toRawStringLiteral(play.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Ipa = %s", playIdent, __gong__toRawStringLiteral(play.Ipa)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Mute = %s", playIdent, __gong__toRawStringLiteral(play.Mute)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Semi_pitched = %s", playIdent, __gong__toRawStringLiteral(play.Semi_pitched)))
+			if play.Mute.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Mute = models.%s", playIdent, play.Mute.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Mute = \"\"", playIdent))
+			}
+			if play.Semi_pitched.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Semi_pitched = models.%s", playIdent, play.Semi_pitched.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Semi_pitched = \"\"", playIdent))
+			}
 			for _, elem := range play.Other_play {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -8123,79 +9550,99 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Name)))
-			if principal_voice.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", principal_voiceIdent, principal_voice.Type.ToCodeString()))
+			if principal_voice.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", principal_voiceIdent, principal_voice.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", principal_voiceIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", principal_voiceIdent))
 			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Symbol = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Symbol)))
+			if principal_voice.Symbol.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Symbol = models.%s", principal_voiceIdent, principal_voice.Symbol.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Symbol = \"\"", principal_voiceIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Font_style)))
+			if principal_voice.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", principal_voiceIdent, principal_voice.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", principal_voiceIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Font_weight)))
+			if principal_voice.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", principal_voiceIdent, principal_voice.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", principal_voiceIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Valign)))
+			if principal_voice.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", principal_voiceIdent, principal_voice.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", principal_voiceIdent))
+			}
+			if principal_voice.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", principal_voiceIdent, principal_voice.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", principal_voiceIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.Id)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", principal_voiceIdent, __gong__toRawStringLiteral(principal_voice.EnclosedText)))
 		}
 	}
 	if stage != nil {
-		for _, print := range __gong__sortStageSetInstances(stage.Prints, stage.Print_stagedOrder) {
+		for _, print_xsd := range __gong__sortStageSetInstances(stage.Print_XSDs, stage.Print_XSD_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
 					declarations.WriteString("\n")
 				}
 				lastStageDecl = "Stage"
 			}
-			printIdent := print.GongGetIdentifier(stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Print{Name: %s}).Stage(stage)", printIdent, __gong__toRawStringLiteral(print.Name)))
+			print_xsdIdent := print_xsd.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Print_XSD{Name: %s}).Stage(stage)", print_xsdIdent, __gong__toRawStringLiteral(print_xsd.Name)))
 			if lastStageVal != "Stage" {
 				if values.Len() > 0 {
 					values.WriteString("\n")
 				}
 				lastStageVal = "Stage"
 			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", printIdent, __gong__toRawStringLiteral(print.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Staff_spacing = %s", printIdent, __gong__toRawStringLiteral(print.Staff_spacing)))
-			if print.New_system.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.New_system = models.%s", printIdent, print.New_system.ToCodeString()))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", print_xsdIdent, __gong__toRawStringLiteral(print_xsd.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Staff_spacing = %s", print_xsdIdent, __gong__toRawStringLiteral(print_xsd.Staff_spacing)))
+			if print_xsd.New_system.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.New_system = models.%s", print_xsdIdent, print_xsd.New_system.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.New_system = \"\"", printIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.New_system = \"\"", print_xsdIdent))
 			}
-			if print.New_page.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.New_page = models.%s", printIdent, print.New_page.ToCodeString()))
+			if print_xsd.New_page.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.New_page = models.%s", print_xsdIdent, print_xsd.New_page.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.New_page = \"\"", printIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.New_page = \"\"", print_xsdIdent))
 			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Blank_page = %d", printIdent, print.Blank_page))
-			values.WriteString(fmt.Sprintf("\n\t%s.Page_number = %s", printIdent, __gong__toRawStringLiteral(print.Page_number)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", printIdent, __gong__toRawStringLiteral(print.Id)))
-			if print.Page_layout != nil {
+			values.WriteString(fmt.Sprintf("\n\t%s.Blank_page = %d", print_xsdIdent, print_xsd.Blank_page))
+			values.WriteString(fmt.Sprintf("\n\t%s.Page_number = %s", print_xsdIdent, __gong__toRawStringLiteral(print_xsd.Page_number)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", print_xsdIdent, __gong__toRawStringLiteral(print_xsd.Id)))
+			if print_xsd.Page_layout != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := print.Page_layout.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Page_layout = %s", printIdent, targetIdent))
+				targetIdent := print_xsd.Page_layout.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Page_layout = %s", print_xsdIdent, targetIdent))
 			}
-			if print.System_layout != nil {
+			if print_xsd.System_layout != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := print.System_layout.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.System_layout = %s", printIdent, targetIdent))
+				targetIdent := print_xsd.System_layout.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.System_layout = %s", print_xsdIdent, targetIdent))
 			}
-			for _, elem := range print.Staff_layout {
+			for _, elem := range print_xsd.Staff_layout {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
@@ -8203,47 +9650,47 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					lastStagePtr = "Stage"
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Staff_layout = append(%s.Staff_layout, %s)", printIdent, printIdent, targetIdent))
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Staff_layout = append(%s.Staff_layout, %s)", print_xsdIdent, print_xsdIdent, targetIdent))
 			}
-			if print.Measure_layout != nil {
+			if print_xsd.Measure_layout != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := print.Measure_layout.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Measure_layout = %s", printIdent, targetIdent))
+				targetIdent := print_xsd.Measure_layout.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Measure_layout = %s", print_xsdIdent, targetIdent))
 			}
-			if print.Measure_numbering != nil {
+			if print_xsd.Measure_numbering != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := print.Measure_numbering.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Measure_numbering = %s", printIdent, targetIdent))
+				targetIdent := print_xsd.Measure_numbering.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Measure_numbering = %s", print_xsdIdent, targetIdent))
 			}
-			if print.Part_name_display != nil {
+			if print_xsd.Part_name_display != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := print.Part_name_display.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Part_name_display = %s", printIdent, targetIdent))
+				targetIdent := print_xsd.Part_name_display.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Part_name_display = %s", print_xsdIdent, targetIdent))
 			}
-			if print.Part_abbreviation_display != nil {
+			if print_xsd.Part_abbreviation_display != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := print.Part_abbreviation_display.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Part_abbreviation_display = %s", printIdent, targetIdent))
+				targetIdent := print_xsd.Part_abbreviation_display.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Part_abbreviation_display = %s", print_xsdIdent, targetIdent))
 			}
 		}
 	}
@@ -8264,6 +9711,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", releaseIdent, __gong__toRawStringLiteral(release.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Offset = %s", releaseIdent, __gong__toRawStringLiteral(release.Offset)))
 		}
 	}
 	if stage != nil {
@@ -8283,14 +9731,22 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", repeatIdent, __gong__toRawStringLiteral(repeat.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Direction = %s", repeatIdent, __gong__toRawStringLiteral(repeat.Direction)))
+			if repeat.Direction.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = models.%s", repeatIdent, repeat.Direction.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = \"\"", repeatIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Times = %d", repeatIdent, repeat.Times))
 			if repeat.After_jump.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.After_jump = models.%s", repeatIdent, repeat.After_jump.ToCodeString()))
 			} else {
 				values.WriteString(fmt.Sprintf("\n\t%s.After_jump = \"\"", repeatIdent))
 			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Winged = %s", repeatIdent, __gong__toRawStringLiteral(repeat.Winged)))
+			if repeat.Winged.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Winged = models.%s", repeatIdent, repeat.Winged.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Winged = \"\"", repeatIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -8385,9 +9841,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", root_stepIdent, __gong__toRawStringLiteral(root_step.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", root_stepIdent, __gong__toRawStringLiteral(root_step.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", root_stepIdent, __gong__toRawStringLiteral(root_step.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", root_stepIdent, __gong__toRawStringLiteral(root_step.Font_style)))
+			if root_step.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", root_stepIdent, root_step.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", root_stepIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", root_stepIdent, __gong__toRawStringLiteral(root_step.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", root_stepIdent, __gong__toRawStringLiteral(root_step.Font_weight)))
+			if root_step.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", root_stepIdent, root_step.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", root_stepIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", root_stepIdent, __gong__toRawStringLiteral(root_step.Color)))
 			if root_step.EnclosedText.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", root_stepIdent, root_step.EnclosedText.ToCodeString()))
@@ -8790,12 +10254,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", segnoIdent, __gong__toRawStringLiteral(segno.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", segnoIdent, __gong__toRawStringLiteral(segno.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", segnoIdent, __gong__toRawStringLiteral(segno.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", segnoIdent, __gong__toRawStringLiteral(segno.Font_style)))
+			if segno.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", segnoIdent, segno.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", segnoIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", segnoIdent, __gong__toRawStringLiteral(segno.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", segnoIdent, __gong__toRawStringLiteral(segno.Font_weight)))
+			if segno.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", segnoIdent, segno.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", segnoIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", segnoIdent, __gong__toRawStringLiteral(segno.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", segnoIdent, __gong__toRawStringLiteral(segno.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", segnoIdent, __gong__toRawStringLiteral(segno.Valign)))
+			if segno.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", segnoIdent, segno.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", segnoIdent))
+			}
+			if segno.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", segnoIdent, segno.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", segnoIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", segnoIdent, __gong__toRawStringLiteral(segno.Id)))
 		}
 	}
@@ -8816,10 +10296,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", slashIdent, __gong__toRawStringLiteral(slash.Name)))
-			if slash.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", slashIdent, slash.Type.ToCodeString()))
+			if slash.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", slashIdent, slash.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", slashIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", slashIdent))
 			}
 			if slash.Use_dots.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Use_dots = models.%s", slashIdent, slash.Use_dots.ToCodeString()))
@@ -8857,13 +10337,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", slideIdent, __gong__toRawStringLiteral(slide.Name)))
-			if slide.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", slideIdent, slide.Type.ToCodeString()))
+			if slide.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", slideIdent, slide.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", slideIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", slideIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", slideIdent, slide.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.Line_type = %s", slideIdent, __gong__toRawStringLiteral(slide.Line_type)))
+			if slide.Line_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = models.%s", slideIdent, slide.Line_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = \"\"", slideIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Dash_length = %s", slideIdent, __gong__toRawStringLiteral(slide.Dash_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Space_length = %s", slideIdent, __gong__toRawStringLiteral(slide.Space_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", slideIdent, __gong__toRawStringLiteral(slide.Default_x)))
@@ -8871,9 +10355,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", slideIdent, __gong__toRawStringLiteral(slide.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", slideIdent, __gong__toRawStringLiteral(slide.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", slideIdent, __gong__toRawStringLiteral(slide.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", slideIdent, __gong__toRawStringLiteral(slide.Font_style)))
+			if slide.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", slideIdent, slide.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", slideIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", slideIdent, __gong__toRawStringLiteral(slide.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", slideIdent, __gong__toRawStringLiteral(slide.Font_weight)))
+			if slide.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", slideIdent, slide.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", slideIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", slideIdent, __gong__toRawStringLiteral(slide.Color)))
 			if slide.Accelerate.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = models.%s", slideIdent, slide.Accelerate.ToCodeString()))
@@ -8904,21 +10396,33 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", slurIdent, __gong__toRawStringLiteral(slur.Name)))
-			if slur.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", slurIdent, slur.Type.ToCodeString()))
+			if slur.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", slurIdent, slur.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", slurIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", slurIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", slurIdent, slur.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.Line_type = %s", slurIdent, __gong__toRawStringLiteral(slur.Line_type)))
+			if slur.Line_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = models.%s", slurIdent, slur.Line_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = \"\"", slurIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Dash_length = %s", slurIdent, __gong__toRawStringLiteral(slur.Dash_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Space_length = %s", slurIdent, __gong__toRawStringLiteral(slur.Space_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", slurIdent, __gong__toRawStringLiteral(slur.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", slurIdent, __gong__toRawStringLiteral(slur.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", slurIdent, __gong__toRawStringLiteral(slur.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", slurIdent, __gong__toRawStringLiteral(slur.Relative_y)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", slurIdent, __gong__toRawStringLiteral(slur.Placement)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Orientation = %s", slurIdent, __gong__toRawStringLiteral(slur.Orientation)))
+			if slur.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", slurIdent, slur.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", slurIdent))
+			}
+			if slur.Orientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Orientation = models.%s", slurIdent, slur.Orientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Orientation = \"\"", slurIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Bezier_x = %s", slurIdent, __gong__toRawStringLiteral(slur.Bezier_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Bezier_y = %s", slurIdent, __gong__toRawStringLiteral(slur.Bezier_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Bezier_x2 = %s", slurIdent, __gong__toRawStringLiteral(slur.Bezier_x2)))
@@ -8964,11 +10468,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				values.WriteString(fmt.Sprintf("\n\t%s.Forward_repeat = \"\"", soundIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Fine = %s", soundIdent, __gong__toRawStringLiteral(sound.Fine)))
-			if sound.Time_only.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = models.%s", soundIdent, sound.Time_only.ToCodeString()))
-			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = \"\"", soundIdent))
-			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", soundIdent, __gong__toRawStringLiteral(sound.Time_only)))
 			if sound.Pizzicato.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Pizzicato = models.%s", soundIdent, sound.Pizzicato.ToCodeString()))
 			} else {
@@ -9060,7 +10560,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", staff_detailsIdent, __gong__toRawStringLiteral(staff_details.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", staff_detailsIdent, staff_details.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.Show_frets = %s", staff_detailsIdent, __gong__toRawStringLiteral(staff_details.Show_frets)))
+			if staff_details.Show_frets.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Show_frets = models.%s", staff_detailsIdent, staff_details.Show_frets.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Show_frets = \"\"", staff_detailsIdent))
+			}
 			if staff_details.Print_object.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", staff_detailsIdent, staff_details.Print_object.ToCodeString()))
 			} else {
@@ -9071,7 +10575,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			} else {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_spacing = \"\"", staff_detailsIdent))
 			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Staff_type = %s", staff_detailsIdent, __gong__toRawStringLiteral(staff_details.Staff_type)))
+			if staff_details.Staff_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Staff_type = models.%s", staff_detailsIdent, staff_details.Staff_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Staff_type = \"\"", staff_detailsIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Staff_lines = %d", staff_detailsIdent, staff_details.Staff_lines))
 			values.WriteString(fmt.Sprintf("\n\t%s.Capo = %d", staff_detailsIdent, staff_details.Capo))
 			for _, elem := range staff_details.Line_detail {
@@ -9123,18 +10631,38 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", staff_divideIdent, __gong__toRawStringLiteral(staff_divide.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", staff_divideIdent, __gong__toRawStringLiteral(staff_divide.Type)))
+			if staff_divide.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", staff_divideIdent, staff_divide.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", staff_divideIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", staff_divideIdent, __gong__toRawStringLiteral(staff_divide.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", staff_divideIdent, __gong__toRawStringLiteral(staff_divide.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", staff_divideIdent, __gong__toRawStringLiteral(staff_divide.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", staff_divideIdent, __gong__toRawStringLiteral(staff_divide.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", staff_divideIdent, __gong__toRawStringLiteral(staff_divide.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", staff_divideIdent, __gong__toRawStringLiteral(staff_divide.Font_style)))
+			if staff_divide.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", staff_divideIdent, staff_divide.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", staff_divideIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", staff_divideIdent, __gong__toRawStringLiteral(staff_divide.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", staff_divideIdent, __gong__toRawStringLiteral(staff_divide.Font_weight)))
+			if staff_divide.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", staff_divideIdent, staff_divide.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", staff_divideIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", staff_divideIdent, __gong__toRawStringLiteral(staff_divide.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", staff_divideIdent, __gong__toRawStringLiteral(staff_divide.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", staff_divideIdent, __gong__toRawStringLiteral(staff_divide.Valign)))
+			if staff_divide.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", staff_divideIdent, staff_divide.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", staff_divideIdent))
+			}
+			if staff_divide.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", staff_divideIdent, staff_divide.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", staff_divideIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", staff_divideIdent, __gong__toRawStringLiteral(staff_divide.Id)))
 		}
 	}
@@ -9229,7 +10757,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", stemIdent, __gong__toRawStringLiteral(stem.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", stemIdent, __gong__toRawStringLiteral(stem.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", stemIdent, __gong__toRawStringLiteral(stem.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", stemIdent, __gong__toRawStringLiteral(stem.EnclosedText)))
+			if stem.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", stemIdent, stem.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", stemIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -9264,8 +10796,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			} else {
 				values.WriteString(fmt.Sprintf("\n\t%s.Dashed_circle = \"\"", stickIdent))
 			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Stick_type = %s", stickIdent, __gong__toRawStringLiteral(stick.Stick_type)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Stick_material = %s", stickIdent, __gong__toRawStringLiteral(stick.Stick_material)))
+			if stick.Stick_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Stick_type = models.%s", stickIdent, stick.Stick_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Stick_type = \"\"", stickIdent))
+			}
+			if stick.Stick_material.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Stick_material = models.%s", stickIdent, stick.Stick_material.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Stick_material = \"\"", stickIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -9285,18 +10825,38 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", string_muteIdent, __gong__toRawStringLiteral(string_mute.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", string_muteIdent, __gong__toRawStringLiteral(string_mute.Type)))
+			if string_mute.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", string_muteIdent, string_mute.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", string_muteIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", string_muteIdent, __gong__toRawStringLiteral(string_mute.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", string_muteIdent, __gong__toRawStringLiteral(string_mute.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", string_muteIdent, __gong__toRawStringLiteral(string_mute.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", string_muteIdent, __gong__toRawStringLiteral(string_mute.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", string_muteIdent, __gong__toRawStringLiteral(string_mute.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", string_muteIdent, __gong__toRawStringLiteral(string_mute.Font_style)))
+			if string_mute.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", string_muteIdent, string_mute.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", string_muteIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", string_muteIdent, __gong__toRawStringLiteral(string_mute.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", string_muteIdent, __gong__toRawStringLiteral(string_mute.Font_weight)))
+			if string_mute.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", string_muteIdent, string_mute.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", string_muteIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", string_muteIdent, __gong__toRawStringLiteral(string_mute.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", string_muteIdent, __gong__toRawStringLiteral(string_mute.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", string_muteIdent, __gong__toRawStringLiteral(string_mute.Valign)))
+			if string_mute.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", string_muteIdent, string_mute.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", string_muteIdent))
+			}
+			if string_mute.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", string_muteIdent, string_mute.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", string_muteIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", string_muteIdent, __gong__toRawStringLiteral(string_mute.Id)))
 		}
 	}
@@ -9322,11 +10882,23 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", string_typeIdent, __gong__toRawStringLiteral(string_type.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", string_typeIdent, __gong__toRawStringLiteral(string_type.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", string_typeIdent, __gong__toRawStringLiteral(string_type.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", string_typeIdent, __gong__toRawStringLiteral(string_type.Font_style)))
+			if string_type.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", string_typeIdent, string_type.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", string_typeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", string_typeIdent, __gong__toRawStringLiteral(string_type.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", string_typeIdent, __gong__toRawStringLiteral(string_type.Font_weight)))
+			if string_type.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", string_typeIdent, string_type.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", string_typeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", string_typeIdent, __gong__toRawStringLiteral(string_type.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", string_typeIdent, __gong__toRawStringLiteral(string_type.Placement)))
+			if string_type.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", string_typeIdent, string_type.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", string_typeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %d", string_typeIdent, string_type.EnclosedText))
 		}
 	}
@@ -9347,6 +10919,33 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", strong_accentIdent, __gong__toRawStringLiteral(strong_accent.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", strong_accentIdent, __gong__toRawStringLiteral(strong_accent.Default_x)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", strong_accentIdent, __gong__toRawStringLiteral(strong_accent.Default_y)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", strong_accentIdent, __gong__toRawStringLiteral(strong_accent.Relative_x)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", strong_accentIdent, __gong__toRawStringLiteral(strong_accent.Relative_y)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", strong_accentIdent, __gong__toRawStringLiteral(strong_accent.Font_family)))
+			if strong_accent.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", strong_accentIdent, strong_accent.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", strong_accentIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", strong_accentIdent, __gong__toRawStringLiteral(strong_accent.Font_size)))
+			if strong_accent.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", strong_accentIdent, strong_accent.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", strong_accentIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", strong_accentIdent, __gong__toRawStringLiteral(strong_accent.Color)))
+			if strong_accent.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", strong_accentIdent, strong_accent.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", strong_accentIdent))
+			}
+			if strong_accent.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", strong_accentIdent, strong_accent.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", strong_accentIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -9371,9 +10970,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", style_textIdent, __gong__toRawStringLiteral(style_text.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", style_textIdent, __gong__toRawStringLiteral(style_text.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", style_textIdent, __gong__toRawStringLiteral(style_text.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", style_textIdent, __gong__toRawStringLiteral(style_text.Font_style)))
+			if style_text.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", style_textIdent, style_text.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", style_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", style_textIdent, __gong__toRawStringLiteral(style_text.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", style_textIdent, __gong__toRawStringLiteral(style_text.Font_weight)))
+			if style_text.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", style_textIdent, style_text.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", style_textIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", style_textIdent, __gong__toRawStringLiteral(style_text.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", style_textIdent, __gong__toRawStringLiteral(style_text.EnclosedText)))
 		}
@@ -9395,10 +11002,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", supportsIdent, __gong__toRawStringLiteral(supports.Name)))
-			if supports.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", supportsIdent, supports.Type.ToCodeString()))
+			if supports.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", supportsIdent, supports.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", supportsIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", supportsIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Element = %s", supportsIdent, __gong__toRawStringLiteral(supports.Element)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Attribute = %s", supportsIdent, __gong__toRawStringLiteral(supports.Attribute)))
@@ -9425,11 +11032,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Straight = %s", swingIdent, __gong__toRawStringLiteral(swing.Straight)))
 			values.WriteString(fmt.Sprintf("\n\t%s.First = %d", swingIdent, swing.First))
 			values.WriteString(fmt.Sprintf("\n\t%s.Second = %d", swingIdent, swing.Second))
-			if swing.Swing_type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Swing_type = models.%s", swingIdent, swing.Swing_type.ToCodeString()))
-			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Swing_type = \"\"", swingIdent))
-			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Swing_type = %s", swingIdent, __gong__toRawStringLiteral(swing.Swing_type)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Swing_style = %s", swingIdent, __gong__toRawStringLiteral(swing.Swing_style)))
 		}
 	}
@@ -9450,14 +11053,14 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", syncIdent, __gong__toRawStringLiteral(sync.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", syncIdent, __gong__toRawStringLiteral(sync.Type)))
+			if sync.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", syncIdent, sync.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", syncIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Latency = %d", syncIdent, sync.Latency))
 			values.WriteString(fmt.Sprintf("\n\t%s.Player = %s", syncIdent, __gong__toRawStringLiteral(sync.Player)))
-			if sync.Time_only.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = models.%s", syncIdent, sync.Time_only.ToCodeString()))
-			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = \"\"", syncIdent))
-			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", syncIdent, __gong__toRawStringLiteral(sync.Time_only)))
 		}
 	}
 	if stage != nil {
@@ -9578,17 +11181,33 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tapIdent, __gong__toRawStringLiteral(tap.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Hand = %s", tapIdent, __gong__toRawStringLiteral(tap.Hand)))
+			if tap.Hand.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Hand = models.%s", tapIdent, tap.Hand.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Hand = \"\"", tapIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", tapIdent, __gong__toRawStringLiteral(tap.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", tapIdent, __gong__toRawStringLiteral(tap.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", tapIdent, __gong__toRawStringLiteral(tap.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", tapIdent, __gong__toRawStringLiteral(tap.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", tapIdent, __gong__toRawStringLiteral(tap.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", tapIdent, __gong__toRawStringLiteral(tap.Font_style)))
+			if tap.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", tapIdent, tap.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", tapIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", tapIdent, __gong__toRawStringLiteral(tap.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", tapIdent, __gong__toRawStringLiteral(tap.Font_weight)))
+			if tap.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", tapIdent, tap.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", tapIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", tapIdent, __gong__toRawStringLiteral(tap.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", tapIdent, __gong__toRawStringLiteral(tap.Placement)))
+			if tap.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", tapIdent, tap.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", tapIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", tapIdent, __gong__toRawStringLiteral(tap.EnclosedText)))
 		}
 	}
@@ -9730,7 +11349,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Fret = append(%s.Fret, %s)", technicalIdent, technicalIdent, targetIdent))
 			}
-			for _, elem := range technical.String {
+			for _, elem := range technical.String_XSD {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
@@ -9738,7 +11357,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					lastStagePtr = "Stage"
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.String = append(%s.String, %s)", technicalIdent, technicalIdent, targetIdent))
+				pointers.WriteString(fmt.Sprintf("\n\t%s.String_XSD = append(%s.String_XSD, %s)", technicalIdent, technicalIdent, targetIdent))
 			}
 			for _, elem := range technical.Hammer_on {
 				if lastStagePtr != "Stage" {
@@ -9941,16 +11560,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", text_element_dataIdent, __gong__toRawStringLiteral(text_element_data.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Lang = %s", text_element_dataIdent, __gong__toRawStringLiteral(text_element_data.Lang)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", text_element_dataIdent, __gong__toRawStringLiteral(text_element_data.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", text_element_dataIdent, __gong__toRawStringLiteral(text_element_data.Font_style)))
+			if text_element_data.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", text_element_dataIdent, text_element_data.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", text_element_dataIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", text_element_dataIdent, __gong__toRawStringLiteral(text_element_data.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", text_element_dataIdent, __gong__toRawStringLiteral(text_element_data.Font_weight)))
+			if text_element_data.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", text_element_dataIdent, text_element_data.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", text_element_dataIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", text_element_dataIdent, __gong__toRawStringLiteral(text_element_data.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Underline = %d", text_element_dataIdent, text_element_data.Underline))
 			values.WriteString(fmt.Sprintf("\n\t%s.Overline = %d", text_element_dataIdent, text_element_data.Overline))
 			values.WriteString(fmt.Sprintf("\n\t%s.Line_through = %d", text_element_dataIdent, text_element_data.Line_through))
 			values.WriteString(fmt.Sprintf("\n\t%s.Rotation = %s", text_element_dataIdent, __gong__toRawStringLiteral(text_element_data.Rotation)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Letter_spacing = %s", text_element_dataIdent, __gong__toRawStringLiteral(text_element_data.Letter_spacing)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Dir = %s", text_element_dataIdent, __gong__toRawStringLiteral(text_element_data.Dir)))
+			if text_element_data.Dir.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dir = models.%s", text_element_dataIdent, text_element_data.Dir.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Dir = \"\"", text_element_dataIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", text_element_dataIdent, __gong__toRawStringLiteral(text_element_data.EnclosedText)))
 		}
 	}
@@ -9971,16 +11602,12 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tieIdent, __gong__toRawStringLiteral(tie.Name)))
-			if tie.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", tieIdent, tie.Type.ToCodeString()))
+			if tie.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", tieIdent, tie.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", tieIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", tieIdent))
 			}
-			if tie.Time_only.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = models.%s", tieIdent, tie.Time_only.ToCodeString()))
-			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = \"\"", tieIdent))
-			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", tieIdent, __gong__toRawStringLiteral(tie.Time_only)))
 		}
 	}
 	if stage != nil {
@@ -10000,17 +11627,33 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tiedIdent, __gong__toRawStringLiteral(tied.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", tiedIdent, __gong__toRawStringLiteral(tied.Type)))
+			if tied.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", tiedIdent, tied.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", tiedIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", tiedIdent, tied.Number))
-			values.WriteString(fmt.Sprintf("\n\t%s.Line_type = %s", tiedIdent, __gong__toRawStringLiteral(tied.Line_type)))
+			if tied.Line_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = models.%s", tiedIdent, tied.Line_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = \"\"", tiedIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Dash_length = %s", tiedIdent, __gong__toRawStringLiteral(tied.Dash_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Space_length = %s", tiedIdent, __gong__toRawStringLiteral(tied.Space_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", tiedIdent, __gong__toRawStringLiteral(tied.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", tiedIdent, __gong__toRawStringLiteral(tied.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", tiedIdent, __gong__toRawStringLiteral(tied.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", tiedIdent, __gong__toRawStringLiteral(tied.Relative_y)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", tiedIdent, __gong__toRawStringLiteral(tied.Placement)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Orientation = %s", tiedIdent, __gong__toRawStringLiteral(tied.Orientation)))
+			if tied.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", tiedIdent, tied.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", tiedIdent))
+			}
+			if tied.Orientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Orientation = models.%s", tiedIdent, tied.Orientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Orientation = \"\"", tiedIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Bezier_x = %s", tiedIdent, __gong__toRawStringLiteral(tied.Bezier_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Bezier_y = %s", tiedIdent, __gong__toRawStringLiteral(tied.Bezier_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Bezier_x2 = %s", tiedIdent, __gong__toRawStringLiteral(tied.Bezier_x2)))
@@ -10054,12 +11697,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", timeIdent, __gong__toRawStringLiteral(time.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", timeIdent, __gong__toRawStringLiteral(time.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", timeIdent, __gong__toRawStringLiteral(time.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", timeIdent, __gong__toRawStringLiteral(time.Font_style)))
+			if time.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", timeIdent, time.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", timeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", timeIdent, __gong__toRawStringLiteral(time.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", timeIdent, __gong__toRawStringLiteral(time.Font_weight)))
+			if time.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", timeIdent, time.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", timeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", timeIdent, __gong__toRawStringLiteral(time.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Halign = %s", timeIdent, __gong__toRawStringLiteral(time.Halign)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Valign = %s", timeIdent, __gong__toRawStringLiteral(time.Valign)))
+			if time.Halign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = models.%s", timeIdent, time.Halign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Halign = \"\"", timeIdent))
+			}
+			if time.Valign.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = models.%s", timeIdent, time.Valign.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Valign = \"\"", timeIdent))
+			}
 			if time.Print_object.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Print_object = models.%s", timeIdent, time.Print_object.ToCodeString()))
 			} else {
@@ -10170,17 +11829,33 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tremoloIdent, __gong__toRawStringLiteral(tremolo.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", tremoloIdent, __gong__toRawStringLiteral(tremolo.Type)))
+			if tremolo.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", tremoloIdent, tremolo.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", tremoloIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", tremoloIdent, __gong__toRawStringLiteral(tremolo.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", tremoloIdent, __gong__toRawStringLiteral(tremolo.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", tremoloIdent, __gong__toRawStringLiteral(tremolo.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", tremoloIdent, __gong__toRawStringLiteral(tremolo.Relative_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", tremoloIdent, __gong__toRawStringLiteral(tremolo.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", tremoloIdent, __gong__toRawStringLiteral(tremolo.Font_style)))
+			if tremolo.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", tremoloIdent, tremolo.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", tremoloIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", tremoloIdent, __gong__toRawStringLiteral(tremolo.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", tremoloIdent, __gong__toRawStringLiteral(tremolo.Font_weight)))
+			if tremolo.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", tremoloIdent, tremolo.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", tremoloIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", tremoloIdent, __gong__toRawStringLiteral(tremolo.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", tremoloIdent, __gong__toRawStringLiteral(tremolo.Placement)))
+			if tremolo.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", tremoloIdent, tremolo.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", tremoloIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", tremoloIdent, __gong__toRawStringLiteral(tremolo.Smufl)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %d", tremoloIdent, tremolo.EnclosedText))
 		}
@@ -10202,10 +11877,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tupletIdent, __gong__toRawStringLiteral(tuplet.Name)))
-			if tuplet.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", tupletIdent, tuplet.Type.ToCodeString()))
+			if tuplet.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", tupletIdent, tuplet.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", tupletIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", tupletIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", tupletIdent, tuplet.Number))
 			if tuplet.Bracket.ToCodeString() != "" {
@@ -10213,18 +11888,30 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			} else {
 				values.WriteString(fmt.Sprintf("\n\t%s.Bracket = \"\"", tupletIdent))
 			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Show_number = %s", tupletIdent, __gong__toRawStringLiteral(tuplet.Show_number)))
+			if tuplet.Show_number.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Show_number = models.%s", tupletIdent, tuplet.Show_number.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Show_number = \"\"", tupletIdent))
+			}
 			if tuplet.Show_type.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Show_type = models.%s", tupletIdent, tuplet.Show_type.ToCodeString()))
 			} else {
 				values.WriteString(fmt.Sprintf("\n\t%s.Show_type = \"\"", tupletIdent))
 			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Line_shape = %s", tupletIdent, __gong__toRawStringLiteral(tuplet.Line_shape)))
+			if tuplet.Line_shape.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_shape = models.%s", tupletIdent, tuplet.Line_shape.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_shape = \"\"", tupletIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", tupletIdent, __gong__toRawStringLiteral(tuplet.Default_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", tupletIdent, __gong__toRawStringLiteral(tuplet.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", tupletIdent, __gong__toRawStringLiteral(tuplet.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", tupletIdent, __gong__toRawStringLiteral(tuplet.Relative_y)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", tupletIdent, __gong__toRawStringLiteral(tuplet.Placement)))
+			if tuplet.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", tupletIdent, tuplet.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", tupletIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", tupletIdent, __gong__toRawStringLiteral(tuplet.Id)))
 			if tuplet.Tuplet_actual != nil {
 				if lastStagePtr != "Stage" {
@@ -10266,9 +11953,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tuplet_dotIdent, __gong__toRawStringLiteral(tuplet_dot.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", tuplet_dotIdent, __gong__toRawStringLiteral(tuplet_dot.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", tuplet_dotIdent, __gong__toRawStringLiteral(tuplet_dot.Font_style)))
+			if tuplet_dot.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", tuplet_dotIdent, tuplet_dot.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", tuplet_dotIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", tuplet_dotIdent, __gong__toRawStringLiteral(tuplet_dot.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", tuplet_dotIdent, __gong__toRawStringLiteral(tuplet_dot.Font_weight)))
+			if tuplet_dot.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", tuplet_dotIdent, tuplet_dot.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", tuplet_dotIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", tuplet_dotIdent, __gong__toRawStringLiteral(tuplet_dot.Color)))
 		}
 	}
@@ -10290,9 +11985,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tuplet_numberIdent, __gong__toRawStringLiteral(tuplet_number.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", tuplet_numberIdent, __gong__toRawStringLiteral(tuplet_number.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", tuplet_numberIdent, __gong__toRawStringLiteral(tuplet_number.Font_style)))
+			if tuplet_number.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", tuplet_numberIdent, tuplet_number.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", tuplet_numberIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", tuplet_numberIdent, __gong__toRawStringLiteral(tuplet_number.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", tuplet_numberIdent, __gong__toRawStringLiteral(tuplet_number.Font_weight)))
+			if tuplet_number.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", tuplet_numberIdent, tuplet_number.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", tuplet_numberIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", tuplet_numberIdent, __gong__toRawStringLiteral(tuplet_number.Color)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %d", tuplet_numberIdent, tuplet_number.EnclosedText))
 		}
@@ -10364,9 +12067,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tuplet_typeIdent, __gong__toRawStringLiteral(tuplet_type.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_family = %s", tuplet_typeIdent, __gong__toRawStringLiteral(tuplet_type.Font_family)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_style = %s", tuplet_typeIdent, __gong__toRawStringLiteral(tuplet_type.Font_style)))
+			if tuplet_type.Font_style.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = models.%s", tuplet_typeIdent, tuplet_type.Font_style.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_style = \"\"", tuplet_typeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Font_size = %s", tuplet_typeIdent, __gong__toRawStringLiteral(tuplet_type.Font_size)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = %s", tuplet_typeIdent, __gong__toRawStringLiteral(tuplet_type.Font_weight)))
+			if tuplet_type.Font_weight.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = models.%s", tuplet_typeIdent, tuplet_type.Font_weight.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Font_weight = \"\"", tuplet_typeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", tuplet_typeIdent, __gong__toRawStringLiteral(tuplet_type.Color)))
 			if tuplet_type.EnclosedText.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", tuplet_typeIdent, tuplet_type.EnclosedText.ToCodeString()))
@@ -10392,7 +12103,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", typed_textIdent, __gong__toRawStringLiteral(typed_text.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", typed_textIdent, __gong__toRawStringLiteral(typed_text.Type)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", typed_textIdent, __gong__toRawStringLiteral(typed_text.Type_XSD)))
 			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", typed_textIdent, __gong__toRawStringLiteral(typed_text.EnclosedText)))
 		}
 	}
@@ -10460,11 +12171,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", waitIdent, __gong__toRawStringLiteral(wait.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Player = %s", waitIdent, __gong__toRawStringLiteral(wait.Player)))
-			if wait.Time_only.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = models.%s", waitIdent, wait.Time_only.ToCodeString()))
-			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Time_only = \"\"", waitIdent))
-			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Time_only = %s", waitIdent, __gong__toRawStringLiteral(wait.Time_only)))
 		}
 	}
 	if stage != nil {
@@ -10484,10 +12191,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Name)))
-			if wavy_line.Type.ToCodeString() != "" {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = models.%s", wavy_lineIdent, wavy_line.Type.ToCodeString()))
+			if wavy_line.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", wavy_lineIdent, wavy_line.Type_XSD.ToCodeString()))
 			} else {
-				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", wavy_lineIdent))
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", wavy_lineIdent))
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", wavy_lineIdent, wavy_line.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Smufl)))
@@ -10495,11 +12202,27 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_y = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Default_y)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_x = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Relative_x)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Relative_y = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Relative_y)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Placement = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Placement)))
+			if wavy_line.Placement.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = models.%s", wavy_lineIdent, wavy_line.Placement.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Placement = \"\"", wavy_lineIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Start_note = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Start_note)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Trill_step = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Trill_step)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Two_note_turn = %s", wavy_lineIdent, __gong__toRawStringLiteral(wavy_line.Two_note_turn)))
+			if wavy_line.Start_note.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Start_note = models.%s", wavy_lineIdent, wavy_line.Start_note.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Start_note = \"\"", wavy_lineIdent))
+			}
+			if wavy_line.Trill_step.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Trill_step = models.%s", wavy_lineIdent, wavy_line.Trill_step.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Trill_step = \"\"", wavy_lineIdent))
+			}
+			if wavy_line.Two_note_turn.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Two_note_turn = models.%s", wavy_lineIdent, wavy_line.Two_note_turn.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Two_note_turn = \"\"", wavy_lineIdent))
+			}
 			if wavy_line.Accelerate.ToCodeString() != "" {
 				values.WriteString(fmt.Sprintf("\n\t%s.Accelerate = models.%s", wavy_lineIdent, wavy_line.Accelerate.ToCodeString()))
 			} else {
@@ -10527,7 +12250,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", wedgeIdent, __gong__toRawStringLiteral(wedge.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", wedgeIdent, __gong__toRawStringLiteral(wedge.Type)))
+			if wedge.Type_XSD.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = models.%s", wedgeIdent, wedge.Type_XSD.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = \"\"", wedgeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Number = %d", wedgeIdent, wedge.Number))
 			values.WriteString(fmt.Sprintf("\n\t%s.Spread = %s", wedgeIdent, __gong__toRawStringLiteral(wedge.Spread)))
 			if wedge.Niente.ToCodeString() != "" {
@@ -10535,7 +12262,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			} else {
 				values.WriteString(fmt.Sprintf("\n\t%s.Niente = \"\"", wedgeIdent))
 			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Line_type = %s", wedgeIdent, __gong__toRawStringLiteral(wedge.Line_type)))
+			if wedge.Line_type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = models.%s", wedgeIdent, wedge.Line_type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Line_type = \"\"", wedgeIdent))
+			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Dash_length = %s", wedgeIdent, __gong__toRawStringLiteral(wedge.Dash_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Space_length = %s", wedgeIdent, __gong__toRawStringLiteral(wedge.Space_length)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Default_x = %s", wedgeIdent, __gong__toRawStringLiteral(wedge.Default_x)))
@@ -10564,7 +12295,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", woodIdent, __gong__toRawStringLiteral(wood.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Smufl = %s", woodIdent, __gong__toRawStringLiteral(wood.Smufl)))
-			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", woodIdent, __gong__toRawStringLiteral(wood.EnclosedText)))
+			if wood.EnclosedText.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = models.%s", woodIdent, wood.EnclosedText.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = \"\"", woodIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -10632,7 +12367,9 @@ import (
 	"slices"
 	"time"
 
-	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models"%s
+	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models"
+	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/xlink"
+	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/xmlxsd"%s
 )
 
 var (
@@ -10640,6 +12377,8 @@ var (
 	_ = slices.Index[[]int, int]
 
 	_ *models.Stage
+	_ *xlink.Stage
+	_ *xmlxsd.Stage
 )%s
 
 // function will stage objects across all coordinated stages
@@ -10686,11 +12425,11 @@ func (a_directive *A_directive) GongMarshallField(stage *Stage, fieldName string
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", a_directive.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", a_directive.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", a_directive.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", a_directive.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", a_directive.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", a_directive.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", a_directive.Color)
 	case "EnclosedText":
@@ -10763,10 +12502,10 @@ func (a_measure *A_measure) GongMarshallField(stage *Stage, fieldName string) (r
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Figured_bass", _figured_bass.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
-	case "Print":
+	case "Print_XSD":
 		var sb strings.Builder
-		for _, _print := range a_measure.Print {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Print", _print.GongGetIdentifier(stage)))
+		for _, _print_xsd := range a_measure.Print_XSD {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Print_XSD", _print_xsd.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Sound":
@@ -10914,10 +12653,10 @@ func (a_part_1 *A_part_1) GongMarshallField(stage *Stage, fieldName string) (res
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Figured_bass", _figured_bass.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
-	case "Print":
+	case "Print_XSD":
 		var sb strings.Builder
-		for _, _print := range a_part_1.Print {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Print", _print.GongGetIdentifier(stage)))
+		for _, _print_xsd := range a_part_1.Print_XSD {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Print_XSD", _print_xsd.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Sound":
@@ -10969,7 +12708,7 @@ func (accidental *Accidental) GongMarshallField(stage *Stage, fieldName string) 
 	case "Name":
 		res = __gong__marshallString(ident, "Name", accidental.Name)
 	case "Cautionary":
-		res = __gong__marshallString(ident, "Cautionary", accidental.Cautionary)
+		res = __gong__marshallEnumString(ident, "Cautionary", accidental.Cautionary.ToCodeString())
 	case "Editorial":
 		res = __gong__marshallEnumString(ident, "Editorial", accidental.Editorial.ToCodeString())
 	case "Smufl":
@@ -10991,15 +12730,15 @@ func (accidental *Accidental) GongMarshallField(stage *Stage, fieldName string) 
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", accidental.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", accidental.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", accidental.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", accidental.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", accidental.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", accidental.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", accidental.Color)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", accidental.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", accidental.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Accidental", fieldName)
@@ -11032,15 +12771,15 @@ func (accidental_mark *Accidental_mark) GongMarshallField(stage *Stage, fieldNam
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", accidental_mark.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", accidental_mark.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", accidental_mark.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", accidental_mark.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", accidental_mark.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", accidental_mark.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", accidental_mark.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", accidental_mark.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", accidental_mark.Placement.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", accidental_mark.Id)
 	case "EnclosedText":
@@ -11077,17 +12816,17 @@ func (accidental_text *Accidental_text) GongMarshallField(stage *Stage, fieldNam
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", accidental_text.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", accidental_text.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", accidental_text.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", accidental_text.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", accidental_text.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", accidental_text.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", accidental_text.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", accidental_text.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", accidental_text.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", accidental_text.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", accidental_text.Valign.ToCodeString())
 	case "Underline":
 		res = __gong__marshallInt(ident, "Underline", accidental_text.Underline)
 	case "Overline":
@@ -11101,9 +12840,9 @@ func (accidental_text *Accidental_text) GongMarshallField(stage *Stage, fieldNam
 	case "Line_height":
 		res = __gong__marshallString(ident, "Line_height", accidental_text.Line_height)
 	case "Dir":
-		res = __gong__marshallString(ident, "Dir", accidental_text.Dir)
+		res = __gong__marshallEnumString(ident, "Dir", accidental_text.Dir.ToCodeString())
 	case "Enclosure":
-		res = __gong__marshallString(ident, "Enclosure", accidental_text.Enclosure)
+		res = __gong__marshallEnumString(ident, "Enclosure", accidental_text.Enclosure.ToCodeString())
 	case "EnclosedText":
 		res = __gong__marshallEnumString(ident, "EnclosedText", accidental_text.EnclosedText.ToCodeString())
 
@@ -11119,8 +12858,8 @@ func (accord *Accord) GongMarshallField(stage *Stage, fieldName string) (res str
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", accord.Name)
-	case "String":
-		res = __gong__marshallInt(ident, "String", accord.String)
+	case "String_XSD":
+		res = __gong__marshallInt(ident, "String_XSD", accord.String_XSD)
 	case "Tuning_step":
 		res = __gong__marshallEnumString(ident, "Tuning_step", accord.Tuning_step.ToCodeString())
 	case "Tuning_alter":
@@ -11151,17 +12890,17 @@ func (accordion_registration *Accordion_registration) GongMarshallField(stage *S
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", accordion_registration.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", accordion_registration.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", accordion_registration.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", accordion_registration.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", accordion_registration.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", accordion_registration.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", accordion_registration.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", accordion_registration.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", accordion_registration.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", accordion_registration.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", accordion_registration.Valign.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", accordion_registration.Id)
 	case "Accordion_high":
@@ -11229,7 +12968,7 @@ func (arpeggiate *Arpeggiate) GongMarshallField(stage *Stage, fieldName string) 
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", arpeggiate.Number)
 	case "Direction":
-		res = __gong__marshallString(ident, "Direction", arpeggiate.Direction)
+		res = __gong__marshallEnumString(ident, "Direction", arpeggiate.Direction.ToCodeString())
 	case "Unbroken":
 		res = __gong__marshallEnumString(ident, "Unbroken", arpeggiate.Unbroken.ToCodeString())
 	case "Default_x":
@@ -11241,7 +12980,7 @@ func (arpeggiate *Arpeggiate) GongMarshallField(stage *Stage, fieldName string) 
 	case "Relative_y":
 		res = __gong__marshallString(ident, "Relative_y", arpeggiate.Relative_y)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", arpeggiate.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", arpeggiate.Placement.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", arpeggiate.Color)
 	case "Id":
@@ -11270,25 +13009,25 @@ func (arrow *Arrow) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", arrow.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", arrow.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", arrow.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", arrow.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", arrow.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", arrow.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", arrow.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", arrow.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", arrow.Placement.ToCodeString())
 	case "Smufl":
 		res = __gong__marshallString(ident, "Smufl", arrow.Smufl)
 	case "Arrow_direction":
-		res = __gong__marshallString(ident, "Arrow_direction", arrow.Arrow_direction)
+		res = __gong__marshallEnumString(ident, "Arrow_direction", arrow.Arrow_direction.ToCodeString())
 	case "Arrow_style":
-		res = __gong__marshallString(ident, "Arrow_style", arrow.Arrow_style)
+		res = __gong__marshallEnumString(ident, "Arrow_style", arrow.Arrow_style.ToCodeString())
 	case "Arrowhead":
 		res = __gong__marshallString(ident, "Arrowhead", arrow.Arrowhead)
 	case "Circular_arrow":
-		res = __gong__marshallString(ident, "Circular_arrow", arrow.Circular_arrow)
+		res = __gong__marshallEnumString(ident, "Circular_arrow", arrow.Circular_arrow.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Arrow", fieldName)
@@ -11419,8 +13158,8 @@ func (assess *Assess) GongMarshallField(stage *Stage, fieldName string) (res str
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", assess.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", assess.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", assess.Type_XSD.ToCodeString())
 	case "Player":
 		res = __gong__marshallString(ident, "Player", assess.Player)
 	case "Time_only":
@@ -11440,6 +13179,8 @@ func (attributes *Attributes) GongMarshallField(stage *Stage, fieldName string) 
 		res = __gong__marshallString(ident, "Name", attributes.Name)
 	case "Divisions":
 		res = __gong__marshallString(ident, "Divisions", attributes.Divisions)
+	case "Time":
+		res = __gong__marshallString(ident, "Time", attributes.Time)
 	case "Staves":
 		res = __gong__marshallInt(ident, "Staves", attributes.Staves)
 	case "Instruments":
@@ -11461,12 +13202,6 @@ func (attributes *Attributes) GongMarshallField(stage *Stage, fieldName string) 
 		var sb strings.Builder
 		for _, _key := range attributes.Key {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Key", _key.GongGetIdentifier(stage)))
-		}
-		res = sb.String()
-	case "Time":
-		var sb strings.Builder
-		for _, _time := range attributes.Time {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Time", _time.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Part_symbol":
@@ -11523,8 +13258,6 @@ func (backup *Backup) GongMarshallField(stage *Stage, fieldName string) (res str
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", backup.Name)
-	case "Duration":
-		res = __gong__marshallString(ident, "Duration", backup.Duration)
 
 	case "Footnote":
 		if backup.Footnote != nil {
@@ -11553,7 +13286,7 @@ func (bar_style_color *Bar_style_color) GongMarshallField(stage *Stage, fieldNam
 	case "Color":
 		res = __gong__marshallString(ident, "Color", bar_style_color.Color)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", bar_style_color.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", bar_style_color.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Bar_style_color", fieldName)
@@ -11568,7 +13301,7 @@ func (barline *Barline) GongMarshallField(stage *Stage, fieldName string) (res s
 	case "Name":
 		res = __gong__marshallString(ident, "Name", barline.Name)
 	case "Location":
-		res = __gong__marshallString(ident, "Location", barline.Location)
+		res = __gong__marshallEnumString(ident, "Location", barline.Location.ToCodeString())
 	case "Segno":
 		res = __gong__marshallString(ident, "Segno", barline.Segno)
 	case "Coda":
@@ -11644,8 +13377,8 @@ func (barre *Barre) GongMarshallField(stage *Stage, fieldName string) (res strin
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", barre.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", barre.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", barre.Type_XSD.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", barre.Color)
 
@@ -11662,7 +13395,7 @@ func (bass *Bass) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Name":
 		res = __gong__marshallString(ident, "Name", bass.Name)
 	case "Arrangement":
-		res = __gong__marshallString(ident, "Arrangement", bass.Arrangement)
+		res = __gong__marshallEnumString(ident, "Arrangement", bass.Arrangement.ToCodeString())
 
 	case "Bass_separator":
 		if bass.Bass_separator != nil {
@@ -11707,15 +13440,15 @@ func (bass_step *Bass_step) GongMarshallField(stage *Stage, fieldName string) (r
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", bass_step.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", bass_step.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", bass_step.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", bass_step.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", bass_step.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", bass_step.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", bass_step.Color)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", bass_step.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", bass_step.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Bass_step", fieldName)
@@ -11734,13 +13467,13 @@ func (beam *Beam) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Repeater":
 		res = __gong__marshallEnumString(ident, "Repeater", beam.Repeater.ToCodeString())
 	case "Fan":
-		res = __gong__marshallString(ident, "Fan", beam.Fan)
+		res = __gong__marshallEnumString(ident, "Fan", beam.Fan.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", beam.Color)
 	case "Id":
 		res = __gong__marshallString(ident, "Id", beam.Id)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", beam.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", beam.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Beam", fieldName)
@@ -11754,8 +13487,8 @@ func (beat_repeat *Beat_repeat) GongMarshallField(stage *Stage, fieldName string
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", beat_repeat.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", beat_repeat.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", beat_repeat.Type_XSD.ToCodeString())
 	case "Slashes":
 		res = __gong__marshallInt(ident, "Slashes", beat_repeat.Slashes)
 	case "Use_dots":
@@ -11797,9 +13530,9 @@ func (beater *Beater) GongMarshallField(stage *Stage, fieldName string) (res str
 	case "Name":
 		res = __gong__marshallString(ident, "Name", beater.Name)
 	case "Tip":
-		res = __gong__marshallString(ident, "Tip", beater.Tip)
+		res = __gong__marshallEnumString(ident, "Tip", beater.Tip.ToCodeString())
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", beater.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", beater.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Beater", fieldName)
@@ -11814,7 +13547,7 @@ func (bend *Bend) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Name":
 		res = __gong__marshallString(ident, "Name", bend.Name)
 	case "Shape":
-		res = __gong__marshallString(ident, "Shape", bend.Shape)
+		res = __gong__marshallEnumString(ident, "Shape", bend.Shape.ToCodeString())
 	case "Default_x":
 		res = __gong__marshallString(ident, "Default_x", bend.Default_x)
 	case "Default_y":
@@ -11826,11 +13559,11 @@ func (bend *Bend) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", bend.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", bend.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", bend.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", bend.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", bend.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", bend.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", bend.Color)
 	case "Accelerate":
@@ -11891,16 +13624,16 @@ func (bracket *Bracket) GongMarshallField(stage *Stage, fieldName string) (res s
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", bracket.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", bracket.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", bracket.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", bracket.Number)
 	case "Line_end":
-		res = __gong__marshallString(ident, "Line_end", bracket.Line_end)
+		res = __gong__marshallEnumString(ident, "Line_end", bracket.Line_end.ToCodeString())
 	case "End_length":
 		res = __gong__marshallString(ident, "End_length", bracket.End_length)
 	case "Line_type":
-		res = __gong__marshallString(ident, "Line_type", bracket.Line_type)
+		res = __gong__marshallEnumString(ident, "Line_type", bracket.Line_type.ToCodeString())
 	case "Dash_length":
 		res = __gong__marshallString(ident, "Dash_length", bracket.Dash_length)
 	case "Space_length":
@@ -11941,17 +13674,17 @@ func (breath_mark *Breath_mark) GongMarshallField(stage *Stage, fieldName string
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", breath_mark.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", breath_mark.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", breath_mark.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", breath_mark.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", breath_mark.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", breath_mark.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", breath_mark.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", breath_mark.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", breath_mark.Placement.ToCodeString())
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", breath_mark.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", breath_mark.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Breath_mark", fieldName)
@@ -11976,17 +13709,17 @@ func (caesura *Caesura) GongMarshallField(stage *Stage, fieldName string) (res s
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", caesura.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", caesura.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", caesura.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", caesura.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", caesura.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", caesura.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", caesura.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", caesura.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", caesura.Placement.ToCodeString())
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", caesura.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", caesura.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Caesura", fieldName)
@@ -12001,7 +13734,7 @@ func (cancel *Cancel) GongMarshallField(stage *Stage, fieldName string) (res str
 	case "Name":
 		res = __gong__marshallString(ident, "Name", cancel.Name)
 	case "Location":
-		res = __gong__marshallString(ident, "Location", cancel.Location)
+		res = __gong__marshallEnumString(ident, "Location", cancel.Location.ToCodeString())
 	case "EnclosedText":
 		res = __gong__marshallInt(ident, "EnclosedText", cancel.EnclosedText)
 
@@ -12022,7 +13755,7 @@ func (clef *Clef) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Additional":
 		res = __gong__marshallEnumString(ident, "Additional", clef.Additional.ToCodeString())
 	case "Size":
-		res = __gong__marshallString(ident, "Size", clef.Size)
+		res = __gong__marshallEnumString(ident, "Size", clef.Size.ToCodeString())
 	case "After_barline":
 		res = __gong__marshallEnumString(ident, "After_barline", clef.After_barline.ToCodeString())
 	case "Default_x":
@@ -12036,11 +13769,11 @@ func (clef *Clef) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", clef.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", clef.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", clef.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", clef.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", clef.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", clef.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", clef.Color)
 	case "Print_object":
@@ -12048,7 +13781,7 @@ func (clef *Clef) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Id":
 		res = __gong__marshallString(ident, "Id", clef.Id)
 	case "Sign":
-		res = __gong__marshallString(ident, "Sign", clef.Sign)
+		res = __gong__marshallEnumString(ident, "Sign", clef.Sign.ToCodeString())
 	case "Line":
 		res = __gong__marshallInt(ident, "Line", clef.Line)
 	case "Clef_octave_change":
@@ -12079,17 +13812,17 @@ func (coda *Coda) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", coda.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", coda.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", coda.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", coda.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", coda.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", coda.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", coda.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", coda.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", coda.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", coda.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", coda.Valign.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", coda.Id)
 
@@ -12112,12 +13845,6 @@ func (credit *Credit) GongMarshallField(stage *Stage, fieldName string) (res str
 	case "Credit_type":
 		res = __gong__marshallString(ident, "Credit_type", credit.Credit_type)
 
-	case "Credit_image":
-		if credit.Credit_image != nil {
-			res = __gong__marshallPointer(ident, "Credit_image", credit.Credit_image.GongGetIdentifier(stage))
-		} else {
-			res = __gong__marshallPointer(ident, "Credit_image", "nil")
-		}
 	case "Link":
 		var sb strings.Builder
 		for _, _link := range credit.Link {
@@ -12130,18 +13857,24 @@ func (credit *Credit) GongMarshallField(stage *Stage, fieldName string) (res str
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Bookmark", _bookmark.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
+	case "Credit_image":
+		if credit.Credit_image != nil {
+			res = __gong__marshallPointer(ident, "Credit_image", credit.Credit_image.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Credit_image", "nil")
+		}
 	case "Credit_words":
-		var sb strings.Builder
-		for _, _formatted_text_id := range credit.Credit_words {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Credit_words", _formatted_text_id.GongGetIdentifier(stage)))
+		if credit.Credit_words != nil {
+			res = __gong__marshallPointer(ident, "Credit_words", credit.Credit_words.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Credit_words", "nil")
 		}
-		res = sb.String()
 	case "Credit_symbol":
-		var sb strings.Builder
-		for _, _formatted_symbol_id := range credit.Credit_symbol {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Credit_symbol", _formatted_symbol_id.GongGetIdentifier(stage)))
+		if credit.Credit_symbol != nil {
+			res = __gong__marshallPointer(ident, "Credit_symbol", credit.Credit_symbol.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Credit_symbol", "nil")
 		}
-		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Credit", fieldName)
 	}
@@ -12154,8 +13887,8 @@ func (dashes *Dashes) GongMarshallField(stage *Stage, fieldName string) (res str
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", dashes.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", dashes.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", dashes.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", dashes.Number)
 	case "Dash_length":
@@ -12302,11 +14035,11 @@ func (degree_alter *Degree_alter) GongMarshallField(stage *Stage, fieldName stri
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", degree_alter.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", degree_alter.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", degree_alter.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", degree_alter.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", degree_alter.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", degree_alter.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", degree_alter.Color)
 	case "EnclosedText":
@@ -12337,15 +14070,15 @@ func (degree_type *Degree_type) GongMarshallField(stage *Stage, fieldName string
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", degree_type.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", degree_type.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", degree_type.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", degree_type.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", degree_type.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", degree_type.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", degree_type.Color)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", degree_type.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", degree_type.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Degree_type", fieldName)
@@ -12360,7 +14093,7 @@ func (degree_value *Degree_value) GongMarshallField(stage *Stage, fieldName stri
 	case "Name":
 		res = __gong__marshallString(ident, "Name", degree_value.Name)
 	case "Symbol":
-		res = __gong__marshallString(ident, "Symbol", degree_value.Symbol)
+		res = __gong__marshallEnumString(ident, "Symbol", degree_value.Symbol.ToCodeString())
 	case "Text":
 		res = __gong__marshallString(ident, "Text", degree_value.Text)
 	case "Default_x":
@@ -12374,11 +14107,11 @@ func (degree_value *Degree_value) GongMarshallField(stage *Stage, fieldName stri
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", degree_value.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", degree_value.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", degree_value.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", degree_value.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", degree_value.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", degree_value.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", degree_value.Color)
 	case "EnclosedText":
@@ -12397,11 +14130,11 @@ func (direction *Direction) GongMarshallField(stage *Stage, fieldName string) (r
 	case "Name":
 		res = __gong__marshallString(ident, "Name", direction.Name)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", direction.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", direction.Placement.ToCodeString())
 	case "Directive":
 		res = __gong__marshallEnumString(ident, "Directive", direction.Directive.ToCodeString())
 	case "System":
-		res = __gong__marshallEnumString(ident, "System", direction.System.ToCodeString())
+		res = __gong__marshallString(ident, "System", direction.System)
 	case "Id":
 		res = __gong__marshallString(ident, "Id", direction.Id)
 	case "Voice":
@@ -12616,8 +14349,8 @@ func (distance *Distance) GongMarshallField(stage *Stage, fieldName string) (res
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", distance.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", distance.Type)
+	case "Type_XSD":
+		res = __gong__marshallString(ident, "Type_XSD", distance.Type_XSD)
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", distance.EnclosedText)
 
@@ -12659,19 +14392,19 @@ func (dynamics *Dynamics) GongMarshallField(stage *Stage, fieldName string) (res
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", dynamics.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", dynamics.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", dynamics.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", dynamics.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", dynamics.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", dynamics.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", dynamics.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", dynamics.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", dynamics.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", dynamics.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", dynamics.Valign.ToCodeString())
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", dynamics.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", dynamics.Placement.ToCodeString())
 	case "Underline":
 		res = __gong__marshallInt(ident, "Underline", dynamics.Underline)
 	case "Overline":
@@ -12679,7 +14412,7 @@ func (dynamics *Dynamics) GongMarshallField(stage *Stage, fieldName string) (res
 	case "Line_through":
 		res = __gong__marshallInt(ident, "Line_through", dynamics.Line_through)
 	case "Enclosure":
-		res = __gong__marshallString(ident, "Enclosure", dynamics.Enclosure)
+		res = __gong__marshallEnumString(ident, "Enclosure", dynamics.Enclosure.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", dynamics.Id)
 	case "P":
@@ -12756,7 +14489,7 @@ func (effect *Effect) GongMarshallField(stage *Stage, fieldName string) (res str
 	case "Smufl":
 		res = __gong__marshallString(ident, "Smufl", effect.Smufl)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", effect.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", effect.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Effect", fieldName)
@@ -12775,11 +14508,11 @@ func (elision *Elision) GongMarshallField(stage *Stage, fieldName string) (res s
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", elision.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", elision.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", elision.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", elision.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", elision.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", elision.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", elision.Color)
 	case "EnclosedText":
@@ -12813,11 +14546,11 @@ func (empty_font *Empty_font) GongMarshallField(stage *Stage, fieldName string) 
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", empty_font.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", empty_font.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", empty_font.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", empty_font.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", empty_font.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", empty_font.Font_weight.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty_font", fieldName)
@@ -12832,11 +14565,11 @@ func (empty_line *Empty_line) GongMarshallField(stage *Stage, fieldName string) 
 	case "Name":
 		res = __gong__marshallString(ident, "Name", empty_line.Name)
 	case "Line_shape":
-		res = __gong__marshallString(ident, "Line_shape", empty_line.Line_shape)
+		res = __gong__marshallEnumString(ident, "Line_shape", empty_line.Line_shape.ToCodeString())
 	case "Line_type":
-		res = __gong__marshallString(ident, "Line_type", empty_line.Line_type)
+		res = __gong__marshallEnumString(ident, "Line_type", empty_line.Line_type.ToCodeString())
 	case "Line_length":
-		res = __gong__marshallString(ident, "Line_length", empty_line.Line_length)
+		res = __gong__marshallEnumString(ident, "Line_length", empty_line.Line_length.ToCodeString())
 	case "Dash_length":
 		res = __gong__marshallString(ident, "Dash_length", empty_line.Dash_length)
 	case "Space_length":
@@ -12852,15 +14585,15 @@ func (empty_line *Empty_line) GongMarshallField(stage *Stage, fieldName string) 
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", empty_line.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", empty_line.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", empty_line.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", empty_line.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", empty_line.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", empty_line.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", empty_line.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", empty_line.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", empty_line.Placement.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty_line", fieldName)
@@ -12885,15 +14618,15 @@ func (empty_placement *Empty_placement) GongMarshallField(stage *Stage, fieldNam
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", empty_placement.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", empty_placement.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", empty_placement.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", empty_placement.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", empty_placement.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", empty_placement.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", empty_placement.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", empty_placement.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", empty_placement.Placement.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty_placement", fieldName)
@@ -12918,15 +14651,15 @@ func (empty_placement_smufl *Empty_placement_smufl) GongMarshallField(stage *Sta
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", empty_placement_smufl.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", empty_placement_smufl.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", empty_placement_smufl.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", empty_placement_smufl.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", empty_placement_smufl.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", empty_placement_smufl.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", empty_placement_smufl.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", empty_placement_smufl.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", empty_placement_smufl.Placement.ToCodeString())
 	case "Smufl":
 		res = __gong__marshallString(ident, "Smufl", empty_placement_smufl.Smufl)
 
@@ -12955,17 +14688,17 @@ func (empty_print_object_style_align *Empty_print_object_style_align) GongMarsha
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", empty_print_object_style_align.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", empty_print_object_style_align.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", empty_print_object_style_align.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", empty_print_object_style_align.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", empty_print_object_style_align.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", empty_print_object_style_align.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", empty_print_object_style_align.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", empty_print_object_style_align.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", empty_print_object_style_align.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", empty_print_object_style_align.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", empty_print_object_style_align.Valign.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty_print_object_style_align", fieldName)
@@ -12990,11 +14723,11 @@ func (empty_print_style *Empty_print_style) GongMarshallField(stage *Stage, fiel
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", empty_print_style.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", empty_print_style.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", empty_print_style.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", empty_print_style.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", empty_print_style.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", empty_print_style.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", empty_print_style.Color)
 
@@ -13021,17 +14754,17 @@ func (empty_print_style_align *Empty_print_style_align) GongMarshallField(stage 
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", empty_print_style_align.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", empty_print_style_align.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", empty_print_style_align.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", empty_print_style_align.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", empty_print_style_align.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", empty_print_style_align.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", empty_print_style_align.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", empty_print_style_align.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", empty_print_style_align.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", empty_print_style_align.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", empty_print_style_align.Valign.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Empty_print_style_align", fieldName)
@@ -13056,17 +14789,17 @@ func (empty_print_style_align_id *Empty_print_style_align_id) GongMarshallField(
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", empty_print_style_align_id.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", empty_print_style_align_id.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", empty_print_style_align_id.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", empty_print_style_align_id.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", empty_print_style_align_id.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", empty_print_style_align_id.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", empty_print_style_align_id.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", empty_print_style_align_id.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", empty_print_style_align_id.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", empty_print_style_align_id.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", empty_print_style_align_id.Valign.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", empty_print_style_align_id.Id)
 
@@ -13093,21 +14826,21 @@ func (empty_trill_sound *Empty_trill_sound) GongMarshallField(stage *Stage, fiel
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", empty_trill_sound.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", empty_trill_sound.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", empty_trill_sound.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", empty_trill_sound.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", empty_trill_sound.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", empty_trill_sound.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", empty_trill_sound.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", empty_trill_sound.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", empty_trill_sound.Placement.ToCodeString())
 	case "Start_note":
-		res = __gong__marshallString(ident, "Start_note", empty_trill_sound.Start_note)
+		res = __gong__marshallEnumString(ident, "Start_note", empty_trill_sound.Start_note.ToCodeString())
 	case "Trill_step":
-		res = __gong__marshallString(ident, "Trill_step", empty_trill_sound.Trill_step)
+		res = __gong__marshallEnumString(ident, "Trill_step", empty_trill_sound.Trill_step.ToCodeString())
 	case "Two_note_turn":
-		res = __gong__marshallString(ident, "Two_note_turn", empty_trill_sound.Two_note_turn)
+		res = __gong__marshallEnumString(ident, "Two_note_turn", empty_trill_sound.Two_note_turn.ToCodeString())
 	case "Accelerate":
 		res = __gong__marshallEnumString(ident, "Accelerate", empty_trill_sound.Accelerate.ToCodeString())
 	case "Beats":
@@ -13129,6 +14862,8 @@ func (encoding *Encoding) GongMarshallField(stage *Stage, fieldName string) (res
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", encoding.Name)
+	case "Encoding_date":
+		res = __gong__marshallString(ident, "Encoding_date", encoding.Encoding_date)
 	case "Software":
 		res = __gong__marshallString(ident, "Software", encoding.Software)
 	case "Encoding_description":
@@ -13160,8 +14895,8 @@ func (ending *Ending) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = __gong__marshallString(ident, "Name", ending.Name)
 	case "Number":
 		res = __gong__marshallString(ident, "Number", ending.Number)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", ending.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", ending.Type_XSD.ToCodeString())
 	case "End_length":
 		res = __gong__marshallString(ident, "End_length", ending.End_length)
 	case "Text_x":
@@ -13181,15 +14916,15 @@ func (ending *Ending) GongMarshallField(stage *Stage, fieldName string) (res str
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", ending.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", ending.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", ending.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", ending.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", ending.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", ending.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", ending.Color)
 	case "System":
-		res = __gong__marshallEnumString(ident, "System", ending.System.ToCodeString())
+		res = __gong__marshallString(ident, "System", ending.System)
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", ending.EnclosedText)
 
@@ -13205,8 +14940,8 @@ func (extend *Extend) GongMarshallField(stage *Stage, fieldName string) (res str
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", extend.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", extend.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", extend.Type_XSD.ToCodeString())
 	case "Default_x":
 		res = __gong__marshallString(ident, "Default_x", extend.Default_x)
 	case "Default_y":
@@ -13230,8 +14965,8 @@ func (feature *Feature) GongMarshallField(stage *Stage, fieldName string) (res s
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", feature.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", feature.Type)
+	case "Type_XSD":
+		res = __gong__marshallString(ident, "Type_XSD", feature.Type_XSD)
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", feature.EnclosedText)
 
@@ -13247,8 +14982,8 @@ func (fermata *Fermata) GongMarshallField(stage *Stage, fieldName string) (res s
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", fermata.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", fermata.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", fermata.Type_XSD.ToCodeString())
 	case "Default_x":
 		res = __gong__marshallString(ident, "Default_x", fermata.Default_x)
 	case "Default_y":
@@ -13260,17 +14995,17 @@ func (fermata *Fermata) GongMarshallField(stage *Stage, fieldName string) (res s
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", fermata.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", fermata.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", fermata.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", fermata.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", fermata.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", fermata.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", fermata.Color)
 	case "Id":
 		res = __gong__marshallString(ident, "Id", fermata.Id)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", fermata.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", fermata.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Fermata", fieldName)
@@ -13346,19 +15081,19 @@ func (figured_bass *Figured_bass) GongMarshallField(stage *Stage, fieldName stri
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", figured_bass.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", figured_bass.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", figured_bass.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", figured_bass.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", figured_bass.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", figured_bass.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", figured_bass.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", figured_bass.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", figured_bass.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", figured_bass.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", figured_bass.Valign.ToCodeString())
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", figured_bass.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", figured_bass.Placement.ToCodeString())
 	case "Print_dot":
 		res = __gong__marshallEnumString(ident, "Print_dot", figured_bass.Print_dot.ToCodeString())
 	case "Print_lyric":
@@ -13369,8 +15104,6 @@ func (figured_bass *Figured_bass) GongMarshallField(stage *Stage, fieldName stri
 		res = __gong__marshallEnumString(ident, "Print_spacing", figured_bass.Print_spacing.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", figured_bass.Id)
-	case "Duration":
-		res = __gong__marshallString(ident, "Duration", figured_bass.Duration)
 
 	case "Figure":
 		var sb strings.Builder
@@ -13417,15 +15150,15 @@ func (fingering *Fingering) GongMarshallField(stage *Stage, fieldName string) (r
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", fingering.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", fingering.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", fingering.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", fingering.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", fingering.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", fingering.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", fingering.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", fingering.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", fingering.Placement.ToCodeString())
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", fingering.EnclosedText)
 
@@ -13444,7 +15177,7 @@ func (first_fret *First_fret) GongMarshallField(stage *Stage, fieldName string) 
 	case "Text":
 		res = __gong__marshallString(ident, "Text", first_fret.Text)
 	case "Location":
-		res = __gong__marshallString(ident, "Location", first_fret.Location)
+		res = __gong__marshallEnumString(ident, "Location", first_fret.Location.ToCodeString())
 	case "EnclosedText":
 		res = __gong__marshallInt(ident, "EnclosedText", first_fret.EnclosedText)
 
@@ -13502,17 +15235,17 @@ func (formatted_symbol *Formatted_symbol) GongMarshallField(stage *Stage, fieldN
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", formatted_symbol.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", formatted_symbol.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", formatted_symbol.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", formatted_symbol.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", formatted_symbol.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", formatted_symbol.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", formatted_symbol.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", formatted_symbol.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", formatted_symbol.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", formatted_symbol.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", formatted_symbol.Valign.ToCodeString())
 	case "Underline":
 		res = __gong__marshallInt(ident, "Underline", formatted_symbol.Underline)
 	case "Overline":
@@ -13526,9 +15259,9 @@ func (formatted_symbol *Formatted_symbol) GongMarshallField(stage *Stage, fieldN
 	case "Line_height":
 		res = __gong__marshallString(ident, "Line_height", formatted_symbol.Line_height)
 	case "Dir":
-		res = __gong__marshallString(ident, "Dir", formatted_symbol.Dir)
+		res = __gong__marshallEnumString(ident, "Dir", formatted_symbol.Dir.ToCodeString())
 	case "Enclosure":
-		res = __gong__marshallString(ident, "Enclosure", formatted_symbol.Enclosure)
+		res = __gong__marshallEnumString(ident, "Enclosure", formatted_symbol.Enclosure.ToCodeString())
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", formatted_symbol.EnclosedText)
 
@@ -13557,17 +15290,17 @@ func (formatted_symbol_id *Formatted_symbol_id) GongMarshallField(stage *Stage, 
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", formatted_symbol_id.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", formatted_symbol_id.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", formatted_symbol_id.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", formatted_symbol_id.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", formatted_symbol_id.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", formatted_symbol_id.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", formatted_symbol_id.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", formatted_symbol_id.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", formatted_symbol_id.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", formatted_symbol_id.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", formatted_symbol_id.Valign.ToCodeString())
 	case "Underline":
 		res = __gong__marshallInt(ident, "Underline", formatted_symbol_id.Underline)
 	case "Overline":
@@ -13581,9 +15314,9 @@ func (formatted_symbol_id *Formatted_symbol_id) GongMarshallField(stage *Stage, 
 	case "Line_height":
 		res = __gong__marshallString(ident, "Line_height", formatted_symbol_id.Line_height)
 	case "Dir":
-		res = __gong__marshallString(ident, "Dir", formatted_symbol_id.Dir)
+		res = __gong__marshallEnumString(ident, "Dir", formatted_symbol_id.Dir.ToCodeString())
 	case "Enclosure":
-		res = __gong__marshallString(ident, "Enclosure", formatted_symbol_id.Enclosure)
+		res = __gong__marshallEnumString(ident, "Enclosure", formatted_symbol_id.Enclosure.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", formatted_symbol_id.Id)
 	case "EnclosedText":
@@ -13618,17 +15351,17 @@ func (formatted_text *Formatted_text) GongMarshallField(stage *Stage, fieldName 
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", formatted_text.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", formatted_text.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", formatted_text.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", formatted_text.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", formatted_text.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", formatted_text.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", formatted_text.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", formatted_text.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", formatted_text.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", formatted_text.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", formatted_text.Valign.ToCodeString())
 	case "Underline":
 		res = __gong__marshallInt(ident, "Underline", formatted_text.Underline)
 	case "Overline":
@@ -13642,9 +15375,9 @@ func (formatted_text *Formatted_text) GongMarshallField(stage *Stage, fieldName 
 	case "Line_height":
 		res = __gong__marshallString(ident, "Line_height", formatted_text.Line_height)
 	case "Dir":
-		res = __gong__marshallString(ident, "Dir", formatted_text.Dir)
+		res = __gong__marshallEnumString(ident, "Dir", formatted_text.Dir.ToCodeString())
 	case "Enclosure":
-		res = __gong__marshallString(ident, "Enclosure", formatted_text.Enclosure)
+		res = __gong__marshallEnumString(ident, "Enclosure", formatted_text.Enclosure.ToCodeString())
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", formatted_text.EnclosedText)
 
@@ -13677,17 +15410,17 @@ func (formatted_text_id *Formatted_text_id) GongMarshallField(stage *Stage, fiel
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", formatted_text_id.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", formatted_text_id.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", formatted_text_id.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", formatted_text_id.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", formatted_text_id.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", formatted_text_id.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", formatted_text_id.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", formatted_text_id.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", formatted_text_id.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", formatted_text_id.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", formatted_text_id.Valign.ToCodeString())
 	case "Underline":
 		res = __gong__marshallInt(ident, "Underline", formatted_text_id.Underline)
 	case "Overline":
@@ -13701,9 +15434,9 @@ func (formatted_text_id *Formatted_text_id) GongMarshallField(stage *Stage, fiel
 	case "Line_height":
 		res = __gong__marshallString(ident, "Line_height", formatted_text_id.Line_height)
 	case "Dir":
-		res = __gong__marshallString(ident, "Dir", formatted_text_id.Dir)
+		res = __gong__marshallEnumString(ident, "Dir", formatted_text_id.Dir.ToCodeString())
 	case "Enclosure":
-		res = __gong__marshallString(ident, "Enclosure", formatted_text_id.Enclosure)
+		res = __gong__marshallEnumString(ident, "Enclosure", formatted_text_id.Enclosure.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", formatted_text_id.Id)
 	case "EnclosedText":
@@ -13721,8 +15454,6 @@ func (forward *Forward) GongMarshallField(stage *Stage, fieldName string) (res s
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", forward.Name)
-	case "Duration":
-		res = __gong__marshallString(ident, "Duration", forward.Duration)
 	case "Voice":
 		res = __gong__marshallString(ident, "Voice", forward.Voice)
 	case "Staff":
@@ -13769,9 +15500,9 @@ func (frame *Frame) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "Color":
 		res = __gong__marshallString(ident, "Color", frame.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", frame.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", frame.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", frame.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", frame.Valign.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", frame.Id)
 	case "Frame_strings":
@@ -13804,11 +15535,11 @@ func (frame_note *Frame_note) GongMarshallField(stage *Stage, fieldName string) 
 	case "Name":
 		res = __gong__marshallString(ident, "Name", frame_note.Name)
 
-	case "String":
-		if frame_note.String != nil {
-			res = __gong__marshallPointer(ident, "String", frame_note.String.GongGetIdentifier(stage))
+	case "String_XSD":
+		if frame_note.String_XSD != nil {
+			res = __gong__marshallPointer(ident, "String_XSD", frame_note.String_XSD.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "String", "nil")
+			res = __gong__marshallPointer(ident, "String_XSD", "nil")
 		}
 	case "Fret":
 		if frame_note.Fret != nil {
@@ -13843,11 +15574,11 @@ func (fret *Fret) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", fret.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", fret.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", fret.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", fret.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", fret.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", fret.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", fret.Color)
 	case "EnclosedText":
@@ -13868,7 +15599,7 @@ func (glass *Glass) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "Smufl":
 		res = __gong__marshallString(ident, "Smufl", glass.Smufl)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", glass.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", glass.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Glass", fieldName)
@@ -13882,12 +15613,12 @@ func (glissando *Glissando) GongMarshallField(stage *Stage, fieldName string) (r
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", glissando.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", glissando.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", glissando.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", glissando.Number)
 	case "Line_type":
-		res = __gong__marshallString(ident, "Line_type", glissando.Line_type)
+		res = __gong__marshallEnumString(ident, "Line_type", glissando.Line_type.ToCodeString())
 	case "Dash_length":
 		res = __gong__marshallString(ident, "Dash_length", glissando.Dash_length)
 	case "Space_length":
@@ -13903,11 +15634,11 @@ func (glissando *Glissando) GongMarshallField(stage *Stage, fieldName string) (r
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", glissando.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", glissando.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", glissando.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", glissando.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", glissando.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", glissando.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", glissando.Color)
 	case "Id":
@@ -13927,8 +15658,8 @@ func (glyph *Glyph) GongMarshallField(stage *Stage, fieldName string) (res strin
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", glyph.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", glyph.Type)
+	case "Type_XSD":
+		res = __gong__marshallString(ident, "Type_XSD", glyph.Type_XSD)
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", glyph.EnclosedText)
 
@@ -13968,7 +15699,7 @@ func (group_barline *Group_barline) GongMarshallField(stage *Stage, fieldName st
 	case "Color":
 		res = __gong__marshallString(ident, "Color", group_barline.Color)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", group_barline.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", group_barline.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Group_barline", fieldName)
@@ -13993,11 +15724,11 @@ func (group_name *Group_name) GongMarshallField(stage *Stage, fieldName string) 
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", group_name.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", group_name.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", group_name.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", group_name.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", group_name.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", group_name.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", group_name.Color)
 	case "Justify":
@@ -14028,7 +15759,7 @@ func (group_symbol *Group_symbol) GongMarshallField(stage *Stage, fieldName stri
 	case "Color":
 		res = __gong__marshallString(ident, "Color", group_symbol.Color)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", group_symbol.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", group_symbol.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Group_symbol", fieldName)
@@ -14042,8 +15773,8 @@ func (grouping *Grouping) GongMarshallField(stage *Stage, fieldName string) (res
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", grouping.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", grouping.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", grouping.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallString(ident, "Number", grouping.Number)
 	case "Member_of":
@@ -14069,8 +15800,8 @@ func (hammer_on_pull_off *Hammer_on_pull_off) GongMarshallField(stage *Stage, fi
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", hammer_on_pull_off.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", hammer_on_pull_off.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", hammer_on_pull_off.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", hammer_on_pull_off.Number)
 	case "Default_x":
@@ -14084,15 +15815,15 @@ func (hammer_on_pull_off *Hammer_on_pull_off) GongMarshallField(stage *Stage, fi
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", hammer_on_pull_off.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", hammer_on_pull_off.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", hammer_on_pull_off.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", hammer_on_pull_off.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", hammer_on_pull_off.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", hammer_on_pull_off.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", hammer_on_pull_off.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", hammer_on_pull_off.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", hammer_on_pull_off.Placement.ToCodeString())
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", hammer_on_pull_off.EnclosedText)
 
@@ -14119,17 +15850,17 @@ func (handbell *Handbell) GongMarshallField(stage *Stage, fieldName string) (res
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", handbell.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", handbell.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", handbell.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", handbell.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", handbell.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", handbell.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", handbell.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", handbell.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", handbell.Placement.ToCodeString())
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", handbell.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", handbell.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Handbell", fieldName)
@@ -14144,9 +15875,9 @@ func (harmon_closed *Harmon_closed) GongMarshallField(stage *Stage, fieldName st
 	case "Name":
 		res = __gong__marshallString(ident, "Name", harmon_closed.Name)
 	case "Location":
-		res = __gong__marshallString(ident, "Location", harmon_closed.Location)
+		res = __gong__marshallEnumString(ident, "Location", harmon_closed.Location.ToCodeString())
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", harmon_closed.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", harmon_closed.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Harmon_closed", fieldName)
@@ -14171,15 +15902,15 @@ func (harmon_mute *Harmon_mute) GongMarshallField(stage *Stage, fieldName string
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", harmon_mute.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", harmon_mute.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", harmon_mute.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", harmon_mute.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", harmon_mute.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", harmon_mute.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", harmon_mute.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", harmon_mute.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", harmon_mute.Placement.ToCodeString())
 
 	case "Harmon_closed":
 		if harmon_mute.Harmon_closed != nil {
@@ -14212,15 +15943,15 @@ func (harmonic *Harmonic) GongMarshallField(stage *Stage, fieldName string) (res
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", harmonic.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", harmonic.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", harmonic.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", harmonic.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", harmonic.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", harmonic.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", harmonic.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", harmonic.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", harmonic.Placement.ToCodeString())
 	case "Natural":
 		res = __gong__marshallString(ident, "Natural", harmonic.Natural)
 	case "Artificial":
@@ -14244,8 +15975,8 @@ func (harmony *Harmony) GongMarshallField(stage *Stage, fieldName string) (res s
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", harmony.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", harmony.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", harmony.Type_XSD.ToCodeString())
 	case "Print_frame":
 		res = __gong__marshallEnumString(ident, "Print_frame", harmony.Print_frame.ToCodeString())
 	case "Arrangement":
@@ -14263,17 +15994,17 @@ func (harmony *Harmony) GongMarshallField(stage *Stage, fieldName string) (res s
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", harmony.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", harmony.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", harmony.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", harmony.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", harmony.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", harmony.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", harmony.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", harmony.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", harmony.Placement.ToCodeString())
 	case "System":
-		res = __gong__marshallEnumString(ident, "System", harmony.System.ToCodeString())
+		res = __gong__marshallString(ident, "System", harmony.System)
 	case "Id":
 		res = __gong__marshallString(ident, "Id", harmony.Id)
 	case "Staff":
@@ -14372,11 +16103,11 @@ func (harmony_alter *Harmony_alter) GongMarshallField(stage *Stage, fieldName st
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", harmony_alter.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", harmony_alter.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", harmony_alter.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", harmony_alter.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", harmony_alter.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", harmony_alter.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", harmony_alter.Color)
 	case "EnclosedText":
@@ -14405,17 +16136,17 @@ func (harp_pedals *Harp_pedals) GongMarshallField(stage *Stage, fieldName string
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", harp_pedals.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", harp_pedals.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", harp_pedals.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", harp_pedals.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", harp_pedals.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", harp_pedals.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", harp_pedals.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", harp_pedals.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", harp_pedals.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", harp_pedals.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", harp_pedals.Valign.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", harp_pedals.Id)
 
@@ -14437,6 +16168,28 @@ func (heel_toe *Heel_toe) GongMarshallField(stage *Stage, fieldName string) (res
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", heel_toe.Name)
+	case "Default_x":
+		res = __gong__marshallString(ident, "Default_x", heel_toe.Default_x)
+	case "Default_y":
+		res = __gong__marshallString(ident, "Default_y", heel_toe.Default_y)
+	case "Relative_x":
+		res = __gong__marshallString(ident, "Relative_x", heel_toe.Relative_x)
+	case "Relative_y":
+		res = __gong__marshallString(ident, "Relative_y", heel_toe.Relative_y)
+	case "Font_family":
+		res = __gong__marshallString(ident, "Font_family", heel_toe.Font_family)
+	case "Font_style":
+		res = __gong__marshallEnumString(ident, "Font_style", heel_toe.Font_style.ToCodeString())
+	case "Font_size":
+		res = __gong__marshallString(ident, "Font_size", heel_toe.Font_size)
+	case "Font_weight":
+		res = __gong__marshallEnumString(ident, "Font_weight", heel_toe.Font_weight.ToCodeString())
+	case "Color":
+		res = __gong__marshallString(ident, "Color", heel_toe.Color)
+	case "Placement":
+		res = __gong__marshallEnumString(ident, "Placement", heel_toe.Placement.ToCodeString())
+	case "Substitution":
+		res = __gong__marshallEnumString(ident, "Substitution", heel_toe.Substitution.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Heel_toe", fieldName)
@@ -14461,15 +16214,15 @@ func (hole *Hole) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", hole.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", hole.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", hole.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", hole.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", hole.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", hole.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", hole.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", hole.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", hole.Placement.ToCodeString())
 	case "Hole_type":
 		res = __gong__marshallString(ident, "Hole_type", hole.Hole_type)
 	case "Hole_shape":
@@ -14494,9 +16247,9 @@ func (hole_closed *Hole_closed) GongMarshallField(stage *Stage, fieldName string
 	case "Name":
 		res = __gong__marshallString(ident, "Name", hole_closed.Name)
 	case "Location":
-		res = __gong__marshallString(ident, "Location", hole_closed.Location)
+		res = __gong__marshallEnumString(ident, "Location", hole_closed.Location.ToCodeString())
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", hole_closed.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", hole_closed.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Hole_closed", fieldName)
@@ -14523,21 +16276,21 @@ func (horizontal_turn *Horizontal_turn) GongMarshallField(stage *Stage, fieldNam
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", horizontal_turn.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", horizontal_turn.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", horizontal_turn.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", horizontal_turn.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", horizontal_turn.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", horizontal_turn.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", horizontal_turn.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", horizontal_turn.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", horizontal_turn.Placement.ToCodeString())
 	case "Start_note":
-		res = __gong__marshallString(ident, "Start_note", horizontal_turn.Start_note)
+		res = __gong__marshallEnumString(ident, "Start_note", horizontal_turn.Start_note.ToCodeString())
 	case "Trill_step":
-		res = __gong__marshallString(ident, "Trill_step", horizontal_turn.Trill_step)
+		res = __gong__marshallEnumString(ident, "Trill_step", horizontal_turn.Trill_step.ToCodeString())
 	case "Two_note_turn":
-		res = __gong__marshallString(ident, "Two_note_turn", horizontal_turn.Two_note_turn)
+		res = __gong__marshallEnumString(ident, "Two_note_turn", horizontal_turn.Two_note_turn.ToCodeString())
 	case "Accelerate":
 		res = __gong__marshallEnumString(ident, "Accelerate", horizontal_turn.Accelerate.ToCodeString())
 	case "Beats":
@@ -14606,8 +16359,8 @@ func (image *Image) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = __gong__marshallString(ident, "Name", image.Name)
 	case "Source":
 		res = __gong__marshallString(ident, "Source", image.Source)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", image.Type)
+	case "Type_XSD":
+		res = __gong__marshallString(ident, "Type_XSD", image.Type_XSD)
 	case "Height":
 		res = __gong__marshallString(ident, "Height", image.Height)
 	case "Width":
@@ -14621,9 +16374,9 @@ func (image *Image) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "Relative_y":
 		res = __gong__marshallString(ident, "Relative_y", image.Relative_y)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", image.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", image.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", image.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", image.Valign.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", image.Id)
 
@@ -14697,11 +16450,11 @@ func (interchangeable *Interchangeable) GongMarshallField(stage *Stage, fieldNam
 	case "Name":
 		res = __gong__marshallString(ident, "Name", interchangeable.Name)
 	case "Symbol":
-		res = __gong__marshallString(ident, "Symbol", interchangeable.Symbol)
+		res = __gong__marshallEnumString(ident, "Symbol", interchangeable.Symbol.ToCodeString())
 	case "Separator":
-		res = __gong__marshallString(ident, "Separator", interchangeable.Separator)
+		res = __gong__marshallEnumString(ident, "Separator", interchangeable.Separator.ToCodeString())
 	case "Time_relation":
-		res = __gong__marshallString(ident, "Time_relation", interchangeable.Time_relation)
+		res = __gong__marshallEnumString(ident, "Time_relation", interchangeable.Time_relation.ToCodeString())
 	case "Beats":
 		res = __gong__marshallString(ident, "Beats", interchangeable.Beats)
 	case "Beat_type":
@@ -14732,11 +16485,11 @@ func (inversion *Inversion) GongMarshallField(stage *Stage, fieldName string) (r
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", inversion.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", inversion.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", inversion.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", inversion.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", inversion.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", inversion.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", inversion.Color)
 	case "EnclosedText":
@@ -14767,11 +16520,11 @@ func (key *Key) GongMarshallField(stage *Stage, fieldName string) (res string) {
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", key.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", key.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", key.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", key.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", key.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", key.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", key.Color)
 	case "Print_object":
@@ -14874,19 +16627,19 @@ func (kind *Kind) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", kind.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", kind.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", kind.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", kind.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", kind.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", kind.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", kind.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", kind.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", kind.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", kind.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", kind.Valign.ToCodeString())
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", kind.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", kind.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Kind", fieldName)
@@ -14900,10 +16653,10 @@ func (level *Level) GongMarshallField(stage *Stage, fieldName string) (res strin
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", level.Name)
-	case "Reference":
-		res = __gong__marshallEnumString(ident, "Reference", level.Reference.ToCodeString())
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", level.Type.ToCodeString())
+	case "Reference_XSD":
+		res = __gong__marshallEnumString(ident, "Reference_XSD", level.Reference_XSD.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", level.Type_XSD.ToCodeString())
 	case "Parentheses":
 		res = __gong__marshallEnumString(ident, "Parentheses", level.Parentheses.ToCodeString())
 	case "Bracket":
@@ -14932,7 +16685,7 @@ func (line_detail *Line_detail) GongMarshallField(stage *Stage, fieldName string
 	case "Color":
 		res = __gong__marshallString(ident, "Color", line_detail.Color)
 	case "Line_type":
-		res = __gong__marshallString(ident, "Line_type", line_detail.Line_type)
+		res = __gong__marshallEnumString(ident, "Line_type", line_detail.Line_type.ToCodeString())
 	case "Print_object":
 		res = __gong__marshallEnumString(ident, "Print_object", line_detail.Print_object.ToCodeString())
 
@@ -14948,8 +16701,8 @@ func (line_width *Line_width) GongMarshallField(stage *Stage, fieldName string) 
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", line_width.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", line_width.Type)
+	case "Type_XSD":
+		res = __gong__marshallString(ident, "Type_XSD", line_width.Type_XSD)
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", line_width.EnclosedText)
 
@@ -14969,8 +16722,8 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = __gong__marshallString(ident, "NameXSD", link.NameXSD)
 	case "Href":
 		res = __gong__marshallString(ident, "Href", link.Href)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", link.Type)
+	case "Type_XSD":
+		res = __gong__marshallString(ident, "Type_XSD", link.Type_XSD)
 	case "Role":
 		res = __gong__marshallString(ident, "Role", link.Role)
 	case "Title":
@@ -15071,7 +16824,7 @@ func (lyric *Lyric) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "NameXSD":
 		res = __gong__marshallString(ident, "NameXSD", lyric.NameXSD)
 	case "Time_only":
-		res = __gong__marshallEnumString(ident, "Time_only", lyric.Time_only.ToCodeString())
+		res = __gong__marshallString(ident, "Time_only", lyric.Time_only)
 	case "Justify":
 		res = __gong__marshallEnumString(ident, "Justify", lyric.Justify.ToCodeString())
 	case "Default_x":
@@ -15083,7 +16836,7 @@ func (lyric *Lyric) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "Relative_y":
 		res = __gong__marshallString(ident, "Relative_y", lyric.Relative_y)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", lyric.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", lyric.Placement.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", lyric.Color)
 	case "Print_object":
@@ -15091,7 +16844,7 @@ func (lyric *Lyric) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "Id":
 		res = __gong__marshallString(ident, "Id", lyric.Id)
 	case "Syllabic":
-		res = __gong__marshallString(ident, "Syllabic", lyric.Syllabic)
+		res = __gong__marshallEnumString(ident, "Syllabic", lyric.Syllabic.ToCodeString())
 	case "Laughing":
 		res = __gong__marshallString(ident, "Laughing", lyric.Laughing)
 	case "Humming":
@@ -15101,16 +16854,16 @@ func (lyric *Lyric) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "End_paragraph":
 		res = __gong__marshallString(ident, "End_paragraph", lyric.End_paragraph)
 
+	case "Text":
+		if lyric.Text != nil {
+			res = __gong__marshallPointer(ident, "Text", lyric.Text.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Text", "nil")
+		}
 	case "Elision":
 		var sb strings.Builder
 		for _, _elision := range lyric.Elision {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Elision", _elision.GongGetIdentifier(stage)))
-		}
-		res = sb.String()
-	case "Text":
-		var sb strings.Builder
-		for _, _text_element_data := range lyric.Text {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Text", _text_element_data.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Extend":
@@ -15150,11 +16903,11 @@ func (lyric_font *Lyric_font) GongMarshallField(stage *Stage, fieldName string) 
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", lyric_font.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", lyric_font.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", lyric_font.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", lyric_font.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", lyric_font.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", lyric_font.Font_weight.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Lyric_font", fieldName)
@@ -15203,7 +16956,7 @@ func (measure_numbering *Measure_numbering) GongMarshallField(stage *Stage, fiel
 	case "Name":
 		res = __gong__marshallString(ident, "Name", measure_numbering.Name)
 	case "System":
-		res = __gong__marshallString(ident, "System", measure_numbering.System)
+		res = __gong__marshallEnumString(ident, "System", measure_numbering.System.ToCodeString())
 	case "Staff":
 		res = __gong__marshallInt(ident, "Staff", measure_numbering.Staff)
 	case "Multiple_rest_always":
@@ -15221,19 +16974,19 @@ func (measure_numbering *Measure_numbering) GongMarshallField(stage *Stage, fiel
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", measure_numbering.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", measure_numbering.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", measure_numbering.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", measure_numbering.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", measure_numbering.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", measure_numbering.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", measure_numbering.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", measure_numbering.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", measure_numbering.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", measure_numbering.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", measure_numbering.Valign.ToCodeString())
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", measure_numbering.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", measure_numbering.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Measure_numbering", fieldName)
@@ -15247,8 +17000,8 @@ func (measure_repeat *Measure_repeat) GongMarshallField(stage *Stage, fieldName 
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", measure_repeat.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", measure_repeat.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", measure_repeat.Type_XSD.ToCodeString())
 	case "Slashes":
 		res = __gong__marshallInt(ident, "Slashes", measure_repeat.Slashes)
 	case "EnclosedText":
@@ -15271,11 +17024,11 @@ func (measure_style *Measure_style) GongMarshallField(stage *Stage, fieldName st
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", measure_style.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", measure_style.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", measure_style.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", measure_style.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", measure_style.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", measure_style.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", measure_style.Color)
 	case "Id":
@@ -15320,7 +17073,7 @@ func (membrane *Membrane) GongMarshallField(stage *Stage, fieldName string) (res
 	case "Smufl":
 		res = __gong__marshallString(ident, "Smufl", membrane.Smufl)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", membrane.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", membrane.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Membrane", fieldName)
@@ -15337,7 +17090,7 @@ func (metal *Metal) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "Smufl":
 		res = __gong__marshallString(ident, "Smufl", metal.Smufl)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", metal.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", metal.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Metal", fieldName)
@@ -15364,17 +17117,17 @@ func (metronome *Metronome) GongMarshallField(stage *Stage, fieldName string) (r
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", metronome.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", metronome.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", metronome.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", metronome.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", metronome.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", metronome.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", metronome.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", metronome.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", metronome.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", metronome.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", metronome.Valign.ToCodeString())
 	case "Print_object":
 		res = __gong__marshallEnumString(ident, "Print_object", metronome.Print_object.ToCodeString())
 	case "Justify":
@@ -15390,18 +17143,18 @@ func (metronome *Metronome) GongMarshallField(stage *Stage, fieldName string) (r
 	case "Metronome_relation":
 		res = __gong__marshallString(ident, "Metronome_relation", metronome.Metronome_relation)
 
-	case "Per_minute":
-		if metronome.Per_minute != nil {
-			res = __gong__marshallPointer(ident, "Per_minute", metronome.Per_minute.GongGetIdentifier(stage))
-		} else {
-			res = __gong__marshallPointer(ident, "Per_minute", "nil")
-		}
 	case "Beat_unit_tied":
 		var sb strings.Builder
 		for _, _beat_unit_tied := range metronome.Beat_unit_tied {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Beat_unit_tied", _beat_unit_tied.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
+	case "Per_minute":
+		if metronome.Per_minute != nil {
+			res = __gong__marshallPointer(ident, "Per_minute", metronome.Per_minute.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Per_minute", "nil")
+		}
 	case "Metronome_note":
 		var sb strings.Builder
 		for _, _metronome_note := range metronome.Metronome_note {
@@ -15438,7 +17191,7 @@ func (metronome_note *Metronome_note) GongMarshallField(stage *Stage, fieldName 
 	case "Name":
 		res = __gong__marshallString(ident, "Name", metronome_note.Name)
 	case "Metronome_type":
-		res = __gong__marshallString(ident, "Metronome_type", metronome_note.Metronome_type)
+		res = __gong__marshallEnumString(ident, "Metronome_type", metronome_note.Metronome_type.ToCodeString())
 	case "Metronome_dot":
 		res = __gong__marshallString(ident, "Metronome_dot", metronome_note.Metronome_dot)
 
@@ -15472,8 +17225,8 @@ func (metronome_tied *Metronome_tied) GongMarshallField(stage *Stage, fieldName 
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", metronome_tied.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", metronome_tied.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", metronome_tied.Type_XSD.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Metronome_tied", fieldName)
@@ -15487,6 +17240,20 @@ func (metronome_tuplet *Metronome_tuplet) GongMarshallField(stage *Stage, fieldN
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", metronome_tuplet.Name)
+	case "Actual_notes":
+		res = __gong__marshallInt(ident, "Actual_notes", metronome_tuplet.Actual_notes)
+	case "Normal_notes":
+		res = __gong__marshallInt(ident, "Normal_notes", metronome_tuplet.Normal_notes)
+	case "Normal_type":
+		res = __gong__marshallEnumString(ident, "Normal_type", metronome_tuplet.Normal_type.ToCodeString())
+	case "Normal_dot":
+		res = __gong__marshallString(ident, "Normal_dot", metronome_tuplet.Normal_dot)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", metronome_tuplet.Type_XSD.ToCodeString())
+	case "Bracket":
+		res = __gong__marshallEnumString(ident, "Bracket", metronome_tuplet.Bracket.ToCodeString())
+	case "Show_number":
+		res = __gong__marshallEnumString(ident, "Show_number", metronome_tuplet.Show_number.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Metronome_tuplet", fieldName)
@@ -15586,6 +17353,46 @@ func (mordent *Mordent) GongMarshallField(stage *Stage, fieldName string) (res s
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", mordent.Name)
+	case "Default_x":
+		res = __gong__marshallString(ident, "Default_x", mordent.Default_x)
+	case "Default_y":
+		res = __gong__marshallString(ident, "Default_y", mordent.Default_y)
+	case "Relative_x":
+		res = __gong__marshallString(ident, "Relative_x", mordent.Relative_x)
+	case "Relative_y":
+		res = __gong__marshallString(ident, "Relative_y", mordent.Relative_y)
+	case "Font_family":
+		res = __gong__marshallString(ident, "Font_family", mordent.Font_family)
+	case "Font_style":
+		res = __gong__marshallEnumString(ident, "Font_style", mordent.Font_style.ToCodeString())
+	case "Font_size":
+		res = __gong__marshallString(ident, "Font_size", mordent.Font_size)
+	case "Font_weight":
+		res = __gong__marshallEnumString(ident, "Font_weight", mordent.Font_weight.ToCodeString())
+	case "Color":
+		res = __gong__marshallString(ident, "Color", mordent.Color)
+	case "Placement":
+		res = __gong__marshallEnumString(ident, "Placement", mordent.Placement.ToCodeString())
+	case "Start_note":
+		res = __gong__marshallEnumString(ident, "Start_note", mordent.Start_note.ToCodeString())
+	case "Trill_step":
+		res = __gong__marshallEnumString(ident, "Trill_step", mordent.Trill_step.ToCodeString())
+	case "Two_note_turn":
+		res = __gong__marshallEnumString(ident, "Two_note_turn", mordent.Two_note_turn.ToCodeString())
+	case "Accelerate":
+		res = __gong__marshallEnumString(ident, "Accelerate", mordent.Accelerate.ToCodeString())
+	case "Beats":
+		res = __gong__marshallString(ident, "Beats", mordent.Beats)
+	case "Second_beat":
+		res = __gong__marshallString(ident, "Second_beat", mordent.Second_beat)
+	case "Last_beat":
+		res = __gong__marshallString(ident, "Last_beat", mordent.Last_beat)
+	case "Long":
+		res = __gong__marshallEnumString(ident, "Long", mordent.Long.ToCodeString())
+	case "Approach":
+		res = __gong__marshallEnumString(ident, "Approach", mordent.Approach.ToCodeString())
+	case "Departure":
+		res = __gong__marshallEnumString(ident, "Departure", mordent.Departure.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Mordent", fieldName)
@@ -15643,8 +17450,8 @@ func (non_arpeggiate *Non_arpeggiate) GongMarshallField(stage *Stage, fieldName 
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", non_arpeggiate.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", non_arpeggiate.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", non_arpeggiate.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", non_arpeggiate.Number)
 	case "Default_x":
@@ -15656,7 +17463,7 @@ func (non_arpeggiate *Non_arpeggiate) GongMarshallField(stage *Stage, fieldName 
 	case "Relative_y":
 		res = __gong__marshallString(ident, "Relative_y", non_arpeggiate.Relative_y)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", non_arpeggiate.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", non_arpeggiate.Placement.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", non_arpeggiate.Color)
 	case "Id":
@@ -15798,7 +17605,7 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Release":
 		res = __gong__marshallString(ident, "Release", note.Release)
 	case "Time_only":
-		res = __gong__marshallEnumString(ident, "Time_only", note.Time_only.ToCodeString())
+		res = __gong__marshallString(ident, "Time_only", note.Time_only)
 	case "Pizzicato":
 		res = __gong__marshallEnumString(ident, "Pizzicato", note.Pizzicato.ToCodeString())
 	case "Default_x":
@@ -15812,11 +17619,11 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", note.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", note.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", note.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", note.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", note.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", note.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", note.Color)
 	case "Print_dot":
@@ -15833,8 +17640,6 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = __gong__marshallString(ident, "Chord", note.Chord)
 	case "Cue":
 		res = __gong__marshallString(ident, "Cue", note.Cue)
-	case "Duration":
-		res = __gong__marshallString(ident, "Duration", note.Duration)
 	case "Voice":
 		res = __gong__marshallString(ident, "Voice", note.Voice)
 	case "Staff":
@@ -15888,11 +17693,11 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 		} else {
 			res = __gong__marshallPointer(ident, "Level", "nil")
 		}
-	case "Type":
-		if note.Type != nil {
-			res = __gong__marshallPointer(ident, "Type", note.Type.GongGetIdentifier(stage))
+	case "Type_XSD":
+		if note.Type_XSD != nil {
+			res = __gong__marshallPointer(ident, "Type_XSD", note.Type_XSD.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "Type", "nil")
+			res = __gong__marshallPointer(ident, "Type_XSD", "nil")
 		}
 	case "Dot":
 		var sb strings.Builder
@@ -15972,8 +17777,8 @@ func (note_size *Note_size) GongMarshallField(stage *Stage, fieldName string) (r
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", note_size.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", note_size.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", note_size.Type_XSD.ToCodeString())
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", note_size.EnclosedText)
 
@@ -16013,17 +17818,17 @@ func (notehead *Notehead) GongMarshallField(stage *Stage, fieldName string) (res
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", notehead.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", notehead.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", notehead.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", notehead.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", notehead.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", notehead.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", notehead.Color)
 	case "Smufl":
 		res = __gong__marshallString(ident, "Smufl", notehead.Smufl)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", notehead.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", notehead.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Notehead", fieldName)
@@ -16098,7 +17903,7 @@ func (numeral_key *Numeral_key) GongMarshallField(stage *Stage, fieldName string
 	case "Numeral_fifths":
 		res = __gong__marshallInt(ident, "Numeral_fifths", numeral_key.Numeral_fifths)
 	case "Numeral_mode":
-		res = __gong__marshallString(ident, "Numeral_mode", numeral_key.Numeral_mode)
+		res = __gong__marshallEnumString(ident, "Numeral_mode", numeral_key.Numeral_mode.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Numeral_key", fieldName)
@@ -16125,11 +17930,11 @@ func (numeral_root *Numeral_root) GongMarshallField(stage *Stage, fieldName stri
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", numeral_root.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", numeral_root.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", numeral_root.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", numeral_root.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", numeral_root.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", numeral_root.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", numeral_root.Color)
 	case "EnclosedText":
@@ -16147,8 +17952,8 @@ func (octave_shift *Octave_shift) GongMarshallField(stage *Stage, fieldName stri
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", octave_shift.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", octave_shift.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", octave_shift.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", octave_shift.Number)
 	case "Size":
@@ -16168,11 +17973,11 @@ func (octave_shift *Octave_shift) GongMarshallField(stage *Stage, fieldName stri
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", octave_shift.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", octave_shift.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", octave_shift.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", octave_shift.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", octave_shift.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", octave_shift.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", octave_shift.Color)
 	case "Id":
@@ -16209,8 +18014,8 @@ func (opus *Opus) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = __gong__marshallString(ident, "Name", opus.Name)
 	case "Href":
 		res = __gong__marshallString(ident, "Href", opus.Href)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", opus.Type)
+	case "Type_XSD":
+		res = __gong__marshallString(ident, "Type_XSD", opus.Type_XSD)
 	case "Role":
 		res = __gong__marshallString(ident, "Role", opus.Role)
 	case "Title":
@@ -16343,8 +18148,8 @@ func (other_appearance *Other_appearance) GongMarshallField(stage *Stage, fieldN
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", other_appearance.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", other_appearance.Type)
+	case "Type_XSD":
+		res = __gong__marshallString(ident, "Type_XSD", other_appearance.Type_XSD)
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", other_appearance.EnclosedText)
 
@@ -16373,17 +18178,17 @@ func (other_direction *Other_direction) GongMarshallField(stage *Stage, fieldNam
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", other_direction.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", other_direction.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", other_direction.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", other_direction.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", other_direction.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", other_direction.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", other_direction.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", other_direction.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", other_direction.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", other_direction.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", other_direction.Valign.ToCodeString())
 	case "Smufl":
 		res = __gong__marshallString(ident, "Smufl", other_direction.Smufl)
 	case "Id":
@@ -16403,12 +18208,12 @@ func (other_listening *Other_listening) GongMarshallField(stage *Stage, fieldNam
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", other_listening.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", other_listening.Type)
+	case "Type_XSD":
+		res = __gong__marshallString(ident, "Type_XSD", other_listening.Type_XSD)
 	case "Player":
 		res = __gong__marshallString(ident, "Player", other_listening.Player)
 	case "Time_only":
-		res = __gong__marshallEnumString(ident, "Time_only", other_listening.Time_only.ToCodeString())
+		res = __gong__marshallString(ident, "Time_only", other_listening.Time_only)
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", other_listening.EnclosedText)
 
@@ -16424,8 +18229,8 @@ func (other_notation *Other_notation) GongMarshallField(stage *Stage, fieldName 
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", other_notation.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", other_notation.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", other_notation.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", other_notation.Number)
 	case "Print_object":
@@ -16441,15 +18246,15 @@ func (other_notation *Other_notation) GongMarshallField(stage *Stage, fieldName 
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", other_notation.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", other_notation.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", other_notation.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", other_notation.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", other_notation.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", other_notation.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", other_notation.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", other_notation.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", other_notation.Placement.ToCodeString())
 	case "Smufl":
 		res = __gong__marshallString(ident, "Smufl", other_notation.Smufl)
 	case "Id":
@@ -16480,15 +18285,15 @@ func (other_placement_text *Other_placement_text) GongMarshallField(stage *Stage
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", other_placement_text.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", other_placement_text.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", other_placement_text.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", other_placement_text.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", other_placement_text.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", other_placement_text.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", other_placement_text.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", other_placement_text.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", other_placement_text.Placement.ToCodeString())
 	case "Smufl":
 		res = __gong__marshallString(ident, "Smufl", other_placement_text.Smufl)
 	case "EnclosedText":
@@ -16506,8 +18311,8 @@ func (other_play *Other_play) GongMarshallField(stage *Stage, fieldName string) 
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", other_play.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", other_play.Type)
+	case "Type_XSD":
+		res = __gong__marshallString(ident, "Type_XSD", other_play.Type_XSD)
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", other_play.EnclosedText)
 
@@ -16563,8 +18368,8 @@ func (page_margins *Page_margins) GongMarshallField(stage *Stage, fieldName stri
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", page_margins.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", page_margins.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", page_margins.Type_XSD.ToCodeString())
 	case "Left_margin":
 		res = __gong__marshallString(ident, "Left_margin", page_margins.Left_margin)
 	case "Right_margin":
@@ -16587,7 +18392,7 @@ func (part_clef *Part_clef) GongMarshallField(stage *Stage, fieldName string) (r
 	case "Name":
 		res = __gong__marshallString(ident, "Name", part_clef.Name)
 	case "Sign":
-		res = __gong__marshallString(ident, "Sign", part_clef.Sign)
+		res = __gong__marshallEnumString(ident, "Sign", part_clef.Sign.ToCodeString())
 	case "Line":
 		res = __gong__marshallInt(ident, "Line", part_clef.Line)
 	case "Clef_octave_change":
@@ -16605,8 +18410,8 @@ func (part_group *Part_group) GongMarshallField(stage *Stage, fieldName string) 
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", part_group.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", part_group.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", part_group.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallString(ident, "Number", part_group.Number)
 	case "Group_time":
@@ -16674,8 +18479,8 @@ func (part_link *Part_link) GongMarshallField(stage *Stage, fieldName string) (r
 		res = __gong__marshallString(ident, "Name", part_link.Name)
 	case "Href":
 		res = __gong__marshallString(ident, "Href", part_link.Href)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", part_link.Type)
+	case "Type_XSD":
+		res = __gong__marshallString(ident, "Type_XSD", part_link.Type_XSD)
 	case "Role":
 		res = __gong__marshallString(ident, "Role", part_link.Role)
 	case "Title":
@@ -16741,11 +18546,11 @@ func (part_name *Part_name) GongMarshallField(stage *Stage, fieldName string) (r
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", part_name.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", part_name.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", part_name.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", part_name.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", part_name.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", part_name.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", part_name.Color)
 	case "Print_object":
@@ -16817,8 +18622,8 @@ func (pedal *Pedal) GongMarshallField(stage *Stage, fieldName string) (res strin
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", pedal.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", pedal.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", pedal.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", pedal.Number)
 	case "Line":
@@ -16838,17 +18643,17 @@ func (pedal *Pedal) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", pedal.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", pedal.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", pedal.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", pedal.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", pedal.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", pedal.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", pedal.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", pedal.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", pedal.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", pedal.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", pedal.Valign.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", pedal.Id)
 
@@ -16884,11 +18689,11 @@ func (per_minute *Per_minute) GongMarshallField(stage *Stage, fieldName string) 
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", per_minute.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", per_minute.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", per_minute.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", per_minute.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", per_minute.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", per_minute.Font_weight.ToCodeString())
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", per_minute.EnclosedText)
 
@@ -16915,23 +18720,23 @@ func (percussion *Percussion) GongMarshallField(stage *Stage, fieldName string) 
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", percussion.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", percussion.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", percussion.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", percussion.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", percussion.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", percussion.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", percussion.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", percussion.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", percussion.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", percussion.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", percussion.Valign.ToCodeString())
 	case "Enclosure":
-		res = __gong__marshallString(ident, "Enclosure", percussion.Enclosure)
+		res = __gong__marshallEnumString(ident, "Enclosure", percussion.Enclosure.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", percussion.Id)
 	case "Stick_location":
-		res = __gong__marshallString(ident, "Stick_location", percussion.Stick_location)
+		res = __gong__marshallEnumString(ident, "Stick_location", percussion.Stick_location.ToCodeString())
 
 	case "Glass":
 		if percussion.Glass != nil {
@@ -17027,7 +18832,7 @@ func (pitched *Pitched) GongMarshallField(stage *Stage, fieldName string) (res s
 	case "Smufl":
 		res = __gong__marshallString(ident, "Smufl", pitched.Smufl)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", pitched.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", pitched.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Pitched", fieldName)
@@ -17052,15 +18857,15 @@ func (placement_text *Placement_text) GongMarshallField(stage *Stage, fieldName 
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", placement_text.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", placement_text.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", placement_text.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", placement_text.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", placement_text.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", placement_text.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", placement_text.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", placement_text.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", placement_text.Placement.ToCodeString())
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", placement_text.EnclosedText)
 
@@ -17081,9 +18886,9 @@ func (play *Play) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Ipa":
 		res = __gong__marshallString(ident, "Ipa", play.Ipa)
 	case "Mute":
-		res = __gong__marshallString(ident, "Mute", play.Mute)
+		res = __gong__marshallEnumString(ident, "Mute", play.Mute.ToCodeString())
 	case "Semi_pitched":
-		res = __gong__marshallString(ident, "Semi_pitched", play.Semi_pitched)
+		res = __gong__marshallEnumString(ident, "Semi_pitched", play.Semi_pitched.ToCodeString())
 
 	case "Other_play":
 		var sb strings.Builder
@@ -17120,10 +18925,10 @@ func (principal_voice *Principal_voice) GongMarshallField(stage *Stage, fieldNam
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", principal_voice.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", principal_voice.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", principal_voice.Type_XSD.ToCodeString())
 	case "Symbol":
-		res = __gong__marshallString(ident, "Symbol", principal_voice.Symbol)
+		res = __gong__marshallEnumString(ident, "Symbol", principal_voice.Symbol.ToCodeString())
 	case "Default_x":
 		res = __gong__marshallString(ident, "Default_x", principal_voice.Default_x)
 	case "Default_y":
@@ -17135,17 +18940,17 @@ func (principal_voice *Principal_voice) GongMarshallField(stage *Stage, fieldNam
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", principal_voice.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", principal_voice.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", principal_voice.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", principal_voice.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", principal_voice.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", principal_voice.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", principal_voice.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", principal_voice.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", principal_voice.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", principal_voice.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", principal_voice.Valign.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", principal_voice.Id)
 	case "EnclosedText":
@@ -17157,69 +18962,69 @@ func (principal_voice *Principal_voice) GongMarshallField(stage *Stage, fieldNam
 	return
 }
 
-func (print *Print) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	ident := print.GongGetIdentifier(stage)
+func (print_xsd *Print_XSD) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := print_xsd.GongGetIdentifier(stage)
 	_ = ident
 	switch fieldName {
 	case "Name":
-		res = __gong__marshallString(ident, "Name", print.Name)
+		res = __gong__marshallString(ident, "Name", print_xsd.Name)
 	case "Staff_spacing":
-		res = __gong__marshallString(ident, "Staff_spacing", print.Staff_spacing)
+		res = __gong__marshallString(ident, "Staff_spacing", print_xsd.Staff_spacing)
 	case "New_system":
-		res = __gong__marshallEnumString(ident, "New_system", print.New_system.ToCodeString())
+		res = __gong__marshallEnumString(ident, "New_system", print_xsd.New_system.ToCodeString())
 	case "New_page":
-		res = __gong__marshallEnumString(ident, "New_page", print.New_page.ToCodeString())
+		res = __gong__marshallEnumString(ident, "New_page", print_xsd.New_page.ToCodeString())
 	case "Blank_page":
-		res = __gong__marshallInt(ident, "Blank_page", print.Blank_page)
+		res = __gong__marshallInt(ident, "Blank_page", print_xsd.Blank_page)
 	case "Page_number":
-		res = __gong__marshallString(ident, "Page_number", print.Page_number)
+		res = __gong__marshallString(ident, "Page_number", print_xsd.Page_number)
 	case "Id":
-		res = __gong__marshallString(ident, "Id", print.Id)
+		res = __gong__marshallString(ident, "Id", print_xsd.Id)
 
 	case "Page_layout":
-		if print.Page_layout != nil {
-			res = __gong__marshallPointer(ident, "Page_layout", print.Page_layout.GongGetIdentifier(stage))
+		if print_xsd.Page_layout != nil {
+			res = __gong__marshallPointer(ident, "Page_layout", print_xsd.Page_layout.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "Page_layout", "nil")
 		}
 	case "System_layout":
-		if print.System_layout != nil {
-			res = __gong__marshallPointer(ident, "System_layout", print.System_layout.GongGetIdentifier(stage))
+		if print_xsd.System_layout != nil {
+			res = __gong__marshallPointer(ident, "System_layout", print_xsd.System_layout.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "System_layout", "nil")
 		}
 	case "Staff_layout":
 		var sb strings.Builder
-		for _, _staff_layout := range print.Staff_layout {
+		for _, _staff_layout := range print_xsd.Staff_layout {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Staff_layout", _staff_layout.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Measure_layout":
-		if print.Measure_layout != nil {
-			res = __gong__marshallPointer(ident, "Measure_layout", print.Measure_layout.GongGetIdentifier(stage))
+		if print_xsd.Measure_layout != nil {
+			res = __gong__marshallPointer(ident, "Measure_layout", print_xsd.Measure_layout.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "Measure_layout", "nil")
 		}
 	case "Measure_numbering":
-		if print.Measure_numbering != nil {
-			res = __gong__marshallPointer(ident, "Measure_numbering", print.Measure_numbering.GongGetIdentifier(stage))
+		if print_xsd.Measure_numbering != nil {
+			res = __gong__marshallPointer(ident, "Measure_numbering", print_xsd.Measure_numbering.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "Measure_numbering", "nil")
 		}
 	case "Part_name_display":
-		if print.Part_name_display != nil {
-			res = __gong__marshallPointer(ident, "Part_name_display", print.Part_name_display.GongGetIdentifier(stage))
+		if print_xsd.Part_name_display != nil {
+			res = __gong__marshallPointer(ident, "Part_name_display", print_xsd.Part_name_display.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "Part_name_display", "nil")
 		}
 	case "Part_abbreviation_display":
-		if print.Part_abbreviation_display != nil {
-			res = __gong__marshallPointer(ident, "Part_abbreviation_display", print.Part_abbreviation_display.GongGetIdentifier(stage))
+		if print_xsd.Part_abbreviation_display != nil {
+			res = __gong__marshallPointer(ident, "Part_abbreviation_display", print_xsd.Part_abbreviation_display.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "Part_abbreviation_display", "nil")
 		}
 	default:
-		log.Panicf("Unknown field %s for Gongstruct Print", fieldName)
+		log.Panicf("Unknown field %s for Gongstruct Print_XSD", fieldName)
 	}
 	return
 }
@@ -17230,6 +19035,8 @@ func (release *Release) GongMarshallField(stage *Stage, fieldName string) (res s
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", release.Name)
+	case "Offset":
+		res = __gong__marshallString(ident, "Offset", release.Offset)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Release", fieldName)
@@ -17244,13 +19051,13 @@ func (repeat *Repeat) GongMarshallField(stage *Stage, fieldName string) (res str
 	case "Name":
 		res = __gong__marshallString(ident, "Name", repeat.Name)
 	case "Direction":
-		res = __gong__marshallString(ident, "Direction", repeat.Direction)
+		res = __gong__marshallEnumString(ident, "Direction", repeat.Direction.ToCodeString())
 	case "Times":
 		res = __gong__marshallInt(ident, "Times", repeat.Times)
 	case "After_jump":
 		res = __gong__marshallEnumString(ident, "After_jump", repeat.After_jump.ToCodeString())
 	case "Winged":
-		res = __gong__marshallString(ident, "Winged", repeat.Winged)
+		res = __gong__marshallEnumString(ident, "Winged", repeat.Winged.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Repeat", fieldName)
@@ -17321,11 +19128,11 @@ func (root_step *Root_step) GongMarshallField(stage *Stage, fieldName string) (r
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", root_step.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", root_step.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", root_step.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", root_step.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", root_step.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", root_step.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", root_step.Color)
 	case "EnclosedText":
@@ -17612,17 +19419,17 @@ func (segno *Segno) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", segno.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", segno.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", segno.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", segno.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", segno.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", segno.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", segno.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", segno.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", segno.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", segno.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", segno.Valign.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", segno.Id)
 
@@ -17638,8 +19445,8 @@ func (slash *Slash) GongMarshallField(stage *Stage, fieldName string) (res strin
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", slash.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", slash.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", slash.Type_XSD.ToCodeString())
 	case "Use_dots":
 		res = __gong__marshallEnumString(ident, "Use_dots", slash.Use_dots.ToCodeString())
 	case "Use_stems":
@@ -17663,12 +19470,12 @@ func (slide *Slide) GongMarshallField(stage *Stage, fieldName string) (res strin
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", slide.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", slide.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", slide.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", slide.Number)
 	case "Line_type":
-		res = __gong__marshallString(ident, "Line_type", slide.Line_type)
+		res = __gong__marshallEnumString(ident, "Line_type", slide.Line_type.ToCodeString())
 	case "Dash_length":
 		res = __gong__marshallString(ident, "Dash_length", slide.Dash_length)
 	case "Space_length":
@@ -17684,11 +19491,11 @@ func (slide *Slide) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", slide.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", slide.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", slide.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", slide.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", slide.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", slide.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", slide.Color)
 	case "Accelerate":
@@ -17716,12 +19523,12 @@ func (slur *Slur) GongMarshallField(stage *Stage, fieldName string) (res string)
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", slur.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", slur.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", slur.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", slur.Number)
 	case "Line_type":
-		res = __gong__marshallString(ident, "Line_type", slur.Line_type)
+		res = __gong__marshallEnumString(ident, "Line_type", slur.Line_type.ToCodeString())
 	case "Dash_length":
 		res = __gong__marshallString(ident, "Dash_length", slur.Dash_length)
 	case "Space_length":
@@ -17735,9 +19542,9 @@ func (slur *Slur) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Relative_y":
 		res = __gong__marshallString(ident, "Relative_y", slur.Relative_y)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", slur.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", slur.Placement.ToCodeString())
 	case "Orientation":
-		res = __gong__marshallString(ident, "Orientation", slur.Orientation)
+		res = __gong__marshallEnumString(ident, "Orientation", slur.Orientation.ToCodeString())
 	case "Bezier_x":
 		res = __gong__marshallString(ident, "Bezier_x", slur.Bezier_x)
 	case "Bezier_y":
@@ -17788,7 +19595,7 @@ func (sound *Sound) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "Fine":
 		res = __gong__marshallString(ident, "Fine", sound.Fine)
 	case "Time_only":
-		res = __gong__marshallEnumString(ident, "Time_only", sound.Time_only.ToCodeString())
+		res = __gong__marshallString(ident, "Time_only", sound.Time_only)
 	case "Pizzicato":
 		res = __gong__marshallEnumString(ident, "Pizzicato", sound.Pizzicato.ToCodeString())
 	case "Pan":
@@ -17855,13 +19662,13 @@ func (staff_details *Staff_details) GongMarshallField(stage *Stage, fieldName st
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", staff_details.Number)
 	case "Show_frets":
-		res = __gong__marshallString(ident, "Show_frets", staff_details.Show_frets)
+		res = __gong__marshallEnumString(ident, "Show_frets", staff_details.Show_frets.ToCodeString())
 	case "Print_object":
 		res = __gong__marshallEnumString(ident, "Print_object", staff_details.Print_object.ToCodeString())
 	case "Print_spacing":
 		res = __gong__marshallEnumString(ident, "Print_spacing", staff_details.Print_spacing.ToCodeString())
 	case "Staff_type":
-		res = __gong__marshallString(ident, "Staff_type", staff_details.Staff_type)
+		res = __gong__marshallEnumString(ident, "Staff_type", staff_details.Staff_type.ToCodeString())
 	case "Staff_lines":
 		res = __gong__marshallInt(ident, "Staff_lines", staff_details.Staff_lines)
 	case "Capo":
@@ -17897,8 +19704,8 @@ func (staff_divide *Staff_divide) GongMarshallField(stage *Stage, fieldName stri
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", staff_divide.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", staff_divide.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", staff_divide.Type_XSD.ToCodeString())
 	case "Default_x":
 		res = __gong__marshallString(ident, "Default_x", staff_divide.Default_x)
 	case "Default_y":
@@ -17910,17 +19717,17 @@ func (staff_divide *Staff_divide) GongMarshallField(stage *Stage, fieldName stri
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", staff_divide.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", staff_divide.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", staff_divide.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", staff_divide.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", staff_divide.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", staff_divide.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", staff_divide.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", staff_divide.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", staff_divide.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", staff_divide.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", staff_divide.Valign.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", staff_divide.Id)
 
@@ -18002,7 +19809,7 @@ func (stem *Stem) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Color":
 		res = __gong__marshallString(ident, "Color", stem.Color)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", stem.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", stem.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Stem", fieldName)
@@ -18023,9 +19830,9 @@ func (stick *Stick) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "Dashed_circle":
 		res = __gong__marshallEnumString(ident, "Dashed_circle", stick.Dashed_circle.ToCodeString())
 	case "Stick_type":
-		res = __gong__marshallString(ident, "Stick_type", stick.Stick_type)
+		res = __gong__marshallEnumString(ident, "Stick_type", stick.Stick_type.ToCodeString())
 	case "Stick_material":
-		res = __gong__marshallString(ident, "Stick_material", stick.Stick_material)
+		res = __gong__marshallEnumString(ident, "Stick_material", stick.Stick_material.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Stick", fieldName)
@@ -18039,8 +19846,8 @@ func (string_mute *String_mute) GongMarshallField(stage *Stage, fieldName string
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", string_mute.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", string_mute.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", string_mute.Type_XSD.ToCodeString())
 	case "Default_x":
 		res = __gong__marshallString(ident, "Default_x", string_mute.Default_x)
 	case "Default_y":
@@ -18052,17 +19859,17 @@ func (string_mute *String_mute) GongMarshallField(stage *Stage, fieldName string
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", string_mute.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", string_mute.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", string_mute.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", string_mute.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", string_mute.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", string_mute.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", string_mute.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", string_mute.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", string_mute.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", string_mute.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", string_mute.Valign.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", string_mute.Id)
 
@@ -18089,15 +19896,15 @@ func (string_type *String_type) GongMarshallField(stage *Stage, fieldName string
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", string_type.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", string_type.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", string_type.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", string_type.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", string_type.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", string_type.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", string_type.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", string_type.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", string_type.Placement.ToCodeString())
 	case "EnclosedText":
 		res = __gong__marshallInt(ident, "EnclosedText", string_type.EnclosedText)
 
@@ -18113,6 +19920,28 @@ func (strong_accent *Strong_accent) GongMarshallField(stage *Stage, fieldName st
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", strong_accent.Name)
+	case "Default_x":
+		res = __gong__marshallString(ident, "Default_x", strong_accent.Default_x)
+	case "Default_y":
+		res = __gong__marshallString(ident, "Default_y", strong_accent.Default_y)
+	case "Relative_x":
+		res = __gong__marshallString(ident, "Relative_x", strong_accent.Relative_x)
+	case "Relative_y":
+		res = __gong__marshallString(ident, "Relative_y", strong_accent.Relative_y)
+	case "Font_family":
+		res = __gong__marshallString(ident, "Font_family", strong_accent.Font_family)
+	case "Font_style":
+		res = __gong__marshallEnumString(ident, "Font_style", strong_accent.Font_style.ToCodeString())
+	case "Font_size":
+		res = __gong__marshallString(ident, "Font_size", strong_accent.Font_size)
+	case "Font_weight":
+		res = __gong__marshallEnumString(ident, "Font_weight", strong_accent.Font_weight.ToCodeString())
+	case "Color":
+		res = __gong__marshallString(ident, "Color", strong_accent.Color)
+	case "Placement":
+		res = __gong__marshallEnumString(ident, "Placement", strong_accent.Placement.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", strong_accent.Type_XSD.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Strong_accent", fieldName)
@@ -18137,11 +19966,11 @@ func (style_text *Style_text) GongMarshallField(stage *Stage, fieldName string) 
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", style_text.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", style_text.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", style_text.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", style_text.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", style_text.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", style_text.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", style_text.Color)
 	case "EnclosedText":
@@ -18159,8 +19988,8 @@ func (supports *Supports) GongMarshallField(stage *Stage, fieldName string) (res
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", supports.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", supports.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", supports.Type_XSD.ToCodeString())
 	case "Element":
 		res = __gong__marshallString(ident, "Element", supports.Element)
 	case "Attribute":
@@ -18187,7 +20016,7 @@ func (swing *Swing) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "Second":
 		res = __gong__marshallInt(ident, "Second", swing.Second)
 	case "Swing_type":
-		res = __gong__marshallEnumString(ident, "Swing_type", swing.Swing_type.ToCodeString())
+		res = __gong__marshallString(ident, "Swing_type", swing.Swing_type)
 	case "Swing_style":
 		res = __gong__marshallString(ident, "Swing_style", swing.Swing_style)
 
@@ -18203,14 +20032,14 @@ func (sync *Sync) GongMarshallField(stage *Stage, fieldName string) (res string)
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", sync.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", sync.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", sync.Type_XSD.ToCodeString())
 	case "Latency":
 		res = __gong__marshallInt(ident, "Latency", sync.Latency)
 	case "Player":
 		res = __gong__marshallString(ident, "Player", sync.Player)
 	case "Time_only":
-		res = __gong__marshallEnumString(ident, "Time_only", sync.Time_only.ToCodeString())
+		res = __gong__marshallString(ident, "Time_only", sync.Time_only)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Sync", fieldName)
@@ -18296,7 +20125,7 @@ func (tap *Tap) GongMarshallField(stage *Stage, fieldName string) (res string) {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", tap.Name)
 	case "Hand":
-		res = __gong__marshallString(ident, "Hand", tap.Hand)
+		res = __gong__marshallEnumString(ident, "Hand", tap.Hand.ToCodeString())
 	case "Default_x":
 		res = __gong__marshallString(ident, "Default_x", tap.Default_x)
 	case "Default_y":
@@ -18308,15 +20137,15 @@ func (tap *Tap) GongMarshallField(stage *Stage, fieldName string) (res string) {
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", tap.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", tap.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", tap.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", tap.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", tap.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", tap.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", tap.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", tap.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", tap.Placement.ToCodeString())
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", tap.EnclosedText)
 
@@ -18407,10 +20236,10 @@ func (technical *Technical) GongMarshallField(stage *Stage, fieldName string) (r
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Fret", _fret.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
-	case "String":
+	case "String_XSD":
 		var sb strings.Builder
-		for _, _string_type := range technical.String {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "String", _string_type.GongGetIdentifier(stage)))
+		for _, _string_type := range technical.String_XSD {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "String_XSD", _string_type.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Hammer_on":
@@ -18538,11 +20367,11 @@ func (text_element_data *Text_element_data) GongMarshallField(stage *Stage, fiel
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", text_element_data.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", text_element_data.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", text_element_data.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", text_element_data.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", text_element_data.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", text_element_data.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", text_element_data.Color)
 	case "Underline":
@@ -18556,7 +20385,7 @@ func (text_element_data *Text_element_data) GongMarshallField(stage *Stage, fiel
 	case "Letter_spacing":
 		res = __gong__marshallString(ident, "Letter_spacing", text_element_data.Letter_spacing)
 	case "Dir":
-		res = __gong__marshallString(ident, "Dir", text_element_data.Dir)
+		res = __gong__marshallEnumString(ident, "Dir", text_element_data.Dir.ToCodeString())
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", text_element_data.EnclosedText)
 
@@ -18572,10 +20401,10 @@ func (tie *Tie) GongMarshallField(stage *Stage, fieldName string) (res string) {
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", tie.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", tie.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", tie.Type_XSD.ToCodeString())
 	case "Time_only":
-		res = __gong__marshallEnumString(ident, "Time_only", tie.Time_only.ToCodeString())
+		res = __gong__marshallString(ident, "Time_only", tie.Time_only)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Tie", fieldName)
@@ -18589,12 +20418,12 @@ func (tied *Tied) GongMarshallField(stage *Stage, fieldName string) (res string)
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", tied.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", tied.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", tied.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", tied.Number)
 	case "Line_type":
-		res = __gong__marshallString(ident, "Line_type", tied.Line_type)
+		res = __gong__marshallEnumString(ident, "Line_type", tied.Line_type.ToCodeString())
 	case "Dash_length":
 		res = __gong__marshallString(ident, "Dash_length", tied.Dash_length)
 	case "Space_length":
@@ -18608,9 +20437,9 @@ func (tied *Tied) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Relative_y":
 		res = __gong__marshallString(ident, "Relative_y", tied.Relative_y)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", tied.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", tied.Placement.ToCodeString())
 	case "Orientation":
-		res = __gong__marshallString(ident, "Orientation", tied.Orientation)
+		res = __gong__marshallEnumString(ident, "Orientation", tied.Orientation.ToCodeString())
 	case "Bezier_x":
 		res = __gong__marshallString(ident, "Bezier_x", tied.Bezier_x)
 	case "Bezier_y":
@@ -18657,17 +20486,17 @@ func (time *Time) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", time.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", time.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", time.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", time.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", time.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", time.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", time.Color)
 	case "Halign":
-		res = __gong__marshallString(ident, "Halign", time.Halign)
+		res = __gong__marshallEnumString(ident, "Halign", time.Halign.ToCodeString())
 	case "Valign":
-		res = __gong__marshallString(ident, "Valign", time.Valign)
+		res = __gong__marshallEnumString(ident, "Valign", time.Valign.ToCodeString())
 	case "Print_object":
 		res = __gong__marshallEnumString(ident, "Print_object", time.Print_object.ToCodeString())
 	case "Id":
@@ -18758,8 +20587,8 @@ func (tremolo *Tremolo) GongMarshallField(stage *Stage, fieldName string) (res s
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", tremolo.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", tremolo.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", tremolo.Type_XSD.ToCodeString())
 	case "Default_x":
 		res = __gong__marshallString(ident, "Default_x", tremolo.Default_x)
 	case "Default_y":
@@ -18771,15 +20600,15 @@ func (tremolo *Tremolo) GongMarshallField(stage *Stage, fieldName string) (res s
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", tremolo.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", tremolo.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", tremolo.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", tremolo.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", tremolo.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", tremolo.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", tremolo.Color)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", tremolo.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", tremolo.Placement.ToCodeString())
 	case "Smufl":
 		res = __gong__marshallString(ident, "Smufl", tremolo.Smufl)
 	case "EnclosedText":
@@ -18797,18 +20626,18 @@ func (tuplet *Tuplet) GongMarshallField(stage *Stage, fieldName string) (res str
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", tuplet.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", tuplet.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", tuplet.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", tuplet.Number)
 	case "Bracket":
 		res = __gong__marshallEnumString(ident, "Bracket", tuplet.Bracket.ToCodeString())
 	case "Show_number":
-		res = __gong__marshallString(ident, "Show_number", tuplet.Show_number)
+		res = __gong__marshallEnumString(ident, "Show_number", tuplet.Show_number.ToCodeString())
 	case "Show_type":
 		res = __gong__marshallEnumString(ident, "Show_type", tuplet.Show_type.ToCodeString())
 	case "Line_shape":
-		res = __gong__marshallString(ident, "Line_shape", tuplet.Line_shape)
+		res = __gong__marshallEnumString(ident, "Line_shape", tuplet.Line_shape.ToCodeString())
 	case "Default_x":
 		res = __gong__marshallString(ident, "Default_x", tuplet.Default_x)
 	case "Default_y":
@@ -18818,7 +20647,7 @@ func (tuplet *Tuplet) GongMarshallField(stage *Stage, fieldName string) (res str
 	case "Relative_y":
 		res = __gong__marshallString(ident, "Relative_y", tuplet.Relative_y)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", tuplet.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", tuplet.Placement.ToCodeString())
 	case "Id":
 		res = __gong__marshallString(ident, "Id", tuplet.Id)
 
@@ -18849,11 +20678,11 @@ func (tuplet_dot *Tuplet_dot) GongMarshallField(stage *Stage, fieldName string) 
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", tuplet_dot.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", tuplet_dot.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", tuplet_dot.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", tuplet_dot.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", tuplet_dot.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", tuplet_dot.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", tuplet_dot.Color)
 
@@ -18872,11 +20701,11 @@ func (tuplet_number *Tuplet_number) GongMarshallField(stage *Stage, fieldName st
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", tuplet_number.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", tuplet_number.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", tuplet_number.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", tuplet_number.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", tuplet_number.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", tuplet_number.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", tuplet_number.Color)
 	case "EnclosedText":
@@ -18928,11 +20757,11 @@ func (tuplet_type *Tuplet_type) GongMarshallField(stage *Stage, fieldName string
 	case "Font_family":
 		res = __gong__marshallString(ident, "Font_family", tuplet_type.Font_family)
 	case "Font_style":
-		res = __gong__marshallString(ident, "Font_style", tuplet_type.Font_style)
+		res = __gong__marshallEnumString(ident, "Font_style", tuplet_type.Font_style.ToCodeString())
 	case "Font_size":
 		res = __gong__marshallString(ident, "Font_size", tuplet_type.Font_size)
 	case "Font_weight":
-		res = __gong__marshallString(ident, "Font_weight", tuplet_type.Font_weight)
+		res = __gong__marshallEnumString(ident, "Font_weight", tuplet_type.Font_weight.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", tuplet_type.Color)
 	case "EnclosedText":
@@ -18950,8 +20779,8 @@ func (typed_text *Typed_text) GongMarshallField(stage *Stage, fieldName string) 
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", typed_text.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", typed_text.Type)
+	case "Type_XSD":
+		res = __gong__marshallString(ident, "Type_XSD", typed_text.Type_XSD)
 	case "EnclosedText":
 		res = __gong__marshallString(ident, "EnclosedText", typed_text.EnclosedText)
 
@@ -19004,7 +20833,7 @@ func (wait *Wait) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Player":
 		res = __gong__marshallString(ident, "Player", wait.Player)
 	case "Time_only":
-		res = __gong__marshallEnumString(ident, "Time_only", wait.Time_only.ToCodeString())
+		res = __gong__marshallString(ident, "Time_only", wait.Time_only)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Wait", fieldName)
@@ -19018,8 +20847,8 @@ func (wavy_line *Wavy_line) GongMarshallField(stage *Stage, fieldName string) (r
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", wavy_line.Name)
-	case "Type":
-		res = __gong__marshallEnumString(ident, "Type", wavy_line.Type.ToCodeString())
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", wavy_line.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", wavy_line.Number)
 	case "Smufl":
@@ -19033,15 +20862,15 @@ func (wavy_line *Wavy_line) GongMarshallField(stage *Stage, fieldName string) (r
 	case "Relative_y":
 		res = __gong__marshallString(ident, "Relative_y", wavy_line.Relative_y)
 	case "Placement":
-		res = __gong__marshallString(ident, "Placement", wavy_line.Placement)
+		res = __gong__marshallEnumString(ident, "Placement", wavy_line.Placement.ToCodeString())
 	case "Color":
 		res = __gong__marshallString(ident, "Color", wavy_line.Color)
 	case "Start_note":
-		res = __gong__marshallString(ident, "Start_note", wavy_line.Start_note)
+		res = __gong__marshallEnumString(ident, "Start_note", wavy_line.Start_note.ToCodeString())
 	case "Trill_step":
-		res = __gong__marshallString(ident, "Trill_step", wavy_line.Trill_step)
+		res = __gong__marshallEnumString(ident, "Trill_step", wavy_line.Trill_step.ToCodeString())
 	case "Two_note_turn":
-		res = __gong__marshallString(ident, "Two_note_turn", wavy_line.Two_note_turn)
+		res = __gong__marshallEnumString(ident, "Two_note_turn", wavy_line.Two_note_turn.ToCodeString())
 	case "Accelerate":
 		res = __gong__marshallEnumString(ident, "Accelerate", wavy_line.Accelerate.ToCodeString())
 	case "Beats":
@@ -19063,8 +20892,8 @@ func (wedge *Wedge) GongMarshallField(stage *Stage, fieldName string) (res strin
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", wedge.Name)
-	case "Type":
-		res = __gong__marshallString(ident, "Type", wedge.Type)
+	case "Type_XSD":
+		res = __gong__marshallEnumString(ident, "Type_XSD", wedge.Type_XSD.ToCodeString())
 	case "Number":
 		res = __gong__marshallInt(ident, "Number", wedge.Number)
 	case "Spread":
@@ -19072,7 +20901,7 @@ func (wedge *Wedge) GongMarshallField(stage *Stage, fieldName string) (res strin
 	case "Niente":
 		res = __gong__marshallEnumString(ident, "Niente", wedge.Niente.ToCodeString())
 	case "Line_type":
-		res = __gong__marshallString(ident, "Line_type", wedge.Line_type)
+		res = __gong__marshallEnumString(ident, "Line_type", wedge.Line_type.ToCodeString())
 	case "Dash_length":
 		res = __gong__marshallString(ident, "Dash_length", wedge.Dash_length)
 	case "Space_length":
@@ -19105,7 +20934,7 @@ func (wood *Wood) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "Smufl":
 		res = __gong__marshallString(ident, "Smufl", wood.Smufl)
 	case "EnclosedText":
-		res = __gong__marshallString(ident, "EnclosedText", wood.EnclosedText)
+		res = __gong__marshallEnumString(ident, "EnclosedText", wood.EnclosedText.ToCodeString())
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Wood", fieldName)
@@ -19178,7 +21007,7 @@ func (a_measure *A_measure) GongMarshallAllFields(stage *Stage) (initRes string,
 		pointersInitializesStatements.WriteString(a_measure.GongMarshallField(stage, "Attributes"))
 		pointersInitializesStatements.WriteString(a_measure.GongMarshallField(stage, "Harmony"))
 		pointersInitializesStatements.WriteString(a_measure.GongMarshallField(stage, "Figured_bass"))
-		pointersInitializesStatements.WriteString(a_measure.GongMarshallField(stage, "Print"))
+		pointersInitializesStatements.WriteString(a_measure.GongMarshallField(stage, "Print_XSD"))
 		pointersInitializesStatements.WriteString(a_measure.GongMarshallField(stage, "Sound"))
 		pointersInitializesStatements.WriteString(a_measure.GongMarshallField(stage, "Listening"))
 		pointersInitializesStatements.WriteString(a_measure.GongMarshallField(stage, "Barline"))
@@ -19235,7 +21064,7 @@ func (a_part_1 *A_part_1) GongMarshallAllFields(stage *Stage) (initRes string, p
 		pointersInitializesStatements.WriteString(a_part_1.GongMarshallField(stage, "Attributes"))
 		pointersInitializesStatements.WriteString(a_part_1.GongMarshallField(stage, "Harmony"))
 		pointersInitializesStatements.WriteString(a_part_1.GongMarshallField(stage, "Figured_bass"))
-		pointersInitializesStatements.WriteString(a_part_1.GongMarshallField(stage, "Print"))
+		pointersInitializesStatements.WriteString(a_part_1.GongMarshallField(stage, "Print_XSD"))
 		pointersInitializesStatements.WriteString(a_part_1.GongMarshallField(stage, "Sound"))
 		pointersInitializesStatements.WriteString(a_part_1.GongMarshallField(stage, "Listening"))
 		pointersInitializesStatements.WriteString(a_part_1.GongMarshallField(stage, "Barline"))
@@ -19342,7 +21171,7 @@ func (accord *Accord) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(accord.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(accord.GongMarshallField(stage, "String"))
+		initializerStatements.WriteString(accord.GongMarshallField(stage, "String_XSD"))
 		initializerStatements.WriteString(accord.GongMarshallField(stage, "Tuning_step"))
 		initializerStatements.WriteString(accord.GongMarshallField(stage, "Tuning_alter"))
 		initializerStatements.WriteString(accord.GongMarshallField(stage, "Tuning_octave"))
@@ -19475,7 +21304,7 @@ func (assess *Assess) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(assess.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(assess.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(assess.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(assess.GongMarshallField(stage, "Player"))
 		initializerStatements.WriteString(assess.GongMarshallField(stage, "Time_only"))
 	}
@@ -19493,7 +21322,7 @@ func (attributes *Attributes) GongMarshallAllFields(stage *Stage) (initRes strin
 		pointersInitializesStatements.WriteString(attributes.GongMarshallField(stage, "Level"))
 		initializerStatements.WriteString(attributes.GongMarshallField(stage, "Divisions"))
 		pointersInitializesStatements.WriteString(attributes.GongMarshallField(stage, "Key"))
-		pointersInitializesStatements.WriteString(attributes.GongMarshallField(stage, "Time"))
+		initializerStatements.WriteString(attributes.GongMarshallField(stage, "Time"))
 		initializerStatements.WriteString(attributes.GongMarshallField(stage, "Staves"))
 		pointersInitializesStatements.WriteString(attributes.GongMarshallField(stage, "Part_symbol"))
 		initializerStatements.WriteString(attributes.GongMarshallField(stage, "Instruments"))
@@ -19514,7 +21343,6 @@ func (backup *Backup) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(backup.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(backup.GongMarshallField(stage, "Duration"))
 		pointersInitializesStatements.WriteString(backup.GongMarshallField(stage, "Footnote"))
 		pointersInitializesStatements.WriteString(backup.GongMarshallField(stage, "Level"))
 	}
@@ -19566,7 +21394,7 @@ func (barre *Barre) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(barre.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(barre.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(barre.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(barre.GongMarshallField(stage, "Color"))
 	}
 	initRes = initializerStatements.String()
@@ -19633,7 +21461,7 @@ func (beat_repeat *Beat_repeat) GongMarshallAllFields(stage *Stage) (initRes str
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(beat_repeat.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(beat_repeat.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(beat_repeat.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(beat_repeat.GongMarshallField(stage, "Slashes"))
 		initializerStatements.WriteString(beat_repeat.GongMarshallField(stage, "Use_dots"))
 		initializerStatements.WriteString(beat_repeat.GongMarshallField(stage, "Slash_type"))
@@ -19720,7 +21548,7 @@ func (bracket *Bracket) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(bracket.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(bracket.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(bracket.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(bracket.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(bracket.GongMarshallField(stage, "Line_end"))
 		initializerStatements.WriteString(bracket.GongMarshallField(stage, "End_length"))
@@ -19857,9 +21685,9 @@ func (credit *Credit) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 		initializerStatements.WriteString(credit.GongMarshallField(stage, "Page"))
 		initializerStatements.WriteString(credit.GongMarshallField(stage, "Id"))
 		initializerStatements.WriteString(credit.GongMarshallField(stage, "Credit_type"))
-		pointersInitializesStatements.WriteString(credit.GongMarshallField(stage, "Credit_image"))
 		pointersInitializesStatements.WriteString(credit.GongMarshallField(stage, "Link"))
 		pointersInitializesStatements.WriteString(credit.GongMarshallField(stage, "Bookmark"))
+		pointersInitializesStatements.WriteString(credit.GongMarshallField(stage, "Credit_image"))
 		pointersInitializesStatements.WriteString(credit.GongMarshallField(stage, "Credit_words"))
 		pointersInitializesStatements.WriteString(credit.GongMarshallField(stage, "Credit_symbol"))
 	}
@@ -19873,7 +21701,7 @@ func (dashes *Dashes) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(dashes.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(dashes.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(dashes.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(dashes.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(dashes.GongMarshallField(stage, "Dash_length"))
 		initializerStatements.WriteString(dashes.GongMarshallField(stage, "Space_length"))
@@ -20056,7 +21884,7 @@ func (distance *Distance) GongMarshallAllFields(stage *Stage) (initRes string, p
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(distance.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(distance.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(distance.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(distance.GongMarshallField(stage, "EnclosedText"))
 	}
 	initRes = initializerStatements.String()
@@ -20378,6 +22206,7 @@ func (encoding *Encoding) GongMarshallAllFields(stage *Stage) (initRes string, p
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(encoding.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(encoding.GongMarshallField(stage, "Encoding_date"))
 		pointersInitializesStatements.WriteString(encoding.GongMarshallField(stage, "Encoder"))
 		initializerStatements.WriteString(encoding.GongMarshallField(stage, "Software"))
 		initializerStatements.WriteString(encoding.GongMarshallField(stage, "Encoding_description"))
@@ -20394,7 +22223,7 @@ func (ending *Ending) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(ending.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(ending.GongMarshallField(stage, "Number"))
-		initializerStatements.WriteString(ending.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(ending.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(ending.GongMarshallField(stage, "End_length"))
 		initializerStatements.WriteString(ending.GongMarshallField(stage, "Text_x"))
 		initializerStatements.WriteString(ending.GongMarshallField(stage, "Text_y"))
@@ -20421,7 +22250,7 @@ func (extend *Extend) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(extend.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(extend.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(extend.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(extend.GongMarshallField(stage, "Default_x"))
 		initializerStatements.WriteString(extend.GongMarshallField(stage, "Default_y"))
 		initializerStatements.WriteString(extend.GongMarshallField(stage, "Relative_x"))
@@ -20438,7 +22267,7 @@ func (feature *Feature) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(feature.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(feature.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(feature.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(feature.GongMarshallField(stage, "EnclosedText"))
 	}
 	initRes = initializerStatements.String()
@@ -20451,7 +22280,7 @@ func (fermata *Fermata) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(fermata.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(fermata.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(fermata.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(fermata.GongMarshallField(stage, "Default_x"))
 		initializerStatements.WriteString(fermata.GongMarshallField(stage, "Default_y"))
 		initializerStatements.WriteString(fermata.GongMarshallField(stage, "Relative_x"))
@@ -20510,7 +22339,6 @@ func (figured_bass *Figured_bass) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(figured_bass.GongMarshallField(stage, "Print_spacing"))
 		initializerStatements.WriteString(figured_bass.GongMarshallField(stage, "Id"))
 		pointersInitializesStatements.WriteString(figured_bass.GongMarshallField(stage, "Figure"))
-		initializerStatements.WriteString(figured_bass.GongMarshallField(stage, "Duration"))
 		pointersInitializesStatements.WriteString(figured_bass.GongMarshallField(stage, "Footnote"))
 		pointersInitializesStatements.WriteString(figured_bass.GongMarshallField(stage, "Level"))
 	}
@@ -20711,7 +22539,6 @@ func (forward *Forward) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(forward.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(forward.GongMarshallField(stage, "Duration"))
 		pointersInitializesStatements.WriteString(forward.GongMarshallField(stage, "Footnote"))
 		pointersInitializesStatements.WriteString(forward.GongMarshallField(stage, "Level"))
 		initializerStatements.WriteString(forward.GongMarshallField(stage, "Voice"))
@@ -20753,7 +22580,7 @@ func (frame_note *Frame_note) GongMarshallAllFields(stage *Stage) (initRes strin
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(frame_note.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(frame_note.GongMarshallField(stage, "String"))
+		pointersInitializesStatements.WriteString(frame_note.GongMarshallField(stage, "String_XSD"))
 		pointersInitializesStatements.WriteString(frame_note.GongMarshallField(stage, "Fret"))
 		pointersInitializesStatements.WriteString(frame_note.GongMarshallField(stage, "Fingering"))
 		pointersInitializesStatements.WriteString(frame_note.GongMarshallField(stage, "Barre"))
@@ -20798,7 +22625,7 @@ func (glissando *Glissando) GongMarshallAllFields(stage *Stage) (initRes string,
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(glissando.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(glissando.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(glissando.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(glissando.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(glissando.GongMarshallField(stage, "Line_type"))
 		initializerStatements.WriteString(glissando.GongMarshallField(stage, "Dash_length"))
@@ -20825,7 +22652,7 @@ func (glyph *Glyph) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(glyph.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(glyph.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(glyph.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(glyph.GongMarshallField(stage, "EnclosedText"))
 	}
 	initRes = initializerStatements.String()
@@ -20905,7 +22732,7 @@ func (grouping *Grouping) GongMarshallAllFields(stage *Stage) (initRes string, p
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(grouping.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(grouping.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(grouping.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(grouping.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(grouping.GongMarshallField(stage, "Member_of"))
 		initializerStatements.WriteString(grouping.GongMarshallField(stage, "Id"))
@@ -20921,7 +22748,7 @@ func (hammer_on_pull_off *Hammer_on_pull_off) GongMarshallAllFields(stage *Stage
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(hammer_on_pull_off.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(hammer_on_pull_off.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(hammer_on_pull_off.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(hammer_on_pull_off.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(hammer_on_pull_off.GongMarshallField(stage, "Default_x"))
 		initializerStatements.WriteString(hammer_on_pull_off.GongMarshallField(stage, "Default_y"))
@@ -21029,7 +22856,7 @@ func (harmony *Harmony) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(harmony.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(harmony.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(harmony.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(harmony.GongMarshallField(stage, "Print_frame"))
 		initializerStatements.WriteString(harmony.GongMarshallField(stage, "Arrangement"))
 		initializerStatements.WriteString(harmony.GongMarshallField(stage, "Print_object"))
@@ -21115,6 +22942,17 @@ func (heel_toe *Heel_toe) GongMarshallAllFields(stage *Stage) (initRes string, p
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(heel_toe.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(heel_toe.GongMarshallField(stage, "Default_x"))
+		initializerStatements.WriteString(heel_toe.GongMarshallField(stage, "Default_y"))
+		initializerStatements.WriteString(heel_toe.GongMarshallField(stage, "Relative_x"))
+		initializerStatements.WriteString(heel_toe.GongMarshallField(stage, "Relative_y"))
+		initializerStatements.WriteString(heel_toe.GongMarshallField(stage, "Font_family"))
+		initializerStatements.WriteString(heel_toe.GongMarshallField(stage, "Font_style"))
+		initializerStatements.WriteString(heel_toe.GongMarshallField(stage, "Font_size"))
+		initializerStatements.WriteString(heel_toe.GongMarshallField(stage, "Font_weight"))
+		initializerStatements.WriteString(heel_toe.GongMarshallField(stage, "Color"))
+		initializerStatements.WriteString(heel_toe.GongMarshallField(stage, "Placement"))
+		initializerStatements.WriteString(heel_toe.GongMarshallField(stage, "Substitution"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -21210,7 +23048,7 @@ func (image *Image) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(image.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(image.GongMarshallField(stage, "Source"))
-		initializerStatements.WriteString(image.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(image.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(image.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(image.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(image.GongMarshallField(stage, "Default_x"))
@@ -21394,8 +23232,8 @@ func (level *Level) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(level.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(level.GongMarshallField(stage, "Reference"))
-		initializerStatements.WriteString(level.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(level.GongMarshallField(stage, "Reference_XSD"))
+		initializerStatements.WriteString(level.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(level.GongMarshallField(stage, "Parentheses"))
 		initializerStatements.WriteString(level.GongMarshallField(stage, "Bracket"))
 		initializerStatements.WriteString(level.GongMarshallField(stage, "Size"))
@@ -21427,7 +23265,7 @@ func (line_width *Line_width) GongMarshallAllFields(stage *Stage) (initRes strin
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(line_width.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(line_width.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(line_width.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(line_width.GongMarshallField(stage, "EnclosedText"))
 	}
 	initRes = initializerStatements.String()
@@ -21442,7 +23280,7 @@ func (link *Link) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(link.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "NameXSD"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "Href"))
-		initializerStatements.WriteString(link.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(link.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "Role"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "Title"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "Show"))
@@ -21504,9 +23342,9 @@ func (lyric *Lyric) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(lyric.GongMarshallField(stage, "Color"))
 		initializerStatements.WriteString(lyric.GongMarshallField(stage, "Print_object"))
 		initializerStatements.WriteString(lyric.GongMarshallField(stage, "Id"))
-		pointersInitializesStatements.WriteString(lyric.GongMarshallField(stage, "Elision"))
 		initializerStatements.WriteString(lyric.GongMarshallField(stage, "Syllabic"))
 		pointersInitializesStatements.WriteString(lyric.GongMarshallField(stage, "Text"))
+		pointersInitializesStatements.WriteString(lyric.GongMarshallField(stage, "Elision"))
 		pointersInitializesStatements.WriteString(lyric.GongMarshallField(stage, "Extend"))
 		initializerStatements.WriteString(lyric.GongMarshallField(stage, "Laughing"))
 		initializerStatements.WriteString(lyric.GongMarshallField(stage, "Humming"))
@@ -21595,7 +23433,7 @@ func (measure_repeat *Measure_repeat) GongMarshallAllFields(stage *Stage) (initR
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(measure_repeat.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(measure_repeat.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(measure_repeat.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(measure_repeat.GongMarshallField(stage, "Slashes"))
 		initializerStatements.WriteString(measure_repeat.GongMarshallField(stage, "EnclosedText"))
 	}
@@ -21674,11 +23512,11 @@ func (metronome *Metronome) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(metronome.GongMarshallField(stage, "Id"))
 		initializerStatements.WriteString(metronome.GongMarshallField(stage, "Beat_unit"))
 		initializerStatements.WriteString(metronome.GongMarshallField(stage, "Beat_unit_dot"))
-		pointersInitializesStatements.WriteString(metronome.GongMarshallField(stage, "Per_minute"))
 		pointersInitializesStatements.WriteString(metronome.GongMarshallField(stage, "Beat_unit_tied"))
+		pointersInitializesStatements.WriteString(metronome.GongMarshallField(stage, "Per_minute"))
 		initializerStatements.WriteString(metronome.GongMarshallField(stage, "Metronome_arrows"))
-		initializerStatements.WriteString(metronome.GongMarshallField(stage, "Metronome_relation"))
 		pointersInitializesStatements.WriteString(metronome.GongMarshallField(stage, "Metronome_note"))
+		initializerStatements.WriteString(metronome.GongMarshallField(stage, "Metronome_relation"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -21719,7 +23557,7 @@ func (metronome_tied *Metronome_tied) GongMarshallAllFields(stage *Stage) (initR
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(metronome_tied.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(metronome_tied.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(metronome_tied.GongMarshallField(stage, "Type_XSD"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -21731,6 +23569,13 @@ func (metronome_tuplet *Metronome_tuplet) GongMarshallAllFields(stage *Stage) (i
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(metronome_tuplet.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(metronome_tuplet.GongMarshallField(stage, "Actual_notes"))
+		initializerStatements.WriteString(metronome_tuplet.GongMarshallField(stage, "Normal_notes"))
+		initializerStatements.WriteString(metronome_tuplet.GongMarshallField(stage, "Normal_type"))
+		initializerStatements.WriteString(metronome_tuplet.GongMarshallField(stage, "Normal_dot"))
+		initializerStatements.WriteString(metronome_tuplet.GongMarshallField(stage, "Type_XSD"))
+		initializerStatements.WriteString(metronome_tuplet.GongMarshallField(stage, "Bracket"))
+		initializerStatements.WriteString(metronome_tuplet.GongMarshallField(stage, "Show_number"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -21801,6 +23646,26 @@ func (mordent *Mordent) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Default_x"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Default_y"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Relative_x"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Relative_y"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Font_family"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Font_style"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Font_size"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Font_weight"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Color"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Placement"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Start_note"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Trill_step"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Two_note_turn"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Accelerate"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Beats"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Second_beat"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Last_beat"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Long"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Approach"))
+		initializerStatements.WriteString(mordent.GongMarshallField(stage, "Departure"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -21839,7 +23704,7 @@ func (non_arpeggiate *Non_arpeggiate) GongMarshallAllFields(stage *Stage) (initR
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(non_arpeggiate.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(non_arpeggiate.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(non_arpeggiate.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(non_arpeggiate.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(non_arpeggiate.GongMarshallField(stage, "Default_x"))
 		initializerStatements.WriteString(non_arpeggiate.GongMarshallField(stage, "Default_y"))
@@ -21916,12 +23781,11 @@ func (note *Note) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Rest"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Tie"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "Cue"))
-		initializerStatements.WriteString(note.GongMarshallField(stage, "Duration"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Instrument"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Footnote"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Level"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "Voice"))
-		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Type"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Type_XSD"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Dot"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Accidental"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Time_modification"))
@@ -21945,7 +23809,7 @@ func (note_size *Note_size) GongMarshallAllFields(stage *Stage) (initRes string,
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(note_size.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(note_size.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(note_size.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(note_size.GongMarshallField(stage, "EnclosedText"))
 	}
 	initRes = initializerStatements.String()
@@ -22054,7 +23918,7 @@ func (octave_shift *Octave_shift) GongMarshallAllFields(stage *Stage) (initRes s
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(octave_shift.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(octave_shift.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(octave_shift.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(octave_shift.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(octave_shift.GongMarshallField(stage, "Size"))
 		initializerStatements.WriteString(octave_shift.GongMarshallField(stage, "Dash_length"))
@@ -22094,7 +23958,7 @@ func (opus *Opus) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(opus.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(opus.GongMarshallField(stage, "Href"))
-		initializerStatements.WriteString(opus.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(opus.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(opus.GongMarshallField(stage, "Role"))
 		initializerStatements.WriteString(opus.GongMarshallField(stage, "Title"))
 		initializerStatements.WriteString(opus.GongMarshallField(stage, "Show"))
@@ -22138,7 +24002,7 @@ func (other_appearance *Other_appearance) GongMarshallAllFields(stage *Stage) (i
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(other_appearance.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(other_appearance.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(other_appearance.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(other_appearance.GongMarshallField(stage, "EnclosedText"))
 	}
 	initRes = initializerStatements.String()
@@ -22177,7 +24041,7 @@ func (other_listening *Other_listening) GongMarshallAllFields(stage *Stage) (ini
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(other_listening.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(other_listening.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(other_listening.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(other_listening.GongMarshallField(stage, "Player"))
 		initializerStatements.WriteString(other_listening.GongMarshallField(stage, "Time_only"))
 		initializerStatements.WriteString(other_listening.GongMarshallField(stage, "EnclosedText"))
@@ -22192,7 +24056,7 @@ func (other_notation *Other_notation) GongMarshallAllFields(stage *Stage) (initR
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(other_notation.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(other_notation.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(other_notation.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(other_notation.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(other_notation.GongMarshallField(stage, "Print_object"))
 		initializerStatements.WriteString(other_notation.GongMarshallField(stage, "Default_x"))
@@ -22242,7 +24106,7 @@ func (other_play *Other_play) GongMarshallAllFields(stage *Stage) (initRes strin
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(other_play.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(other_play.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(other_play.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(other_play.GongMarshallField(stage, "EnclosedText"))
 	}
 	initRes = initializerStatements.String()
@@ -22282,7 +24146,7 @@ func (page_margins *Page_margins) GongMarshallAllFields(stage *Stage) (initRes s
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(page_margins.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(page_margins.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(page_margins.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(page_margins.GongMarshallField(stage, "Left_margin"))
 		initializerStatements.WriteString(page_margins.GongMarshallField(stage, "Right_margin"))
 		initializerStatements.WriteString(page_margins.GongMarshallField(stage, "Top_margin"))
@@ -22312,7 +24176,7 @@ func (part_group *Part_group) GongMarshallAllFields(stage *Stage) (initRes strin
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(part_group.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(part_group.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(part_group.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(part_group.GongMarshallField(stage, "Number"))
 		pointersInitializesStatements.WriteString(part_group.GongMarshallField(stage, "Group_name"))
 		pointersInitializesStatements.WriteString(part_group.GongMarshallField(stage, "Group_name_display"))
@@ -22335,7 +24199,7 @@ func (part_link *Part_link) GongMarshallAllFields(stage *Stage) (initRes string,
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(part_link.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(part_link.GongMarshallField(stage, "Href"))
-		initializerStatements.WriteString(part_link.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(part_link.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(part_link.GongMarshallField(stage, "Role"))
 		initializerStatements.WriteString(part_link.GongMarshallField(stage, "Title"))
 		initializerStatements.WriteString(part_link.GongMarshallField(stage, "Show"))
@@ -22423,7 +24287,7 @@ func (pedal *Pedal) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(pedal.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(pedal.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(pedal.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(pedal.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(pedal.GongMarshallField(stage, "Line"))
 		initializerStatements.WriteString(pedal.GongMarshallField(stage, "Sign"))
@@ -22593,7 +24457,7 @@ func (principal_voice *Principal_voice) GongMarshallAllFields(stage *Stage) (ini
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(principal_voice.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(principal_voice.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(principal_voice.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(principal_voice.GongMarshallField(stage, "Symbol"))
 		initializerStatements.WriteString(principal_voice.GongMarshallField(stage, "Default_x"))
 		initializerStatements.WriteString(principal_voice.GongMarshallField(stage, "Default_y"))
@@ -22613,25 +24477,25 @@ func (principal_voice *Principal_voice) GongMarshallAllFields(stage *Stage) (ini
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (print *Print) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+func (print_xsd *Print_XSD) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(print.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(print.GongMarshallField(stage, "Staff_spacing"))
-		initializerStatements.WriteString(print.GongMarshallField(stage, "New_system"))
-		initializerStatements.WriteString(print.GongMarshallField(stage, "New_page"))
-		initializerStatements.WriteString(print.GongMarshallField(stage, "Blank_page"))
-		initializerStatements.WriteString(print.GongMarshallField(stage, "Page_number"))
-		initializerStatements.WriteString(print.GongMarshallField(stage, "Id"))
-		pointersInitializesStatements.WriteString(print.GongMarshallField(stage, "Page_layout"))
-		pointersInitializesStatements.WriteString(print.GongMarshallField(stage, "System_layout"))
-		pointersInitializesStatements.WriteString(print.GongMarshallField(stage, "Staff_layout"))
-		pointersInitializesStatements.WriteString(print.GongMarshallField(stage, "Measure_layout"))
-		pointersInitializesStatements.WriteString(print.GongMarshallField(stage, "Measure_numbering"))
-		pointersInitializesStatements.WriteString(print.GongMarshallField(stage, "Part_name_display"))
-		pointersInitializesStatements.WriteString(print.GongMarshallField(stage, "Part_abbreviation_display"))
+		initializerStatements.WriteString(print_xsd.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(print_xsd.GongMarshallField(stage, "Staff_spacing"))
+		initializerStatements.WriteString(print_xsd.GongMarshallField(stage, "New_system"))
+		initializerStatements.WriteString(print_xsd.GongMarshallField(stage, "New_page"))
+		initializerStatements.WriteString(print_xsd.GongMarshallField(stage, "Blank_page"))
+		initializerStatements.WriteString(print_xsd.GongMarshallField(stage, "Page_number"))
+		initializerStatements.WriteString(print_xsd.GongMarshallField(stage, "Id"))
+		pointersInitializesStatements.WriteString(print_xsd.GongMarshallField(stage, "Page_layout"))
+		pointersInitializesStatements.WriteString(print_xsd.GongMarshallField(stage, "System_layout"))
+		pointersInitializesStatements.WriteString(print_xsd.GongMarshallField(stage, "Staff_layout"))
+		pointersInitializesStatements.WriteString(print_xsd.GongMarshallField(stage, "Measure_layout"))
+		pointersInitializesStatements.WriteString(print_xsd.GongMarshallField(stage, "Measure_numbering"))
+		pointersInitializesStatements.WriteString(print_xsd.GongMarshallField(stage, "Part_name_display"))
+		pointersInitializesStatements.WriteString(print_xsd.GongMarshallField(stage, "Part_abbreviation_display"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -22643,6 +24507,7 @@ func (release *Release) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(release.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(release.GongMarshallField(stage, "Offset"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -22849,7 +24714,7 @@ func (slash *Slash) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(slash.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(slash.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(slash.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(slash.GongMarshallField(stage, "Use_dots"))
 		initializerStatements.WriteString(slash.GongMarshallField(stage, "Use_stems"))
 		initializerStatements.WriteString(slash.GongMarshallField(stage, "Slash_type"))
@@ -22866,7 +24731,7 @@ func (slide *Slide) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(slide.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(slide.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(slide.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(slide.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(slide.GongMarshallField(stage, "Line_type"))
 		initializerStatements.WriteString(slide.GongMarshallField(stage, "Dash_length"))
@@ -22897,7 +24762,7 @@ func (slur *Slur) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(slur.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(slur.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(slur.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(slur.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(slur.GongMarshallField(stage, "Line_type"))
 		initializerStatements.WriteString(slur.GongMarshallField(stage, "Dash_length"))
@@ -22983,7 +24848,7 @@ func (staff_divide *Staff_divide) GongMarshallAllFields(stage *Stage) (initRes s
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(staff_divide.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(staff_divide.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(staff_divide.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(staff_divide.GongMarshallField(stage, "Default_x"))
 		initializerStatements.WriteString(staff_divide.GongMarshallField(stage, "Default_y"))
 		initializerStatements.WriteString(staff_divide.GongMarshallField(stage, "Relative_x"))
@@ -23081,7 +24946,7 @@ func (string_mute *String_mute) GongMarshallAllFields(stage *Stage) (initRes str
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(string_mute.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(string_mute.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(string_mute.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(string_mute.GongMarshallField(stage, "Default_x"))
 		initializerStatements.WriteString(string_mute.GongMarshallField(stage, "Default_y"))
 		initializerStatements.WriteString(string_mute.GongMarshallField(stage, "Relative_x"))
@@ -23127,6 +24992,17 @@ func (strong_accent *Strong_accent) GongMarshallAllFields(stage *Stage) (initRes
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(strong_accent.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(strong_accent.GongMarshallField(stage, "Default_x"))
+		initializerStatements.WriteString(strong_accent.GongMarshallField(stage, "Default_y"))
+		initializerStatements.WriteString(strong_accent.GongMarshallField(stage, "Relative_x"))
+		initializerStatements.WriteString(strong_accent.GongMarshallField(stage, "Relative_y"))
+		initializerStatements.WriteString(strong_accent.GongMarshallField(stage, "Font_family"))
+		initializerStatements.WriteString(strong_accent.GongMarshallField(stage, "Font_style"))
+		initializerStatements.WriteString(strong_accent.GongMarshallField(stage, "Font_size"))
+		initializerStatements.WriteString(strong_accent.GongMarshallField(stage, "Font_weight"))
+		initializerStatements.WriteString(strong_accent.GongMarshallField(stage, "Color"))
+		initializerStatements.WriteString(strong_accent.GongMarshallField(stage, "Placement"))
+		initializerStatements.WriteString(strong_accent.GongMarshallField(stage, "Type_XSD"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -23159,7 +25035,7 @@ func (supports *Supports) GongMarshallAllFields(stage *Stage) (initRes string, p
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(supports.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(supports.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(supports.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(supports.GongMarshallField(stage, "Element"))
 		initializerStatements.WriteString(supports.GongMarshallField(stage, "Attribute"))
 		initializerStatements.WriteString(supports.GongMarshallField(stage, "Value"))
@@ -23190,7 +25066,7 @@ func (sync *Sync) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(sync.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(sync.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(sync.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(sync.GongMarshallField(stage, "Latency"))
 		initializerStatements.WriteString(sync.GongMarshallField(stage, "Player"))
 		initializerStatements.WriteString(sync.GongMarshallField(stage, "Time_only"))
@@ -23282,7 +25158,7 @@ func (technical *Technical) GongMarshallAllFields(stage *Stage) (initRes string,
 		pointersInitializesStatements.WriteString(technical.GongMarshallField(stage, "Stopped"))
 		pointersInitializesStatements.WriteString(technical.GongMarshallField(stage, "Snap_pizzicato"))
 		pointersInitializesStatements.WriteString(technical.GongMarshallField(stage, "Fret"))
-		pointersInitializesStatements.WriteString(technical.GongMarshallField(stage, "String"))
+		pointersInitializesStatements.WriteString(technical.GongMarshallField(stage, "String_XSD"))
 		pointersInitializesStatements.WriteString(technical.GongMarshallField(stage, "Hammer_on"))
 		pointersInitializesStatements.WriteString(technical.GongMarshallField(stage, "Pull_off"))
 		pointersInitializesStatements.WriteString(technical.GongMarshallField(stage, "Bend"))
@@ -23336,7 +25212,7 @@ func (tie *Tie) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes stri
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(tie.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(tie.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(tie.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(tie.GongMarshallField(stage, "Time_only"))
 	}
 	initRes = initializerStatements.String()
@@ -23349,7 +25225,7 @@ func (tied *Tied) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(tied.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(tied.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(tied.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(tied.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(tied.GongMarshallField(stage, "Line_type"))
 		initializerStatements.WriteString(tied.GongMarshallField(stage, "Dash_length"))
@@ -23454,7 +25330,7 @@ func (tremolo *Tremolo) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(tremolo.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(tremolo.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(tremolo.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(tremolo.GongMarshallField(stage, "Default_x"))
 		initializerStatements.WriteString(tremolo.GongMarshallField(stage, "Default_y"))
 		initializerStatements.WriteString(tremolo.GongMarshallField(stage, "Relative_x"))
@@ -23478,7 +25354,7 @@ func (tuplet *Tuplet) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(tuplet.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(tuplet.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(tuplet.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(tuplet.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(tuplet.GongMarshallField(stage, "Bracket"))
 		initializerStatements.WriteString(tuplet.GongMarshallField(stage, "Show_number"))
@@ -23567,7 +25443,7 @@ func (typed_text *Typed_text) GongMarshallAllFields(stage *Stage) (initRes strin
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(typed_text.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(typed_text.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(typed_text.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(typed_text.GongMarshallField(stage, "EnclosedText"))
 	}
 	initRes = initializerStatements.String()
@@ -23619,7 +25495,7 @@ func (wavy_line *Wavy_line) GongMarshallAllFields(stage *Stage) (initRes string,
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(wavy_line.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(wavy_line.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(wavy_line.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(wavy_line.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(wavy_line.GongMarshallField(stage, "Smufl"))
 		initializerStatements.WriteString(wavy_line.GongMarshallField(stage, "Default_x"))
@@ -23646,7 +25522,7 @@ func (wedge *Wedge) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(wedge.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(wedge.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(wedge.GongMarshallField(stage, "Type_XSD"))
 		initializerStatements.WriteString(wedge.GongMarshallField(stage, "Number"))
 		initializerStatements.WriteString(wedge.GongMarshallField(stage, "Spread"))
 		initializerStatements.WriteString(wedge.GongMarshallField(stage, "Niente"))

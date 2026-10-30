@@ -2,3171 +2,4159 @@
 package probe
 
 import (
-	"log"
-	"slices"
-	"time"
-
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
 
 	"github.com/fullstack-lang/gong/app/xsd/tests/reqif/go/models"
+	"github.com/fullstack-lang/gong/app/xsd/tests/reqif/go/models/xmlxsd"
 )
-
-// to avoid errors when time and slices packages are not used in the generated code
-const _ = time.Nanosecond
-
-var _ = slices.Delete([]string{"a"}, 0, 1)
-
-var _ = log.Panicf
 
 type FormCallbackIF = gongprobe.FormCallbackIF
 
-
-type FormCallback[T models.PointerToGongstruct] struct {
-	Instance     T
-	CreationMode bool
-	probe        *Probe
-	formGroup    *form.FormGroup
-	saveFields   func(instance T, probe *Probe, formGroup *form.FormGroup)
+type functionalStageSetFormCallback struct {
+	onSave func()
 }
 
-func NewFormCallback[T models.PointerToGongstruct](
-	instance T,
-	probe *Probe,
-	formGroup *form.FormGroup,
-	saveFields func(instance T, probe *Probe, formGroup *form.FormGroup),
-) *FormCallback[T] {
-	var zero T
-	return &FormCallback[T]{
-		Instance:     instance,
-		CreationMode: instance == zero,
-		probe:        probe,
-		formGroup:    formGroup,
-		saveFields:   saveFields,
+func (cb *functionalStageSetFormCallback) OnSave() {
+	if cb.onSave != nil {
+		cb.onSave()
 	}
 }
 
-func (cb *FormCallback[T]) GetCreationMode() bool     { return cb.CreationMode }
-func (cb *FormCallback[T]) GetInstance() any           { return cb.Instance }
-func (cb *FormCallback[T]) GetGongstructName() string { return models.GetPointerToGongstructName[T]() }
-
-func (cb *FormCallback[T]) OnSave() {
-	cb.probe.stageOfInterest.Lock()
-	defer cb.probe.stageOfInterest.Unlock()
-
-	cb.probe.formStage.Checkout()
-
-	var zero T
-	if cb.Instance == zero {
-		cb.Instance = cb.probe.stageOfInterest.GongNewInstance[T]()
-	}
-
-	cb.saveFields(cb.Instance, cb.probe, cb.formGroup)
-
-	if cb.formGroup.HasSuppressButtonBeenPressed {
-		cb.Instance.UnstageVoid(cb.probe.stageOfInterest)
-	}
-
-	cb.probe.stageOfInterest.Commit()
-	updateProbeTable[T](cb.probe)
-
-	if cb.CreationMode || cb.formGroup.HasSuppressButtonBeenPressed {
-		cb.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(cb.probe.formStage)
-		newFormGroup.OnSave = NewFormCallback[T](
-			*new(T),
-			cb.probe,
-			newFormGroup,
-			cb.saveFields,
-		)
-		newInstance := models.GongNewInstance[T]()
-		FillUpForm(newInstance, newFormGroup, cb.probe)
-		cb.probe.formStage.Commit()
-	}
-
-	cb.probe.ux_tree()
-}
-
-// insertion point
-func __gong__New__ALTERNATIVE_IDFormCallback(
-	_instance *models.ALTERNATIVE_ID,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (alternative_idFormCallback *FormCallback[*models.ALTERNATIVE_ID]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveALTERNATIVE_IDFields,
-	)
-}
-
-type ALTERNATIVE_IDFormCallback = FormCallback[*models.ALTERNATIVE_ID]
-
-func saveALTERNATIVE_IDFields(
-	_instance *models.ALTERNATIVE_ID,
+func saveStageSet_ALTERNATIVE_ID_Stage(
+	inst *models.ALTERNATIVE_ID,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		}
 	}
 }
 
-func __gong__New__ATTRIBUTE_DEFINITION_BOOLEANFormCallback(
-	_instance *models.ATTRIBUTE_DEFINITION_BOOLEAN,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (attribute_definition_booleanFormCallback *FormCallback[*models.ATTRIBUTE_DEFINITION_BOOLEAN]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveATTRIBUTE_DEFINITION_BOOLEANFields,
-	)
-}
-
-type ATTRIBUTE_DEFINITION_BOOLEANFormCallback = FormCallback[*models.ATTRIBUTE_DEFINITION_BOOLEAN]
-
-func saveATTRIBUTE_DEFINITION_BOOLEANFields(
-	_instance *models.ATTRIBUTE_DEFINITION_BOOLEAN,
+func saveStageSet_ATTRIBUTE_DEFINITION_BOOLEAN_Stage(
+	inst *models.ATTRIBUTE_DEFINITION_BOOLEAN,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "IS_EDITABLE":
-			FormDivBasicFieldToField(&(_instance.IS_EDITABLE), formDiv)
+			FormDivBasicFieldToField(&inst.IS_EDITABLE, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "DEFAULT_VALUE":
-			FormDivSelectFieldToField(&(_instance.DEFAULT_VALUE), probe.stageOfInterest, formDiv)
-		case "TYPE":
-			FormDivSelectFieldToField(&(_instance.TYPE), probe.stageOfInterest, formDiv)
-		case "A_SPEC_ATTRIBUTES:ATTRIBUTE_DEFINITION_BOOLEAN":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_DEFINITION_BOOLEAN", func(owner *models.A_SPEC_ATTRIBUTES) *[]*models.ATTRIBUTE_DEFINITION_BOOLEAN { return &owner.ATTRIBUTE_DEFINITION_BOOLEAN })
+			StageSetFormDivSelectFieldToField(&inst.DEFAULT_VALUE, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_BOOLEAN](), formDiv)
+		case "TYPE_XSD":
+			StageSetFormDivSelectFieldToField(&inst.TYPE_XSD, probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPE_DEFINITION_BOOLEAN_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__ATTRIBUTE_DEFINITION_DATEFormCallback(
-	_instance *models.ATTRIBUTE_DEFINITION_DATE,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (attribute_definition_dateFormCallback *FormCallback[*models.ATTRIBUTE_DEFINITION_DATE]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveATTRIBUTE_DEFINITION_DATEFields,
-	)
-}
-
-type ATTRIBUTE_DEFINITION_DATEFormCallback = FormCallback[*models.ATTRIBUTE_DEFINITION_DATE]
-
-func saveATTRIBUTE_DEFINITION_DATEFields(
-	_instance *models.ATTRIBUTE_DEFINITION_DATE,
+func saveStageSet_ATTRIBUTE_DEFINITION_DATE_Stage(
+	inst *models.ATTRIBUTE_DEFINITION_DATE,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "IS_EDITABLE":
-			FormDivBasicFieldToField(&(_instance.IS_EDITABLE), formDiv)
+			FormDivBasicFieldToField(&inst.IS_EDITABLE, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "DEFAULT_VALUE":
-			FormDivSelectFieldToField(&(_instance.DEFAULT_VALUE), probe.stageOfInterest, formDiv)
-		case "TYPE":
-			FormDivSelectFieldToField(&(_instance.TYPE), probe.stageOfInterest, formDiv)
-		case "A_SPEC_ATTRIBUTES:ATTRIBUTE_DEFINITION_DATE":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_DEFINITION_DATE", func(owner *models.A_SPEC_ATTRIBUTES) *[]*models.ATTRIBUTE_DEFINITION_DATE { return &owner.ATTRIBUTE_DEFINITION_DATE })
+			StageSetFormDivSelectFieldToField(&inst.DEFAULT_VALUE, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_DATE](), formDiv)
+		case "TYPE_XSD":
+			StageSetFormDivSelectFieldToField(&inst.TYPE_XSD, probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPE_DEFINITION_DATE_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__ATTRIBUTE_DEFINITION_ENUMERATIONFormCallback(
-	_instance *models.ATTRIBUTE_DEFINITION_ENUMERATION,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (attribute_definition_enumerationFormCallback *FormCallback[*models.ATTRIBUTE_DEFINITION_ENUMERATION]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveATTRIBUTE_DEFINITION_ENUMERATIONFields,
-	)
-}
-
-type ATTRIBUTE_DEFINITION_ENUMERATIONFormCallback = FormCallback[*models.ATTRIBUTE_DEFINITION_ENUMERATION]
-
-func saveATTRIBUTE_DEFINITION_ENUMERATIONFields(
-	_instance *models.ATTRIBUTE_DEFINITION_ENUMERATION,
+func saveStageSet_ATTRIBUTE_DEFINITION_ENUMERATION_Stage(
+	inst *models.ATTRIBUTE_DEFINITION_ENUMERATION,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "IS_EDITABLE":
-			FormDivBasicFieldToField(&(_instance.IS_EDITABLE), formDiv)
+			FormDivBasicFieldToField(&inst.IS_EDITABLE, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "MULTI_VALUED":
-			FormDivBasicFieldToField(&(_instance.MULTI_VALUED), formDiv)
+			FormDivBasicFieldToField(&inst.MULTI_VALUED, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "DEFAULT_VALUE":
-			FormDivSelectFieldToField(&(_instance.DEFAULT_VALUE), probe.stageOfInterest, formDiv)
-		case "TYPE":
-			FormDivSelectFieldToField(&(_instance.TYPE), probe.stageOfInterest, formDiv)
-		case "A_SPEC_ATTRIBUTES:ATTRIBUTE_DEFINITION_ENUMERATION":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_DEFINITION_ENUMERATION", func(owner *models.A_SPEC_ATTRIBUTES) *[]*models.ATTRIBUTE_DEFINITION_ENUMERATION { return &owner.ATTRIBUTE_DEFINITION_ENUMERATION })
+			StageSetFormDivSelectFieldToField(&inst.DEFAULT_VALUE, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_ENUMERATION](), formDiv)
+		case "TYPE_XSD":
+			StageSetFormDivSelectFieldToField(&inst.TYPE_XSD, probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPE_DEFINITION_ENUMERATION_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__ATTRIBUTE_DEFINITION_INTEGERFormCallback(
-	_instance *models.ATTRIBUTE_DEFINITION_INTEGER,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (attribute_definition_integerFormCallback *FormCallback[*models.ATTRIBUTE_DEFINITION_INTEGER]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveATTRIBUTE_DEFINITION_INTEGERFields,
-	)
-}
-
-type ATTRIBUTE_DEFINITION_INTEGERFormCallback = FormCallback[*models.ATTRIBUTE_DEFINITION_INTEGER]
-
-func saveATTRIBUTE_DEFINITION_INTEGERFields(
-	_instance *models.ATTRIBUTE_DEFINITION_INTEGER,
+func saveStageSet_ATTRIBUTE_DEFINITION_INTEGER_Stage(
+	inst *models.ATTRIBUTE_DEFINITION_INTEGER,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "IS_EDITABLE":
-			FormDivBasicFieldToField(&(_instance.IS_EDITABLE), formDiv)
+			FormDivBasicFieldToField(&inst.IS_EDITABLE, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "DEFAULT_VALUE":
-			FormDivSelectFieldToField(&(_instance.DEFAULT_VALUE), probe.stageOfInterest, formDiv)
-		case "TYPE":
-			FormDivSelectFieldToField(&(_instance.TYPE), probe.stageOfInterest, formDiv)
-		case "A_SPEC_ATTRIBUTES:ATTRIBUTE_DEFINITION_INTEGER":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_DEFINITION_INTEGER", func(owner *models.A_SPEC_ATTRIBUTES) *[]*models.ATTRIBUTE_DEFINITION_INTEGER { return &owner.ATTRIBUTE_DEFINITION_INTEGER })
+			StageSetFormDivSelectFieldToField(&inst.DEFAULT_VALUE, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_INTEGER](), formDiv)
+		case "TYPE_XSD":
+			StageSetFormDivSelectFieldToField(&inst.TYPE_XSD, probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPE_DEFINITION_INTEGER_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__ATTRIBUTE_DEFINITION_REALFormCallback(
-	_instance *models.ATTRIBUTE_DEFINITION_REAL,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (attribute_definition_realFormCallback *FormCallback[*models.ATTRIBUTE_DEFINITION_REAL]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveATTRIBUTE_DEFINITION_REALFields,
-	)
-}
-
-type ATTRIBUTE_DEFINITION_REALFormCallback = FormCallback[*models.ATTRIBUTE_DEFINITION_REAL]
-
-func saveATTRIBUTE_DEFINITION_REALFields(
-	_instance *models.ATTRIBUTE_DEFINITION_REAL,
+func saveStageSet_ATTRIBUTE_DEFINITION_REAL_Stage(
+	inst *models.ATTRIBUTE_DEFINITION_REAL,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "IS_EDITABLE":
-			FormDivBasicFieldToField(&(_instance.IS_EDITABLE), formDiv)
+			FormDivBasicFieldToField(&inst.IS_EDITABLE, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "DEFAULT_VALUE":
-			FormDivSelectFieldToField(&(_instance.DEFAULT_VALUE), probe.stageOfInterest, formDiv)
-		case "TYPE":
-			FormDivSelectFieldToField(&(_instance.TYPE), probe.stageOfInterest, formDiv)
-		case "A_SPEC_ATTRIBUTES:ATTRIBUTE_DEFINITION_REAL":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_DEFINITION_REAL", func(owner *models.A_SPEC_ATTRIBUTES) *[]*models.ATTRIBUTE_DEFINITION_REAL { return &owner.ATTRIBUTE_DEFINITION_REAL })
+			StageSetFormDivSelectFieldToField(&inst.DEFAULT_VALUE, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_REAL](), formDiv)
+		case "TYPE_XSD":
+			StageSetFormDivSelectFieldToField(&inst.TYPE_XSD, probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPE_DEFINITION_REAL_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__ATTRIBUTE_DEFINITION_STRINGFormCallback(
-	_instance *models.ATTRIBUTE_DEFINITION_STRING,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (attribute_definition_stringFormCallback *FormCallback[*models.ATTRIBUTE_DEFINITION_STRING]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveATTRIBUTE_DEFINITION_STRINGFields,
-	)
-}
-
-type ATTRIBUTE_DEFINITION_STRINGFormCallback = FormCallback[*models.ATTRIBUTE_DEFINITION_STRING]
-
-func saveATTRIBUTE_DEFINITION_STRINGFields(
-	_instance *models.ATTRIBUTE_DEFINITION_STRING,
+func saveStageSet_ATTRIBUTE_DEFINITION_STRING_Stage(
+	inst *models.ATTRIBUTE_DEFINITION_STRING,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "IS_EDITABLE":
-			FormDivBasicFieldToField(&(_instance.IS_EDITABLE), formDiv)
+			FormDivBasicFieldToField(&inst.IS_EDITABLE, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "DEFAULT_VALUE":
-			FormDivSelectFieldToField(&(_instance.DEFAULT_VALUE), probe.stageOfInterest, formDiv)
-		case "TYPE":
-			FormDivSelectFieldToField(&(_instance.TYPE), probe.stageOfInterest, formDiv)
-		case "A_SPEC_ATTRIBUTES:ATTRIBUTE_DEFINITION_STRING":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_DEFINITION_STRING", func(owner *models.A_SPEC_ATTRIBUTES) *[]*models.ATTRIBUTE_DEFINITION_STRING { return &owner.ATTRIBUTE_DEFINITION_STRING })
+			StageSetFormDivSelectFieldToField(&inst.DEFAULT_VALUE, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_STRING](), formDiv)
+		case "TYPE_XSD":
+			StageSetFormDivSelectFieldToField(&inst.TYPE_XSD, probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPE_DEFINITION_STRING_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__ATTRIBUTE_DEFINITION_XHTMLFormCallback(
-	_instance *models.ATTRIBUTE_DEFINITION_XHTML,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (attribute_definition_xhtmlFormCallback *FormCallback[*models.ATTRIBUTE_DEFINITION_XHTML]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveATTRIBUTE_DEFINITION_XHTMLFields,
-	)
-}
-
-type ATTRIBUTE_DEFINITION_XHTMLFormCallback = FormCallback[*models.ATTRIBUTE_DEFINITION_XHTML]
-
-func saveATTRIBUTE_DEFINITION_XHTMLFields(
-	_instance *models.ATTRIBUTE_DEFINITION_XHTML,
+func saveStageSet_ATTRIBUTE_DEFINITION_XHTML_Stage(
+	inst *models.ATTRIBUTE_DEFINITION_XHTML,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "IS_EDITABLE":
-			FormDivBasicFieldToField(&(_instance.IS_EDITABLE), formDiv)
+			FormDivBasicFieldToField(&inst.IS_EDITABLE, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "DEFAULT_VALUE":
-			FormDivSelectFieldToField(&(_instance.DEFAULT_VALUE), probe.stageOfInterest, formDiv)
-		case "TYPE":
-			FormDivSelectFieldToField(&(_instance.TYPE), probe.stageOfInterest, formDiv)
-		case "A_SPEC_ATTRIBUTES:ATTRIBUTE_DEFINITION_XHTML":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_DEFINITION_XHTML", func(owner *models.A_SPEC_ATTRIBUTES) *[]*models.ATTRIBUTE_DEFINITION_XHTML { return &owner.ATTRIBUTE_DEFINITION_XHTML })
+			StageSetFormDivSelectFieldToField(&inst.DEFAULT_VALUE, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_XHTML](), formDiv)
+		case "TYPE_XSD":
+			StageSetFormDivSelectFieldToField(&inst.TYPE_XSD, probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPE_DEFINITION_XHTML_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__ATTRIBUTE_VALUE_BOOLEANFormCallback(
-	_instance *models.ATTRIBUTE_VALUE_BOOLEAN,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (attribute_value_booleanFormCallback *FormCallback[*models.ATTRIBUTE_VALUE_BOOLEAN]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveATTRIBUTE_VALUE_BOOLEANFields,
-	)
-}
-
-type ATTRIBUTE_VALUE_BOOLEANFormCallback = FormCallback[*models.ATTRIBUTE_VALUE_BOOLEAN]
-
-func saveATTRIBUTE_VALUE_BOOLEANFields(
-	_instance *models.ATTRIBUTE_VALUE_BOOLEAN,
+func saveStageSet_ATTRIBUTE_VALUE_BOOLEAN_Stage(
+	inst *models.ATTRIBUTE_VALUE_BOOLEAN,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "THE_VALUE":
-			FormDivBasicFieldToField(&(_instance.THE_VALUE), formDiv)
+			FormDivBasicFieldToField(&inst.THE_VALUE, formDiv)
 		case "DEFINITION":
-			FormDivSelectFieldToField(&(_instance.DEFINITION), probe.stageOfInterest, formDiv)
-		case "A_ATTRIBUTE_VALUE_BOOLEAN:ATTRIBUTE_VALUE_BOOLEAN":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_VALUE_BOOLEAN", func(owner *models.A_ATTRIBUTE_VALUE_BOOLEAN) *[]*models.ATTRIBUTE_VALUE_BOOLEAN { return &owner.ATTRIBUTE_VALUE_BOOLEAN })
-		case "A_ATTRIBUTE_VALUE_XHTML_1:ATTRIBUTE_VALUE_BOOLEAN":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_VALUE_BOOLEAN", func(owner *models.A_ATTRIBUTE_VALUE_XHTML_1) *[]*models.ATTRIBUTE_VALUE_BOOLEAN { return &owner.ATTRIBUTE_VALUE_BOOLEAN })
+			StageSetFormDivSelectFieldToField(&inst.DEFINITION, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__ATTRIBUTE_VALUE_DATEFormCallback(
-	_instance *models.ATTRIBUTE_VALUE_DATE,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (attribute_value_dateFormCallback *FormCallback[*models.ATTRIBUTE_VALUE_DATE]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveATTRIBUTE_VALUE_DATEFields,
-	)
-}
-
-type ATTRIBUTE_VALUE_DATEFormCallback = FormCallback[*models.ATTRIBUTE_VALUE_DATE]
-
-func saveATTRIBUTE_VALUE_DATEFields(
-	_instance *models.ATTRIBUTE_VALUE_DATE,
+func saveStageSet_ATTRIBUTE_VALUE_DATE_Stage(
+	inst *models.ATTRIBUTE_VALUE_DATE,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "THE_VALUE":
-			FormDivBasicFieldToField(&(_instance.THE_VALUE), formDiv)
+			FormDivBasicFieldToField(&inst.THE_VALUE, formDiv)
 		case "DEFINITION":
-			FormDivSelectFieldToField(&(_instance.DEFINITION), probe.stageOfInterest, formDiv)
-		case "A_ATTRIBUTE_VALUE_DATE:ATTRIBUTE_VALUE_DATE":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_VALUE_DATE", func(owner *models.A_ATTRIBUTE_VALUE_DATE) *[]*models.ATTRIBUTE_VALUE_DATE { return &owner.ATTRIBUTE_VALUE_DATE })
-		case "A_ATTRIBUTE_VALUE_XHTML_1:ATTRIBUTE_VALUE_DATE":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_VALUE_DATE", func(owner *models.A_ATTRIBUTE_VALUE_XHTML_1) *[]*models.ATTRIBUTE_VALUE_DATE { return &owner.ATTRIBUTE_VALUE_DATE })
+			StageSetFormDivSelectFieldToField(&inst.DEFINITION, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_DEFINITION_DATE_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__ATTRIBUTE_VALUE_ENUMERATIONFormCallback(
-	_instance *models.ATTRIBUTE_VALUE_ENUMERATION,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (attribute_value_enumerationFormCallback *FormCallback[*models.ATTRIBUTE_VALUE_ENUMERATION]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveATTRIBUTE_VALUE_ENUMERATIONFields,
-	)
-}
-
-type ATTRIBUTE_VALUE_ENUMERATIONFormCallback = FormCallback[*models.ATTRIBUTE_VALUE_ENUMERATION]
-
-func saveATTRIBUTE_VALUE_ENUMERATIONFields(
-	_instance *models.ATTRIBUTE_VALUE_ENUMERATION,
+func saveStageSet_ATTRIBUTE_VALUE_ENUMERATION_Stage(
+	inst *models.ATTRIBUTE_VALUE_ENUMERATION,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DEFINITION":
-			FormDivSelectFieldToField(&(_instance.DEFINITION), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.DEFINITION, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF](), formDiv)
 		case "VALUES":
-			FormDivSelectFieldToField(&(_instance.VALUES), probe.stageOfInterest, formDiv)
-		case "A_ATTRIBUTE_VALUE_ENUMERATION:ATTRIBUTE_VALUE_ENUMERATION":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_VALUE_ENUMERATION", func(owner *models.A_ATTRIBUTE_VALUE_ENUMERATION) *[]*models.ATTRIBUTE_VALUE_ENUMERATION { return &owner.ATTRIBUTE_VALUE_ENUMERATION })
-		case "A_ATTRIBUTE_VALUE_XHTML_1:ATTRIBUTE_VALUE_ENUMERATION":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_VALUE_ENUMERATION", func(owner *models.A_ATTRIBUTE_VALUE_XHTML_1) *[]*models.ATTRIBUTE_VALUE_ENUMERATION { return &owner.ATTRIBUTE_VALUE_ENUMERATION })
+			StageSetFormDivSelectFieldToField(&inst.VALUES, probe.stageOfInterest.GetInstancesSet[*models.A_ENUM_VALUE_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__ATTRIBUTE_VALUE_INTEGERFormCallback(
-	_instance *models.ATTRIBUTE_VALUE_INTEGER,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (attribute_value_integerFormCallback *FormCallback[*models.ATTRIBUTE_VALUE_INTEGER]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveATTRIBUTE_VALUE_INTEGERFields,
-	)
-}
-
-type ATTRIBUTE_VALUE_INTEGERFormCallback = FormCallback[*models.ATTRIBUTE_VALUE_INTEGER]
-
-func saveATTRIBUTE_VALUE_INTEGERFields(
-	_instance *models.ATTRIBUTE_VALUE_INTEGER,
+func saveStageSet_ATTRIBUTE_VALUE_INTEGER_Stage(
+	inst *models.ATTRIBUTE_VALUE_INTEGER,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "THE_VALUE":
-			FormDivBasicFieldToField(&(_instance.THE_VALUE), formDiv)
+			FormDivBasicFieldToField(&inst.THE_VALUE, formDiv)
 		case "DEFINITION":
-			FormDivSelectFieldToField(&(_instance.DEFINITION), probe.stageOfInterest, formDiv)
-		case "A_ATTRIBUTE_VALUE_INTEGER:ATTRIBUTE_VALUE_INTEGER":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_VALUE_INTEGER", func(owner *models.A_ATTRIBUTE_VALUE_INTEGER) *[]*models.ATTRIBUTE_VALUE_INTEGER { return &owner.ATTRIBUTE_VALUE_INTEGER })
-		case "A_ATTRIBUTE_VALUE_XHTML_1:ATTRIBUTE_VALUE_INTEGER":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_VALUE_INTEGER", func(owner *models.A_ATTRIBUTE_VALUE_XHTML_1) *[]*models.ATTRIBUTE_VALUE_INTEGER { return &owner.ATTRIBUTE_VALUE_INTEGER })
+			StageSetFormDivSelectFieldToField(&inst.DEFINITION, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_DEFINITION_INTEGER_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__ATTRIBUTE_VALUE_REALFormCallback(
-	_instance *models.ATTRIBUTE_VALUE_REAL,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (attribute_value_realFormCallback *FormCallback[*models.ATTRIBUTE_VALUE_REAL]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveATTRIBUTE_VALUE_REALFields,
-	)
-}
-
-type ATTRIBUTE_VALUE_REALFormCallback = FormCallback[*models.ATTRIBUTE_VALUE_REAL]
-
-func saveATTRIBUTE_VALUE_REALFields(
-	_instance *models.ATTRIBUTE_VALUE_REAL,
+func saveStageSet_ATTRIBUTE_VALUE_REAL_Stage(
+	inst *models.ATTRIBUTE_VALUE_REAL,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "THE_VALUE":
-			FormDivBasicFieldToField(&(_instance.THE_VALUE), formDiv)
+			FormDivBasicFieldToField(&inst.THE_VALUE, formDiv)
 		case "DEFINITION":
-			FormDivSelectFieldToField(&(_instance.DEFINITION), probe.stageOfInterest, formDiv)
-		case "A_ATTRIBUTE_VALUE_REAL:ATTRIBUTE_VALUE_REAL":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_VALUE_REAL", func(owner *models.A_ATTRIBUTE_VALUE_REAL) *[]*models.ATTRIBUTE_VALUE_REAL { return &owner.ATTRIBUTE_VALUE_REAL })
-		case "A_ATTRIBUTE_VALUE_XHTML_1:ATTRIBUTE_VALUE_REAL":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_VALUE_REAL", func(owner *models.A_ATTRIBUTE_VALUE_XHTML_1) *[]*models.ATTRIBUTE_VALUE_REAL { return &owner.ATTRIBUTE_VALUE_REAL })
+			StageSetFormDivSelectFieldToField(&inst.DEFINITION, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_DEFINITION_REAL_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__ATTRIBUTE_VALUE_STRINGFormCallback(
-	_instance *models.ATTRIBUTE_VALUE_STRING,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (attribute_value_stringFormCallback *FormCallback[*models.ATTRIBUTE_VALUE_STRING]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveATTRIBUTE_VALUE_STRINGFields,
-	)
-}
-
-type ATTRIBUTE_VALUE_STRINGFormCallback = FormCallback[*models.ATTRIBUTE_VALUE_STRING]
-
-func saveATTRIBUTE_VALUE_STRINGFields(
-	_instance *models.ATTRIBUTE_VALUE_STRING,
+func saveStageSet_ATTRIBUTE_VALUE_STRING_Stage(
+	inst *models.ATTRIBUTE_VALUE_STRING,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "THE_VALUE":
-			FormDivBasicFieldToField(&(_instance.THE_VALUE), formDiv)
+			FormDivBasicFieldToField(&inst.THE_VALUE, formDiv)
 		case "DEFINITION":
-			FormDivSelectFieldToField(&(_instance.DEFINITION), probe.stageOfInterest, formDiv)
-		case "A_ATTRIBUTE_VALUE_STRING:ATTRIBUTE_VALUE_STRING":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_VALUE_STRING", func(owner *models.A_ATTRIBUTE_VALUE_STRING) *[]*models.ATTRIBUTE_VALUE_STRING { return &owner.ATTRIBUTE_VALUE_STRING })
-		case "A_ATTRIBUTE_VALUE_XHTML_1:ATTRIBUTE_VALUE_STRING":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_VALUE_STRING", func(owner *models.A_ATTRIBUTE_VALUE_XHTML_1) *[]*models.ATTRIBUTE_VALUE_STRING { return &owner.ATTRIBUTE_VALUE_STRING })
+			StageSetFormDivSelectFieldToField(&inst.DEFINITION, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_DEFINITION_STRING_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__ATTRIBUTE_VALUE_XHTMLFormCallback(
-	_instance *models.ATTRIBUTE_VALUE_XHTML,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (attribute_value_xhtmlFormCallback *FormCallback[*models.ATTRIBUTE_VALUE_XHTML]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveATTRIBUTE_VALUE_XHTMLFields,
-	)
-}
-
-type ATTRIBUTE_VALUE_XHTMLFormCallback = FormCallback[*models.ATTRIBUTE_VALUE_XHTML]
-
-func saveATTRIBUTE_VALUE_XHTMLFields(
-	_instance *models.ATTRIBUTE_VALUE_XHTML,
+func saveStageSet_ATTRIBUTE_VALUE_XHTML_Stage(
+	inst *models.ATTRIBUTE_VALUE_XHTML,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "IS_SIMPLIFIED":
-			FormDivBasicFieldToField(&(_instance.IS_SIMPLIFIED), formDiv)
+			FormDivBasicFieldToField(&inst.IS_SIMPLIFIED, formDiv)
 		case "THE_VALUE":
-			FormDivSelectFieldToField(&(_instance.THE_VALUE), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.THE_VALUE, probe.stageOfInterest.GetInstancesSet[*models.XHTML_CONTENT](), formDiv)
 		case "THE_ORIGINAL_VALUE":
-			FormDivSelectFieldToField(&(_instance.THE_ORIGINAL_VALUE), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.THE_ORIGINAL_VALUE, probe.stageOfInterest.GetInstancesSet[*models.XHTML_CONTENT](), formDiv)
 		case "DEFINITION":
-			FormDivSelectFieldToField(&(_instance.DEFINITION), probe.stageOfInterest, formDiv)
-		case "A_ATTRIBUTE_VALUE_XHTML:ATTRIBUTE_VALUE_XHTML":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_VALUE_XHTML", func(owner *models.A_ATTRIBUTE_VALUE_XHTML) *[]*models.ATTRIBUTE_VALUE_XHTML { return &owner.ATTRIBUTE_VALUE_XHTML })
-		case "A_ATTRIBUTE_VALUE_XHTML_1:ATTRIBUTE_VALUE_XHTML":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ATTRIBUTE_VALUE_XHTML", func(owner *models.A_ATTRIBUTE_VALUE_XHTML_1) *[]*models.ATTRIBUTE_VALUE_XHTML { return &owner.ATTRIBUTE_VALUE_XHTML })
+			StageSetFormDivSelectFieldToField(&inst.DEFINITION, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_DEFINITION_XHTML_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__A_ALTERNATIVE_IDFormCallback(
-	_instance *models.A_ALTERNATIVE_ID,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_alternative_idFormCallback *FormCallback[*models.A_ALTERNATIVE_ID]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ALTERNATIVE_IDFields,
-	)
-}
-
-type A_ALTERNATIVE_IDFormCallback = FormCallback[*models.A_ALTERNATIVE_ID]
-
-func saveA_ALTERNATIVE_IDFields(
-	_instance *models.A_ALTERNATIVE_ID,
+func saveStageSet_A_ALTERNATIVE_ID_Stage(
+	inst *models.A_ALTERNATIVE_ID,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.ALTERNATIVE_ID](), formDiv)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_DEFINITION_BOOLEAN_REFFormCallback(
-	_instance *models.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_definition_boolean_refFormCallback *FormCallback[*models.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_DEFINITION_BOOLEAN_REFFields,
-	)
-}
-
-type A_ATTRIBUTE_DEFINITION_BOOLEAN_REFFormCallback = FormCallback[*models.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF]
-
-func saveA_ATTRIBUTE_DEFINITION_BOOLEAN_REFFields(
-	_instance *models.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF,
+func saveStageSet_A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_Stage(
+	inst *models.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_DEFINITION_BOOLEAN_REF":
-			FormDivBasicFieldToField(&(_instance.ATTRIBUTE_DEFINITION_BOOLEAN_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ATTRIBUTE_DEFINITION_BOOLEAN_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_DEFINITION_DATE_REFFormCallback(
-	_instance *models.A_ATTRIBUTE_DEFINITION_DATE_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_definition_date_refFormCallback *FormCallback[*models.A_ATTRIBUTE_DEFINITION_DATE_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_DEFINITION_DATE_REFFields,
-	)
-}
-
-type A_ATTRIBUTE_DEFINITION_DATE_REFFormCallback = FormCallback[*models.A_ATTRIBUTE_DEFINITION_DATE_REF]
-
-func saveA_ATTRIBUTE_DEFINITION_DATE_REFFields(
-	_instance *models.A_ATTRIBUTE_DEFINITION_DATE_REF,
+func saveStageSet_A_ATTRIBUTE_DEFINITION_DATE_REF_Stage(
+	inst *models.A_ATTRIBUTE_DEFINITION_DATE_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_DEFINITION_DATE_REF":
-			FormDivBasicFieldToField(&(_instance.ATTRIBUTE_DEFINITION_DATE_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ATTRIBUTE_DEFINITION_DATE_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_DEFINITION_ENUMERATION_REFFormCallback(
-	_instance *models.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_definition_enumeration_refFormCallback *FormCallback[*models.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_DEFINITION_ENUMERATION_REFFields,
-	)
-}
-
-type A_ATTRIBUTE_DEFINITION_ENUMERATION_REFFormCallback = FormCallback[*models.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF]
-
-func saveA_ATTRIBUTE_DEFINITION_ENUMERATION_REFFields(
-	_instance *models.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF,
+func saveStageSet_A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_Stage(
+	inst *models.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_DEFINITION_ENUMERATION_REF":
-			FormDivBasicFieldToField(&(_instance.ATTRIBUTE_DEFINITION_ENUMERATION_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ATTRIBUTE_DEFINITION_ENUMERATION_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_DEFINITION_INTEGER_REFFormCallback(
-	_instance *models.A_ATTRIBUTE_DEFINITION_INTEGER_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_definition_integer_refFormCallback *FormCallback[*models.A_ATTRIBUTE_DEFINITION_INTEGER_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_DEFINITION_INTEGER_REFFields,
-	)
-}
-
-type A_ATTRIBUTE_DEFINITION_INTEGER_REFFormCallback = FormCallback[*models.A_ATTRIBUTE_DEFINITION_INTEGER_REF]
-
-func saveA_ATTRIBUTE_DEFINITION_INTEGER_REFFields(
-	_instance *models.A_ATTRIBUTE_DEFINITION_INTEGER_REF,
+func saveStageSet_A_ATTRIBUTE_DEFINITION_INTEGER_REF_Stage(
+	inst *models.A_ATTRIBUTE_DEFINITION_INTEGER_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_DEFINITION_INTEGER_REF":
-			FormDivBasicFieldToField(&(_instance.ATTRIBUTE_DEFINITION_INTEGER_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ATTRIBUTE_DEFINITION_INTEGER_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_DEFINITION_REAL_REFFormCallback(
-	_instance *models.A_ATTRIBUTE_DEFINITION_REAL_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_definition_real_refFormCallback *FormCallback[*models.A_ATTRIBUTE_DEFINITION_REAL_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_DEFINITION_REAL_REFFields,
-	)
-}
-
-type A_ATTRIBUTE_DEFINITION_REAL_REFFormCallback = FormCallback[*models.A_ATTRIBUTE_DEFINITION_REAL_REF]
-
-func saveA_ATTRIBUTE_DEFINITION_REAL_REFFields(
-	_instance *models.A_ATTRIBUTE_DEFINITION_REAL_REF,
+func saveStageSet_A_ATTRIBUTE_DEFINITION_REAL_REF_Stage(
+	inst *models.A_ATTRIBUTE_DEFINITION_REAL_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_DEFINITION_REAL_REF":
-			FormDivBasicFieldToField(&(_instance.ATTRIBUTE_DEFINITION_REAL_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ATTRIBUTE_DEFINITION_REAL_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_DEFINITION_STRING_REFFormCallback(
-	_instance *models.A_ATTRIBUTE_DEFINITION_STRING_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_definition_string_refFormCallback *FormCallback[*models.A_ATTRIBUTE_DEFINITION_STRING_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_DEFINITION_STRING_REFFields,
-	)
-}
-
-type A_ATTRIBUTE_DEFINITION_STRING_REFFormCallback = FormCallback[*models.A_ATTRIBUTE_DEFINITION_STRING_REF]
-
-func saveA_ATTRIBUTE_DEFINITION_STRING_REFFields(
-	_instance *models.A_ATTRIBUTE_DEFINITION_STRING_REF,
+func saveStageSet_A_ATTRIBUTE_DEFINITION_STRING_REF_Stage(
+	inst *models.A_ATTRIBUTE_DEFINITION_STRING_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_DEFINITION_STRING_REF":
-			FormDivBasicFieldToField(&(_instance.ATTRIBUTE_DEFINITION_STRING_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ATTRIBUTE_DEFINITION_STRING_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_DEFINITION_XHTML_REFFormCallback(
-	_instance *models.A_ATTRIBUTE_DEFINITION_XHTML_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_definition_xhtml_refFormCallback *FormCallback[*models.A_ATTRIBUTE_DEFINITION_XHTML_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_DEFINITION_XHTML_REFFields,
-	)
-}
-
-type A_ATTRIBUTE_DEFINITION_XHTML_REFFormCallback = FormCallback[*models.A_ATTRIBUTE_DEFINITION_XHTML_REF]
-
-func saveA_ATTRIBUTE_DEFINITION_XHTML_REFFields(
-	_instance *models.A_ATTRIBUTE_DEFINITION_XHTML_REF,
+func saveStageSet_A_ATTRIBUTE_DEFINITION_XHTML_REF_Stage(
+	inst *models.A_ATTRIBUTE_DEFINITION_XHTML_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_DEFINITION_XHTML_REF":
-			FormDivBasicFieldToField(&(_instance.ATTRIBUTE_DEFINITION_XHTML_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ATTRIBUTE_DEFINITION_XHTML_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_VALUE_BOOLEANFormCallback(
-	_instance *models.A_ATTRIBUTE_VALUE_BOOLEAN,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_value_booleanFormCallback *FormCallback[*models.A_ATTRIBUTE_VALUE_BOOLEAN]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_VALUE_BOOLEANFields,
-	)
-}
-
-type A_ATTRIBUTE_VALUE_BOOLEANFormCallback = FormCallback[*models.A_ATTRIBUTE_VALUE_BOOLEAN]
-
-func saveA_ATTRIBUTE_VALUE_BOOLEANFields(
-	_instance *models.A_ATTRIBUTE_VALUE_BOOLEAN,
+func saveStageSet_A_ATTRIBUTE_VALUE_BOOLEAN_Stage(
+	inst *models.A_ATTRIBUTE_VALUE_BOOLEAN,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_VALUE_BOOLEAN":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_VALUE_BOOLEAN", &(_instance.ATTRIBUTE_VALUE_BOOLEAN), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_VALUE_BOOLEAN", &inst.ATTRIBUTE_VALUE_BOOLEAN, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_VALUE_DATEFormCallback(
-	_instance *models.A_ATTRIBUTE_VALUE_DATE,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_value_dateFormCallback *FormCallback[*models.A_ATTRIBUTE_VALUE_DATE]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_VALUE_DATEFields,
-	)
-}
-
-type A_ATTRIBUTE_VALUE_DATEFormCallback = FormCallback[*models.A_ATTRIBUTE_VALUE_DATE]
-
-func saveA_ATTRIBUTE_VALUE_DATEFields(
-	_instance *models.A_ATTRIBUTE_VALUE_DATE,
+func saveStageSet_A_ATTRIBUTE_VALUE_DATE_Stage(
+	inst *models.A_ATTRIBUTE_VALUE_DATE,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_VALUE_DATE":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_VALUE_DATE", &(_instance.ATTRIBUTE_VALUE_DATE), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_VALUE_DATE", &inst.ATTRIBUTE_VALUE_DATE, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_VALUE_ENUMERATIONFormCallback(
-	_instance *models.A_ATTRIBUTE_VALUE_ENUMERATION,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_value_enumerationFormCallback *FormCallback[*models.A_ATTRIBUTE_VALUE_ENUMERATION]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_VALUE_ENUMERATIONFields,
-	)
-}
-
-type A_ATTRIBUTE_VALUE_ENUMERATIONFormCallback = FormCallback[*models.A_ATTRIBUTE_VALUE_ENUMERATION]
-
-func saveA_ATTRIBUTE_VALUE_ENUMERATIONFields(
-	_instance *models.A_ATTRIBUTE_VALUE_ENUMERATION,
+func saveStageSet_A_ATTRIBUTE_VALUE_ENUMERATION_Stage(
+	inst *models.A_ATTRIBUTE_VALUE_ENUMERATION,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_VALUE_ENUMERATION":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_VALUE_ENUMERATION", &(_instance.ATTRIBUTE_VALUE_ENUMERATION), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_VALUE_ENUMERATION", &inst.ATTRIBUTE_VALUE_ENUMERATION, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_VALUE_INTEGERFormCallback(
-	_instance *models.A_ATTRIBUTE_VALUE_INTEGER,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_value_integerFormCallback *FormCallback[*models.A_ATTRIBUTE_VALUE_INTEGER]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_VALUE_INTEGERFields,
-	)
-}
-
-type A_ATTRIBUTE_VALUE_INTEGERFormCallback = FormCallback[*models.A_ATTRIBUTE_VALUE_INTEGER]
-
-func saveA_ATTRIBUTE_VALUE_INTEGERFields(
-	_instance *models.A_ATTRIBUTE_VALUE_INTEGER,
+func saveStageSet_A_ATTRIBUTE_VALUE_INTEGER_Stage(
+	inst *models.A_ATTRIBUTE_VALUE_INTEGER,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_VALUE_INTEGER":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_VALUE_INTEGER", &(_instance.ATTRIBUTE_VALUE_INTEGER), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_VALUE_INTEGER", &inst.ATTRIBUTE_VALUE_INTEGER, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_VALUE_REALFormCallback(
-	_instance *models.A_ATTRIBUTE_VALUE_REAL,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_value_realFormCallback *FormCallback[*models.A_ATTRIBUTE_VALUE_REAL]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_VALUE_REALFields,
-	)
-}
-
-type A_ATTRIBUTE_VALUE_REALFormCallback = FormCallback[*models.A_ATTRIBUTE_VALUE_REAL]
-
-func saveA_ATTRIBUTE_VALUE_REALFields(
-	_instance *models.A_ATTRIBUTE_VALUE_REAL,
+func saveStageSet_A_ATTRIBUTE_VALUE_REAL_Stage(
+	inst *models.A_ATTRIBUTE_VALUE_REAL,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_VALUE_REAL":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_VALUE_REAL", &(_instance.ATTRIBUTE_VALUE_REAL), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_VALUE_REAL", &inst.ATTRIBUTE_VALUE_REAL, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_VALUE_STRINGFormCallback(
-	_instance *models.A_ATTRIBUTE_VALUE_STRING,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_value_stringFormCallback *FormCallback[*models.A_ATTRIBUTE_VALUE_STRING]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_VALUE_STRINGFields,
-	)
-}
-
-type A_ATTRIBUTE_VALUE_STRINGFormCallback = FormCallback[*models.A_ATTRIBUTE_VALUE_STRING]
-
-func saveA_ATTRIBUTE_VALUE_STRINGFields(
-	_instance *models.A_ATTRIBUTE_VALUE_STRING,
+func saveStageSet_A_ATTRIBUTE_VALUE_STRING_Stage(
+	inst *models.A_ATTRIBUTE_VALUE_STRING,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_VALUE_STRING":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_VALUE_STRING", &(_instance.ATTRIBUTE_VALUE_STRING), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_VALUE_STRING", &inst.ATTRIBUTE_VALUE_STRING, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_VALUE_XHTMLFormCallback(
-	_instance *models.A_ATTRIBUTE_VALUE_XHTML,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_value_xhtmlFormCallback *FormCallback[*models.A_ATTRIBUTE_VALUE_XHTML]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_VALUE_XHTMLFields,
-	)
-}
-
-type A_ATTRIBUTE_VALUE_XHTMLFormCallback = FormCallback[*models.A_ATTRIBUTE_VALUE_XHTML]
-
-func saveA_ATTRIBUTE_VALUE_XHTMLFields(
-	_instance *models.A_ATTRIBUTE_VALUE_XHTML,
+func saveStageSet_A_ATTRIBUTE_VALUE_XHTML_Stage(
+	inst *models.A_ATTRIBUTE_VALUE_XHTML,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_VALUE_XHTML":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_VALUE_XHTML", &(_instance.ATTRIBUTE_VALUE_XHTML), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_VALUE_XHTML", &inst.ATTRIBUTE_VALUE_XHTML, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_ATTRIBUTE_VALUE_XHTML_1FormCallback(
-	_instance *models.A_ATTRIBUTE_VALUE_XHTML_1,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_attribute_value_xhtml_1FormCallback *FormCallback[*models.A_ATTRIBUTE_VALUE_XHTML_1]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ATTRIBUTE_VALUE_XHTML_1Fields,
-	)
-}
-
-type A_ATTRIBUTE_VALUE_XHTML_1FormCallback = FormCallback[*models.A_ATTRIBUTE_VALUE_XHTML_1]
-
-func saveA_ATTRIBUTE_VALUE_XHTML_1Fields(
-	_instance *models.A_ATTRIBUTE_VALUE_XHTML_1,
+func saveStageSet_A_ATTRIBUTE_VALUE_XHTML_1_Stage(
+	inst *models.A_ATTRIBUTE_VALUE_XHTML_1,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_VALUE_BOOLEAN":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_VALUE_BOOLEAN", &(_instance.ATTRIBUTE_VALUE_BOOLEAN), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_VALUE_BOOLEAN", &inst.ATTRIBUTE_VALUE_BOOLEAN, formDiv, probe)
 		case "ATTRIBUTE_VALUE_DATE":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_VALUE_DATE", &(_instance.ATTRIBUTE_VALUE_DATE), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_VALUE_DATE", &inst.ATTRIBUTE_VALUE_DATE, formDiv, probe)
 		case "ATTRIBUTE_VALUE_ENUMERATION":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_VALUE_ENUMERATION", &(_instance.ATTRIBUTE_VALUE_ENUMERATION), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_VALUE_ENUMERATION", &inst.ATTRIBUTE_VALUE_ENUMERATION, formDiv, probe)
 		case "ATTRIBUTE_VALUE_INTEGER":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_VALUE_INTEGER", &(_instance.ATTRIBUTE_VALUE_INTEGER), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_VALUE_INTEGER", &inst.ATTRIBUTE_VALUE_INTEGER, formDiv, probe)
 		case "ATTRIBUTE_VALUE_REAL":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_VALUE_REAL", &(_instance.ATTRIBUTE_VALUE_REAL), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_VALUE_REAL", &inst.ATTRIBUTE_VALUE_REAL, formDiv, probe)
 		case "ATTRIBUTE_VALUE_STRING":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_VALUE_STRING", &(_instance.ATTRIBUTE_VALUE_STRING), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_VALUE_STRING", &inst.ATTRIBUTE_VALUE_STRING, formDiv, probe)
 		case "ATTRIBUTE_VALUE_XHTML":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_VALUE_XHTML", &(_instance.ATTRIBUTE_VALUE_XHTML), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_VALUE_XHTML", &inst.ATTRIBUTE_VALUE_XHTML, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_CHILDRENFormCallback(
-	_instance *models.A_CHILDREN,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_childrenFormCallback *FormCallback[*models.A_CHILDREN]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_CHILDRENFields,
-	)
-}
-
-type A_CHILDRENFormCallback = FormCallback[*models.A_CHILDREN]
-
-func saveA_CHILDRENFields(
-	_instance *models.A_CHILDREN,
+func saveStageSet_A_CHILDREN_Stage(
+	inst *models.A_CHILDREN,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "SPEC_HIERARCHY":
-			FormDivSliceOfPointersToField(_instance, "SPEC_HIERARCHY", &(_instance.SPEC_HIERARCHY), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "SPEC_HIERARCHY", &inst.SPEC_HIERARCHY, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_CORE_CONTENTFormCallback(
-	_instance *models.A_CORE_CONTENT,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_core_contentFormCallback *FormCallback[*models.A_CORE_CONTENT]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_CORE_CONTENTFields,
-	)
-}
-
-type A_CORE_CONTENTFormCallback = FormCallback[*models.A_CORE_CONTENT]
-
-func saveA_CORE_CONTENTFields(
-	_instance *models.A_CORE_CONTENT,
+func saveStageSet_A_CORE_CONTENT_Stage(
+	inst *models.A_CORE_CONTENT,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "REQ_IF_CONTENT":
-			FormDivSelectFieldToField(&(_instance.REQ_IF_CONTENT), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.REQ_IF_CONTENT, probe.stageOfInterest.GetInstancesSet[*models.REQ_IF_CONTENT](), formDiv)
 		}
 	}
 }
 
-func __gong__New__A_DATATYPESFormCallback(
-	_instance *models.A_DATATYPES,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_datatypesFormCallback *FormCallback[*models.A_DATATYPES]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_DATATYPESFields,
-	)
-}
-
-type A_DATATYPESFormCallback = FormCallback[*models.A_DATATYPES]
-
-func saveA_DATATYPESFields(
-	_instance *models.A_DATATYPES,
+func saveStageSet_A_DATATYPES_Stage(
+	inst *models.A_DATATYPES,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DATATYPE_DEFINITION_BOOLEAN":
-			FormDivSliceOfPointersToField(_instance, "DATATYPE_DEFINITION_BOOLEAN", &(_instance.DATATYPE_DEFINITION_BOOLEAN), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "DATATYPE_DEFINITION_BOOLEAN", &inst.DATATYPE_DEFINITION_BOOLEAN, formDiv, probe)
 		case "DATATYPE_DEFINITION_DATE":
-			FormDivSliceOfPointersToField(_instance, "DATATYPE_DEFINITION_DATE", &(_instance.DATATYPE_DEFINITION_DATE), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "DATATYPE_DEFINITION_DATE", &inst.DATATYPE_DEFINITION_DATE, formDiv, probe)
 		case "DATATYPE_DEFINITION_ENUMERATION":
-			FormDivSliceOfPointersToField(_instance, "DATATYPE_DEFINITION_ENUMERATION", &(_instance.DATATYPE_DEFINITION_ENUMERATION), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "DATATYPE_DEFINITION_ENUMERATION", &inst.DATATYPE_DEFINITION_ENUMERATION, formDiv, probe)
 		case "DATATYPE_DEFINITION_INTEGER":
-			FormDivSliceOfPointersToField(_instance, "DATATYPE_DEFINITION_INTEGER", &(_instance.DATATYPE_DEFINITION_INTEGER), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "DATATYPE_DEFINITION_INTEGER", &inst.DATATYPE_DEFINITION_INTEGER, formDiv, probe)
 		case "DATATYPE_DEFINITION_REAL":
-			FormDivSliceOfPointersToField(_instance, "DATATYPE_DEFINITION_REAL", &(_instance.DATATYPE_DEFINITION_REAL), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "DATATYPE_DEFINITION_REAL", &inst.DATATYPE_DEFINITION_REAL, formDiv, probe)
 		case "DATATYPE_DEFINITION_STRING":
-			FormDivSliceOfPointersToField(_instance, "DATATYPE_DEFINITION_STRING", &(_instance.DATATYPE_DEFINITION_STRING), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "DATATYPE_DEFINITION_STRING", &inst.DATATYPE_DEFINITION_STRING, formDiv, probe)
 		case "DATATYPE_DEFINITION_XHTML":
-			FormDivSliceOfPointersToField(_instance, "DATATYPE_DEFINITION_XHTML", &(_instance.DATATYPE_DEFINITION_XHTML), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "DATATYPE_DEFINITION_XHTML", &inst.DATATYPE_DEFINITION_XHTML, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_DATATYPE_DEFINITION_BOOLEAN_REFFormCallback(
-	_instance *models.A_DATATYPE_DEFINITION_BOOLEAN_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_datatype_definition_boolean_refFormCallback *FormCallback[*models.A_DATATYPE_DEFINITION_BOOLEAN_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_DATATYPE_DEFINITION_BOOLEAN_REFFields,
-	)
-}
-
-type A_DATATYPE_DEFINITION_BOOLEAN_REFFormCallback = FormCallback[*models.A_DATATYPE_DEFINITION_BOOLEAN_REF]
-
-func saveA_DATATYPE_DEFINITION_BOOLEAN_REFFields(
-	_instance *models.A_DATATYPE_DEFINITION_BOOLEAN_REF,
+func saveStageSet_A_DATATYPE_DEFINITION_BOOLEAN_REF_Stage(
+	inst *models.A_DATATYPE_DEFINITION_BOOLEAN_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DATATYPE_DEFINITION_BOOLEAN_REF":
-			FormDivBasicFieldToField(&(_instance.DATATYPE_DEFINITION_BOOLEAN_REF), formDiv)
+			FormDivBasicFieldToField(&inst.DATATYPE_DEFINITION_BOOLEAN_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_DATATYPE_DEFINITION_DATE_REFFormCallback(
-	_instance *models.A_DATATYPE_DEFINITION_DATE_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_datatype_definition_date_refFormCallback *FormCallback[*models.A_DATATYPE_DEFINITION_DATE_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_DATATYPE_DEFINITION_DATE_REFFields,
-	)
-}
-
-type A_DATATYPE_DEFINITION_DATE_REFFormCallback = FormCallback[*models.A_DATATYPE_DEFINITION_DATE_REF]
-
-func saveA_DATATYPE_DEFINITION_DATE_REFFields(
-	_instance *models.A_DATATYPE_DEFINITION_DATE_REF,
+func saveStageSet_A_DATATYPE_DEFINITION_DATE_REF_Stage(
+	inst *models.A_DATATYPE_DEFINITION_DATE_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DATATYPE_DEFINITION_DATE_REF":
-			FormDivBasicFieldToField(&(_instance.DATATYPE_DEFINITION_DATE_REF), formDiv)
+			FormDivBasicFieldToField(&inst.DATATYPE_DEFINITION_DATE_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_DATATYPE_DEFINITION_ENUMERATION_REFFormCallback(
-	_instance *models.A_DATATYPE_DEFINITION_ENUMERATION_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_datatype_definition_enumeration_refFormCallback *FormCallback[*models.A_DATATYPE_DEFINITION_ENUMERATION_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_DATATYPE_DEFINITION_ENUMERATION_REFFields,
-	)
-}
-
-type A_DATATYPE_DEFINITION_ENUMERATION_REFFormCallback = FormCallback[*models.A_DATATYPE_DEFINITION_ENUMERATION_REF]
-
-func saveA_DATATYPE_DEFINITION_ENUMERATION_REFFields(
-	_instance *models.A_DATATYPE_DEFINITION_ENUMERATION_REF,
+func saveStageSet_A_DATATYPE_DEFINITION_ENUMERATION_REF_Stage(
+	inst *models.A_DATATYPE_DEFINITION_ENUMERATION_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DATATYPE_DEFINITION_ENUMERATION_REF":
-			FormDivBasicFieldToField(&(_instance.DATATYPE_DEFINITION_ENUMERATION_REF), formDiv)
+			FormDivBasicFieldToField(&inst.DATATYPE_DEFINITION_ENUMERATION_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_DATATYPE_DEFINITION_INTEGER_REFFormCallback(
-	_instance *models.A_DATATYPE_DEFINITION_INTEGER_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_datatype_definition_integer_refFormCallback *FormCallback[*models.A_DATATYPE_DEFINITION_INTEGER_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_DATATYPE_DEFINITION_INTEGER_REFFields,
-	)
-}
-
-type A_DATATYPE_DEFINITION_INTEGER_REFFormCallback = FormCallback[*models.A_DATATYPE_DEFINITION_INTEGER_REF]
-
-func saveA_DATATYPE_DEFINITION_INTEGER_REFFields(
-	_instance *models.A_DATATYPE_DEFINITION_INTEGER_REF,
+func saveStageSet_A_DATATYPE_DEFINITION_INTEGER_REF_Stage(
+	inst *models.A_DATATYPE_DEFINITION_INTEGER_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DATATYPE_DEFINITION_INTEGER_REF":
-			FormDivBasicFieldToField(&(_instance.DATATYPE_DEFINITION_INTEGER_REF), formDiv)
+			FormDivBasicFieldToField(&inst.DATATYPE_DEFINITION_INTEGER_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_DATATYPE_DEFINITION_REAL_REFFormCallback(
-	_instance *models.A_DATATYPE_DEFINITION_REAL_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_datatype_definition_real_refFormCallback *FormCallback[*models.A_DATATYPE_DEFINITION_REAL_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_DATATYPE_DEFINITION_REAL_REFFields,
-	)
-}
-
-type A_DATATYPE_DEFINITION_REAL_REFFormCallback = FormCallback[*models.A_DATATYPE_DEFINITION_REAL_REF]
-
-func saveA_DATATYPE_DEFINITION_REAL_REFFields(
-	_instance *models.A_DATATYPE_DEFINITION_REAL_REF,
+func saveStageSet_A_DATATYPE_DEFINITION_REAL_REF_Stage(
+	inst *models.A_DATATYPE_DEFINITION_REAL_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DATATYPE_DEFINITION_REAL_REF":
-			FormDivBasicFieldToField(&(_instance.DATATYPE_DEFINITION_REAL_REF), formDiv)
+			FormDivBasicFieldToField(&inst.DATATYPE_DEFINITION_REAL_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_DATATYPE_DEFINITION_STRING_REFFormCallback(
-	_instance *models.A_DATATYPE_DEFINITION_STRING_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_datatype_definition_string_refFormCallback *FormCallback[*models.A_DATATYPE_DEFINITION_STRING_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_DATATYPE_DEFINITION_STRING_REFFields,
-	)
-}
-
-type A_DATATYPE_DEFINITION_STRING_REFFormCallback = FormCallback[*models.A_DATATYPE_DEFINITION_STRING_REF]
-
-func saveA_DATATYPE_DEFINITION_STRING_REFFields(
-	_instance *models.A_DATATYPE_DEFINITION_STRING_REF,
+func saveStageSet_A_DATATYPE_DEFINITION_STRING_REF_Stage(
+	inst *models.A_DATATYPE_DEFINITION_STRING_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DATATYPE_DEFINITION_STRING_REF":
-			FormDivBasicFieldToField(&(_instance.DATATYPE_DEFINITION_STRING_REF), formDiv)
+			FormDivBasicFieldToField(&inst.DATATYPE_DEFINITION_STRING_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_DATATYPE_DEFINITION_XHTML_REFFormCallback(
-	_instance *models.A_DATATYPE_DEFINITION_XHTML_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_datatype_definition_xhtml_refFormCallback *FormCallback[*models.A_DATATYPE_DEFINITION_XHTML_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_DATATYPE_DEFINITION_XHTML_REFFields,
-	)
-}
-
-type A_DATATYPE_DEFINITION_XHTML_REFFormCallback = FormCallback[*models.A_DATATYPE_DEFINITION_XHTML_REF]
-
-func saveA_DATATYPE_DEFINITION_XHTML_REFFields(
-	_instance *models.A_DATATYPE_DEFINITION_XHTML_REF,
+func saveStageSet_A_DATATYPE_DEFINITION_XHTML_REF_Stage(
+	inst *models.A_DATATYPE_DEFINITION_XHTML_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DATATYPE_DEFINITION_XHTML_REF":
-			FormDivBasicFieldToField(&(_instance.DATATYPE_DEFINITION_XHTML_REF), formDiv)
+			FormDivBasicFieldToField(&inst.DATATYPE_DEFINITION_XHTML_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_EDITABLE_ATTSFormCallback(
-	_instance *models.A_EDITABLE_ATTS,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_editable_attsFormCallback *FormCallback[*models.A_EDITABLE_ATTS]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_EDITABLE_ATTSFields,
-	)
-}
-
-type A_EDITABLE_ATTSFormCallback = FormCallback[*models.A_EDITABLE_ATTS]
-
-func saveA_EDITABLE_ATTSFields(
-	_instance *models.A_EDITABLE_ATTS,
+func saveStageSet_A_EDITABLE_ATTS_Stage(
+	inst *models.A_EDITABLE_ATTS,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_DEFINITION_BOOLEAN_REF":
-			FormDivBasicFieldToField(&(_instance.ATTRIBUTE_DEFINITION_BOOLEAN_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ATTRIBUTE_DEFINITION_BOOLEAN_REF, formDiv)
 		case "ATTRIBUTE_DEFINITION_DATE_REF":
-			FormDivBasicFieldToField(&(_instance.ATTRIBUTE_DEFINITION_DATE_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ATTRIBUTE_DEFINITION_DATE_REF, formDiv)
 		case "ATTRIBUTE_DEFINITION_ENUMERATION_REF":
-			FormDivBasicFieldToField(&(_instance.ATTRIBUTE_DEFINITION_ENUMERATION_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ATTRIBUTE_DEFINITION_ENUMERATION_REF, formDiv)
 		case "ATTRIBUTE_DEFINITION_INTEGER_REF":
-			FormDivBasicFieldToField(&(_instance.ATTRIBUTE_DEFINITION_INTEGER_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ATTRIBUTE_DEFINITION_INTEGER_REF, formDiv)
 		case "ATTRIBUTE_DEFINITION_REAL_REF":
-			FormDivBasicFieldToField(&(_instance.ATTRIBUTE_DEFINITION_REAL_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ATTRIBUTE_DEFINITION_REAL_REF, formDiv)
 		case "ATTRIBUTE_DEFINITION_STRING_REF":
-			FormDivBasicFieldToField(&(_instance.ATTRIBUTE_DEFINITION_STRING_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ATTRIBUTE_DEFINITION_STRING_REF, formDiv)
 		case "ATTRIBUTE_DEFINITION_XHTML_REF":
-			FormDivBasicFieldToField(&(_instance.ATTRIBUTE_DEFINITION_XHTML_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ATTRIBUTE_DEFINITION_XHTML_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_ENUM_VALUE_REFFormCallback(
-	_instance *models.A_ENUM_VALUE_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_enum_value_refFormCallback *FormCallback[*models.A_ENUM_VALUE_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_ENUM_VALUE_REFFields,
-	)
-}
-
-type A_ENUM_VALUE_REFFormCallback = FormCallback[*models.A_ENUM_VALUE_REF]
-
-func saveA_ENUM_VALUE_REFFields(
-	_instance *models.A_ENUM_VALUE_REF,
+func saveStageSet_A_ENUM_VALUE_REF_Stage(
+	inst *models.A_ENUM_VALUE_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ENUM_VALUE_REF":
-			FormDivBasicFieldToField(&(_instance.ENUM_VALUE_REF), formDiv)
+			FormDivBasicFieldToField(&inst.ENUM_VALUE_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_OBJECTFormCallback(
-	_instance *models.A_OBJECT,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_objectFormCallback *FormCallback[*models.A_OBJECT]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_OBJECTFields,
-	)
-}
-
-type A_OBJECTFormCallback = FormCallback[*models.A_OBJECT]
-
-func saveA_OBJECTFields(
-	_instance *models.A_OBJECT,
+func saveStageSet_A_OBJECT_Stage(
+	inst *models.A_OBJECT,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "SPEC_OBJECT_REF":
-			FormDivBasicFieldToField(&(_instance.SPEC_OBJECT_REF), formDiv)
+			FormDivBasicFieldToField(&inst.SPEC_OBJECT_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_PROPERTIESFormCallback(
-	_instance *models.A_PROPERTIES,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_propertiesFormCallback *FormCallback[*models.A_PROPERTIES]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_PROPERTIESFields,
-	)
-}
-
-type A_PROPERTIESFormCallback = FormCallback[*models.A_PROPERTIES]
-
-func saveA_PROPERTIESFields(
-	_instance *models.A_PROPERTIES,
+func saveStageSet_A_PROPERTIES_Stage(
+	inst *models.A_PROPERTIES,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "EMBEDDED_VALUE":
-			FormDivSelectFieldToField(&(_instance.EMBEDDED_VALUE), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.EMBEDDED_VALUE, probe.stageOfInterest.GetInstancesSet[*models.EMBEDDED_VALUE](), formDiv)
 		}
 	}
 }
 
-func __gong__New__A_RELATION_GROUP_TYPE_REFFormCallback(
-	_instance *models.A_RELATION_GROUP_TYPE_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_relation_group_type_refFormCallback *FormCallback[*models.A_RELATION_GROUP_TYPE_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_RELATION_GROUP_TYPE_REFFields,
-	)
-}
-
-type A_RELATION_GROUP_TYPE_REFFormCallback = FormCallback[*models.A_RELATION_GROUP_TYPE_REF]
-
-func saveA_RELATION_GROUP_TYPE_REFFields(
-	_instance *models.A_RELATION_GROUP_TYPE_REF,
+func saveStageSet_A_RELATION_GROUP_TYPE_REF_Stage(
+	inst *models.A_RELATION_GROUP_TYPE_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "RELATION_GROUP_TYPE_REF":
-			FormDivBasicFieldToField(&(_instance.RELATION_GROUP_TYPE_REF), formDiv)
+			FormDivBasicFieldToField(&inst.RELATION_GROUP_TYPE_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_SOURCE_1FormCallback(
-	_instance *models.A_SOURCE_1,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_source_1FormCallback *FormCallback[*models.A_SOURCE_1]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_SOURCE_1Fields,
-	)
-}
-
-type A_SOURCE_1FormCallback = FormCallback[*models.A_SOURCE_1]
-
-func saveA_SOURCE_1Fields(
-	_instance *models.A_SOURCE_1,
+func saveStageSet_A_SOURCE_Stage(
+	inst *models.A_SOURCE,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "SPEC_OBJECT_REF":
-			FormDivBasicFieldToField(&(_instance.SPEC_OBJECT_REF), formDiv)
+			FormDivBasicFieldToField(&inst.SPEC_OBJECT_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_SOURCE_SPECIFICATION_1FormCallback(
-	_instance *models.A_SOURCE_SPECIFICATION_1,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_source_specification_1FormCallback *FormCallback[*models.A_SOURCE_SPECIFICATION_1]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_SOURCE_SPECIFICATION_1Fields,
-	)
-}
-
-type A_SOURCE_SPECIFICATION_1FormCallback = FormCallback[*models.A_SOURCE_SPECIFICATION_1]
-
-func saveA_SOURCE_SPECIFICATION_1Fields(
-	_instance *models.A_SOURCE_SPECIFICATION_1,
+func saveStageSet_A_SOURCE_SPECIFICATION_Stage(
+	inst *models.A_SOURCE_SPECIFICATION,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "SPECIFICATION_REF":
-			FormDivEnumStringFieldToField(&(_instance.SPECIFICATION_REF), formDiv)
+			FormDivBasicFieldToField(&inst.SPECIFICATION_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_SPECIFICATIONSFormCallback(
-	_instance *models.A_SPECIFICATIONS,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_specificationsFormCallback *FormCallback[*models.A_SPECIFICATIONS]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_SPECIFICATIONSFields,
-	)
-}
-
-type A_SPECIFICATIONSFormCallback = FormCallback[*models.A_SPECIFICATIONS]
-
-func saveA_SPECIFICATIONSFields(
-	_instance *models.A_SPECIFICATIONS,
+func saveStageSet_A_SPECIFICATIONS_Stage(
+	inst *models.A_SPECIFICATIONS,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "SPECIFICATION":
-			FormDivSliceOfPointersToField(_instance, "SPECIFICATION", &(_instance.SPECIFICATION), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "SPECIFICATION", &inst.SPECIFICATION, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_SPECIFICATION_TYPE_REFFormCallback(
-	_instance *models.A_SPECIFICATION_TYPE_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_specification_type_refFormCallback *FormCallback[*models.A_SPECIFICATION_TYPE_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_SPECIFICATION_TYPE_REFFields,
-	)
-}
-
-type A_SPECIFICATION_TYPE_REFFormCallback = FormCallback[*models.A_SPECIFICATION_TYPE_REF]
-
-func saveA_SPECIFICATION_TYPE_REFFields(
-	_instance *models.A_SPECIFICATION_TYPE_REF,
+func saveStageSet_A_SPECIFICATION_TYPE_REF_Stage(
+	inst *models.A_SPECIFICATION_TYPE_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "SPECIFICATION_TYPE_REF":
-			FormDivBasicFieldToField(&(_instance.SPECIFICATION_TYPE_REF), formDiv)
+			FormDivBasicFieldToField(&inst.SPECIFICATION_TYPE_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_SPECIFIED_VALUESFormCallback(
-	_instance *models.A_SPECIFIED_VALUES,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_specified_valuesFormCallback *FormCallback[*models.A_SPECIFIED_VALUES]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_SPECIFIED_VALUESFields,
-	)
-}
-
-type A_SPECIFIED_VALUESFormCallback = FormCallback[*models.A_SPECIFIED_VALUES]
-
-func saveA_SPECIFIED_VALUESFields(
-	_instance *models.A_SPECIFIED_VALUES,
+func saveStageSet_A_SPECIFIED_VALUES_Stage(
+	inst *models.A_SPECIFIED_VALUES,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ENUM_VALUE":
-			FormDivSliceOfPointersToField(_instance, "ENUM_VALUE", &(_instance.ENUM_VALUE), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ENUM_VALUE", &inst.ENUM_VALUE, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_SPEC_ATTRIBUTESFormCallback(
-	_instance *models.A_SPEC_ATTRIBUTES,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_spec_attributesFormCallback *FormCallback[*models.A_SPEC_ATTRIBUTES]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_SPEC_ATTRIBUTESFields,
-	)
-}
-
-type A_SPEC_ATTRIBUTESFormCallback = FormCallback[*models.A_SPEC_ATTRIBUTES]
-
-func saveA_SPEC_ATTRIBUTESFields(
-	_instance *models.A_SPEC_ATTRIBUTES,
+func saveStageSet_A_SPEC_ATTRIBUTES_Stage(
+	inst *models.A_SPEC_ATTRIBUTES,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ATTRIBUTE_DEFINITION_BOOLEAN":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_DEFINITION_BOOLEAN", &(_instance.ATTRIBUTE_DEFINITION_BOOLEAN), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_DEFINITION_BOOLEAN", &inst.ATTRIBUTE_DEFINITION_BOOLEAN, formDiv, probe)
 		case "ATTRIBUTE_DEFINITION_DATE":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_DEFINITION_DATE", &(_instance.ATTRIBUTE_DEFINITION_DATE), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_DEFINITION_DATE", &inst.ATTRIBUTE_DEFINITION_DATE, formDiv, probe)
 		case "ATTRIBUTE_DEFINITION_ENUMERATION":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_DEFINITION_ENUMERATION", &(_instance.ATTRIBUTE_DEFINITION_ENUMERATION), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_DEFINITION_ENUMERATION", &inst.ATTRIBUTE_DEFINITION_ENUMERATION, formDiv, probe)
 		case "ATTRIBUTE_DEFINITION_INTEGER":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_DEFINITION_INTEGER", &(_instance.ATTRIBUTE_DEFINITION_INTEGER), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_DEFINITION_INTEGER", &inst.ATTRIBUTE_DEFINITION_INTEGER, formDiv, probe)
 		case "ATTRIBUTE_DEFINITION_REAL":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_DEFINITION_REAL", &(_instance.ATTRIBUTE_DEFINITION_REAL), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_DEFINITION_REAL", &inst.ATTRIBUTE_DEFINITION_REAL, formDiv, probe)
 		case "ATTRIBUTE_DEFINITION_STRING":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_DEFINITION_STRING", &(_instance.ATTRIBUTE_DEFINITION_STRING), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_DEFINITION_STRING", &inst.ATTRIBUTE_DEFINITION_STRING, formDiv, probe)
 		case "ATTRIBUTE_DEFINITION_XHTML":
-			FormDivSliceOfPointersToField(_instance, "ATTRIBUTE_DEFINITION_XHTML", &(_instance.ATTRIBUTE_DEFINITION_XHTML), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "ATTRIBUTE_DEFINITION_XHTML", &inst.ATTRIBUTE_DEFINITION_XHTML, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_SPEC_OBJECTSFormCallback(
-	_instance *models.A_SPEC_OBJECTS,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_spec_objectsFormCallback *FormCallback[*models.A_SPEC_OBJECTS]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_SPEC_OBJECTSFields,
-	)
-}
-
-type A_SPEC_OBJECTSFormCallback = FormCallback[*models.A_SPEC_OBJECTS]
-
-func saveA_SPEC_OBJECTSFields(
-	_instance *models.A_SPEC_OBJECTS,
+func saveStageSet_A_SPEC_OBJECTS_Stage(
+	inst *models.A_SPEC_OBJECTS,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "SPEC_OBJECT":
-			FormDivSliceOfPointersToField(_instance, "SPEC_OBJECT", &(_instance.SPEC_OBJECT), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "SPEC_OBJECT", &inst.SPEC_OBJECT, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_SPEC_OBJECT_TYPE_REFFormCallback(
-	_instance *models.A_SPEC_OBJECT_TYPE_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_spec_object_type_refFormCallback *FormCallback[*models.A_SPEC_OBJECT_TYPE_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_SPEC_OBJECT_TYPE_REFFields,
-	)
-}
-
-type A_SPEC_OBJECT_TYPE_REFFormCallback = FormCallback[*models.A_SPEC_OBJECT_TYPE_REF]
-
-func saveA_SPEC_OBJECT_TYPE_REFFields(
-	_instance *models.A_SPEC_OBJECT_TYPE_REF,
+func saveStageSet_A_SPEC_OBJECT_TYPE_REF_Stage(
+	inst *models.A_SPEC_OBJECT_TYPE_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "SPEC_OBJECT_TYPE_REF":
-			FormDivBasicFieldToField(&(_instance.SPEC_OBJECT_TYPE_REF), formDiv)
+			FormDivBasicFieldToField(&inst.SPEC_OBJECT_TYPE_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_SPEC_RELATIONSFormCallback(
-	_instance *models.A_SPEC_RELATIONS,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_spec_relationsFormCallback *FormCallback[*models.A_SPEC_RELATIONS]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_SPEC_RELATIONSFields,
-	)
-}
-
-type A_SPEC_RELATIONSFormCallback = FormCallback[*models.A_SPEC_RELATIONS]
-
-func saveA_SPEC_RELATIONSFields(
-	_instance *models.A_SPEC_RELATIONS,
+func saveStageSet_A_SPEC_RELATIONS_Stage(
+	inst *models.A_SPEC_RELATIONS,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "SPEC_RELATION":
-			FormDivSliceOfPointersToField(_instance, "SPEC_RELATION", &(_instance.SPEC_RELATION), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "SPEC_RELATION", &inst.SPEC_RELATION, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_SPEC_RELATION_GROUPSFormCallback(
-	_instance *models.A_SPEC_RELATION_GROUPS,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_spec_relation_groupsFormCallback *FormCallback[*models.A_SPEC_RELATION_GROUPS]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_SPEC_RELATION_GROUPSFields,
-	)
-}
-
-type A_SPEC_RELATION_GROUPSFormCallback = FormCallback[*models.A_SPEC_RELATION_GROUPS]
-
-func saveA_SPEC_RELATION_GROUPSFields(
-	_instance *models.A_SPEC_RELATION_GROUPS,
+func saveStageSet_A_SPEC_RELATION_GROUPS_Stage(
+	inst *models.A_SPEC_RELATION_GROUPS,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "RELATION_GROUP":
-			FormDivSliceOfPointersToField(_instance, "RELATION_GROUP", &(_instance.RELATION_GROUP), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "RELATION_GROUP", &inst.RELATION_GROUP, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_SPEC_RELATION_REFFormCallback(
-	_instance *models.A_SPEC_RELATION_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_spec_relation_refFormCallback *FormCallback[*models.A_SPEC_RELATION_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_SPEC_RELATION_REFFields,
-	)
-}
-
-type A_SPEC_RELATION_REFFormCallback = FormCallback[*models.A_SPEC_RELATION_REF]
-
-func saveA_SPEC_RELATION_REFFields(
-	_instance *models.A_SPEC_RELATION_REF,
+func saveStageSet_A_SPEC_RELATION_REF_Stage(
+	inst *models.A_SPEC_RELATION_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "SPEC_RELATION_REF":
-			FormDivBasicFieldToField(&(_instance.SPEC_RELATION_REF), formDiv)
+			FormDivBasicFieldToField(&inst.SPEC_RELATION_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_SPEC_RELATION_TYPE_REFFormCallback(
-	_instance *models.A_SPEC_RELATION_TYPE_REF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_spec_relation_type_refFormCallback *FormCallback[*models.A_SPEC_RELATION_TYPE_REF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_SPEC_RELATION_TYPE_REFFields,
-	)
-}
-
-type A_SPEC_RELATION_TYPE_REFFormCallback = FormCallback[*models.A_SPEC_RELATION_TYPE_REF]
-
-func saveA_SPEC_RELATION_TYPE_REFFields(
-	_instance *models.A_SPEC_RELATION_TYPE_REF,
+func saveStageSet_A_SPEC_RELATION_TYPE_REF_Stage(
+	inst *models.A_SPEC_RELATION_TYPE_REF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "SPEC_RELATION_TYPE_REF":
-			FormDivBasicFieldToField(&(_instance.SPEC_RELATION_TYPE_REF), formDiv)
+			FormDivBasicFieldToField(&inst.SPEC_RELATION_TYPE_REF, formDiv)
 		}
 	}
 }
 
-func __gong__New__A_SPEC_TYPESFormCallback(
-	_instance *models.A_SPEC_TYPES,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_spec_typesFormCallback *FormCallback[*models.A_SPEC_TYPES]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_SPEC_TYPESFields,
-	)
-}
-
-type A_SPEC_TYPESFormCallback = FormCallback[*models.A_SPEC_TYPES]
-
-func saveA_SPEC_TYPESFields(
-	_instance *models.A_SPEC_TYPES,
+func saveStageSet_A_SPEC_TYPES_Stage(
+	inst *models.A_SPEC_TYPES,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "RELATION_GROUP_TYPE":
-			FormDivSliceOfPointersToField(_instance, "RELATION_GROUP_TYPE", &(_instance.RELATION_GROUP_TYPE), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "RELATION_GROUP_TYPE", &inst.RELATION_GROUP_TYPE, formDiv, probe)
 		case "SPEC_OBJECT_TYPE":
-			FormDivSliceOfPointersToField(_instance, "SPEC_OBJECT_TYPE", &(_instance.SPEC_OBJECT_TYPE), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "SPEC_OBJECT_TYPE", &inst.SPEC_OBJECT_TYPE, formDiv, probe)
 		case "SPEC_RELATION_TYPE":
-			FormDivSliceOfPointersToField(_instance, "SPEC_RELATION_TYPE", &(_instance.SPEC_RELATION_TYPE), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "SPEC_RELATION_TYPE", &inst.SPEC_RELATION_TYPE, formDiv, probe)
 		case "SPECIFICATION_TYPE":
-			FormDivSliceOfPointersToField(_instance, "SPECIFICATION_TYPE", &(_instance.SPECIFICATION_TYPE), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "SPECIFICATION_TYPE", &inst.SPECIFICATION_TYPE, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__A_THE_HEADERFormCallback(
-	_instance *models.A_THE_HEADER,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_the_headerFormCallback *FormCallback[*models.A_THE_HEADER]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_THE_HEADERFields,
-	)
-}
-
-type A_THE_HEADERFormCallback = FormCallback[*models.A_THE_HEADER]
-
-func saveA_THE_HEADERFields(
-	_instance *models.A_THE_HEADER,
+func saveStageSet_A_THE_HEADER_Stage(
+	inst *models.A_THE_HEADER,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "REQ_IF_HEADER":
-			FormDivSelectFieldToField(&(_instance.REQ_IF_HEADER), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.REQ_IF_HEADER, probe.stageOfInterest.GetInstancesSet[*models.REQ_IF_HEADER](), formDiv)
 		}
 	}
 }
 
-func __gong__New__A_TOOL_EXTENSIONSFormCallback(
-	_instance *models.A_TOOL_EXTENSIONS,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (a_tool_extensionsFormCallback *FormCallback[*models.A_TOOL_EXTENSIONS]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveA_TOOL_EXTENSIONSFields,
-	)
-}
-
-type A_TOOL_EXTENSIONSFormCallback = FormCallback[*models.A_TOOL_EXTENSIONS]
-
-func saveA_TOOL_EXTENSIONSFields(
-	_instance *models.A_TOOL_EXTENSIONS,
+func saveStageSet_A_TOOL_EXTENSIONS_Stage(
+	inst *models.A_TOOL_EXTENSIONS,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "REQ_IF_TOOL_EXTENSION":
-			FormDivSliceOfPointersToField(_instance, "REQ_IF_TOOL_EXTENSION", &(_instance.REQ_IF_TOOL_EXTENSION), formDiv, probe)
+			FormDivSliceOfPointersToField(inst, "REQ_IF_TOOL_EXTENSION", &inst.REQ_IF_TOOL_EXTENSION, formDiv, probe)
 		}
 	}
 }
 
-func __gong__New__DATATYPE_DEFINITION_BOOLEANFormCallback(
-	_instance *models.DATATYPE_DEFINITION_BOOLEAN,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (datatype_definition_booleanFormCallback *FormCallback[*models.DATATYPE_DEFINITION_BOOLEAN]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveDATATYPE_DEFINITION_BOOLEANFields,
-	)
-}
-
-type DATATYPE_DEFINITION_BOOLEANFormCallback = FormCallback[*models.DATATYPE_DEFINITION_BOOLEAN]
-
-func saveDATATYPE_DEFINITION_BOOLEANFields(
-	_instance *models.DATATYPE_DEFINITION_BOOLEAN,
+func saveStageSet_DATATYPE_DEFINITION_BOOLEAN_Stage(
+	inst *models.DATATYPE_DEFINITION_BOOLEAN,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
-		case "A_DATATYPES:DATATYPE_DEFINITION_BOOLEAN":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DATATYPE_DEFINITION_BOOLEAN", func(owner *models.A_DATATYPES) *[]*models.DATATYPE_DEFINITION_BOOLEAN { return &owner.DATATYPE_DEFINITION_BOOLEAN })
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		}
 	}
 }
 
-func __gong__New__DATATYPE_DEFINITION_DATEFormCallback(
-	_instance *models.DATATYPE_DEFINITION_DATE,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (datatype_definition_dateFormCallback *FormCallback[*models.DATATYPE_DEFINITION_DATE]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveDATATYPE_DEFINITION_DATEFields,
-	)
-}
-
-type DATATYPE_DEFINITION_DATEFormCallback = FormCallback[*models.DATATYPE_DEFINITION_DATE]
-
-func saveDATATYPE_DEFINITION_DATEFields(
-	_instance *models.DATATYPE_DEFINITION_DATE,
+func saveStageSet_DATATYPE_DEFINITION_DATE_Stage(
+	inst *models.DATATYPE_DEFINITION_DATE,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
-		case "A_DATATYPES:DATATYPE_DEFINITION_DATE":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DATATYPE_DEFINITION_DATE", func(owner *models.A_DATATYPES) *[]*models.DATATYPE_DEFINITION_DATE { return &owner.DATATYPE_DEFINITION_DATE })
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		}
 	}
 }
 
-func __gong__New__DATATYPE_DEFINITION_ENUMERATIONFormCallback(
-	_instance *models.DATATYPE_DEFINITION_ENUMERATION,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (datatype_definition_enumerationFormCallback *FormCallback[*models.DATATYPE_DEFINITION_ENUMERATION]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveDATATYPE_DEFINITION_ENUMERATIONFields,
-	)
-}
-
-type DATATYPE_DEFINITION_ENUMERATIONFormCallback = FormCallback[*models.DATATYPE_DEFINITION_ENUMERATION]
-
-func saveDATATYPE_DEFINITION_ENUMERATIONFields(
-	_instance *models.DATATYPE_DEFINITION_ENUMERATION,
+func saveStageSet_DATATYPE_DEFINITION_ENUMERATION_Stage(
+	inst *models.DATATYPE_DEFINITION_ENUMERATION,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "SPECIFIED_VALUES":
-			FormDivSelectFieldToField(&(_instance.SPECIFIED_VALUES), probe.stageOfInterest, formDiv)
-		case "A_DATATYPES:DATATYPE_DEFINITION_ENUMERATION":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DATATYPE_DEFINITION_ENUMERATION", func(owner *models.A_DATATYPES) *[]*models.DATATYPE_DEFINITION_ENUMERATION { return &owner.DATATYPE_DEFINITION_ENUMERATION })
+			StageSetFormDivSelectFieldToField(&inst.SPECIFIED_VALUES, probe.stageOfInterest.GetInstancesSet[*models.A_SPECIFIED_VALUES](), formDiv)
 		}
 	}
 }
 
-func __gong__New__DATATYPE_DEFINITION_INTEGERFormCallback(
-	_instance *models.DATATYPE_DEFINITION_INTEGER,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (datatype_definition_integerFormCallback *FormCallback[*models.DATATYPE_DEFINITION_INTEGER]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveDATATYPE_DEFINITION_INTEGERFields,
-	)
-}
-
-type DATATYPE_DEFINITION_INTEGERFormCallback = FormCallback[*models.DATATYPE_DEFINITION_INTEGER]
-
-func saveDATATYPE_DEFINITION_INTEGERFields(
-	_instance *models.DATATYPE_DEFINITION_INTEGER,
+func saveStageSet_DATATYPE_DEFINITION_INTEGER_Stage(
+	inst *models.DATATYPE_DEFINITION_INTEGER,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
-		case "MAX":
-			FormDivBasicFieldToField(&(_instance.MAX), formDiv)
-		case "MIN":
-			FormDivBasicFieldToField(&(_instance.MIN), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
+		case "MAX_XSD":
+			FormDivBasicFieldToField(&inst.MAX_XSD, formDiv)
+		case "MIN_XSD":
+			FormDivBasicFieldToField(&inst.MIN_XSD, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
-		case "A_DATATYPES:DATATYPE_DEFINITION_INTEGER":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DATATYPE_DEFINITION_INTEGER", func(owner *models.A_DATATYPES) *[]*models.DATATYPE_DEFINITION_INTEGER { return &owner.DATATYPE_DEFINITION_INTEGER })
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		}
 	}
 }
 
-func __gong__New__DATATYPE_DEFINITION_REALFormCallback(
-	_instance *models.DATATYPE_DEFINITION_REAL,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (datatype_definition_realFormCallback *FormCallback[*models.DATATYPE_DEFINITION_REAL]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveDATATYPE_DEFINITION_REALFields,
-	)
-}
-
-type DATATYPE_DEFINITION_REALFormCallback = FormCallback[*models.DATATYPE_DEFINITION_REAL]
-
-func saveDATATYPE_DEFINITION_REALFields(
-	_instance *models.DATATYPE_DEFINITION_REAL,
+func saveStageSet_DATATYPE_DEFINITION_REAL_Stage(
+	inst *models.DATATYPE_DEFINITION_REAL,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "ACCURACY":
-			FormDivBasicFieldToField(&(_instance.ACCURACY), formDiv)
+			FormDivBasicFieldToField(&inst.ACCURACY, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
-		case "MAX":
-			FormDivBasicFieldToField(&(_instance.MAX), formDiv)
-		case "MIN":
-			FormDivBasicFieldToField(&(_instance.MIN), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
+		case "MAX_XSD":
+			FormDivBasicFieldToField(&inst.MAX_XSD, formDiv)
+		case "MIN_XSD":
+			FormDivBasicFieldToField(&inst.MIN_XSD, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
-		case "A_DATATYPES:DATATYPE_DEFINITION_REAL":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DATATYPE_DEFINITION_REAL", func(owner *models.A_DATATYPES) *[]*models.DATATYPE_DEFINITION_REAL { return &owner.DATATYPE_DEFINITION_REAL })
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		}
 	}
 }
 
-func __gong__New__DATATYPE_DEFINITION_STRINGFormCallback(
-	_instance *models.DATATYPE_DEFINITION_STRING,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (datatype_definition_stringFormCallback *FormCallback[*models.DATATYPE_DEFINITION_STRING]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveDATATYPE_DEFINITION_STRINGFields,
-	)
-}
-
-type DATATYPE_DEFINITION_STRINGFormCallback = FormCallback[*models.DATATYPE_DEFINITION_STRING]
-
-func saveDATATYPE_DEFINITION_STRINGFields(
-	_instance *models.DATATYPE_DEFINITION_STRING,
+func saveStageSet_DATATYPE_DEFINITION_STRING_Stage(
+	inst *models.DATATYPE_DEFINITION_STRING,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "MAX_LENGTH":
-			FormDivBasicFieldToField(&(_instance.MAX_LENGTH), formDiv)
+			FormDivBasicFieldToField(&inst.MAX_LENGTH, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
-		case "A_DATATYPES:DATATYPE_DEFINITION_STRING":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DATATYPE_DEFINITION_STRING", func(owner *models.A_DATATYPES) *[]*models.DATATYPE_DEFINITION_STRING { return &owner.DATATYPE_DEFINITION_STRING })
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		}
 	}
 }
 
-func __gong__New__DATATYPE_DEFINITION_XHTMLFormCallback(
-	_instance *models.DATATYPE_DEFINITION_XHTML,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (datatype_definition_xhtmlFormCallback *FormCallback[*models.DATATYPE_DEFINITION_XHTML]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveDATATYPE_DEFINITION_XHTMLFields,
-	)
-}
-
-type DATATYPE_DEFINITION_XHTMLFormCallback = FormCallback[*models.DATATYPE_DEFINITION_XHTML]
-
-func saveDATATYPE_DEFINITION_XHTMLFields(
-	_instance *models.DATATYPE_DEFINITION_XHTML,
+func saveStageSet_DATATYPE_DEFINITION_XHTML_Stage(
+	inst *models.DATATYPE_DEFINITION_XHTML,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
-		case "A_DATATYPES:DATATYPE_DEFINITION_XHTML":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DATATYPE_DEFINITION_XHTML", func(owner *models.A_DATATYPES) *[]*models.DATATYPE_DEFINITION_XHTML { return &owner.DATATYPE_DEFINITION_XHTML })
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		}
 	}
 }
 
-func __gong__New__EMBEDDED_VALUEFormCallback(
-	_instance *models.EMBEDDED_VALUE,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (embedded_valueFormCallback *FormCallback[*models.EMBEDDED_VALUE]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveEMBEDDED_VALUEFields,
-	)
-}
-
-type EMBEDDED_VALUEFormCallback = FormCallback[*models.EMBEDDED_VALUE]
-
-func saveEMBEDDED_VALUEFields(
-	_instance *models.EMBEDDED_VALUE,
+func saveStageSet_EMBEDDED_VALUE_Stage(
+	inst *models.EMBEDDED_VALUE,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "KEY":
-			FormDivBasicFieldToField(&(_instance.KEY), formDiv)
+			FormDivBasicFieldToField(&inst.KEY, formDiv)
 		case "OTHER_CONTENT":
-			FormDivBasicFieldToField(&(_instance.OTHER_CONTENT), formDiv)
+			FormDivBasicFieldToField(&inst.OTHER_CONTENT, formDiv)
 		}
 	}
 }
 
-func __gong__New__ENUM_VALUEFormCallback(
-	_instance *models.ENUM_VALUE,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (enum_valueFormCallback *FormCallback[*models.ENUM_VALUE]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveENUM_VALUEFields,
-	)
-}
-
-type ENUM_VALUEFormCallback = FormCallback[*models.ENUM_VALUE]
-
-func saveENUM_VALUEFields(
-	_instance *models.ENUM_VALUE,
+func saveStageSet_ENUM_VALUE_Stage(
+	inst *models.ENUM_VALUE,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "PROPERTIES":
-			FormDivSelectFieldToField(&(_instance.PROPERTIES), probe.stageOfInterest, formDiv)
-		case "A_SPECIFIED_VALUES:ENUM_VALUE":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ENUM_VALUE", func(owner *models.A_SPECIFIED_VALUES) *[]*models.ENUM_VALUE { return &owner.ENUM_VALUE })
+			StageSetFormDivSelectFieldToField(&inst.PROPERTIES, probe.stageOfInterest.GetInstancesSet[*models.A_PROPERTIES](), formDiv)
 		}
 	}
 }
 
-func __gong__New__RELATION_GROUPFormCallback(
-	_instance *models.RELATION_GROUP,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (relation_groupFormCallback *FormCallback[*models.RELATION_GROUP]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveRELATION_GROUPFields,
-	)
-}
-
-type RELATION_GROUPFormCallback = FormCallback[*models.RELATION_GROUP]
-
-func saveRELATION_GROUPFields(
-	_instance *models.RELATION_GROUP,
+func saveStageSet_RELATION_GROUP_Stage(
+	inst *models.RELATION_GROUP,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "SOURCE_SPECIFICATION":
-			FormDivSelectFieldToField(&(_instance.SOURCE_SPECIFICATION), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.SOURCE_SPECIFICATION, probe.stageOfInterest.GetInstancesSet[*models.A_SOURCE_SPECIFICATION](), formDiv)
 		case "SPEC_RELATIONS":
-			FormDivSelectFieldToField(&(_instance.SPEC_RELATIONS), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.SPEC_RELATIONS, probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_RELATION_REF](), formDiv)
 		case "TARGET_SPECIFICATION":
-			FormDivSelectFieldToField(&(_instance.TARGET_SPECIFICATION), probe.stageOfInterest, formDiv)
-		case "TYPE":
-			FormDivSelectFieldToField(&(_instance.TYPE), probe.stageOfInterest, formDiv)
-		case "A_SPEC_RELATION_GROUPS:RELATION_GROUP":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "RELATION_GROUP", func(owner *models.A_SPEC_RELATION_GROUPS) *[]*models.RELATION_GROUP { return &owner.RELATION_GROUP })
+			StageSetFormDivSelectFieldToField(&inst.TARGET_SPECIFICATION, probe.stageOfInterest.GetInstancesSet[*models.A_SOURCE_SPECIFICATION](), formDiv)
+		case "TYPE_XSD":
+			StageSetFormDivSelectFieldToField(&inst.TYPE_XSD, probe.stageOfInterest.GetInstancesSet[*models.A_RELATION_GROUP_TYPE_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__RELATION_GROUP_TYPEFormCallback(
-	_instance *models.RELATION_GROUP_TYPE,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (relation_group_typeFormCallback *FormCallback[*models.RELATION_GROUP_TYPE]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveRELATION_GROUP_TYPEFields,
-	)
-}
-
-type RELATION_GROUP_TYPEFormCallback = FormCallback[*models.RELATION_GROUP_TYPE]
-
-func saveRELATION_GROUP_TYPEFields(
-	_instance *models.RELATION_GROUP_TYPE,
+func saveStageSet_RELATION_GROUP_TYPE_Stage(
+	inst *models.RELATION_GROUP_TYPE,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "SPEC_ATTRIBUTES":
-			FormDivSelectFieldToField(&(_instance.SPEC_ATTRIBUTES), probe.stageOfInterest, formDiv)
-		case "A_SPEC_TYPES:RELATION_GROUP_TYPE":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "RELATION_GROUP_TYPE", func(owner *models.A_SPEC_TYPES) *[]*models.RELATION_GROUP_TYPE { return &owner.RELATION_GROUP_TYPE })
+			StageSetFormDivSelectFieldToField(&inst.SPEC_ATTRIBUTES, probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_ATTRIBUTES](), formDiv)
 		}
 	}
 }
 
-func __gong__New__REQ_IFFormCallback(
-	_instance *models.REQ_IF,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (req_ifFormCallback *FormCallback[*models.REQ_IF]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveREQ_IFFields,
-	)
-}
-
-type REQ_IFFormCallback = FormCallback[*models.REQ_IF]
-
-func saveREQ_IFFields(
-	_instance *models.REQ_IF,
+func saveStageSet_REQ_IF_Stage(
+	inst *models.REQ_IF,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "Lang":
-			FormDivBasicFieldToField(&(_instance.Lang), formDiv)
+			FormDivBasicFieldToField(&inst.Lang, formDiv)
 		case "THE_HEADER":
-			FormDivSelectFieldToField(&(_instance.THE_HEADER), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.THE_HEADER, probe.stageOfInterest.GetInstancesSet[*models.A_THE_HEADER](), formDiv)
 		case "CORE_CONTENT":
-			FormDivSelectFieldToField(&(_instance.CORE_CONTENT), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.CORE_CONTENT, probe.stageOfInterest.GetInstancesSet[*models.A_CORE_CONTENT](), formDiv)
 		case "TOOL_EXTENSIONS":
-			FormDivSelectFieldToField(&(_instance.TOOL_EXTENSIONS), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.TOOL_EXTENSIONS, probe.stageOfInterest.GetInstancesSet[*models.A_TOOL_EXTENSIONS](), formDiv)
 		}
 	}
 }
 
-func __gong__New__REQ_IF_CONTENTFormCallback(
-	_instance *models.REQ_IF_CONTENT,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (req_if_contentFormCallback *FormCallback[*models.REQ_IF_CONTENT]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveREQ_IF_CONTENTFields,
-	)
-}
-
-type REQ_IF_CONTENTFormCallback = FormCallback[*models.REQ_IF_CONTENT]
-
-func saveREQ_IF_CONTENTFields(
-	_instance *models.REQ_IF_CONTENT,
+func saveStageSet_REQ_IF_CONTENT_Stage(
+	inst *models.REQ_IF_CONTENT,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DATATYPES":
-			FormDivSelectFieldToField(&(_instance.DATATYPES), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.DATATYPES, probe.stageOfInterest.GetInstancesSet[*models.A_DATATYPES](), formDiv)
 		case "SPEC_TYPES":
-			FormDivSelectFieldToField(&(_instance.SPEC_TYPES), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.SPEC_TYPES, probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_TYPES](), formDiv)
 		case "SPEC_OBJECTS":
-			FormDivSelectFieldToField(&(_instance.SPEC_OBJECTS), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.SPEC_OBJECTS, probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_OBJECTS](), formDiv)
 		case "SPEC_RELATIONS":
-			FormDivSelectFieldToField(&(_instance.SPEC_RELATIONS), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.SPEC_RELATIONS, probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_RELATIONS](), formDiv)
 		case "SPECIFICATIONS":
-			FormDivSelectFieldToField(&(_instance.SPECIFICATIONS), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.SPECIFICATIONS, probe.stageOfInterest.GetInstancesSet[*models.A_SPECIFICATIONS](), formDiv)
 		case "SPEC_RELATION_GROUPS":
-			FormDivSelectFieldToField(&(_instance.SPEC_RELATION_GROUPS), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.SPEC_RELATION_GROUPS, probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_RELATION_GROUPS](), formDiv)
 		}
 	}
 }
 
-func __gong__New__REQ_IF_HEADERFormCallback(
-	_instance *models.REQ_IF_HEADER,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (req_if_headerFormCallback *FormCallback[*models.REQ_IF_HEADER]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveREQ_IF_HEADERFields,
-	)
-}
-
-type REQ_IF_HEADERFormCallback = FormCallback[*models.REQ_IF_HEADER]
-
-func saveREQ_IF_HEADERFields(
-	_instance *models.REQ_IF_HEADER,
+func saveStageSet_REQ_IF_HEADER_Stage(
+	inst *models.REQ_IF_HEADER,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "COMMENT":
-			FormDivBasicFieldToField(&(_instance.COMMENT), formDiv)
+			FormDivBasicFieldToField(&inst.COMMENT, formDiv)
 		case "CREATION_TIME":
-			FormDivBasicFieldToField(&(_instance.CREATION_TIME), formDiv)
+			FormDivBasicFieldToField(&inst.CREATION_TIME, formDiv)
 		case "REPOSITORY_ID":
-			FormDivBasicFieldToField(&(_instance.REPOSITORY_ID), formDiv)
+			FormDivBasicFieldToField(&inst.REPOSITORY_ID, formDiv)
 		case "REQ_IF_TOOL_ID":
-			FormDivBasicFieldToField(&(_instance.REQ_IF_TOOL_ID), formDiv)
+			FormDivBasicFieldToField(&inst.REQ_IF_TOOL_ID, formDiv)
 		case "REQ_IF_VERSION":
-			FormDivBasicFieldToField(&(_instance.REQ_IF_VERSION), formDiv)
+			FormDivBasicFieldToField(&inst.REQ_IF_VERSION, formDiv)
 		case "SOURCE_TOOL_ID":
-			FormDivBasicFieldToField(&(_instance.SOURCE_TOOL_ID), formDiv)
+			FormDivBasicFieldToField(&inst.SOURCE_TOOL_ID, formDiv)
 		case "TITLE":
-			FormDivBasicFieldToField(&(_instance.TITLE), formDiv)
+			FormDivBasicFieldToField(&inst.TITLE, formDiv)
 		}
 	}
 }
 
-func __gong__New__REQ_IF_TOOL_EXTENSIONFormCallback(
-	_instance *models.REQ_IF_TOOL_EXTENSION,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (req_if_tool_extensionFormCallback *FormCallback[*models.REQ_IF_TOOL_EXTENSION]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveREQ_IF_TOOL_EXTENSIONFields,
-	)
-}
-
-type REQ_IF_TOOL_EXTENSIONFormCallback = FormCallback[*models.REQ_IF_TOOL_EXTENSION]
-
-func saveREQ_IF_TOOL_EXTENSIONFields(
-	_instance *models.REQ_IF_TOOL_EXTENSION,
+func saveStageSet_REQ_IF_TOOL_EXTENSION_Stage(
+	inst *models.REQ_IF_TOOL_EXTENSION,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
-		case "A_TOOL_EXTENSIONS:REQ_IF_TOOL_EXTENSION":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "REQ_IF_TOOL_EXTENSION", func(owner *models.A_TOOL_EXTENSIONS) *[]*models.REQ_IF_TOOL_EXTENSION { return &owner.REQ_IF_TOOL_EXTENSION })
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		}
 	}
 }
 
-func __gong__New__SPECIFICATIONFormCallback(
-	_instance *models.SPECIFICATION,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (specificationFormCallback *FormCallback[*models.SPECIFICATION]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveSPECIFICATIONFields,
-	)
-}
-
-type SPECIFICATIONFormCallback = FormCallback[*models.SPECIFICATION]
-
-func saveSPECIFICATIONFields(
-	_instance *models.SPECIFICATION,
+func saveStageSet_SPECIFICATION_Stage(
+	inst *models.SPECIFICATION,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "CHILDREN":
-			FormDivSelectFieldToField(&(_instance.CHILDREN), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.CHILDREN, probe.stageOfInterest.GetInstancesSet[*models.A_CHILDREN](), formDiv)
 		case "VALUES":
-			FormDivSelectFieldToField(&(_instance.VALUES), probe.stageOfInterest, formDiv)
-		case "TYPE":
-			FormDivSelectFieldToField(&(_instance.TYPE), probe.stageOfInterest, formDiv)
-		case "A_SPECIFICATIONS:SPECIFICATION":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SPECIFICATION", func(owner *models.A_SPECIFICATIONS) *[]*models.SPECIFICATION { return &owner.SPECIFICATION })
+			StageSetFormDivSelectFieldToField(&inst.VALUES, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_XHTML_1](), formDiv)
+		case "TYPE_XSD":
+			StageSetFormDivSelectFieldToField(&inst.TYPE_XSD, probe.stageOfInterest.GetInstancesSet[*models.A_SPECIFICATION_TYPE_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__SPECIFICATION_TYPEFormCallback(
-	_instance *models.SPECIFICATION_TYPE,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (specification_typeFormCallback *FormCallback[*models.SPECIFICATION_TYPE]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveSPECIFICATION_TYPEFields,
-	)
-}
-
-type SPECIFICATION_TYPEFormCallback = FormCallback[*models.SPECIFICATION_TYPE]
-
-func saveSPECIFICATION_TYPEFields(
-	_instance *models.SPECIFICATION_TYPE,
+func saveStageSet_SPECIFICATION_TYPE_Stage(
+	inst *models.SPECIFICATION_TYPE,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "SPEC_ATTRIBUTES":
-			FormDivSelectFieldToField(&(_instance.SPEC_ATTRIBUTES), probe.stageOfInterest, formDiv)
-		case "A_SPEC_TYPES:SPECIFICATION_TYPE":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SPECIFICATION_TYPE", func(owner *models.A_SPEC_TYPES) *[]*models.SPECIFICATION_TYPE { return &owner.SPECIFICATION_TYPE })
+			StageSetFormDivSelectFieldToField(&inst.SPEC_ATTRIBUTES, probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_ATTRIBUTES](), formDiv)
 		}
 	}
 }
 
-func __gong__New__SPEC_HIERARCHYFormCallback(
-	_instance *models.SPEC_HIERARCHY,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (spec_hierarchyFormCallback *FormCallback[*models.SPEC_HIERARCHY]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveSPEC_HIERARCHYFields,
-	)
-}
-
-type SPEC_HIERARCHYFormCallback = FormCallback[*models.SPEC_HIERARCHY]
-
-func saveSPEC_HIERARCHYFields(
-	_instance *models.SPEC_HIERARCHY,
+func saveStageSet_SPEC_HIERARCHY_Stage(
+	inst *models.SPEC_HIERARCHY,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "IS_EDITABLE":
-			FormDivBasicFieldToField(&(_instance.IS_EDITABLE), formDiv)
+			FormDivBasicFieldToField(&inst.IS_EDITABLE, formDiv)
 		case "IS_TABLE_INTERNAL":
-			FormDivBasicFieldToField(&(_instance.IS_TABLE_INTERNAL), formDiv)
+			FormDivBasicFieldToField(&inst.IS_TABLE_INTERNAL, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "CHILDREN":
-			FormDivSelectFieldToField(&(_instance.CHILDREN), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.CHILDREN, probe.stageOfInterest.GetInstancesSet[*models.A_CHILDREN](), formDiv)
 		case "EDITABLE_ATTS":
-			FormDivSelectFieldToField(&(_instance.EDITABLE_ATTS), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.EDITABLE_ATTS, probe.stageOfInterest.GetInstancesSet[*models.A_EDITABLE_ATTS](), formDiv)
 		case "OBJECT":
-			FormDivSelectFieldToField(&(_instance.OBJECT), probe.stageOfInterest, formDiv)
-		case "A_CHILDREN:SPEC_HIERARCHY":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SPEC_HIERARCHY", func(owner *models.A_CHILDREN) *[]*models.SPEC_HIERARCHY { return &owner.SPEC_HIERARCHY })
+			StageSetFormDivSelectFieldToField(&inst.OBJECT, probe.stageOfInterest.GetInstancesSet[*models.A_OBJECT](), formDiv)
 		}
 	}
 }
 
-func __gong__New__SPEC_OBJECTFormCallback(
-	_instance *models.SPEC_OBJECT,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (spec_objectFormCallback *FormCallback[*models.SPEC_OBJECT]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveSPEC_OBJECTFields,
-	)
-}
-
-type SPEC_OBJECTFormCallback = FormCallback[*models.SPEC_OBJECT]
-
-func saveSPEC_OBJECTFields(
-	_instance *models.SPEC_OBJECT,
+func saveStageSet_SPEC_OBJECT_Stage(
+	inst *models.SPEC_OBJECT,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "VALUES":
-			FormDivSelectFieldToField(&(_instance.VALUES), probe.stageOfInterest, formDiv)
-		case "TYPE":
-			FormDivSelectFieldToField(&(_instance.TYPE), probe.stageOfInterest, formDiv)
-		case "A_SPEC_OBJECTS:SPEC_OBJECT":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SPEC_OBJECT", func(owner *models.A_SPEC_OBJECTS) *[]*models.SPEC_OBJECT { return &owner.SPEC_OBJECT })
+			StageSetFormDivSelectFieldToField(&inst.VALUES, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_XHTML_1](), formDiv)
+		case "TYPE_XSD":
+			StageSetFormDivSelectFieldToField(&inst.TYPE_XSD, probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_OBJECT_TYPE_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__SPEC_OBJECT_TYPEFormCallback(
-	_instance *models.SPEC_OBJECT_TYPE,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (spec_object_typeFormCallback *FormCallback[*models.SPEC_OBJECT_TYPE]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveSPEC_OBJECT_TYPEFields,
-	)
-}
-
-type SPEC_OBJECT_TYPEFormCallback = FormCallback[*models.SPEC_OBJECT_TYPE]
-
-func saveSPEC_OBJECT_TYPEFields(
-	_instance *models.SPEC_OBJECT_TYPE,
+func saveStageSet_SPEC_OBJECT_TYPE_Stage(
+	inst *models.SPEC_OBJECT_TYPE,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "SPEC_ATTRIBUTES":
-			FormDivSelectFieldToField(&(_instance.SPEC_ATTRIBUTES), probe.stageOfInterest, formDiv)
-		case "A_SPEC_TYPES:SPEC_OBJECT_TYPE":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SPEC_OBJECT_TYPE", func(owner *models.A_SPEC_TYPES) *[]*models.SPEC_OBJECT_TYPE { return &owner.SPEC_OBJECT_TYPE })
+			StageSetFormDivSelectFieldToField(&inst.SPEC_ATTRIBUTES, probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_ATTRIBUTES](), formDiv)
 		}
 	}
 }
 
-func __gong__New__SPEC_RELATIONFormCallback(
-	_instance *models.SPEC_RELATION,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (spec_relationFormCallback *FormCallback[*models.SPEC_RELATION]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveSPEC_RELATIONFields,
-	)
-}
-
-type SPEC_RELATIONFormCallback = FormCallback[*models.SPEC_RELATION]
-
-func saveSPEC_RELATIONFields(
-	_instance *models.SPEC_RELATION,
+func saveStageSet_SPEC_RELATION_Stage(
+	inst *models.SPEC_RELATION,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "VALUES":
-			FormDivSelectFieldToField(&(_instance.VALUES), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.VALUES, probe.stageOfInterest.GetInstancesSet[*models.A_ATTRIBUTE_VALUE_XHTML_1](), formDiv)
 		case "SOURCE":
-			FormDivSelectFieldToField(&(_instance.SOURCE), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.SOURCE, probe.stageOfInterest.GetInstancesSet[*models.A_SOURCE](), formDiv)
 		case "TARGET":
-			FormDivSelectFieldToField(&(_instance.TARGET), probe.stageOfInterest, formDiv)
-		case "TYPE":
-			FormDivSelectFieldToField(&(_instance.TYPE), probe.stageOfInterest, formDiv)
-		case "A_SPEC_RELATIONS:SPEC_RELATION":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SPEC_RELATION", func(owner *models.A_SPEC_RELATIONS) *[]*models.SPEC_RELATION { return &owner.SPEC_RELATION })
+			StageSetFormDivSelectFieldToField(&inst.TARGET, probe.stageOfInterest.GetInstancesSet[*models.A_SOURCE](), formDiv)
+		case "TYPE_XSD":
+			StageSetFormDivSelectFieldToField(&inst.TYPE_XSD, probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_RELATION_TYPE_REF](), formDiv)
 		}
 	}
 }
 
-func __gong__New__SPEC_RELATION_TYPEFormCallback(
-	_instance *models.SPEC_RELATION_TYPE,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (spec_relation_typeFormCallback *FormCallback[*models.SPEC_RELATION_TYPE]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveSPEC_RELATION_TYPEFields,
-	)
-}
-
-type SPEC_RELATION_TYPEFormCallback = FormCallback[*models.SPEC_RELATION_TYPE]
-
-func saveSPEC_RELATION_TYPEFields(
-	_instance *models.SPEC_RELATION_TYPE,
+func saveStageSet_SPEC_RELATION_TYPE_Stage(
+	inst *models.SPEC_RELATION_TYPE,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "DESC":
-			FormDivBasicFieldToField(&(_instance.DESC), formDiv)
+			FormDivBasicFieldToField(&inst.DESC, formDiv)
 		case "IDENTIFIER":
-			FormDivBasicFieldToField(&(_instance.IDENTIFIER), formDiv)
+			FormDivBasicFieldToField(&inst.IDENTIFIER, formDiv)
 		case "LAST_CHANGE":
-			FormDivBasicFieldToField(&(_instance.LAST_CHANGE), formDiv)
+			FormDivBasicFieldToField(&inst.LAST_CHANGE, formDiv)
 		case "LONG_NAME":
-			FormDivBasicFieldToField(&(_instance.LONG_NAME), formDiv)
+			FormDivBasicFieldToField(&inst.LONG_NAME, formDiv)
 		case "ALTERNATIVE_ID":
-			FormDivSelectFieldToField(&(_instance.ALTERNATIVE_ID), probe.stageOfInterest, formDiv)
+			StageSetFormDivSelectFieldToField(&inst.ALTERNATIVE_ID, probe.stageOfInterest.GetInstancesSet[*models.A_ALTERNATIVE_ID](), formDiv)
 		case "SPEC_ATTRIBUTES":
-			FormDivSelectFieldToField(&(_instance.SPEC_ATTRIBUTES), probe.stageOfInterest, formDiv)
-		case "A_SPEC_TYPES:SPEC_RELATION_TYPE":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SPEC_RELATION_TYPE", func(owner *models.A_SPEC_TYPES) *[]*models.SPEC_RELATION_TYPE { return &owner.SPEC_RELATION_TYPE })
+			StageSetFormDivSelectFieldToField(&inst.SPEC_ATTRIBUTES, probe.stageOfInterest.GetInstancesSet[*models.A_SPEC_ATTRIBUTES](), formDiv)
 		}
 	}
 }
 
-func __gong__New__XHTML_CONTENTFormCallback(
-	_instance *models.XHTML_CONTENT,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (xhtml_contentFormCallback *FormCallback[*models.XHTML_CONTENT]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveXHTML_CONTENTFields,
-	)
-}
-
-type XHTML_CONTENTFormCallback = FormCallback[*models.XHTML_CONTENT]
-
-func saveXHTML_CONTENTFields(
-	_instance *models.XHTML_CONTENT,
+func saveStageSet_XHTML_CONTENT_Stage(
+	inst *models.XHTML_CONTENT,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
-		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "EnclosedText":
-			FormDivBasicFieldToField(&(_instance.EnclosedText), formDiv)
+			FormDivBasicFieldToField(&inst.EnclosedText, formDiv)
 		}
 	}
+}
+
+func saveStageSet_Xmlxsd_SchemaElement_XmlxsdStage(
+	inst *xmlxsd.Xmlxsd_SchemaElement,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		case "Name":
+			FormDivBasicFieldToField(&inst.Name, formDiv)
+		}
+	}
+}
+
+
+func StageSetNewInstance_ALTERNATIVE_ID_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ALTERNATIVE_ID",
+	}).Stage(probe.formStage)
+	inst := new(models.ALTERNATIVE_ID)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ALTERNATIVE_ID_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ALTERNATIVE_ID_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ATTRIBUTE_DEFINITION_BOOLEAN_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ATTRIBUTE_DEFINITION_BOOLEAN",
+	}).Stage(probe.formStage)
+	inst := new(models.ATTRIBUTE_DEFINITION_BOOLEAN)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ATTRIBUTE_DEFINITION_BOOLEAN_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ATTRIBUTE_DEFINITION_BOOLEAN_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ATTRIBUTE_DEFINITION_DATE_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ATTRIBUTE_DEFINITION_DATE",
+	}).Stage(probe.formStage)
+	inst := new(models.ATTRIBUTE_DEFINITION_DATE)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ATTRIBUTE_DEFINITION_DATE_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ATTRIBUTE_DEFINITION_DATE_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ATTRIBUTE_DEFINITION_ENUMERATION_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ATTRIBUTE_DEFINITION_ENUMERATION",
+	}).Stage(probe.formStage)
+	inst := new(models.ATTRIBUTE_DEFINITION_ENUMERATION)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ATTRIBUTE_DEFINITION_ENUMERATION_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ATTRIBUTE_DEFINITION_ENUMERATION_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ATTRIBUTE_DEFINITION_INTEGER_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ATTRIBUTE_DEFINITION_INTEGER",
+	}).Stage(probe.formStage)
+	inst := new(models.ATTRIBUTE_DEFINITION_INTEGER)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ATTRIBUTE_DEFINITION_INTEGER_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ATTRIBUTE_DEFINITION_INTEGER_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ATTRIBUTE_DEFINITION_REAL_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ATTRIBUTE_DEFINITION_REAL",
+	}).Stage(probe.formStage)
+	inst := new(models.ATTRIBUTE_DEFINITION_REAL)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ATTRIBUTE_DEFINITION_REAL_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ATTRIBUTE_DEFINITION_REAL_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ATTRIBUTE_DEFINITION_STRING_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ATTRIBUTE_DEFINITION_STRING",
+	}).Stage(probe.formStage)
+	inst := new(models.ATTRIBUTE_DEFINITION_STRING)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ATTRIBUTE_DEFINITION_STRING_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ATTRIBUTE_DEFINITION_STRING_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ATTRIBUTE_DEFINITION_XHTML_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ATTRIBUTE_DEFINITION_XHTML",
+	}).Stage(probe.formStage)
+	inst := new(models.ATTRIBUTE_DEFINITION_XHTML)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ATTRIBUTE_DEFINITION_XHTML_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ATTRIBUTE_DEFINITION_XHTML_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ATTRIBUTE_VALUE_BOOLEAN_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ATTRIBUTE_VALUE_BOOLEAN",
+	}).Stage(probe.formStage)
+	inst := new(models.ATTRIBUTE_VALUE_BOOLEAN)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ATTRIBUTE_VALUE_BOOLEAN_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ATTRIBUTE_VALUE_BOOLEAN_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ATTRIBUTE_VALUE_DATE_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ATTRIBUTE_VALUE_DATE",
+	}).Stage(probe.formStage)
+	inst := new(models.ATTRIBUTE_VALUE_DATE)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ATTRIBUTE_VALUE_DATE_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ATTRIBUTE_VALUE_DATE_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ATTRIBUTE_VALUE_ENUMERATION_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ATTRIBUTE_VALUE_ENUMERATION",
+	}).Stage(probe.formStage)
+	inst := new(models.ATTRIBUTE_VALUE_ENUMERATION)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ATTRIBUTE_VALUE_ENUMERATION_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ATTRIBUTE_VALUE_ENUMERATION_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ATTRIBUTE_VALUE_INTEGER_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ATTRIBUTE_VALUE_INTEGER",
+	}).Stage(probe.formStage)
+	inst := new(models.ATTRIBUTE_VALUE_INTEGER)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ATTRIBUTE_VALUE_INTEGER_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ATTRIBUTE_VALUE_INTEGER_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ATTRIBUTE_VALUE_REAL_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ATTRIBUTE_VALUE_REAL",
+	}).Stage(probe.formStage)
+	inst := new(models.ATTRIBUTE_VALUE_REAL)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ATTRIBUTE_VALUE_REAL_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ATTRIBUTE_VALUE_REAL_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ATTRIBUTE_VALUE_STRING_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ATTRIBUTE_VALUE_STRING",
+	}).Stage(probe.formStage)
+	inst := new(models.ATTRIBUTE_VALUE_STRING)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ATTRIBUTE_VALUE_STRING_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ATTRIBUTE_VALUE_STRING_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ATTRIBUTE_VALUE_XHTML_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ATTRIBUTE_VALUE_XHTML",
+	}).Stage(probe.formStage)
+	inst := new(models.ATTRIBUTE_VALUE_XHTML)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ATTRIBUTE_VALUE_XHTML_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ATTRIBUTE_VALUE_XHTML_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ALTERNATIVE_ID_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ALTERNATIVE_ID",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ALTERNATIVE_ID)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ALTERNATIVE_ID_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ALTERNATIVE_ID_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_DEFINITION_BOOLEAN_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_DEFINITION_DATE_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_DEFINITION_DATE_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_DEFINITION_DATE_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_DEFINITION_DATE_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_DEFINITION_DATE_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_DEFINITION_ENUMERATION_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_DEFINITION_INTEGER_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_DEFINITION_INTEGER_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_DEFINITION_INTEGER_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_DEFINITION_INTEGER_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_DEFINITION_INTEGER_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_DEFINITION_REAL_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_DEFINITION_REAL_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_DEFINITION_REAL_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_DEFINITION_REAL_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_DEFINITION_REAL_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_DEFINITION_STRING_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_DEFINITION_STRING_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_DEFINITION_STRING_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_DEFINITION_STRING_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_DEFINITION_STRING_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_DEFINITION_XHTML_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_DEFINITION_XHTML_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_DEFINITION_XHTML_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_DEFINITION_XHTML_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_DEFINITION_XHTML_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_VALUE_BOOLEAN_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_VALUE_BOOLEAN",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_VALUE_BOOLEAN)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_VALUE_BOOLEAN_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_VALUE_BOOLEAN_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_VALUE_DATE_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_VALUE_DATE",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_VALUE_DATE)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_VALUE_DATE_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_VALUE_DATE_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_VALUE_ENUMERATION_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_VALUE_ENUMERATION",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_VALUE_ENUMERATION)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_VALUE_ENUMERATION_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_VALUE_ENUMERATION_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_VALUE_INTEGER_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_VALUE_INTEGER",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_VALUE_INTEGER)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_VALUE_INTEGER_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_VALUE_INTEGER_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_VALUE_REAL_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_VALUE_REAL",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_VALUE_REAL)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_VALUE_REAL_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_VALUE_REAL_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_VALUE_STRING_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_VALUE_STRING",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_VALUE_STRING)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_VALUE_STRING_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_VALUE_STRING_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_VALUE_XHTML_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_VALUE_XHTML",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_VALUE_XHTML)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_VALUE_XHTML_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_VALUE_XHTML_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ATTRIBUTE_VALUE_XHTML_1_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ATTRIBUTE_VALUE_XHTML_1",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ATTRIBUTE_VALUE_XHTML_1)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ATTRIBUTE_VALUE_XHTML_1_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ATTRIBUTE_VALUE_XHTML_1_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_CHILDREN_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_CHILDREN",
+	}).Stage(probe.formStage)
+	inst := new(models.A_CHILDREN)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_CHILDREN_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_CHILDREN_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_CORE_CONTENT_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_CORE_CONTENT",
+	}).Stage(probe.formStage)
+	inst := new(models.A_CORE_CONTENT)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_CORE_CONTENT_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_CORE_CONTENT_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_DATATYPES_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_DATATYPES",
+	}).Stage(probe.formStage)
+	inst := new(models.A_DATATYPES)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_DATATYPES_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_DATATYPES_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_DATATYPE_DEFINITION_BOOLEAN_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_DATATYPE_DEFINITION_BOOLEAN_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_DATATYPE_DEFINITION_BOOLEAN_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_DATATYPE_DEFINITION_BOOLEAN_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_DATATYPE_DEFINITION_BOOLEAN_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_DATATYPE_DEFINITION_DATE_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_DATATYPE_DEFINITION_DATE_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_DATATYPE_DEFINITION_DATE_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_DATATYPE_DEFINITION_DATE_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_DATATYPE_DEFINITION_DATE_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_DATATYPE_DEFINITION_ENUMERATION_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_DATATYPE_DEFINITION_ENUMERATION_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_DATATYPE_DEFINITION_ENUMERATION_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_DATATYPE_DEFINITION_ENUMERATION_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_DATATYPE_DEFINITION_ENUMERATION_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_DATATYPE_DEFINITION_INTEGER_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_DATATYPE_DEFINITION_INTEGER_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_DATATYPE_DEFINITION_INTEGER_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_DATATYPE_DEFINITION_INTEGER_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_DATATYPE_DEFINITION_INTEGER_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_DATATYPE_DEFINITION_REAL_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_DATATYPE_DEFINITION_REAL_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_DATATYPE_DEFINITION_REAL_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_DATATYPE_DEFINITION_REAL_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_DATATYPE_DEFINITION_REAL_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_DATATYPE_DEFINITION_STRING_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_DATATYPE_DEFINITION_STRING_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_DATATYPE_DEFINITION_STRING_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_DATATYPE_DEFINITION_STRING_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_DATATYPE_DEFINITION_STRING_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_DATATYPE_DEFINITION_XHTML_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_DATATYPE_DEFINITION_XHTML_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_DATATYPE_DEFINITION_XHTML_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_DATATYPE_DEFINITION_XHTML_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_DATATYPE_DEFINITION_XHTML_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_EDITABLE_ATTS_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_EDITABLE_ATTS",
+	}).Stage(probe.formStage)
+	inst := new(models.A_EDITABLE_ATTS)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_EDITABLE_ATTS_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_EDITABLE_ATTS_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_ENUM_VALUE_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_ENUM_VALUE_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_ENUM_VALUE_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_ENUM_VALUE_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_ENUM_VALUE_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_OBJECT_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_OBJECT",
+	}).Stage(probe.formStage)
+	inst := new(models.A_OBJECT)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_OBJECT_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_OBJECT_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_PROPERTIES_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_PROPERTIES",
+	}).Stage(probe.formStage)
+	inst := new(models.A_PROPERTIES)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_PROPERTIES_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_PROPERTIES_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_RELATION_GROUP_TYPE_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_RELATION_GROUP_TYPE_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_RELATION_GROUP_TYPE_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_RELATION_GROUP_TYPE_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_RELATION_GROUP_TYPE_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_SOURCE_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_SOURCE",
+	}).Stage(probe.formStage)
+	inst := new(models.A_SOURCE)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_SOURCE_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_SOURCE_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_SOURCE_SPECIFICATION_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_SOURCE_SPECIFICATION",
+	}).Stage(probe.formStage)
+	inst := new(models.A_SOURCE_SPECIFICATION)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_SOURCE_SPECIFICATION_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_SOURCE_SPECIFICATION_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_SPECIFICATIONS_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_SPECIFICATIONS",
+	}).Stage(probe.formStage)
+	inst := new(models.A_SPECIFICATIONS)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_SPECIFICATIONS_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_SPECIFICATIONS_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_SPECIFICATION_TYPE_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_SPECIFICATION_TYPE_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_SPECIFICATION_TYPE_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_SPECIFICATION_TYPE_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_SPECIFICATION_TYPE_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_SPECIFIED_VALUES_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_SPECIFIED_VALUES",
+	}).Stage(probe.formStage)
+	inst := new(models.A_SPECIFIED_VALUES)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_SPECIFIED_VALUES_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_SPECIFIED_VALUES_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_SPEC_ATTRIBUTES_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_SPEC_ATTRIBUTES",
+	}).Stage(probe.formStage)
+	inst := new(models.A_SPEC_ATTRIBUTES)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_SPEC_ATTRIBUTES_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_SPEC_ATTRIBUTES_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_SPEC_OBJECTS_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_SPEC_OBJECTS",
+	}).Stage(probe.formStage)
+	inst := new(models.A_SPEC_OBJECTS)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_SPEC_OBJECTS_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_SPEC_OBJECTS_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_SPEC_OBJECT_TYPE_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_SPEC_OBJECT_TYPE_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_SPEC_OBJECT_TYPE_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_SPEC_OBJECT_TYPE_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_SPEC_OBJECT_TYPE_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_SPEC_RELATIONS_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_SPEC_RELATIONS",
+	}).Stage(probe.formStage)
+	inst := new(models.A_SPEC_RELATIONS)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_SPEC_RELATIONS_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_SPEC_RELATIONS_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_SPEC_RELATION_GROUPS_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_SPEC_RELATION_GROUPS",
+	}).Stage(probe.formStage)
+	inst := new(models.A_SPEC_RELATION_GROUPS)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_SPEC_RELATION_GROUPS_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_SPEC_RELATION_GROUPS_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_SPEC_RELATION_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_SPEC_RELATION_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_SPEC_RELATION_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_SPEC_RELATION_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_SPEC_RELATION_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_SPEC_RELATION_TYPE_REF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_SPEC_RELATION_TYPE_REF",
+	}).Stage(probe.formStage)
+	inst := new(models.A_SPEC_RELATION_TYPE_REF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_SPEC_RELATION_TYPE_REF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_SPEC_RELATION_TYPE_REF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_SPEC_TYPES_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_SPEC_TYPES",
+	}).Stage(probe.formStage)
+	inst := new(models.A_SPEC_TYPES)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_SPEC_TYPES_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_SPEC_TYPES_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_THE_HEADER_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_THE_HEADER",
+	}).Stage(probe.formStage)
+	inst := new(models.A_THE_HEADER)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_THE_HEADER_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_THE_HEADER_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_A_TOOL_EXTENSIONS_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New A_TOOL_EXTENSIONS",
+	}).Stage(probe.formStage)
+	inst := new(models.A_TOOL_EXTENSIONS)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_A_TOOL_EXTENSIONS_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_A_TOOL_EXTENSIONS_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_DATATYPE_DEFINITION_BOOLEAN_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New DATATYPE_DEFINITION_BOOLEAN",
+	}).Stage(probe.formStage)
+	inst := new(models.DATATYPE_DEFINITION_BOOLEAN)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_DATATYPE_DEFINITION_BOOLEAN_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_DATATYPE_DEFINITION_BOOLEAN_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_DATATYPE_DEFINITION_DATE_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New DATATYPE_DEFINITION_DATE",
+	}).Stage(probe.formStage)
+	inst := new(models.DATATYPE_DEFINITION_DATE)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_DATATYPE_DEFINITION_DATE_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_DATATYPE_DEFINITION_DATE_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_DATATYPE_DEFINITION_ENUMERATION_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New DATATYPE_DEFINITION_ENUMERATION",
+	}).Stage(probe.formStage)
+	inst := new(models.DATATYPE_DEFINITION_ENUMERATION)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_DATATYPE_DEFINITION_ENUMERATION_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_DATATYPE_DEFINITION_ENUMERATION_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_DATATYPE_DEFINITION_INTEGER_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New DATATYPE_DEFINITION_INTEGER",
+	}).Stage(probe.formStage)
+	inst := new(models.DATATYPE_DEFINITION_INTEGER)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_DATATYPE_DEFINITION_INTEGER_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_DATATYPE_DEFINITION_INTEGER_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_DATATYPE_DEFINITION_REAL_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New DATATYPE_DEFINITION_REAL",
+	}).Stage(probe.formStage)
+	inst := new(models.DATATYPE_DEFINITION_REAL)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_DATATYPE_DEFINITION_REAL_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_DATATYPE_DEFINITION_REAL_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_DATATYPE_DEFINITION_STRING_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New DATATYPE_DEFINITION_STRING",
+	}).Stage(probe.formStage)
+	inst := new(models.DATATYPE_DEFINITION_STRING)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_DATATYPE_DEFINITION_STRING_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_DATATYPE_DEFINITION_STRING_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_DATATYPE_DEFINITION_XHTML_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New DATATYPE_DEFINITION_XHTML",
+	}).Stage(probe.formStage)
+	inst := new(models.DATATYPE_DEFINITION_XHTML)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_DATATYPE_DEFINITION_XHTML_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_DATATYPE_DEFINITION_XHTML_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_EMBEDDED_VALUE_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New EMBEDDED_VALUE",
+	}).Stage(probe.formStage)
+	inst := new(models.EMBEDDED_VALUE)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_EMBEDDED_VALUE_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_EMBEDDED_VALUE_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_ENUM_VALUE_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New ENUM_VALUE",
+	}).Stage(probe.formStage)
+	inst := new(models.ENUM_VALUE)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_ENUM_VALUE_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_ENUM_VALUE_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_RELATION_GROUP_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New RELATION_GROUP",
+	}).Stage(probe.formStage)
+	inst := new(models.RELATION_GROUP)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_RELATION_GROUP_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_RELATION_GROUP_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_RELATION_GROUP_TYPE_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New RELATION_GROUP_TYPE",
+	}).Stage(probe.formStage)
+	inst := new(models.RELATION_GROUP_TYPE)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_RELATION_GROUP_TYPE_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_RELATION_GROUP_TYPE_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_REQ_IF_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New REQ_IF",
+	}).Stage(probe.formStage)
+	inst := new(models.REQ_IF)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_REQ_IF_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_REQ_IF_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_REQ_IF_CONTENT_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New REQ_IF_CONTENT",
+	}).Stage(probe.formStage)
+	inst := new(models.REQ_IF_CONTENT)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_REQ_IF_CONTENT_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_REQ_IF_CONTENT_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_REQ_IF_HEADER_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New REQ_IF_HEADER",
+	}).Stage(probe.formStage)
+	inst := new(models.REQ_IF_HEADER)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_REQ_IF_HEADER_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_REQ_IF_HEADER_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_REQ_IF_TOOL_EXTENSION_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New REQ_IF_TOOL_EXTENSION",
+	}).Stage(probe.formStage)
+	inst := new(models.REQ_IF_TOOL_EXTENSION)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_REQ_IF_TOOL_EXTENSION_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_REQ_IF_TOOL_EXTENSION_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_SPECIFICATION_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New SPECIFICATION",
+	}).Stage(probe.formStage)
+	inst := new(models.SPECIFICATION)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_SPECIFICATION_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_SPECIFICATION_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_SPECIFICATION_TYPE_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New SPECIFICATION_TYPE",
+	}).Stage(probe.formStage)
+	inst := new(models.SPECIFICATION_TYPE)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_SPECIFICATION_TYPE_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_SPECIFICATION_TYPE_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_SPEC_HIERARCHY_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New SPEC_HIERARCHY",
+	}).Stage(probe.formStage)
+	inst := new(models.SPEC_HIERARCHY)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_SPEC_HIERARCHY_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_SPEC_HIERARCHY_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_SPEC_OBJECT_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New SPEC_OBJECT",
+	}).Stage(probe.formStage)
+	inst := new(models.SPEC_OBJECT)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_SPEC_OBJECT_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_SPEC_OBJECT_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_SPEC_OBJECT_TYPE_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New SPEC_OBJECT_TYPE",
+	}).Stage(probe.formStage)
+	inst := new(models.SPEC_OBJECT_TYPE)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_SPEC_OBJECT_TYPE_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_SPEC_OBJECT_TYPE_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_SPEC_RELATION_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New SPEC_RELATION",
+	}).Stage(probe.formStage)
+	inst := new(models.SPEC_RELATION)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_SPEC_RELATION_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_SPEC_RELATION_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_SPEC_RELATION_TYPE_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New SPEC_RELATION_TYPE",
+	}).Stage(probe.formStage)
+	inst := new(models.SPEC_RELATION_TYPE)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_SPEC_RELATION_TYPE_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_SPEC_RELATION_TYPE_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_XHTML_CONTENT_Stage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New XHTML_CONTENT",
+	}).Stage(probe.formStage)
+	inst := new(models.XHTML_CONTENT)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.Lock()
+			defer probe.stageOfInterest.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest)
+			saveStageSet_XHTML_CONTENT_Stage(inst, probe, formGroup)
+			probe.stageOfInterest.Commit()
+			updateStageSetTable_XHTML_CONTENT_Stage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_Xmlxsd_SchemaElement_XmlxsdStage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New Xmlxsd_SchemaElement",
+	}).Stage(probe.formStage)
+	inst := new(xmlxsd.Xmlxsd_SchemaElement)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.XmlxsdStage.Lock()
+			defer probe.stageOfInterest.XmlxsdStage.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest.XmlxsdStage)
+			saveStageSet_Xmlxsd_SchemaElement_XmlxsdStage(inst, probe, formGroup)
+			probe.stageOfInterest.XmlxsdStage.Commit()
+			updateStageSetTable_Xmlxsd_SchemaElement_XmlxsdStage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
 }
 

@@ -12,7 +12,7 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
 	form_fullstack "github.com/fullstack-lang/gong/lib/form/go/fullstack"
-	split_fullstack "github.com/fullstack-lang/gong/lib/split/go/fullstack"
+	splitlite_fullstack "github.com/fullstack-lang/gong/lib/splitlite/go/fullstack"
 	table_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
 	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
@@ -22,7 +22,7 @@ import (
 
 	doc "github.com/fullstack-lang/gong/lib/doc/go/models"
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
-	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	splitlite "github.com/fullstack-lang/gong/lib/splitlite/go/models"
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
@@ -41,16 +41,16 @@ type Probe struct {
 	formStage              *form.Stage
 	tableStage             *table.Stage
 	notificationTableStage *table.Stage
-	splitStage             *split.Stage
+	splitStage             *splitlite.Stage
 	loadStage              *load.Stage
 
 	fileName               string
 
 	// AsSplit to be used if one need only the data editor
-	dataEditor *split.AsSplit
+	dataEditor *splitlite.AsSplit
 
 	// AsSplitArea for the diagram editor
-	diagramEditor *split.AsSplitArea
+	diagramEditor *splitlite.AsSplitArea
 
 	docStager *doc.Stager
 
@@ -112,7 +112,7 @@ func NewProbe(
 	stageOfInterest *models.Stage) (probe *Probe) {
 
 	// split stage for the whole probe
-	splitStage, _ := split_fullstack.NewStackInstance(r, stageOfInterest.GetProbeSplitStageName())
+	splitStage, _ := splitlite_fullstack.NewStackInstance(r, stageOfInterest.GetProbeSplitStageName())
 	splitStage.Commit()
 
 	stageOfInterest.MetaPackageImportPath = "github.com/fullstack-lang/gong/app/xsd/tests/books/go/models"
@@ -154,13 +154,13 @@ func NewProbe(
 	}
 
 	// prepare the receiving AsSplitArea
-	probe.diagramEditor = &split.AsSplitArea{
+	probe.diagramEditor = &splitlite.AsSplitArea{
 		Name:             "Bottom",
 		ShowNameInHeader: false,
 		Size:             50,
 	}
 
-	probe.docStager = prepare.Prepare(
+	probe.docStager = prepare.PrepareSplitlite(
 		r,
 		embeddedDiagrams,
 
@@ -174,7 +174,7 @@ func NewProbe(
 		stageOfInterest.Map_GongStructName_InstancesNb,
 	)
 
-	probe.dataEditor = gongprobe.CreateDataEditorLayout(
+	probe.dataEditor = gongprobe.CreateDataEditorLayoutSplitlite(
 		probe.treeNavigationStage.GetName(),
 		probe.treeStage.GetName(),
 		probe.loadStage.GetName(),
@@ -183,9 +183,9 @@ func NewProbe(
 		probe.formStage.GetName(),
 	)
 
-	probe.splitStage.StageBranch(&split.View{
+	probe.splitStage.StageBranch(&splitlite.View{
 		Name: "Main view",
-		RootAsSplitAreas: []*split.AsSplitArea{
+		RootAsSplitAreas: []*splitlite.AsSplitArea{
 			{
 				Name:    "Top",
 				Size:    50,
@@ -278,7 +278,7 @@ func (probe *Probe) GetStage() *models.Stage {
 	return probe.stageOfInterest
 }
 
-func (probe *Probe) GetSplitStage() *split.Stage {
+func (probe *Probe) GetSplitStage() *splitlite.Stage {
 	return probe.splitStage
 }
 
@@ -298,11 +298,11 @@ func (probe *Probe) GetNavigationTreeStage() *tree.Stage {
 	return probe.treeNavigationStage
 }
 
-func (probe *Probe) GetDataEditor() *split.AsSplit {
+func (probe *Probe) GetDataEditor() *splitlite.AsSplit {
 	return probe.dataEditor
 }
 
-func (probe *Probe) GetDiagramEditor() *split.AsSplitArea {
+func (probe *Probe) GetDiagramEditor() *splitlite.AsSplitArea {
 	return probe.diagramEditor
 }
 

@@ -19,6 +19,9 @@ var (
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
+	if stage.XmlxsdStage != nil {
+		stage.XmlxsdStage.ComputeReverseMaps()
+	}
 	// insertion point per named struct
 	// Compute reverse map for named struct A_ATTRIBUTE_VALUE_BOOLEAN
 	// insertion point per field
@@ -444,9 +447,9 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.A_RELATION_GROUP_TYPE_REFs)
 
-	res = __gong__appendInstances(res, stage.A_SOURCE_1s)
+	res = __gong__appendInstances(res, stage.A_SOURCEs)
 
-	res = __gong__appendInstances(res, stage.A_SOURCE_SPECIFICATION_1s)
+	res = __gong__appendInstances(res, stage.A_SOURCE_SPECIFICATIONs)
 
 	res = __gong__appendInstances(res, stage.A_SPECIFICATIONSs)
 
@@ -800,15 +803,15 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongCopy() Gongstruc
 	return newInstance
 }
 
-func (a_source_1 *A_SOURCE_1) GongCopy() GongstructIF {
-	newInstance := new(A_SOURCE_1)
-	a_source_1.GongCopyBasicFields(newInstance)
+func (a_source *A_SOURCE) GongCopy() GongstructIF {
+	newInstance := new(A_SOURCE)
+	a_source.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongCopy() GongstructIF {
-	newInstance := new(A_SOURCE_SPECIFICATION_1)
-	a_source_specification_1.GongCopyBasicFields(newInstance)
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongCopy() GongstructIF {
+	newInstance := new(A_SOURCE_SPECIFICATION)
+	a_source_specification.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1213,12 +1216,12 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongGetUUID(stage *S
 	return __gong__getUUID(stage, a_relation_group_type_ref)
 }
 
-func (a_source_1 *A_SOURCE_1) GongGetUUID(stage *Stage) string {
-	return __gong__getUUID(stage, a_source_1)
+func (a_source *A_SOURCE) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, a_source)
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongGetUUID(stage *Stage) string {
-	return __gong__getUUID(stage, a_source_specification_1)
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, a_source_specification)
 }
 
 func (a_specifications *A_SPECIFICATIONS) GongGetUUID(stage *Stage) string {
@@ -2249,11 +2252,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
-		stage.A_SOURCE_1s,
-		stage.A_SOURCE_1_stagedOrder,
-		stage.A_SOURCE_1s_reference,
-		&stage.A_SOURCE_1s_referenceOrder,
-		stage.A_SOURCE_1s_instance,
+		stage.A_SOURCEs,
+		stage.A_SOURCE_stagedOrder,
+		stage.A_SOURCEs_reference,
+		&stage.A_SOURCEs_referenceOrder,
+		stage.A_SOURCEs_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -2266,11 +2269,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
-		stage.A_SOURCE_SPECIFICATION_1s,
-		stage.A_SOURCE_SPECIFICATION_1_stagedOrder,
-		stage.A_SOURCE_SPECIFICATION_1s_reference,
-		&stage.A_SOURCE_SPECIFICATION_1s_referenceOrder,
-		stage.A_SOURCE_SPECIFICATION_1s_instance,
+		stage.A_SOURCE_SPECIFICATIONs,
+		stage.A_SOURCE_SPECIFICATION_stagedOrder,
+		stage.A_SOURCE_SPECIFICATIONs_reference,
+		&stage.A_SOURCE_SPECIFICATIONs_referenceOrder,
+		stage.A_SOURCE_SPECIFICATIONs_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -2927,6 +2930,9 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
+	if stage.XmlxsdStage != nil {
+		stage.XmlxsdStage.ComputeReferenceAndOrders()
+	}
 	// insertion point per named struct
 	__gong__computeReferencePass1(stage, stage.ALTERNATIVE_IDs, &stage.ALTERNATIVE_IDs_reference, &stage.ALTERNATIVE_IDs_referenceOrder, &stage.ALTERNATIVE_IDs_instance)
 
@@ -3020,9 +3026,9 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.A_RELATION_GROUP_TYPE_REFs, &stage.A_RELATION_GROUP_TYPE_REFs_reference, &stage.A_RELATION_GROUP_TYPE_REFs_referenceOrder, &stage.A_RELATION_GROUP_TYPE_REFs_instance)
 
-	__gong__computeReferencePass1(stage, stage.A_SOURCE_1s, &stage.A_SOURCE_1s_reference, &stage.A_SOURCE_1s_referenceOrder, &stage.A_SOURCE_1s_instance)
+	__gong__computeReferencePass1(stage, stage.A_SOURCEs, &stage.A_SOURCEs_reference, &stage.A_SOURCEs_referenceOrder, &stage.A_SOURCEs_instance)
 
-	__gong__computeReferencePass1(stage, stage.A_SOURCE_SPECIFICATION_1s, &stage.A_SOURCE_SPECIFICATION_1s_reference, &stage.A_SOURCE_SPECIFICATION_1s_referenceOrder, &stage.A_SOURCE_SPECIFICATION_1s_instance)
+	__gong__computeReferencePass1(stage, stage.A_SOURCE_SPECIFICATIONs, &stage.A_SOURCE_SPECIFICATIONs_reference, &stage.A_SOURCE_SPECIFICATIONs_referenceOrder, &stage.A_SOURCE_SPECIFICATIONs_instance)
 
 	__gong__computeReferencePass1(stage, stage.A_SPECIFICATIONSs, &stage.A_SPECIFICATIONSs_reference, &stage.A_SPECIFICATIONSs_referenceOrder, &stage.A_SPECIFICATIONSs_instance)
 
@@ -3189,9 +3195,9 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass2(stage.A_RELATION_GROUP_TYPE_REFs, stage.A_RELATION_GROUP_TYPE_REFs_reference, stage)
 
-	__gong__computeReferencePass2(stage.A_SOURCE_1s, stage.A_SOURCE_1s_reference, stage)
+	__gong__computeReferencePass2(stage.A_SOURCEs, stage.A_SOURCEs_reference, stage)
 
-	__gong__computeReferencePass2(stage.A_SOURCE_SPECIFICATION_1s, stage.A_SOURCE_SPECIFICATION_1s_reference, stage)
+	__gong__computeReferencePass2(stage.A_SOURCE_SPECIFICATIONs, stage.A_SOURCE_SPECIFICATIONs_reference, stage)
 
 	__gong__computeReferencePass2(stage.A_SPECIFICATIONSs, stage.A_SPECIFICATIONSs_reference, stage)
 
@@ -3459,12 +3465,12 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongGetOrder(stage *
 	return __gong__getOrder(stage.A_RELATION_GROUP_TYPE_REF_stagedOrder, stage.A_RELATION_GROUP_TYPE_REFs_referenceOrder, a_relation_group_type_ref, "A_RELATION_GROUP_TYPE_REF")
 }
 
-func (a_source_1 *A_SOURCE_1) GongGetOrder(stage *Stage) uint {
-	return __gong__getOrder(stage.A_SOURCE_1_stagedOrder, stage.A_SOURCE_1s_referenceOrder, a_source_1, "A_SOURCE_1")
+func (a_source *A_SOURCE) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.A_SOURCE_stagedOrder, stage.A_SOURCEs_referenceOrder, a_source, "A_SOURCE")
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongGetOrder(stage *Stage) uint {
-	return __gong__getOrder(stage.A_SOURCE_SPECIFICATION_1_stagedOrder, stage.A_SOURCE_SPECIFICATION_1s_referenceOrder, a_source_specification_1, "A_SOURCE_SPECIFICATION_1")
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.A_SOURCE_SPECIFICATION_stagedOrder, stage.A_SOURCE_SPECIFICATIONs_referenceOrder, a_source_specification, "A_SOURCE_SPECIFICATION")
 }
 
 func (a_specifications *A_SPECIFICATIONS) GongGetOrder(stage *Stage) uint {
@@ -4030,22 +4036,22 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongGetReferenceIden
 	return a_relation_group_type_ref.GongGetIdentifier(stage)
 }
 
-func (a_source_1 *A_SOURCE_1) GongGetIdentifier(stage *Stage) string {
-	return __gong__formatIdentifier(a_source_1, a_source_1.GongGetOrder(stage))
+func (a_source *A_SOURCE) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(a_source, a_source.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (a_source_1 *A_SOURCE_1) GongGetReferenceIdentifier(stage *Stage) string {
-	return a_source_1.GongGetIdentifier(stage)
+func (a_source *A_SOURCE) GongGetReferenceIdentifier(stage *Stage) string {
+	return a_source.GongGetIdentifier(stage)
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongGetIdentifier(stage *Stage) string {
-	return __gong__formatIdentifier(a_source_specification_1, a_source_specification_1.GongGetOrder(stage))
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(a_source_specification, a_source_specification.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongGetReferenceIdentifier(stage *Stage) string {
-	return a_source_specification_1.GongGetIdentifier(stage)
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongGetReferenceIdentifier(stage *Stage) string {
+	return a_source_specification.GongGetIdentifier(stage)
 }
 
 func (a_specifications *A_SPECIFICATIONS) GongGetIdentifier(stage *Stage) string {
@@ -4559,12 +4565,12 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongMarshallIdentifi
 	return __gong__marshallIdentifier(a_relation_group_type_ref.GongGetIdentifier(stage), "A_RELATION_GROUP_TYPE_REF", a_relation_group_type_ref.Name)
 }
 
-func (a_source_1 *A_SOURCE_1) GongMarshallIdentifier(stage *Stage) string {
-	return __gong__marshallIdentifier(a_source_1.GongGetIdentifier(stage), "A_SOURCE_1", a_source_1.Name)
+func (a_source *A_SOURCE) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(a_source.GongGetIdentifier(stage), "A_SOURCE", a_source.Name)
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongMarshallIdentifier(stage *Stage) string {
-	return __gong__marshallIdentifier(a_source_specification_1.GongGetIdentifier(stage), "A_SOURCE_SPECIFICATION_1", a_source_specification_1.Name)
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(a_source_specification.GongGetIdentifier(stage), "A_SOURCE_SPECIFICATION", a_source_specification.Name)
 }
 
 func (a_specifications *A_SPECIFICATIONS) GongMarshallIdentifier(stage *Stage) string {
@@ -4896,12 +4902,12 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongMarshallUnstagin
 	return __gong__marshallUnstaging(a_relation_group_type_ref.GongGetReferenceIdentifier(stage))
 }
 
-func (a_source_1 *A_SOURCE_1) GongMarshallUnstaging(stage *Stage) string {
-	return __gong__marshallUnstaging(a_source_1.GongGetReferenceIdentifier(stage))
+func (a_source *A_SOURCE) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(a_source.GongGetReferenceIdentifier(stage))
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongMarshallUnstaging(stage *Stage) string {
-	return __gong__marshallUnstaging(a_source_specification_1.GongGetReferenceIdentifier(stage))
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(a_source_specification.GongGetReferenceIdentifier(stage))
 }
 
 func (a_specifications *A_SPECIFICATIONS) GongMarshallUnstaging(stage *Stage) string {

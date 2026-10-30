@@ -1268,8 +1268,9 @@ func (booktype *BookType) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:               "Format",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "Format",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "Enum_BookFormatEnum",
 		},
 		{
 			Name:                 "Credit",
@@ -1428,7 +1429,8 @@ func (booktype *BookType) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueInt = booktype.Year
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Format":
-		res.valueString = booktype.Format
+		enum := booktype.Format
+		res.valueString = enum.ToCodeString()
 	case "Credit":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range booktype.Credit {

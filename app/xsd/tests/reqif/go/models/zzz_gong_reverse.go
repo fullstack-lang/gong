@@ -435,12 +435,12 @@ func (inst *A_RELATION_GROUP_TYPE_REF) GongGetReverseFieldOwnerName(stage *Stage
 	return
 }
 
-func (inst *A_SOURCE_1) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+func (inst *A_SOURCE) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return
 }
 
-func (inst *A_SOURCE_SPECIFICATION_1) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+func (inst *A_SOURCE_SPECIFICATION) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return
 }

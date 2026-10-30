@@ -1,27 +1,7 @@
 // generated code - do not edit
 package probe
 
-import (
-	form "github.com/fullstack-lang/gong/lib/form/go/models"
-
-	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models"
-)
-
-// ux_form updates the current form if there is one
 func (probe *Probe) ux_form() {
-	var formGroup *form.FormGroup
-	for fg := range probe.formStage.FormGroups {
-		formGroup = fg
-	}
-	if formGroup != nil {
-		if onSave, ok := formGroup.OnSave.(FormCallbackIF); ok {
-			if onSave.GetCreationMode() {
-				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
-			} else {
-				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
-			}
-		}
-	}
 }
 
 func FillUpFormFromGongstructName(
@@ -29,3022 +9,483 @@ func FillUpFormFromGongstructName(
 	gongstructName string,
 	isNewInstance bool,
 ) {
-	formStage := probe.formStage
-	formStage.Reset()
-
-	var prefix string
-
-	if isNewInstance {
-		prefix = ""
-	} else {
-		prefix = ""
-	}
-
+	_ = isNewInstance
 	switch gongstructName {
-	// insertion point
-	case "A_directive":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "A_directive Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__A_directiveFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		a_directive := new(models.A_directive)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(a_directive, formGroup, probe)
-	case "A_measure":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "A_measure Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__A_measureFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		a_measure := new(models.A_measure)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(a_measure, formGroup, probe)
-	case "A_measure_1":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "A_measure_1 Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__A_measure_1FormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		a_measure_1 := new(models.A_measure_1)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(a_measure_1, formGroup, probe)
-	case "A_part":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "A_part Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__A_partFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		a_part := new(models.A_part)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(a_part, formGroup, probe)
-	case "A_part_1":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "A_part_1 Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__A_part_1FormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		a_part_1 := new(models.A_part_1)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(a_part_1, formGroup, probe)
-	case "Accidental":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Accidental Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__AccidentalFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		accidental := new(models.Accidental)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(accidental, formGroup, probe)
-	case "Accidental_mark":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Accidental_mark Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Accidental_markFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		accidental_mark := new(models.Accidental_mark)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(accidental_mark, formGroup, probe)
-	case "Accidental_text":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Accidental_text Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Accidental_textFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		accidental_text := new(models.Accidental_text)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(accidental_text, formGroup, probe)
-	case "Accord":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Accord Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__AccordFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		accord := new(models.Accord)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(accord, formGroup, probe)
-	case "Accordion_registration":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Accordion_registration Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Accordion_registrationFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		accordion_registration := new(models.Accordion_registration)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(accordion_registration, formGroup, probe)
-	case "Appearance":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Appearance Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__AppearanceFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		appearance := new(models.Appearance)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(appearance, formGroup, probe)
-	case "Arpeggiate":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Arpeggiate Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ArpeggiateFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		arpeggiate := new(models.Arpeggiate)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(arpeggiate, formGroup, probe)
-	case "Arrow":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Arrow Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ArrowFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		arrow := new(models.Arrow)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(arrow, formGroup, probe)
-	case "Articulations":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Articulations Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ArticulationsFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		articulations := new(models.Articulations)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(articulations, formGroup, probe)
-	case "Assess":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Assess Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__AssessFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		assess := new(models.Assess)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(assess, formGroup, probe)
-	case "Attributes":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Attributes Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__AttributesFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		attributes := new(models.Attributes)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(attributes, formGroup, probe)
-	case "Backup":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Backup Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__BackupFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		backup := new(models.Backup)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(backup, formGroup, probe)
-	case "Bar_style_color":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Bar_style_color Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Bar_style_colorFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		bar_style_color := new(models.Bar_style_color)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(bar_style_color, formGroup, probe)
-	case "Barline":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Barline Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__BarlineFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		barline := new(models.Barline)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(barline, formGroup, probe)
-	case "Barre":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Barre Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__BarreFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		barre := new(models.Barre)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(barre, formGroup, probe)
-	case "Bass":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Bass Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__BassFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		bass := new(models.Bass)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(bass, formGroup, probe)
-	case "Bass_step":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Bass_step Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Bass_stepFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		bass_step := new(models.Bass_step)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(bass_step, formGroup, probe)
-	case "Beam":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Beam Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__BeamFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		beam := new(models.Beam)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(beam, formGroup, probe)
-	case "Beat_repeat":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Beat_repeat Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Beat_repeatFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		beat_repeat := new(models.Beat_repeat)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(beat_repeat, formGroup, probe)
-	case "Beat_unit_tied":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Beat_unit_tied Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Beat_unit_tiedFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		beat_unit_tied := new(models.Beat_unit_tied)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(beat_unit_tied, formGroup, probe)
-	case "Beater":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Beater Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__BeaterFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		beater := new(models.Beater)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(beater, formGroup, probe)
-	case "Bend":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Bend Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__BendFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		bend := new(models.Bend)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(bend, formGroup, probe)
-	case "Bookmark":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Bookmark Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__BookmarkFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		bookmark := new(models.Bookmark)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(bookmark, formGroup, probe)
-	case "Bracket":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Bracket Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__BracketFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		bracket := new(models.Bracket)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(bracket, formGroup, probe)
-	case "Breath_mark":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Breath_mark Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Breath_markFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		breath_mark := new(models.Breath_mark)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(breath_mark, formGroup, probe)
-	case "Caesura":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Caesura Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__CaesuraFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		caesura := new(models.Caesura)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(caesura, formGroup, probe)
-	case "Cancel":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Cancel Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__CancelFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		cancel := new(models.Cancel)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(cancel, formGroup, probe)
-	case "Clef":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Clef Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ClefFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		clef := new(models.Clef)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(clef, formGroup, probe)
-	case "Coda":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Coda Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__CodaFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		coda := new(models.Coda)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(coda, formGroup, probe)
-	case "Credit":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Credit Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__CreditFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		credit := new(models.Credit)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(credit, formGroup, probe)
-	case "Dashes":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Dashes Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DashesFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		dashes := new(models.Dashes)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(dashes, formGroup, probe)
-	case "Defaults":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Defaults Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DefaultsFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		defaults := new(models.Defaults)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(defaults, formGroup, probe)
-	case "Degree":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Degree Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DegreeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		degree := new(models.Degree)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(degree, formGroup, probe)
-	case "Degree_alter":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Degree_alter Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Degree_alterFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		degree_alter := new(models.Degree_alter)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(degree_alter, formGroup, probe)
-	case "Degree_type":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Degree_type Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Degree_typeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		degree_type := new(models.Degree_type)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(degree_type, formGroup, probe)
-	case "Degree_value":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Degree_value Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Degree_valueFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		degree_value := new(models.Degree_value)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(degree_value, formGroup, probe)
-	case "Direction":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Direction Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DirectionFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		direction := new(models.Direction)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(direction, formGroup, probe)
-	case "Direction_type":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Direction_type Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Direction_typeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		direction_type := new(models.Direction_type)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(direction_type, formGroup, probe)
-	case "Distance":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Distance Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DistanceFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		distance := new(models.Distance)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(distance, formGroup, probe)
-	case "Double":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Double Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DoubleFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		double := new(models.Double)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(double, formGroup, probe)
-	case "Dynamics":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Dynamics Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DynamicsFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		dynamics := new(models.Dynamics)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(dynamics, formGroup, probe)
-	case "Effect":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Effect Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__EffectFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		effect := new(models.Effect)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(effect, formGroup, probe)
-	case "Elision":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Elision Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ElisionFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		elision := new(models.Elision)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(elision, formGroup, probe)
-	case "Empty":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Empty Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__EmptyFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		empty := new(models.Empty)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(empty, formGroup, probe)
-	case "Empty_font":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Empty_font Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Empty_fontFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		empty_font := new(models.Empty_font)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(empty_font, formGroup, probe)
-	case "Empty_line":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Empty_line Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Empty_lineFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		empty_line := new(models.Empty_line)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(empty_line, formGroup, probe)
-	case "Empty_placement":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Empty_placement Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Empty_placementFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		empty_placement := new(models.Empty_placement)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(empty_placement, formGroup, probe)
-	case "Empty_placement_smufl":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Empty_placement_smufl Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Empty_placement_smuflFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		empty_placement_smufl := new(models.Empty_placement_smufl)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(empty_placement_smufl, formGroup, probe)
-	case "Empty_print_object_style_align":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Empty_print_object_style_align Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Empty_print_object_style_alignFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		empty_print_object_style_align := new(models.Empty_print_object_style_align)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(empty_print_object_style_align, formGroup, probe)
-	case "Empty_print_style":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Empty_print_style Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Empty_print_styleFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		empty_print_style := new(models.Empty_print_style)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(empty_print_style, formGroup, probe)
-	case "Empty_print_style_align":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Empty_print_style_align Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Empty_print_style_alignFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		empty_print_style_align := new(models.Empty_print_style_align)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(empty_print_style_align, formGroup, probe)
-	case "Empty_print_style_align_id":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Empty_print_style_align_id Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Empty_print_style_align_idFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		empty_print_style_align_id := new(models.Empty_print_style_align_id)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(empty_print_style_align_id, formGroup, probe)
-	case "Empty_trill_sound":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Empty_trill_sound Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Empty_trill_soundFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		empty_trill_sound := new(models.Empty_trill_sound)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(empty_trill_sound, formGroup, probe)
-	case "Encoding":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Encoding Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__EncodingFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		encoding := new(models.Encoding)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(encoding, formGroup, probe)
-	case "Ending":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Ending Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__EndingFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		ending := new(models.Ending)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(ending, formGroup, probe)
-	case "Extend":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Extend Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ExtendFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		extend := new(models.Extend)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(extend, formGroup, probe)
-	case "Feature":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Feature Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__FeatureFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		feature := new(models.Feature)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(feature, formGroup, probe)
-	case "Fermata":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Fermata Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__FermataFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		fermata := new(models.Fermata)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(fermata, formGroup, probe)
-	case "Figure":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Figure Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__FigureFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		figure := new(models.Figure)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(figure, formGroup, probe)
-	case "Figured_bass":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Figured_bass Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Figured_bassFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		figured_bass := new(models.Figured_bass)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(figured_bass, formGroup, probe)
-	case "Fingering":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Fingering Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__FingeringFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		fingering := new(models.Fingering)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(fingering, formGroup, probe)
-	case "First_fret":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "First_fret Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__First_fretFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		first_fret := new(models.First_fret)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(first_fret, formGroup, probe)
-	case "For_part":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "For_part Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__For_partFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		for_part := new(models.For_part)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(for_part, formGroup, probe)
-	case "Formatted_symbol":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Formatted_symbol Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Formatted_symbolFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		formatted_symbol := new(models.Formatted_symbol)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(formatted_symbol, formGroup, probe)
-	case "Formatted_symbol_id":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Formatted_symbol_id Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Formatted_symbol_idFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		formatted_symbol_id := new(models.Formatted_symbol_id)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(formatted_symbol_id, formGroup, probe)
-	case "Formatted_text":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Formatted_text Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Formatted_textFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		formatted_text := new(models.Formatted_text)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(formatted_text, formGroup, probe)
-	case "Formatted_text_id":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Formatted_text_id Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Formatted_text_idFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		formatted_text_id := new(models.Formatted_text_id)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(formatted_text_id, formGroup, probe)
-	case "Forward":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Forward Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ForwardFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		forward := new(models.Forward)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(forward, formGroup, probe)
-	case "Frame":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Frame Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__FrameFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		frame := new(models.Frame)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(frame, formGroup, probe)
-	case "Frame_note":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Frame_note Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Frame_noteFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		frame_note := new(models.Frame_note)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(frame_note, formGroup, probe)
-	case "Fret":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Fret Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__FretFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		fret := new(models.Fret)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(fret, formGroup, probe)
-	case "Glass":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Glass Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__GlassFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		glass := new(models.Glass)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(glass, formGroup, probe)
-	case "Glissando":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Glissando Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__GlissandoFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		glissando := new(models.Glissando)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(glissando, formGroup, probe)
-	case "Glyph":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Glyph Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__GlyphFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		glyph := new(models.Glyph)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(glyph, formGroup, probe)
-	case "Grace":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Grace Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__GraceFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		grace := new(models.Grace)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(grace, formGroup, probe)
-	case "Group_barline":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Group_barline Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Group_barlineFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		group_barline := new(models.Group_barline)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(group_barline, formGroup, probe)
-	case "Group_name":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Group_name Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Group_nameFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		group_name := new(models.Group_name)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(group_name, formGroup, probe)
-	case "Group_symbol":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Group_symbol Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Group_symbolFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		group_symbol := new(models.Group_symbol)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(group_symbol, formGroup, probe)
-	case "Grouping":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Grouping Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__GroupingFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		grouping := new(models.Grouping)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(grouping, formGroup, probe)
-	case "Hammer_on_pull_off":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Hammer_on_pull_off Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Hammer_on_pull_offFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		hammer_on_pull_off := new(models.Hammer_on_pull_off)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(hammer_on_pull_off, formGroup, probe)
-	case "Handbell":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Handbell Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__HandbellFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		handbell := new(models.Handbell)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(handbell, formGroup, probe)
-	case "Harmon_closed":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Harmon_closed Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Harmon_closedFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		harmon_closed := new(models.Harmon_closed)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(harmon_closed, formGroup, probe)
-	case "Harmon_mute":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Harmon_mute Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Harmon_muteFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		harmon_mute := new(models.Harmon_mute)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(harmon_mute, formGroup, probe)
-	case "Harmonic":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Harmonic Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__HarmonicFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		harmonic := new(models.Harmonic)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(harmonic, formGroup, probe)
-	case "Harmony":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Harmony Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__HarmonyFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		harmony := new(models.Harmony)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(harmony, formGroup, probe)
-	case "Harmony_alter":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Harmony_alter Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Harmony_alterFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		harmony_alter := new(models.Harmony_alter)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(harmony_alter, formGroup, probe)
-	case "Harp_pedals":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Harp_pedals Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Harp_pedalsFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		harp_pedals := new(models.Harp_pedals)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(harp_pedals, formGroup, probe)
-	case "Heel_toe":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Heel_toe Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Heel_toeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		heel_toe := new(models.Heel_toe)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(heel_toe, formGroup, probe)
-	case "Hole":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Hole Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__HoleFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		hole := new(models.Hole)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(hole, formGroup, probe)
-	case "Hole_closed":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Hole_closed Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Hole_closedFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		hole_closed := new(models.Hole_closed)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(hole_closed, formGroup, probe)
-	case "Horizontal_turn":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Horizontal_turn Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Horizontal_turnFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		horizontal_turn := new(models.Horizontal_turn)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(horizontal_turn, formGroup, probe)
-	case "Identification":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Identification Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__IdentificationFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		identification := new(models.Identification)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(identification, formGroup, probe)
-	case "Image":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Image Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ImageFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		image := new(models.Image)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(image, formGroup, probe)
-	case "Instrument":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Instrument Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__InstrumentFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		instrument := new(models.Instrument)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(instrument, formGroup, probe)
-	case "Instrument_change":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Instrument_change Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Instrument_changeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		instrument_change := new(models.Instrument_change)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(instrument_change, formGroup, probe)
-	case "Instrument_link":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Instrument_link Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Instrument_linkFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		instrument_link := new(models.Instrument_link)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(instrument_link, formGroup, probe)
-	case "Interchangeable":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Interchangeable Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__InterchangeableFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		interchangeable := new(models.Interchangeable)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(interchangeable, formGroup, probe)
-	case "Inversion":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Inversion Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__InversionFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		inversion := new(models.Inversion)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(inversion, formGroup, probe)
-	case "Key":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Key Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__KeyFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		key := new(models.Key)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(key, formGroup, probe)
-	case "Key_accidental":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Key_accidental Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Key_accidentalFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		key_accidental := new(models.Key_accidental)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(key_accidental, formGroup, probe)
-	case "Key_octave":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Key_octave Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Key_octaveFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		key_octave := new(models.Key_octave)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(key_octave, formGroup, probe)
-	case "Kind":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Kind Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__KindFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		kind := new(models.Kind)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(kind, formGroup, probe)
-	case "Level":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Level Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__LevelFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		level := new(models.Level)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(level, formGroup, probe)
-	case "Line_detail":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Line_detail Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Line_detailFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		line_detail := new(models.Line_detail)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(line_detail, formGroup, probe)
-	case "Line_width":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Line_width Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Line_widthFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		line_width := new(models.Line_width)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(line_width, formGroup, probe)
-	case "Link":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Link Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__LinkFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		link := new(models.Link)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(link, formGroup, probe)
-	case "Listen":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Listen Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ListenFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		listen := new(models.Listen)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(listen, formGroup, probe)
-	case "Listening":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Listening Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ListeningFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		listening := new(models.Listening)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(listening, formGroup, probe)
-	case "Lyric":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Lyric Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__LyricFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		lyric := new(models.Lyric)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(lyric, formGroup, probe)
-	case "Lyric_font":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Lyric_font Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Lyric_fontFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		lyric_font := new(models.Lyric_font)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(lyric_font, formGroup, probe)
-	case "Lyric_language":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Lyric_language Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Lyric_languageFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		lyric_language := new(models.Lyric_language)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(lyric_language, formGroup, probe)
-	case "Measure_layout":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Measure_layout Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Measure_layoutFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		measure_layout := new(models.Measure_layout)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(measure_layout, formGroup, probe)
-	case "Measure_numbering":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Measure_numbering Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Measure_numberingFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		measure_numbering := new(models.Measure_numbering)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(measure_numbering, formGroup, probe)
-	case "Measure_repeat":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Measure_repeat Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Measure_repeatFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		measure_repeat := new(models.Measure_repeat)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(measure_repeat, formGroup, probe)
-	case "Measure_style":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Measure_style Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Measure_styleFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		measure_style := new(models.Measure_style)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(measure_style, formGroup, probe)
-	case "Membrane":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Membrane Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__MembraneFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		membrane := new(models.Membrane)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(membrane, formGroup, probe)
-	case "Metal":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Metal Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__MetalFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		metal := new(models.Metal)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(metal, formGroup, probe)
-	case "Metronome":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Metronome Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__MetronomeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		metronome := new(models.Metronome)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(metronome, formGroup, probe)
-	case "Metronome_beam":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Metronome_beam Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Metronome_beamFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		metronome_beam := new(models.Metronome_beam)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(metronome_beam, formGroup, probe)
-	case "Metronome_note":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Metronome_note Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Metronome_noteFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		metronome_note := new(models.Metronome_note)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(metronome_note, formGroup, probe)
-	case "Metronome_tied":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Metronome_tied Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Metronome_tiedFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		metronome_tied := new(models.Metronome_tied)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(metronome_tied, formGroup, probe)
-	case "Metronome_tuplet":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Metronome_tuplet Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Metronome_tupletFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		metronome_tuplet := new(models.Metronome_tuplet)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(metronome_tuplet, formGroup, probe)
-	case "Midi_device":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Midi_device Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Midi_deviceFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		midi_device := new(models.Midi_device)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(midi_device, formGroup, probe)
-	case "Midi_instrument":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Midi_instrument Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Midi_instrumentFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		midi_instrument := new(models.Midi_instrument)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(midi_instrument, formGroup, probe)
-	case "Miscellaneous":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Miscellaneous Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__MiscellaneousFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		miscellaneous := new(models.Miscellaneous)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(miscellaneous, formGroup, probe)
-	case "Miscellaneous_field":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Miscellaneous_field Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Miscellaneous_fieldFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		miscellaneous_field := new(models.Miscellaneous_field)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(miscellaneous_field, formGroup, probe)
-	case "Mordent":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Mordent Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__MordentFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		mordent := new(models.Mordent)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(mordent, formGroup, probe)
-	case "Multiple_rest":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Multiple_rest Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Multiple_restFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		multiple_rest := new(models.Multiple_rest)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(multiple_rest, formGroup, probe)
-	case "Name_display":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Name_display Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Name_displayFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		name_display := new(models.Name_display)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(name_display, formGroup, probe)
-	case "Non_arpeggiate":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Non_arpeggiate Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Non_arpeggiateFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		non_arpeggiate := new(models.Non_arpeggiate)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(non_arpeggiate, formGroup, probe)
-	case "Notations":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Notations Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__NotationsFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		notations := new(models.Notations)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(notations, formGroup, probe)
-	case "Note":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Note Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__NoteFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		note := new(models.Note)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(note, formGroup, probe)
-	case "Note_size":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Note_size Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Note_sizeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		note_size := new(models.Note_size)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(note_size, formGroup, probe)
-	case "Note_type":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Note_type Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Note_typeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		note_type := new(models.Note_type)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(note_type, formGroup, probe)
-	case "Notehead":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Notehead Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__NoteheadFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		notehead := new(models.Notehead)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(notehead, formGroup, probe)
-	case "Notehead_text":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Notehead_text Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Notehead_textFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		notehead_text := new(models.Notehead_text)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(notehead_text, formGroup, probe)
-	case "Numeral":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Numeral Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__NumeralFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		numeral := new(models.Numeral)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(numeral, formGroup, probe)
-	case "Numeral_key":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Numeral_key Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Numeral_keyFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		numeral_key := new(models.Numeral_key)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(numeral_key, formGroup, probe)
-	case "Numeral_root":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Numeral_root Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Numeral_rootFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		numeral_root := new(models.Numeral_root)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(numeral_root, formGroup, probe)
-	case "Octave_shift":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Octave_shift Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Octave_shiftFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		octave_shift := new(models.Octave_shift)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(octave_shift, formGroup, probe)
-	case "Offset":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Offset Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__OffsetFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		offset := new(models.Offset)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(offset, formGroup, probe)
-	case "Opus":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Opus Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__OpusFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		opus := new(models.Opus)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(opus, formGroup, probe)
-	case "Ornaments":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Ornaments Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__OrnamentsFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		ornaments := new(models.Ornaments)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(ornaments, formGroup, probe)
-	case "Other_appearance":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Other_appearance Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Other_appearanceFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		other_appearance := new(models.Other_appearance)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(other_appearance, formGroup, probe)
-	case "Other_direction":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Other_direction Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Other_directionFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		other_direction := new(models.Other_direction)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(other_direction, formGroup, probe)
-	case "Other_listening":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Other_listening Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Other_listeningFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		other_listening := new(models.Other_listening)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(other_listening, formGroup, probe)
-	case "Other_notation":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Other_notation Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Other_notationFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		other_notation := new(models.Other_notation)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(other_notation, formGroup, probe)
-	case "Other_placement_text":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Other_placement_text Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Other_placement_textFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		other_placement_text := new(models.Other_placement_text)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(other_placement_text, formGroup, probe)
-	case "Other_play":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Other_play Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Other_playFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		other_play := new(models.Other_play)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(other_play, formGroup, probe)
-	case "Other_text":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Other_text Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Other_textFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		other_text := new(models.Other_text)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(other_text, formGroup, probe)
-	case "Page_layout":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Page_layout Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Page_layoutFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		page_layout := new(models.Page_layout)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(page_layout, formGroup, probe)
-	case "Page_margins":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Page_margins Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Page_marginsFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		page_margins := new(models.Page_margins)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(page_margins, formGroup, probe)
-	case "Part_clef":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Part_clef Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Part_clefFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		part_clef := new(models.Part_clef)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(part_clef, formGroup, probe)
-	case "Part_group":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Part_group Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Part_groupFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		part_group := new(models.Part_group)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(part_group, formGroup, probe)
-	case "Part_link":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Part_link Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Part_linkFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		part_link := new(models.Part_link)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(part_link, formGroup, probe)
-	case "Part_list":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Part_list Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Part_listFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		part_list := new(models.Part_list)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(part_list, formGroup, probe)
-	case "Part_name":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Part_name Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Part_nameFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		part_name := new(models.Part_name)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(part_name, formGroup, probe)
-	case "Part_symbol":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Part_symbol Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Part_symbolFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		part_symbol := new(models.Part_symbol)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(part_symbol, formGroup, probe)
-	case "Part_transpose":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Part_transpose Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Part_transposeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		part_transpose := new(models.Part_transpose)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(part_transpose, formGroup, probe)
-	case "Pedal":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Pedal Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PedalFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		pedal := new(models.Pedal)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(pedal, formGroup, probe)
-	case "Pedal_tuning":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Pedal_tuning Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Pedal_tuningFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		pedal_tuning := new(models.Pedal_tuning)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(pedal_tuning, formGroup, probe)
-	case "Per_minute":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Per_minute Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Per_minuteFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		per_minute := new(models.Per_minute)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(per_minute, formGroup, probe)
-	case "Percussion":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Percussion Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PercussionFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		percussion := new(models.Percussion)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(percussion, formGroup, probe)
-	case "Pitch":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Pitch Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PitchFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		pitch := new(models.Pitch)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(pitch, formGroup, probe)
-	case "Pitched":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Pitched Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PitchedFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		pitched := new(models.Pitched)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(pitched, formGroup, probe)
-	case "Placement_text":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Placement_text Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Placement_textFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		placement_text := new(models.Placement_text)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(placement_text, formGroup, probe)
-	case "Play":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Play Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PlayFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		play := new(models.Play)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(play, formGroup, probe)
-	case "Player":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Player Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PlayerFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		player := new(models.Player)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(player, formGroup, probe)
-	case "Principal_voice":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Principal_voice Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Principal_voiceFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		principal_voice := new(models.Principal_voice)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(principal_voice, formGroup, probe)
-	case "Print":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Print Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PrintFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		print := new(models.Print)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(print, formGroup, probe)
-	case "Release":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Release Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ReleaseFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		release := new(models.Release)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(release, formGroup, probe)
-	case "Repeat":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Repeat Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__RepeatFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		repeat := new(models.Repeat)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(repeat, formGroup, probe)
-	case "Rest":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Rest Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__RestFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		rest := new(models.Rest)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(rest, formGroup, probe)
-	case "Root":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Root Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__RootFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		root := new(models.Root)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(root, formGroup, probe)
-	case "Root_step":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Root_step Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Root_stepFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		root_step := new(models.Root_step)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(root_step, formGroup, probe)
-	case "Scaling":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Scaling Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ScalingFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		scaling := new(models.Scaling)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(scaling, formGroup, probe)
-	case "Scordatura":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Scordatura Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ScordaturaFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		scordatura := new(models.Scordatura)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(scordatura, formGroup, probe)
-	case "Score_instrument":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Score_instrument Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Score_instrumentFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		score_instrument := new(models.Score_instrument)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(score_instrument, formGroup, probe)
-	case "Score_part":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Score_part Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Score_partFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		score_part := new(models.Score_part)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(score_part, formGroup, probe)
-	case "Score_partwise":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Score_partwise Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Score_partwiseFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		score_partwise := new(models.Score_partwise)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(score_partwise, formGroup, probe)
-	case "Score_timewise":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Score_timewise Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Score_timewiseFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		score_timewise := new(models.Score_timewise)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(score_timewise, formGroup, probe)
-	case "Segno":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Segno Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__SegnoFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		segno := new(models.Segno)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(segno, formGroup, probe)
-	case "Slash":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Slash Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__SlashFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		slash := new(models.Slash)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(slash, formGroup, probe)
-	case "Slide":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Slide Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__SlideFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		slide := new(models.Slide)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(slide, formGroup, probe)
-	case "Slur":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Slur Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__SlurFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		slur := new(models.Slur)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(slur, formGroup, probe)
-	case "Sound":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Sound Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__SoundFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		sound := new(models.Sound)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(sound, formGroup, probe)
-	case "Staff_details":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Staff_details Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Staff_detailsFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		staff_details := new(models.Staff_details)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(staff_details, formGroup, probe)
-	case "Staff_divide":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Staff_divide Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Staff_divideFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		staff_divide := new(models.Staff_divide)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(staff_divide, formGroup, probe)
-	case "Staff_layout":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Staff_layout Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Staff_layoutFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		staff_layout := new(models.Staff_layout)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(staff_layout, formGroup, probe)
-	case "Staff_size":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Staff_size Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Staff_sizeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		staff_size := new(models.Staff_size)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(staff_size, formGroup, probe)
-	case "Staff_tuning":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Staff_tuning Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Staff_tuningFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		staff_tuning := new(models.Staff_tuning)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(staff_tuning, formGroup, probe)
-	case "Stem":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Stem Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__StemFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		stem := new(models.Stem)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(stem, formGroup, probe)
-	case "Stick":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Stick Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__StickFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		stick := new(models.Stick)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(stick, formGroup, probe)
-	case "String_mute":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "String_mute Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__String_muteFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		string_mute := new(models.String_mute)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(string_mute, formGroup, probe)
-	case "String_type":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "String_type Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__String_typeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		string_type := new(models.String_type)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(string_type, formGroup, probe)
-	case "Strong_accent":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Strong_accent Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Strong_accentFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		strong_accent := new(models.Strong_accent)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(strong_accent, formGroup, probe)
-	case "Style_text":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Style_text Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Style_textFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		style_text := new(models.Style_text)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(style_text, formGroup, probe)
-	case "Supports":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Supports Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__SupportsFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		supports := new(models.Supports)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(supports, formGroup, probe)
-	case "Swing":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Swing Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__SwingFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		swing := new(models.Swing)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(swing, formGroup, probe)
-	case "Sync":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Sync Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__SyncFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		sync := new(models.Sync)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(sync, formGroup, probe)
-	case "System_dividers":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "System_dividers Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__System_dividersFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		system_dividers := new(models.System_dividers)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(system_dividers, formGroup, probe)
-	case "System_layout":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "System_layout Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__System_layoutFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		system_layout := new(models.System_layout)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(system_layout, formGroup, probe)
-	case "System_margins":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "System_margins Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__System_marginsFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		system_margins := new(models.System_margins)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(system_margins, formGroup, probe)
-	case "Tap":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Tap Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__TapFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		tap := new(models.Tap)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(tap, formGroup, probe)
-	case "Technical":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Technical Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__TechnicalFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		technical := new(models.Technical)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(technical, formGroup, probe)
-	case "Text_element_data":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Text_element_data Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Text_element_dataFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		text_element_data := new(models.Text_element_data)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(text_element_data, formGroup, probe)
-	case "Tie":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Tie Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__TieFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		tie := new(models.Tie)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(tie, formGroup, probe)
-	case "Tied":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Tied Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__TiedFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		tied := new(models.Tied)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(tied, formGroup, probe)
-	case "Time":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Time Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__TimeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		time := new(models.Time)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(time, formGroup, probe)
-	case "Time_modification":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Time_modification Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Time_modificationFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		time_modification := new(models.Time_modification)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(time_modification, formGroup, probe)
-	case "Timpani":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Timpani Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__TimpaniFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		timpani := new(models.Timpani)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(timpani, formGroup, probe)
-	case "Transpose":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Transpose Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__TransposeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		transpose := new(models.Transpose)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(transpose, formGroup, probe)
-	case "Tremolo":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Tremolo Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__TremoloFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		tremolo := new(models.Tremolo)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(tremolo, formGroup, probe)
-	case "Tuplet":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Tuplet Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__TupletFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		tuplet := new(models.Tuplet)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(tuplet, formGroup, probe)
-	case "Tuplet_dot":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Tuplet_dot Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Tuplet_dotFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		tuplet_dot := new(models.Tuplet_dot)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(tuplet_dot, formGroup, probe)
-	case "Tuplet_number":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Tuplet_number Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Tuplet_numberFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		tuplet_number := new(models.Tuplet_number)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(tuplet_number, formGroup, probe)
-	case "Tuplet_portion":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Tuplet_portion Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Tuplet_portionFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		tuplet_portion := new(models.Tuplet_portion)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(tuplet_portion, formGroup, probe)
-	case "Tuplet_type":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Tuplet_type Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Tuplet_typeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		tuplet_type := new(models.Tuplet_type)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(tuplet_type, formGroup, probe)
-	case "Typed_text":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Typed_text Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Typed_textFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		typed_text := new(models.Typed_text)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(typed_text, formGroup, probe)
-	case "Unpitched":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Unpitched Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__UnpitchedFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		unpitched := new(models.Unpitched)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(unpitched, formGroup, probe)
-	case "Virtual_instrument":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Virtual_instrument Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Virtual_instrumentFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		virtual_instrument := new(models.Virtual_instrument)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(virtual_instrument, formGroup, probe)
-	case "Wait":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Wait Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__WaitFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		wait := new(models.Wait)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(wait, formGroup, probe)
-	case "Wavy_line":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Wavy_line Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Wavy_lineFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		wavy_line := new(models.Wavy_line)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(wavy_line, formGroup, probe)
-	case "Wedge":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Wedge Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__WedgeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		wedge := new(models.Wedge)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(wedge, formGroup, probe)
-	case "Wood":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Wood Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__WoodFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		wood := new(models.Wood)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(wood, formGroup, probe)
-	case "Work":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Work Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__WorkFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		work := new(models.Work)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(work, formGroup, probe)
+	case "A_directive", "models.A_directive":
+		StageSetNewInstance_A_directive_Stage(probe)
+	case "A_measure", "models.A_measure":
+		StageSetNewInstance_A_measure_Stage(probe)
+	case "A_measure_1", "models.A_measure_1":
+		StageSetNewInstance_A_measure_1_Stage(probe)
+	case "A_part", "models.A_part":
+		StageSetNewInstance_A_part_Stage(probe)
+	case "A_part_1", "models.A_part_1":
+		StageSetNewInstance_A_part_1_Stage(probe)
+	case "Accidental", "models.Accidental":
+		StageSetNewInstance_Accidental_Stage(probe)
+	case "Accidental_mark", "models.Accidental_mark":
+		StageSetNewInstance_Accidental_mark_Stage(probe)
+	case "Accidental_text", "models.Accidental_text":
+		StageSetNewInstance_Accidental_text_Stage(probe)
+	case "Accord", "models.Accord":
+		StageSetNewInstance_Accord_Stage(probe)
+	case "Accordion_registration", "models.Accordion_registration":
+		StageSetNewInstance_Accordion_registration_Stage(probe)
+	case "Appearance", "models.Appearance":
+		StageSetNewInstance_Appearance_Stage(probe)
+	case "Arpeggiate", "models.Arpeggiate":
+		StageSetNewInstance_Arpeggiate_Stage(probe)
+	case "Arrow", "models.Arrow":
+		StageSetNewInstance_Arrow_Stage(probe)
+	case "Articulations", "models.Articulations":
+		StageSetNewInstance_Articulations_Stage(probe)
+	case "Assess", "models.Assess":
+		StageSetNewInstance_Assess_Stage(probe)
+	case "Attributes", "models.Attributes":
+		StageSetNewInstance_Attributes_Stage(probe)
+	case "Backup", "models.Backup":
+		StageSetNewInstance_Backup_Stage(probe)
+	case "Bar_style_color", "models.Bar_style_color":
+		StageSetNewInstance_Bar_style_color_Stage(probe)
+	case "Barline", "models.Barline":
+		StageSetNewInstance_Barline_Stage(probe)
+	case "Barre", "models.Barre":
+		StageSetNewInstance_Barre_Stage(probe)
+	case "Bass", "models.Bass":
+		StageSetNewInstance_Bass_Stage(probe)
+	case "Bass_step", "models.Bass_step":
+		StageSetNewInstance_Bass_step_Stage(probe)
+	case "Beam", "models.Beam":
+		StageSetNewInstance_Beam_Stage(probe)
+	case "Beat_repeat", "models.Beat_repeat":
+		StageSetNewInstance_Beat_repeat_Stage(probe)
+	case "Beat_unit_tied", "models.Beat_unit_tied":
+		StageSetNewInstance_Beat_unit_tied_Stage(probe)
+	case "Beater", "models.Beater":
+		StageSetNewInstance_Beater_Stage(probe)
+	case "Bend", "models.Bend":
+		StageSetNewInstance_Bend_Stage(probe)
+	case "Bookmark", "models.Bookmark":
+		StageSetNewInstance_Bookmark_Stage(probe)
+	case "Bracket", "models.Bracket":
+		StageSetNewInstance_Bracket_Stage(probe)
+	case "Breath_mark", "models.Breath_mark":
+		StageSetNewInstance_Breath_mark_Stage(probe)
+	case "Caesura", "models.Caesura":
+		StageSetNewInstance_Caesura_Stage(probe)
+	case "Cancel", "models.Cancel":
+		StageSetNewInstance_Cancel_Stage(probe)
+	case "Clef", "models.Clef":
+		StageSetNewInstance_Clef_Stage(probe)
+	case "Coda", "models.Coda":
+		StageSetNewInstance_Coda_Stage(probe)
+	case "Credit", "models.Credit":
+		StageSetNewInstance_Credit_Stage(probe)
+	case "Dashes", "models.Dashes":
+		StageSetNewInstance_Dashes_Stage(probe)
+	case "Defaults", "models.Defaults":
+		StageSetNewInstance_Defaults_Stage(probe)
+	case "Degree", "models.Degree":
+		StageSetNewInstance_Degree_Stage(probe)
+	case "Degree_alter", "models.Degree_alter":
+		StageSetNewInstance_Degree_alter_Stage(probe)
+	case "Degree_type", "models.Degree_type":
+		StageSetNewInstance_Degree_type_Stage(probe)
+	case "Degree_value", "models.Degree_value":
+		StageSetNewInstance_Degree_value_Stage(probe)
+	case "Direction", "models.Direction":
+		StageSetNewInstance_Direction_Stage(probe)
+	case "Direction_type", "models.Direction_type":
+		StageSetNewInstance_Direction_type_Stage(probe)
+	case "Distance", "models.Distance":
+		StageSetNewInstance_Distance_Stage(probe)
+	case "Double", "models.Double":
+		StageSetNewInstance_Double_Stage(probe)
+	case "Dynamics", "models.Dynamics":
+		StageSetNewInstance_Dynamics_Stage(probe)
+	case "Effect", "models.Effect":
+		StageSetNewInstance_Effect_Stage(probe)
+	case "Elision", "models.Elision":
+		StageSetNewInstance_Elision_Stage(probe)
+	case "Empty", "models.Empty":
+		StageSetNewInstance_Empty_Stage(probe)
+	case "Empty_font", "models.Empty_font":
+		StageSetNewInstance_Empty_font_Stage(probe)
+	case "Empty_line", "models.Empty_line":
+		StageSetNewInstance_Empty_line_Stage(probe)
+	case "Empty_placement", "models.Empty_placement":
+		StageSetNewInstance_Empty_placement_Stage(probe)
+	case "Empty_placement_smufl", "models.Empty_placement_smufl":
+		StageSetNewInstance_Empty_placement_smufl_Stage(probe)
+	case "Empty_print_object_style_align", "models.Empty_print_object_style_align":
+		StageSetNewInstance_Empty_print_object_style_align_Stage(probe)
+	case "Empty_print_style", "models.Empty_print_style":
+		StageSetNewInstance_Empty_print_style_Stage(probe)
+	case "Empty_print_style_align", "models.Empty_print_style_align":
+		StageSetNewInstance_Empty_print_style_align_Stage(probe)
+	case "Empty_print_style_align_id", "models.Empty_print_style_align_id":
+		StageSetNewInstance_Empty_print_style_align_id_Stage(probe)
+	case "Empty_trill_sound", "models.Empty_trill_sound":
+		StageSetNewInstance_Empty_trill_sound_Stage(probe)
+	case "Encoding", "models.Encoding":
+		StageSetNewInstance_Encoding_Stage(probe)
+	case "Ending", "models.Ending":
+		StageSetNewInstance_Ending_Stage(probe)
+	case "Extend", "models.Extend":
+		StageSetNewInstance_Extend_Stage(probe)
+	case "Feature", "models.Feature":
+		StageSetNewInstance_Feature_Stage(probe)
+	case "Fermata", "models.Fermata":
+		StageSetNewInstance_Fermata_Stage(probe)
+	case "Figure", "models.Figure":
+		StageSetNewInstance_Figure_Stage(probe)
+	case "Figured_bass", "models.Figured_bass":
+		StageSetNewInstance_Figured_bass_Stage(probe)
+	case "Fingering", "models.Fingering":
+		StageSetNewInstance_Fingering_Stage(probe)
+	case "First_fret", "models.First_fret":
+		StageSetNewInstance_First_fret_Stage(probe)
+	case "For_part", "models.For_part":
+		StageSetNewInstance_For_part_Stage(probe)
+	case "Formatted_symbol", "models.Formatted_symbol":
+		StageSetNewInstance_Formatted_symbol_Stage(probe)
+	case "Formatted_symbol_id", "models.Formatted_symbol_id":
+		StageSetNewInstance_Formatted_symbol_id_Stage(probe)
+	case "Formatted_text", "models.Formatted_text":
+		StageSetNewInstance_Formatted_text_Stage(probe)
+	case "Formatted_text_id", "models.Formatted_text_id":
+		StageSetNewInstance_Formatted_text_id_Stage(probe)
+	case "Forward", "models.Forward":
+		StageSetNewInstance_Forward_Stage(probe)
+	case "Frame", "models.Frame":
+		StageSetNewInstance_Frame_Stage(probe)
+	case "Frame_note", "models.Frame_note":
+		StageSetNewInstance_Frame_note_Stage(probe)
+	case "Fret", "models.Fret":
+		StageSetNewInstance_Fret_Stage(probe)
+	case "Glass", "models.Glass":
+		StageSetNewInstance_Glass_Stage(probe)
+	case "Glissando", "models.Glissando":
+		StageSetNewInstance_Glissando_Stage(probe)
+	case "Glyph", "models.Glyph":
+		StageSetNewInstance_Glyph_Stage(probe)
+	case "Grace", "models.Grace":
+		StageSetNewInstance_Grace_Stage(probe)
+	case "Group_barline", "models.Group_barline":
+		StageSetNewInstance_Group_barline_Stage(probe)
+	case "Group_name", "models.Group_name":
+		StageSetNewInstance_Group_name_Stage(probe)
+	case "Group_symbol", "models.Group_symbol":
+		StageSetNewInstance_Group_symbol_Stage(probe)
+	case "Grouping", "models.Grouping":
+		StageSetNewInstance_Grouping_Stage(probe)
+	case "Hammer_on_pull_off", "models.Hammer_on_pull_off":
+		StageSetNewInstance_Hammer_on_pull_off_Stage(probe)
+	case "Handbell", "models.Handbell":
+		StageSetNewInstance_Handbell_Stage(probe)
+	case "Harmon_closed", "models.Harmon_closed":
+		StageSetNewInstance_Harmon_closed_Stage(probe)
+	case "Harmon_mute", "models.Harmon_mute":
+		StageSetNewInstance_Harmon_mute_Stage(probe)
+	case "Harmonic", "models.Harmonic":
+		StageSetNewInstance_Harmonic_Stage(probe)
+	case "Harmony", "models.Harmony":
+		StageSetNewInstance_Harmony_Stage(probe)
+	case "Harmony_alter", "models.Harmony_alter":
+		StageSetNewInstance_Harmony_alter_Stage(probe)
+	case "Harp_pedals", "models.Harp_pedals":
+		StageSetNewInstance_Harp_pedals_Stage(probe)
+	case "Heel_toe", "models.Heel_toe":
+		StageSetNewInstance_Heel_toe_Stage(probe)
+	case "Hole", "models.Hole":
+		StageSetNewInstance_Hole_Stage(probe)
+	case "Hole_closed", "models.Hole_closed":
+		StageSetNewInstance_Hole_closed_Stage(probe)
+	case "Horizontal_turn", "models.Horizontal_turn":
+		StageSetNewInstance_Horizontal_turn_Stage(probe)
+	case "Identification", "models.Identification":
+		StageSetNewInstance_Identification_Stage(probe)
+	case "Image", "models.Image":
+		StageSetNewInstance_Image_Stage(probe)
+	case "Instrument", "models.Instrument":
+		StageSetNewInstance_Instrument_Stage(probe)
+	case "Instrument_change", "models.Instrument_change":
+		StageSetNewInstance_Instrument_change_Stage(probe)
+	case "Instrument_link", "models.Instrument_link":
+		StageSetNewInstance_Instrument_link_Stage(probe)
+	case "Interchangeable", "models.Interchangeable":
+		StageSetNewInstance_Interchangeable_Stage(probe)
+	case "Inversion", "models.Inversion":
+		StageSetNewInstance_Inversion_Stage(probe)
+	case "Key", "models.Key":
+		StageSetNewInstance_Key_Stage(probe)
+	case "Key_accidental", "models.Key_accidental":
+		StageSetNewInstance_Key_accidental_Stage(probe)
+	case "Key_octave", "models.Key_octave":
+		StageSetNewInstance_Key_octave_Stage(probe)
+	case "Kind", "models.Kind":
+		StageSetNewInstance_Kind_Stage(probe)
+	case "Level", "models.Level":
+		StageSetNewInstance_Level_Stage(probe)
+	case "Line_detail", "models.Line_detail":
+		StageSetNewInstance_Line_detail_Stage(probe)
+	case "Line_width", "models.Line_width":
+		StageSetNewInstance_Line_width_Stage(probe)
+	case "Link", "models.Link":
+		StageSetNewInstance_Link_Stage(probe)
+	case "Listen", "models.Listen":
+		StageSetNewInstance_Listen_Stage(probe)
+	case "Listening", "models.Listening":
+		StageSetNewInstance_Listening_Stage(probe)
+	case "Lyric", "models.Lyric":
+		StageSetNewInstance_Lyric_Stage(probe)
+	case "Lyric_font", "models.Lyric_font":
+		StageSetNewInstance_Lyric_font_Stage(probe)
+	case "Lyric_language", "models.Lyric_language":
+		StageSetNewInstance_Lyric_language_Stage(probe)
+	case "Measure_layout", "models.Measure_layout":
+		StageSetNewInstance_Measure_layout_Stage(probe)
+	case "Measure_numbering", "models.Measure_numbering":
+		StageSetNewInstance_Measure_numbering_Stage(probe)
+	case "Measure_repeat", "models.Measure_repeat":
+		StageSetNewInstance_Measure_repeat_Stage(probe)
+	case "Measure_style", "models.Measure_style":
+		StageSetNewInstance_Measure_style_Stage(probe)
+	case "Membrane", "models.Membrane":
+		StageSetNewInstance_Membrane_Stage(probe)
+	case "Metal", "models.Metal":
+		StageSetNewInstance_Metal_Stage(probe)
+	case "Metronome", "models.Metronome":
+		StageSetNewInstance_Metronome_Stage(probe)
+	case "Metronome_beam", "models.Metronome_beam":
+		StageSetNewInstance_Metronome_beam_Stage(probe)
+	case "Metronome_note", "models.Metronome_note":
+		StageSetNewInstance_Metronome_note_Stage(probe)
+	case "Metronome_tied", "models.Metronome_tied":
+		StageSetNewInstance_Metronome_tied_Stage(probe)
+	case "Metronome_tuplet", "models.Metronome_tuplet":
+		StageSetNewInstance_Metronome_tuplet_Stage(probe)
+	case "Midi_device", "models.Midi_device":
+		StageSetNewInstance_Midi_device_Stage(probe)
+	case "Midi_instrument", "models.Midi_instrument":
+		StageSetNewInstance_Midi_instrument_Stage(probe)
+	case "Miscellaneous", "models.Miscellaneous":
+		StageSetNewInstance_Miscellaneous_Stage(probe)
+	case "Miscellaneous_field", "models.Miscellaneous_field":
+		StageSetNewInstance_Miscellaneous_field_Stage(probe)
+	case "Mordent", "models.Mordent":
+		StageSetNewInstance_Mordent_Stage(probe)
+	case "Multiple_rest", "models.Multiple_rest":
+		StageSetNewInstance_Multiple_rest_Stage(probe)
+	case "Name_display", "models.Name_display":
+		StageSetNewInstance_Name_display_Stage(probe)
+	case "Non_arpeggiate", "models.Non_arpeggiate":
+		StageSetNewInstance_Non_arpeggiate_Stage(probe)
+	case "Notations", "models.Notations":
+		StageSetNewInstance_Notations_Stage(probe)
+	case "Note", "models.Note":
+		StageSetNewInstance_Note_Stage(probe)
+	case "Note_size", "models.Note_size":
+		StageSetNewInstance_Note_size_Stage(probe)
+	case "Note_type", "models.Note_type":
+		StageSetNewInstance_Note_type_Stage(probe)
+	case "Notehead", "models.Notehead":
+		StageSetNewInstance_Notehead_Stage(probe)
+	case "Notehead_text", "models.Notehead_text":
+		StageSetNewInstance_Notehead_text_Stage(probe)
+	case "Numeral", "models.Numeral":
+		StageSetNewInstance_Numeral_Stage(probe)
+	case "Numeral_key", "models.Numeral_key":
+		StageSetNewInstance_Numeral_key_Stage(probe)
+	case "Numeral_root", "models.Numeral_root":
+		StageSetNewInstance_Numeral_root_Stage(probe)
+	case "Octave_shift", "models.Octave_shift":
+		StageSetNewInstance_Octave_shift_Stage(probe)
+	case "Offset", "models.Offset":
+		StageSetNewInstance_Offset_Stage(probe)
+	case "Opus", "models.Opus":
+		StageSetNewInstance_Opus_Stage(probe)
+	case "Ornaments", "models.Ornaments":
+		StageSetNewInstance_Ornaments_Stage(probe)
+	case "Other_appearance", "models.Other_appearance":
+		StageSetNewInstance_Other_appearance_Stage(probe)
+	case "Other_direction", "models.Other_direction":
+		StageSetNewInstance_Other_direction_Stage(probe)
+	case "Other_listening", "models.Other_listening":
+		StageSetNewInstance_Other_listening_Stage(probe)
+	case "Other_notation", "models.Other_notation":
+		StageSetNewInstance_Other_notation_Stage(probe)
+	case "Other_placement_text", "models.Other_placement_text":
+		StageSetNewInstance_Other_placement_text_Stage(probe)
+	case "Other_play", "models.Other_play":
+		StageSetNewInstance_Other_play_Stage(probe)
+	case "Other_text", "models.Other_text":
+		StageSetNewInstance_Other_text_Stage(probe)
+	case "Page_layout", "models.Page_layout":
+		StageSetNewInstance_Page_layout_Stage(probe)
+	case "Page_margins", "models.Page_margins":
+		StageSetNewInstance_Page_margins_Stage(probe)
+	case "Part_clef", "models.Part_clef":
+		StageSetNewInstance_Part_clef_Stage(probe)
+	case "Part_group", "models.Part_group":
+		StageSetNewInstance_Part_group_Stage(probe)
+	case "Part_link", "models.Part_link":
+		StageSetNewInstance_Part_link_Stage(probe)
+	case "Part_list", "models.Part_list":
+		StageSetNewInstance_Part_list_Stage(probe)
+	case "Part_name", "models.Part_name":
+		StageSetNewInstance_Part_name_Stage(probe)
+	case "Part_symbol", "models.Part_symbol":
+		StageSetNewInstance_Part_symbol_Stage(probe)
+	case "Part_transpose", "models.Part_transpose":
+		StageSetNewInstance_Part_transpose_Stage(probe)
+	case "Pedal", "models.Pedal":
+		StageSetNewInstance_Pedal_Stage(probe)
+	case "Pedal_tuning", "models.Pedal_tuning":
+		StageSetNewInstance_Pedal_tuning_Stage(probe)
+	case "Per_minute", "models.Per_minute":
+		StageSetNewInstance_Per_minute_Stage(probe)
+	case "Percussion", "models.Percussion":
+		StageSetNewInstance_Percussion_Stage(probe)
+	case "Pitch", "models.Pitch":
+		StageSetNewInstance_Pitch_Stage(probe)
+	case "Pitched", "models.Pitched":
+		StageSetNewInstance_Pitched_Stage(probe)
+	case "Placement_text", "models.Placement_text":
+		StageSetNewInstance_Placement_text_Stage(probe)
+	case "Play", "models.Play":
+		StageSetNewInstance_Play_Stage(probe)
+	case "Player", "models.Player":
+		StageSetNewInstance_Player_Stage(probe)
+	case "Principal_voice", "models.Principal_voice":
+		StageSetNewInstance_Principal_voice_Stage(probe)
+	case "Print_XSD", "models.Print_XSD":
+		StageSetNewInstance_Print_XSD_Stage(probe)
+	case "Release", "models.Release":
+		StageSetNewInstance_Release_Stage(probe)
+	case "Repeat", "models.Repeat":
+		StageSetNewInstance_Repeat_Stage(probe)
+	case "Rest", "models.Rest":
+		StageSetNewInstance_Rest_Stage(probe)
+	case "Root", "models.Root":
+		StageSetNewInstance_Root_Stage(probe)
+	case "Root_step", "models.Root_step":
+		StageSetNewInstance_Root_step_Stage(probe)
+	case "Scaling", "models.Scaling":
+		StageSetNewInstance_Scaling_Stage(probe)
+	case "Scordatura", "models.Scordatura":
+		StageSetNewInstance_Scordatura_Stage(probe)
+	case "Score_instrument", "models.Score_instrument":
+		StageSetNewInstance_Score_instrument_Stage(probe)
+	case "Score_part", "models.Score_part":
+		StageSetNewInstance_Score_part_Stage(probe)
+	case "Score_partwise", "models.Score_partwise":
+		StageSetNewInstance_Score_partwise_Stage(probe)
+	case "Score_timewise", "models.Score_timewise":
+		StageSetNewInstance_Score_timewise_Stage(probe)
+	case "Segno", "models.Segno":
+		StageSetNewInstance_Segno_Stage(probe)
+	case "Slash", "models.Slash":
+		StageSetNewInstance_Slash_Stage(probe)
+	case "Slide", "models.Slide":
+		StageSetNewInstance_Slide_Stage(probe)
+	case "Slur", "models.Slur":
+		StageSetNewInstance_Slur_Stage(probe)
+	case "Sound", "models.Sound":
+		StageSetNewInstance_Sound_Stage(probe)
+	case "Staff_details", "models.Staff_details":
+		StageSetNewInstance_Staff_details_Stage(probe)
+	case "Staff_divide", "models.Staff_divide":
+		StageSetNewInstance_Staff_divide_Stage(probe)
+	case "Staff_layout", "models.Staff_layout":
+		StageSetNewInstance_Staff_layout_Stage(probe)
+	case "Staff_size", "models.Staff_size":
+		StageSetNewInstance_Staff_size_Stage(probe)
+	case "Staff_tuning", "models.Staff_tuning":
+		StageSetNewInstance_Staff_tuning_Stage(probe)
+	case "Stem", "models.Stem":
+		StageSetNewInstance_Stem_Stage(probe)
+	case "Stick", "models.Stick":
+		StageSetNewInstance_Stick_Stage(probe)
+	case "String_mute", "models.String_mute":
+		StageSetNewInstance_String_mute_Stage(probe)
+	case "String_type", "models.String_type":
+		StageSetNewInstance_String_type_Stage(probe)
+	case "Strong_accent", "models.Strong_accent":
+		StageSetNewInstance_Strong_accent_Stage(probe)
+	case "Style_text", "models.Style_text":
+		StageSetNewInstance_Style_text_Stage(probe)
+	case "Supports", "models.Supports":
+		StageSetNewInstance_Supports_Stage(probe)
+	case "Swing", "models.Swing":
+		StageSetNewInstance_Swing_Stage(probe)
+	case "Sync", "models.Sync":
+		StageSetNewInstance_Sync_Stage(probe)
+	case "System_dividers", "models.System_dividers":
+		StageSetNewInstance_System_dividers_Stage(probe)
+	case "System_layout", "models.System_layout":
+		StageSetNewInstance_System_layout_Stage(probe)
+	case "System_margins", "models.System_margins":
+		StageSetNewInstance_System_margins_Stage(probe)
+	case "Tap", "models.Tap":
+		StageSetNewInstance_Tap_Stage(probe)
+	case "Technical", "models.Technical":
+		StageSetNewInstance_Technical_Stage(probe)
+	case "Text_element_data", "models.Text_element_data":
+		StageSetNewInstance_Text_element_data_Stage(probe)
+	case "Tie", "models.Tie":
+		StageSetNewInstance_Tie_Stage(probe)
+	case "Tied", "models.Tied":
+		StageSetNewInstance_Tied_Stage(probe)
+	case "Time", "models.Time":
+		StageSetNewInstance_Time_Stage(probe)
+	case "Time_modification", "models.Time_modification":
+		StageSetNewInstance_Time_modification_Stage(probe)
+	case "Timpani", "models.Timpani":
+		StageSetNewInstance_Timpani_Stage(probe)
+	case "Transpose", "models.Transpose":
+		StageSetNewInstance_Transpose_Stage(probe)
+	case "Tremolo", "models.Tremolo":
+		StageSetNewInstance_Tremolo_Stage(probe)
+	case "Tuplet", "models.Tuplet":
+		StageSetNewInstance_Tuplet_Stage(probe)
+	case "Tuplet_dot", "models.Tuplet_dot":
+		StageSetNewInstance_Tuplet_dot_Stage(probe)
+	case "Tuplet_number", "models.Tuplet_number":
+		StageSetNewInstance_Tuplet_number_Stage(probe)
+	case "Tuplet_portion", "models.Tuplet_portion":
+		StageSetNewInstance_Tuplet_portion_Stage(probe)
+	case "Tuplet_type", "models.Tuplet_type":
+		StageSetNewInstance_Tuplet_type_Stage(probe)
+	case "Typed_text", "models.Typed_text":
+		StageSetNewInstance_Typed_text_Stage(probe)
+	case "Unpitched", "models.Unpitched":
+		StageSetNewInstance_Unpitched_Stage(probe)
+	case "Virtual_instrument", "models.Virtual_instrument":
+		StageSetNewInstance_Virtual_instrument_Stage(probe)
+	case "Wait", "models.Wait":
+		StageSetNewInstance_Wait_Stage(probe)
+	case "Wavy_line", "models.Wavy_line":
+		StageSetNewInstance_Wavy_line_Stage(probe)
+	case "Wedge", "models.Wedge":
+		StageSetNewInstance_Wedge_Stage(probe)
+	case "Wood", "models.Wood":
+		StageSetNewInstance_Wood_Stage(probe)
+	case "Work", "models.Work":
+		StageSetNewInstance_Work_Stage(probe)
+	case "xlink.ArcType":
+		StageSetNewInstance_ArcType_XlinkStage(probe)
+	case "xlink.Extended":
+		StageSetNewInstance_Extended_XlinkStage(probe)
+	case "xlink.LocatorType":
+		StageSetNewInstance_LocatorType_XlinkStage(probe)
+	case "xlink.ResourceType":
+		StageSetNewInstance_ResourceType_XlinkStage(probe)
+	case "xlink.Simple":
+		StageSetNewInstance_Simple_XlinkStage(probe)
+	case "xlink.TitleEltType":
+		StageSetNewInstance_TitleEltType_XlinkStage(probe)
+	case "xmlxsd.Xmlxsd_SchemaElement":
+		StageSetNewInstance_Xmlxsd_SchemaElement_XmlxsdStage(probe)
 	}
-	formStage.Commit()
 }

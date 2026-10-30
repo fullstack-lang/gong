@@ -1244,10 +1244,10 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
-			for instance := range stage.Prints {
+			for instance := range stage.Print_XSDs {
 				instances = append(instances, instance)
 			}
-			stage.SerializeExcelize(f, "Print", instances, (*Print)(nil).GongGetFieldHeaders(), addIDs)
+			stage.SerializeExcelize(f, "Print_XSD", instances, (*Print_XSD)(nil).GongGetFieldHeaders(), addIDs)
 		}
 		{
 			var instances []GongstructIF

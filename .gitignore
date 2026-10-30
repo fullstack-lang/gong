@@ -133,3 +133,5 @@ dsm/scenario/go/cmd/scenario/scenario-app-portable2.html
 lib/splitlite/go/cmd/splitlite/splitlite
 lib/splitlite/ng-github.com-fullstack-lang-gong-lib-splitlite/.angular
 
+app/xsd/tests/aixm/go/cmd/aixm/aixm
+app/xsd/tests/complexrules/go/cmd/complexrules/complexrules

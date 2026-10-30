@@ -2,7523 +2,7208 @@
 package probe
 
 import (
+	"sort"
+	"strings"
+
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
 
 	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models"
+	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/xlink"
+	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/xmlxsd"
 )
 
 const FormName = "Form"
+
+var (
+	_ = sort.Strings
+	_ = strings.Join
+)
 
 func FillUpForm(
 	instance any,
 	formGroup *form.FormGroup,
 	probe *Probe,
 ) {
-
-	switch instanceWithInferedType := any(instance).(type) {
-	// insertion point
+	switch inst := instance.(type) {
 	case *models.A_directive:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Lang", instanceWithInferedType.Lang, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Attributes",
-			"Directive",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Attributes) []*models.A_directive {
-				return owner.Directive
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Lang", inst.Lang, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Attributess {
+				for _, target := range src.Directive {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Attributes", "Directive", refNames, formGroup, probe.formStage)
+		}
 	case *models.A_measure:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Text", instanceWithInferedType.Text, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Implicit", instanceWithInferedType.Implicit, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Non_controlling", instanceWithInferedType.Non_controlling, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Note", instanceWithInferedType, &instanceWithInferedType.Note, formGroup, probe)
-		AssociationSliceToForm("Backup", instanceWithInferedType, &instanceWithInferedType.Backup, formGroup, probe)
-		AssociationSliceToForm("Forward", instanceWithInferedType, &instanceWithInferedType.Forward, formGroup, probe)
-		AssociationSliceToForm("Direction", instanceWithInferedType, &instanceWithInferedType.Direction, formGroup, probe)
-		AssociationSliceToForm("Attributes", instanceWithInferedType, &instanceWithInferedType.Attributes, formGroup, probe)
-		AssociationSliceToForm("Harmony", instanceWithInferedType, &instanceWithInferedType.Harmony, formGroup, probe)
-		AssociationSliceToForm("Figured_bass", instanceWithInferedType, &instanceWithInferedType.Figured_bass, formGroup, probe)
-		AssociationSliceToForm("Print", instanceWithInferedType, &instanceWithInferedType.Print, formGroup, probe)
-		AssociationSliceToForm("Sound", instanceWithInferedType, &instanceWithInferedType.Sound, formGroup, probe)
-		AssociationSliceToForm("Listening", instanceWithInferedType, &instanceWithInferedType.Listening, formGroup, probe)
-		AssociationSliceToForm("Barline", instanceWithInferedType, &instanceWithInferedType.Barline, formGroup, probe)
-		AssociationSliceToForm("Grouping", instanceWithInferedType, &instanceWithInferedType.Grouping, formGroup, probe)
-		AssociationSliceToForm("Link", instanceWithInferedType, &instanceWithInferedType.Link, formGroup, probe)
-		AssociationSliceToForm("Bookmark", instanceWithInferedType, &instanceWithInferedType.Bookmark, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_part",
-			"Measure",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part) []*models.A_measure {
-				return owner.Measure
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Text", inst.Text, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Implicit", inst.Implicit, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Non_controlling", inst.Non_controlling, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Width", inst.Width, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		AssociationSliceToForm("Note", inst, &inst.Note, formGroup, probe)
+		AssociationSliceToForm("Backup", inst, &inst.Backup, formGroup, probe)
+		AssociationSliceToForm("Forward", inst, &inst.Forward, formGroup, probe)
+		AssociationSliceToForm("Direction", inst, &inst.Direction, formGroup, probe)
+		AssociationSliceToForm("Attributes", inst, &inst.Attributes, formGroup, probe)
+		AssociationSliceToForm("Harmony", inst, &inst.Harmony, formGroup, probe)
+		AssociationSliceToForm("Figured_bass", inst, &inst.Figured_bass, formGroup, probe)
+		AssociationSliceToForm("Print_XSD", inst, &inst.Print_XSD, formGroup, probe)
+		AssociationSliceToForm("Sound", inst, &inst.Sound, formGroup, probe)
+		AssociationSliceToForm("Listening", inst, &inst.Listening, formGroup, probe)
+		AssociationSliceToForm("Barline", inst, &inst.Barline, formGroup, probe)
+		AssociationSliceToForm("Grouping", inst, &inst.Grouping, formGroup, probe)
+		AssociationSliceToForm("Link", inst, &inst.Link, formGroup, probe)
+		AssociationSliceToForm("Bookmark", inst, &inst.Bookmark, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_parts {
+				for _, target := range src.Measure {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part", "Measure", refNames, formGroup, probe.formStage)
+		}
 	case *models.A_measure_1:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Text", instanceWithInferedType.Text, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Implicit", instanceWithInferedType.Implicit, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Non_controlling", instanceWithInferedType.Non_controlling, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Part", instanceWithInferedType, &instanceWithInferedType.Part, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Score_timewise",
-			"Measure",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Score_timewise) []*models.A_measure_1 {
-				return owner.Measure
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Text", inst.Text, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Implicit", inst.Implicit, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Non_controlling", inst.Non_controlling, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Width", inst.Width, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		AssociationSliceToForm("Part", inst, &inst.Part, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_timewises {
+				for _, target := range src.Measure {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_timewise", "Measure", refNames, formGroup, probe.formStage)
+		}
 	case *models.A_part:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Measure", instanceWithInferedType, &instanceWithInferedType.Measure, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Score_partwise",
-			"Part",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Score_partwise) []*models.A_part {
-				return owner.Part
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		AssociationSliceToForm("Measure", inst, &inst.Measure, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_partwises {
+				for _, target := range src.Part {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_partwise", "Part", refNames, formGroup, probe.formStage)
+		}
 	case *models.A_part_1:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Note", instanceWithInferedType, &instanceWithInferedType.Note, formGroup, probe)
-		AssociationSliceToForm("Backup", instanceWithInferedType, &instanceWithInferedType.Backup, formGroup, probe)
-		AssociationSliceToForm("Forward", instanceWithInferedType, &instanceWithInferedType.Forward, formGroup, probe)
-		AssociationSliceToForm("Direction", instanceWithInferedType, &instanceWithInferedType.Direction, formGroup, probe)
-		AssociationSliceToForm("Attributes", instanceWithInferedType, &instanceWithInferedType.Attributes, formGroup, probe)
-		AssociationSliceToForm("Harmony", instanceWithInferedType, &instanceWithInferedType.Harmony, formGroup, probe)
-		AssociationSliceToForm("Figured_bass", instanceWithInferedType, &instanceWithInferedType.Figured_bass, formGroup, probe)
-		AssociationSliceToForm("Print", instanceWithInferedType, &instanceWithInferedType.Print, formGroup, probe)
-		AssociationSliceToForm("Sound", instanceWithInferedType, &instanceWithInferedType.Sound, formGroup, probe)
-		AssociationSliceToForm("Listening", instanceWithInferedType, &instanceWithInferedType.Listening, formGroup, probe)
-		AssociationSliceToForm("Barline", instanceWithInferedType, &instanceWithInferedType.Barline, formGroup, probe)
-		AssociationSliceToForm("Grouping", instanceWithInferedType, &instanceWithInferedType.Grouping, formGroup, probe)
-		AssociationSliceToForm("Link", instanceWithInferedType, &instanceWithInferedType.Link, formGroup, probe)
-		AssociationSliceToForm("Bookmark", instanceWithInferedType, &instanceWithInferedType.Bookmark, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure_1",
-			"Part",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure_1) []*models.A_part_1 {
-				return owner.Part
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		AssociationSliceToForm("Note", inst, &inst.Note, formGroup, probe)
+		AssociationSliceToForm("Backup", inst, &inst.Backup, formGroup, probe)
+		AssociationSliceToForm("Forward", inst, &inst.Forward, formGroup, probe)
+		AssociationSliceToForm("Direction", inst, &inst.Direction, formGroup, probe)
+		AssociationSliceToForm("Attributes", inst, &inst.Attributes, formGroup, probe)
+		AssociationSliceToForm("Harmony", inst, &inst.Harmony, formGroup, probe)
+		AssociationSliceToForm("Figured_bass", inst, &inst.Figured_bass, formGroup, probe)
+		AssociationSliceToForm("Print_XSD", inst, &inst.Print_XSD, formGroup, probe)
+		AssociationSliceToForm("Sound", inst, &inst.Sound, formGroup, probe)
+		AssociationSliceToForm("Listening", inst, &inst.Listening, formGroup, probe)
+		AssociationSliceToForm("Barline", inst, &inst.Barline, formGroup, probe)
+		AssociationSliceToForm("Grouping", inst, &inst.Grouping, formGroup, probe)
+		AssociationSliceToForm("Link", inst, &inst.Link, formGroup, probe)
+		AssociationSliceToForm("Bookmark", inst, &inst.Bookmark, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measure_1s {
+				for _, target := range src.Part {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure_1", "Part", refNames, formGroup, probe.formStage)
+		}
 	case *models.Accidental:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Cautionary", instanceWithInferedType.Cautionary, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Editorial", instanceWithInferedType.Editorial, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Parentheses", instanceWithInferedType.Parentheses, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Bracket", instanceWithInferedType.Bracket, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Size", instanceWithInferedType.Size, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Cautionary", inst.Cautionary, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Editorial", inst.Editorial, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Parentheses", inst.Parentheses, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Bracket", inst.Bracket, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Size", inst.Size, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Accidental == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Accidental", refNames, formGroup, probe.formStage)
+		}
 	case *models.Accidental_mark:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Parentheses", instanceWithInferedType.Parentheses, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Bracket", instanceWithInferedType.Bracket, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Size", instanceWithInferedType.Size, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Notations",
-			"Accidental_mark",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notations) []*models.Accidental_mark {
-				return owner.Accidental_mark
-			})
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Accidental_mark",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Accidental_mark {
-				return owner.Accidental_mark
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Parentheses", inst.Parentheses, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Bracket", inst.Bracket, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Size", inst.Size, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				for _, target := range src.Accidental_mark {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Accidental_mark", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Accidental_mark {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Accidental_mark", refNames, formGroup, probe.formStage)
+		}
 	case *models.Accidental_text:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Lang", instanceWithInferedType.Lang, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Space", instanceWithInferedType.Space, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Justify", instanceWithInferedType.Justify, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Underline", instanceWithInferedType.Underline, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Overline", instanceWithInferedType.Overline, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_through", instanceWithInferedType.Line_through, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Rotation", instanceWithInferedType.Rotation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Letter_spacing", instanceWithInferedType.Letter_spacing, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_height", instanceWithInferedType.Line_height, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dir", instanceWithInferedType.Dir, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Enclosure", instanceWithInferedType.Enclosure, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Name_display",
-			"Accidental_text",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Name_display) []*models.Accidental_text {
-				return owner.Accidental_text
-			})
-		AssociationReverseSliceToForm(
-			"Notehead_text",
-			"Accidental_text",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notehead_text) []*models.Accidental_text {
-				return owner.Accidental_text
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Lang", inst.Lang, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Space", inst.Space, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Justify", inst.Justify, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Underline", inst.Underline, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Overline", inst.Overline, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Line_through", inst.Line_through, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Rotation", inst.Rotation, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Letter_spacing", inst.Letter_spacing, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Line_height", inst.Line_height, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Dir", inst.Dir, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Enclosure", inst.Enclosure, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Name_displays {
+				for _, target := range src.Accidental_text {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Name_display", "Accidental_text", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notehead_texts {
+				for _, target := range src.Accidental_text {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notehead_text", "Accidental_text", refNames, formGroup, probe.formStage)
+		}
 	case *models.Accord:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("String", instanceWithInferedType.String, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Tuning_step", instanceWithInferedType.Tuning_step, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Tuning_alter", instanceWithInferedType.Tuning_alter, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Tuning_octave", instanceWithInferedType.Tuning_octave, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Scordatura",
-			"Accord",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Scordatura) []*models.Accord {
-				return owner.Accord
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("String_XSD", inst.String_XSD, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Tuning_step", inst.Tuning_step, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Tuning_alter", inst.Tuning_alter, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Tuning_octave", inst.Tuning_octave, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Scordaturas {
+				for _, target := range src.Accord {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Scordatura", "Accord", refNames, formGroup, probe.formStage)
+		}
 	case *models.Accordion_registration:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Accordion_high", instanceWithInferedType.Accordion_high, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Accordion_middle", instanceWithInferedType.Accordion_middle, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Accordion_low", instanceWithInferedType.Accordion_low, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Accordion_high", inst.Accordion_high, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Accordion_middle", inst.Accordion_middle, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Accordion_low", inst.Accordion_low, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Accordion_registration == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Accordion_registration", refNames, formGroup, probe.formStage)
+		}
 	case *models.Appearance:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Line_width", instanceWithInferedType, &instanceWithInferedType.Line_width, formGroup, probe)
-		AssociationSliceToForm("Note_size", instanceWithInferedType, &instanceWithInferedType.Note_size, formGroup, probe)
-		AssociationSliceToForm("Distance", instanceWithInferedType, &instanceWithInferedType.Distance, formGroup, probe)
-		AssociationSliceToForm("Glyph", instanceWithInferedType, &instanceWithInferedType.Glyph, formGroup, probe)
-		AssociationSliceToForm("Other_appearance", instanceWithInferedType, &instanceWithInferedType.Other_appearance, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		AssociationSliceToForm("Line_width", inst, &inst.Line_width, formGroup, probe)
+		AssociationSliceToForm("Note_size", inst, &inst.Note_size, formGroup, probe)
+		AssociationSliceToForm("Distance", inst, &inst.Distance, formGroup, probe)
+		AssociationSliceToForm("Glyph", inst, &inst.Glyph, formGroup, probe)
+		AssociationSliceToForm("Other_appearance", inst, &inst.Other_appearance, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Defaultss {
+				if src.Appearance == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Defaults", "Appearance", refNames, formGroup, probe.formStage)
+		}
 	case *models.Arpeggiate:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Direction", instanceWithInferedType.Direction, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Unbroken", instanceWithInferedType.Unbroken, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Notations",
-			"Arpeggiate",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notations) []*models.Arpeggiate {
-				return owner.Arpeggiate
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Direction", inst.Direction, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Unbroken", inst.Unbroken, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				for _, target := range src.Arpeggiate {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Arpeggiate", refNames, formGroup, probe.formStage)
+		}
 	case *models.Arrow:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Arrow_direction", instanceWithInferedType.Arrow_direction, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Arrow_style", instanceWithInferedType.Arrow_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Arrowhead", instanceWithInferedType.Arrowhead, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Circular_arrow", instanceWithInferedType.Circular_arrow, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Arrow",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Arrow {
-				return owner.Arrow
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Arrow_direction", inst.Arrow_direction, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Arrow_style", inst.Arrow_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Arrowhead", inst.Arrowhead, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Circular_arrow", inst.Circular_arrow, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Arrow {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Arrow", refNames, formGroup, probe.formStage)
+		}
 	case *models.Articulations:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Accent", instanceWithInferedType, &instanceWithInferedType.Accent, formGroup, probe)
-		AssociationSliceToForm("Strong_accent", instanceWithInferedType, &instanceWithInferedType.Strong_accent, formGroup, probe)
-		AssociationSliceToForm("Staccato", instanceWithInferedType, &instanceWithInferedType.Staccato, formGroup, probe)
-		AssociationSliceToForm("Tenuto", instanceWithInferedType, &instanceWithInferedType.Tenuto, formGroup, probe)
-		AssociationSliceToForm("Detached_legato", instanceWithInferedType, &instanceWithInferedType.Detached_legato, formGroup, probe)
-		AssociationSliceToForm("Staccatissimo", instanceWithInferedType, &instanceWithInferedType.Staccatissimo, formGroup, probe)
-		AssociationSliceToForm("Spiccato", instanceWithInferedType, &instanceWithInferedType.Spiccato, formGroup, probe)
-		AssociationSliceToForm("Scoop", instanceWithInferedType, &instanceWithInferedType.Scoop, formGroup, probe)
-		AssociationSliceToForm("Plop", instanceWithInferedType, &instanceWithInferedType.Plop, formGroup, probe)
-		AssociationSliceToForm("Doit", instanceWithInferedType, &instanceWithInferedType.Doit, formGroup, probe)
-		AssociationSliceToForm("Falloff", instanceWithInferedType, &instanceWithInferedType.Falloff, formGroup, probe)
-		AssociationSliceToForm("Breath_mark", instanceWithInferedType, &instanceWithInferedType.Breath_mark, formGroup, probe)
-		AssociationSliceToForm("Caesura", instanceWithInferedType, &instanceWithInferedType.Caesura, formGroup, probe)
-		AssociationSliceToForm("Stress", instanceWithInferedType, &instanceWithInferedType.Stress, formGroup, probe)
-		AssociationSliceToForm("Unstress", instanceWithInferedType, &instanceWithInferedType.Unstress, formGroup, probe)
-		AssociationSliceToForm("Soft_accent", instanceWithInferedType, &instanceWithInferedType.Soft_accent, formGroup, probe)
-		AssociationSliceToForm("Other_articulation", instanceWithInferedType, &instanceWithInferedType.Other_articulation, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Notations",
-			"Articulations",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notations) []*models.Articulations {
-				return owner.Articulations
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		AssociationSliceToForm("Accent", inst, &inst.Accent, formGroup, probe)
+		AssociationSliceToForm("Strong_accent", inst, &inst.Strong_accent, formGroup, probe)
+		AssociationSliceToForm("Staccato", inst, &inst.Staccato, formGroup, probe)
+		AssociationSliceToForm("Tenuto", inst, &inst.Tenuto, formGroup, probe)
+		AssociationSliceToForm("Detached_legato", inst, &inst.Detached_legato, formGroup, probe)
+		AssociationSliceToForm("Staccatissimo", inst, &inst.Staccatissimo, formGroup, probe)
+		AssociationSliceToForm("Spiccato", inst, &inst.Spiccato, formGroup, probe)
+		AssociationSliceToForm("Scoop", inst, &inst.Scoop, formGroup, probe)
+		AssociationSliceToForm("Plop", inst, &inst.Plop, formGroup, probe)
+		AssociationSliceToForm("Doit", inst, &inst.Doit, formGroup, probe)
+		AssociationSliceToForm("Falloff", inst, &inst.Falloff, formGroup, probe)
+		AssociationSliceToForm("Breath_mark", inst, &inst.Breath_mark, formGroup, probe)
+		AssociationSliceToForm("Caesura", inst, &inst.Caesura, formGroup, probe)
+		AssociationSliceToForm("Stress", inst, &inst.Stress, formGroup, probe)
+		AssociationSliceToForm("Unstress", inst, &inst.Unstress, formGroup, probe)
+		AssociationSliceToForm("Soft_accent", inst, &inst.Soft_accent, formGroup, probe)
+		AssociationSliceToForm("Other_articulation", inst, &inst.Other_articulation, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				for _, target := range src.Articulations {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Articulations", refNames, formGroup, probe.formStage)
+		}
 	case *models.Assess:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Player", instanceWithInferedType.Player, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Time_only", instanceWithInferedType.Time_only, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Listen",
-			"Assess",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Listen) []*models.Assess {
-				return owner.Assess
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Player", inst.Player, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Time_only", inst.Time_only, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Listens {
+				for _, target := range src.Assess {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Listen", "Assess", refNames, formGroup, probe.formStage)
+		}
 	case *models.Attributes:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Footnote", instanceWithInferedType.Footnote, formGroup, probe)
-		AssociationFieldToForm("Level", instanceWithInferedType.Level, formGroup, probe)
-		BasicFieldtoForm("Divisions", instanceWithInferedType.Divisions, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Key", instanceWithInferedType, &instanceWithInferedType.Key, formGroup, probe)
-		AssociationSliceToForm("Time", instanceWithInferedType, &instanceWithInferedType.Time, formGroup, probe)
-		BasicFieldtoForm("Staves", instanceWithInferedType.Staves, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Part_symbol", instanceWithInferedType.Part_symbol, formGroup, probe)
-		BasicFieldtoForm("Instruments", instanceWithInferedType.Instruments, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Clef", instanceWithInferedType, &instanceWithInferedType.Clef, formGroup, probe)
-		AssociationSliceToForm("Staff_details", instanceWithInferedType, &instanceWithInferedType.Staff_details, formGroup, probe)
-		AssociationSliceToForm("Transpose", instanceWithInferedType, &instanceWithInferedType.Transpose, formGroup, probe)
-		AssociationSliceToForm("For_part", instanceWithInferedType, &instanceWithInferedType.For_part, formGroup, probe)
-		AssociationSliceToForm("Directive", instanceWithInferedType, &instanceWithInferedType.Directive, formGroup, probe)
-		AssociationSliceToForm("Measure_style", instanceWithInferedType, &instanceWithInferedType.Measure_style, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure",
-			"Attributes",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure) []*models.Attributes {
-				return owner.Attributes
-			})
-		AssociationReverseSliceToForm(
-			"A_part_1",
-			"Attributes",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part_1) []*models.Attributes {
-				return owner.Attributes
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Footnote", inst.Footnote, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Formatted_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Level", inst.Level, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Level](), probe.formStage)
+		StageSetBasicFieldtoForm("Divisions", inst.Divisions, probe.formStage, formGroup)
+		AssociationSliceToForm("Key", inst, &inst.Key, formGroup, probe)
+		StageSetBasicFieldtoForm("Time", inst.Time, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Staves", inst.Staves, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Part_symbol", inst.Part_symbol, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Part_symbol](), probe.formStage)
+		StageSetBasicFieldtoForm("Instruments", inst.Instruments, probe.formStage, formGroup)
+		AssociationSliceToForm("Clef", inst, &inst.Clef, formGroup, probe)
+		AssociationSliceToForm("Staff_details", inst, &inst.Staff_details, formGroup, probe)
+		AssociationSliceToForm("Transpose", inst, &inst.Transpose, formGroup, probe)
+		AssociationSliceToForm("For_part", inst, &inst.For_part, formGroup, probe)
+		AssociationSliceToForm("Directive", inst, &inst.Directive, formGroup, probe)
+		AssociationSliceToForm("Measure_style", inst, &inst.Measure_style, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measures {
+				for _, target := range src.Attributes {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure", "Attributes", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_part_1s {
+				for _, target := range src.Attributes {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part_1", "Attributes", refNames, formGroup, probe.formStage)
+		}
 	case *models.Backup:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Duration", instanceWithInferedType.Duration, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Footnote", instanceWithInferedType.Footnote, formGroup, probe)
-		AssociationFieldToForm("Level", instanceWithInferedType.Level, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure",
-			"Backup",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure) []*models.Backup {
-				return owner.Backup
-			})
-		AssociationReverseSliceToForm(
-			"A_part_1",
-			"Backup",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part_1) []*models.Backup {
-				return owner.Backup
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Footnote", inst.Footnote, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Formatted_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Level", inst.Level, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Level](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measures {
+				for _, target := range src.Backup {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure", "Backup", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_part_1s {
+				for _, target := range src.Backup {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part_1", "Backup", refNames, formGroup, probe.formStage)
+		}
 	case *models.Bar_style_color:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Barlines {
+				if src.Bar_style == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Barline", "Bar_style", refNames, formGroup, probe.formStage)
+		}
 	case *models.Barline:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Location", instanceWithInferedType.Location, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Segno", instanceWithInferedType.Segno, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Coda", instanceWithInferedType.Coda, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Divisions", instanceWithInferedType.Divisions, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Bar_style", instanceWithInferedType.Bar_style, formGroup, probe)
-		AssociationFieldToForm("Footnote", instanceWithInferedType.Footnote, formGroup, probe)
-		AssociationFieldToForm("Level", instanceWithInferedType.Level, formGroup, probe)
-		AssociationFieldToForm("Wavy_line", instanceWithInferedType.Wavy_line, formGroup, probe)
-		AssociationFieldToForm("Segno_1", instanceWithInferedType.Segno_1, formGroup, probe)
-		AssociationFieldToForm("Coda_1", instanceWithInferedType.Coda_1, formGroup, probe)
-		AssociationFieldToForm("Fermata", instanceWithInferedType.Fermata, formGroup, probe)
-		AssociationFieldToForm("Ending", instanceWithInferedType.Ending, formGroup, probe)
-		AssociationFieldToForm("Repeat", instanceWithInferedType.Repeat, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure",
-			"Barline",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure) []*models.Barline {
-				return owner.Barline
-			})
-		AssociationReverseSliceToForm(
-			"A_part_1",
-			"Barline",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part_1) []*models.Barline {
-				return owner.Barline
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Location", inst.Location, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Segno", inst.Segno, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Coda", inst.Coda, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Divisions", inst.Divisions, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Bar_style", inst.Bar_style, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Bar_style_color](), probe.formStage)
+		StageSetAssociationFieldToForm("Footnote", inst.Footnote, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Formatted_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Level", inst.Level, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Level](), probe.formStage)
+		StageSetAssociationFieldToForm("Wavy_line", inst.Wavy_line, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Wavy_line](), probe.formStage)
+		StageSetAssociationFieldToForm("Segno_1", inst.Segno_1, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Segno](), probe.formStage)
+		StageSetAssociationFieldToForm("Coda_1", inst.Coda_1, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Coda](), probe.formStage)
+		StageSetAssociationFieldToForm("Fermata", inst.Fermata, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Fermata](), probe.formStage)
+		StageSetAssociationFieldToForm("Ending", inst.Ending, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Ending](), probe.formStage)
+		StageSetAssociationFieldToForm("Repeat", inst.Repeat, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Repeat](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measures {
+				for _, target := range src.Barline {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure", "Barline", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_part_1s {
+				for _, target := range src.Barline {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part_1", "Barline", refNames, formGroup, probe.formStage)
+		}
 	case *models.Barre:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Frame_notes {
+				if src.Barre == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Frame_note", "Barre", refNames, formGroup, probe.formStage)
+		}
 	case *models.Bass:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Arrangement", instanceWithInferedType.Arrangement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Bass_separator", instanceWithInferedType.Bass_separator, formGroup, probe)
-		AssociationFieldToForm("Bass_step", instanceWithInferedType.Bass_step, formGroup, probe)
-		AssociationFieldToForm("Bass_alter", instanceWithInferedType.Bass_alter, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Arrangement", inst.Arrangement, formGroup, probe.formStage)
+		StageSetAssociationFieldToForm("Bass_separator", inst.Bass_separator, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Style_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Bass_step", inst.Bass_step, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Bass_step](), probe.formStage)
+		StageSetAssociationFieldToForm("Bass_alter", inst.Bass_alter, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Harmony_alter](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Harmonys {
+				if src.Bass == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Harmony", "Bass", refNames, formGroup, probe.formStage)
+		}
 	case *models.Bass_step:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Text", instanceWithInferedType.Text, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Text", inst.Text, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Basss {
+				if src.Bass_step == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Bass", "Bass_step", refNames, formGroup, probe.formStage)
+		}
 	case *models.Beam:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Repeater", instanceWithInferedType.Repeater, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Fan", instanceWithInferedType.Fan, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Repeater", inst.Repeater, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Fan", inst.Fan, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Beam == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Beam", refNames, formGroup, probe.formStage)
+		}
 	case *models.Beat_repeat:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Slashes", instanceWithInferedType.Slashes, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Use_dots", instanceWithInferedType.Use_dots, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Slash_type", instanceWithInferedType.Slash_type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Slash_dot", instanceWithInferedType.Slash_dot, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Except_voice", instanceWithInferedType.Except_voice, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Slashes", inst.Slashes, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Use_dots", inst.Use_dots, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Slash_type", inst.Slash_type, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Slash_dot", inst.Slash_dot, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Except_voice", inst.Except_voice, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Measure_styles {
+				if src.Beat_repeat == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Measure_style", "Beat_repeat", refNames, formGroup, probe.formStage)
+		}
 	case *models.Beat_unit_tied:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Beat_unit", instanceWithInferedType.Beat_unit, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Beat_unit_dot", instanceWithInferedType.Beat_unit_dot, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Metronome",
-			"Beat_unit_tied",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Metronome) []*models.Beat_unit_tied {
-				return owner.Beat_unit_tied
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Beat_unit", inst.Beat_unit, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Beat_unit_dot", inst.Beat_unit_dot, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Metronomes {
+				for _, target := range src.Beat_unit_tied {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Metronome", "Beat_unit_tied", refNames, formGroup, probe.formStage)
+		}
 	case *models.Beater:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Tip", instanceWithInferedType.Tip, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Tip", inst.Tip, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Percussions {
+				if src.Beater == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Percussion", "Beater", refNames, formGroup, probe.formStage)
+		}
 	case *models.Bend:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Shape", instanceWithInferedType.Shape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Accelerate", instanceWithInferedType.Accelerate, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Beats", instanceWithInferedType.Beats, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("First_beat", instanceWithInferedType.First_beat, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Last_beat", instanceWithInferedType.Last_beat, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bend_alter", instanceWithInferedType.Bend_alter, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Pre_bend", instanceWithInferedType.Pre_bend, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Release", instanceWithInferedType.Release, formGroup, probe)
-		AssociationFieldToForm("With_bar", instanceWithInferedType.With_bar, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Bend",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Bend {
-				return owner.Bend
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Shape", inst.Shape, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Accelerate", inst.Accelerate, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Beats", inst.Beats, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("First_beat", inst.First_beat, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Last_beat", inst.Last_beat, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Bend_alter", inst.Bend_alter, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Pre_bend", inst.Pre_bend, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Release", inst.Release, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Release](), probe.formStage)
+		StageSetAssociationFieldToForm("With_bar", inst.With_bar, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Placement_text](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Bend {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Bend", refNames, formGroup, probe.formStage)
+		}
 	case *models.Bookmark:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("NameXSD", instanceWithInferedType.NameXSD, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Element", instanceWithInferedType.Element, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Position", instanceWithInferedType.Position, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure",
-			"Bookmark",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure) []*models.Bookmark {
-				return owner.Bookmark
-			})
-		AssociationReverseSliceToForm(
-			"A_part_1",
-			"Bookmark",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part_1) []*models.Bookmark {
-				return owner.Bookmark
-			})
-		AssociationReverseSliceToForm(
-			"Credit",
-			"Bookmark",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Credit) []*models.Bookmark {
-				return owner.Bookmark
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("NameXSD", inst.NameXSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Element", inst.Element, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Position", inst.Position, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measures {
+				for _, target := range src.Bookmark {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure", "Bookmark", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_part_1s {
+				for _, target := range src.Bookmark {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part_1", "Bookmark", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Credits {
+				for _, target := range src.Bookmark {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Credit", "Bookmark", refNames, formGroup, probe.formStage)
+		}
 	case *models.Bracket:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_end", instanceWithInferedType.Line_end, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("End_length", instanceWithInferedType.End_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_type", instanceWithInferedType.Line_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dash_length", instanceWithInferedType.Dash_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Space_length", instanceWithInferedType.Space_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Line_end", inst.Line_end, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("End_length", inst.End_length, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Line_type", inst.Line_type, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Dash_length", inst.Dash_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Space_length", inst.Space_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Bracket == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Bracket", refNames, formGroup, probe.formStage)
+		}
 	case *models.Breath_mark:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Breath_mark",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Breath_mark {
-				return owner.Breath_mark
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Breath_mark {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Breath_mark", refNames, formGroup, probe.formStage)
+		}
 	case *models.Caesura:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Caesura",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Caesura {
-				return owner.Caesura
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Caesura {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Caesura", refNames, formGroup, probe.formStage)
+		}
 	case *models.Cancel:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Location", instanceWithInferedType.Location, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Location", inst.Location, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Keys {
+				if src.Cancel == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Key", "Cancel", refNames, formGroup, probe.formStage)
+		}
 	case *models.Clef:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Additional", instanceWithInferedType.Additional, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Size", instanceWithInferedType.Size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("After_barline", instanceWithInferedType.After_barline, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Sign", instanceWithInferedType.Sign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line", instanceWithInferedType.Line, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Clef_octave_change", instanceWithInferedType.Clef_octave_change, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Attributes",
-			"Clef",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Attributes) []*models.Clef {
-				return owner.Clef
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Additional", inst.Additional, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Size", inst.Size, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("After_barline", inst.After_barline, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Sign", inst.Sign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Line", inst.Line, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Clef_octave_change", inst.Clef_octave_change, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Attributess {
+				for _, target := range src.Clef {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Attributes", "Clef", refNames, formGroup, probe.formStage)
+		}
 	case *models.Coda:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Direction_type",
-			"Coda",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Direction_type) []*models.Coda {
-				return owner.Coda
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Barlines {
+				if src.Coda_1 == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Barline", "Coda_1", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				for _, target := range src.Coda {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Coda", refNames, formGroup, probe.formStage)
+		}
 	case *models.Credit:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Page", instanceWithInferedType.Page, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Credit_type", instanceWithInferedType.Credit_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Credit_image", instanceWithInferedType.Credit_image, formGroup, probe)
-		AssociationSliceToForm("Link", instanceWithInferedType, &instanceWithInferedType.Link, formGroup, probe)
-		AssociationSliceToForm("Bookmark", instanceWithInferedType, &instanceWithInferedType.Bookmark, formGroup, probe)
-		AssociationSliceToForm("Credit_words", instanceWithInferedType, &instanceWithInferedType.Credit_words, formGroup, probe)
-		AssociationSliceToForm("Credit_symbol", instanceWithInferedType, &instanceWithInferedType.Credit_symbol, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Score_partwise",
-			"Credit",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Score_partwise) []*models.Credit {
-				return owner.Credit
-			})
-		AssociationReverseSliceToForm(
-			"Score_timewise",
-			"Credit",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Score_timewise) []*models.Credit {
-				return owner.Credit
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Page", inst.Page, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Credit_type", inst.Credit_type, probe.formStage, formGroup)
+		AssociationSliceToForm("Link", inst, &inst.Link, formGroup, probe)
+		AssociationSliceToForm("Bookmark", inst, &inst.Bookmark, formGroup, probe)
+		StageSetAssociationFieldToForm("Credit_image", inst.Credit_image, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Image](), probe.formStage)
+		StageSetAssociationFieldToForm("Credit_words", inst.Credit_words, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Formatted_text_id](), probe.formStage)
+		StageSetAssociationFieldToForm("Credit_symbol", inst.Credit_symbol, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Formatted_symbol_id](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_partwises {
+				for _, target := range src.Credit {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_partwise", "Credit", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_timewises {
+				for _, target := range src.Credit {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_timewise", "Credit", refNames, formGroup, probe.formStage)
+		}
 	case *models.Dashes:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dash_length", instanceWithInferedType.Dash_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Space_length", instanceWithInferedType.Space_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Dash_length", inst.Dash_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Space_length", inst.Space_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Dashes == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Dashes", refNames, formGroup, probe.formStage)
+		}
 	case *models.Defaults:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Scaling", instanceWithInferedType.Scaling, formGroup, probe)
-		BasicFieldtoForm("Concert_score", instanceWithInferedType.Concert_score, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Page_layout", instanceWithInferedType.Page_layout, formGroup, probe)
-		AssociationFieldToForm("System_layout", instanceWithInferedType.System_layout, formGroup, probe)
-		AssociationSliceToForm("Staff_layout", instanceWithInferedType, &instanceWithInferedType.Staff_layout, formGroup, probe)
-		AssociationFieldToForm("Appearance", instanceWithInferedType.Appearance, formGroup, probe)
-		AssociationFieldToForm("Music_font", instanceWithInferedType.Music_font, formGroup, probe)
-		AssociationFieldToForm("Word_font", instanceWithInferedType.Word_font, formGroup, probe)
-		AssociationSliceToForm("Lyric_font", instanceWithInferedType, &instanceWithInferedType.Lyric_font, formGroup, probe)
-		AssociationSliceToForm("Lyric_language", instanceWithInferedType, &instanceWithInferedType.Lyric_language, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Scaling", inst.Scaling, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Scaling](), probe.formStage)
+		StageSetBasicFieldtoForm("Concert_score", inst.Concert_score, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Page_layout", inst.Page_layout, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Page_layout](), probe.formStage)
+		StageSetAssociationFieldToForm("System_layout", inst.System_layout, formGroup, probe.stageOfInterest.GetInstancesSet[*models.System_layout](), probe.formStage)
+		AssociationSliceToForm("Staff_layout", inst, &inst.Staff_layout, formGroup, probe)
+		StageSetAssociationFieldToForm("Appearance", inst.Appearance, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Appearance](), probe.formStage)
+		StageSetAssociationFieldToForm("Music_font", inst.Music_font, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Empty_font](), probe.formStage)
+		StageSetAssociationFieldToForm("Word_font", inst.Word_font, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Empty_font](), probe.formStage)
+		AssociationSliceToForm("Lyric_font", inst, &inst.Lyric_font, formGroup, probe)
+		AssociationSliceToForm("Lyric_language", inst, &inst.Lyric_language, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_partwises {
+				if src.Defaults == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_partwise", "Defaults", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_timewises {
+				if src.Defaults == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_timewise", "Defaults", refNames, formGroup, probe.formStage)
+		}
 	case *models.Degree:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		AssociationFieldToForm("Degree_value", instanceWithInferedType.Degree_value, formGroup, probe)
-		AssociationFieldToForm("Degree_alter", instanceWithInferedType.Degree_alter, formGroup, probe)
-		AssociationFieldToForm("Degree_type", instanceWithInferedType.Degree_type, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Harmony",
-			"Degree",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Harmony) []*models.Degree {
-				return owner.Degree
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetAssociationFieldToForm("Degree_value", inst.Degree_value, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Degree_value](), probe.formStage)
+		StageSetAssociationFieldToForm("Degree_alter", inst.Degree_alter, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Degree_alter](), probe.formStage)
+		StageSetAssociationFieldToForm("Degree_type", inst.Degree_type, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Degree_type](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Harmonys {
+				for _, target := range src.Degree {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Harmony", "Degree", refNames, formGroup, probe.formStage)
+		}
 	case *models.Degree_alter:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Plus_minus", instanceWithInferedType.Plus_minus, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Plus_minus", inst.Plus_minus, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Degrees {
+				if src.Degree_alter == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Degree", "Degree_alter", refNames, formGroup, probe.formStage)
+		}
 	case *models.Degree_type:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Text", instanceWithInferedType.Text, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Text", inst.Text, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Degrees {
+				if src.Degree_type == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Degree", "Degree_type", refNames, formGroup, probe.formStage)
+		}
 	case *models.Degree_value:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Symbol", instanceWithInferedType.Symbol, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Text", instanceWithInferedType.Text, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Symbol", inst.Symbol, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Text", inst.Text, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Degrees {
+				if src.Degree_value == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Degree", "Degree_value", refNames, formGroup, probe.formStage)
+		}
 	case *models.Direction:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Directive", instanceWithInferedType.Directive, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("System", instanceWithInferedType.System, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Direction_type", instanceWithInferedType, &instanceWithInferedType.Direction_type, formGroup, probe)
-		AssociationFieldToForm("Offset", instanceWithInferedType.Offset, formGroup, probe)
-		AssociationFieldToForm("Footnote", instanceWithInferedType.Footnote, formGroup, probe)
-		AssociationFieldToForm("Level", instanceWithInferedType.Level, formGroup, probe)
-		BasicFieldtoForm("Voice", instanceWithInferedType.Voice, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Staff", instanceWithInferedType.Staff, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Sound", instanceWithInferedType.Sound, formGroup, probe)
-		AssociationFieldToForm("Listening", instanceWithInferedType.Listening, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure",
-			"Direction",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure) []*models.Direction {
-				return owner.Direction
-			})
-		AssociationReverseSliceToForm(
-			"A_part_1",
-			"Direction",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part_1) []*models.Direction {
-				return owner.Direction
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Directive", inst.Directive, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("System", inst.System, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		AssociationSliceToForm("Direction_type", inst, &inst.Direction_type, formGroup, probe)
+		StageSetAssociationFieldToForm("Offset", inst.Offset, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Offset](), probe.formStage)
+		StageSetAssociationFieldToForm("Footnote", inst.Footnote, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Formatted_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Level", inst.Level, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Level](), probe.formStage)
+		StageSetBasicFieldtoForm("Voice", inst.Voice, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Staff", inst.Staff, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Sound", inst.Sound, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Sound](), probe.formStage)
+		StageSetAssociationFieldToForm("Listening", inst.Listening, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Listening](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measures {
+				for _, target := range src.Direction {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure", "Direction", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_part_1s {
+				for _, target := range src.Direction {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part_1", "Direction", refNames, formGroup, probe.formStage)
+		}
 	case *models.Direction_type:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Rehearsal", instanceWithInferedType, &instanceWithInferedType.Rehearsal, formGroup, probe)
-		AssociationSliceToForm("Segno", instanceWithInferedType, &instanceWithInferedType.Segno, formGroup, probe)
-		AssociationSliceToForm("Coda", instanceWithInferedType, &instanceWithInferedType.Coda, formGroup, probe)
-		AssociationSliceToForm("Words", instanceWithInferedType, &instanceWithInferedType.Words, formGroup, probe)
-		AssociationSliceToForm("Symbol", instanceWithInferedType, &instanceWithInferedType.Symbol, formGroup, probe)
-		AssociationFieldToForm("Wedge", instanceWithInferedType.Wedge, formGroup, probe)
-		AssociationSliceToForm("Dynamics", instanceWithInferedType, &instanceWithInferedType.Dynamics, formGroup, probe)
-		AssociationFieldToForm("Dashes", instanceWithInferedType.Dashes, formGroup, probe)
-		AssociationFieldToForm("Bracket", instanceWithInferedType.Bracket, formGroup, probe)
-		AssociationFieldToForm("Pedal", instanceWithInferedType.Pedal, formGroup, probe)
-		AssociationFieldToForm("Metronome", instanceWithInferedType.Metronome, formGroup, probe)
-		AssociationFieldToForm("Octave_shift", instanceWithInferedType.Octave_shift, formGroup, probe)
-		AssociationFieldToForm("Harp_pedals", instanceWithInferedType.Harp_pedals, formGroup, probe)
-		AssociationFieldToForm("Damp", instanceWithInferedType.Damp, formGroup, probe)
-		AssociationFieldToForm("Damp_all", instanceWithInferedType.Damp_all, formGroup, probe)
-		AssociationFieldToForm("Eyeglasses", instanceWithInferedType.Eyeglasses, formGroup, probe)
-		AssociationFieldToForm("String_mute", instanceWithInferedType.String_mute, formGroup, probe)
-		AssociationFieldToForm("Scordatura", instanceWithInferedType.Scordatura, formGroup, probe)
-		AssociationFieldToForm("Image", instanceWithInferedType.Image, formGroup, probe)
-		AssociationFieldToForm("Principal_voice", instanceWithInferedType.Principal_voice, formGroup, probe)
-		AssociationSliceToForm("Percussion", instanceWithInferedType, &instanceWithInferedType.Percussion, formGroup, probe)
-		AssociationFieldToForm("Accordion_registration", instanceWithInferedType.Accordion_registration, formGroup, probe)
-		AssociationFieldToForm("Staff_divide", instanceWithInferedType.Staff_divide, formGroup, probe)
-		AssociationFieldToForm("Other_direction", instanceWithInferedType.Other_direction, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Direction",
-			"Direction_type",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Direction) []*models.Direction_type {
-				return owner.Direction_type
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		AssociationSliceToForm("Rehearsal", inst, &inst.Rehearsal, formGroup, probe)
+		AssociationSliceToForm("Segno", inst, &inst.Segno, formGroup, probe)
+		AssociationSliceToForm("Coda", inst, &inst.Coda, formGroup, probe)
+		AssociationSliceToForm("Words", inst, &inst.Words, formGroup, probe)
+		AssociationSliceToForm("Symbol", inst, &inst.Symbol, formGroup, probe)
+		StageSetAssociationFieldToForm("Wedge", inst.Wedge, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Wedge](), probe.formStage)
+		AssociationSliceToForm("Dynamics", inst, &inst.Dynamics, formGroup, probe)
+		StageSetAssociationFieldToForm("Dashes", inst.Dashes, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Dashes](), probe.formStage)
+		StageSetAssociationFieldToForm("Bracket", inst.Bracket, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Bracket](), probe.formStage)
+		StageSetAssociationFieldToForm("Pedal", inst.Pedal, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Pedal](), probe.formStage)
+		StageSetAssociationFieldToForm("Metronome", inst.Metronome, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Metronome](), probe.formStage)
+		StageSetAssociationFieldToForm("Octave_shift", inst.Octave_shift, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Octave_shift](), probe.formStage)
+		StageSetAssociationFieldToForm("Harp_pedals", inst.Harp_pedals, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Harp_pedals](), probe.formStage)
+		StageSetAssociationFieldToForm("Damp", inst.Damp, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Empty_print_style_align_id](), probe.formStage)
+		StageSetAssociationFieldToForm("Damp_all", inst.Damp_all, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Empty_print_style_align_id](), probe.formStage)
+		StageSetAssociationFieldToForm("Eyeglasses", inst.Eyeglasses, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Empty_print_style_align_id](), probe.formStage)
+		StageSetAssociationFieldToForm("String_mute", inst.String_mute, formGroup, probe.stageOfInterest.GetInstancesSet[*models.String_mute](), probe.formStage)
+		StageSetAssociationFieldToForm("Scordatura", inst.Scordatura, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Scordatura](), probe.formStage)
+		StageSetAssociationFieldToForm("Image", inst.Image, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Image](), probe.formStage)
+		StageSetAssociationFieldToForm("Principal_voice", inst.Principal_voice, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Principal_voice](), probe.formStage)
+		AssociationSliceToForm("Percussion", inst, &inst.Percussion, formGroup, probe)
+		StageSetAssociationFieldToForm("Accordion_registration", inst.Accordion_registration, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Accordion_registration](), probe.formStage)
+		StageSetAssociationFieldToForm("Staff_divide", inst.Staff_divide, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Staff_divide](), probe.formStage)
+		StageSetAssociationFieldToForm("Other_direction", inst.Other_direction, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Other_direction](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Directions {
+				for _, target := range src.Direction_type {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction", "Direction_type", refNames, formGroup, probe.formStage)
+		}
 	case *models.Distance:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Appearance",
-			"Distance",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Appearance) []*models.Distance {
-				return owner.Distance
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Appearances {
+				for _, target := range src.Distance {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Appearance", "Distance", refNames, formGroup, probe.formStage)
+		}
 	case *models.Double:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Above", instanceWithInferedType.Above, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Above", inst.Above, formGroup, probe.formStage)
 	case *models.Dynamics:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Underline", instanceWithInferedType.Underline, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Overline", instanceWithInferedType.Overline, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_through", instanceWithInferedType.Line_through, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Enclosure", instanceWithInferedType.Enclosure, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("P", instanceWithInferedType.P, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Pp", instanceWithInferedType.Pp, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Ppp", instanceWithInferedType.Ppp, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Pppp", instanceWithInferedType.Pppp, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Ppppp", instanceWithInferedType.Ppppp, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Pppppp", instanceWithInferedType.Pppppp, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("F", instanceWithInferedType.F, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Ff", instanceWithInferedType.Ff, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Fff", instanceWithInferedType.Fff, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Ffff", instanceWithInferedType.Ffff, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Fffff", instanceWithInferedType.Fffff, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Ffffff", instanceWithInferedType.Ffffff, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Mp", instanceWithInferedType.Mp, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Mf", instanceWithInferedType.Mf, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Sf", instanceWithInferedType.Sf, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Sfp", instanceWithInferedType.Sfp, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Sfpp", instanceWithInferedType.Sfpp, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Fp", instanceWithInferedType.Fp, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Rf", instanceWithInferedType.Rf, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Rfz", instanceWithInferedType.Rfz, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Sfz", instanceWithInferedType.Sfz, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Sffz", instanceWithInferedType.Sffz, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Fz", instanceWithInferedType.Fz, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("N", instanceWithInferedType.N, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Pf", instanceWithInferedType.Pf, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Sfzp", instanceWithInferedType.Sfzp, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Other_dynamics", instanceWithInferedType, &instanceWithInferedType.Other_dynamics, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Direction_type",
-			"Dynamics",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Direction_type) []*models.Dynamics {
-				return owner.Dynamics
-			})
-		AssociationReverseSliceToForm(
-			"Notations",
-			"Dynamics",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notations) []*models.Dynamics {
-				return owner.Dynamics
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Underline", inst.Underline, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Overline", inst.Overline, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Line_through", inst.Line_through, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Enclosure", inst.Enclosure, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("P", inst.P, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Pp", inst.Pp, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Ppp", inst.Ppp, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Pppp", inst.Pppp, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Ppppp", inst.Ppppp, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Pppppp", inst.Pppppp, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("F", inst.F, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Ff", inst.Ff, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Fff", inst.Fff, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Ffff", inst.Ffff, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Fffff", inst.Fffff, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Ffffff", inst.Ffffff, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Mp", inst.Mp, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Mf", inst.Mf, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Sf", inst.Sf, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Sfp", inst.Sfp, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Sfpp", inst.Sfpp, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Fp", inst.Fp, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Rf", inst.Rf, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Rfz", inst.Rfz, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Sfz", inst.Sfz, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Sffz", inst.Sffz, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Fz", inst.Fz, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("N", inst.N, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Pf", inst.Pf, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Sfzp", inst.Sfzp, probe.formStage, formGroup)
+		AssociationSliceToForm("Other_dynamics", inst, &inst.Other_dynamics, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				for _, target := range src.Dynamics {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Dynamics", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				for _, target := range src.Dynamics {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Dynamics", refNames, formGroup, probe.formStage)
+		}
 	case *models.Effect:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Percussions {
+				if src.Effect == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Percussion", "Effect", refNames, formGroup, probe.formStage)
+		}
 	case *models.Elision:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Lyric",
-			"Elision",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Lyric) []*models.Elision {
-				return owner.Elision
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Lyrics {
+				for _, target := range src.Elision {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Lyric", "Elision", refNames, formGroup, probe.formStage)
+		}
 	case *models.Empty:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
 	case *models.Empty_font:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Defaultss {
+				if src.Music_font == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Defaults", "Music_font", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Defaultss {
+				if src.Word_font == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Defaults", "Word_font", refNames, formGroup, probe.formStage)
+		}
 	case *models.Empty_line:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_shape", instanceWithInferedType.Line_shape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_type", instanceWithInferedType.Line_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_length", instanceWithInferedType.Line_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dash_length", instanceWithInferedType.Dash_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Space_length", instanceWithInferedType.Space_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Scoop",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Empty_line {
-				return owner.Scoop
-			})
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Plop",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Empty_line {
-				return owner.Plop
-			})
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Doit",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Empty_line {
-				return owner.Doit
-			})
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Falloff",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Empty_line {
-				return owner.Falloff
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Line_shape", inst.Line_shape, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Line_type", inst.Line_type, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Line_length", inst.Line_length, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Dash_length", inst.Dash_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Space_length", inst.Space_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Scoop {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Scoop", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Plop {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Plop", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Doit {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Doit", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Falloff {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Falloff", refNames, formGroup, probe.formStage)
+		}
 	case *models.Empty_placement:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Accent",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Empty_placement {
-				return owner.Accent
-			})
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Staccato",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Empty_placement {
-				return owner.Staccato
-			})
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Tenuto",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Empty_placement {
-				return owner.Tenuto
-			})
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Detached_legato",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Empty_placement {
-				return owner.Detached_legato
-			})
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Staccatissimo",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Empty_placement {
-				return owner.Staccatissimo
-			})
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Spiccato",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Empty_placement {
-				return owner.Spiccato
-			})
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Stress",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Empty_placement {
-				return owner.Stress
-			})
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Unstress",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Empty_placement {
-				return owner.Unstress
-			})
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Soft_accent",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Empty_placement {
-				return owner.Soft_accent
-			})
-		AssociationReverseSliceToForm(
-			"Note",
-			"Dot",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Note) []*models.Empty_placement {
-				return owner.Dot
-			})
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Schleifer",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Empty_placement {
-				return owner.Schleifer
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Up_bow",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement {
-				return owner.Up_bow
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Down_bow",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement {
-				return owner.Down_bow
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Open_string",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement {
-				return owner.Open_string
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Thumb_position",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement {
-				return owner.Thumb_position
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Double_tongue",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement {
-				return owner.Double_tongue
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Triple_tongue",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement {
-				return owner.Triple_tongue
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Snap_pizzicato",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement {
-				return owner.Snap_pizzicato
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Fingernails",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement {
-				return owner.Fingernails
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Brass_bend",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement {
-				return owner.Brass_bend
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Flip",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement {
-				return owner.Flip
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Smear",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement {
-				return owner.Smear
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Golpe",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement {
-				return owner.Golpe
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Accent {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Accent", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Staccato {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Staccato", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Tenuto {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Tenuto", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Detached_legato {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Detached_legato", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Staccatissimo {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Staccatissimo", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Spiccato {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Spiccato", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Stress {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Stress", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Unstress {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Unstress", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Soft_accent {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Soft_accent", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				for _, target := range src.Dot {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Dot", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Schleifer {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Schleifer", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Up_bow {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Up_bow", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Down_bow {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Down_bow", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Open_string {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Open_string", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Thumb_position {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Thumb_position", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Double_tongue {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Double_tongue", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Triple_tongue {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Triple_tongue", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Snap_pizzicato {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Snap_pizzicato", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Fingernails {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Fingernails", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Brass_bend {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Brass_bend", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Flip {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Flip", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Smear {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Smear", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Golpe {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Golpe", refNames, formGroup, probe.formStage)
+		}
 	case *models.Empty_placement_smufl:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Stopped",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement_smufl {
-				return owner.Stopped
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Open",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement_smufl {
-				return owner.Open
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Half_muted",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Empty_placement_smufl {
-				return owner.Half_muted
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Stopped {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Stopped", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Open {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Open", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Half_muted {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Half_muted", refNames, formGroup, probe.formStage)
+		}
 	case *models.Empty_print_object_style_align:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.System_dividerss {
+				if src.Left_divider == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.System_dividers", "Left_divider", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.System_dividerss {
+				if src.Right_divider == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.System_dividers", "Right_divider", refNames, formGroup, probe.formStage)
+		}
 	case *models.Empty_print_style:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
 	case *models.Empty_print_style_align:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
 	case *models.Empty_print_style_align_id:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Damp == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Damp", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Damp_all == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Damp_all", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Eyeglasses == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Eyeglasses", refNames, formGroup, probe.formStage)
+		}
 	case *models.Empty_trill_sound:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Start_note", instanceWithInferedType.Start_note, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Trill_step", instanceWithInferedType.Trill_step, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Two_note_turn", instanceWithInferedType.Two_note_turn, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Accelerate", instanceWithInferedType.Accelerate, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Beats", instanceWithInferedType.Beats, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Second_beat", instanceWithInferedType.Second_beat, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Last_beat", instanceWithInferedType.Last_beat, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Trill_mark",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Empty_trill_sound {
-				return owner.Trill_mark
-			})
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Vertical_turn",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Empty_trill_sound {
-				return owner.Vertical_turn
-			})
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Inverted_vertical_turn",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Empty_trill_sound {
-				return owner.Inverted_vertical_turn
-			})
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Shake",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Empty_trill_sound {
-				return owner.Shake
-			})
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Haydn",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Empty_trill_sound {
-				return owner.Haydn
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Start_note", inst.Start_note, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Trill_step", inst.Trill_step, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Two_note_turn", inst.Two_note_turn, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Accelerate", inst.Accelerate, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Beats", inst.Beats, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Second_beat", inst.Second_beat, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Last_beat", inst.Last_beat, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Trill_mark {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Trill_mark", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Vertical_turn {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Vertical_turn", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Inverted_vertical_turn {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Inverted_vertical_turn", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Shake {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Shake", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Haydn {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Haydn", refNames, formGroup, probe.formStage)
+		}
 	case *models.Encoding:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Encoder", instanceWithInferedType, &instanceWithInferedType.Encoder, formGroup, probe)
-		BasicFieldtoForm("Software", instanceWithInferedType.Software, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Encoding_description", instanceWithInferedType.Encoding_description, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Supports", instanceWithInferedType, &instanceWithInferedType.Supports, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Encoding_date", inst.Encoding_date, probe.formStage, formGroup)
+		AssociationSliceToForm("Encoder", inst, &inst.Encoder, formGroup, probe)
+		StageSetBasicFieldtoForm("Software", inst.Software, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Encoding_description", inst.Encoding_description, probe.formStage, formGroup)
+		AssociationSliceToForm("Supports", inst, &inst.Supports, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Identifications {
+				if src.Encoding == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Identification", "Encoding", refNames, formGroup, probe.formStage)
+		}
 	case *models.Ending:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("End_length", instanceWithInferedType.End_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Text_x", instanceWithInferedType.Text_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Text_y", instanceWithInferedType.Text_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("System", instanceWithInferedType.System, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("End_length", inst.End_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Text_x", inst.Text_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Text_y", inst.Text_y, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("System", inst.System, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Barlines {
+				if src.Ending == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Barline", "Ending", refNames, formGroup, probe.formStage)
+		}
 	case *models.Extend:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Figures {
+				if src.Extend == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Figure", "Extend", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Lyrics {
+				if src.Extend == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Lyric", "Extend", refNames, formGroup, probe.formStage)
+		}
 	case *models.Feature:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Grouping",
-			"Feature",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Grouping) []*models.Feature {
-				return owner.Feature
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Groupings {
+				for _, target := range src.Feature {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Grouping", "Feature", refNames, formGroup, probe.formStage)
+		}
 	case *models.Fermata:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Notations",
-			"Fermata",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notations) []*models.Fermata {
-				return owner.Fermata
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Barlines {
+				if src.Fermata == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Barline", "Fermata", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				for _, target := range src.Fermata {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Fermata", refNames, formGroup, probe.formStage)
+		}
 	case *models.Figure:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Prefix", instanceWithInferedType.Prefix, formGroup, probe)
-		AssociationFieldToForm("Figure_number", instanceWithInferedType.Figure_number, formGroup, probe)
-		AssociationFieldToForm("Suffix", instanceWithInferedType.Suffix, formGroup, probe)
-		AssociationFieldToForm("Extend", instanceWithInferedType.Extend, formGroup, probe)
-		AssociationFieldToForm("Footnote", instanceWithInferedType.Footnote, formGroup, probe)
-		AssociationFieldToForm("Level", instanceWithInferedType.Level, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Figured_bass",
-			"Figure",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Figured_bass) []*models.Figure {
-				return owner.Figure
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Prefix", inst.Prefix, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Style_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Figure_number", inst.Figure_number, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Style_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Suffix", inst.Suffix, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Style_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Extend", inst.Extend, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Extend](), probe.formStage)
+		StageSetAssociationFieldToForm("Footnote", inst.Footnote, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Formatted_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Level", inst.Level, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Level](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Figured_basss {
+				for _, target := range src.Figure {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Figured_bass", "Figure", refNames, formGroup, probe.formStage)
+		}
 	case *models.Figured_bass:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Parentheses", instanceWithInferedType.Parentheses, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_dot", instanceWithInferedType.Print_dot, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Print_lyric", instanceWithInferedType.Print_lyric, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Print_spacing", instanceWithInferedType.Print_spacing, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Figure", instanceWithInferedType, &instanceWithInferedType.Figure, formGroup, probe)
-		BasicFieldtoForm("Duration", instanceWithInferedType.Duration, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Footnote", instanceWithInferedType.Footnote, formGroup, probe)
-		AssociationFieldToForm("Level", instanceWithInferedType.Level, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure",
-			"Figured_bass",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure) []*models.Figured_bass {
-				return owner.Figured_bass
-			})
-		AssociationReverseSliceToForm(
-			"A_part_1",
-			"Figured_bass",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part_1) []*models.Figured_bass {
-				return owner.Figured_bass
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Parentheses", inst.Parentheses, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_dot", inst.Print_dot, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_lyric", inst.Print_lyric, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_spacing", inst.Print_spacing, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		AssociationSliceToForm("Figure", inst, &inst.Figure, formGroup, probe)
+		StageSetAssociationFieldToForm("Footnote", inst.Footnote, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Formatted_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Level", inst.Level, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Level](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measures {
+				for _, target := range src.Figured_bass {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure", "Figured_bass", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_part_1s {
+				for _, target := range src.Figured_bass {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part_1", "Figured_bass", refNames, formGroup, probe.formStage)
+		}
 	case *models.Fingering:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Substitution", instanceWithInferedType.Substitution, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Alternate", instanceWithInferedType.Alternate, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Fingering",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Fingering {
-				return owner.Fingering
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Substitution", inst.Substitution, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Alternate", inst.Alternate, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Frame_notes {
+				if src.Fingering == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Frame_note", "Fingering", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Fingering {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Fingering", refNames, formGroup, probe.formStage)
+		}
 	case *models.First_fret:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Text", instanceWithInferedType.Text, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Location", instanceWithInferedType.Location, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Text", inst.Text, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Location", inst.Location, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Frames {
+				if src.First_fret == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Frame", "First_fret", refNames, formGroup, probe.formStage)
+		}
 	case *models.For_part:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Part_clef", instanceWithInferedType.Part_clef, formGroup, probe)
-		AssociationFieldToForm("Part_transpose", instanceWithInferedType.Part_transpose, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Attributes",
-			"For_part",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Attributes) []*models.For_part {
-				return owner.For_part
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Part_clef", inst.Part_clef, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Part_clef](), probe.formStage)
+		StageSetAssociationFieldToForm("Part_transpose", inst.Part_transpose, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Part_transpose](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Attributess {
+				for _, target := range src.For_part {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Attributes", "For_part", refNames, formGroup, probe.formStage)
+		}
 	case *models.Formatted_symbol:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Justify", instanceWithInferedType.Justify, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Underline", instanceWithInferedType.Underline, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Overline", instanceWithInferedType.Overline, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_through", instanceWithInferedType.Line_through, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Rotation", instanceWithInferedType.Rotation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Letter_spacing", instanceWithInferedType.Letter_spacing, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_height", instanceWithInferedType.Line_height, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dir", instanceWithInferedType.Dir, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Enclosure", instanceWithInferedType.Enclosure, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Justify", inst.Justify, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Underline", inst.Underline, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Overline", inst.Overline, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Line_through", inst.Line_through, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Rotation", inst.Rotation, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Letter_spacing", inst.Letter_spacing, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Line_height", inst.Line_height, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Dir", inst.Dir, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Enclosure", inst.Enclosure, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 	case *models.Formatted_symbol_id:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Justify", instanceWithInferedType.Justify, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Underline", instanceWithInferedType.Underline, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Overline", instanceWithInferedType.Overline, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_through", instanceWithInferedType.Line_through, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Rotation", instanceWithInferedType.Rotation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Letter_spacing", instanceWithInferedType.Letter_spacing, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_height", instanceWithInferedType.Line_height, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dir", instanceWithInferedType.Dir, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Enclosure", instanceWithInferedType.Enclosure, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Credit",
-			"Credit_symbol",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Credit) []*models.Formatted_symbol_id {
-				return owner.Credit_symbol
-			})
-		AssociationReverseSliceToForm(
-			"Direction_type",
-			"Symbol",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Direction_type) []*models.Formatted_symbol_id {
-				return owner.Symbol
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Justify", inst.Justify, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Underline", inst.Underline, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Overline", inst.Overline, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Line_through", inst.Line_through, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Rotation", inst.Rotation, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Letter_spacing", inst.Letter_spacing, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Line_height", inst.Line_height, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Dir", inst.Dir, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Enclosure", inst.Enclosure, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Credits {
+				if src.Credit_symbol == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Credit", "Credit_symbol", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				for _, target := range src.Symbol {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Symbol", refNames, formGroup, probe.formStage)
+		}
 	case *models.Formatted_text:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Lang", instanceWithInferedType.Lang, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Space", instanceWithInferedType.Space, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Justify", instanceWithInferedType.Justify, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Underline", instanceWithInferedType.Underline, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Overline", instanceWithInferedType.Overline, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_through", instanceWithInferedType.Line_through, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Rotation", instanceWithInferedType.Rotation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Letter_spacing", instanceWithInferedType.Letter_spacing, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_height", instanceWithInferedType.Line_height, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dir", instanceWithInferedType.Dir, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Enclosure", instanceWithInferedType.Enclosure, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Name_display",
-			"Display_text",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Name_display) []*models.Formatted_text {
-				return owner.Display_text
-			})
-		AssociationReverseSliceToForm(
-			"Notehead_text",
-			"Display_text",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notehead_text) []*models.Formatted_text {
-				return owner.Display_text
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Lang", inst.Lang, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Space", inst.Space, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Justify", inst.Justify, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Underline", inst.Underline, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Overline", inst.Overline, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Line_through", inst.Line_through, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Rotation", inst.Rotation, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Letter_spacing", inst.Letter_spacing, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Line_height", inst.Line_height, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Dir", inst.Dir, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Enclosure", inst.Enclosure, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Attributess {
+				if src.Footnote == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Attributes", "Footnote", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Backups {
+				if src.Footnote == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Backup", "Footnote", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Barlines {
+				if src.Footnote == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Barline", "Footnote", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Directions {
+				if src.Footnote == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction", "Footnote", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Figures {
+				if src.Footnote == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Figure", "Footnote", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Figured_basss {
+				if src.Footnote == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Figured_bass", "Footnote", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Forwards {
+				if src.Footnote == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Forward", "Footnote", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Harmonys {
+				if src.Footnote == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Harmony", "Footnote", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Lyrics {
+				if src.Footnote == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Lyric", "Footnote", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Name_displays {
+				for _, target := range src.Display_text {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Name_display", "Display_text", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				if src.Footnote == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Footnote", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Footnote == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Footnote", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notehead_texts {
+				for _, target := range src.Display_text {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notehead_text", "Display_text", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Part_groups {
+				if src.Footnote == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Part_group", "Footnote", refNames, formGroup, probe.formStage)
+		}
 	case *models.Formatted_text_id:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Lang", instanceWithInferedType.Lang, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Space", instanceWithInferedType.Space, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Justify", instanceWithInferedType.Justify, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Underline", instanceWithInferedType.Underline, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Overline", instanceWithInferedType.Overline, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_through", instanceWithInferedType.Line_through, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Rotation", instanceWithInferedType.Rotation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Letter_spacing", instanceWithInferedType.Letter_spacing, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_height", instanceWithInferedType.Line_height, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dir", instanceWithInferedType.Dir, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Enclosure", instanceWithInferedType.Enclosure, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Credit",
-			"Credit_words",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Credit) []*models.Formatted_text_id {
-				return owner.Credit_words
-			})
-		AssociationReverseSliceToForm(
-			"Direction_type",
-			"Rehearsal",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Direction_type) []*models.Formatted_text_id {
-				return owner.Rehearsal
-			})
-		AssociationReverseSliceToForm(
-			"Direction_type",
-			"Words",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Direction_type) []*models.Formatted_text_id {
-				return owner.Words
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Lang", inst.Lang, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Space", inst.Space, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Justify", inst.Justify, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Underline", inst.Underline, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Overline", inst.Overline, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Line_through", inst.Line_through, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Rotation", inst.Rotation, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Letter_spacing", inst.Letter_spacing, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Line_height", inst.Line_height, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Dir", inst.Dir, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Enclosure", inst.Enclosure, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Credits {
+				if src.Credit_words == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Credit", "Credit_words", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				for _, target := range src.Rehearsal {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Rehearsal", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				for _, target := range src.Words {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Words", refNames, formGroup, probe.formStage)
+		}
 	case *models.Forward:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Duration", instanceWithInferedType.Duration, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Footnote", instanceWithInferedType.Footnote, formGroup, probe)
-		AssociationFieldToForm("Level", instanceWithInferedType.Level, formGroup, probe)
-		BasicFieldtoForm("Voice", instanceWithInferedType.Voice, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Staff", instanceWithInferedType.Staff, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure",
-			"Forward",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure) []*models.Forward {
-				return owner.Forward
-			})
-		AssociationReverseSliceToForm(
-			"A_part_1",
-			"Forward",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part_1) []*models.Forward {
-				return owner.Forward
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Footnote", inst.Footnote, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Formatted_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Level", inst.Level, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Level](), probe.formStage)
+		StageSetBasicFieldtoForm("Voice", inst.Voice, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Staff", inst.Staff, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measures {
+				for _, target := range src.Forward {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure", "Forward", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_part_1s {
+				for _, target := range src.Forward {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part_1", "Forward", refNames, formGroup, probe.formStage)
+		}
 	case *models.Frame:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Unplayed", instanceWithInferedType.Unplayed, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Frame_strings", instanceWithInferedType.Frame_strings, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Frame_frets", instanceWithInferedType.Frame_frets, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("First_fret", instanceWithInferedType.First_fret, formGroup, probe)
-		AssociationSliceToForm("Frame_note", instanceWithInferedType, &instanceWithInferedType.Frame_note, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Height", inst.Height, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Width", inst.Width, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Unplayed", inst.Unplayed, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Frame_strings", inst.Frame_strings, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Frame_frets", inst.Frame_frets, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("First_fret", inst.First_fret, formGroup, probe.stageOfInterest.GetInstancesSet[*models.First_fret](), probe.formStage)
+		AssociationSliceToForm("Frame_note", inst, &inst.Frame_note, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Harmonys {
+				if src.Frame == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Harmony", "Frame", refNames, formGroup, probe.formStage)
+		}
 	case *models.Frame_note:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("String", instanceWithInferedType.String, formGroup, probe)
-		AssociationFieldToForm("Fret", instanceWithInferedType.Fret, formGroup, probe)
-		AssociationFieldToForm("Fingering", instanceWithInferedType.Fingering, formGroup, probe)
-		AssociationFieldToForm("Barre", instanceWithInferedType.Barre, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Frame",
-			"Frame_note",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Frame) []*models.Frame_note {
-				return owner.Frame_note
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("String_XSD", inst.String_XSD, formGroup, probe.stageOfInterest.GetInstancesSet[*models.String_type](), probe.formStage)
+		StageSetAssociationFieldToForm("Fret", inst.Fret, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Fret](), probe.formStage)
+		StageSetAssociationFieldToForm("Fingering", inst.Fingering, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Fingering](), probe.formStage)
+		StageSetAssociationFieldToForm("Barre", inst.Barre, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Barre](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Frames {
+				for _, target := range src.Frame_note {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Frame", "Frame_note", refNames, formGroup, probe.formStage)
+		}
 	case *models.Fret:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Fret",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Fret {
-				return owner.Fret
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Frame_notes {
+				if src.Fret == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Frame_note", "Fret", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Fret {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Fret", refNames, formGroup, probe.formStage)
+		}
 	case *models.Glass:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Percussions {
+				if src.Glass == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Percussion", "Glass", refNames, formGroup, probe.formStage)
+		}
 	case *models.Glissando:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_type", instanceWithInferedType.Line_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dash_length", instanceWithInferedType.Dash_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Space_length", instanceWithInferedType.Space_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Notations",
-			"Glissando",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notations) []*models.Glissando {
-				return owner.Glissando
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Line_type", inst.Line_type, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Dash_length", inst.Dash_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Space_length", inst.Space_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				for _, target := range src.Glissando {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Glissando", refNames, formGroup, probe.formStage)
+		}
 	case *models.Glyph:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Appearance",
-			"Glyph",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Appearance) []*models.Glyph {
-				return owner.Glyph
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Appearances {
+				for _, target := range src.Glyph {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Appearance", "Glyph", refNames, formGroup, probe.formStage)
+		}
 	case *models.Grace:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Steal_time_previous", instanceWithInferedType.Steal_time_previous, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Steal_time_following", instanceWithInferedType.Steal_time_following, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Make_time", instanceWithInferedType.Make_time, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Slash", instanceWithInferedType.Slash, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Steal_time_previous", inst.Steal_time_previous, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Steal_time_following", inst.Steal_time_following, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Make_time", inst.Make_time, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Slash", inst.Slash, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Grace == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Grace", refNames, formGroup, probe.formStage)
+		}
 	case *models.Group_barline:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Part_groups {
+				if src.Group_barline == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Part_group", "Group_barline", refNames, formGroup, probe.formStage)
+		}
 	case *models.Group_name:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Justify", instanceWithInferedType.Justify, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Justify", inst.Justify, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Part_groups {
+				if src.Group_name == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Part_group", "Group_name", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Part_groups {
+				if src.Group_abbreviation == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Part_group", "Group_abbreviation", refNames, formGroup, probe.formStage)
+		}
 	case *models.Group_symbol:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Part_groups {
+				if src.Group_symbol == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Part_group", "Group_symbol", refNames, formGroup, probe.formStage)
+		}
 	case *models.Grouping:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Member_of", instanceWithInferedType.Member_of, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Feature", instanceWithInferedType, &instanceWithInferedType.Feature, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure",
-			"Grouping",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure) []*models.Grouping {
-				return owner.Grouping
-			})
-		AssociationReverseSliceToForm(
-			"A_part_1",
-			"Grouping",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part_1) []*models.Grouping {
-				return owner.Grouping
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Member_of", inst.Member_of, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		AssociationSliceToForm("Feature", inst, &inst.Feature, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measures {
+				for _, target := range src.Grouping {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure", "Grouping", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_part_1s {
+				for _, target := range src.Grouping {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part_1", "Grouping", refNames, formGroup, probe.formStage)
+		}
 	case *models.Hammer_on_pull_off:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Hammer_on",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Hammer_on_pull_off {
-				return owner.Hammer_on
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Pull_off",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Hammer_on_pull_off {
-				return owner.Pull_off
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Hammer_on {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Hammer_on", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Pull_off {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Pull_off", refNames, formGroup, probe.formStage)
+		}
 	case *models.Handbell:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Handbell",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Handbell {
-				return owner.Handbell
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Handbell {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Handbell", refNames, formGroup, probe.formStage)
+		}
 	case *models.Harmon_closed:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Location", instanceWithInferedType.Location, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Location", inst.Location, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Harmon_mutes {
+				if src.Harmon_closed == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Harmon_mute", "Harmon_closed", refNames, formGroup, probe.formStage)
+		}
 	case *models.Harmon_mute:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Harmon_closed", instanceWithInferedType.Harmon_closed, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Harmon_mute",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Harmon_mute {
-				return owner.Harmon_mute
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetAssociationFieldToForm("Harmon_closed", inst.Harmon_closed, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Harmon_closed](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Harmon_mute {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Harmon_mute", refNames, formGroup, probe.formStage)
+		}
 	case *models.Harmonic:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Natural", instanceWithInferedType.Natural, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Artificial", instanceWithInferedType.Artificial, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Base_pitch", instanceWithInferedType.Base_pitch, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Touching_pitch", instanceWithInferedType.Touching_pitch, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Sounding_pitch", instanceWithInferedType.Sounding_pitch, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Harmonic",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Harmonic {
-				return owner.Harmonic
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Natural", inst.Natural, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Artificial", inst.Artificial, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Base_pitch", inst.Base_pitch, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Touching_pitch", inst.Touching_pitch, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Sounding_pitch", inst.Sounding_pitch, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Harmonic {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Harmonic", refNames, formGroup, probe.formStage)
+		}
 	case *models.Harmony:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_frame", instanceWithInferedType.Print_frame, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Arrangement", instanceWithInferedType.Arrangement, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("System", instanceWithInferedType.System, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Root", instanceWithInferedType.Root, formGroup, probe)
-		AssociationFieldToForm("Numeral", instanceWithInferedType.Numeral, formGroup, probe)
-		AssociationFieldToForm("Function", instanceWithInferedType.Function, formGroup, probe)
-		AssociationFieldToForm("Kind", instanceWithInferedType.Kind, formGroup, probe)
-		AssociationFieldToForm("Inversion", instanceWithInferedType.Inversion, formGroup, probe)
-		AssociationFieldToForm("Bass", instanceWithInferedType.Bass, formGroup, probe)
-		AssociationSliceToForm("Degree", instanceWithInferedType, &instanceWithInferedType.Degree, formGroup, probe)
-		AssociationFieldToForm("Frame", instanceWithInferedType.Frame, formGroup, probe)
-		AssociationFieldToForm("Offset", instanceWithInferedType.Offset, formGroup, probe)
-		AssociationFieldToForm("Footnote", instanceWithInferedType.Footnote, formGroup, probe)
-		AssociationFieldToForm("Level", instanceWithInferedType.Level, formGroup, probe)
-		BasicFieldtoForm("Staff", instanceWithInferedType.Staff, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure",
-			"Harmony",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure) []*models.Harmony {
-				return owner.Harmony
-			})
-		AssociationReverseSliceToForm(
-			"A_part_1",
-			"Harmony",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part_1) []*models.Harmony {
-				return owner.Harmony
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_frame", inst.Print_frame, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Arrangement", inst.Arrangement, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("System", inst.System, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Root", inst.Root, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Root](), probe.formStage)
+		StageSetAssociationFieldToForm("Numeral", inst.Numeral, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Numeral](), probe.formStage)
+		StageSetAssociationFieldToForm("Function", inst.Function, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Style_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Kind", inst.Kind, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Kind](), probe.formStage)
+		StageSetAssociationFieldToForm("Inversion", inst.Inversion, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Inversion](), probe.formStage)
+		StageSetAssociationFieldToForm("Bass", inst.Bass, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Bass](), probe.formStage)
+		AssociationSliceToForm("Degree", inst, &inst.Degree, formGroup, probe)
+		StageSetAssociationFieldToForm("Frame", inst.Frame, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Frame](), probe.formStage)
+		StageSetAssociationFieldToForm("Offset", inst.Offset, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Offset](), probe.formStage)
+		StageSetAssociationFieldToForm("Footnote", inst.Footnote, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Formatted_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Level", inst.Level, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Level](), probe.formStage)
+		StageSetBasicFieldtoForm("Staff", inst.Staff, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measures {
+				for _, target := range src.Harmony {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure", "Harmony", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_part_1s {
+				for _, target := range src.Harmony {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part_1", "Harmony", refNames, formGroup, probe.formStage)
+		}
 	case *models.Harmony_alter:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Location", instanceWithInferedType.Location, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Location", inst.Location, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Basss {
+				if src.Bass_alter == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Bass", "Bass_alter", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Numerals {
+				if src.Numeral_alter == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Numeral", "Numeral_alter", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Roots {
+				if src.Root_alter == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Root", "Root_alter", refNames, formGroup, probe.formStage)
+		}
 	case *models.Harp_pedals:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Pedal_tuning", instanceWithInferedType, &instanceWithInferedType.Pedal_tuning, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		AssociationSliceToForm("Pedal_tuning", inst, &inst.Pedal_tuning, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Harp_pedals == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Harp_pedals", refNames, formGroup, probe.formStage)
+		}
 	case *models.Heel_toe:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Heel",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Heel_toe {
-				return owner.Heel
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Toe",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Heel_toe {
-				return owner.Toe
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Substitution", inst.Substitution, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Heel {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Heel", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Toe {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Toe", refNames, formGroup, probe.formStage)
+		}
 	case *models.Hole:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Hole_type", instanceWithInferedType.Hole_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Hole_closed", instanceWithInferedType.Hole_closed, formGroup, probe)
-		BasicFieldtoForm("Hole_shape", instanceWithInferedType.Hole_shape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Hole",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Hole {
-				return owner.Hole
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Hole_type", inst.Hole_type, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Hole_closed", inst.Hole_closed, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Hole_closed](), probe.formStage)
+		StageSetBasicFieldtoForm("Hole_shape", inst.Hole_shape, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Hole {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Hole", refNames, formGroup, probe.formStage)
+		}
 	case *models.Hole_closed:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Location", instanceWithInferedType.Location, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Location", inst.Location, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Holes {
+				if src.Hole_closed == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Hole", "Hole_closed", refNames, formGroup, probe.formStage)
+		}
 	case *models.Horizontal_turn:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Slash", instanceWithInferedType.Slash, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Start_note", instanceWithInferedType.Start_note, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Trill_step", instanceWithInferedType.Trill_step, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Two_note_turn", instanceWithInferedType.Two_note_turn, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Accelerate", instanceWithInferedType.Accelerate, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Beats", instanceWithInferedType.Beats, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Second_beat", instanceWithInferedType.Second_beat, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Last_beat", instanceWithInferedType.Last_beat, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Turn",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Horizontal_turn {
-				return owner.Turn
-			})
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Delayed_turn",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Horizontal_turn {
-				return owner.Delayed_turn
-			})
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Inverted_turn",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Horizontal_turn {
-				return owner.Inverted_turn
-			})
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Delayed_inverted_turn",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Horizontal_turn {
-				return owner.Delayed_inverted_turn
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Slash", inst.Slash, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Start_note", inst.Start_note, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Trill_step", inst.Trill_step, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Two_note_turn", inst.Two_note_turn, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Accelerate", inst.Accelerate, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Beats", inst.Beats, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Second_beat", inst.Second_beat, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Last_beat", inst.Last_beat, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Turn {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Turn", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Delayed_turn {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Delayed_turn", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Inverted_turn {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Inverted_turn", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Delayed_inverted_turn {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Delayed_inverted_turn", refNames, formGroup, probe.formStage)
+		}
 	case *models.Identification:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Creator", instanceWithInferedType, &instanceWithInferedType.Creator, formGroup, probe)
-		AssociationSliceToForm("Rights", instanceWithInferedType, &instanceWithInferedType.Rights, formGroup, probe)
-		AssociationFieldToForm("Encoding", instanceWithInferedType.Encoding, formGroup, probe)
-		BasicFieldtoForm("Source", instanceWithInferedType.Source, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Relation", instanceWithInferedType, &instanceWithInferedType.Relation, formGroup, probe)
-		AssociationFieldToForm("Miscellaneous", instanceWithInferedType.Miscellaneous, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		AssociationSliceToForm("Creator", inst, &inst.Creator, formGroup, probe)
+		AssociationSliceToForm("Rights", inst, &inst.Rights, formGroup, probe)
+		StageSetAssociationFieldToForm("Encoding", inst.Encoding, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Encoding](), probe.formStage)
+		StageSetBasicFieldtoForm("Source", inst.Source, probe.formStage, formGroup)
+		AssociationSliceToForm("Relation", inst, &inst.Relation, formGroup, probe)
+		StageSetAssociationFieldToForm("Miscellaneous", inst.Miscellaneous, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Miscellaneous](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_parts {
+				if src.Identification == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_part", "Identification", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_partwises {
+				if src.Identification == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_partwise", "Identification", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_timewises {
+				if src.Identification == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_timewise", "Identification", refNames, formGroup, probe.formStage)
+		}
 	case *models.Image:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Source", instanceWithInferedType.Source, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Source", inst.Source, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Height", inst.Height, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Width", inst.Width, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Credits {
+				if src.Credit_image == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Credit", "Credit_image", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Image == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Image", refNames, formGroup, probe.formStage)
+		}
 	case *models.Instrument:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Note",
-			"Instrument",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Note) []*models.Instrument {
-				return owner.Instrument
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				for _, target := range src.Instrument {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Instrument", refNames, formGroup, probe.formStage)
+		}
 	case *models.Instrument_change:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Instrument_sound", instanceWithInferedType.Instrument_sound, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Solo", instanceWithInferedType.Solo, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Ensemble", instanceWithInferedType.Ensemble, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Virtual_instrument", instanceWithInferedType.Virtual_instrument, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Sound",
-			"Instrument_change",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Sound) []*models.Instrument_change {
-				return owner.Instrument_change
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Instrument_sound", inst.Instrument_sound, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Solo", inst.Solo, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Ensemble", inst.Ensemble, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Virtual_instrument", inst.Virtual_instrument, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Virtual_instrument](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Sounds {
+				for _, target := range src.Instrument_change {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Sound", "Instrument_change", refNames, formGroup, probe.formStage)
+		}
 	case *models.Instrument_link:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Part_link",
-			"Instrument_link",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Part_link) []*models.Instrument_link {
-				return owner.Instrument_link
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Part_links {
+				for _, target := range src.Instrument_link {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Part_link", "Instrument_link", refNames, formGroup, probe.formStage)
+		}
 	case *models.Interchangeable:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Symbol", instanceWithInferedType.Symbol, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Separator", instanceWithInferedType.Separator, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Time_relation", instanceWithInferedType.Time_relation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Beats", instanceWithInferedType.Beats, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Beat_type", instanceWithInferedType.Beat_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Symbol", inst.Symbol, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Separator", inst.Separator, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Time_relation", inst.Time_relation, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Beats", inst.Beats, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Beat_type", inst.Beat_type, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Times {
+				if src.Interchangeable == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Time", "Interchangeable", refNames, formGroup, probe.formStage)
+		}
 	case *models.Inversion:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Text", instanceWithInferedType.Text, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Text", inst.Text, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Harmonys {
+				if src.Inversion == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Harmony", "Inversion", refNames, formGroup, probe.formStage)
+		}
 	case *models.Key:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Cancel", instanceWithInferedType.Cancel, formGroup, probe)
-		BasicFieldtoForm("Fifths", instanceWithInferedType.Fifths, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Mode", instanceWithInferedType.Mode, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Key_step", instanceWithInferedType.Key_step, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Key_alter", instanceWithInferedType.Key_alter, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Key_accidental", instanceWithInferedType.Key_accidental, formGroup, probe)
-		AssociationSliceToForm("Key_octave", instanceWithInferedType, &instanceWithInferedType.Key_octave, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Attributes",
-			"Key",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Attributes) []*models.Key {
-				return owner.Key
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Cancel", inst.Cancel, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Cancel](), probe.formStage)
+		StageSetBasicFieldtoForm("Fifths", inst.Fifths, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Mode", inst.Mode, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Key_step", inst.Key_step, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Key_alter", inst.Key_alter, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Key_accidental", inst.Key_accidental, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Key_accidental](), probe.formStage)
+		AssociationSliceToForm("Key_octave", inst, &inst.Key_octave, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Attributess {
+				for _, target := range src.Key {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Attributes", "Key", refNames, formGroup, probe.formStage)
+		}
 	case *models.Key_accidental:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Keys {
+				if src.Key_accidental == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Key", "Key_accidental", refNames, formGroup, probe.formStage)
+		}
 	case *models.Key_octave:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Cancel", instanceWithInferedType.Cancel, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Key",
-			"Key_octave",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Key) []*models.Key_octave {
-				return owner.Key_octave
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Cancel", inst.Cancel, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Keys {
+				for _, target := range src.Key_octave {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Key", "Key_octave", refNames, formGroup, probe.formStage)
+		}
 	case *models.Kind:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Use_symbols", instanceWithInferedType.Use_symbols, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Text", instanceWithInferedType.Text, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Stack_degrees", instanceWithInferedType.Stack_degrees, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Parentheses_degrees", instanceWithInferedType.Parentheses_degrees, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Bracket_degrees", instanceWithInferedType.Bracket_degrees, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Use_symbols", inst.Use_symbols, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Text", inst.Text, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Stack_degrees", inst.Stack_degrees, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Parentheses_degrees", inst.Parentheses_degrees, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Bracket_degrees", inst.Bracket_degrees, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Harmonys {
+				if src.Kind == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Harmony", "Kind", refNames, formGroup, probe.formStage)
+		}
 	case *models.Level:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Reference", instanceWithInferedType.Reference, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Parentheses", instanceWithInferedType.Parentheses, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Bracket", instanceWithInferedType.Bracket, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Size", instanceWithInferedType.Size, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Reference_XSD", inst.Reference_XSD, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Parentheses", inst.Parentheses, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Bracket", inst.Bracket, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Size", inst.Size, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Attributess {
+				if src.Level == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Attributes", "Level", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Backups {
+				if src.Level == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Backup", "Level", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Barlines {
+				if src.Level == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Barline", "Level", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Directions {
+				if src.Level == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction", "Level", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Figures {
+				if src.Level == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Figure", "Level", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Figured_basss {
+				if src.Level == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Figured_bass", "Level", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Forwards {
+				if src.Level == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Forward", "Level", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Harmonys {
+				if src.Level == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Harmony", "Level", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Lyrics {
+				if src.Level == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Lyric", "Level", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				if src.Level == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Level", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Level == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Level", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Part_groups {
+				if src.Level == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Part_group", "Level", refNames, formGroup, probe.formStage)
+		}
 	case *models.Line_detail:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line", instanceWithInferedType.Line, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_type", instanceWithInferedType.Line_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Staff_details",
-			"Line_detail",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Staff_details) []*models.Line_detail {
-				return owner.Line_detail
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Line", inst.Line, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Width", inst.Width, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Line_type", inst.Line_type, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Staff_detailss {
+				for _, target := range src.Line_detail {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Staff_details", "Line_detail", refNames, formGroup, probe.formStage)
+		}
 	case *models.Line_width:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Appearance",
-			"Line_width",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Appearance) []*models.Line_width {
-				return owner.Line_width
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Appearances {
+				for _, target := range src.Line_width {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Appearance", "Line_width", refNames, formGroup, probe.formStage)
+		}
 	case *models.Link:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("NameXSD", instanceWithInferedType.NameXSD, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Href", instanceWithInferedType.Href, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Role", instanceWithInferedType.Role, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Title", instanceWithInferedType.Title, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Show", instanceWithInferedType.Show, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Actuate", instanceWithInferedType.Actuate, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Element", instanceWithInferedType.Element, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Position", instanceWithInferedType.Position, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure",
-			"Link",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure) []*models.Link {
-				return owner.Link
-			})
-		AssociationReverseSliceToForm(
-			"A_part_1",
-			"Link",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part_1) []*models.Link {
-				return owner.Link
-			})
-		AssociationReverseSliceToForm(
-			"Credit",
-			"Link",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Credit) []*models.Link {
-				return owner.Link
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("NameXSD", inst.NameXSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Href", inst.Href, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Role", inst.Role, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Title", inst.Title, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Show", inst.Show, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Actuate", inst.Actuate, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Element", inst.Element, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Position", inst.Position, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measures {
+				for _, target := range src.Link {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure", "Link", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_part_1s {
+				for _, target := range src.Link {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part_1", "Link", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Credits {
+				for _, target := range src.Link {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Credit", "Link", refNames, formGroup, probe.formStage)
+		}
 	case *models.Listen:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Assess", instanceWithInferedType, &instanceWithInferedType.Assess, formGroup, probe)
-		AssociationSliceToForm("Wait", instanceWithInferedType, &instanceWithInferedType.Wait, formGroup, probe)
-		AssociationSliceToForm("Other_listen", instanceWithInferedType, &instanceWithInferedType.Other_listen, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		AssociationSliceToForm("Assess", inst, &inst.Assess, formGroup, probe)
+		AssociationSliceToForm("Wait", inst, &inst.Wait, formGroup, probe)
+		AssociationSliceToForm("Other_listen", inst, &inst.Other_listen, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Listen == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Listen", refNames, formGroup, probe.formStage)
+		}
 	case *models.Listening:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Sync", instanceWithInferedType, &instanceWithInferedType.Sync, formGroup, probe)
-		AssociationSliceToForm("Other_listening", instanceWithInferedType, &instanceWithInferedType.Other_listening, formGroup, probe)
-		AssociationFieldToForm("Offset", instanceWithInferedType.Offset, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure",
-			"Listening",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure) []*models.Listening {
-				return owner.Listening
-			})
-		AssociationReverseSliceToForm(
-			"A_part_1",
-			"Listening",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part_1) []*models.Listening {
-				return owner.Listening
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		AssociationSliceToForm("Sync", inst, &inst.Sync, formGroup, probe)
+		AssociationSliceToForm("Other_listening", inst, &inst.Other_listening, formGroup, probe)
+		StageSetAssociationFieldToForm("Offset", inst.Offset, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Offset](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measures {
+				for _, target := range src.Listening {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure", "Listening", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_part_1s {
+				for _, target := range src.Listening {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part_1", "Listening", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Directions {
+				if src.Listening == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction", "Listening", refNames, formGroup, probe.formStage)
+		}
 	case *models.Lyric:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("NameXSD", instanceWithInferedType.NameXSD, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Time_only", instanceWithInferedType.Time_only, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Justify", instanceWithInferedType.Justify, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Elision", instanceWithInferedType, &instanceWithInferedType.Elision, formGroup, probe)
-		BasicFieldtoForm("Syllabic", instanceWithInferedType.Syllabic, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Text", instanceWithInferedType, &instanceWithInferedType.Text, formGroup, probe)
-		AssociationFieldToForm("Extend", instanceWithInferedType.Extend, formGroup, probe)
-		BasicFieldtoForm("Laughing", instanceWithInferedType.Laughing, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Humming", instanceWithInferedType.Humming, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("End_line", instanceWithInferedType.End_line, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("End_paragraph", instanceWithInferedType.End_paragraph, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Footnote", instanceWithInferedType.Footnote, formGroup, probe)
-		AssociationFieldToForm("Level", instanceWithInferedType.Level, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Note",
-			"Lyric",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Note) []*models.Lyric {
-				return owner.Lyric
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("NameXSD", inst.NameXSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Time_only", inst.Time_only, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Justify", inst.Justify, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Syllabic", inst.Syllabic, formGroup, probe.formStage)
+		StageSetAssociationFieldToForm("Text", inst.Text, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Text_element_data](), probe.formStage)
+		AssociationSliceToForm("Elision", inst, &inst.Elision, formGroup, probe)
+		StageSetAssociationFieldToForm("Extend", inst.Extend, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Extend](), probe.formStage)
+		StageSetBasicFieldtoForm("Laughing", inst.Laughing, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Humming", inst.Humming, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("End_line", inst.End_line, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("End_paragraph", inst.End_paragraph, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Footnote", inst.Footnote, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Formatted_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Level", inst.Level, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Level](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				for _, target := range src.Lyric {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Lyric", refNames, formGroup, probe.formStage)
+		}
 	case *models.Lyric_font:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("NameXSD", instanceWithInferedType.NameXSD, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Defaults",
-			"Lyric_font",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Defaults) []*models.Lyric_font {
-				return owner.Lyric_font
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("NameXSD", inst.NameXSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Defaultss {
+				for _, target := range src.Lyric_font {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Defaults", "Lyric_font", refNames, formGroup, probe.formStage)
+		}
 	case *models.Lyric_language:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("NameXSD", instanceWithInferedType.NameXSD, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Lang", instanceWithInferedType.Lang, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Defaults",
-			"Lyric_language",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Defaults) []*models.Lyric_language {
-				return owner.Lyric_language
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("NameXSD", inst.NameXSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Lang", inst.Lang, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Defaultss {
+				for _, target := range src.Lyric_language {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Defaults", "Lyric_language", refNames, formGroup, probe.formStage)
+		}
 	case *models.Measure_layout:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Measure_distance", instanceWithInferedType.Measure_distance, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Measure_distance", inst.Measure_distance, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Print_XSDs {
+				if src.Measure_layout == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Print_XSD", "Measure_layout", refNames, formGroup, probe.formStage)
+		}
 	case *models.Measure_numbering:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("System", instanceWithInferedType.System, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Staff", instanceWithInferedType.Staff, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Multiple_rest_always", instanceWithInferedType.Multiple_rest_always, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Multiple_rest_range", instanceWithInferedType.Multiple_rest_range, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("System", inst.System, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Staff", inst.Staff, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Multiple_rest_always", inst.Multiple_rest_always, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Multiple_rest_range", inst.Multiple_rest_range, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Print_XSDs {
+				if src.Measure_numbering == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Print_XSD", "Measure_numbering", refNames, formGroup, probe.formStage)
+		}
 	case *models.Measure_repeat:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Slashes", instanceWithInferedType.Slashes, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Slashes", inst.Slashes, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Measure_styles {
+				if src.Measure_repeat == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Measure_style", "Measure_repeat", refNames, formGroup, probe.formStage)
+		}
 	case *models.Measure_style:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Multiple_rest", instanceWithInferedType.Multiple_rest, formGroup, probe)
-		AssociationFieldToForm("Measure_repeat", instanceWithInferedType.Measure_repeat, formGroup, probe)
-		AssociationFieldToForm("Beat_repeat", instanceWithInferedType.Beat_repeat, formGroup, probe)
-		AssociationFieldToForm("Slash", instanceWithInferedType.Slash, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Attributes",
-			"Measure_style",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Attributes) []*models.Measure_style {
-				return owner.Measure_style
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Multiple_rest", inst.Multiple_rest, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Multiple_rest](), probe.formStage)
+		StageSetAssociationFieldToForm("Measure_repeat", inst.Measure_repeat, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Measure_repeat](), probe.formStage)
+		StageSetAssociationFieldToForm("Beat_repeat", inst.Beat_repeat, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Beat_repeat](), probe.formStage)
+		StageSetAssociationFieldToForm("Slash", inst.Slash, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Slash](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Attributess {
+				for _, target := range src.Measure_style {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Attributes", "Measure_style", refNames, formGroup, probe.formStage)
+		}
 	case *models.Membrane:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Percussions {
+				if src.Membrane == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Percussion", "Membrane", refNames, formGroup, probe.formStage)
+		}
 	case *models.Metal:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Percussions {
+				if src.Metal == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Percussion", "Metal", refNames, formGroup, probe.formStage)
+		}
 	case *models.Metronome:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Parentheses", instanceWithInferedType.Parentheses, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Justify", instanceWithInferedType.Justify, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Beat_unit", instanceWithInferedType.Beat_unit, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Beat_unit_dot", instanceWithInferedType.Beat_unit_dot, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Per_minute", instanceWithInferedType.Per_minute, formGroup, probe)
-		AssociationSliceToForm("Beat_unit_tied", instanceWithInferedType, &instanceWithInferedType.Beat_unit_tied, formGroup, probe)
-		BasicFieldtoForm("Metronome_arrows", instanceWithInferedType.Metronome_arrows, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Metronome_relation", instanceWithInferedType.Metronome_relation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Metronome_note", instanceWithInferedType, &instanceWithInferedType.Metronome_note, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Parentheses", inst.Parentheses, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Justify", inst.Justify, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Beat_unit", inst.Beat_unit, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Beat_unit_dot", inst.Beat_unit_dot, probe.formStage, formGroup)
+		AssociationSliceToForm("Beat_unit_tied", inst, &inst.Beat_unit_tied, formGroup, probe)
+		StageSetAssociationFieldToForm("Per_minute", inst.Per_minute, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Per_minute](), probe.formStage)
+		StageSetBasicFieldtoForm("Metronome_arrows", inst.Metronome_arrows, probe.formStage, formGroup)
+		AssociationSliceToForm("Metronome_note", inst, &inst.Metronome_note, formGroup, probe)
+		StageSetBasicFieldtoForm("Metronome_relation", inst.Metronome_relation, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Metronome == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Metronome", refNames, formGroup, probe.formStage)
+		}
 	case *models.Metronome_beam:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Metronome_note",
-			"Metronome_beam",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Metronome_note) []*models.Metronome_beam {
-				return owner.Metronome_beam
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Metronome_notes {
+				for _, target := range src.Metronome_beam {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Metronome_note", "Metronome_beam", refNames, formGroup, probe.formStage)
+		}
 	case *models.Metronome_note:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Metronome_type", instanceWithInferedType.Metronome_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Metronome_dot", instanceWithInferedType.Metronome_dot, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Metronome_beam", instanceWithInferedType, &instanceWithInferedType.Metronome_beam, formGroup, probe)
-		AssociationFieldToForm("Metronome_tied", instanceWithInferedType.Metronome_tied, formGroup, probe)
-		AssociationFieldToForm("Metronome_tuplet", instanceWithInferedType.Metronome_tuplet, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Metronome",
-			"Metronome_note",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Metronome) []*models.Metronome_note {
-				return owner.Metronome_note
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Metronome_type", inst.Metronome_type, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Metronome_dot", inst.Metronome_dot, probe.formStage, formGroup)
+		AssociationSliceToForm("Metronome_beam", inst, &inst.Metronome_beam, formGroup, probe)
+		StageSetAssociationFieldToForm("Metronome_tied", inst.Metronome_tied, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Metronome_tied](), probe.formStage)
+		StageSetAssociationFieldToForm("Metronome_tuplet", inst.Metronome_tuplet, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Metronome_tuplet](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Metronomes {
+				for _, target := range src.Metronome_note {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Metronome", "Metronome_note", refNames, formGroup, probe.formStage)
+		}
 	case *models.Metronome_tied:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Metronome_notes {
+				if src.Metronome_tied == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Metronome_note", "Metronome_tied", refNames, formGroup, probe.formStage)
+		}
 	case *models.Metronome_tuplet:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Actual_notes", inst.Actual_notes, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Normal_notes", inst.Normal_notes, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Normal_type", inst.Normal_type, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Normal_dot", inst.Normal_dot, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Bracket", inst.Bracket, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Show_number", inst.Show_number, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Metronome_notes {
+				if src.Metronome_tuplet == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Metronome_note", "Metronome_tuplet", refNames, formGroup, probe.formStage)
+		}
 	case *models.Midi_device:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Port", instanceWithInferedType.Port, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Score_part",
-			"Midi_device",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Score_part) []*models.Midi_device {
-				return owner.Midi_device
-			})
-		AssociationReverseSliceToForm(
-			"Sound",
-			"Midi_device",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Sound) []*models.Midi_device {
-				return owner.Midi_device
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Port", inst.Port, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_parts {
+				for _, target := range src.Midi_device {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_part", "Midi_device", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Sounds {
+				for _, target := range src.Midi_device {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Sound", "Midi_device", refNames, formGroup, probe.formStage)
+		}
 	case *models.Midi_instrument:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Midi_channel", instanceWithInferedType.Midi_channel, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Midi_name", instanceWithInferedType.Midi_name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Midi_bank", instanceWithInferedType.Midi_bank, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Midi_program", instanceWithInferedType.Midi_program, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Midi_unpitched", instanceWithInferedType.Midi_unpitched, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Volume", instanceWithInferedType.Volume, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Pan", instanceWithInferedType.Pan, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Elevation", instanceWithInferedType.Elevation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Score_part",
-			"Midi_instrument",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Score_part) []*models.Midi_instrument {
-				return owner.Midi_instrument
-			})
-		AssociationReverseSliceToForm(
-			"Sound",
-			"Midi_instrument",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Sound) []*models.Midi_instrument {
-				return owner.Midi_instrument
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Midi_channel", inst.Midi_channel, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Midi_name", inst.Midi_name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Midi_bank", inst.Midi_bank, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Midi_program", inst.Midi_program, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Midi_unpitched", inst.Midi_unpitched, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Volume", inst.Volume, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Pan", inst.Pan, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Elevation", inst.Elevation, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_parts {
+				for _, target := range src.Midi_instrument {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_part", "Midi_instrument", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Sounds {
+				for _, target := range src.Midi_instrument {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Sound", "Midi_instrument", refNames, formGroup, probe.formStage)
+		}
 	case *models.Miscellaneous:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Miscellaneous_field", instanceWithInferedType, &instanceWithInferedType.Miscellaneous_field, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		AssociationSliceToForm("Miscellaneous_field", inst, &inst.Miscellaneous_field, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Identifications {
+				if src.Miscellaneous == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Identification", "Miscellaneous", refNames, formGroup, probe.formStage)
+		}
 	case *models.Miscellaneous_field:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("NameXSD", instanceWithInferedType.NameXSD, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Miscellaneous",
-			"Miscellaneous_field",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Miscellaneous) []*models.Miscellaneous_field {
-				return owner.Miscellaneous_field
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("NameXSD", inst.NameXSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Miscellaneouss {
+				for _, target := range src.Miscellaneous_field {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Miscellaneous", "Miscellaneous_field", refNames, formGroup, probe.formStage)
+		}
 	case *models.Mordent:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Mordent",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Mordent {
-				return owner.Mordent
-			})
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Inverted_mordent",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Mordent {
-				return owner.Inverted_mordent
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Start_note", inst.Start_note, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Trill_step", inst.Trill_step, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Two_note_turn", inst.Two_note_turn, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Accelerate", inst.Accelerate, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Beats", inst.Beats, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Second_beat", inst.Second_beat, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Last_beat", inst.Last_beat, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Long", inst.Long, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Approach", inst.Approach, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Departure", inst.Departure, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Mordent {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Mordent", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Inverted_mordent {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Inverted_mordent", refNames, formGroup, probe.formStage)
+		}
 	case *models.Multiple_rest:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Use_symbols", instanceWithInferedType.Use_symbols, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Use_symbols", inst.Use_symbols, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Measure_styles {
+				if src.Multiple_rest == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Measure_style", "Multiple_rest", refNames, formGroup, probe.formStage)
+		}
 	case *models.Name_display:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		AssociationSliceToForm("Display_text", instanceWithInferedType, &instanceWithInferedType.Display_text, formGroup, probe)
-		AssociationSliceToForm("Accidental_text", instanceWithInferedType, &instanceWithInferedType.Accidental_text, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		AssociationSliceToForm("Display_text", inst, &inst.Display_text, formGroup, probe)
+		AssociationSliceToForm("Accidental_text", inst, &inst.Accidental_text, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Part_groups {
+				if src.Group_name_display == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Part_group", "Group_name_display", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Part_groups {
+				if src.Group_abbreviation_display == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Part_group", "Group_abbreviation_display", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Print_XSDs {
+				if src.Part_name_display == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Print_XSD", "Part_name_display", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Print_XSDs {
+				if src.Part_abbreviation_display == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Print_XSD", "Part_abbreviation_display", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_parts {
+				if src.Part_name_display == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_part", "Part_name_display", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_parts {
+				if src.Part_abbreviation_display == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_part", "Part_abbreviation_display", refNames, formGroup, probe.formStage)
+		}
 	case *models.Non_arpeggiate:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Notations",
-			"Non_arpeggiate",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notations) []*models.Non_arpeggiate {
-				return owner.Non_arpeggiate
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				for _, target := range src.Non_arpeggiate {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Non_arpeggiate", refNames, formGroup, probe.formStage)
+		}
 	case *models.Notations:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Footnote", instanceWithInferedType.Footnote, formGroup, probe)
-		AssociationFieldToForm("Level", instanceWithInferedType.Level, formGroup, probe)
-		AssociationSliceToForm("Tied", instanceWithInferedType, &instanceWithInferedType.Tied, formGroup, probe)
-		AssociationSliceToForm("Slur", instanceWithInferedType, &instanceWithInferedType.Slur, formGroup, probe)
-		AssociationSliceToForm("Tuplet", instanceWithInferedType, &instanceWithInferedType.Tuplet, formGroup, probe)
-		AssociationSliceToForm("Glissando", instanceWithInferedType, &instanceWithInferedType.Glissando, formGroup, probe)
-		AssociationSliceToForm("Slide", instanceWithInferedType, &instanceWithInferedType.Slide, formGroup, probe)
-		AssociationSliceToForm("Ornaments", instanceWithInferedType, &instanceWithInferedType.Ornaments, formGroup, probe)
-		AssociationSliceToForm("Technical", instanceWithInferedType, &instanceWithInferedType.Technical, formGroup, probe)
-		AssociationSliceToForm("Articulations", instanceWithInferedType, &instanceWithInferedType.Articulations, formGroup, probe)
-		AssociationSliceToForm("Dynamics", instanceWithInferedType, &instanceWithInferedType.Dynamics, formGroup, probe)
-		AssociationSliceToForm("Fermata", instanceWithInferedType, &instanceWithInferedType.Fermata, formGroup, probe)
-		AssociationSliceToForm("Arpeggiate", instanceWithInferedType, &instanceWithInferedType.Arpeggiate, formGroup, probe)
-		AssociationSliceToForm("Non_arpeggiate", instanceWithInferedType, &instanceWithInferedType.Non_arpeggiate, formGroup, probe)
-		AssociationSliceToForm("Accidental_mark", instanceWithInferedType, &instanceWithInferedType.Accidental_mark, formGroup, probe)
-		AssociationSliceToForm("Other_notation", instanceWithInferedType, &instanceWithInferedType.Other_notation, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Note",
-			"Notations",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Note) []*models.Notations {
-				return owner.Notations
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Footnote", inst.Footnote, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Formatted_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Level", inst.Level, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Level](), probe.formStage)
+		AssociationSliceToForm("Tied", inst, &inst.Tied, formGroup, probe)
+		AssociationSliceToForm("Slur", inst, &inst.Slur, formGroup, probe)
+		AssociationSliceToForm("Tuplet", inst, &inst.Tuplet, formGroup, probe)
+		AssociationSliceToForm("Glissando", inst, &inst.Glissando, formGroup, probe)
+		AssociationSliceToForm("Slide", inst, &inst.Slide, formGroup, probe)
+		AssociationSliceToForm("Ornaments", inst, &inst.Ornaments, formGroup, probe)
+		AssociationSliceToForm("Technical", inst, &inst.Technical, formGroup, probe)
+		AssociationSliceToForm("Articulations", inst, &inst.Articulations, formGroup, probe)
+		AssociationSliceToForm("Dynamics", inst, &inst.Dynamics, formGroup, probe)
+		AssociationSliceToForm("Fermata", inst, &inst.Fermata, formGroup, probe)
+		AssociationSliceToForm("Arpeggiate", inst, &inst.Arpeggiate, formGroup, probe)
+		AssociationSliceToForm("Non_arpeggiate", inst, &inst.Non_arpeggiate, formGroup, probe)
+		AssociationSliceToForm("Accidental_mark", inst, &inst.Accidental_mark, formGroup, probe)
+		AssociationSliceToForm("Other_notation", inst, &inst.Other_notation, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				for _, target := range src.Notations {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Notations", refNames, formGroup, probe.formStage)
+		}
 	case *models.Note:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_leger", instanceWithInferedType.Print_leger, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Dynamics", instanceWithInferedType.Dynamics, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("End_dynamics", instanceWithInferedType.End_dynamics, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Attack", instanceWithInferedType.Attack, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Release", instanceWithInferedType.Release, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Time_only", instanceWithInferedType.Time_only, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Pizzicato", instanceWithInferedType.Pizzicato, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_dot", instanceWithInferedType.Print_dot, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Print_lyric", instanceWithInferedType.Print_lyric, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Print_spacing", instanceWithInferedType.Print_spacing, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Grace", instanceWithInferedType.Grace, formGroup, probe)
-		BasicFieldtoForm("Chord", instanceWithInferedType.Chord, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Pitch", instanceWithInferedType.Pitch, formGroup, probe)
-		AssociationFieldToForm("Unpitched", instanceWithInferedType.Unpitched, formGroup, probe)
-		AssociationFieldToForm("Rest", instanceWithInferedType.Rest, formGroup, probe)
-		AssociationFieldToForm("Tie", instanceWithInferedType.Tie, formGroup, probe)
-		BasicFieldtoForm("Cue", instanceWithInferedType.Cue, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Duration", instanceWithInferedType.Duration, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Instrument", instanceWithInferedType, &instanceWithInferedType.Instrument, formGroup, probe)
-		AssociationFieldToForm("Footnote", instanceWithInferedType.Footnote, formGroup, probe)
-		AssociationFieldToForm("Level", instanceWithInferedType.Level, formGroup, probe)
-		BasicFieldtoForm("Voice", instanceWithInferedType.Voice, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Type", instanceWithInferedType.Type, formGroup, probe)
-		AssociationSliceToForm("Dot", instanceWithInferedType, &instanceWithInferedType.Dot, formGroup, probe)
-		AssociationFieldToForm("Accidental", instanceWithInferedType.Accidental, formGroup, probe)
-		AssociationFieldToForm("Time_modification", instanceWithInferedType.Time_modification, formGroup, probe)
-		AssociationFieldToForm("Stem", instanceWithInferedType.Stem, formGroup, probe)
-		AssociationFieldToForm("Notehead", instanceWithInferedType.Notehead, formGroup, probe)
-		AssociationFieldToForm("Notehead_text", instanceWithInferedType.Notehead_text, formGroup, probe)
-		BasicFieldtoForm("Staff", instanceWithInferedType.Staff, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Beam", instanceWithInferedType.Beam, formGroup, probe)
-		AssociationSliceToForm("Notations", instanceWithInferedType, &instanceWithInferedType.Notations, formGroup, probe)
-		AssociationSliceToForm("Lyric", instanceWithInferedType, &instanceWithInferedType.Lyric, formGroup, probe)
-		AssociationFieldToForm("Play", instanceWithInferedType.Play, formGroup, probe)
-		AssociationFieldToForm("Listen", instanceWithInferedType.Listen, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure",
-			"Note",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure) []*models.Note {
-				return owner.Note
-			})
-		AssociationReverseSliceToForm(
-			"A_part_1",
-			"Note",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part_1) []*models.Note {
-				return owner.Note
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_leger", inst.Print_leger, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Dynamics", inst.Dynamics, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("End_dynamics", inst.End_dynamics, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Attack", inst.Attack, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Release", inst.Release, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Time_only", inst.Time_only, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Pizzicato", inst.Pizzicato, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_dot", inst.Print_dot, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_lyric", inst.Print_lyric, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_spacing", inst.Print_spacing, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Grace", inst.Grace, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Grace](), probe.formStage)
+		StageSetBasicFieldtoForm("Chord", inst.Chord, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Pitch", inst.Pitch, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Pitch](), probe.formStage)
+		StageSetAssociationFieldToForm("Unpitched", inst.Unpitched, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Unpitched](), probe.formStage)
+		StageSetAssociationFieldToForm("Rest", inst.Rest, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Rest](), probe.formStage)
+		StageSetAssociationFieldToForm("Tie", inst.Tie, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Tie](), probe.formStage)
+		StageSetBasicFieldtoForm("Cue", inst.Cue, probe.formStage, formGroup)
+		AssociationSliceToForm("Instrument", inst, &inst.Instrument, formGroup, probe)
+		StageSetAssociationFieldToForm("Footnote", inst.Footnote, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Formatted_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Level", inst.Level, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Level](), probe.formStage)
+		StageSetBasicFieldtoForm("Voice", inst.Voice, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Note_type](), probe.formStage)
+		AssociationSliceToForm("Dot", inst, &inst.Dot, formGroup, probe)
+		StageSetAssociationFieldToForm("Accidental", inst.Accidental, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Accidental](), probe.formStage)
+		StageSetAssociationFieldToForm("Time_modification", inst.Time_modification, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Time_modification](), probe.formStage)
+		StageSetAssociationFieldToForm("Stem", inst.Stem, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Stem](), probe.formStage)
+		StageSetAssociationFieldToForm("Notehead", inst.Notehead, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Notehead](), probe.formStage)
+		StageSetAssociationFieldToForm("Notehead_text", inst.Notehead_text, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Notehead_text](), probe.formStage)
+		StageSetBasicFieldtoForm("Staff", inst.Staff, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Beam", inst.Beam, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Beam](), probe.formStage)
+		AssociationSliceToForm("Notations", inst, &inst.Notations, formGroup, probe)
+		AssociationSliceToForm("Lyric", inst, &inst.Lyric, formGroup, probe)
+		StageSetAssociationFieldToForm("Play", inst.Play, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Play](), probe.formStage)
+		StageSetAssociationFieldToForm("Listen", inst.Listen, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Listen](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measures {
+				for _, target := range src.Note {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure", "Note", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_part_1s {
+				for _, target := range src.Note {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part_1", "Note", refNames, formGroup, probe.formStage)
+		}
 	case *models.Note_size:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Appearance",
-			"Note_size",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Appearance) []*models.Note_size {
-				return owner.Note_size
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Appearances {
+				for _, target := range src.Note_size {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Appearance", "Note_size", refNames, formGroup, probe.formStage)
+		}
 	case *models.Note_type:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Size", instanceWithInferedType.Size, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Size", inst.Size, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Type_XSD == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Type_XSD", refNames, formGroup, probe.formStage)
+		}
 	case *models.Notehead:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Filled", instanceWithInferedType.Filled, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Parentheses", instanceWithInferedType.Parentheses, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Filled", inst.Filled, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Parentheses", inst.Parentheses, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Notehead == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Notehead", refNames, formGroup, probe.formStage)
+		}
 	case *models.Notehead_text:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Display_text", instanceWithInferedType, &instanceWithInferedType.Display_text, formGroup, probe)
-		AssociationSliceToForm("Accidental_text", instanceWithInferedType, &instanceWithInferedType.Accidental_text, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		AssociationSliceToForm("Display_text", inst, &inst.Display_text, formGroup, probe)
+		AssociationSliceToForm("Accidental_text", inst, &inst.Accidental_text, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Notehead_text == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Notehead_text", refNames, formGroup, probe.formStage)
+		}
 	case *models.Numeral:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Numeral_root", instanceWithInferedType.Numeral_root, formGroup, probe)
-		AssociationFieldToForm("Numeral_alter", instanceWithInferedType.Numeral_alter, formGroup, probe)
-		AssociationFieldToForm("Numeral_key", instanceWithInferedType.Numeral_key, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Numeral_root", inst.Numeral_root, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Numeral_root](), probe.formStage)
+		StageSetAssociationFieldToForm("Numeral_alter", inst.Numeral_alter, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Harmony_alter](), probe.formStage)
+		StageSetAssociationFieldToForm("Numeral_key", inst.Numeral_key, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Numeral_key](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Harmonys {
+				if src.Numeral == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Harmony", "Numeral", refNames, formGroup, probe.formStage)
+		}
 	case *models.Numeral_key:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Numeral_fifths", instanceWithInferedType.Numeral_fifths, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Numeral_mode", instanceWithInferedType.Numeral_mode, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Numeral_fifths", inst.Numeral_fifths, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Numeral_mode", inst.Numeral_mode, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Numerals {
+				if src.Numeral_key == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Numeral", "Numeral_key", refNames, formGroup, probe.formStage)
+		}
 	case *models.Numeral_root:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Text", instanceWithInferedType.Text, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Text", inst.Text, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Numerals {
+				if src.Numeral_root == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Numeral", "Numeral_root", refNames, formGroup, probe.formStage)
+		}
 	case *models.Octave_shift:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Size", instanceWithInferedType.Size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dash_length", instanceWithInferedType.Dash_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Space_length", instanceWithInferedType.Space_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Size", inst.Size, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Dash_length", inst.Dash_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Space_length", inst.Space_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Octave_shift == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Octave_shift", refNames, formGroup, probe.formStage)
+		}
 	case *models.Offset:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Sound", instanceWithInferedType.Sound, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Sound", inst.Sound, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Directions {
+				if src.Offset == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction", "Offset", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Harmonys {
+				if src.Offset == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Harmony", "Offset", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Listenings {
+				if src.Offset == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Listening", "Offset", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Sounds {
+				if src.Offset == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Sound", "Offset", refNames, formGroup, probe.formStage)
+		}
 	case *models.Opus:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Href", instanceWithInferedType.Href, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Role", instanceWithInferedType.Role, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Title", instanceWithInferedType.Title, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Show", instanceWithInferedType.Show, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Actuate", instanceWithInferedType.Actuate, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Href", inst.Href, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Role", inst.Role, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Title", inst.Title, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Show", inst.Show, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Actuate", inst.Actuate, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Works {
+				if src.Opus == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Work", "Opus", refNames, formGroup, probe.formStage)
+		}
 	case *models.Ornaments:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Trill_mark", instanceWithInferedType, &instanceWithInferedType.Trill_mark, formGroup, probe)
-		AssociationSliceToForm("Turn", instanceWithInferedType, &instanceWithInferedType.Turn, formGroup, probe)
-		AssociationSliceToForm("Delayed_turn", instanceWithInferedType, &instanceWithInferedType.Delayed_turn, formGroup, probe)
-		AssociationSliceToForm("Inverted_turn", instanceWithInferedType, &instanceWithInferedType.Inverted_turn, formGroup, probe)
-		AssociationSliceToForm("Delayed_inverted_turn", instanceWithInferedType, &instanceWithInferedType.Delayed_inverted_turn, formGroup, probe)
-		AssociationSliceToForm("Vertical_turn", instanceWithInferedType, &instanceWithInferedType.Vertical_turn, formGroup, probe)
-		AssociationSliceToForm("Inverted_vertical_turn", instanceWithInferedType, &instanceWithInferedType.Inverted_vertical_turn, formGroup, probe)
-		AssociationSliceToForm("Shake", instanceWithInferedType, &instanceWithInferedType.Shake, formGroup, probe)
-		AssociationSliceToForm("Wavy_line", instanceWithInferedType, &instanceWithInferedType.Wavy_line, formGroup, probe)
-		AssociationSliceToForm("Mordent", instanceWithInferedType, &instanceWithInferedType.Mordent, formGroup, probe)
-		AssociationSliceToForm("Inverted_mordent", instanceWithInferedType, &instanceWithInferedType.Inverted_mordent, formGroup, probe)
-		AssociationSliceToForm("Schleifer", instanceWithInferedType, &instanceWithInferedType.Schleifer, formGroup, probe)
-		AssociationSliceToForm("Tremolo", instanceWithInferedType, &instanceWithInferedType.Tremolo, formGroup, probe)
-		AssociationSliceToForm("Haydn", instanceWithInferedType, &instanceWithInferedType.Haydn, formGroup, probe)
-		AssociationSliceToForm("Other_ornament", instanceWithInferedType, &instanceWithInferedType.Other_ornament, formGroup, probe)
-		AssociationSliceToForm("Accidental_mark", instanceWithInferedType, &instanceWithInferedType.Accidental_mark, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Notations",
-			"Ornaments",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notations) []*models.Ornaments {
-				return owner.Ornaments
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		AssociationSliceToForm("Trill_mark", inst, &inst.Trill_mark, formGroup, probe)
+		AssociationSliceToForm("Turn", inst, &inst.Turn, formGroup, probe)
+		AssociationSliceToForm("Delayed_turn", inst, &inst.Delayed_turn, formGroup, probe)
+		AssociationSliceToForm("Inverted_turn", inst, &inst.Inverted_turn, formGroup, probe)
+		AssociationSliceToForm("Delayed_inverted_turn", inst, &inst.Delayed_inverted_turn, formGroup, probe)
+		AssociationSliceToForm("Vertical_turn", inst, &inst.Vertical_turn, formGroup, probe)
+		AssociationSliceToForm("Inverted_vertical_turn", inst, &inst.Inverted_vertical_turn, formGroup, probe)
+		AssociationSliceToForm("Shake", inst, &inst.Shake, formGroup, probe)
+		AssociationSliceToForm("Wavy_line", inst, &inst.Wavy_line, formGroup, probe)
+		AssociationSliceToForm("Mordent", inst, &inst.Mordent, formGroup, probe)
+		AssociationSliceToForm("Inverted_mordent", inst, &inst.Inverted_mordent, formGroup, probe)
+		AssociationSliceToForm("Schleifer", inst, &inst.Schleifer, formGroup, probe)
+		AssociationSliceToForm("Tremolo", inst, &inst.Tremolo, formGroup, probe)
+		AssociationSliceToForm("Haydn", inst, &inst.Haydn, formGroup, probe)
+		AssociationSliceToForm("Other_ornament", inst, &inst.Other_ornament, formGroup, probe)
+		AssociationSliceToForm("Accidental_mark", inst, &inst.Accidental_mark, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				for _, target := range src.Ornaments {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Ornaments", refNames, formGroup, probe.formStage)
+		}
 	case *models.Other_appearance:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Appearance",
-			"Other_appearance",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Appearance) []*models.Other_appearance {
-				return owner.Other_appearance
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Appearances {
+				for _, target := range src.Other_appearance {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Appearance", "Other_appearance", refNames, formGroup, probe.formStage)
+		}
 	case *models.Other_direction:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Other_direction == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Other_direction", refNames, formGroup, probe.formStage)
+		}
 	case *models.Other_listening:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Player", instanceWithInferedType.Player, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Time_only", instanceWithInferedType.Time_only, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Listen",
-			"Other_listen",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Listen) []*models.Other_listening {
-				return owner.Other_listen
-			})
-		AssociationReverseSliceToForm(
-			"Listening",
-			"Other_listening",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Listening) []*models.Other_listening {
-				return owner.Other_listening
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Player", inst.Player, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Time_only", inst.Time_only, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Listens {
+				for _, target := range src.Other_listen {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Listen", "Other_listen", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Listenings {
+				for _, target := range src.Other_listening {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Listening", "Other_listening", refNames, formGroup, probe.formStage)
+		}
 	case *models.Other_notation:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Notations",
-			"Other_notation",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notations) []*models.Other_notation {
-				return owner.Other_notation
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				for _, target := range src.Other_notation {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Other_notation", refNames, formGroup, probe.formStage)
+		}
 	case *models.Other_placement_text:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Other_articulation",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Other_placement_text {
-				return owner.Other_articulation
-			})
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Other_ornament",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Other_placement_text {
-				return owner.Other_ornament
-			})
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Other_technical",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Other_placement_text {
-				return owner.Other_technical
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Other_articulation {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Other_articulation", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Other_ornament {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Other_ornament", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Other_technical {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Other_technical", refNames, formGroup, probe.formStage)
+		}
 	case *models.Other_play:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Play",
-			"Other_play",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Play) []*models.Other_play {
-				return owner.Other_play
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Plays {
+				for _, target := range src.Other_play {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Play", "Other_play", refNames, formGroup, probe.formStage)
+		}
 	case *models.Other_text:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Dynamics",
-			"Other_dynamics",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Dynamics) []*models.Other_text {
-				return owner.Other_dynamics
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Dynamicss {
+				for _, target := range src.Other_dynamics {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Dynamics", "Other_dynamics", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Percussions {
+				if src.Other_percussion == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Percussion", "Other_percussion", refNames, formGroup, probe.formStage)
+		}
 	case *models.Page_layout:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Page_height", instanceWithInferedType.Page_height, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Page_width", instanceWithInferedType.Page_width, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Page_margins", instanceWithInferedType.Page_margins, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Page_height", inst.Page_height, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Page_width", inst.Page_width, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Page_margins", inst.Page_margins, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Page_margins](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Defaultss {
+				if src.Page_layout == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Defaults", "Page_layout", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Print_XSDs {
+				if src.Page_layout == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Print_XSD", "Page_layout", refNames, formGroup, probe.formStage)
+		}
 	case *models.Page_margins:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Left_margin", instanceWithInferedType.Left_margin, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Right_margin", instanceWithInferedType.Right_margin, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Top_margin", instanceWithInferedType.Top_margin, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bottom_margin", instanceWithInferedType.Bottom_margin, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Left_margin", inst.Left_margin, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Right_margin", inst.Right_margin, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Top_margin", inst.Top_margin, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Bottom_margin", inst.Bottom_margin, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Page_layouts {
+				if src.Page_margins == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Page_layout", "Page_margins", refNames, formGroup, probe.formStage)
+		}
 	case *models.Part_clef:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Sign", instanceWithInferedType.Sign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line", instanceWithInferedType.Line, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Clef_octave_change", instanceWithInferedType.Clef_octave_change, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Sign", inst.Sign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Line", inst.Line, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Clef_octave_change", inst.Clef_octave_change, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.For_parts {
+				if src.Part_clef == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.For_part", "Part_clef", refNames, formGroup, probe.formStage)
+		}
 	case *models.Part_group:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Group_name", instanceWithInferedType.Group_name, formGroup, probe)
-		AssociationFieldToForm("Group_name_display", instanceWithInferedType.Group_name_display, formGroup, probe)
-		AssociationFieldToForm("Group_abbreviation", instanceWithInferedType.Group_abbreviation, formGroup, probe)
-		AssociationFieldToForm("Group_abbreviation_display", instanceWithInferedType.Group_abbreviation_display, formGroup, probe)
-		AssociationFieldToForm("Group_symbol", instanceWithInferedType.Group_symbol, formGroup, probe)
-		AssociationFieldToForm("Group_barline", instanceWithInferedType.Group_barline, formGroup, probe)
-		BasicFieldtoForm("Group_time", instanceWithInferedType.Group_time, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Footnote", instanceWithInferedType.Footnote, formGroup, probe)
-		AssociationFieldToForm("Level", instanceWithInferedType.Level, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Group_name", inst.Group_name, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Group_name](), probe.formStage)
+		StageSetAssociationFieldToForm("Group_name_display", inst.Group_name_display, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Name_display](), probe.formStage)
+		StageSetAssociationFieldToForm("Group_abbreviation", inst.Group_abbreviation, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Group_name](), probe.formStage)
+		StageSetAssociationFieldToForm("Group_abbreviation_display", inst.Group_abbreviation_display, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Name_display](), probe.formStage)
+		StageSetAssociationFieldToForm("Group_symbol", inst.Group_symbol, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Group_symbol](), probe.formStage)
+		StageSetAssociationFieldToForm("Group_barline", inst.Group_barline, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Group_barline](), probe.formStage)
+		StageSetBasicFieldtoForm("Group_time", inst.Group_time, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Footnote", inst.Footnote, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Formatted_text](), probe.formStage)
+		StageSetAssociationFieldToForm("Level", inst.Level, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Level](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Part_lists {
+				if src.Part_group == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Part_list", "Part_group", refNames, formGroup, probe.formStage)
+		}
 	case *models.Part_link:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Href", instanceWithInferedType.Href, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Role", instanceWithInferedType.Role, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Title", instanceWithInferedType.Title, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Show", instanceWithInferedType.Show, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Actuate", instanceWithInferedType.Actuate, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Instrument_link", instanceWithInferedType, &instanceWithInferedType.Instrument_link, formGroup, probe)
-		BasicFieldtoForm("Group_link", instanceWithInferedType.Group_link, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Score_part",
-			"Part_link",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Score_part) []*models.Part_link {
-				return owner.Part_link
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Href", inst.Href, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Role", inst.Role, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Title", inst.Title, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Show", inst.Show, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Actuate", inst.Actuate, probe.formStage, formGroup)
+		AssociationSliceToForm("Instrument_link", inst, &inst.Instrument_link, formGroup, probe)
+		StageSetBasicFieldtoForm("Group_link", inst.Group_link, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_parts {
+				for _, target := range src.Part_link {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_part", "Part_link", refNames, formGroup, probe.formStage)
+		}
 	case *models.Part_list:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Part_group", instanceWithInferedType.Part_group, formGroup, probe)
-		AssociationFieldToForm("Score_part", instanceWithInferedType.Score_part, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Part_group", inst.Part_group, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Part_group](), probe.formStage)
+		StageSetAssociationFieldToForm("Score_part", inst.Score_part, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Score_part](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_partwises {
+				if src.Part_list == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_partwise", "Part_list", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_timewises {
+				if src.Part_list == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_timewise", "Part_list", refNames, formGroup, probe.formStage)
+		}
 	case *models.Part_name:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Justify", instanceWithInferedType.Justify, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Justify", inst.Justify, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_parts {
+				if src.Part_name == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_part", "Part_name", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_parts {
+				if src.Part_abbreviation == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_part", "Part_abbreviation", refNames, formGroup, probe.formStage)
+		}
 	case *models.Part_symbol:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Top_staff", instanceWithInferedType.Top_staff, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bottom_staff", instanceWithInferedType.Bottom_staff, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Top_staff", inst.Top_staff, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Bottom_staff", inst.Bottom_staff, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Attributess {
+				if src.Part_symbol == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Attributes", "Part_symbol", refNames, formGroup, probe.formStage)
+		}
 	case *models.Part_transpose:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Diatonic", instanceWithInferedType.Diatonic, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Chromatic", instanceWithInferedType.Chromatic, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Octave_change", instanceWithInferedType.Octave_change, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Double", instanceWithInferedType.Double, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Diatonic", inst.Diatonic, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Chromatic", inst.Chromatic, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Octave_change", inst.Octave_change, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Double", inst.Double, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.For_parts {
+				if src.Part_transpose == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.For_part", "Part_transpose", refNames, formGroup, probe.formStage)
+		}
 	case *models.Pedal:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Line", instanceWithInferedType.Line, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Sign", instanceWithInferedType.Sign, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Abbreviated", instanceWithInferedType.Abbreviated, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Line", inst.Line, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Sign", inst.Sign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Abbreviated", inst.Abbreviated, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Pedal == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Pedal", refNames, formGroup, probe.formStage)
+		}
 	case *models.Pedal_tuning:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Pedal_step", instanceWithInferedType.Pedal_step, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Pedal_alter", instanceWithInferedType.Pedal_alter, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Harp_pedals",
-			"Pedal_tuning",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Harp_pedals) []*models.Pedal_tuning {
-				return owner.Pedal_tuning
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Pedal_step", inst.Pedal_step, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Pedal_alter", inst.Pedal_alter, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Harp_pedalss {
+				for _, target := range src.Pedal_tuning {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Harp_pedals", "Pedal_tuning", refNames, formGroup, probe.formStage)
+		}
 	case *models.Per_minute:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Metronomes {
+				if src.Per_minute == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Metronome", "Per_minute", refNames, formGroup, probe.formStage)
+		}
 	case *models.Percussion:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Enclosure", instanceWithInferedType.Enclosure, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Glass", instanceWithInferedType.Glass, formGroup, probe)
-		AssociationFieldToForm("Metal", instanceWithInferedType.Metal, formGroup, probe)
-		AssociationFieldToForm("Wood", instanceWithInferedType.Wood, formGroup, probe)
-		AssociationFieldToForm("Pitched", instanceWithInferedType.Pitched, formGroup, probe)
-		AssociationFieldToForm("Membrane", instanceWithInferedType.Membrane, formGroup, probe)
-		AssociationFieldToForm("Effect", instanceWithInferedType.Effect, formGroup, probe)
-		AssociationFieldToForm("Timpani", instanceWithInferedType.Timpani, formGroup, probe)
-		AssociationFieldToForm("Beater", instanceWithInferedType.Beater, formGroup, probe)
-		AssociationFieldToForm("Stick", instanceWithInferedType.Stick, formGroup, probe)
-		BasicFieldtoForm("Stick_location", instanceWithInferedType.Stick_location, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Other_percussion", instanceWithInferedType.Other_percussion, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Direction_type",
-			"Percussion",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Direction_type) []*models.Percussion {
-				return owner.Percussion
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Enclosure", inst.Enclosure, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Glass", inst.Glass, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Glass](), probe.formStage)
+		StageSetAssociationFieldToForm("Metal", inst.Metal, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Metal](), probe.formStage)
+		StageSetAssociationFieldToForm("Wood", inst.Wood, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Wood](), probe.formStage)
+		StageSetAssociationFieldToForm("Pitched", inst.Pitched, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Pitched](), probe.formStage)
+		StageSetAssociationFieldToForm("Membrane", inst.Membrane, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Membrane](), probe.formStage)
+		StageSetAssociationFieldToForm("Effect", inst.Effect, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Effect](), probe.formStage)
+		StageSetAssociationFieldToForm("Timpani", inst.Timpani, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Timpani](), probe.formStage)
+		StageSetAssociationFieldToForm("Beater", inst.Beater, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Beater](), probe.formStage)
+		StageSetAssociationFieldToForm("Stick", inst.Stick, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Stick](), probe.formStage)
+		StageSetEnumStringFieldToForm("Stick_location", inst.Stick_location, formGroup, probe.formStage)
+		StageSetAssociationFieldToForm("Other_percussion", inst.Other_percussion, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Other_text](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				for _, target := range src.Percussion {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Percussion", refNames, formGroup, probe.formStage)
+		}
 	case *models.Pitch:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Step", instanceWithInferedType.Step, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Alter", instanceWithInferedType.Alter, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Octave", instanceWithInferedType.Octave, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Step", inst.Step, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Alter", inst.Alter, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Octave", inst.Octave, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Pitch == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Pitch", refNames, formGroup, probe.formStage)
+		}
 	case *models.Pitched:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Percussions {
+				if src.Pitched == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Percussion", "Pitched", refNames, formGroup, probe.formStage)
+		}
 	case *models.Placement_text:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Pluck",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Placement_text {
-				return owner.Pluck
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Bends {
+				if src.With_bar == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Bend", "With_bar", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Pluck {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Pluck", refNames, formGroup, probe.formStage)
+		}
 	case *models.Play:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Ipa", instanceWithInferedType.Ipa, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Mute", instanceWithInferedType.Mute, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Semi_pitched", instanceWithInferedType.Semi_pitched, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Other_play", instanceWithInferedType, &instanceWithInferedType.Other_play, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Sound",
-			"Play",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Sound) []*models.Play {
-				return owner.Play
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Ipa", inst.Ipa, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Mute", inst.Mute, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Semi_pitched", inst.Semi_pitched, formGroup, probe.formStage)
+		AssociationSliceToForm("Other_play", inst, &inst.Other_play, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Play == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Play", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Sounds {
+				for _, target := range src.Play {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Sound", "Play", refNames, formGroup, probe.formStage)
+		}
 	case *models.Player:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Player_name", instanceWithInferedType.Player_name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Score_part",
-			"Player",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Score_part) []*models.Player {
-				return owner.Player
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Player_name", inst.Player_name, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_parts {
+				for _, target := range src.Player {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_part", "Player", refNames, formGroup, probe.formStage)
+		}
 	case *models.Principal_voice:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Symbol", instanceWithInferedType.Symbol, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Symbol", inst.Symbol, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
-	case *models.Print:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Staff_spacing", instanceWithInferedType.Staff_spacing, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("New_system", instanceWithInferedType.New_system, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("New_page", instanceWithInferedType.New_page, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Blank_page", instanceWithInferedType.Blank_page, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Page_number", instanceWithInferedType.Page_number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Page_layout", instanceWithInferedType.Page_layout, formGroup, probe)
-		AssociationFieldToForm("System_layout", instanceWithInferedType.System_layout, formGroup, probe)
-		AssociationSliceToForm("Staff_layout", instanceWithInferedType, &instanceWithInferedType.Staff_layout, formGroup, probe)
-		AssociationFieldToForm("Measure_layout", instanceWithInferedType.Measure_layout, formGroup, probe)
-		AssociationFieldToForm("Measure_numbering", instanceWithInferedType.Measure_numbering, formGroup, probe)
-		AssociationFieldToForm("Part_name_display", instanceWithInferedType.Part_name_display, formGroup, probe)
-		AssociationFieldToForm("Part_abbreviation_display", instanceWithInferedType.Part_abbreviation_display, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure",
-			"Print",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure) []*models.Print {
-				return owner.Print
-			})
-		AssociationReverseSliceToForm(
-			"A_part_1",
-			"Print",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part_1) []*models.Print {
-				return owner.Print
-			})
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Principal_voice == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Principal_voice", refNames, formGroup, probe.formStage)
+		}
+	case *models.Print_XSD:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Staff_spacing", inst.Staff_spacing, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("New_system", inst.New_system, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("New_page", inst.New_page, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Blank_page", inst.Blank_page, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Page_number", inst.Page_number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Page_layout", inst.Page_layout, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Page_layout](), probe.formStage)
+		StageSetAssociationFieldToForm("System_layout", inst.System_layout, formGroup, probe.stageOfInterest.GetInstancesSet[*models.System_layout](), probe.formStage)
+		AssociationSliceToForm("Staff_layout", inst, &inst.Staff_layout, formGroup, probe)
+		StageSetAssociationFieldToForm("Measure_layout", inst.Measure_layout, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Measure_layout](), probe.formStage)
+		StageSetAssociationFieldToForm("Measure_numbering", inst.Measure_numbering, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Measure_numbering](), probe.formStage)
+		StageSetAssociationFieldToForm("Part_name_display", inst.Part_name_display, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Name_display](), probe.formStage)
+		StageSetAssociationFieldToForm("Part_abbreviation_display", inst.Part_abbreviation_display, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Name_display](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measures {
+				for _, target := range src.Print_XSD {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure", "Print_XSD", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_part_1s {
+				for _, target := range src.Print_XSD {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part_1", "Print_XSD", refNames, formGroup, probe.formStage)
+		}
 	case *models.Release:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Offset", inst.Offset, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Bends {
+				if src.Release == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Bend", "Release", refNames, formGroup, probe.formStage)
+		}
 	case *models.Repeat:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Direction", instanceWithInferedType.Direction, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Times", instanceWithInferedType.Times, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("After_jump", instanceWithInferedType.After_jump, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Winged", instanceWithInferedType.Winged, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Direction", inst.Direction, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Times", inst.Times, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("After_jump", inst.After_jump, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Winged", inst.Winged, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Barlines {
+				if src.Repeat == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Barline", "Repeat", refNames, formGroup, probe.formStage)
+		}
 	case *models.Rest:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Measure", instanceWithInferedType.Measure, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Display_step", instanceWithInferedType.Display_step, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Display_octave", instanceWithInferedType.Display_octave, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Measure", inst.Measure, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Display_step", inst.Display_step, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Display_octave", inst.Display_octave, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Rest == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Rest", refNames, formGroup, probe.formStage)
+		}
 	case *models.Root:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Root_step", instanceWithInferedType.Root_step, formGroup, probe)
-		AssociationFieldToForm("Root_alter", instanceWithInferedType.Root_alter, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Root_step", inst.Root_step, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Root_step](), probe.formStage)
+		StageSetAssociationFieldToForm("Root_alter", inst.Root_alter, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Harmony_alter](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Harmonys {
+				if src.Root == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Harmony", "Root", refNames, formGroup, probe.formStage)
+		}
 	case *models.Root_step:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Text", instanceWithInferedType.Text, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Text", inst.Text, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Roots {
+				if src.Root_step == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Root", "Root_step", refNames, formGroup, probe.formStage)
+		}
 	case *models.Scaling:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Millimeters", instanceWithInferedType.Millimeters, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Tenths", instanceWithInferedType.Tenths, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Millimeters", inst.Millimeters, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Tenths", inst.Tenths, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Defaultss {
+				if src.Scaling == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Defaults", "Scaling", refNames, formGroup, probe.formStage)
+		}
 	case *models.Scordatura:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Accord", instanceWithInferedType, &instanceWithInferedType.Accord, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		AssociationSliceToForm("Accord", inst, &inst.Accord, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Scordatura == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Scordatura", refNames, formGroup, probe.formStage)
+		}
 	case *models.Score_instrument:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Instrument_name", instanceWithInferedType.Instrument_name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Instrument_abbreviation", instanceWithInferedType.Instrument_abbreviation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Instrument_sound", instanceWithInferedType.Instrument_sound, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Solo", instanceWithInferedType.Solo, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Ensemble", instanceWithInferedType.Ensemble, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Virtual_instrument", instanceWithInferedType.Virtual_instrument, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Score_part",
-			"Score_instrument",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Score_part) []*models.Score_instrument {
-				return owner.Score_instrument
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Instrument_name", inst.Instrument_name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Instrument_abbreviation", inst.Instrument_abbreviation, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Instrument_sound", inst.Instrument_sound, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Solo", inst.Solo, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Ensemble", inst.Ensemble, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Virtual_instrument", inst.Virtual_instrument, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Virtual_instrument](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_parts {
+				for _, target := range src.Score_instrument {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_part", "Score_instrument", refNames, formGroup, probe.formStage)
+		}
 	case *models.Score_part:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Identification", instanceWithInferedType.Identification, formGroup, probe)
-		AssociationSliceToForm("Part_link", instanceWithInferedType, &instanceWithInferedType.Part_link, formGroup, probe)
-		AssociationFieldToForm("Part_name", instanceWithInferedType.Part_name, formGroup, probe)
-		AssociationFieldToForm("Part_name_display", instanceWithInferedType.Part_name_display, formGroup, probe)
-		AssociationFieldToForm("Part_abbreviation", instanceWithInferedType.Part_abbreviation, formGroup, probe)
-		AssociationFieldToForm("Part_abbreviation_display", instanceWithInferedType.Part_abbreviation_display, formGroup, probe)
-		BasicFieldtoForm("Group", instanceWithInferedType.Group, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Score_instrument", instanceWithInferedType, &instanceWithInferedType.Score_instrument, formGroup, probe)
-		AssociationSliceToForm("Player", instanceWithInferedType, &instanceWithInferedType.Player, formGroup, probe)
-		AssociationSliceToForm("Midi_device", instanceWithInferedType, &instanceWithInferedType.Midi_device, formGroup, probe)
-		AssociationSliceToForm("Midi_instrument", instanceWithInferedType, &instanceWithInferedType.Midi_instrument, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Identification", inst.Identification, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Identification](), probe.formStage)
+		AssociationSliceToForm("Part_link", inst, &inst.Part_link, formGroup, probe)
+		StageSetAssociationFieldToForm("Part_name", inst.Part_name, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Part_name](), probe.formStage)
+		StageSetAssociationFieldToForm("Part_name_display", inst.Part_name_display, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Name_display](), probe.formStage)
+		StageSetAssociationFieldToForm("Part_abbreviation", inst.Part_abbreviation, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Part_name](), probe.formStage)
+		StageSetAssociationFieldToForm("Part_abbreviation_display", inst.Part_abbreviation_display, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Name_display](), probe.formStage)
+		StageSetBasicFieldtoForm("Group", inst.Group, probe.formStage, formGroup)
+		AssociationSliceToForm("Score_instrument", inst, &inst.Score_instrument, formGroup, probe)
+		AssociationSliceToForm("Player", inst, &inst.Player, formGroup, probe)
+		AssociationSliceToForm("Midi_device", inst, &inst.Midi_device, formGroup, probe)
+		AssociationSliceToForm("Midi_instrument", inst, &inst.Midi_instrument, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Part_lists {
+				if src.Score_part == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Part_list", "Score_part", refNames, formGroup, probe.formStage)
+		}
 	case *models.Score_partwise:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Version", instanceWithInferedType.Version, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Work", instanceWithInferedType.Work, formGroup, probe)
-		BasicFieldtoForm("Movement_number", instanceWithInferedType.Movement_number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Movement_title", instanceWithInferedType.Movement_title, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Identification", instanceWithInferedType.Identification, formGroup, probe)
-		AssociationFieldToForm("Defaults", instanceWithInferedType.Defaults, formGroup, probe)
-		AssociationSliceToForm("Credit", instanceWithInferedType, &instanceWithInferedType.Credit, formGroup, probe)
-		AssociationFieldToForm("Part_list", instanceWithInferedType.Part_list, formGroup, probe)
-		AssociationSliceToForm("Part", instanceWithInferedType, &instanceWithInferedType.Part, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Version", inst.Version, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Work", inst.Work, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Work](), probe.formStage)
+		StageSetBasicFieldtoForm("Movement_number", inst.Movement_number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Movement_title", inst.Movement_title, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Identification", inst.Identification, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Identification](), probe.formStage)
+		StageSetAssociationFieldToForm("Defaults", inst.Defaults, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Defaults](), probe.formStage)
+		AssociationSliceToForm("Credit", inst, &inst.Credit, formGroup, probe)
+		StageSetAssociationFieldToForm("Part_list", inst.Part_list, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Part_list](), probe.formStage)
+		AssociationSliceToForm("Part", inst, &inst.Part, formGroup, probe)
 	case *models.Score_timewise:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Version", instanceWithInferedType.Version, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Work", instanceWithInferedType.Work, formGroup, probe)
-		BasicFieldtoForm("Movement_number", instanceWithInferedType.Movement_number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Movement_title", instanceWithInferedType.Movement_title, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Identification", instanceWithInferedType.Identification, formGroup, probe)
-		AssociationFieldToForm("Defaults", instanceWithInferedType.Defaults, formGroup, probe)
-		AssociationSliceToForm("Credit", instanceWithInferedType, &instanceWithInferedType.Credit, formGroup, probe)
-		AssociationFieldToForm("Part_list", instanceWithInferedType.Part_list, formGroup, probe)
-		AssociationSliceToForm("Measure", instanceWithInferedType, &instanceWithInferedType.Measure, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Version", inst.Version, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Work", inst.Work, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Work](), probe.formStage)
+		StageSetBasicFieldtoForm("Movement_number", inst.Movement_number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Movement_title", inst.Movement_title, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Identification", inst.Identification, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Identification](), probe.formStage)
+		StageSetAssociationFieldToForm("Defaults", inst.Defaults, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Defaults](), probe.formStage)
+		AssociationSliceToForm("Credit", inst, &inst.Credit, formGroup, probe)
+		StageSetAssociationFieldToForm("Part_list", inst.Part_list, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Part_list](), probe.formStage)
+		AssociationSliceToForm("Measure", inst, &inst.Measure, formGroup, probe)
 	case *models.Segno:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Direction_type",
-			"Segno",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Direction_type) []*models.Segno {
-				return owner.Segno
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Barlines {
+				if src.Segno_1 == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Barline", "Segno_1", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				for _, target := range src.Segno {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Segno", refNames, formGroup, probe.formStage)
+		}
 	case *models.Slash:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Use_dots", instanceWithInferedType.Use_dots, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Use_stems", instanceWithInferedType.Use_stems, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Slash_type", instanceWithInferedType.Slash_type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Slash_dot", instanceWithInferedType.Slash_dot, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Except_voice", instanceWithInferedType.Except_voice, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Use_dots", inst.Use_dots, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Use_stems", inst.Use_stems, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Slash_type", inst.Slash_type, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Slash_dot", inst.Slash_dot, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Except_voice", inst.Except_voice, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Measure_styles {
+				if src.Slash == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Measure_style", "Slash", refNames, formGroup, probe.formStage)
+		}
 	case *models.Slide:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_type", instanceWithInferedType.Line_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dash_length", instanceWithInferedType.Dash_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Space_length", instanceWithInferedType.Space_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Accelerate", instanceWithInferedType.Accelerate, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Beats", instanceWithInferedType.Beats, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("First_beat", instanceWithInferedType.First_beat, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Last_beat", instanceWithInferedType.Last_beat, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Notations",
-			"Slide",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notations) []*models.Slide {
-				return owner.Slide
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Line_type", inst.Line_type, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Dash_length", inst.Dash_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Space_length", inst.Space_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Accelerate", inst.Accelerate, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Beats", inst.Beats, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("First_beat", inst.First_beat, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Last_beat", inst.Last_beat, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				for _, target := range src.Slide {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Slide", refNames, formGroup, probe.formStage)
+		}
 	case *models.Slur:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_type", instanceWithInferedType.Line_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dash_length", instanceWithInferedType.Dash_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Space_length", instanceWithInferedType.Space_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Orientation", instanceWithInferedType.Orientation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bezier_x", instanceWithInferedType.Bezier_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bezier_y", instanceWithInferedType.Bezier_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bezier_x2", instanceWithInferedType.Bezier_x2, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bezier_y2", instanceWithInferedType.Bezier_y2, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bezier_offset", instanceWithInferedType.Bezier_offset, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bezier_offset2", instanceWithInferedType.Bezier_offset2, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Notations",
-			"Slur",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notations) []*models.Slur {
-				return owner.Slur
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Line_type", inst.Line_type, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Dash_length", inst.Dash_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Space_length", inst.Space_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Orientation", inst.Orientation, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Bezier_x", inst.Bezier_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Bezier_y", inst.Bezier_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Bezier_x2", inst.Bezier_x2, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Bezier_y2", inst.Bezier_y2, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Bezier_offset", inst.Bezier_offset, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Bezier_offset2", inst.Bezier_offset2, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				for _, target := range src.Slur {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Slur", refNames, formGroup, probe.formStage)
+		}
 	case *models.Sound:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Tempo", instanceWithInferedType.Tempo, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dynamics", instanceWithInferedType.Dynamics, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Dacapo", instanceWithInferedType.Dacapo, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Segno", instanceWithInferedType.Segno, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dalsegno", instanceWithInferedType.Dalsegno, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Coda", instanceWithInferedType.Coda, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Tocoda", instanceWithInferedType.Tocoda, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Divisions", instanceWithInferedType.Divisions, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Forward_repeat", instanceWithInferedType.Forward_repeat, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Fine", instanceWithInferedType.Fine, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Time_only", instanceWithInferedType.Time_only, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Pizzicato", instanceWithInferedType.Pizzicato, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Pan", instanceWithInferedType.Pan, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Elevation", instanceWithInferedType.Elevation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Damper_pedal", instanceWithInferedType.Damper_pedal, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Soft_pedal", instanceWithInferedType.Soft_pedal, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Sostenuto_pedal", instanceWithInferedType.Sostenuto_pedal, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Instrument_change", instanceWithInferedType, &instanceWithInferedType.Instrument_change, formGroup, probe)
-		AssociationSliceToForm("Midi_device", instanceWithInferedType, &instanceWithInferedType.Midi_device, formGroup, probe)
-		AssociationSliceToForm("Midi_instrument", instanceWithInferedType, &instanceWithInferedType.Midi_instrument, formGroup, probe)
-		AssociationSliceToForm("Play", instanceWithInferedType, &instanceWithInferedType.Play, formGroup, probe)
-		AssociationFieldToForm("Swing", instanceWithInferedType.Swing, formGroup, probe)
-		AssociationFieldToForm("Offset", instanceWithInferedType.Offset, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"A_measure",
-			"Sound",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_measure) []*models.Sound {
-				return owner.Sound
-			})
-		AssociationReverseSliceToForm(
-			"A_part_1",
-			"Sound",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.A_part_1) []*models.Sound {
-				return owner.Sound
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Tempo", inst.Tempo, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Dynamics", inst.Dynamics, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Dacapo", inst.Dacapo, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Segno", inst.Segno, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Dalsegno", inst.Dalsegno, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Coda", inst.Coda, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Tocoda", inst.Tocoda, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Divisions", inst.Divisions, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Forward_repeat", inst.Forward_repeat, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Fine", inst.Fine, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Time_only", inst.Time_only, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Pizzicato", inst.Pizzicato, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Pan", inst.Pan, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Elevation", inst.Elevation, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Damper_pedal", inst.Damper_pedal, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Soft_pedal", inst.Soft_pedal, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Sostenuto_pedal", inst.Sostenuto_pedal, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		AssociationSliceToForm("Instrument_change", inst, &inst.Instrument_change, formGroup, probe)
+		AssociationSliceToForm("Midi_device", inst, &inst.Midi_device, formGroup, probe)
+		AssociationSliceToForm("Midi_instrument", inst, &inst.Midi_instrument, formGroup, probe)
+		AssociationSliceToForm("Play", inst, &inst.Play, formGroup, probe)
+		StageSetAssociationFieldToForm("Swing", inst.Swing, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Swing](), probe.formStage)
+		StageSetAssociationFieldToForm("Offset", inst.Offset, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Offset](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_measures {
+				for _, target := range src.Sound {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_measure", "Sound", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.A_part_1s {
+				for _, target := range src.Sound {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.A_part_1", "Sound", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Directions {
+				if src.Sound == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction", "Sound", refNames, formGroup, probe.formStage)
+		}
 	case *models.Staff_details:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Show_frets", instanceWithInferedType.Show_frets, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Print_spacing", instanceWithInferedType.Print_spacing, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Staff_type", instanceWithInferedType.Staff_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Staff_lines", instanceWithInferedType.Staff_lines, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Line_detail", instanceWithInferedType, &instanceWithInferedType.Line_detail, formGroup, probe)
-		AssociationSliceToForm("Staff_tuning", instanceWithInferedType, &instanceWithInferedType.Staff_tuning, formGroup, probe)
-		BasicFieldtoForm("Capo", instanceWithInferedType.Capo, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Staff_size", instanceWithInferedType.Staff_size, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Attributes",
-			"Staff_details",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Attributes) []*models.Staff_details {
-				return owner.Staff_details
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Show_frets", inst.Show_frets, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_spacing", inst.Print_spacing, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Staff_type", inst.Staff_type, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Staff_lines", inst.Staff_lines, probe.formStage, formGroup)
+		AssociationSliceToForm("Line_detail", inst, &inst.Line_detail, formGroup, probe)
+		AssociationSliceToForm("Staff_tuning", inst, &inst.Staff_tuning, formGroup, probe)
+		StageSetBasicFieldtoForm("Capo", inst.Capo, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Staff_size", inst.Staff_size, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Staff_size](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Attributess {
+				for _, target := range src.Staff_details {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Attributes", "Staff_details", refNames, formGroup, probe.formStage)
+		}
 	case *models.Staff_divide:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Staff_divide == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Staff_divide", refNames, formGroup, probe.formStage)
+		}
 	case *models.Staff_layout:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Staff_distance", instanceWithInferedType.Staff_distance, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Defaults",
-			"Staff_layout",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Defaults) []*models.Staff_layout {
-				return owner.Staff_layout
-			})
-		AssociationReverseSliceToForm(
-			"Print",
-			"Staff_layout",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Print) []*models.Staff_layout {
-				return owner.Staff_layout
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Staff_distance", inst.Staff_distance, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Defaultss {
+				for _, target := range src.Staff_layout {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Defaults", "Staff_layout", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Print_XSDs {
+				for _, target := range src.Staff_layout {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Print_XSD", "Staff_layout", refNames, formGroup, probe.formStage)
+		}
 	case *models.Staff_size:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Scaling", instanceWithInferedType.Scaling, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Scaling", inst.Scaling, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Staff_detailss {
+				if src.Staff_size == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Staff_details", "Staff_size", refNames, formGroup, probe.formStage)
+		}
 	case *models.Staff_tuning:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line", instanceWithInferedType.Line, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Tuning_step", instanceWithInferedType.Tuning_step, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Tuning_alter", instanceWithInferedType.Tuning_alter, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Tuning_octave", instanceWithInferedType.Tuning_octave, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Staff_details",
-			"Staff_tuning",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Staff_details) []*models.Staff_tuning {
-				return owner.Staff_tuning
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Line", inst.Line, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Tuning_step", inst.Tuning_step, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Tuning_alter", inst.Tuning_alter, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Tuning_octave", inst.Tuning_octave, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Staff_detailss {
+				for _, target := range src.Staff_tuning {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Staff_details", "Staff_tuning", refNames, formGroup, probe.formStage)
+		}
 	case *models.Stem:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Stem == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Stem", refNames, formGroup, probe.formStage)
+		}
 	case *models.Stick:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Tip", instanceWithInferedType.Tip, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Parentheses", instanceWithInferedType.Parentheses, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Dashed_circle", instanceWithInferedType.Dashed_circle, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Stick_type", instanceWithInferedType.Stick_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Stick_material", instanceWithInferedType.Stick_material, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Tip", inst.Tip, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Parentheses", inst.Parentheses, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Dashed_circle", inst.Dashed_circle, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Stick_type", inst.Stick_type, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Stick_material", inst.Stick_material, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Percussions {
+				if src.Stick == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Percussion", "Stick", refNames, formGroup, probe.formStage)
+		}
 	case *models.String_mute:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.String_mute == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "String_mute", refNames, formGroup, probe.formStage)
+		}
 	case *models.String_type:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Technical",
-			"String",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.String_type {
-				return owner.String
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Frame_notes {
+				if src.String_XSD == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Frame_note", "String_XSD", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.String_XSD {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "String_XSD", refNames, formGroup, probe.formStage)
+		}
 	case *models.Strong_accent:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Articulations",
-			"Strong_accent",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Articulations) []*models.Strong_accent {
-				return owner.Strong_accent
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Articulationss {
+				for _, target := range src.Strong_accent {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Articulations", "Strong_accent", refNames, formGroup, probe.formStage)
+		}
 	case *models.Style_text:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Basss {
+				if src.Bass_separator == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Bass", "Bass_separator", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Figures {
+				if src.Prefix == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Figure", "Prefix", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Figures {
+				if src.Figure_number == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Figure", "Figure_number", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Figures {
+				if src.Suffix == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Figure", "Suffix", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Harmonys {
+				if src.Function == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Harmony", "Function", refNames, formGroup, probe.formStage)
+		}
 	case *models.Supports:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Element", instanceWithInferedType.Element, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Attribute", instanceWithInferedType.Attribute, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Value", instanceWithInferedType.Value, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Encoding",
-			"Supports",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Encoding) []*models.Supports {
-				return owner.Supports
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Element", inst.Element, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Attribute", inst.Attribute, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Value", inst.Value, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Encodings {
+				for _, target := range src.Supports {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Encoding", "Supports", refNames, formGroup, probe.formStage)
+		}
 	case *models.Swing:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Straight", instanceWithInferedType.Straight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("First", instanceWithInferedType.First, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Second", instanceWithInferedType.Second, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Swing_type", instanceWithInferedType.Swing_type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Swing_style", instanceWithInferedType.Swing_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Straight", inst.Straight, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("First", inst.First, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Second", inst.Second, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Swing_type", inst.Swing_type, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Swing_style", inst.Swing_style, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Sounds {
+				if src.Swing == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Sound", "Swing", refNames, formGroup, probe.formStage)
+		}
 	case *models.Sync:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Latency", instanceWithInferedType.Latency, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Player", instanceWithInferedType.Player, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Time_only", instanceWithInferedType.Time_only, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Listening",
-			"Sync",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Listening) []*models.Sync {
-				return owner.Sync
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Latency", inst.Latency, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Player", inst.Player, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Time_only", inst.Time_only, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Listenings {
+				for _, target := range src.Sync {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Listening", "Sync", refNames, formGroup, probe.formStage)
+		}
 	case *models.System_dividers:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Left_divider", instanceWithInferedType.Left_divider, formGroup, probe)
-		AssociationFieldToForm("Right_divider", instanceWithInferedType.Right_divider, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Left_divider", inst.Left_divider, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Empty_print_object_style_align](), probe.formStage)
+		StageSetAssociationFieldToForm("Right_divider", inst.Right_divider, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Empty_print_object_style_align](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.System_layouts {
+				if src.System_dividers == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.System_layout", "System_dividers", refNames, formGroup, probe.formStage)
+		}
 	case *models.System_layout:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("System_margins", instanceWithInferedType.System_margins, formGroup, probe)
-		BasicFieldtoForm("System_distance", instanceWithInferedType.System_distance, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Top_system_distance", instanceWithInferedType.Top_system_distance, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("System_dividers", instanceWithInferedType.System_dividers, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("System_margins", inst.System_margins, formGroup, probe.stageOfInterest.GetInstancesSet[*models.System_margins](), probe.formStage)
+		StageSetBasicFieldtoForm("System_distance", inst.System_distance, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Top_system_distance", inst.Top_system_distance, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("System_dividers", inst.System_dividers, formGroup, probe.stageOfInterest.GetInstancesSet[*models.System_dividers](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Defaultss {
+				if src.System_layout == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Defaults", "System_layout", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Print_XSDs {
+				if src.System_layout == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Print_XSD", "System_layout", refNames, formGroup, probe.formStage)
+		}
 	case *models.System_margins:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Left_margin", instanceWithInferedType.Left_margin, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Right_margin", instanceWithInferedType.Right_margin, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Left_margin", inst.Left_margin, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Right_margin", inst.Right_margin, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.System_layouts {
+				if src.System_margins == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.System_layout", "System_margins", refNames, formGroup, probe.formStage)
+		}
 	case *models.Tap:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Hand", instanceWithInferedType.Hand, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Technical",
-			"Tap",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Technical) []*models.Tap {
-				return owner.Tap
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Hand", inst.Hand, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Technicals {
+				for _, target := range src.Tap {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Technical", "Tap", refNames, formGroup, probe.formStage)
+		}
 	case *models.Technical:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Up_bow", instanceWithInferedType, &instanceWithInferedType.Up_bow, formGroup, probe)
-		AssociationSliceToForm("Down_bow", instanceWithInferedType, &instanceWithInferedType.Down_bow, formGroup, probe)
-		AssociationSliceToForm("Harmonic", instanceWithInferedType, &instanceWithInferedType.Harmonic, formGroup, probe)
-		AssociationSliceToForm("Open_string", instanceWithInferedType, &instanceWithInferedType.Open_string, formGroup, probe)
-		AssociationSliceToForm("Thumb_position", instanceWithInferedType, &instanceWithInferedType.Thumb_position, formGroup, probe)
-		AssociationSliceToForm("Fingering", instanceWithInferedType, &instanceWithInferedType.Fingering, formGroup, probe)
-		AssociationSliceToForm("Pluck", instanceWithInferedType, &instanceWithInferedType.Pluck, formGroup, probe)
-		AssociationSliceToForm("Double_tongue", instanceWithInferedType, &instanceWithInferedType.Double_tongue, formGroup, probe)
-		AssociationSliceToForm("Triple_tongue", instanceWithInferedType, &instanceWithInferedType.Triple_tongue, formGroup, probe)
-		AssociationSliceToForm("Stopped", instanceWithInferedType, &instanceWithInferedType.Stopped, formGroup, probe)
-		AssociationSliceToForm("Snap_pizzicato", instanceWithInferedType, &instanceWithInferedType.Snap_pizzicato, formGroup, probe)
-		AssociationSliceToForm("Fret", instanceWithInferedType, &instanceWithInferedType.Fret, formGroup, probe)
-		AssociationSliceToForm("String", instanceWithInferedType, &instanceWithInferedType.String, formGroup, probe)
-		AssociationSliceToForm("Hammer_on", instanceWithInferedType, &instanceWithInferedType.Hammer_on, formGroup, probe)
-		AssociationSliceToForm("Pull_off", instanceWithInferedType, &instanceWithInferedType.Pull_off, formGroup, probe)
-		AssociationSliceToForm("Bend", instanceWithInferedType, &instanceWithInferedType.Bend, formGroup, probe)
-		AssociationSliceToForm("Tap", instanceWithInferedType, &instanceWithInferedType.Tap, formGroup, probe)
-		AssociationSliceToForm("Heel", instanceWithInferedType, &instanceWithInferedType.Heel, formGroup, probe)
-		AssociationSliceToForm("Toe", instanceWithInferedType, &instanceWithInferedType.Toe, formGroup, probe)
-		AssociationSliceToForm("Fingernails", instanceWithInferedType, &instanceWithInferedType.Fingernails, formGroup, probe)
-		AssociationSliceToForm("Hole", instanceWithInferedType, &instanceWithInferedType.Hole, formGroup, probe)
-		AssociationSliceToForm("Arrow", instanceWithInferedType, &instanceWithInferedType.Arrow, formGroup, probe)
-		AssociationSliceToForm("Handbell", instanceWithInferedType, &instanceWithInferedType.Handbell, formGroup, probe)
-		AssociationSliceToForm("Brass_bend", instanceWithInferedType, &instanceWithInferedType.Brass_bend, formGroup, probe)
-		AssociationSliceToForm("Flip", instanceWithInferedType, &instanceWithInferedType.Flip, formGroup, probe)
-		AssociationSliceToForm("Smear", instanceWithInferedType, &instanceWithInferedType.Smear, formGroup, probe)
-		AssociationSliceToForm("Open", instanceWithInferedType, &instanceWithInferedType.Open, formGroup, probe)
-		AssociationSliceToForm("Half_muted", instanceWithInferedType, &instanceWithInferedType.Half_muted, formGroup, probe)
-		AssociationSliceToForm("Harmon_mute", instanceWithInferedType, &instanceWithInferedType.Harmon_mute, formGroup, probe)
-		AssociationSliceToForm("Golpe", instanceWithInferedType, &instanceWithInferedType.Golpe, formGroup, probe)
-		AssociationSliceToForm("Other_technical", instanceWithInferedType, &instanceWithInferedType.Other_technical, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Notations",
-			"Technical",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notations) []*models.Technical {
-				return owner.Technical
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		AssociationSliceToForm("Up_bow", inst, &inst.Up_bow, formGroup, probe)
+		AssociationSliceToForm("Down_bow", inst, &inst.Down_bow, formGroup, probe)
+		AssociationSliceToForm("Harmonic", inst, &inst.Harmonic, formGroup, probe)
+		AssociationSliceToForm("Open_string", inst, &inst.Open_string, formGroup, probe)
+		AssociationSliceToForm("Thumb_position", inst, &inst.Thumb_position, formGroup, probe)
+		AssociationSliceToForm("Fingering", inst, &inst.Fingering, formGroup, probe)
+		AssociationSliceToForm("Pluck", inst, &inst.Pluck, formGroup, probe)
+		AssociationSliceToForm("Double_tongue", inst, &inst.Double_tongue, formGroup, probe)
+		AssociationSliceToForm("Triple_tongue", inst, &inst.Triple_tongue, formGroup, probe)
+		AssociationSliceToForm("Stopped", inst, &inst.Stopped, formGroup, probe)
+		AssociationSliceToForm("Snap_pizzicato", inst, &inst.Snap_pizzicato, formGroup, probe)
+		AssociationSliceToForm("Fret", inst, &inst.Fret, formGroup, probe)
+		AssociationSliceToForm("String_XSD", inst, &inst.String_XSD, formGroup, probe)
+		AssociationSliceToForm("Hammer_on", inst, &inst.Hammer_on, formGroup, probe)
+		AssociationSliceToForm("Pull_off", inst, &inst.Pull_off, formGroup, probe)
+		AssociationSliceToForm("Bend", inst, &inst.Bend, formGroup, probe)
+		AssociationSliceToForm("Tap", inst, &inst.Tap, formGroup, probe)
+		AssociationSliceToForm("Heel", inst, &inst.Heel, formGroup, probe)
+		AssociationSliceToForm("Toe", inst, &inst.Toe, formGroup, probe)
+		AssociationSliceToForm("Fingernails", inst, &inst.Fingernails, formGroup, probe)
+		AssociationSliceToForm("Hole", inst, &inst.Hole, formGroup, probe)
+		AssociationSliceToForm("Arrow", inst, &inst.Arrow, formGroup, probe)
+		AssociationSliceToForm("Handbell", inst, &inst.Handbell, formGroup, probe)
+		AssociationSliceToForm("Brass_bend", inst, &inst.Brass_bend, formGroup, probe)
+		AssociationSliceToForm("Flip", inst, &inst.Flip, formGroup, probe)
+		AssociationSliceToForm("Smear", inst, &inst.Smear, formGroup, probe)
+		AssociationSliceToForm("Open", inst, &inst.Open, formGroup, probe)
+		AssociationSliceToForm("Half_muted", inst, &inst.Half_muted, formGroup, probe)
+		AssociationSliceToForm("Harmon_mute", inst, &inst.Harmon_mute, formGroup, probe)
+		AssociationSliceToForm("Golpe", inst, &inst.Golpe, formGroup, probe)
+		AssociationSliceToForm("Other_technical", inst, &inst.Other_technical, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				for _, target := range src.Technical {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Technical", refNames, formGroup, probe.formStage)
+		}
 	case *models.Text_element_data:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Lang", instanceWithInferedType.Lang, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Underline", instanceWithInferedType.Underline, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Overline", instanceWithInferedType.Overline, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_through", instanceWithInferedType.Line_through, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Rotation", instanceWithInferedType.Rotation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Letter_spacing", instanceWithInferedType.Letter_spacing, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dir", instanceWithInferedType.Dir, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Lyric",
-			"Text",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Lyric) []*models.Text_element_data {
-				return owner.Text
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Lang", inst.Lang, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Underline", inst.Underline, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Overline", inst.Overline, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Line_through", inst.Line_through, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Rotation", inst.Rotation, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Letter_spacing", inst.Letter_spacing, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Dir", inst.Dir, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Lyrics {
+				if src.Text == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Lyric", "Text", refNames, formGroup, probe.formStage)
+		}
 	case *models.Tie:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Time_only", instanceWithInferedType.Time_only, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Time_only", inst.Time_only, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Tie == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Tie", refNames, formGroup, probe.formStage)
+		}
 	case *models.Tied:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Line_type", instanceWithInferedType.Line_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dash_length", instanceWithInferedType.Dash_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Space_length", instanceWithInferedType.Space_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Orientation", instanceWithInferedType.Orientation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bezier_x", instanceWithInferedType.Bezier_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bezier_y", instanceWithInferedType.Bezier_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bezier_x2", instanceWithInferedType.Bezier_x2, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bezier_y2", instanceWithInferedType.Bezier_y2, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bezier_offset", instanceWithInferedType.Bezier_offset, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Bezier_offset2", instanceWithInferedType.Bezier_offset2, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Notations",
-			"Tied",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notations) []*models.Tied {
-				return owner.Tied
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Line_type", inst.Line_type, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Dash_length", inst.Dash_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Space_length", inst.Space_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Orientation", inst.Orientation, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Bezier_x", inst.Bezier_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Bezier_y", inst.Bezier_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Bezier_x2", inst.Bezier_x2, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Bezier_y2", inst.Bezier_y2, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Bezier_offset", inst.Bezier_offset, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Bezier_offset2", inst.Bezier_offset2, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				for _, target := range src.Tied {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Tied", refNames, formGroup, probe.formStage)
+		}
 	case *models.Time:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Symbol", instanceWithInferedType.Symbol, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Separator", instanceWithInferedType.Separator, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Halign", instanceWithInferedType.Halign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Valign", instanceWithInferedType.Valign, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Print_object", instanceWithInferedType.Print_object, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Beats", instanceWithInferedType.Beats, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Beat_type", instanceWithInferedType.Beat_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Interchangeable", instanceWithInferedType.Interchangeable, formGroup, probe)
-		BasicFieldtoForm("Senza_misura", instanceWithInferedType.Senza_misura, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Attributes",
-			"Time",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Attributes) []*models.Time {
-				return owner.Time
-			})
-
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Symbol", inst.Symbol, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Separator", inst.Separator, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Halign", inst.Halign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Valign", inst.Valign, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Print_object", inst.Print_object, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Beats", inst.Beats, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Beat_type", inst.Beat_type, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Interchangeable", inst.Interchangeable, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Interchangeable](), probe.formStage)
+		StageSetBasicFieldtoForm("Senza_misura", inst.Senza_misura, probe.formStage, formGroup)
 	case *models.Time_modification:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Actual_notes", instanceWithInferedType.Actual_notes, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Normal_notes", instanceWithInferedType.Normal_notes, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Normal_type", instanceWithInferedType.Normal_type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Normal_dot", instanceWithInferedType.Normal_dot, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Actual_notes", inst.Actual_notes, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Normal_notes", inst.Normal_notes, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Normal_type", inst.Normal_type, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Normal_dot", inst.Normal_dot, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Time_modification == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Time_modification", refNames, formGroup, probe.formStage)
+		}
 	case *models.Timpani:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Percussions {
+				if src.Timpani == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Percussion", "Timpani", refNames, formGroup, probe.formStage)
+		}
 	case *models.Transpose:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Diatonic", instanceWithInferedType.Diatonic, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Chromatic", instanceWithInferedType.Chromatic, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Octave_change", instanceWithInferedType.Octave_change, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Double", instanceWithInferedType.Double, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Attributes",
-			"Transpose",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Attributes) []*models.Transpose {
-				return owner.Transpose
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Diatonic", inst.Diatonic, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Chromatic", inst.Chromatic, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Octave_change", inst.Octave_change, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Double", inst.Double, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Attributess {
+				for _, target := range src.Transpose {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Attributes", "Transpose", refNames, formGroup, probe.formStage)
+		}
 	case *models.Tremolo:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Tremolo",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Tremolo {
-				return owner.Tremolo
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Tremolo {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Tremolo", refNames, formGroup, probe.formStage)
+		}
 	case *models.Tuplet:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Bracket", instanceWithInferedType.Bracket, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Show_number", instanceWithInferedType.Show_number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Show_type", instanceWithInferedType.Show_type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Line_shape", instanceWithInferedType.Line_shape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Tuplet_actual", instanceWithInferedType.Tuplet_actual, formGroup, probe)
-		AssociationFieldToForm("Tuplet_normal", instanceWithInferedType.Tuplet_normal, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Notations",
-			"Tuplet",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Notations) []*models.Tuplet {
-				return owner.Tuplet
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Bracket", inst.Bracket, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Show_number", inst.Show_number, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Show_type", inst.Show_type, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Line_shape", inst.Line_shape, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Tuplet_actual", inst.Tuplet_actual, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Tuplet_portion](), probe.formStage)
+		StageSetAssociationFieldToForm("Tuplet_normal", inst.Tuplet_normal, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Tuplet_portion](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notationss {
+				for _, target := range src.Tuplet {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Notations", "Tuplet", refNames, formGroup, probe.formStage)
+		}
 	case *models.Tuplet_dot:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Tuplet_portion",
-			"Tuplet_dot",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Tuplet_portion) []*models.Tuplet_dot {
-				return owner.Tuplet_dot
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Tuplet_portions {
+				for _, target := range src.Tuplet_dot {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Tuplet_portion", "Tuplet_dot", refNames, formGroup, probe.formStage)
+		}
 	case *models.Tuplet_number:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Tuplet_portions {
+				if src.Tuplet_number == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Tuplet_portion", "Tuplet_number", refNames, formGroup, probe.formStage)
+		}
 	case *models.Tuplet_portion:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Tuplet_number", instanceWithInferedType.Tuplet_number, formGroup, probe)
-		AssociationFieldToForm("Tuplet_type", instanceWithInferedType.Tuplet_type, formGroup, probe)
-		AssociationSliceToForm("Tuplet_dot", instanceWithInferedType, &instanceWithInferedType.Tuplet_dot, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Tuplet_number", inst.Tuplet_number, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Tuplet_number](), probe.formStage)
+		StageSetAssociationFieldToForm("Tuplet_type", inst.Tuplet_type, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Tuplet_type](), probe.formStage)
+		AssociationSliceToForm("Tuplet_dot", inst, &inst.Tuplet_dot, formGroup, probe)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Tuplets {
+				if src.Tuplet_actual == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Tuplet", "Tuplet_actual", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Tuplets {
+				if src.Tuplet_normal == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Tuplet", "Tuplet_normal", refNames, formGroup, probe.formStage)
+		}
 	case *models.Tuplet_type:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_family", instanceWithInferedType.Font_family, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_style", instanceWithInferedType.Font_style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_size", instanceWithInferedType.Font_size, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Font_weight", instanceWithInferedType.Font_weight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Font_family", inst.Font_family, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_style", inst.Font_style, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Font_size", inst.Font_size, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Font_weight", inst.Font_weight, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Tuplet_portions {
+				if src.Tuplet_type == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Tuplet_portion", "Tuplet_type", refNames, formGroup, probe.formStage)
+		}
 	case *models.Typed_text:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Encoding",
-			"Encoder",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Encoding) []*models.Typed_text {
-				return owner.Encoder
-			})
-		AssociationReverseSliceToForm(
-			"Identification",
-			"Creator",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Identification) []*models.Typed_text {
-				return owner.Creator
-			})
-		AssociationReverseSliceToForm(
-			"Identification",
-			"Rights",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Identification) []*models.Typed_text {
-				return owner.Rights
-			})
-		AssociationReverseSliceToForm(
-			"Identification",
-			"Relation",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Identification) []*models.Typed_text {
-				return owner.Relation
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("EnclosedText", inst.EnclosedText, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Encodings {
+				for _, target := range src.Encoder {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Encoding", "Encoder", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Identifications {
+				for _, target := range src.Creator {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Identification", "Creator", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Identifications {
+				for _, target := range src.Rights {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Identification", "Rights", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Identifications {
+				for _, target := range src.Relation {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Identification", "Relation", refNames, formGroup, probe.formStage)
+		}
 	case *models.Unpitched:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Display_step", instanceWithInferedType.Display_step, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Display_octave", instanceWithInferedType.Display_octave, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Display_step", inst.Display_step, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Display_octave", inst.Display_octave, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Notes {
+				if src.Unpitched == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Note", "Unpitched", refNames, formGroup, probe.formStage)
+		}
 	case *models.Virtual_instrument:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Virtual_library", instanceWithInferedType.Virtual_library, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Virtual_name", instanceWithInferedType.Virtual_name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Virtual_library", inst.Virtual_library, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Virtual_name", inst.Virtual_name, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Instrument_changes {
+				if src.Virtual_instrument == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Instrument_change", "Virtual_instrument", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_instruments {
+				if src.Virtual_instrument == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_instrument", "Virtual_instrument", refNames, formGroup, probe.formStage)
+		}
 	case *models.Wait:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Player", instanceWithInferedType.Player, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Time_only", instanceWithInferedType.Time_only, instanceWithInferedType, probe.formStage, formGroup)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Listen",
-			"Wait",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Listen) []*models.Wait {
-				return owner.Wait
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Player", inst.Player, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Time_only", inst.Time_only, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Listens {
+				for _, target := range src.Wait {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Listen", "Wait", refNames, formGroup, probe.formStage)
+		}
 	case *models.Wavy_line:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Placement", instanceWithInferedType.Placement, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Start_note", instanceWithInferedType.Start_note, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Trill_step", instanceWithInferedType.Trill_step, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Two_note_turn", instanceWithInferedType.Two_note_turn, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Accelerate", instanceWithInferedType.Accelerate, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Beats", instanceWithInferedType.Beats, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Second_beat", instanceWithInferedType.Second_beat, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Last_beat", instanceWithInferedType.Last_beat, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Ornaments",
-			"Wavy_line",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Ornaments) []*models.Wavy_line {
-				return owner.Wavy_line
-			})
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Placement", inst.Placement, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Start_note", inst.Start_note, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Trill_step", inst.Trill_step, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Two_note_turn", inst.Two_note_turn, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Accelerate", inst.Accelerate, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Beats", inst.Beats, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Second_beat", inst.Second_beat, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Last_beat", inst.Last_beat, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Barlines {
+				if src.Wavy_line == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Barline", "Wavy_line", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Ornamentss {
+				for _, target := range src.Wavy_line {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Ornaments", "Wavy_line", refNames, formGroup, probe.formStage)
+		}
 	case *models.Wedge:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Number", instanceWithInferedType.Number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Spread", instanceWithInferedType.Spread, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		EnumTypeStringToForm("Niente", instanceWithInferedType.Niente, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Line_type", instanceWithInferedType.Line_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Dash_length", instanceWithInferedType.Dash_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Space_length", instanceWithInferedType.Space_length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_x", instanceWithInferedType.Default_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Default_y", instanceWithInferedType.Default_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_x", instanceWithInferedType.Relative_x, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Relative_y", instanceWithInferedType.Relative_y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Id", instanceWithInferedType.Id, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Type_XSD", inst.Type_XSD, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Number", inst.Number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Spread", inst.Spread, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("Niente", inst.Niente, formGroup, probe.formStage)
+		StageSetEnumStringFieldToForm("Line_type", inst.Line_type, formGroup, probe.formStage)
+		StageSetBasicFieldtoForm("Dash_length", inst.Dash_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Space_length", inst.Space_length, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_x", inst.Default_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Default_y", inst.Default_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_x", inst.Relative_x, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Relative_y", inst.Relative_y, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Color", inst.Color, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Id", inst.Id, probe.formStage, formGroup)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Direction_types {
+				if src.Wedge == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Direction_type", "Wedge", refNames, formGroup, probe.formStage)
+		}
 	case *models.Wood:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Smufl", instanceWithInferedType.Smufl, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Smufl", inst.Smufl, probe.formStage, formGroup)
+		StageSetEnumStringFieldToForm("EnclosedText", inst.EnclosedText, formGroup, probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Percussions {
+				if src.Wood == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Percussion", "Wood", refNames, formGroup, probe.formStage)
+		}
 	case *models.Work:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Work_number", instanceWithInferedType.Work_number, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Work_title", instanceWithInferedType.Work_title, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Opus", instanceWithInferedType.Opus, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Work_number", inst.Work_number, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Work_title", inst.Work_title, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Opus", inst.Opus, formGroup, probe.stageOfInterest.GetInstancesSet[*models.Opus](), probe.formStage)
 
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_partwises {
+				if src.Work == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_partwise", "Work", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.Score_timewises {
+				if src.Work == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("models.Score_timewise", "Work", refNames, formGroup, probe.formStage)
+		}
+	case *xlink.ArcType:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Arcrole", inst.Arcrole, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Title", inst.Title, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Show", inst.Show, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Actuate", inst.Actuate, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("From", inst.From, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("To", inst.To, probe.formStage, formGroup)
+
+		{
+			// Slice of pointers: Title_1
+			div := (&form.FormDiv{Name: "Title_1"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.Title_1 {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "Title_1",
+				Label: "Title_1",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.XlinkStage.Extendeds {
+				if src.Arc == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("xlink.Extended", "Arc", refNames, formGroup, probe.formStage)
+		}
+	case *xlink.Extended:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Role", inst.Role, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Title", inst.Title, probe.formStage, formGroup)
+		StageSetAssociationFieldToForm("Title_1", inst.Title_1, formGroup, probe.stageOfInterest.XlinkStage.GetInstancesSet[*xlink.TitleEltType](), probe.formStage)
+		StageSetAssociationFieldToForm("Resource", inst.Resource, formGroup, probe.stageOfInterest.XlinkStage.GetInstancesSet[*xlink.ResourceType](), probe.formStage)
+		StageSetAssociationFieldToForm("Locator", inst.Locator, formGroup, probe.stageOfInterest.XlinkStage.GetInstancesSet[*xlink.LocatorType](), probe.formStage)
+		StageSetAssociationFieldToForm("Arc", inst.Arc, formGroup, probe.stageOfInterest.XlinkStage.GetInstancesSet[*xlink.ArcType](), probe.formStage)
+	case *xlink.LocatorType:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Href", inst.Href, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Role", inst.Role, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Title", inst.Title, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Label", inst.Label, probe.formStage, formGroup)
+
+		{
+			// Slice of pointers: Title_1
+			div := (&form.FormDiv{Name: "Title_1"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.Title_1 {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "Title_1",
+				Label: "Title_1",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.XlinkStage.Extendeds {
+				if src.Locator == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("xlink.Extended", "Locator", refNames, formGroup, probe.formStage)
+		}
+	case *xlink.ResourceType:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Role", inst.Role, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Title", inst.Title, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Label", inst.Label, probe.formStage, formGroup)
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.XlinkStage.Extendeds {
+				if src.Resource == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("xlink.Extended", "Resource", refNames, formGroup, probe.formStage)
+		}
+	case *xlink.Simple:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Href", inst.Href, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Role", inst.Role, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Arcrole", inst.Arcrole, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Title", inst.Title, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Show", inst.Show, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Actuate", inst.Actuate, probe.formStage, formGroup)
+	case *xlink.TitleEltType:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Type_XSD", inst.Type_XSD, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("Lang", inst.Lang, probe.formStage, formGroup)
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.XlinkStage.ArcTypes {
+				for _, target := range src.Title_1 {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("xlink.ArcType", "Title_1", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.XlinkStage.Extendeds {
+				if src.Title_1 == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("xlink.Extended", "Title_1", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.XlinkStage.LocatorTypes {
+				for _, target := range src.Title_1 {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("xlink.LocatorType", "Title_1", refNames, formGroup, probe.formStage)
+		}
+	case *xmlxsd.Xmlxsd_SchemaElement:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
 	default:
-		_ = instanceWithInferedType
+		_ = inst
 	}
 }

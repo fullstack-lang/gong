@@ -14,6 +14,8 @@ import (
 	"time"
 
 	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
+	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/xlink"
+	"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/xmlxsd"
 )
 
 var (
@@ -96,6 +98,16 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 
 	identifierMap := make(map[string]any)
 
+	if stage.XmlxsdStage != nil {
+		for _, instance := range stage.XmlxsdStage.GetInstances() {
+			identifierMap[instance.GongGetIdentifier(stage.XmlxsdStage)] = instance
+		}
+	}
+	if stage.XlinkStage != nil {
+		for _, instance := range stage.XlinkStage.GetInstances() {
+			identifierMap[instance.GongGetIdentifier(stage.XlinkStage)] = instance
+		}
+	}
 	if stage != nil {
 		for _, instance := range stage.GetInstances() {
 			identifierMap[instance.GongGetIdentifier(stage)] = instance
@@ -110,6 +122,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 			alias = imp.Name.Name
 		}
 		switch p {
+		case "github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/xmlxsd":
+			aliasToCanonical[alias] = "xmlxsd"
+		case "github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/xlink":
+			aliasToCanonical[alias] = "xlink"
 		case "github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models":
 			aliasToCanonical[alias] = "models"
 		}
@@ -158,6 +174,26 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					}
 
 					switch pkgAlias {
+			case "xmlxsd":
+				switch typeName {
+				case "Xmlxsd_SchemaElement":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(xmlxsd.Xmlxsd_SchemaElement), stage.XmlxsdStage, ident.Name, instanceName, preserveOrder)
+				}
+			case "xlink":
+				switch typeName {
+				case "ArcType":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(xlink.ArcType), stage.XlinkStage, ident.Name, instanceName, preserveOrder)
+				case "Extended":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(xlink.Extended), stage.XlinkStage, ident.Name, instanceName, preserveOrder)
+				case "LocatorType":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(xlink.LocatorType), stage.XlinkStage, ident.Name, instanceName, preserveOrder)
+				case "ResourceType":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(xlink.ResourceType), stage.XlinkStage, ident.Name, instanceName, preserveOrder)
+				case "Simple":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(xlink.Simple), stage.XlinkStage, ident.Name, instanceName, preserveOrder)
+				case "TitleEltType":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(xlink.TitleEltType), stage.XlinkStage, ident.Name, instanceName, preserveOrder)
+				}
 			case "models":
 				switch typeName {
 				case "A_directive":
@@ -508,8 +544,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Player), stage, ident.Name, instanceName, preserveOrder)
 				case "Principal_voice":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Principal_voice), stage, ident.Name, instanceName, preserveOrder)
-				case "Print":
-					identifierMap[ident.Name] = __gong__stageSetInit(new(Print), stage, ident.Name, instanceName, preserveOrder)
+				case "Print_XSD":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Print_XSD), stage, ident.Name, instanceName, preserveOrder)
 				case "Release":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Release), stage, ident.Name, instanceName, preserveOrder)
 				case "Repeat":
@@ -636,6 +672,109 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 							fieldName := selExpr.Sel.Name
 							rhs := node.Rhs[0]
 							switch inst := instance.(type) {
+				case *xmlxsd.Xmlxsd_SchemaElement:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					}
+				case *xlink.ArcType:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
+					case "Arcrole":
+						inst.Arcrole = GongExtractString(rhs)
+					case "Title":
+						inst.Title = GongExtractString(rhs)
+					case "Show":
+						inst.Show = GongExtractString(rhs)
+					case "Actuate":
+						inst.Actuate = GongExtractString(rhs)
+					case "From":
+						inst.From = GongExtractString(rhs)
+					case "To":
+						inst.To = GongExtractString(rhs)
+					case "Title_1":
+						__gong__assignSliceOfPointers(&inst.Title_1, rhs, identifierMap)
+					}
+				case *xlink.Extended:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
+					case "Role":
+						inst.Role = GongExtractString(rhs)
+					case "Title":
+						inst.Title = GongExtractString(rhs)
+					case "Title_1":
+						__gong__assignPointer(&inst.Title_1, rhs, identifierMap)
+					case "Resource":
+						__gong__assignPointer(&inst.Resource, rhs, identifierMap)
+					case "Locator":
+						__gong__assignPointer(&inst.Locator, rhs, identifierMap)
+					case "Arc":
+						__gong__assignPointer(&inst.Arc, rhs, identifierMap)
+					}
+				case *xlink.LocatorType:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
+					case "Href":
+						inst.Href = GongExtractString(rhs)
+					case "Role":
+						inst.Role = GongExtractString(rhs)
+					case "Title":
+						inst.Title = GongExtractString(rhs)
+					case "Label":
+						inst.Label = GongExtractString(rhs)
+					case "Title_1":
+						__gong__assignSliceOfPointers(&inst.Title_1, rhs, identifierMap)
+					}
+				case *xlink.ResourceType:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
+					case "Role":
+						inst.Role = GongExtractString(rhs)
+					case "Title":
+						inst.Title = GongExtractString(rhs)
+					case "Label":
+						inst.Label = GongExtractString(rhs)
+					}
+				case *xlink.Simple:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
+					case "Href":
+						inst.Href = GongExtractString(rhs)
+					case "Role":
+						inst.Role = GongExtractString(rhs)
+					case "Arcrole":
+						inst.Arcrole = GongExtractString(rhs)
+					case "Title":
+						inst.Title = GongExtractString(rhs)
+					case "Show":
+						inst.Show = GongExtractString(rhs)
+					case "Actuate":
+						inst.Actuate = GongExtractString(rhs)
+					}
+				case *xlink.TitleEltType:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
+					case "Lang":
+						inst.Lang = GongExtractString(rhs)
+					}
 				case *A_directive:
 					switch fieldName {
 					case "Name":
@@ -653,11 +792,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
@@ -693,8 +832,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignSliceOfPointers(&inst.Harmony, rhs, identifierMap)
 					case "Figured_bass":
 						__gong__assignSliceOfPointers(&inst.Figured_bass, rhs, identifierMap)
-					case "Print":
-						__gong__assignSliceOfPointers(&inst.Print, rhs, identifierMap)
+					case "Print_XSD":
+						__gong__assignSliceOfPointers(&inst.Print_XSD, rhs, identifierMap)
 					case "Sound":
 						__gong__assignSliceOfPointers(&inst.Sound, rhs, identifierMap)
 					case "Listening":
@@ -756,8 +895,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignSliceOfPointers(&inst.Harmony, rhs, identifierMap)
 					case "Figured_bass":
 						__gong__assignSliceOfPointers(&inst.Figured_bass, rhs, identifierMap)
-					case "Print":
-						__gong__assignSliceOfPointers(&inst.Print, rhs, identifierMap)
+					case "Print_XSD":
+						__gong__assignSliceOfPointers(&inst.Print_XSD, rhs, identifierMap)
 					case "Sound":
 						__gong__assignSliceOfPointers(&inst.Sound, rhs, identifierMap)
 					case "Listening":
@@ -776,7 +915,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Cautionary":
-						inst.Cautionary = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Cautionary, rhs)
 					case "Editorial":
 						GongUnmarshallEnum(&inst.Editorial, rhs)
 					case "Smufl":
@@ -798,15 +937,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Accidental_mark:
 					switch fieldName {
@@ -831,15 +970,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "EnclosedText":
@@ -868,17 +1007,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Underline":
 						inst.Underline = GongExtractInt(rhs)
 					case "Overline":
@@ -892,9 +1031,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Line_height":
 						inst.Line_height = GongExtractString(rhs)
 					case "Dir":
-						inst.Dir = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Dir, rhs)
 					case "Enclosure":
-						inst.Enclosure = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Enclosure, rhs)
 					case "EnclosedText":
 						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
@@ -902,8 +1041,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "String":
-						inst.String = GongExtractInt(rhs)
+					case "String_XSD":
+						inst.String_XSD = GongExtractInt(rhs)
 					case "Tuning_step":
 						GongUnmarshallEnum(&inst.Tuning_step, rhs)
 					case "Tuning_alter":
@@ -926,17 +1065,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Accordion_high":
@@ -968,7 +1107,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Direction":
-						inst.Direction = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Direction, rhs)
 					case "Unbroken":
 						GongUnmarshallEnum(&inst.Unbroken, rhs)
 					case "Default_x":
@@ -980,7 +1119,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Relative_y":
 						inst.Relative_y = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Id":
@@ -1001,25 +1140,25 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "Arrow_direction":
-						inst.Arrow_direction = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Arrow_direction, rhs)
 					case "Arrow_style":
-						inst.Arrow_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Arrow_style, rhs)
 					case "Arrowhead":
 						inst.Arrowhead = GongExtractString(rhs)
 					case "Circular_arrow":
-						inst.Circular_arrow = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Circular_arrow, rhs)
 					}
 				case *Articulations:
 					switch fieldName {
@@ -1066,8 +1205,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Player":
 						inst.Player = GongExtractString(rhs)
 					case "Time_only":
@@ -1086,7 +1225,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Key":
 						__gong__assignSliceOfPointers(&inst.Key, rhs, identifierMap)
 					case "Time":
-						__gong__assignSliceOfPointers(&inst.Time, rhs, identifierMap)
+						inst.Time = GongExtractString(rhs)
 					case "Staves":
 						inst.Staves = GongExtractInt(rhs)
 					case "Part_symbol":
@@ -1110,8 +1249,6 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Duration":
-						inst.Duration = GongExtractString(rhs)
 					case "Footnote":
 						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
 					case "Level":
@@ -1124,14 +1261,14 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Barline:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Location":
-						inst.Location = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Location, rhs)
 					case "Segno":
 						inst.Segno = GongExtractString(rhs)
 					case "Coda":
@@ -1163,8 +1300,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					}
@@ -1173,7 +1310,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Arrangement":
-						inst.Arrangement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Arrangement, rhs)
 					case "Bass_separator":
 						__gong__assignPointer(&inst.Bass_separator, rhs, identifierMap)
 					case "Bass_step":
@@ -1198,15 +1335,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Beam:
 					switch fieldName {
@@ -1217,20 +1354,20 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Repeater":
 						GongUnmarshallEnum(&inst.Repeater, rhs)
 					case "Fan":
-						inst.Fan = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Fan, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Beat_repeat:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Slashes":
 						inst.Slashes = GongExtractInt(rhs)
 					case "Use_dots":
@@ -1256,16 +1393,16 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Tip":
-						inst.Tip = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Tip, rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Bend:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Shape":
-						inst.Shape = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Shape, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -1277,11 +1414,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Accelerate":
@@ -1318,16 +1455,16 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Line_end":
-						inst.Line_end = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Line_end, rhs)
 					case "End_length":
 						inst.End_length = GongExtractString(rhs)
 					case "Line_type":
-						inst.Line_type = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Line_type, rhs)
 					case "Dash_length":
 						inst.Dash_length = GongExtractString(rhs)
 					case "Space_length":
@@ -1360,17 +1497,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Caesura:
 					switch fieldName {
@@ -1387,24 +1524,24 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Cancel:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Location":
-						inst.Location = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Location, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractInt(rhs)
 					}
@@ -1417,7 +1554,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Additional":
 						GongUnmarshallEnum(&inst.Additional, rhs)
 					case "Size":
-						inst.Size = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Size, rhs)
 					case "After_barline":
 						GongUnmarshallEnum(&inst.After_barline, rhs)
 					case "Default_x":
@@ -1431,11 +1568,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Print_object":
@@ -1443,7 +1580,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Sign":
-						inst.Sign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Sign, rhs)
 					case "Line":
 						inst.Line = GongExtractInt(rhs)
 					case "Clef_octave_change":
@@ -1466,17 +1603,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					}
@@ -1490,23 +1627,23 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Id = GongExtractString(rhs)
 					case "Credit_type":
 						inst.Credit_type = GongExtractString(rhs)
-					case "Credit_image":
-						__gong__assignPointer(&inst.Credit_image, rhs, identifierMap)
 					case "Link":
 						__gong__assignSliceOfPointers(&inst.Link, rhs, identifierMap)
 					case "Bookmark":
 						__gong__assignSliceOfPointers(&inst.Bookmark, rhs, identifierMap)
+					case "Credit_image":
+						__gong__assignPointer(&inst.Credit_image, rhs, identifierMap)
 					case "Credit_words":
-						__gong__assignSliceOfPointers(&inst.Credit_words, rhs, identifierMap)
+						__gong__assignPointer(&inst.Credit_words, rhs, identifierMap)
 					case "Credit_symbol":
-						__gong__assignSliceOfPointers(&inst.Credit_symbol, rhs, identifierMap)
+						__gong__assignPointer(&inst.Credit_symbol, rhs, identifierMap)
 					}
 				case *Dashes:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Dash_length":
@@ -1581,11 +1718,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
@@ -1608,22 +1745,22 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Degree_value:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Symbol":
-						inst.Symbol = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Symbol, rhs)
 					case "Text":
 						inst.Text = GongExtractString(rhs)
 					case "Default_x":
@@ -1637,11 +1774,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
@@ -1652,11 +1789,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Directive":
 						GongUnmarshallEnum(&inst.Directive, rhs)
 					case "System":
-						GongUnmarshallEnum(&inst.System, rhs)
+						inst.System = GongExtractString(rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Direction_type":
@@ -1735,8 +1872,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -1762,19 +1899,19 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Underline":
 						inst.Underline = GongExtractInt(rhs)
 					case "Overline":
@@ -1782,7 +1919,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Line_through":
 						inst.Line_through = GongExtractInt(rhs)
 					case "Enclosure":
-						inst.Enclosure = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Enclosure, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "P":
@@ -1847,7 +1984,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Elision:
 					switch fieldName {
@@ -1858,11 +1995,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
@@ -1880,22 +2017,22 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					}
 				case *Empty_line:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Line_shape":
-						inst.Line_shape = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Line_shape, rhs)
 					case "Line_type":
-						inst.Line_type = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Line_type, rhs)
 					case "Line_length":
-						inst.Line_length = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Line_length, rhs)
 					case "Dash_length":
 						inst.Dash_length = GongExtractString(rhs)
 					case "Space_length":
@@ -1911,15 +2048,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					}
 				case *Empty_placement:
 					switch fieldName {
@@ -1936,15 +2073,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					}
 				case *Empty_placement_smufl:
 					switch fieldName {
@@ -1961,15 +2098,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					}
@@ -1990,17 +2127,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					}
 				case *Empty_print_style:
 					switch fieldName {
@@ -2017,11 +2154,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					}
@@ -2040,17 +2177,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					}
 				case *Empty_print_style_align_id:
 					switch fieldName {
@@ -2067,17 +2204,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					}
@@ -2096,21 +2233,21 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Start_note":
-						inst.Start_note = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Start_note, rhs)
 					case "Trill_step":
-						inst.Trill_step = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Trill_step, rhs)
 					case "Two_note_turn":
-						inst.Two_note_turn = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Two_note_turn, rhs)
 					case "Accelerate":
 						GongUnmarshallEnum(&inst.Accelerate, rhs)
 					case "Beats":
@@ -2124,6 +2261,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "Encoding_date":
+						inst.Encoding_date = GongExtractString(rhs)
 					case "Encoder":
 						__gong__assignSliceOfPointers(&inst.Encoder, rhs, identifierMap)
 					case "Software":
@@ -2139,8 +2278,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Name = GongExtractString(rhs)
 					case "Number":
 						inst.Number = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "End_length":
 						inst.End_length = GongExtractString(rhs)
 					case "Text_x":
@@ -2160,15 +2299,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "System":
-						GongUnmarshallEnum(&inst.System, rhs)
+						inst.System = GongExtractString(rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -2176,8 +2315,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -2193,8 +2332,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -2202,8 +2341,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -2215,17 +2354,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Figure:
 					switch fieldName {
@@ -2261,19 +2400,19 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Print_dot":
 						GongUnmarshallEnum(&inst.Print_dot, rhs)
 					case "Print_lyric":
@@ -2286,8 +2425,6 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Id = GongExtractString(rhs)
 					case "Figure":
 						__gong__assignSliceOfPointers(&inst.Figure, rhs, identifierMap)
-					case "Duration":
-						inst.Duration = GongExtractString(rhs)
 					case "Footnote":
 						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
 					case "Level":
@@ -2312,15 +2449,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -2331,7 +2468,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Text":
 						inst.Text = GongExtractString(rhs)
 					case "Location":
-						inst.Location = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Location, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractInt(rhs)
 					}
@@ -2365,17 +2502,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Underline":
 						inst.Underline = GongExtractInt(rhs)
 					case "Overline":
@@ -2389,9 +2526,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Line_height":
 						inst.Line_height = GongExtractString(rhs)
 					case "Dir":
-						inst.Dir = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Dir, rhs)
 					case "Enclosure":
-						inst.Enclosure = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Enclosure, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -2412,17 +2549,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Underline":
 						inst.Underline = GongExtractInt(rhs)
 					case "Overline":
@@ -2436,9 +2573,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Line_height":
 						inst.Line_height = GongExtractString(rhs)
 					case "Dir":
-						inst.Dir = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Dir, rhs)
 					case "Enclosure":
-						inst.Enclosure = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Enclosure, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "EnclosedText":
@@ -2465,17 +2602,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Underline":
 						inst.Underline = GongExtractInt(rhs)
 					case "Overline":
@@ -2489,9 +2626,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Line_height":
 						inst.Line_height = GongExtractString(rhs)
 					case "Dir":
-						inst.Dir = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Dir, rhs)
 					case "Enclosure":
-						inst.Enclosure = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Enclosure, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -2516,17 +2653,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Underline":
 						inst.Underline = GongExtractInt(rhs)
 					case "Overline":
@@ -2540,9 +2677,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Line_height":
 						inst.Line_height = GongExtractString(rhs)
 					case "Dir":
-						inst.Dir = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Dir, rhs)
 					case "Enclosure":
-						inst.Enclosure = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Enclosure, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "EnclosedText":
@@ -2552,8 +2689,6 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Duration":
-						inst.Duration = GongExtractString(rhs)
 					case "Footnote":
 						__gong__assignPointer(&inst.Footnote, rhs, identifierMap)
 					case "Level":
@@ -2584,9 +2719,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Frame_strings":
@@ -2602,8 +2737,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "String":
-						__gong__assignPointer(&inst.String, rhs, identifierMap)
+					case "String_XSD":
+						__gong__assignPointer(&inst.String_XSD, rhs, identifierMap)
 					case "Fret":
 						__gong__assignPointer(&inst.Fret, rhs, identifierMap)
 					case "Fingering":
@@ -2618,11 +2753,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
@@ -2635,18 +2770,18 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Glissando:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Line_type":
-						inst.Line_type = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Line_type, rhs)
 					case "Dash_length":
 						inst.Dash_length = GongExtractString(rhs)
 					case "Space_length":
@@ -2662,11 +2797,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Id":
@@ -2678,8 +2813,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -2703,7 +2838,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Group_name:
 					switch fieldName {
@@ -2720,11 +2855,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Justify":
@@ -2747,14 +2882,14 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Grouping:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractString(rhs)
 					case "Member_of":
@@ -2768,8 +2903,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Default_x":
@@ -2783,15 +2918,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -2810,26 +2945,26 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Harmon_closed:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Location":
-						inst.Location = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Location, rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Harmon_mute:
 					switch fieldName {
@@ -2846,15 +2981,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Harmon_closed":
 						__gong__assignPointer(&inst.Harmon_closed, rhs, identifierMap)
 					}
@@ -2875,15 +3010,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Natural":
 						inst.Natural = GongExtractString(rhs)
 					case "Artificial":
@@ -2899,8 +3034,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Print_frame":
 						GongUnmarshallEnum(&inst.Print_frame, rhs)
 					case "Arrangement":
@@ -2918,17 +3053,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "System":
-						GongUnmarshallEnum(&inst.System, rhs)
+						inst.System = GongExtractString(rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Root":
@@ -2975,11 +3110,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
@@ -3000,17 +3135,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Pedal_tuning":
@@ -3020,6 +3155,28 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						GongUnmarshallEnum(&inst.Font_style, rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						GongUnmarshallEnum(&inst.Placement, rhs)
+					case "Substitution":
+						GongUnmarshallEnum(&inst.Substitution, rhs)
 					}
 				case *Hole:
 					switch fieldName {
@@ -3036,15 +3193,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Hole_type":
 						inst.Hole_type = GongExtractString(rhs)
 					case "Hole_closed":
@@ -3057,9 +3214,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Location":
-						inst.Location = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Location, rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Horizontal_turn:
 					switch fieldName {
@@ -3078,21 +3235,21 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Start_note":
-						inst.Start_note = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Start_note, rhs)
 					case "Trill_step":
-						inst.Trill_step = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Trill_step, rhs)
 					case "Two_note_turn":
-						inst.Two_note_turn = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Two_note_turn, rhs)
 					case "Accelerate":
 						GongUnmarshallEnum(&inst.Accelerate, rhs)
 					case "Beats":
@@ -3125,8 +3282,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Name = GongExtractString(rhs)
 					case "Source":
 						inst.Source = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
 					case "Height":
 						inst.Height = GongExtractString(rhs)
 					case "Width":
@@ -3140,9 +3297,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Relative_y":
 						inst.Relative_y = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					}
@@ -3180,11 +3337,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Symbol":
-						inst.Symbol = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Symbol, rhs)
 					case "Separator":
-						inst.Separator = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Separator, rhs)
 					case "Time_relation":
-						inst.Time_relation = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Time_relation, rhs)
 					case "Beats":
 						inst.Beats = GongExtractString(rhs)
 					case "Beat_type":
@@ -3207,11 +3364,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
@@ -3234,11 +3391,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Print_object":
@@ -3305,28 +3462,28 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Level:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Reference":
-						GongUnmarshallEnum(&inst.Reference, rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Reference_XSD":
+						GongUnmarshallEnum(&inst.Reference_XSD, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Parentheses":
 						GongUnmarshallEnum(&inst.Parentheses, rhs)
 					case "Bracket":
@@ -3347,7 +3504,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Line_type":
-						inst.Line_type = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Line_type, rhs)
 					case "Print_object":
 						GongUnmarshallEnum(&inst.Print_object, rhs)
 					}
@@ -3355,8 +3512,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -3368,8 +3525,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.NameXSD = GongExtractString(rhs)
 					case "Href":
 						inst.Href = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
 					case "Role":
 						inst.Role = GongExtractString(rhs)
 					case "Title":
@@ -3422,7 +3579,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "NameXSD":
 						inst.NameXSD = GongExtractString(rhs)
 					case "Time_only":
-						GongUnmarshallEnum(&inst.Time_only, rhs)
+						inst.Time_only = GongExtractString(rhs)
 					case "Justify":
 						GongUnmarshallEnum(&inst.Justify, rhs)
 					case "Default_x":
@@ -3434,19 +3591,19 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Relative_y":
 						inst.Relative_y = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Print_object":
 						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
+					case "Syllabic":
+						GongUnmarshallEnum(&inst.Syllabic, rhs)
+					case "Text":
+						__gong__assignPointer(&inst.Text, rhs, identifierMap)
 					case "Elision":
 						__gong__assignSliceOfPointers(&inst.Elision, rhs, identifierMap)
-					case "Syllabic":
-						inst.Syllabic = GongExtractString(rhs)
-					case "Text":
-						__gong__assignSliceOfPointers(&inst.Text, rhs, identifierMap)
 					case "Extend":
 						__gong__assignPointer(&inst.Extend, rhs, identifierMap)
 					case "Laughing":
@@ -3473,11 +3630,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					}
 				case *Lyric_language:
 					switch fieldName {
@@ -3502,7 +3659,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "System":
-						inst.System = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.System, rhs)
 					case "Staff":
 						inst.Staff = GongExtractInt(rhs)
 					case "Multiple_rest_always":
@@ -3520,26 +3677,26 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Measure_repeat:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Slashes":
 						inst.Slashes = GongExtractInt(rhs)
 					case "EnclosedText":
@@ -3554,11 +3711,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Id":
@@ -3579,7 +3736,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Metal:
 					switch fieldName {
@@ -3588,7 +3745,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Metronome:
 					switch fieldName {
@@ -3607,17 +3764,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Print_object":
 						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Justify":
@@ -3628,16 +3785,16 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						GongUnmarshallEnum(&inst.Beat_unit, rhs)
 					case "Beat_unit_dot":
 						inst.Beat_unit_dot = GongExtractString(rhs)
-					case "Per_minute":
-						__gong__assignPointer(&inst.Per_minute, rhs, identifierMap)
 					case "Beat_unit_tied":
 						__gong__assignSliceOfPointers(&inst.Beat_unit_tied, rhs, identifierMap)
+					case "Per_minute":
+						__gong__assignPointer(&inst.Per_minute, rhs, identifierMap)
 					case "Metronome_arrows":
 						inst.Metronome_arrows = GongExtractString(rhs)
-					case "Metronome_relation":
-						inst.Metronome_relation = GongExtractString(rhs)
 					case "Metronome_note":
 						__gong__assignSliceOfPointers(&inst.Metronome_note, rhs, identifierMap)
+					case "Metronome_relation":
+						inst.Metronome_relation = GongExtractString(rhs)
 					}
 				case *Metronome_beam:
 					switch fieldName {
@@ -3653,7 +3810,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Metronome_type":
-						inst.Metronome_type = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Metronome_type, rhs)
 					case "Metronome_dot":
 						inst.Metronome_dot = GongExtractString(rhs)
 					case "Metronome_beam":
@@ -3667,13 +3824,27 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					}
 				case *Metronome_tuplet:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "Actual_notes":
+						inst.Actual_notes = GongExtractInt(rhs)
+					case "Normal_notes":
+						inst.Normal_notes = GongExtractInt(rhs)
+					case "Normal_type":
+						GongUnmarshallEnum(&inst.Normal_type, rhs)
+					case "Normal_dot":
+						inst.Normal_dot = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
+					case "Bracket":
+						GongUnmarshallEnum(&inst.Bracket, rhs)
+					case "Show_number":
+						GongUnmarshallEnum(&inst.Show_number, rhs)
 					}
 				case *Midi_device:
 					switch fieldName {
@@ -3729,6 +3900,46 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						GongUnmarshallEnum(&inst.Font_style, rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						GongUnmarshallEnum(&inst.Placement, rhs)
+					case "Start_note":
+						GongUnmarshallEnum(&inst.Start_note, rhs)
+					case "Trill_step":
+						GongUnmarshallEnum(&inst.Trill_step, rhs)
+					case "Two_note_turn":
+						GongUnmarshallEnum(&inst.Two_note_turn, rhs)
+					case "Accelerate":
+						GongUnmarshallEnum(&inst.Accelerate, rhs)
+					case "Beats":
+						inst.Beats = GongExtractString(rhs)
+					case "Second_beat":
+						inst.Second_beat = GongExtractString(rhs)
+					case "Last_beat":
+						inst.Last_beat = GongExtractString(rhs)
+					case "Long":
+						GongUnmarshallEnum(&inst.Long, rhs)
+					case "Approach":
+						GongUnmarshallEnum(&inst.Approach, rhs)
+					case "Departure":
+						GongUnmarshallEnum(&inst.Departure, rhs)
 					}
 				case *Multiple_rest:
 					switch fieldName {
@@ -3754,8 +3965,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Default_x":
@@ -3767,7 +3978,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Relative_y":
 						inst.Relative_y = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Id":
@@ -3829,7 +4040,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Release":
 						inst.Release = GongExtractString(rhs)
 					case "Time_only":
-						GongUnmarshallEnum(&inst.Time_only, rhs)
+						inst.Time_only = GongExtractString(rhs)
 					case "Pizzicato":
 						GongUnmarshallEnum(&inst.Pizzicato, rhs)
 					case "Default_x":
@@ -3843,11 +4054,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Print_dot":
@@ -3874,8 +4085,6 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Tie, rhs, identifierMap)
 					case "Cue":
 						inst.Cue = GongExtractString(rhs)
-					case "Duration":
-						inst.Duration = GongExtractString(rhs)
 					case "Instrument":
 						__gong__assignSliceOfPointers(&inst.Instrument, rhs, identifierMap)
 					case "Footnote":
@@ -3884,8 +4093,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Level, rhs, identifierMap)
 					case "Voice":
 						inst.Voice = GongExtractString(rhs)
-					case "Type":
-						__gong__assignPointer(&inst.Type, rhs, identifierMap)
+					case "Type_XSD":
+						__gong__assignPointer(&inst.Type_XSD, rhs, identifierMap)
 					case "Dot":
 						__gong__assignSliceOfPointers(&inst.Dot, rhs, identifierMap)
 					case "Accidental":
@@ -3915,8 +4124,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -3940,17 +4149,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Notehead_text:
 					switch fieldName {
@@ -3981,7 +4190,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Numeral_fifths":
 						inst.Numeral_fifths = GongExtractInt(rhs)
 					case "Numeral_mode":
-						inst.Numeral_mode = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Numeral_mode, rhs)
 					}
 				case *Numeral_root:
 					switch fieldName {
@@ -4000,11 +4209,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
@@ -4014,8 +4223,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Size":
@@ -4035,11 +4244,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Id":
@@ -4060,8 +4269,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Name = GongExtractString(rhs)
 					case "Href":
 						inst.Href = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
 					case "Role":
 						inst.Role = GongExtractString(rhs)
 					case "Title":
@@ -4114,8 +4323,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -4136,17 +4345,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "Id":
@@ -4158,12 +4367,12 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
 					case "Player":
 						inst.Player = GongExtractString(rhs)
 					case "Time_only":
-						GongUnmarshallEnum(&inst.Time_only, rhs)
+						inst.Time_only = GongExtractString(rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -4171,8 +4380,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Print_object":
@@ -4188,15 +4397,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "Id":
@@ -4219,15 +4428,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "EnclosedText":
@@ -4237,8 +4446,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -4266,8 +4475,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Left_margin":
 						inst.Left_margin = GongExtractString(rhs)
 					case "Right_margin":
@@ -4282,7 +4491,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Sign":
-						inst.Sign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Sign, rhs)
 					case "Line":
 						inst.Line = GongExtractInt(rhs)
 					case "Clef_octave_change":
@@ -4292,8 +4501,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractString(rhs)
 					case "Group_name":
@@ -4321,8 +4530,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Name = GongExtractString(rhs)
 					case "Href":
 						inst.Href = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
 					case "Role":
 						inst.Role = GongExtractString(rhs)
 					case "Title":
@@ -4360,11 +4569,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Print_object":
@@ -4412,8 +4621,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Line":
@@ -4433,17 +4642,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					}
@@ -4463,11 +4672,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -4486,19 +4695,19 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Enclosure":
-						inst.Enclosure = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Enclosure, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Glass":
@@ -4520,7 +4729,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Stick":
 						__gong__assignPointer(&inst.Stick, rhs, identifierMap)
 					case "Stick_location":
-						inst.Stick_location = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Stick_location, rhs)
 					case "Other_percussion":
 						__gong__assignPointer(&inst.Other_percussion, rhs, identifierMap)
 					}
@@ -4542,7 +4751,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Placement_text:
 					switch fieldName {
@@ -4559,15 +4768,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -4580,9 +4789,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Ipa":
 						inst.Ipa = GongExtractString(rhs)
 					case "Mute":
-						inst.Mute = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Mute, rhs)
 					case "Semi_pitched":
-						inst.Semi_pitched = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Semi_pitched, rhs)
 					case "Other_play":
 						__gong__assignSliceOfPointers(&inst.Other_play, rhs, identifierMap)
 					}
@@ -4599,10 +4808,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Symbol":
-						inst.Symbol = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Symbol, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -4614,23 +4823,23 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
-				case *Print:
+				case *Print_XSD:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
@@ -4665,19 +4874,21 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "Offset":
+						inst.Offset = GongExtractString(rhs)
 					}
 				case *Repeat:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Direction":
-						inst.Direction = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Direction, rhs)
 					case "Times":
 						inst.Times = GongExtractInt(rhs)
 					case "After_jump":
 						GongUnmarshallEnum(&inst.After_jump, rhs)
 					case "Winged":
-						inst.Winged = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Winged, rhs)
 					}
 				case *Rest:
 					switch fieldName {
@@ -4716,11 +4927,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
@@ -4855,17 +5066,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					}
@@ -4873,8 +5084,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Use_dots":
 						GongUnmarshallEnum(&inst.Use_dots, rhs)
 					case "Use_stems":
@@ -4890,12 +5101,12 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Line_type":
-						inst.Line_type = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Line_type, rhs)
 					case "Dash_length":
 						inst.Dash_length = GongExtractString(rhs)
 					case "Space_length":
@@ -4911,11 +5122,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Accelerate":
@@ -4935,12 +5146,12 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Line_type":
-						inst.Line_type = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Line_type, rhs)
 					case "Dash_length":
 						inst.Dash_length = GongExtractString(rhs)
 					case "Space_length":
@@ -4954,9 +5165,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Relative_y":
 						inst.Relative_y = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Orientation":
-						inst.Orientation = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Orientation, rhs)
 					case "Bezier_x":
 						inst.Bezier_x = GongExtractString(rhs)
 					case "Bezier_y":
@@ -4999,7 +5210,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Fine":
 						inst.Fine = GongExtractString(rhs)
 					case "Time_only":
-						GongUnmarshallEnum(&inst.Time_only, rhs)
+						inst.Time_only = GongExtractString(rhs)
 					case "Pizzicato":
 						GongUnmarshallEnum(&inst.Pizzicato, rhs)
 					case "Pan":
@@ -5034,13 +5245,13 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Show_frets":
-						inst.Show_frets = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Show_frets, rhs)
 					case "Print_object":
 						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Print_spacing":
 						GongUnmarshallEnum(&inst.Print_spacing, rhs)
 					case "Staff_type":
-						inst.Staff_type = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Staff_type, rhs)
 					case "Staff_lines":
 						inst.Staff_lines = GongExtractInt(rhs)
 					case "Line_detail":
@@ -5056,8 +5267,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -5069,17 +5280,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					}
@@ -5129,7 +5340,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Stick:
 					switch fieldName {
@@ -5142,16 +5353,16 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Dashed_circle":
 						GongUnmarshallEnum(&inst.Dashed_circle, rhs)
 					case "Stick_type":
-						inst.Stick_type = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Stick_type, rhs)
 					case "Stick_material":
-						inst.Stick_material = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Stick_material, rhs)
 					}
 				case *String_mute:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -5163,17 +5374,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					}
@@ -5192,15 +5403,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractInt(rhs)
 					}
@@ -5208,6 +5419,28 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "Default_x":
+						inst.Default_x = GongExtractString(rhs)
+					case "Default_y":
+						inst.Default_y = GongExtractString(rhs)
+					case "Relative_x":
+						inst.Relative_x = GongExtractString(rhs)
+					case "Relative_y":
+						inst.Relative_y = GongExtractString(rhs)
+					case "Font_family":
+						inst.Font_family = GongExtractString(rhs)
+					case "Font_style":
+						GongUnmarshallEnum(&inst.Font_style, rhs)
+					case "Font_size":
+						inst.Font_size = GongExtractString(rhs)
+					case "Font_weight":
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "Placement":
+						GongUnmarshallEnum(&inst.Placement, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					}
 				case *Style_text:
 					switch fieldName {
@@ -5224,11 +5457,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
@@ -5238,8 +5471,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Element":
 						inst.Element = GongExtractString(rhs)
 					case "Attribute":
@@ -5258,7 +5491,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Second":
 						inst.Second = GongExtractInt(rhs)
 					case "Swing_type":
-						GongUnmarshallEnum(&inst.Swing_type, rhs)
+						inst.Swing_type = GongExtractString(rhs)
 					case "Swing_style":
 						inst.Swing_style = GongExtractString(rhs)
 					}
@@ -5266,14 +5499,14 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Latency":
 						inst.Latency = GongExtractInt(rhs)
 					case "Player":
 						inst.Player = GongExtractString(rhs)
 					case "Time_only":
-						GongUnmarshallEnum(&inst.Time_only, rhs)
+						inst.Time_only = GongExtractString(rhs)
 					}
 				case *System_dividers:
 					switch fieldName {
@@ -5311,7 +5544,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Name":
 						inst.Name = GongExtractString(rhs)
 					case "Hand":
-						inst.Hand = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Hand, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -5323,15 +5556,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -5365,8 +5598,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignSliceOfPointers(&inst.Snap_pizzicato, rhs, identifierMap)
 					case "Fret":
 						__gong__assignSliceOfPointers(&inst.Fret, rhs, identifierMap)
-					case "String":
-						__gong__assignSliceOfPointers(&inst.String, rhs, identifierMap)
+					case "String_XSD":
+						__gong__assignSliceOfPointers(&inst.String_XSD, rhs, identifierMap)
 					case "Hammer_on":
 						__gong__assignSliceOfPointers(&inst.Hammer_on, rhs, identifierMap)
 					case "Pull_off":
@@ -5413,11 +5646,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Underline":
@@ -5431,7 +5664,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Letter_spacing":
 						inst.Letter_spacing = GongExtractString(rhs)
 					case "Dir":
-						inst.Dir = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Dir, rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -5439,21 +5672,21 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Time_only":
-						GongUnmarshallEnum(&inst.Time_only, rhs)
+						inst.Time_only = GongExtractString(rhs)
 					}
 				case *Tied:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Line_type":
-						inst.Line_type = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Line_type, rhs)
 					case "Dash_length":
 						inst.Dash_length = GongExtractString(rhs)
 					case "Space_length":
@@ -5467,9 +5700,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Relative_y":
 						inst.Relative_y = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Orientation":
-						inst.Orientation = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Orientation, rhs)
 					case "Bezier_x":
 						inst.Bezier_x = GongExtractString(rhs)
 					case "Bezier_y":
@@ -5508,17 +5741,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Halign":
-						inst.Halign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Halign, rhs)
 					case "Valign":
-						inst.Valign = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Valign, rhs)
 					case "Print_object":
 						GongUnmarshallEnum(&inst.Print_object, rhs)
 					case "Id":
@@ -5573,8 +5806,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -5586,15 +5819,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "EnclosedText":
@@ -5604,18 +5837,18 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Bracket":
 						GongUnmarshallEnum(&inst.Bracket, rhs)
 					case "Show_number":
-						inst.Show_number = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Show_number, rhs)
 					case "Show_type":
 						GongUnmarshallEnum(&inst.Show_type, rhs)
 					case "Line_shape":
-						inst.Line_shape = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Line_shape, rhs)
 					case "Default_x":
 						inst.Default_x = GongExtractString(rhs)
 					case "Default_y":
@@ -5625,7 +5858,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Relative_y":
 						inst.Relative_y = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Id":
 						inst.Id = GongExtractString(rhs)
 					case "Tuplet_actual":
@@ -5640,11 +5873,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					}
@@ -5655,11 +5888,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
@@ -5683,11 +5916,11 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Font_family":
 						inst.Font_family = GongExtractString(rhs)
 					case "Font_style":
-						inst.Font_style = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_style, rhs)
 					case "Font_size":
 						inst.Font_size = GongExtractString(rhs)
 					case "Font_weight":
-						inst.Font_weight = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Font_weight, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "EnclosedText":
@@ -5697,8 +5930,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						inst.Type_XSD = GongExtractString(rhs)
 					case "EnclosedText":
 						inst.EnclosedText = GongExtractString(rhs)
 					}
@@ -5727,14 +5960,14 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Player":
 						inst.Player = GongExtractString(rhs)
 					case "Time_only":
-						GongUnmarshallEnum(&inst.Time_only, rhs)
+						inst.Time_only = GongExtractString(rhs)
 					}
 				case *Wavy_line:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						GongUnmarshallEnum(&inst.Type, rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Smufl":
@@ -5748,15 +5981,15 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Relative_y":
 						inst.Relative_y = GongExtractString(rhs)
 					case "Placement":
-						inst.Placement = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Placement, rhs)
 					case "Color":
 						inst.Color = GongExtractString(rhs)
 					case "Start_note":
-						inst.Start_note = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Start_note, rhs)
 					case "Trill_step":
-						inst.Trill_step = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Trill_step, rhs)
 					case "Two_note_turn":
-						inst.Two_note_turn = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Two_note_turn, rhs)
 					case "Accelerate":
 						GongUnmarshallEnum(&inst.Accelerate, rhs)
 					case "Beats":
@@ -5770,8 +6003,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Type":
-						inst.Type = GongExtractString(rhs)
+					case "Type_XSD":
+						GongUnmarshallEnum(&inst.Type_XSD, rhs)
 					case "Number":
 						inst.Number = GongExtractInt(rhs)
 					case "Spread":
@@ -5779,7 +6012,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Niente":
 						GongUnmarshallEnum(&inst.Niente, rhs)
 					case "Line_type":
-						inst.Line_type = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.Line_type, rhs)
 					case "Dash_length":
 						inst.Dash_length = GongExtractString(rhs)
 					case "Space_length":
@@ -5804,7 +6037,7 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "Smufl":
 						inst.Smufl = GongExtractString(rhs)
 					case "EnclosedText":
-						inst.EnclosedText = GongExtractString(rhs)
+						GongUnmarshallEnum(&inst.EnclosedText, rhs)
 					}
 				case *Work:
 					switch fieldName {
@@ -5828,6 +6061,12 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					if sel.Sel.Name == "Unstage" {
 						if ident, ok := sel.X.(*ast.Ident); ok {
 							if instance, ok := identifierMap[ident.Name]; ok {
+								if inst, ok := instance.(xmlxsd.GongstructIF); ok && stage.XmlxsdStage != nil {
+									inst.UnstageVoid(stage.XmlxsdStage)
+								}
+								if inst, ok := instance.(xlink.GongstructIF); ok && stage.XlinkStage != nil {
+									inst.UnstageVoid(stage.XlinkStage)
+								}
 								if inst, ok := instance.(GongstructIF); ok {
 									inst.UnstageVoid(stage)
 								}
@@ -6022,11 +6261,11 @@ func (u *A_directiveUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -6074,8 +6313,8 @@ func (u *A_measureUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		GongUnmarshallSliceOfPointers(&instance.Harmony, valueExpr, identifierMap)
 	case "Figured_bass":
 		GongUnmarshallSliceOfPointers(&instance.Figured_bass, valueExpr, identifierMap)
-	case "Print":
-		GongUnmarshallSliceOfPointers(&instance.Print, valueExpr, identifierMap)
+	case "Print_XSD":
+		GongUnmarshallSliceOfPointers(&instance.Print_XSD, valueExpr, identifierMap)
 	case "Sound":
 		GongUnmarshallSliceOfPointers(&instance.Sound, valueExpr, identifierMap)
 	case "Listening":
@@ -6173,8 +6412,8 @@ func (u *A_part_1Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		GongUnmarshallSliceOfPointers(&instance.Harmony, valueExpr, identifierMap)
 	case "Figured_bass":
 		GongUnmarshallSliceOfPointers(&instance.Figured_bass, valueExpr, identifierMap)
-	case "Print":
-		GongUnmarshallSliceOfPointers(&instance.Print, valueExpr, identifierMap)
+	case "Print_XSD":
+		GongUnmarshallSliceOfPointers(&instance.Print_XSD, valueExpr, identifierMap)
 	case "Sound":
 		GongUnmarshallSliceOfPointers(&instance.Sound, valueExpr, identifierMap)
 	case "Listening":
@@ -6205,7 +6444,7 @@ func (u *AccidentalUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Cautionary":
-		instance.Cautionary = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Cautionary, valueExpr)
 	case "Editorial":
 		GongUnmarshallEnum(&instance.Editorial, valueExpr)
 	case "Smufl":
@@ -6227,15 +6466,15 @@ func (u *AccidentalUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -6272,15 +6511,15 @@ func (u *Accidental_markUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -6321,17 +6560,17 @@ func (u *Accidental_textUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Underline":
 		instance.Underline = GongExtractInt(valueExpr)
 	case "Overline":
@@ -6345,9 +6584,9 @@ func (u *Accidental_textUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	case "Line_height":
 		instance.Line_height = GongExtractString(valueExpr)
 	case "Dir":
-		instance.Dir = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Dir, valueExpr)
 	case "Enclosure":
-		instance.Enclosure = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Enclosure, valueExpr)
 	case "EnclosedText":
 		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
@@ -6367,8 +6606,8 @@ func (u *AccordUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "String":
-		instance.String = GongExtractInt(valueExpr)
+	case "String_XSD":
+		instance.String_XSD = GongExtractInt(valueExpr)
 	case "Tuning_step":
 		GongUnmarshallEnum(&instance.Tuning_step, valueExpr)
 	case "Tuning_alter":
@@ -6403,17 +6642,17 @@ func (u *Accordion_registrationUnmarshaller) UnmarshallField(stage *Stage, i Gon
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "Accordion_high":
@@ -6469,7 +6708,7 @@ func (u *ArpeggiateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Direction":
-		instance.Direction = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Direction, valueExpr)
 	case "Unbroken":
 		GongUnmarshallEnum(&instance.Unbroken, valueExpr)
 	case "Default_x":
@@ -6481,7 +6720,7 @@ func (u *ArpeggiateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Relative_y":
 		instance.Relative_y = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Id":
@@ -6514,25 +6753,25 @@ func (u *ArrowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Smufl":
 		instance.Smufl = GongExtractString(valueExpr)
 	case "Arrow_direction":
-		instance.Arrow_direction = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Arrow_direction, valueExpr)
 	case "Arrow_style":
-		instance.Arrow_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Arrow_style, valueExpr)
 	case "Arrowhead":
 		instance.Arrowhead = GongExtractString(valueExpr)
 	case "Circular_arrow":
-		instance.Circular_arrow = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Circular_arrow, valueExpr)
 	}
 	return nil
 }
@@ -6603,8 +6842,8 @@ func (u *AssessUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Player":
 		instance.Player = GongExtractString(valueExpr)
 	case "Time_only":
@@ -6635,7 +6874,7 @@ func (u *AttributesUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Key":
 		GongUnmarshallSliceOfPointers(&instance.Key, valueExpr, identifierMap)
 	case "Time":
-		GongUnmarshallSliceOfPointers(&instance.Time, valueExpr, identifierMap)
+		instance.Time = GongExtractString(valueExpr)
 	case "Staves":
 		instance.Staves = GongExtractInt(valueExpr)
 	case "Part_symbol":
@@ -6671,8 +6910,6 @@ func (u *BackupUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Duration":
-		instance.Duration = GongExtractString(valueExpr)
 	case "Footnote":
 		GongUnmarshallPointer(&instance.Footnote, valueExpr, identifierMap)
 	case "Level":
@@ -6697,7 +6934,7 @@ func (u *Bar_style_colorUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -6716,7 +6953,7 @@ func (u *BarlineUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Location":
-		instance.Location = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Location, valueExpr)
 	case "Segno":
 		instance.Segno = GongExtractString(valueExpr)
 	case "Coda":
@@ -6760,8 +6997,8 @@ func (u *BarreUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	}
@@ -6782,7 +7019,7 @@ func (u *BassUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Arrangement":
-		instance.Arrangement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Arrangement, valueExpr)
 	case "Bass_separator":
 		GongUnmarshallPointer(&instance.Bass_separator, valueExpr, identifierMap)
 	case "Bass_step":
@@ -6819,15 +7056,15 @@ func (u *Bass_stepUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -6850,13 +7087,13 @@ func (u *BeamUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Repeater":
 		GongUnmarshallEnum(&instance.Repeater, valueExpr)
 	case "Fan":
-		instance.Fan = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Fan, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -6874,8 +7111,8 @@ func (u *Beat_repeatUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Slashes":
 		instance.Slashes = GongExtractInt(valueExpr)
 	case "Use_dots":
@@ -6925,9 +7162,9 @@ func (u *BeaterUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Tip":
-		instance.Tip = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Tip, valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -6946,7 +7183,7 @@ func (u *BendUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Shape":
-		instance.Shape = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Shape, valueExpr)
 	case "Default_x":
 		instance.Default_x = GongExtractString(valueExpr)
 	case "Default_y":
@@ -6958,11 +7195,11 @@ func (u *BendUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Accelerate":
@@ -7023,16 +7260,16 @@ func (u *BracketUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Line_end":
-		instance.Line_end = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Line_end, valueExpr)
 	case "End_length":
 		instance.End_length = GongExtractString(valueExpr)
 	case "Line_type":
-		instance.Line_type = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Line_type, valueExpr)
 	case "Dash_length":
 		instance.Dash_length = GongExtractString(valueExpr)
 	case "Space_length":
@@ -7077,17 +7314,17 @@ func (u *Breath_markUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -7116,17 +7353,17 @@ func (u *CaesuraUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -7145,7 +7382,7 @@ func (u *CancelUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Location":
-		instance.Location = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Location, valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractInt(valueExpr)
 	}
@@ -7170,7 +7407,7 @@ func (u *ClefUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Additional":
 		GongUnmarshallEnum(&instance.Additional, valueExpr)
 	case "Size":
-		instance.Size = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Size, valueExpr)
 	case "After_barline":
 		GongUnmarshallEnum(&instance.After_barline, valueExpr)
 	case "Default_x":
@@ -7184,11 +7421,11 @@ func (u *ClefUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Print_object":
@@ -7196,7 +7433,7 @@ func (u *ClefUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "Sign":
-		instance.Sign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Sign, valueExpr)
 	case "Line":
 		instance.Line = GongExtractInt(valueExpr)
 	case "Clef_octave_change":
@@ -7231,17 +7468,17 @@ func (u *CodaUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	}
@@ -7267,16 +7504,16 @@ func (u *CreditUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.Id = GongExtractString(valueExpr)
 	case "Credit_type":
 		instance.Credit_type = GongExtractString(valueExpr)
-	case "Credit_image":
-		GongUnmarshallPointer(&instance.Credit_image, valueExpr, identifierMap)
 	case "Link":
 		GongUnmarshallSliceOfPointers(&instance.Link, valueExpr, identifierMap)
 	case "Bookmark":
 		GongUnmarshallSliceOfPointers(&instance.Bookmark, valueExpr, identifierMap)
+	case "Credit_image":
+		GongUnmarshallPointer(&instance.Credit_image, valueExpr, identifierMap)
 	case "Credit_words":
-		GongUnmarshallSliceOfPointers(&instance.Credit_words, valueExpr, identifierMap)
+		GongUnmarshallPointer(&instance.Credit_words, valueExpr, identifierMap)
 	case "Credit_symbol":
-		GongUnmarshallSliceOfPointers(&instance.Credit_symbol, valueExpr, identifierMap)
+		GongUnmarshallPointer(&instance.Credit_symbol, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -7294,8 +7531,8 @@ func (u *DashesUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Dash_length":
@@ -7406,11 +7643,11 @@ func (u *Degree_alterUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -7445,15 +7682,15 @@ func (u *Degree_typeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -7472,7 +7709,7 @@ func (u *Degree_valueUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Symbol":
-		instance.Symbol = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Symbol, valueExpr)
 	case "Text":
 		instance.Text = GongExtractString(valueExpr)
 	case "Default_x":
@@ -7486,11 +7723,11 @@ func (u *Degree_valueUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -7513,11 +7750,11 @@ func (u *DirectionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Directive":
 		GongUnmarshallEnum(&instance.Directive, valueExpr)
 	case "System":
-		GongUnmarshallEnum(&instance.System, valueExpr)
+		instance.System = GongExtractString(valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "Direction_type":
@@ -7620,8 +7857,8 @@ func (u *DistanceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		instance.Type_XSD = GongExtractString(valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -7671,19 +7908,19 @@ func (u *DynamicsUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Underline":
 		instance.Underline = GongExtractInt(valueExpr)
 	case "Overline":
@@ -7691,7 +7928,7 @@ func (u *DynamicsUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	case "Line_through":
 		instance.Line_through = GongExtractInt(valueExpr)
 	case "Enclosure":
-		instance.Enclosure = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Enclosure, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "P":
@@ -7768,7 +8005,7 @@ func (u *EffectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	case "Smufl":
 		instance.Smufl = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -7791,11 +8028,11 @@ func (u *ElisionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -7837,11 +8074,11 @@ func (u *Empty_fontUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	}
 	return nil
 }
@@ -7860,11 +8097,11 @@ func (u *Empty_lineUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Line_shape":
-		instance.Line_shape = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Line_shape, valueExpr)
 	case "Line_type":
-		instance.Line_type = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Line_type, valueExpr)
 	case "Line_length":
-		instance.Line_length = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Line_length, valueExpr)
 	case "Dash_length":
 		instance.Dash_length = GongExtractString(valueExpr)
 	case "Space_length":
@@ -7880,15 +8117,15 @@ func (u *Empty_lineUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	}
 	return nil
 }
@@ -7917,15 +8154,15 @@ func (u *Empty_placementUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	}
 	return nil
 }
@@ -7954,15 +8191,15 @@ func (u *Empty_placement_smuflUnmarshaller) UnmarshallField(stage *Stage, i Gong
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Smufl":
 		instance.Smufl = GongExtractString(valueExpr)
 	}
@@ -7995,17 +8232,17 @@ func (u *Empty_print_object_style_alignUnmarshaller) UnmarshallField(stage *Stag
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	}
 	return nil
 }
@@ -8034,11 +8271,11 @@ func (u *Empty_print_styleUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	}
@@ -8069,17 +8306,17 @@ func (u *Empty_print_style_alignUnmarshaller) UnmarshallField(stage *Stage, i Go
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	}
 	return nil
 }
@@ -8108,17 +8345,17 @@ func (u *Empty_print_style_align_idUnmarshaller) UnmarshallField(stage *Stage, i
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	}
@@ -8149,21 +8386,21 @@ func (u *Empty_trill_soundUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Start_note":
-		instance.Start_note = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Start_note, valueExpr)
 	case "Trill_step":
-		instance.Trill_step = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Trill_step, valueExpr)
 	case "Two_note_turn":
-		instance.Two_note_turn = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Two_note_turn, valueExpr)
 	case "Accelerate":
 		GongUnmarshallEnum(&instance.Accelerate, valueExpr)
 	case "Beats":
@@ -8189,6 +8426,8 @@ func (u *EncodingUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Encoding_date":
+		instance.Encoding_date = GongExtractString(valueExpr)
 	case "Encoder":
 		GongUnmarshallSliceOfPointers(&instance.Encoder, valueExpr, identifierMap)
 	case "Software":
@@ -8216,8 +8455,8 @@ func (u *EndingUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.Name = GongExtractString(valueExpr)
 	case "Number":
 		instance.Number = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "End_length":
 		instance.End_length = GongExtractString(valueExpr)
 	case "Text_x":
@@ -8237,15 +8476,15 @@ func (u *EndingUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "System":
-		GongUnmarshallEnum(&instance.System, valueExpr)
+		instance.System = GongExtractString(valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -8265,8 +8504,8 @@ func (u *ExtendUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Default_x":
 		instance.Default_x = GongExtractString(valueExpr)
 	case "Default_y":
@@ -8294,8 +8533,8 @@ func (u *FeatureUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		instance.Type_XSD = GongExtractString(valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -8315,8 +8554,8 @@ func (u *FermataUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Default_x":
 		instance.Default_x = GongExtractString(valueExpr)
 	case "Default_y":
@@ -8328,17 +8567,17 @@ func (u *FermataUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -8398,19 +8637,19 @@ func (u *Figured_bassUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Print_dot":
 		GongUnmarshallEnum(&instance.Print_dot, valueExpr)
 	case "Print_lyric":
@@ -8423,8 +8662,6 @@ func (u *Figured_bassUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.Id = GongExtractString(valueExpr)
 	case "Figure":
 		GongUnmarshallSliceOfPointers(&instance.Figure, valueExpr, identifierMap)
-	case "Duration":
-		instance.Duration = GongExtractString(valueExpr)
 	case "Footnote":
 		GongUnmarshallPointer(&instance.Footnote, valueExpr, identifierMap)
 	case "Level":
@@ -8461,15 +8698,15 @@ func (u *FingeringUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -8492,7 +8729,7 @@ func (u *First_fretUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Text":
 		instance.Text = GongExtractString(valueExpr)
 	case "Location":
-		instance.Location = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Location, valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractInt(valueExpr)
 	}
@@ -8550,17 +8787,17 @@ func (u *Formatted_symbolUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Underline":
 		instance.Underline = GongExtractInt(valueExpr)
 	case "Overline":
@@ -8574,9 +8811,9 @@ func (u *Formatted_symbolUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	case "Line_height":
 		instance.Line_height = GongExtractString(valueExpr)
 	case "Dir":
-		instance.Dir = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Dir, valueExpr)
 	case "Enclosure":
-		instance.Enclosure = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Enclosure, valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -8609,17 +8846,17 @@ func (u *Formatted_symbol_idUnmarshaller) UnmarshallField(stage *Stage, i Gongst
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Underline":
 		instance.Underline = GongExtractInt(valueExpr)
 	case "Overline":
@@ -8633,9 +8870,9 @@ func (u *Formatted_symbol_idUnmarshaller) UnmarshallField(stage *Stage, i Gongst
 	case "Line_height":
 		instance.Line_height = GongExtractString(valueExpr)
 	case "Dir":
-		instance.Dir = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Dir, valueExpr)
 	case "Enclosure":
-		instance.Enclosure = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Enclosure, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -8674,17 +8911,17 @@ func (u *Formatted_textUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Underline":
 		instance.Underline = GongExtractInt(valueExpr)
 	case "Overline":
@@ -8698,9 +8935,9 @@ func (u *Formatted_textUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	case "Line_height":
 		instance.Line_height = GongExtractString(valueExpr)
 	case "Dir":
-		instance.Dir = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Dir, valueExpr)
 	case "Enclosure":
-		instance.Enclosure = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Enclosure, valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -8737,17 +8974,17 @@ func (u *Formatted_text_idUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Underline":
 		instance.Underline = GongExtractInt(valueExpr)
 	case "Overline":
@@ -8761,9 +8998,9 @@ func (u *Formatted_text_idUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 	case "Line_height":
 		instance.Line_height = GongExtractString(valueExpr)
 	case "Dir":
-		instance.Dir = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Dir, valueExpr)
 	case "Enclosure":
-		instance.Enclosure = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Enclosure, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -8785,8 +9022,6 @@ func (u *ForwardUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Duration":
-		instance.Duration = GongExtractString(valueExpr)
 	case "Footnote":
 		GongUnmarshallPointer(&instance.Footnote, valueExpr, identifierMap)
 	case "Level":
@@ -8829,9 +9064,9 @@ func (u *FrameUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "Frame_strings":
@@ -8859,8 +9094,8 @@ func (u *Frame_noteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "String":
-		GongUnmarshallPointer(&instance.String, valueExpr, identifierMap)
+	case "String_XSD":
+		GongUnmarshallPointer(&instance.String_XSD, valueExpr, identifierMap)
 	case "Fret":
 		GongUnmarshallPointer(&instance.Fret, valueExpr, identifierMap)
 	case "Fingering":
@@ -8887,11 +9122,11 @@ func (u *FretUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -8916,7 +9151,7 @@ func (u *GlassUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Smufl":
 		instance.Smufl = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -8934,12 +9169,12 @@ func (u *GlissandoUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Line_type":
-		instance.Line_type = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Line_type, valueExpr)
 	case "Dash_length":
 		instance.Dash_length = GongExtractString(valueExpr)
 	case "Space_length":
@@ -8955,11 +9190,11 @@ func (u *GlissandoUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Id":
@@ -8983,8 +9218,8 @@ func (u *GlyphUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		instance.Type_XSD = GongExtractString(valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -9032,7 +9267,7 @@ func (u *Group_barlineUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -9061,11 +9296,11 @@ func (u *Group_nameUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Justify":
@@ -9100,7 +9335,7 @@ func (u *Group_symbolUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -9118,8 +9353,8 @@ func (u *GroupingUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractString(valueExpr)
 	case "Member_of":
@@ -9145,8 +9380,8 @@ func (u *Hammer_on_pull_offUnmarshaller) UnmarshallField(stage *Stage, i Gongstr
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Default_x":
@@ -9160,15 +9395,15 @@ func (u *Hammer_on_pull_offUnmarshaller) UnmarshallField(stage *Stage, i Gongstr
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -9199,17 +9434,17 @@ func (u *HandbellUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -9228,9 +9463,9 @@ func (u *Harmon_closedUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Location":
-		instance.Location = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Location, valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -9259,15 +9494,15 @@ func (u *Harmon_muteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Harmon_closed":
 		GongUnmarshallPointer(&instance.Harmon_closed, valueExpr, identifierMap)
 	}
@@ -9300,15 +9535,15 @@ func (u *HarmonicUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Natural":
 		instance.Natural = GongExtractString(valueExpr)
 	case "Artificial":
@@ -9336,8 +9571,8 @@ func (u *HarmonyUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Print_frame":
 		GongUnmarshallEnum(&instance.Print_frame, valueExpr)
 	case "Arrangement":
@@ -9355,17 +9590,17 @@ func (u *HarmonyUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "System":
-		GongUnmarshallEnum(&instance.System, valueExpr)
+		instance.System = GongExtractString(valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "Root":
@@ -9424,11 +9659,11 @@ func (u *Harmony_alterUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -9461,17 +9696,17 @@ func (u *Harp_pedalsUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "Pedal_tuning":
@@ -9493,6 +9728,28 @@ func (u *Heel_toeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Default_x":
+		instance.Default_x = GongExtractString(valueExpr)
+	case "Default_y":
+		instance.Default_y = GongExtractString(valueExpr)
+	case "Relative_x":
+		instance.Relative_x = GongExtractString(valueExpr)
+	case "Relative_y":
+		instance.Relative_y = GongExtractString(valueExpr)
+	case "Font_family":
+		instance.Font_family = GongExtractString(valueExpr)
+	case "Font_style":
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
+	case "Font_size":
+		instance.Font_size = GongExtractString(valueExpr)
+	case "Font_weight":
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "Placement":
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
+	case "Substitution":
+		GongUnmarshallEnum(&instance.Substitution, valueExpr)
 	}
 	return nil
 }
@@ -9521,15 +9778,15 @@ func (u *HoleUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Hole_type":
 		instance.Hole_type = GongExtractString(valueExpr)
 	case "Hole_closed":
@@ -9554,9 +9811,9 @@ func (u *Hole_closedUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Location":
-		instance.Location = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Location, valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -9587,21 +9844,21 @@ func (u *Horizontal_turnUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Start_note":
-		instance.Start_note = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Start_note, valueExpr)
 	case "Trill_step":
-		instance.Trill_step = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Trill_step, valueExpr)
 	case "Two_note_turn":
-		instance.Two_note_turn = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Two_note_turn, valueExpr)
 	case "Accelerate":
 		GongUnmarshallEnum(&instance.Accelerate, valueExpr)
 	case "Beats":
@@ -9658,8 +9915,8 @@ func (u *ImageUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.Name = GongExtractString(valueExpr)
 	case "Source":
 		instance.Source = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		instance.Type_XSD = GongExtractString(valueExpr)
 	case "Height":
 		instance.Height = GongExtractString(valueExpr)
 	case "Width":
@@ -9673,9 +9930,9 @@ func (u *ImageUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Relative_y":
 		instance.Relative_y = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	}
@@ -9761,11 +10018,11 @@ func (u *InterchangeableUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Symbol":
-		instance.Symbol = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Symbol, valueExpr)
 	case "Separator":
-		instance.Separator = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Separator, valueExpr)
 	case "Time_relation":
-		instance.Time_relation = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Time_relation, valueExpr)
 	case "Beats":
 		instance.Beats = GongExtractString(valueExpr)
 	case "Beat_type":
@@ -9800,11 +10057,11 @@ func (u *InversionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -9839,11 +10096,11 @@ func (u *KeyUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNam
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Print_object":
@@ -9946,19 +10203,19 @@ func (u *KindUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -9976,10 +10233,10 @@ func (u *LevelUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Reference":
-		GongUnmarshallEnum(&instance.Reference, valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Reference_XSD":
+		GongUnmarshallEnum(&instance.Reference_XSD, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Parentheses":
 		GongUnmarshallEnum(&instance.Parentheses, valueExpr)
 	case "Bracket":
@@ -10012,7 +10269,7 @@ func (u *Line_detailUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Line_type":
-		instance.Line_type = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Line_type, valueExpr)
 	case "Print_object":
 		GongUnmarshallEnum(&instance.Print_object, valueExpr)
 	}
@@ -10032,8 +10289,8 @@ func (u *Line_widthUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		instance.Type_XSD = GongExtractString(valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -10057,8 +10314,8 @@ func (u *LinkUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.NameXSD = GongExtractString(valueExpr)
 	case "Href":
 		instance.Href = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		instance.Type_XSD = GongExtractString(valueExpr)
 	case "Role":
 		instance.Role = GongExtractString(valueExpr)
 	case "Title":
@@ -10147,7 +10404,7 @@ func (u *LyricUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "NameXSD":
 		instance.NameXSD = GongExtractString(valueExpr)
 	case "Time_only":
-		GongUnmarshallEnum(&instance.Time_only, valueExpr)
+		instance.Time_only = GongExtractString(valueExpr)
 	case "Justify":
 		GongUnmarshallEnum(&instance.Justify, valueExpr)
 	case "Default_x":
@@ -10159,19 +10416,19 @@ func (u *LyricUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Relative_y":
 		instance.Relative_y = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Print_object":
 		GongUnmarshallEnum(&instance.Print_object, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
+	case "Syllabic":
+		GongUnmarshallEnum(&instance.Syllabic, valueExpr)
+	case "Text":
+		GongUnmarshallPointer(&instance.Text, valueExpr, identifierMap)
 	case "Elision":
 		GongUnmarshallSliceOfPointers(&instance.Elision, valueExpr, identifierMap)
-	case "Syllabic":
-		instance.Syllabic = GongExtractString(valueExpr)
-	case "Text":
-		GongUnmarshallSliceOfPointers(&instance.Text, valueExpr, identifierMap)
 	case "Extend":
 		GongUnmarshallPointer(&instance.Extend, valueExpr, identifierMap)
 	case "Laughing":
@@ -10210,11 +10467,11 @@ func (u *Lyric_fontUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	}
 	return nil
 }
@@ -10275,7 +10532,7 @@ func (u *Measure_numberingUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "System":
-		instance.System = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.System, valueExpr)
 	case "Staff":
 		instance.Staff = GongExtractInt(valueExpr)
 	case "Multiple_rest_always":
@@ -10293,19 +10550,19 @@ func (u *Measure_numberingUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -10323,8 +10580,8 @@ func (u *Measure_repeatUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Slashes":
 		instance.Slashes = GongExtractInt(valueExpr)
 	case "EnclosedText":
@@ -10351,11 +10608,11 @@ func (u *Measure_styleUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Id":
@@ -10388,7 +10645,7 @@ func (u *MembraneUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	case "Smufl":
 		instance.Smufl = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -10409,7 +10666,7 @@ func (u *MetalUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Smufl":
 		instance.Smufl = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -10440,17 +10697,17 @@ func (u *MetronomeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Print_object":
 		GongUnmarshallEnum(&instance.Print_object, valueExpr)
 	case "Justify":
@@ -10461,16 +10718,16 @@ func (u *MetronomeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		GongUnmarshallEnum(&instance.Beat_unit, valueExpr)
 	case "Beat_unit_dot":
 		instance.Beat_unit_dot = GongExtractString(valueExpr)
-	case "Per_minute":
-		GongUnmarshallPointer(&instance.Per_minute, valueExpr, identifierMap)
 	case "Beat_unit_tied":
 		GongUnmarshallSliceOfPointers(&instance.Beat_unit_tied, valueExpr, identifierMap)
+	case "Per_minute":
+		GongUnmarshallPointer(&instance.Per_minute, valueExpr, identifierMap)
 	case "Metronome_arrows":
 		instance.Metronome_arrows = GongExtractString(valueExpr)
-	case "Metronome_relation":
-		instance.Metronome_relation = GongExtractString(valueExpr)
 	case "Metronome_note":
 		GongUnmarshallSliceOfPointers(&instance.Metronome_note, valueExpr, identifierMap)
+	case "Metronome_relation":
+		instance.Metronome_relation = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -10510,7 +10767,7 @@ func (u *Metronome_noteUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Metronome_type":
-		instance.Metronome_type = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Metronome_type, valueExpr)
 	case "Metronome_dot":
 		instance.Metronome_dot = GongExtractString(valueExpr)
 	case "Metronome_beam":
@@ -10536,8 +10793,8 @@ func (u *Metronome_tiedUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	}
 	return nil
 }
@@ -10555,6 +10812,20 @@ func (u *Metronome_tupletUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Actual_notes":
+		instance.Actual_notes = GongExtractInt(valueExpr)
+	case "Normal_notes":
+		instance.Normal_notes = GongExtractInt(valueExpr)
+	case "Normal_type":
+		GongUnmarshallEnum(&instance.Normal_type, valueExpr)
+	case "Normal_dot":
+		instance.Normal_dot = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
+	case "Bracket":
+		GongUnmarshallEnum(&instance.Bracket, valueExpr)
+	case "Show_number":
+		GongUnmarshallEnum(&instance.Show_number, valueExpr)
 	}
 	return nil
 }
@@ -10670,6 +10941,46 @@ func (u *MordentUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Default_x":
+		instance.Default_x = GongExtractString(valueExpr)
+	case "Default_y":
+		instance.Default_y = GongExtractString(valueExpr)
+	case "Relative_x":
+		instance.Relative_x = GongExtractString(valueExpr)
+	case "Relative_y":
+		instance.Relative_y = GongExtractString(valueExpr)
+	case "Font_family":
+		instance.Font_family = GongExtractString(valueExpr)
+	case "Font_style":
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
+	case "Font_size":
+		instance.Font_size = GongExtractString(valueExpr)
+	case "Font_weight":
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "Placement":
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
+	case "Start_note":
+		GongUnmarshallEnum(&instance.Start_note, valueExpr)
+	case "Trill_step":
+		GongUnmarshallEnum(&instance.Trill_step, valueExpr)
+	case "Two_note_turn":
+		GongUnmarshallEnum(&instance.Two_note_turn, valueExpr)
+	case "Accelerate":
+		GongUnmarshallEnum(&instance.Accelerate, valueExpr)
+	case "Beats":
+		instance.Beats = GongExtractString(valueExpr)
+	case "Second_beat":
+		instance.Second_beat = GongExtractString(valueExpr)
+	case "Last_beat":
+		instance.Last_beat = GongExtractString(valueExpr)
+	case "Long":
+		GongUnmarshallEnum(&instance.Long, valueExpr)
+	case "Approach":
+		GongUnmarshallEnum(&instance.Approach, valueExpr)
+	case "Departure":
+		GongUnmarshallEnum(&instance.Departure, valueExpr)
 	}
 	return nil
 }
@@ -10731,8 +11042,8 @@ func (u *Non_arpeggiateUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Default_x":
@@ -10744,7 +11055,7 @@ func (u *Non_arpeggiateUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	case "Relative_y":
 		instance.Relative_y = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Id":
@@ -10830,7 +11141,7 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Release":
 		instance.Release = GongExtractString(valueExpr)
 	case "Time_only":
-		GongUnmarshallEnum(&instance.Time_only, valueExpr)
+		instance.Time_only = GongExtractString(valueExpr)
 	case "Pizzicato":
 		GongUnmarshallEnum(&instance.Pizzicato, valueExpr)
 	case "Default_x":
@@ -10844,11 +11155,11 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Print_dot":
@@ -10875,8 +11186,6 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		GongUnmarshallPointer(&instance.Tie, valueExpr, identifierMap)
 	case "Cue":
 		instance.Cue = GongExtractString(valueExpr)
-	case "Duration":
-		instance.Duration = GongExtractString(valueExpr)
 	case "Instrument":
 		GongUnmarshallSliceOfPointers(&instance.Instrument, valueExpr, identifierMap)
 	case "Footnote":
@@ -10885,8 +11194,8 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		GongUnmarshallPointer(&instance.Level, valueExpr, identifierMap)
 	case "Voice":
 		instance.Voice = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallPointer(&instance.Type, valueExpr, identifierMap)
+	case "Type_XSD":
+		GongUnmarshallPointer(&instance.Type_XSD, valueExpr, identifierMap)
 	case "Dot":
 		GongUnmarshallSliceOfPointers(&instance.Dot, valueExpr, identifierMap)
 	case "Accidental":
@@ -10928,8 +11237,8 @@ func (u *Note_sizeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -10977,17 +11286,17 @@ func (u *NoteheadUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Smufl":
 		instance.Smufl = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -11054,7 +11363,7 @@ func (u *Numeral_keyUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	case "Numeral_fifths":
 		instance.Numeral_fifths = GongExtractInt(valueExpr)
 	case "Numeral_mode":
-		instance.Numeral_mode = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Numeral_mode, valueExpr)
 	}
 	return nil
 }
@@ -11085,11 +11394,11 @@ func (u *Numeral_rootUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -11111,8 +11420,8 @@ func (u *Octave_shiftUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Size":
@@ -11132,11 +11441,11 @@ func (u *Octave_shiftUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Id":
@@ -11181,8 +11490,8 @@ func (u *OpusUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Name = GongExtractString(valueExpr)
 	case "Href":
 		instance.Href = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		instance.Type_XSD = GongExtractString(valueExpr)
 	case "Role":
 		instance.Role = GongExtractString(valueExpr)
 	case "Title":
@@ -11259,8 +11568,8 @@ func (u *Other_appearanceUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		instance.Type_XSD = GongExtractString(valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -11293,17 +11602,17 @@ func (u *Other_directionUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Smufl":
 		instance.Smufl = GongExtractString(valueExpr)
 	case "Id":
@@ -11327,12 +11636,12 @@ func (u *Other_listeningUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		instance.Type_XSD = GongExtractString(valueExpr)
 	case "Player":
 		instance.Player = GongExtractString(valueExpr)
 	case "Time_only":
-		GongUnmarshallEnum(&instance.Time_only, valueExpr)
+		instance.Time_only = GongExtractString(valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -11352,8 +11661,8 @@ func (u *Other_notationUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Print_object":
@@ -11369,15 +11678,15 @@ func (u *Other_notationUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Smufl":
 		instance.Smufl = GongExtractString(valueExpr)
 	case "Id":
@@ -11412,15 +11721,15 @@ func (u *Other_placement_textUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Smufl":
 		instance.Smufl = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -11442,8 +11751,8 @@ func (u *Other_playUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		instance.Type_XSD = GongExtractString(valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -11507,8 +11816,8 @@ func (u *Page_marginsUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Left_margin":
 		instance.Left_margin = GongExtractString(valueExpr)
 	case "Right_margin":
@@ -11535,7 +11844,7 @@ func (u *Part_clefUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Sign":
-		instance.Sign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Sign, valueExpr)
 	case "Line":
 		instance.Line = GongExtractInt(valueExpr)
 	case "Clef_octave_change":
@@ -11557,8 +11866,8 @@ func (u *Part_groupUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractString(valueExpr)
 	case "Group_name":
@@ -11598,8 +11907,8 @@ func (u *Part_linkUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Name = GongExtractString(valueExpr)
 	case "Href":
 		instance.Href = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		instance.Type_XSD = GongExtractString(valueExpr)
 	case "Role":
 		instance.Role = GongExtractString(valueExpr)
 	case "Title":
@@ -11661,11 +11970,11 @@ func (u *Part_nameUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Print_object":
@@ -11749,8 +12058,8 @@ func (u *PedalUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Line":
@@ -11770,17 +12079,17 @@ func (u *PedalUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	}
@@ -11824,11 +12133,11 @@ func (u *Per_minuteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -11859,19 +12168,19 @@ func (u *PercussionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Enclosure":
-		instance.Enclosure = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Enclosure, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "Glass":
@@ -11893,7 +12202,7 @@ func (u *PercussionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Stick":
 		GongUnmarshallPointer(&instance.Stick, valueExpr, identifierMap)
 	case "Stick_location":
-		instance.Stick_location = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Stick_location, valueExpr)
 	case "Other_percussion":
 		GongUnmarshallPointer(&instance.Other_percussion, valueExpr, identifierMap)
 	}
@@ -11939,7 +12248,7 @@ func (u *PitchedUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	case "Smufl":
 		instance.Smufl = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -11968,15 +12277,15 @@ func (u *Placement_textUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -12001,9 +12310,9 @@ func (u *PlayUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Ipa":
 		instance.Ipa = GongExtractString(valueExpr)
 	case "Mute":
-		instance.Mute = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Mute, valueExpr)
 	case "Semi_pitched":
-		instance.Semi_pitched = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Semi_pitched, valueExpr)
 	case "Other_play":
 		GongUnmarshallSliceOfPointers(&instance.Other_play, valueExpr, identifierMap)
 	}
@@ -12044,10 +12353,10 @@ func (u *Principal_voiceUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Symbol":
-		instance.Symbol = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Symbol, valueExpr)
 	case "Default_x":
 		instance.Default_x = GongExtractString(valueExpr)
 	case "Default_y":
@@ -12059,17 +12368,17 @@ func (u *Principal_voiceUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -12078,14 +12387,14 @@ func (u *Principal_voiceUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	return nil
 }
 
-type PrintUnmarshaller struct{}
+type Print_XSDUnmarshaller struct{}
 
-func (u *PrintUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	return GongInitialize(new(Print), stage, identifier, instanceName, preserveOrder)
+func (u *Print_XSDUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(Print_XSD), stage, identifier, instanceName, preserveOrder)
 }
 
-func (u *PrintUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Print)
+func (u *Print_XSDUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Print_XSD)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -12134,6 +12443,8 @@ func (u *ReleaseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Offset":
+		instance.Offset = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -12152,13 +12463,13 @@ func (u *RepeatUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Direction":
-		instance.Direction = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Direction, valueExpr)
 	case "Times":
 		instance.Times = GongExtractInt(valueExpr)
 	case "After_jump":
 		GongUnmarshallEnum(&instance.After_jump, valueExpr)
 	case "Winged":
-		instance.Winged = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Winged, valueExpr)
 	}
 	return nil
 }
@@ -12233,11 +12544,11 @@ func (u *Root_stepUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -12456,17 +12767,17 @@ func (u *SegnoUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	}
@@ -12486,8 +12797,8 @@ func (u *SlashUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Use_dots":
 		GongUnmarshallEnum(&instance.Use_dots, valueExpr)
 	case "Use_stems":
@@ -12515,12 +12826,12 @@ func (u *SlideUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Line_type":
-		instance.Line_type = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Line_type, valueExpr)
 	case "Dash_length":
 		instance.Dash_length = GongExtractString(valueExpr)
 	case "Space_length":
@@ -12536,11 +12847,11 @@ func (u *SlideUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Accelerate":
@@ -12572,12 +12883,12 @@ func (u *SlurUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Line_type":
-		instance.Line_type = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Line_type, valueExpr)
 	case "Dash_length":
 		instance.Dash_length = GongExtractString(valueExpr)
 	case "Space_length":
@@ -12591,9 +12902,9 @@ func (u *SlurUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Relative_y":
 		instance.Relative_y = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Orientation":
-		instance.Orientation = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Orientation, valueExpr)
 	case "Bezier_x":
 		instance.Bezier_x = GongExtractString(valueExpr)
 	case "Bezier_y":
@@ -12648,7 +12959,7 @@ func (u *SoundUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Fine":
 		instance.Fine = GongExtractString(valueExpr)
 	case "Time_only":
-		GongUnmarshallEnum(&instance.Time_only, valueExpr)
+		instance.Time_only = GongExtractString(valueExpr)
 	case "Pizzicato":
 		GongUnmarshallEnum(&instance.Pizzicato, valueExpr)
 	case "Pan":
@@ -12695,13 +13006,13 @@ func (u *Staff_detailsUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Show_frets":
-		instance.Show_frets = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Show_frets, valueExpr)
 	case "Print_object":
 		GongUnmarshallEnum(&instance.Print_object, valueExpr)
 	case "Print_spacing":
 		GongUnmarshallEnum(&instance.Print_spacing, valueExpr)
 	case "Staff_type":
-		instance.Staff_type = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Staff_type, valueExpr)
 	case "Staff_lines":
 		instance.Staff_lines = GongExtractInt(valueExpr)
 	case "Line_detail":
@@ -12729,8 +13040,8 @@ func (u *Staff_divideUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Default_x":
 		instance.Default_x = GongExtractString(valueExpr)
 	case "Default_y":
@@ -12742,17 +13053,17 @@ func (u *Staff_divideUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	}
@@ -12850,7 +13161,7 @@ func (u *StemUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }
@@ -12875,9 +13186,9 @@ func (u *StickUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Dashed_circle":
 		GongUnmarshallEnum(&instance.Dashed_circle, valueExpr)
 	case "Stick_type":
-		instance.Stick_type = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Stick_type, valueExpr)
 	case "Stick_material":
-		instance.Stick_material = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Stick_material, valueExpr)
 	}
 	return nil
 }
@@ -12895,8 +13206,8 @@ func (u *String_muteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Default_x":
 		instance.Default_x = GongExtractString(valueExpr)
 	case "Default_y":
@@ -12908,17 +13219,17 @@ func (u *String_muteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	}
@@ -12949,15 +13260,15 @@ func (u *String_typeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractInt(valueExpr)
 	}
@@ -12977,6 +13288,28 @@ func (u *Strong_accentUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Default_x":
+		instance.Default_x = GongExtractString(valueExpr)
+	case "Default_y":
+		instance.Default_y = GongExtractString(valueExpr)
+	case "Relative_x":
+		instance.Relative_x = GongExtractString(valueExpr)
+	case "Relative_y":
+		instance.Relative_y = GongExtractString(valueExpr)
+	case "Font_family":
+		instance.Font_family = GongExtractString(valueExpr)
+	case "Font_style":
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
+	case "Font_size":
+		instance.Font_size = GongExtractString(valueExpr)
+	case "Font_weight":
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "Placement":
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	}
 	return nil
 }
@@ -13005,11 +13338,11 @@ func (u *Style_textUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -13031,8 +13364,8 @@ func (u *SupportsUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Element":
 		instance.Element = GongExtractString(valueExpr)
 	case "Attribute":
@@ -13063,7 +13396,7 @@ func (u *SwingUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Second":
 		instance.Second = GongExtractInt(valueExpr)
 	case "Swing_type":
-		GongUnmarshallEnum(&instance.Swing_type, valueExpr)
+		instance.Swing_type = GongExtractString(valueExpr)
 	case "Swing_style":
 		instance.Swing_style = GongExtractString(valueExpr)
 	}
@@ -13083,14 +13416,14 @@ func (u *SyncUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Latency":
 		instance.Latency = GongExtractInt(valueExpr)
 	case "Player":
 		instance.Player = GongExtractString(valueExpr)
 	case "Time_only":
-		GongUnmarshallEnum(&instance.Time_only, valueExpr)
+		instance.Time_only = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -13176,7 +13509,7 @@ func (u *TapUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNam
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Hand":
-		instance.Hand = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Hand, valueExpr)
 	case "Default_x":
 		instance.Default_x = GongExtractString(valueExpr)
 	case "Default_y":
@@ -13188,15 +13521,15 @@ func (u *TapUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNam
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -13242,8 +13575,8 @@ func (u *TechnicalUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		GongUnmarshallSliceOfPointers(&instance.Snap_pizzicato, valueExpr, identifierMap)
 	case "Fret":
 		GongUnmarshallSliceOfPointers(&instance.Fret, valueExpr, identifierMap)
-	case "String":
-		GongUnmarshallSliceOfPointers(&instance.String, valueExpr, identifierMap)
+	case "String_XSD":
+		GongUnmarshallSliceOfPointers(&instance.String_XSD, valueExpr, identifierMap)
 	case "Hammer_on":
 		GongUnmarshallSliceOfPointers(&instance.Hammer_on, valueExpr, identifierMap)
 	case "Pull_off":
@@ -13302,11 +13635,11 @@ func (u *Text_element_dataUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Underline":
@@ -13320,7 +13653,7 @@ func (u *Text_element_dataUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 	case "Letter_spacing":
 		instance.Letter_spacing = GongExtractString(valueExpr)
 	case "Dir":
-		instance.Dir = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Dir, valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -13340,10 +13673,10 @@ func (u *TieUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNam
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Time_only":
-		GongUnmarshallEnum(&instance.Time_only, valueExpr)
+		instance.Time_only = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -13361,12 +13694,12 @@ func (u *TiedUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Line_type":
-		instance.Line_type = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Line_type, valueExpr)
 	case "Dash_length":
 		instance.Dash_length = GongExtractString(valueExpr)
 	case "Space_length":
@@ -13380,9 +13713,9 @@ func (u *TiedUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Relative_y":
 		instance.Relative_y = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Orientation":
-		instance.Orientation = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Orientation, valueExpr)
 	case "Bezier_x":
 		instance.Bezier_x = GongExtractString(valueExpr)
 	case "Bezier_y":
@@ -13433,17 +13766,17 @@ func (u *TimeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Halign":
-		instance.Halign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Halign, valueExpr)
 	case "Valign":
-		instance.Valign = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Valign, valueExpr)
 	case "Print_object":
 		GongUnmarshallEnum(&instance.Print_object, valueExpr)
 	case "Id":
@@ -13546,8 +13879,8 @@ func (u *TremoloUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Default_x":
 		instance.Default_x = GongExtractString(valueExpr)
 	case "Default_y":
@@ -13559,15 +13892,15 @@ func (u *TremoloUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Smufl":
 		instance.Smufl = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -13589,18 +13922,18 @@ func (u *TupletUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Bracket":
 		GongUnmarshallEnum(&instance.Bracket, valueExpr)
 	case "Show_number":
-		instance.Show_number = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Show_number, valueExpr)
 	case "Show_type":
 		GongUnmarshallEnum(&instance.Show_type, valueExpr)
 	case "Line_shape":
-		instance.Line_shape = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Line_shape, valueExpr)
 	case "Default_x":
 		instance.Default_x = GongExtractString(valueExpr)
 	case "Default_y":
@@ -13610,7 +13943,7 @@ func (u *TupletUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	case "Relative_y":
 		instance.Relative_y = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Id":
 		instance.Id = GongExtractString(valueExpr)
 	case "Tuplet_actual":
@@ -13637,11 +13970,11 @@ func (u *Tuplet_dotUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	}
@@ -13664,11 +13997,11 @@ func (u *Tuplet_numberUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -13716,11 +14049,11 @@ func (u *Tuplet_typeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	case "Font_family":
 		instance.Font_family = GongExtractString(valueExpr)
 	case "Font_style":
-		instance.Font_style = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_style, valueExpr)
 	case "Font_size":
 		instance.Font_size = GongExtractString(valueExpr)
 	case "Font_weight":
-		instance.Font_weight = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Font_weight, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "EnclosedText":
@@ -13742,8 +14075,8 @@ func (u *Typed_textUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		instance.Type_XSD = GongExtractString(valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
 	}
@@ -13808,7 +14141,7 @@ func (u *WaitUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Player":
 		instance.Player = GongExtractString(valueExpr)
 	case "Time_only":
-		GongUnmarshallEnum(&instance.Time_only, valueExpr)
+		instance.Time_only = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -13826,8 +14159,8 @@ func (u *Wavy_lineUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Smufl":
@@ -13841,15 +14174,15 @@ func (u *Wavy_lineUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	case "Relative_y":
 		instance.Relative_y = GongExtractString(valueExpr)
 	case "Placement":
-		instance.Placement = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Placement, valueExpr)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "Start_note":
-		instance.Start_note = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Start_note, valueExpr)
 	case "Trill_step":
-		instance.Trill_step = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Trill_step, valueExpr)
 	case "Two_note_turn":
-		instance.Two_note_turn = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Two_note_turn, valueExpr)
 	case "Accelerate":
 		GongUnmarshallEnum(&instance.Accelerate, valueExpr)
 	case "Beats":
@@ -13875,8 +14208,8 @@ func (u *WedgeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Type":
-		instance.Type = GongExtractString(valueExpr)
+	case "Type_XSD":
+		GongUnmarshallEnum(&instance.Type_XSD, valueExpr)
 	case "Number":
 		instance.Number = GongExtractInt(valueExpr)
 	case "Spread":
@@ -13884,7 +14217,7 @@ func (u *WedgeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Niente":
 		GongUnmarshallEnum(&instance.Niente, valueExpr)
 	case "Line_type":
-		instance.Line_type = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.Line_type, valueExpr)
 	case "Dash_length":
 		instance.Dash_length = GongExtractString(valueExpr)
 	case "Space_length":
@@ -13921,7 +14254,7 @@ func (u *WoodUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Smufl":
 		instance.Smufl = GongExtractString(valueExpr)
 	case "EnclosedText":
-		instance.EnclosedText = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.EnclosedText, valueExpr)
 	}
 	return nil
 }

@@ -1223,55 +1223,55 @@ func (a_relation_group_type_ref *A_RELATION_GROUP_TYPE_REF) GongAfterDeleteFromF
 	}
 }
 
-func (a_source_1 *A_SOURCE_1) GongAfterCreateFromFront(stage *Stage) {
-	if stage.OnAfterA_SOURCE_1CreateCallback != nil {
-		stage.OnAfterA_SOURCE_1CreateCallback.OnAfterCreate(stage, a_source_1)
+func (a_source *A_SOURCE) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterA_SOURCECreateCallback != nil {
+		stage.OnAfterA_SOURCECreateCallback.OnAfterCreate(stage, a_source)
 	}
 }
 
-func (a_source_1 *A_SOURCE_1) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterA_SOURCE_1UpdateCallback != nil {
-		var frontA_SOURCE_1 *A_SOURCE_1
+func (a_source *A_SOURCE) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterA_SOURCEUpdateCallback != nil {
+		var frontA_SOURCE *A_SOURCE
 		if front != nil {
-			frontA_SOURCE_1, _ = front.(*A_SOURCE_1)
+			frontA_SOURCE, _ = front.(*A_SOURCE)
 		}
-		stage.OnAfterA_SOURCE_1UpdateCallback.OnAfterUpdate(stage, a_source_1, frontA_SOURCE_1)
+		stage.OnAfterA_SOURCEUpdateCallback.OnAfterUpdate(stage, a_source, frontA_SOURCE)
 	}
 }
 
-func (a_source_1 *A_SOURCE_1) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterA_SOURCE_1DeleteCallback != nil {
-		var frontA_SOURCE_1 *A_SOURCE_1
+func (a_source *A_SOURCE) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterA_SOURCEDeleteCallback != nil {
+		var frontA_SOURCE *A_SOURCE
 		if front != nil {
-			frontA_SOURCE_1, _ = front.(*A_SOURCE_1)
+			frontA_SOURCE, _ = front.(*A_SOURCE)
 		}
-		stage.OnAfterA_SOURCE_1DeleteCallback.OnAfterDelete(stage, a_source_1, frontA_SOURCE_1)
+		stage.OnAfterA_SOURCEDeleteCallback.OnAfterDelete(stage, a_source, frontA_SOURCE)
 	}
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongAfterCreateFromFront(stage *Stage) {
-	if stage.OnAfterA_SOURCE_SPECIFICATION_1CreateCallback != nil {
-		stage.OnAfterA_SOURCE_SPECIFICATION_1CreateCallback.OnAfterCreate(stage, a_source_specification_1)
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterA_SOURCE_SPECIFICATIONCreateCallback != nil {
+		stage.OnAfterA_SOURCE_SPECIFICATIONCreateCallback.OnAfterCreate(stage, a_source_specification)
 	}
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterA_SOURCE_SPECIFICATION_1UpdateCallback != nil {
-		var frontA_SOURCE_SPECIFICATION_1 *A_SOURCE_SPECIFICATION_1
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterA_SOURCE_SPECIFICATIONUpdateCallback != nil {
+		var frontA_SOURCE_SPECIFICATION *A_SOURCE_SPECIFICATION
 		if front != nil {
-			frontA_SOURCE_SPECIFICATION_1, _ = front.(*A_SOURCE_SPECIFICATION_1)
+			frontA_SOURCE_SPECIFICATION, _ = front.(*A_SOURCE_SPECIFICATION)
 		}
-		stage.OnAfterA_SOURCE_SPECIFICATION_1UpdateCallback.OnAfterUpdate(stage, a_source_specification_1, frontA_SOURCE_SPECIFICATION_1)
+		stage.OnAfterA_SOURCE_SPECIFICATIONUpdateCallback.OnAfterUpdate(stage, a_source_specification, frontA_SOURCE_SPECIFICATION)
 	}
 }
 
-func (a_source_specification_1 *A_SOURCE_SPECIFICATION_1) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterA_SOURCE_SPECIFICATION_1DeleteCallback != nil {
-		var frontA_SOURCE_SPECIFICATION_1 *A_SOURCE_SPECIFICATION_1
+func (a_source_specification *A_SOURCE_SPECIFICATION) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterA_SOURCE_SPECIFICATIONDeleteCallback != nil {
+		var frontA_SOURCE_SPECIFICATION *A_SOURCE_SPECIFICATION
 		if front != nil {
-			frontA_SOURCE_SPECIFICATION_1, _ = front.(*A_SOURCE_SPECIFICATION_1)
+			frontA_SOURCE_SPECIFICATION, _ = front.(*A_SOURCE_SPECIFICATION)
 		}
-		stage.OnAfterA_SOURCE_SPECIFICATION_1DeleteCallback.OnAfterDelete(stage, a_source_specification_1, frontA_SOURCE_SPECIFICATION_1)
+		stage.OnAfterA_SOURCE_SPECIFICATIONDeleteCallback.OnAfterDelete(stage, a_source_specification, frontA_SOURCE_SPECIFICATION)
 	}
 }
 

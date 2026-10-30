@@ -18,6 +18,11 @@ func parseXmlns(el xml.StartElement) (result Xmlns) {
 				Prefix: attr.Name.Local,
 				Uri:    attr.Value,
 			})
+		} else if attr.Name.Space == "" && attr.Name.Local == "xmlns" {
+			result = append(result, xmlns{
+				Prefix: "",
+				Uri:    attr.Value,
+			})
 		}
 	}
 	return

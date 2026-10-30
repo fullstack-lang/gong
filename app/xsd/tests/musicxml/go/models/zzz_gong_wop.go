@@ -24,11 +24,11 @@ type A_directive_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -131,7 +131,7 @@ type Accidental_WOP struct {
 
 	Name string
 
-	Cautionary string
+	Cautionary Enum_Yes_no
 
 	Editorial Enum_Yes_no
 
@@ -153,15 +153,15 @@ type Accidental_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	EnclosedText string
+	EnclosedText Enum_Accidental_value
 }
 
 func (from *Accidental) GongCopyBasicFields(to *Accidental) {
@@ -192,15 +192,15 @@ type Accidental_mark_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
 	Id string
 
@@ -235,17 +235,17 @@ type Accidental_text_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Underline int
 
@@ -259,9 +259,9 @@ type Accidental_text_WOP struct {
 
 	Line_height string
 
-	Dir string
+	Dir Enum_Text_direction
 
-	Enclosure string
+	Enclosure Enum_Enclosure_shape
 
 	EnclosedText Enum_Accidental_value
 }
@@ -276,7 +276,7 @@ type Accord_WOP struct {
 
 	Name string
 
-	String int
+	String_XSD int
 
 	Tuning_step Enum_Step
 
@@ -305,17 +305,17 @@ type Accordion_registration_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Id string
 
@@ -349,7 +349,7 @@ type Arpeggiate_WOP struct {
 
 	Number int
 
-	Direction string
+	Direction Enum_Up_down
 
 	Unbroken Enum_Yes_no
 
@@ -361,7 +361,7 @@ type Arpeggiate_WOP struct {
 
 	Relative_y string
 
-	Placement string
+	Placement Enum_Above_below
 
 	Color string
 
@@ -388,25 +388,25 @@ type Arrow_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
 	Smufl string
 
-	Arrow_direction string
+	Arrow_direction Enum_Arrow_direction
 
-	Arrow_style string
+	Arrow_style Enum_Arrow_style
 
 	Arrowhead string
 
-	Circular_arrow string
+	Circular_arrow Enum_Circular_arrow
 }
 
 func (from *Arrow) GongCopyBasicFields(to *Arrow) {
@@ -433,7 +433,7 @@ type Assess_WOP struct {
 
 	Name string
 
-	Type Enum_Yes_no
+	Type_XSD Enum_Yes_no
 
 	Player string
 
@@ -452,6 +452,8 @@ type Attributes_WOP struct {
 
 	Divisions string
 
+	Time string
+
 	Staves int
 
 	Instruments int
@@ -461,6 +463,7 @@ func (from *Attributes) GongCopyBasicFields(to *Attributes) {
 	// insertion point
 	to.Name = from.Name
 	to.Divisions = from.Divisions
+	to.Time = from.Time
 	to.Staves = from.Staves
 	to.Instruments = from.Instruments
 }
@@ -469,14 +472,11 @@ type Backup_WOP struct {
 	// insertion point
 
 	Name string
-
-	Duration string
 }
 
 func (from *Backup) GongCopyBasicFields(to *Backup) {
 	// insertion point
 	to.Name = from.Name
-	to.Duration = from.Duration
 }
 
 type Bar_style_color_WOP struct {
@@ -486,7 +486,7 @@ type Bar_style_color_WOP struct {
 
 	Color string
 
-	EnclosedText string
+	EnclosedText Enum_Bar_style
 }
 
 func (from *Bar_style_color) GongCopyBasicFields(to *Bar_style_color) {
@@ -499,7 +499,7 @@ type Barline_WOP struct {
 
 	Name string
 
-	Location string
+	Location Enum_Right_left_middle
 
 	Segno string
 
@@ -525,7 +525,7 @@ type Barre_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Start_stop
 
 	Color string
 }
@@ -540,7 +540,7 @@ type Bass_WOP struct {
 
 	Name string
 
-	Arrangement string
+	Arrangement Enum_Harmony_arrangement
 }
 
 func (from *Bass) GongCopyBasicFields(to *Bass) {
@@ -566,15 +566,15 @@ type Bass_step_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	EnclosedText string
+	EnclosedText Enum_Step
 }
 
 func (from *Bass_step) GongCopyBasicFields(to *Bass_step) {
@@ -591,13 +591,13 @@ type Beam_WOP struct {
 
 	Repeater Enum_Yes_no
 
-	Fan string
+	Fan Enum_Fan
 
 	Color string
 
 	Id string
 
-	EnclosedText string
+	EnclosedText Enum_Beam_value
 }
 
 func (from *Beam) GongCopyBasicFields(to *Beam) {
@@ -610,7 +610,7 @@ type Beat_repeat_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop
+	Type_XSD Enum_Start_stop
 
 	Slashes int
 
@@ -648,9 +648,9 @@ type Beater_WOP struct {
 
 	Name string
 
-	Tip string
+	Tip Enum_Tip_direction
 
-	EnclosedText string
+	EnclosedText Enum_Beater_value
 }
 
 func (from *Beater) GongCopyBasicFields(to *Beater) {
@@ -663,7 +663,7 @@ type Bend_WOP struct {
 
 	Name string
 
-	Shape string
+	Shape Enum_Bend_shape
 
 	Default_x string
 
@@ -675,11 +675,11 @@ type Bend_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -741,15 +741,15 @@ type Bracket_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Start_stop_continue
 
 	Number int
 
-	Line_end string
+	Line_end Enum_Line_end
 
 	End_length string
 
-	Line_type string
+	Line_type Enum_Line_type
 
 	Dash_length string
 
@@ -788,17 +788,17 @@ type Breath_mark_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
-	EnclosedText string
+	EnclosedText Enum_Breath_mark_value
 }
 
 func (from *Breath_mark) GongCopyBasicFields(to *Breath_mark) {
@@ -821,17 +821,17 @@ type Caesura_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
-	EnclosedText string
+	EnclosedText Enum_Caesura_value
 }
 
 func (from *Caesura) GongCopyBasicFields(to *Caesura) {
@@ -844,7 +844,7 @@ type Cancel_WOP struct {
 
 	Name string
 
-	Location string
+	Location Enum_Cancel_location
 
 	EnclosedText int
 }
@@ -863,7 +863,7 @@ type Clef_WOP struct {
 
 	Additional Enum_Yes_no
 
-	Size string
+	Size Enum_Symbol_size
 
 	After_barline Enum_Yes_no
 
@@ -877,11 +877,11 @@ type Clef_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -889,7 +889,7 @@ type Clef_WOP struct {
 
 	Id string
 
-	Sign string
+	Sign Enum_Clef_sign
 
 	Line int
 
@@ -918,17 +918,17 @@ type Coda_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Id string
 }
@@ -963,7 +963,7 @@ type Dashes_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop_continue
+	Type_XSD Enum_Start_stop_continue
 
 	Number int
 
@@ -1034,11 +1034,11 @@ type Degree_alter_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -1067,15 +1067,15 @@ type Degree_type_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	EnclosedText string
+	EnclosedText Enum_Degree_type_value
 }
 
 func (from *Degree_type) GongCopyBasicFields(to *Degree_type) {
@@ -1088,7 +1088,7 @@ type Degree_value_WOP struct {
 
 	Name string
 
-	Symbol string
+	Symbol Enum_Degree_symbol_value
 
 	Text string
 
@@ -1102,11 +1102,11 @@ type Degree_value_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -1123,11 +1123,11 @@ type Direction_WOP struct {
 
 	Name string
 
-	Placement string
+	Placement Enum_Above_below
 
 	Directive Enum_Yes_no
 
-	System Enum_System_relation_number
+	System string
 
 	Id string
 
@@ -1166,7 +1166,7 @@ type Distance_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD string
 
 	EnclosedText string
 }
@@ -1204,19 +1204,19 @@ type Dynamics_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
-	Placement string
+	Placement Enum_Above_below
 
 	Underline int
 
@@ -1224,7 +1224,7 @@ type Dynamics_WOP struct {
 
 	Line_through int
 
-	Enclosure string
+	Enclosure Enum_Enclosure_shape
 
 	Id string
 
@@ -1336,7 +1336,7 @@ type Effect_WOP struct {
 
 	Smufl string
 
-	EnclosedText string
+	EnclosedText Enum_Effect_value
 }
 
 func (from *Effect) GongCopyBasicFields(to *Effect) {
@@ -1353,11 +1353,11 @@ type Elision_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -1387,11 +1387,11 @@ type Empty_font_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 }
 
 func (from *Empty_font) GongCopyBasicFields(to *Empty_font) {
@@ -1404,11 +1404,11 @@ type Empty_line_WOP struct {
 
 	Name string
 
-	Line_shape string
+	Line_shape Enum_Line_shape
 
-	Line_type string
+	Line_type Enum_Line_type
 
-	Line_length string
+	Line_length Enum_Line_length
 
 	Dash_length string
 
@@ -1424,15 +1424,15 @@ type Empty_line_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 }
 
 func (from *Empty_line) GongCopyBasicFields(to *Empty_line) {
@@ -1455,15 +1455,15 @@ type Empty_placement_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 }
 
 func (from *Empty_placement) GongCopyBasicFields(to *Empty_placement) {
@@ -1486,15 +1486,15 @@ type Empty_placement_smufl_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
 	Smufl string
 }
@@ -1521,17 +1521,17 @@ type Empty_print_object_style_align_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 }
 
 func (from *Empty_print_object_style_align) GongCopyBasicFields(to *Empty_print_object_style_align) {
@@ -1554,11 +1554,11 @@ type Empty_print_style_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 }
@@ -1583,17 +1583,17 @@ type Empty_print_style_align_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 }
 
 func (from *Empty_print_style_align) GongCopyBasicFields(to *Empty_print_style_align) {
@@ -1616,17 +1616,17 @@ type Empty_print_style_align_id_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Id string
 }
@@ -1651,21 +1651,21 @@ type Empty_trill_sound_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
-	Start_note string
+	Start_note Enum_Start_note
 
-	Trill_step string
+	Trill_step Enum_Trill_step
 
-	Two_note_turn string
+	Two_note_turn Enum_Two_note_turn
 
 	Accelerate Enum_Yes_no
 
@@ -1686,6 +1686,8 @@ type Encoding_WOP struct {
 
 	Name string
 
+	Encoding_date string
+
 	Software string
 
 	Encoding_description string
@@ -1694,6 +1696,7 @@ type Encoding_WOP struct {
 func (from *Encoding) GongCopyBasicFields(to *Encoding) {
 	// insertion point
 	to.Name = from.Name
+	to.Encoding_date = from.Encoding_date
 	to.Software = from.Software
 	to.Encoding_description = from.Encoding_description
 }
@@ -1705,7 +1708,7 @@ type Ending_WOP struct {
 
 	Number string
 
-	Type string
+	Type_XSD Enum_Start_stop_discontinue
 
 	End_length string
 
@@ -1725,15 +1728,15 @@ type Ending_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	System Enum_System_relation_number
+	System string
 
 	EnclosedText string
 }
@@ -1748,7 +1751,7 @@ type Extend_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop_continue
+	Type_XSD Enum_Start_stop_continue
 
 	Default_x string
 
@@ -1771,7 +1774,7 @@ type Feature_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD string
 
 	EnclosedText string
 }
@@ -1786,7 +1789,7 @@ type Fermata_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Upright_inverted
 
 	Default_x string
 
@@ -1798,17 +1801,17 @@ type Fermata_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
 	Id string
 
-	EnclosedText string
+	EnclosedText Enum_Fermata_shape
 }
 
 func (from *Fermata) GongCopyBasicFields(to *Fermata) {
@@ -1844,19 +1847,19 @@ type Figured_bass_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
-	Placement string
+	Placement Enum_Above_below
 
 	Print_dot Enum_Yes_no
 
@@ -1867,8 +1870,6 @@ type Figured_bass_WOP struct {
 	Print_spacing Enum_Yes_no
 
 	Id string
-
-	Duration string
 }
 
 func (from *Figured_bass) GongCopyBasicFields(to *Figured_bass) {
@@ -1892,7 +1893,6 @@ func (from *Figured_bass) GongCopyBasicFields(to *Figured_bass) {
 	to.Print_object = from.Print_object
 	to.Print_spacing = from.Print_spacing
 	to.Id = from.Id
-	to.Duration = from.Duration
 }
 
 type Fingering_WOP struct {
@@ -1914,15 +1914,15 @@ type Fingering_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
 	EnclosedText string
 }
@@ -1939,7 +1939,7 @@ type First_fret_WOP struct {
 
 	Text string
 
-	Location string
+	Location Enum_Left_right
 
 	EnclosedText int
 }
@@ -1983,17 +1983,17 @@ type Formatted_symbol_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Underline int
 
@@ -2007,9 +2007,9 @@ type Formatted_symbol_WOP struct {
 
 	Line_height string
 
-	Dir string
+	Dir Enum_Text_direction
 
-	Enclosure string
+	Enclosure Enum_Enclosure_shape
 
 	EnclosedText string
 }
@@ -2036,17 +2036,17 @@ type Formatted_symbol_id_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Underline int
 
@@ -2060,9 +2060,9 @@ type Formatted_symbol_id_WOP struct {
 
 	Line_height string
 
-	Dir string
+	Dir Enum_Text_direction
 
-	Enclosure string
+	Enclosure Enum_Enclosure_shape
 
 	Id string
 
@@ -2095,17 +2095,17 @@ type Formatted_text_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Underline int
 
@@ -2119,9 +2119,9 @@ type Formatted_text_WOP struct {
 
 	Line_height string
 
-	Dir string
+	Dir Enum_Text_direction
 
-	Enclosure string
+	Enclosure Enum_Enclosure_shape
 
 	EnclosedText string
 }
@@ -2152,17 +2152,17 @@ type Formatted_text_id_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Underline int
 
@@ -2176,9 +2176,9 @@ type Formatted_text_id_WOP struct {
 
 	Line_height string
 
-	Dir string
+	Dir Enum_Text_direction
 
-	Enclosure string
+	Enclosure Enum_Enclosure_shape
 
 	Id string
 
@@ -2195,8 +2195,6 @@ type Forward_WOP struct {
 
 	Name string
 
-	Duration string
-
 	Voice string
 
 	Staff int
@@ -2205,7 +2203,6 @@ type Forward_WOP struct {
 func (from *Forward) GongCopyBasicFields(to *Forward) {
 	// insertion point
 	to.Name = from.Name
-	to.Duration = from.Duration
 	to.Voice = from.Voice
 	to.Staff = from.Staff
 }
@@ -2231,9 +2228,9 @@ type Frame_WOP struct {
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign_image
 
 	Id string
 
@@ -2278,11 +2275,11 @@ type Fret_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -2301,7 +2298,7 @@ type Glass_WOP struct {
 
 	Smufl string
 
-	EnclosedText string
+	EnclosedText Enum_Glass_value
 }
 
 func (from *Glass) GongCopyBasicFields(to *Glass) {
@@ -2314,11 +2311,11 @@ type Glissando_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop
+	Type_XSD Enum_Start_stop
 
 	Number int
 
-	Line_type string
+	Line_type Enum_Line_type
 
 	Dash_length string
 
@@ -2334,11 +2331,11 @@ type Glissando_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -2357,7 +2354,7 @@ type Glyph_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD string
 
 	EnclosedText string
 }
@@ -2393,7 +2390,7 @@ type Group_barline_WOP struct {
 
 	Color string
 
-	EnclosedText string
+	EnclosedText Enum_Group_barline_value
 }
 
 func (from *Group_barline) GongCopyBasicFields(to *Group_barline) {
@@ -2416,11 +2413,11 @@ type Group_name_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -2449,7 +2446,7 @@ type Group_symbol_WOP struct {
 
 	Color string
 
-	EnclosedText string
+	EnclosedText Enum_Group_symbol_value
 }
 
 func (from *Group_symbol) GongCopyBasicFields(to *Group_symbol) {
@@ -2462,7 +2459,7 @@ type Grouping_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Start_stop_single
 
 	Number string
 
@@ -2474,7 +2471,7 @@ type Grouping_WOP struct {
 func (from *Grouping) GongCopyBasicFields(to *Grouping) {
 	// insertion point
 	to.Name = from.Name
-	to.Type = from.Type
+	to.Type_XSD = from.Type_XSD
 	to.Number = from.Number
 	to.Member_of = from.Member_of
 	to.Id = from.Id
@@ -2485,7 +2482,7 @@ type Hammer_on_pull_off_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop
+	Type_XSD Enum_Start_stop
 
 	Number int
 
@@ -2499,15 +2496,15 @@ type Hammer_on_pull_off_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
 	EnclosedText string
 }
@@ -2532,17 +2529,17 @@ type Handbell_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
-	EnclosedText string
+	EnclosedText Enum_Handbell_value
 }
 
 func (from *Handbell) GongCopyBasicFields(to *Handbell) {
@@ -2555,9 +2552,9 @@ type Harmon_closed_WOP struct {
 
 	Name string
 
-	Location string
+	Location Enum_Harmon_closed_location
 
-	EnclosedText string
+	EnclosedText Enum_Harmon_closed_value
 }
 
 func (from *Harmon_closed) GongCopyBasicFields(to *Harmon_closed) {
@@ -2580,15 +2577,15 @@ type Harmon_mute_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 }
 
 func (from *Harmon_mute) GongCopyBasicFields(to *Harmon_mute) {
@@ -2623,15 +2620,15 @@ type Harmonic_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
 	Natural string
 
@@ -2654,7 +2651,7 @@ type Harmony_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Harmony_type
 
 	Print_frame Enum_Yes_no
 
@@ -2672,17 +2669,17 @@ type Harmony_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
-	System Enum_System_relation_number
+	System string
 
 	Id string
 
@@ -2692,7 +2689,7 @@ type Harmony_WOP struct {
 func (from *Harmony) GongCopyBasicFields(to *Harmony) {
 	// insertion point
 	to.Name = from.Name
-	to.Type = from.Type
+	to.Type_XSD = from.Type_XSD
 	to.Print_frame = from.Print_frame
 	to.Arrangement = from.Arrangement
 	to.Print_object = from.Print_object
@@ -2730,11 +2727,11 @@ type Harmony_alter_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -2761,17 +2758,17 @@ type Harp_pedals_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Id string
 }
@@ -2797,6 +2794,28 @@ type Heel_toe_WOP struct {
 	// insertion point
 
 	Name string
+
+	Default_x string
+
+	Default_y string
+
+	Relative_x string
+
+	Relative_y string
+
+	Font_family string
+
+	Font_style Enum_Font_style
+
+	Font_size string
+
+	Font_weight Enum_Font_weight
+
+	Color string
+
+	Placement Enum_Above_below
+
+	Substitution Enum_Yes_no
 }
 
 func (from *Heel_toe) GongCopyBasicFields(to *Heel_toe) {
@@ -2819,15 +2838,15 @@ type Hole_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
 	Hole_type string
 
@@ -2856,9 +2875,9 @@ type Hole_closed_WOP struct {
 
 	Name string
 
-	Location string
+	Location Enum_Hole_closed_location
 
-	EnclosedText string
+	EnclosedText Enum_Hole_closed_value
 }
 
 func (from *Hole_closed) GongCopyBasicFields(to *Hole_closed) {
@@ -2883,21 +2902,21 @@ type Horizontal_turn_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
-	Start_note string
+	Start_note Enum_Start_note
 
-	Trill_step string
+	Trill_step Enum_Trill_step
 
-	Two_note_turn string
+	Two_note_turn Enum_Two_note_turn
 
 	Accelerate Enum_Yes_no
 
@@ -2934,7 +2953,7 @@ type Image_WOP struct {
 
 	Source string
 
-	Type string
+	Type_XSD string
 
 	Height string
 
@@ -2948,9 +2967,9 @@ type Image_WOP struct {
 
 	Relative_y string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign_image
 
 	Id string
 }
@@ -3014,11 +3033,11 @@ type Interchangeable_WOP struct {
 
 	Name string
 
-	Symbol string
+	Symbol Enum_Time_symbol
 
-	Separator string
+	Separator Enum_Time_separator
 
-	Time_relation string
+	Time_relation Enum_Time_relation
 
 	Beats string
 
@@ -3047,11 +3066,11 @@ type Inversion_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -3080,11 +3099,11 @@ type Key_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -3179,19 +3198,19 @@ type Kind_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
-	EnclosedText string
+	EnclosedText Enum_Kind_value
 }
 
 func (from *Kind) GongCopyBasicFields(to *Kind) {
@@ -3204,9 +3223,9 @@ type Level_WOP struct {
 
 	Name string
 
-	Reference Enum_Yes_no
+	Reference_XSD Enum_Yes_no
 
-	Type Enum_Start_stop_single
+	Type_XSD Enum_Start_stop_single
 
 	Parentheses Enum_Yes_no
 
@@ -3233,7 +3252,7 @@ type Line_detail_WOP struct {
 
 	Color string
 
-	Line_type string
+	Line_type Enum_Line_type
 
 	Print_object Enum_Yes_no
 }
@@ -3248,7 +3267,7 @@ type Line_width_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD string
 
 	EnclosedText string
 }
@@ -3267,7 +3286,7 @@ type Link_WOP struct {
 
 	Href string
 
-	Type string
+	Type_XSD string
 
 	Role string
 
@@ -3326,7 +3345,7 @@ type Lyric_WOP struct {
 
 	NameXSD string
 
-	Time_only Enum_Time_only
+	Time_only string
 
 	Justify Enum_Left_center_right
 
@@ -3338,7 +3357,7 @@ type Lyric_WOP struct {
 
 	Relative_y string
 
-	Placement string
+	Placement Enum_Above_below
 
 	Color string
 
@@ -3346,7 +3365,7 @@ type Lyric_WOP struct {
 
 	Id string
 
-	Syllabic string
+	Syllabic Enum_Syllabic
 
 	Laughing string
 
@@ -3390,11 +3409,11 @@ type Lyric_font_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 }
 
 func (from *Lyric_font) GongCopyBasicFields(to *Lyric_font) {
@@ -3437,7 +3456,7 @@ type Measure_numbering_WOP struct {
 
 	Name string
 
-	System string
+	System Enum_System_relation_number
 
 	Staff int
 
@@ -3455,19 +3474,19 @@ type Measure_numbering_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
-	EnclosedText string
+	EnclosedText Enum_Measure_numbering_value
 }
 
 func (from *Measure_numbering) GongCopyBasicFields(to *Measure_numbering) {
@@ -3480,7 +3499,7 @@ type Measure_repeat_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop
+	Type_XSD Enum_Start_stop
 
 	Slashes int
 
@@ -3501,11 +3520,11 @@ type Measure_style_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -3531,7 +3550,7 @@ type Membrane_WOP struct {
 
 	Smufl string
 
-	EnclosedText string
+	EnclosedText Enum_Membrane_value
 }
 
 func (from *Membrane) GongCopyBasicFields(to *Membrane) {
@@ -3546,7 +3565,7 @@ type Metal_WOP struct {
 
 	Smufl string
 
-	EnclosedText string
+	EnclosedText Enum_Metal_value
 }
 
 func (from *Metal) GongCopyBasicFields(to *Metal) {
@@ -3571,17 +3590,17 @@ type Metronome_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Print_object Enum_Yes_no
 
@@ -3642,7 +3661,7 @@ type Metronome_note_WOP struct {
 
 	Name string
 
-	Metronome_type string
+	Metronome_type Enum_Note_type_value
 
 	Metronome_dot string
 }
@@ -3659,7 +3678,7 @@ type Metronome_tied_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop
+	Type_XSD Enum_Start_stop
 }
 
 func (from *Metronome_tied) GongCopyBasicFields(to *Metronome_tied) {
@@ -3671,6 +3690,20 @@ type Metronome_tuplet_WOP struct {
 	// insertion point
 
 	Name string
+
+	Actual_notes int
+
+	Normal_notes int
+
+	Normal_type Enum_Note_type_value
+
+	Normal_dot string
+
+	Type_XSD Enum_Start_stop
+
+	Bracket Enum_Yes_no
+
+	Show_number Enum_Show_tuplet
 }
 
 func (from *Metronome_tuplet) GongCopyBasicFields(to *Metronome_tuplet) {
@@ -3754,6 +3787,46 @@ type Mordent_WOP struct {
 	// insertion point
 
 	Name string
+
+	Default_x string
+
+	Default_y string
+
+	Relative_x string
+
+	Relative_y string
+
+	Font_family string
+
+	Font_style Enum_Font_style
+
+	Font_size string
+
+	Font_weight Enum_Font_weight
+
+	Color string
+
+	Placement Enum_Above_below
+
+	Start_note Enum_Start_note
+
+	Trill_step Enum_Trill_step
+
+	Two_note_turn Enum_Two_note_turn
+
+	Accelerate Enum_Yes_no
+
+	Beats string
+
+	Second_beat string
+
+	Last_beat string
+
+	Long Enum_Yes_no
+
+	Approach Enum_Above_below
+
+	Departure Enum_Above_below
 }
 
 func (from *Mordent) GongCopyBasicFields(to *Mordent) {
@@ -3795,7 +3868,7 @@ type Non_arpeggiate_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Top_bottom
 
 	Number int
 
@@ -3807,7 +3880,7 @@ type Non_arpeggiate_WOP struct {
 
 	Relative_y string
 
-	Placement string
+	Placement Enum_Above_below
 
 	Color string
 
@@ -3851,7 +3924,7 @@ type Note_WOP struct {
 
 	Release string
 
-	Time_only Enum_Time_only
+	Time_only string
 
 	Pizzicato Enum_Yes_no
 
@@ -3865,11 +3938,11 @@ type Note_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -3886,8 +3959,6 @@ type Note_WOP struct {
 	Chord string
 
 	Cue string
-
-	Duration string
 
 	Voice string
 
@@ -3920,7 +3991,6 @@ func (from *Note) GongCopyBasicFields(to *Note) {
 	to.Id = from.Id
 	to.Chord = from.Chord
 	to.Cue = from.Cue
-	to.Duration = from.Duration
 	to.Voice = from.Voice
 	to.Staff = from.Staff
 }
@@ -3930,7 +4000,7 @@ type Note_size_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Note_size_type
 
 	EnclosedText string
 }
@@ -3966,17 +4036,17 @@ type Notehead_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
 	Smufl string
 
-	EnclosedText string
+	EnclosedText Enum_Notehead_value
 }
 
 func (from *Notehead) GongCopyBasicFields(to *Notehead) {
@@ -4015,7 +4085,7 @@ type Numeral_key_WOP struct {
 
 	Numeral_fifths int
 
-	Numeral_mode string
+	Numeral_mode Enum_Numeral_mode
 }
 
 func (from *Numeral_key) GongCopyBasicFields(to *Numeral_key) {
@@ -4040,11 +4110,11 @@ type Numeral_root_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -4061,7 +4131,7 @@ type Octave_shift_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Up_down_stop_continue
 
 	Number int
 
@@ -4081,11 +4151,11 @@ type Octave_shift_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -4119,7 +4189,7 @@ type Opus_WOP struct {
 
 	Href string
 
-	Type string
+	Type_XSD string
 
 	Role string
 
@@ -4154,7 +4224,7 @@ type Other_appearance_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD string
 
 	EnclosedText string
 }
@@ -4181,17 +4251,17 @@ type Other_direction_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Smufl string
 
@@ -4210,11 +4280,11 @@ type Other_listening_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD string
 
 	Player string
 
-	Time_only Enum_Time_only
+	Time_only string
 
 	EnclosedText string
 }
@@ -4229,7 +4299,7 @@ type Other_notation_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop_single
+	Type_XSD Enum_Start_stop_single
 
 	Number int
 
@@ -4245,15 +4315,15 @@ type Other_notation_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
 	Smufl string
 
@@ -4282,15 +4352,15 @@ type Other_placement_text_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
 	Smufl string
 
@@ -4307,7 +4377,7 @@ type Other_play_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD string
 
 	EnclosedText string
 }
@@ -4354,7 +4424,7 @@ type Page_margins_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Margin_type
 
 	Left_margin string
 
@@ -4375,7 +4445,7 @@ type Part_clef_WOP struct {
 
 	Name string
 
-	Sign string
+	Sign Enum_Clef_sign
 
 	Line int
 
@@ -4392,7 +4462,7 @@ type Part_group_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop
+	Type_XSD Enum_Start_stop
 
 	Number string
 
@@ -4402,7 +4472,7 @@ type Part_group_WOP struct {
 func (from *Part_group) GongCopyBasicFields(to *Part_group) {
 	// insertion point
 	to.Name = from.Name
-	to.Type = from.Type
+	to.Type_XSD = from.Type_XSD
 	to.Number = from.Number
 	to.Group_time = from.Group_time
 }
@@ -4414,7 +4484,7 @@ type Part_link_WOP struct {
 
 	Href string
 
-	Type string
+	Type_XSD string
 
 	Role string
 
@@ -4431,7 +4501,7 @@ func (from *Part_link) GongCopyBasicFields(to *Part_link) {
 	// insertion point
 	to.Name = from.Name
 	to.Href = from.Href
-	to.Type = from.Type
+	to.Type_XSD = from.Type_XSD
 	to.Role = from.Role
 	to.Title = from.Title
 	to.Show = from.Show
@@ -4465,11 +4535,11 @@ type Part_name_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -4536,7 +4606,7 @@ type Pedal_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Pedal_type
 
 	Number int
 
@@ -4556,17 +4626,17 @@ type Pedal_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Id string
 }
@@ -4598,11 +4668,11 @@ type Per_minute_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	EnclosedText string
 }
@@ -4627,23 +4697,23 @@ type Percussion_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
-	Enclosure string
+	Enclosure Enum_Enclosure_shape
 
 	Id string
 
-	Stick_location string
+	Stick_location Enum_Stick_location
 }
 
 func (from *Percussion) GongCopyBasicFields(to *Percussion) {
@@ -4689,7 +4759,7 @@ type Pitched_WOP struct {
 
 	Smufl string
 
-	EnclosedText string
+	EnclosedText Enum_Pitched_value
 }
 
 func (from *Pitched) GongCopyBasicFields(to *Pitched) {
@@ -4712,15 +4782,15 @@ type Placement_text_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
 	EnclosedText string
 }
@@ -4739,9 +4809,9 @@ type Play_WOP struct {
 
 	Ipa string
 
-	Mute string
+	Mute Enum_Mute
 
-	Semi_pitched string
+	Semi_pitched Enum_Semi_pitched
 }
 
 func (from *Play) GongCopyBasicFields(to *Play) {
@@ -4773,9 +4843,9 @@ type Principal_voice_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop
+	Type_XSD Enum_Start_stop
 
-	Symbol string
+	Symbol Enum_Principal_voice_symbol
 
 	Default_x string
 
@@ -4787,17 +4857,17 @@ type Principal_voice_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Id string
 
@@ -4809,7 +4879,7 @@ func (from *Principal_voice) GongCopyBasicFields(to *Principal_voice) {
 	*to = *from
 }
 
-type Print_WOP struct {
+type Print_XSD_WOP struct {
 	// insertion point
 
 	Name string
@@ -4827,7 +4897,7 @@ type Print_WOP struct {
 	Id string
 }
 
-func (from *Print) GongCopyBasicFields(to *Print) {
+func (from *Print_XSD) GongCopyBasicFields(to *Print_XSD) {
 	// insertion point
 	to.Name = from.Name
 	to.Staff_spacing = from.Staff_spacing
@@ -4842,6 +4912,8 @@ type Release_WOP struct {
 	// insertion point
 
 	Name string
+
+	Offset string
 }
 
 func (from *Release) GongCopyBasicFields(to *Release) {
@@ -4854,13 +4926,13 @@ type Repeat_WOP struct {
 
 	Name string
 
-	Direction string
+	Direction Enum_Backward_forward
 
 	Times int
 
 	After_jump Enum_Yes_no
 
-	Winged string
+	Winged Enum_Winged
 }
 
 func (from *Repeat) GongCopyBasicFields(to *Repeat) {
@@ -4913,11 +4985,11 @@ type Root_step_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -5061,17 +5133,17 @@ type Segno_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Id string
 }
@@ -5086,7 +5158,7 @@ type Slash_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop
+	Type_XSD Enum_Start_stop
 
 	Use_dots Enum_Yes_no
 
@@ -5109,11 +5181,11 @@ type Slide_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop
+	Type_XSD Enum_Start_stop
 
 	Number int
 
-	Line_type string
+	Line_type Enum_Line_type
 
 	Dash_length string
 
@@ -5129,11 +5201,11 @@ type Slide_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -5160,11 +5232,11 @@ type Slur_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop_continue
+	Type_XSD Enum_Start_stop_continue
 
 	Number int
 
-	Line_type string
+	Line_type Enum_Line_type
 
 	Dash_length string
 
@@ -5178,9 +5250,9 @@ type Slur_WOP struct {
 
 	Relative_y string
 
-	Placement string
+	Placement Enum_Above_below
 
-	Orientation string
+	Orientation Enum_Over_under
 
 	Bezier_x string
 
@@ -5229,7 +5301,7 @@ type Sound_WOP struct {
 
 	Fine string
 
-	Time_only Enum_Time_only
+	Time_only string
 
 	Pizzicato Enum_Yes_no
 
@@ -5276,13 +5348,13 @@ type Staff_details_WOP struct {
 
 	Number int
 
-	Show_frets string
+	Show_frets Enum_Show_frets
 
 	Print_object Enum_Yes_no
 
 	Print_spacing Enum_Yes_no
 
-	Staff_type string
+	Staff_type Enum_Staff_type
 
 	Staff_lines int
 
@@ -5306,7 +5378,7 @@ type Staff_divide_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Staff_divide_symbol
 
 	Default_x string
 
@@ -5318,17 +5390,17 @@ type Staff_divide_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Id string
 }
@@ -5402,7 +5474,7 @@ type Stem_WOP struct {
 
 	Color string
 
-	EnclosedText string
+	EnclosedText Enum_Stem_value
 }
 
 func (from *Stem) GongCopyBasicFields(to *Stem) {
@@ -5421,9 +5493,9 @@ type Stick_WOP struct {
 
 	Dashed_circle Enum_Yes_no
 
-	Stick_type string
+	Stick_type Enum_Stick_type
 
-	Stick_material string
+	Stick_material Enum_Stick_material
 }
 
 func (from *Stick) GongCopyBasicFields(to *Stick) {
@@ -5436,7 +5508,7 @@ type String_mute_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_On_off
 
 	Default_x string
 
@@ -5448,17 +5520,17 @@ type String_mute_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Id string
 }
@@ -5483,15 +5555,15 @@ type String_type_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
 	EnclosedText int
 }
@@ -5505,6 +5577,28 @@ type Strong_accent_WOP struct {
 	// insertion point
 
 	Name string
+
+	Default_x string
+
+	Default_y string
+
+	Relative_x string
+
+	Relative_y string
+
+	Font_family string
+
+	Font_style Enum_Font_style
+
+	Font_size string
+
+	Font_weight Enum_Font_weight
+
+	Color string
+
+	Placement Enum_Above_below
+
+	Type_XSD Enum_Up_down
 }
 
 func (from *Strong_accent) GongCopyBasicFields(to *Strong_accent) {
@@ -5527,11 +5621,11 @@ type Style_text_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -5548,7 +5642,7 @@ type Supports_WOP struct {
 
 	Name string
 
-	Type Enum_Yes_no
+	Type_XSD Enum_Yes_no
 
 	Element string
 
@@ -5573,7 +5667,7 @@ type Swing_WOP struct {
 
 	Second int
 
-	Swing_type Enum_Note_type_value
+	Swing_type string
 
 	Swing_style string
 }
@@ -5588,13 +5682,13 @@ type Sync_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Sync_type
 
 	Latency int
 
 	Player string
 
-	Time_only Enum_Time_only
+	Time_only string
 }
 
 func (from *Sync) GongCopyBasicFields(to *Sync) {
@@ -5650,7 +5744,7 @@ type Tap_WOP struct {
 
 	Name string
 
-	Hand string
+	Hand Enum_Tap_hand
 
 	Default_x string
 
@@ -5662,15 +5756,15 @@ type Tap_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
 	EnclosedText string
 }
@@ -5703,11 +5797,11 @@ type Text_element_data_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -5721,7 +5815,7 @@ type Text_element_data_WOP struct {
 
 	Letter_spacing string
 
-	Dir string
+	Dir Enum_Text_direction
 
 	EnclosedText string
 }
@@ -5736,9 +5830,9 @@ type Tie_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop
+	Type_XSD Enum_Start_stop
 
-	Time_only Enum_Time_only
+	Time_only string
 }
 
 func (from *Tie) GongCopyBasicFields(to *Tie) {
@@ -5751,11 +5845,11 @@ type Tied_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Tied_type
 
 	Number int
 
-	Line_type string
+	Line_type Enum_Line_type
 
 	Dash_length string
 
@@ -5769,9 +5863,9 @@ type Tied_WOP struct {
 
 	Relative_y string
 
-	Placement string
+	Placement Enum_Above_below
 
-	Orientation string
+	Orientation Enum_Over_under
 
 	Bezier_x string
 
@@ -5816,17 +5910,17 @@ type Time_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Halign string
+	Halign Enum_Left_center_right
 
-	Valign string
+	Valign Enum_Valign
 
 	Print_object Enum_Yes_no
 
@@ -5923,7 +6017,7 @@ type Tremolo_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Tremolo_type
 
 	Default_x string
 
@@ -5935,15 +6029,15 @@ type Tremolo_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
-	Placement string
+	Placement Enum_Above_below
 
 	Smufl string
 
@@ -5960,17 +6054,17 @@ type Tuplet_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop
+	Type_XSD Enum_Start_stop
 
 	Number int
 
 	Bracket Enum_Yes_no
 
-	Show_number string
+	Show_number Enum_Show_tuplet
 
 	Show_type Enum_Show_tuplet
 
-	Line_shape string
+	Line_shape Enum_Line_shape
 
 	Default_x string
 
@@ -5980,7 +6074,7 @@ type Tuplet_WOP struct {
 
 	Relative_y string
 
-	Placement string
+	Placement Enum_Above_below
 
 	Id string
 }
@@ -5988,7 +6082,7 @@ type Tuplet_WOP struct {
 func (from *Tuplet) GongCopyBasicFields(to *Tuplet) {
 	// insertion point
 	to.Name = from.Name
-	to.Type = from.Type
+	to.Type_XSD = from.Type_XSD
 	to.Number = from.Number
 	to.Bracket = from.Bracket
 	to.Show_number = from.Show_number
@@ -6009,11 +6103,11 @@ type Tuplet_dot_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 }
@@ -6030,11 +6124,11 @@ type Tuplet_number_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -6064,11 +6158,11 @@ type Tuplet_type_WOP struct {
 
 	Font_family string
 
-	Font_style string
+	Font_style Enum_Font_style
 
 	Font_size string
 
-	Font_weight string
+	Font_weight Enum_Font_weight
 
 	Color string
 
@@ -6085,7 +6179,7 @@ type Typed_text_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD string
 
 	EnclosedText string
 }
@@ -6132,7 +6226,7 @@ type Wait_WOP struct {
 
 	Player string
 
-	Time_only Enum_Time_only
+	Time_only string
 }
 
 func (from *Wait) GongCopyBasicFields(to *Wait) {
@@ -6145,7 +6239,7 @@ type Wavy_line_WOP struct {
 
 	Name string
 
-	Type Enum_Start_stop_continue
+	Type_XSD Enum_Start_stop_continue
 
 	Number int
 
@@ -6159,15 +6253,15 @@ type Wavy_line_WOP struct {
 
 	Relative_y string
 
-	Placement string
+	Placement Enum_Above_below
 
 	Color string
 
-	Start_note string
+	Start_note Enum_Start_note
 
-	Trill_step string
+	Trill_step Enum_Trill_step
 
-	Two_note_turn string
+	Two_note_turn Enum_Two_note_turn
 
 	Accelerate Enum_Yes_no
 
@@ -6188,7 +6282,7 @@ type Wedge_WOP struct {
 
 	Name string
 
-	Type string
+	Type_XSD Enum_Wedge_type
 
 	Number int
 
@@ -6196,7 +6290,7 @@ type Wedge_WOP struct {
 
 	Niente Enum_Yes_no
 
-	Line_type string
+	Line_type Enum_Line_type
 
 	Dash_length string
 
@@ -6227,7 +6321,7 @@ type Wood_WOP struct {
 
 	Smufl string
 
-	EnclosedText string
+	EnclosedText Enum_Wood_value
 }
 
 func (from *Wood) GongCopyBasicFields(to *Wood) {

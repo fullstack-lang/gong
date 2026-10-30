@@ -4551,29 +4551,29 @@ func (principal_voice *Principal_voice) GongAfterDeleteFromFront(stage *Stage, f
 	}
 }
 
-func (print *Print) GongAfterCreateFromFront(stage *Stage) {
-	if stage.OnAfterPrintCreateCallback != nil {
-		stage.OnAfterPrintCreateCallback.OnAfterCreate(stage, print)
+func (print_xsd *Print_XSD) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterPrint_XSDCreateCallback != nil {
+		stage.OnAfterPrint_XSDCreateCallback.OnAfterCreate(stage, print_xsd)
 	}
 }
 
-func (print *Print) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterPrintUpdateCallback != nil {
-		var frontPrint *Print
+func (print_xsd *Print_XSD) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterPrint_XSDUpdateCallback != nil {
+		var frontPrint_XSD *Print_XSD
 		if front != nil {
-			frontPrint, _ = front.(*Print)
+			frontPrint_XSD, _ = front.(*Print_XSD)
 		}
-		stage.OnAfterPrintUpdateCallback.OnAfterUpdate(stage, print, frontPrint)
+		stage.OnAfterPrint_XSDUpdateCallback.OnAfterUpdate(stage, print_xsd, frontPrint_XSD)
 	}
 }
 
-func (print *Print) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterPrintDeleteCallback != nil {
-		var frontPrint *Print
+func (print_xsd *Print_XSD) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterPrint_XSDDeleteCallback != nil {
+		var frontPrint_XSD *Print_XSD
 		if front != nil {
-			frontPrint, _ = front.(*Print)
+			frontPrint_XSD, _ = front.(*Print_XSD)
 		}
-		stage.OnAfterPrintDeleteCallback.OnAfterDelete(stage, print, frontPrint)
+		stage.OnAfterPrint_XSDDeleteCallback.OnAfterDelete(stage, print_xsd, frontPrint_XSD)
 	}
 }
 

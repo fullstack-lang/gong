@@ -46,14 +46,28 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Enumeration](probe)
 	case "Extension":
 		updateProbeTable[*models.Extension](probe)
+	case "FieldXPath":
+		updateProbeTable[*models.FieldXPath](probe)
+	case "FractionDigit":
+		updateProbeTable[*models.FractionDigit](probe)
 	case "Group":
 		updateProbeTable[*models.Group](probe)
+	case "Key":
+		updateProbeTable[*models.Key](probe)
+	case "KeyRef":
+		updateProbeTable[*models.KeyRef](probe)
 	case "Length":
 		updateProbeTable[*models.Length](probe)
+	case "List":
+		updateProbeTable[*models.List](probe)
+	case "MaxExclusive":
+		updateProbeTable[*models.MaxExclusive](probe)
 	case "MaxInclusive":
 		updateProbeTable[*models.MaxInclusive](probe)
 	case "MaxLength":
 		updateProbeTable[*models.MaxLength](probe)
+	case "MinExclusive":
+		updateProbeTable[*models.MinExclusive](probe)
 	case "MinInclusive":
 		updateProbeTable[*models.MinInclusive](probe)
 	case "MinLength":
@@ -64,6 +78,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Restriction](probe)
 	case "Schema":
 		updateProbeTable[*models.Schema](probe)
+	case "Selector":
+		updateProbeTable[*models.Selector](probe)
 	case "Sequence":
 		updateProbeTable[*models.Sequence](probe)
 	case "SimpleContent":
@@ -74,8 +90,14 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TotalDigit](probe)
 	case "Union":
 		updateProbeTable[*models.Union](probe)
+	case "Unique":
+		updateProbeTable[*models.Unique](probe)
 	case "WhiteSpace":
 		updateProbeTable[*models.WhiteSpace](probe)
+	case "XSDImport":
+		updateProbeTable[*models.XSDImport](probe)
+	case "XSDInclude":
+		updateProbeTable[*models.XSDInclude](probe)
 	}
 }
 

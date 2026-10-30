@@ -466,6 +466,8 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.TargetNamespace = %s", attributeIdent, __gong__toRawStringLiteral(attribute.TargetNamespace)))
 			values.WriteString(fmt.Sprintf("\n\t%s.SimpleType = %s", attributeIdent, __gong__toRawStringLiteral(attribute.SimpleType)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IDXSD = %s", attributeIdent, __gong__toRawStringLiteral(attribute.IDXSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", attributeIdent, attribute.Order))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", attributeIdent, attribute.Depth))
 			if attribute.Annotation != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -475,6 +477,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := attribute.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", attributeIdent, targetIdent))
+			}
+			if attribute.InnerSimpleType != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := attribute.InnerSimpleType.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.InnerSimpleType = %s", attributeIdent, targetIdent))
 			}
 		}
 	}
@@ -635,6 +647,37 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", complexcontentIdent, __gong__toRawStringLiteral(complexcontent.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Mixed = %s", complexcontentIdent, __gong__toRawStringLiteral(complexcontent.Mixed)))
+			if complexcontent.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := complexcontent.Annotation.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", complexcontentIdent, targetIdent))
+			}
+			if complexcontent.Extension != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := complexcontent.Extension.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = %s", complexcontentIdent, targetIdent))
+			}
+			if complexcontent.Restriction != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := complexcontent.Restriction.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Restriction = %s", complexcontentIdent, targetIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -841,6 +884,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Form = %s", elementIdent, __gong__toRawStringLiteral(element.Form)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Block = %s", elementIdent, __gong__toRawStringLiteral(element.Block)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Final = %s", elementIdent, __gong__toRawStringLiteral(element.Final)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SubstitutionGroup = %s", elementIdent, __gong__toRawStringLiteral(element.SubstitutionGroup)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsDuplicatedInXSD = %t", elementIdent, element.IsDuplicatedInXSD))
 			if element.Annotation != nil {
 				if lastStagePtr != "Stage" {
@@ -881,6 +925,36 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", elementIdent, elementIdent, targetIdent))
+			}
+			for _, elem := range element.Keys {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Keys = append(%s.Keys, %s)", elementIdent, elementIdent, targetIdent))
+			}
+			for _, elem := range element.Uniques {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Uniques = append(%s.Uniques, %s)", elementIdent, elementIdent, targetIdent))
+			}
+			for _, elem := range element.KeyRefs {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.KeyRefs = append(%s.KeyRefs, %s)", elementIdent, elementIdent, targetIdent))
 			}
 		}
 	}
@@ -1011,6 +1085,56 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 		}
 	}
 	if stage != nil {
+		for _, fieldxpath := range __gong__sortStageSetInstances(stage.FieldXPaths, stage.FieldXPath_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			fieldxpathIdent := fieldxpath.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FieldXPath{Name: %s}).Stage(stage)", fieldxpathIdent, __gong__toRawStringLiteral(fieldxpath.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", fieldxpathIdent, __gong__toRawStringLiteral(fieldxpath.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.XPath = %s", fieldxpathIdent, __gong__toRawStringLiteral(fieldxpath.XPath)))
+		}
+	}
+	if stage != nil {
+		for _, fractiondigit := range __gong__sortStageSetInstances(stage.FractionDigits, stage.FractionDigit_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			fractiondigitIdent := fractiondigit.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.FractionDigit{Name: %s}).Stage(stage)", fractiondigitIdent, __gong__toRawStringLiteral(fractiondigit.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", fractiondigitIdent, __gong__toRawStringLiteral(fractiondigit.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", fractiondigitIdent, __gong__toRawStringLiteral(fractiondigit.Value)))
+			if fractiondigit.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := fractiondigit.Annotation.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", fractiondigitIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
 		for _, group := range __gong__sortStageSetInstances(stage.Groups, stage.Group_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
@@ -1110,6 +1234,107 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 		}
 	}
 	if stage != nil {
+		for _, key := range __gong__sortStageSetInstances(stage.Keys, stage.Key_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			keyIdent := key.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Key{Name: %s}).Stage(stage)", keyIdent, __gong__toRawStringLiteral(key.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", keyIdent, __gong__toRawStringLiteral(key.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", keyIdent, __gong__toRawStringLiteral(key.NameXSD)))
+			if key.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := key.Annotation.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", keyIdent, targetIdent))
+			}
+			if key.Selector != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := key.Selector.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Selector = %s", keyIdent, targetIdent))
+			}
+			for _, elem := range key.Fields {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Fields = append(%s.Fields, %s)", keyIdent, keyIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, keyref := range __gong__sortStageSetInstances(stage.KeyRefs, stage.KeyRef_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			keyrefIdent := keyref.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.KeyRef{Name: %s}).Stage(stage)", keyrefIdent, __gong__toRawStringLiteral(keyref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", keyrefIdent, __gong__toRawStringLiteral(keyref.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", keyrefIdent, __gong__toRawStringLiteral(keyref.NameXSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Refer = %s", keyrefIdent, __gong__toRawStringLiteral(keyref.Refer)))
+			if keyref.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := keyref.Annotation.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", keyrefIdent, targetIdent))
+			}
+			if keyref.Selector != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := keyref.Selector.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Selector = %s", keyrefIdent, targetIdent))
+			}
+			for _, elem := range keyref.Fields {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Fields = append(%s.Fields, %s)", keyrefIdent, keyrefIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
 		for _, length := range __gong__sortStageSetInstances(stage.Lengths, stage.Length_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
@@ -1136,6 +1361,76 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := length.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", lengthIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, list := range __gong__sortStageSetInstances(stage.Lists, stage.List_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			listIdent := list.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.List{Name: %s}).Stage(stage)", listIdent, __gong__toRawStringLiteral(list.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", listIdent, __gong__toRawStringLiteral(list.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ItemType = %s", listIdent, __gong__toRawStringLiteral(list.ItemType)))
+			if list.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := list.Annotation.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", listIdent, targetIdent))
+			}
+			if list.SimpleType != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := list.SimpleType.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SimpleType = %s", listIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, maxexclusive := range __gong__sortStageSetInstances(stage.MaxExclusives, stage.MaxExclusive_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			maxexclusiveIdent := maxexclusive.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.MaxExclusive{Name: %s}).Stage(stage)", maxexclusiveIdent, __gong__toRawStringLiteral(maxexclusive.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", maxexclusiveIdent, __gong__toRawStringLiteral(maxexclusive.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", maxexclusiveIdent, __gong__toRawStringLiteral(maxexclusive.Value)))
+			if maxexclusive.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := maxexclusive.Annotation.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", maxexclusiveIdent, targetIdent))
 			}
 		}
 	}
@@ -1196,6 +1491,36 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := maxlength.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", maxlengthIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, minexclusive := range __gong__sortStageSetInstances(stage.MinExclusives, stage.MinExclusive_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			minexclusiveIdent := minexclusive.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.MinExclusive{Name: %s}).Stage(stage)", minexclusiveIdent, __gong__toRawStringLiteral(minexclusive.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", minexclusiveIdent, __gong__toRawStringLiteral(minexclusive.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", minexclusiveIdent, __gong__toRawStringLiteral(minexclusive.Value)))
+			if minexclusive.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := minexclusive.Annotation.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", minexclusiveIdent, targetIdent))
 			}
 		}
 	}
@@ -1307,6 +1632,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", restrictionIdent, __gong__toRawStringLiteral(restriction.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Base = %s", restrictionIdent, __gong__toRawStringLiteral(restriction.Base)))
+			values.WriteString(fmt.Sprintf("\n\t%s.OuterElementName = %s", restrictionIdent, __gong__toRawStringLiteral(restriction.OuterElementName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", restrictionIdent, restriction.Order))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", restrictionIdent, restriction.Depth))
+			values.WriteString(fmt.Sprintf("\n\t%s.MinOccurs = %s", restrictionIdent, __gong__toRawStringLiteral(restriction.MinOccurs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MaxOccurs = %s", restrictionIdent, __gong__toRawStringLiteral(restriction.MaxOccurs)))
 			if restriction.Annotation != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1316,6 +1646,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := restriction.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", restrictionIdent, targetIdent))
+			}
+			if restriction.SimpleType != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := restriction.SimpleType.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SimpleType = %s", restrictionIdent, targetIdent))
 			}
 			for _, elem := range restriction.Enumerations {
 				if lastStagePtr != "Stage" {
@@ -1346,6 +1686,26 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := restriction.MaxInclusive.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.MaxInclusive = %s", restrictionIdent, targetIdent))
+			}
+			if restriction.MinExclusive != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := restriction.MinExclusive.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MinExclusive = %s", restrictionIdent, targetIdent))
+			}
+			if restriction.MaxExclusive != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := restriction.MaxExclusive.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MaxExclusive = %s", restrictionIdent, targetIdent))
 			}
 			if restriction.Pattern != nil {
 				if lastStagePtr != "Stage" {
@@ -1407,6 +1767,86 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := restriction.TotalDigit.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.TotalDigit = %s", restrictionIdent, targetIdent))
 			}
+			if restriction.FractionDigit != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := restriction.FractionDigit.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FractionDigit = %s", restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.Sequences {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Sequences = append(%s.Sequences, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.Alls {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Alls = append(%s.Alls, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.Choices {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Choices = append(%s.Choices, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.Groups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.Elements {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.Attributes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Attributes = append(%s.Attributes, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.AttributeGroups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AttributeGroups = append(%s.AttributeGroups, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -1427,6 +1867,14 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", schemaIdent, __gong__toRawStringLiteral(schema.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Xs = %s", schemaIdent, __gong__toRawStringLiteral(schema.Xs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.TargetNamespace = %s", schemaIdent, __gong__toRawStringLiteral(schema.TargetNamespace)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ElementFormDefault = %s", schemaIdent, __gong__toRawStringLiteral(schema.ElementFormDefault)))
+			values.WriteString(fmt.Sprintf("\n\t%s.AttributeFormDefault = %s", schemaIdent, __gong__toRawStringLiteral(schema.AttributeFormDefault)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Version = %s", schemaIdent, __gong__toRawStringLiteral(schema.Version)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FilePath = %s", schemaIdent, __gong__toRawStringLiteral(schema.FilePath)))
+			values.WriteString(fmt.Sprintf("\n\t%s.PackageName = %s", schemaIdent, __gong__toRawStringLiteral(schema.PackageName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.PackageRelDir = %s", schemaIdent, __gong__toRawStringLiteral(schema.PackageRelDir)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsRootSchema = %t", schemaIdent, schema.IsRootSchema))
 			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", schemaIdent, schema.Order))
 			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", schemaIdent, schema.Depth))
 			if schema.Annotation != nil {
@@ -1439,6 +1887,26 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := schema.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", schemaIdent, targetIdent))
 			}
+			for _, elem := range schema.Imports {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Imports = append(%s.Imports, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.Includes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Includes = append(%s.Includes, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
 			for _, elem := range schema.Elements {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1448,6 +1916,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.Attributes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Attributes = append(%s.Attributes, %s)", schemaIdent, schemaIdent, targetIdent))
 			}
 			for _, elem := range schema.SimpleTypes {
 				if lastStagePtr != "Stage" {
@@ -1489,6 +1967,56 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", schemaIdent, schemaIdent, targetIdent))
 			}
+			for _, elem := range schema.Keys {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Keys = append(%s.Keys, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.Uniques {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Uniques = append(%s.Uniques, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.KeyRefs {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.KeyRefs = append(%s.KeyRefs, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, selector := range __gong__sortStageSetInstances(stage.Selectors, stage.Selector_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			selectorIdent := selector.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Selector{Name: %s}).Stage(stage)", selectorIdent, __gong__toRawStringLiteral(selector.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", selectorIdent, __gong__toRawStringLiteral(selector.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.XPath = %s", selectorIdent, __gong__toRawStringLiteral(selector.XPath)))
 		}
 	}
 	if stage != nil {
@@ -1632,6 +2160,8 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", simpletypeIdent, __gong__toRawStringLiteral(simpletype.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", simpletypeIdent, __gong__toRawStringLiteral(simpletype.NameXSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasNameConflict = %t", simpletypeIdent, simpletype.HasNameConflict))
+			values.WriteString(fmt.Sprintf("\n\t%s.GoIdentifier = %s", simpletypeIdent, __gong__toRawStringLiteral(simpletype.GoIdentifier)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", simpletypeIdent, simpletype.Order))
 			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", simpletypeIdent, simpletype.Depth))
 			if simpletype.Annotation != nil {
@@ -1663,6 +2193,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := simpletype.Union.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Union = %s", simpletypeIdent, targetIdent))
+			}
+			if simpletype.List != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := simpletype.List.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.List = %s", simpletypeIdent, targetIdent))
 			}
 		}
 	}
@@ -1724,6 +2264,66 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := union.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", unionIdent, targetIdent))
 			}
+			for _, elem := range union.SimpleTypes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SimpleTypes = append(%s.SimpleTypes, %s)", unionIdent, unionIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, unique := range __gong__sortStageSetInstances(stage.Uniques, stage.Unique_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			uniqueIdent := unique.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Unique{Name: %s}).Stage(stage)", uniqueIdent, __gong__toRawStringLiteral(unique.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", uniqueIdent, __gong__toRawStringLiteral(unique.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", uniqueIdent, __gong__toRawStringLiteral(unique.NameXSD)))
+			if unique.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := unique.Annotation.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", uniqueIdent, targetIdent))
+			}
+			if unique.Selector != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := unique.Selector.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Selector = %s", uniqueIdent, targetIdent))
+			}
+			for _, elem := range unique.Fields {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Fields = append(%s.Fields, %s)", uniqueIdent, uniqueIdent, targetIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -1753,6 +2353,67 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := whitespace.Annotation.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", whitespaceIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, xsdimport := range __gong__sortStageSetInstances(stage.XSDImports, stage.XSDImport_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			xsdimportIdent := xsdimport.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.XSDImport{Name: %s}).Stage(stage)", xsdimportIdent, __gong__toRawStringLiteral(xsdimport.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xsdimportIdent, __gong__toRawStringLiteral(xsdimport.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Namespace = %s", xsdimportIdent, __gong__toRawStringLiteral(xsdimport.Namespace)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SchemaLocation = %s", xsdimportIdent, __gong__toRawStringLiteral(xsdimport.SchemaLocation)))
+			if xsdimport.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := xsdimport.Annotation.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", xsdimportIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, xsdinclude := range __gong__sortStageSetInstances(stage.XSDIncludes, stage.XSDInclude_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			xsdincludeIdent := xsdinclude.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.XSDInclude{Name: %s}).Stage(stage)", xsdincludeIdent, __gong__toRawStringLiteral(xsdinclude.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xsdincludeIdent, __gong__toRawStringLiteral(xsdinclude.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SchemaLocation = %s", xsdincludeIdent, __gong__toRawStringLiteral(xsdinclude.SchemaLocation)))
+			if xsdinclude.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := xsdinclude.Annotation.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", xsdincludeIdent, targetIdent))
 			}
 		}
 	}
@@ -1933,12 +2594,22 @@ func (attribute *Attribute) GongMarshallField(stage *Stage, fieldName string) (r
 		res = __gong__marshallString(ident, "SimpleType", attribute.SimpleType)
 	case "IDXSD":
 		res = __gong__marshallString(ident, "IDXSD", attribute.IDXSD)
+	case "Order":
+		res = __gong__marshallInt(ident, "Order", attribute.Order)
+	case "Depth":
+		res = __gong__marshallInt(ident, "Depth", attribute.Depth)
 
 	case "Annotation":
 		if attribute.Annotation != nil {
 			res = __gong__marshallPointer(ident, "Annotation", attribute.Annotation.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "Annotation", "nil")
+		}
+	case "InnerSimpleType":
+		if attribute.InnerSimpleType != nil {
+			res = __gong__marshallPointer(ident, "InnerSimpleType", attribute.InnerSimpleType.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "InnerSimpleType", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Attribute", fieldName)
@@ -2056,7 +2727,27 @@ func (complexcontent *ComplexContent) GongMarshallField(stage *Stage, fieldName 
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", complexcontent.Name)
+	case "Mixed":
+		res = __gong__marshallString(ident, "Mixed", complexcontent.Mixed)
 
+	case "Annotation":
+		if complexcontent.Annotation != nil {
+			res = __gong__marshallPointer(ident, "Annotation", complexcontent.Annotation.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Annotation", "nil")
+		}
+	case "Extension":
+		if complexcontent.Extension != nil {
+			res = __gong__marshallPointer(ident, "Extension", complexcontent.Extension.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Extension", "nil")
+		}
+	case "Restriction":
+		if complexcontent.Restriction != nil {
+			res = __gong__marshallPointer(ident, "Restriction", complexcontent.Restriction.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Restriction", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ComplexContent", fieldName)
 	}
@@ -2225,6 +2916,8 @@ func (element *Element) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = __gong__marshallString(ident, "Block", element.Block)
 	case "Final":
 		res = __gong__marshallString(ident, "Final", element.Final)
+	case "SubstitutionGroup":
+		res = __gong__marshallString(ident, "SubstitutionGroup", element.SubstitutionGroup)
 	case "IsDuplicatedInXSD":
 		res = __gong__marshallBool(ident, "IsDuplicatedInXSD", element.IsDuplicatedInXSD)
 
@@ -2250,6 +2943,24 @@ func (element *Element) GongMarshallField(stage *Stage, fieldName string) (res s
 		var sb strings.Builder
 		for _, _group := range element.Groups {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Groups", _group.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "Keys":
+		var sb strings.Builder
+		for _, _key := range element.Keys {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Keys", _key.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "Uniques":
+		var sb strings.Builder
+		for _, _unique := range element.Uniques {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Uniques", _unique.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "KeyRefs":
+		var sb strings.Builder
+		for _, _keyref := range element.KeyRefs {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "KeyRefs", _keyref.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -2348,6 +3059,42 @@ func (extension *Extension) GongMarshallField(stage *Stage, fieldName string) (r
 	return
 }
 
+func (fieldxpath *FieldXPath) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := fieldxpath.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", fieldxpath.Name)
+	case "XPath":
+		res = __gong__marshallString(ident, "XPath", fieldxpath.XPath)
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FieldXPath", fieldName)
+	}
+	return
+}
+
+func (fractiondigit *FractionDigit) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := fractiondigit.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", fractiondigit.Name)
+	case "Value":
+		res = __gong__marshallString(ident, "Value", fractiondigit.Value)
+
+	case "Annotation":
+		if fractiondigit.Annotation != nil {
+			res = __gong__marshallPointer(ident, "Annotation", fractiondigit.Annotation.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Annotation", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FractionDigit", fieldName)
+	}
+	return
+}
+
 func (group *Group) GongMarshallField(stage *Stage, fieldName string) (res string) {
 	ident := group.GongGetIdentifier(stage)
 	_ = ident
@@ -2423,6 +3170,74 @@ func (group *Group) GongMarshallField(stage *Stage, fieldName string) (res strin
 	return
 }
 
+func (key *Key) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := key.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", key.Name)
+	case "NameXSD":
+		res = __gong__marshallString(ident, "NameXSD", key.NameXSD)
+
+	case "Annotation":
+		if key.Annotation != nil {
+			res = __gong__marshallPointer(ident, "Annotation", key.Annotation.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Annotation", "nil")
+		}
+	case "Selector":
+		if key.Selector != nil {
+			res = __gong__marshallPointer(ident, "Selector", key.Selector.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Selector", "nil")
+		}
+	case "Fields":
+		var sb strings.Builder
+		for _, _fieldxpath := range key.Fields {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Fields", _fieldxpath.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Key", fieldName)
+	}
+	return
+}
+
+func (keyref *KeyRef) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := keyref.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", keyref.Name)
+	case "NameXSD":
+		res = __gong__marshallString(ident, "NameXSD", keyref.NameXSD)
+	case "Refer":
+		res = __gong__marshallString(ident, "Refer", keyref.Refer)
+
+	case "Annotation":
+		if keyref.Annotation != nil {
+			res = __gong__marshallPointer(ident, "Annotation", keyref.Annotation.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Annotation", "nil")
+		}
+	case "Selector":
+		if keyref.Selector != nil {
+			res = __gong__marshallPointer(ident, "Selector", keyref.Selector.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Selector", "nil")
+		}
+	case "Fields":
+		var sb strings.Builder
+		for _, _fieldxpath := range keyref.Fields {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Fields", _fieldxpath.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct KeyRef", fieldName)
+	}
+	return
+}
+
 func (length *Length) GongMarshallField(stage *Stage, fieldName string) (res string) {
 	ident := length.GongGetIdentifier(stage)
 	_ = ident
@@ -2440,6 +3255,54 @@ func (length *Length) GongMarshallField(stage *Stage, fieldName string) (res str
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Length", fieldName)
+	}
+	return
+}
+
+func (list *List) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := list.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", list.Name)
+	case "ItemType":
+		res = __gong__marshallString(ident, "ItemType", list.ItemType)
+
+	case "Annotation":
+		if list.Annotation != nil {
+			res = __gong__marshallPointer(ident, "Annotation", list.Annotation.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Annotation", "nil")
+		}
+	case "SimpleType":
+		if list.SimpleType != nil {
+			res = __gong__marshallPointer(ident, "SimpleType", list.SimpleType.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "SimpleType", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct List", fieldName)
+	}
+	return
+}
+
+func (maxexclusive *MaxExclusive) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := maxexclusive.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", maxexclusive.Name)
+	case "Value":
+		res = __gong__marshallString(ident, "Value", maxexclusive.Value)
+
+	case "Annotation":
+		if maxexclusive.Annotation != nil {
+			res = __gong__marshallPointer(ident, "Annotation", maxexclusive.Annotation.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Annotation", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct MaxExclusive", fieldName)
 	}
 	return
 }
@@ -2482,6 +3345,27 @@ func (maxlength *MaxLength) GongMarshallField(stage *Stage, fieldName string) (r
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct MaxLength", fieldName)
+	}
+	return
+}
+
+func (minexclusive *MinExclusive) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := minexclusive.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", minexclusive.Name)
+	case "Value":
+		res = __gong__marshallString(ident, "Value", minexclusive.Value)
+
+	case "Annotation":
+		if minexclusive.Annotation != nil {
+			res = __gong__marshallPointer(ident, "Annotation", minexclusive.Annotation.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Annotation", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct MinExclusive", fieldName)
 	}
 	return
 }
@@ -2557,12 +3441,28 @@ func (restriction *Restriction) GongMarshallField(stage *Stage, fieldName string
 		res = __gong__marshallString(ident, "Name", restriction.Name)
 	case "Base":
 		res = __gong__marshallString(ident, "Base", restriction.Base)
+	case "OuterElementName":
+		res = __gong__marshallString(ident, "OuterElementName", restriction.OuterElementName)
+	case "Order":
+		res = __gong__marshallInt(ident, "Order", restriction.Order)
+	case "Depth":
+		res = __gong__marshallInt(ident, "Depth", restriction.Depth)
+	case "MinOccurs":
+		res = __gong__marshallString(ident, "MinOccurs", restriction.MinOccurs)
+	case "MaxOccurs":
+		res = __gong__marshallString(ident, "MaxOccurs", restriction.MaxOccurs)
 
 	case "Annotation":
 		if restriction.Annotation != nil {
 			res = __gong__marshallPointer(ident, "Annotation", restriction.Annotation.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "Annotation", "nil")
+		}
+	case "SimpleType":
+		if restriction.SimpleType != nil {
+			res = __gong__marshallPointer(ident, "SimpleType", restriction.SimpleType.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "SimpleType", "nil")
 		}
 	case "Enumerations":
 		var sb strings.Builder
@@ -2581,6 +3481,18 @@ func (restriction *Restriction) GongMarshallField(stage *Stage, fieldName string
 			res = __gong__marshallPointer(ident, "MaxInclusive", restriction.MaxInclusive.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "MaxInclusive", "nil")
+		}
+	case "MinExclusive":
+		if restriction.MinExclusive != nil {
+			res = __gong__marshallPointer(ident, "MinExclusive", restriction.MinExclusive.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "MinExclusive", "nil")
+		}
+	case "MaxExclusive":
+		if restriction.MaxExclusive != nil {
+			res = __gong__marshallPointer(ident, "MaxExclusive", restriction.MaxExclusive.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "MaxExclusive", "nil")
 		}
 	case "Pattern":
 		if restriction.Pattern != nil {
@@ -2618,6 +3530,54 @@ func (restriction *Restriction) GongMarshallField(stage *Stage, fieldName string
 		} else {
 			res = __gong__marshallPointer(ident, "TotalDigit", "nil")
 		}
+	case "FractionDigit":
+		if restriction.FractionDigit != nil {
+			res = __gong__marshallPointer(ident, "FractionDigit", restriction.FractionDigit.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "FractionDigit", "nil")
+		}
+	case "Sequences":
+		var sb strings.Builder
+		for _, _sequence := range restriction.Sequences {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Sequences", _sequence.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "Alls":
+		var sb strings.Builder
+		for _, _all := range restriction.Alls {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Alls", _all.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "Choices":
+		var sb strings.Builder
+		for _, _choice := range restriction.Choices {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Choices", _choice.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "Groups":
+		var sb strings.Builder
+		for _, _group := range restriction.Groups {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Groups", _group.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "Elements":
+		var sb strings.Builder
+		for _, _element := range restriction.Elements {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Elements", _element.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "Attributes":
+		var sb strings.Builder
+		for _, _attribute := range restriction.Attributes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Attributes", _attribute.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "AttributeGroups":
+		var sb strings.Builder
+		for _, _attributegroup := range restriction.AttributeGroups {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "AttributeGroups", _attributegroup.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Restriction", fieldName)
 	}
@@ -2632,6 +3592,22 @@ func (schema *Schema) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = __gong__marshallString(ident, "Name", schema.Name)
 	case "Xs":
 		res = __gong__marshallString(ident, "Xs", schema.Xs)
+	case "TargetNamespace":
+		res = __gong__marshallString(ident, "TargetNamespace", schema.TargetNamespace)
+	case "ElementFormDefault":
+		res = __gong__marshallString(ident, "ElementFormDefault", schema.ElementFormDefault)
+	case "AttributeFormDefault":
+		res = __gong__marshallString(ident, "AttributeFormDefault", schema.AttributeFormDefault)
+	case "Version":
+		res = __gong__marshallString(ident, "Version", schema.Version)
+	case "FilePath":
+		res = __gong__marshallString(ident, "FilePath", schema.FilePath)
+	case "PackageName":
+		res = __gong__marshallString(ident, "PackageName", schema.PackageName)
+	case "PackageRelDir":
+		res = __gong__marshallString(ident, "PackageRelDir", schema.PackageRelDir)
+	case "IsRootSchema":
+		res = __gong__marshallBool(ident, "IsRootSchema", schema.IsRootSchema)
 	case "Order":
 		res = __gong__marshallInt(ident, "Order", schema.Order)
 	case "Depth":
@@ -2643,10 +3619,28 @@ func (schema *Schema) GongMarshallField(stage *Stage, fieldName string) (res str
 		} else {
 			res = __gong__marshallPointer(ident, "Annotation", "nil")
 		}
+	case "Imports":
+		var sb strings.Builder
+		for _, _xsdimport := range schema.Imports {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Imports", _xsdimport.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "Includes":
+		var sb strings.Builder
+		for _, _xsdinclude := range schema.Includes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Includes", _xsdinclude.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
 	case "Elements":
 		var sb strings.Builder
 		for _, _element := range schema.Elements {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Elements", _element.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "Attributes":
+		var sb strings.Builder
+		for _, _attribute := range schema.Attributes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Attributes", _attribute.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "SimpleTypes":
@@ -2673,8 +3667,41 @@ func (schema *Schema) GongMarshallField(stage *Stage, fieldName string) (res str
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Groups", _group.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
+	case "Keys":
+		var sb strings.Builder
+		for _, _key := range schema.Keys {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Keys", _key.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "Uniques":
+		var sb strings.Builder
+		for _, _unique := range schema.Uniques {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Uniques", _unique.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "KeyRefs":
+		var sb strings.Builder
+		for _, _keyref := range schema.KeyRefs {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "KeyRefs", _keyref.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Schema", fieldName)
+	}
+	return
+}
+
+func (selector *Selector) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := selector.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", selector.Name)
+	case "XPath":
+		res = __gong__marshallString(ident, "XPath", selector.XPath)
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Selector", fieldName)
 	}
 	return
 }
@@ -2771,6 +3798,10 @@ func (simpletype *SimpleType) GongMarshallField(stage *Stage, fieldName string) 
 		res = __gong__marshallString(ident, "Name", simpletype.Name)
 	case "NameXSD":
 		res = __gong__marshallString(ident, "NameXSD", simpletype.NameXSD)
+	case "HasNameConflict":
+		res = __gong__marshallBool(ident, "HasNameConflict", simpletype.HasNameConflict)
+	case "GoIdentifier":
+		res = __gong__marshallString(ident, "GoIdentifier", simpletype.GoIdentifier)
 	case "Order":
 		res = __gong__marshallInt(ident, "Order", simpletype.Order)
 	case "Depth":
@@ -2793,6 +3824,12 @@ func (simpletype *SimpleType) GongMarshallField(stage *Stage, fieldName string) 
 			res = __gong__marshallPointer(ident, "Union", simpletype.Union.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "Union", "nil")
+		}
+	case "List":
+		if simpletype.List != nil {
+			res = __gong__marshallPointer(ident, "List", simpletype.List.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "List", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SimpleType", fieldName)
@@ -2836,8 +3873,47 @@ func (union *Union) GongMarshallField(stage *Stage, fieldName string) (res strin
 		} else {
 			res = __gong__marshallPointer(ident, "Annotation", "nil")
 		}
+	case "SimpleTypes":
+		var sb strings.Builder
+		for _, _simpletype := range union.SimpleTypes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "SimpleTypes", _simpletype.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Union", fieldName)
+	}
+	return
+}
+
+func (unique *Unique) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := unique.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", unique.Name)
+	case "NameXSD":
+		res = __gong__marshallString(ident, "NameXSD", unique.NameXSD)
+
+	case "Annotation":
+		if unique.Annotation != nil {
+			res = __gong__marshallPointer(ident, "Annotation", unique.Annotation.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Annotation", "nil")
+		}
+	case "Selector":
+		if unique.Selector != nil {
+			res = __gong__marshallPointer(ident, "Selector", unique.Selector.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Selector", "nil")
+		}
+	case "Fields":
+		var sb strings.Builder
+		for _, _fieldxpath := range unique.Fields {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Fields", _fieldxpath.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Unique", fieldName)
 	}
 	return
 }
@@ -2859,6 +3935,50 @@ func (whitespace *WhiteSpace) GongMarshallField(stage *Stage, fieldName string) 
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct WhiteSpace", fieldName)
+	}
+	return
+}
+
+func (xsdimport *XSDImport) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := xsdimport.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", xsdimport.Name)
+	case "Namespace":
+		res = __gong__marshallString(ident, "Namespace", xsdimport.Namespace)
+	case "SchemaLocation":
+		res = __gong__marshallString(ident, "SchemaLocation", xsdimport.SchemaLocation)
+
+	case "Annotation":
+		if xsdimport.Annotation != nil {
+			res = __gong__marshallPointer(ident, "Annotation", xsdimport.Annotation.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Annotation", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct XSDImport", fieldName)
+	}
+	return
+}
+
+func (xsdinclude *XSDInclude) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := xsdinclude.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", xsdinclude.Name)
+	case "SchemaLocation":
+		res = __gong__marshallString(ident, "SchemaLocation", xsdinclude.SchemaLocation)
+
+	case "Annotation":
+		if xsdinclude.Annotation != nil {
+			res = __gong__marshallPointer(ident, "Annotation", xsdinclude.Annotation.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Annotation", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct XSDInclude", fieldName)
 	}
 	return
 }
@@ -2916,7 +4036,10 @@ func (attribute *Attribute) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(attribute.GongMarshallField(stage, "Ref"))
 		initializerStatements.WriteString(attribute.GongMarshallField(stage, "TargetNamespace"))
 		initializerStatements.WriteString(attribute.GongMarshallField(stage, "SimpleType"))
+		pointersInitializesStatements.WriteString(attribute.GongMarshallField(stage, "InnerSimpleType"))
 		initializerStatements.WriteString(attribute.GongMarshallField(stage, "IDXSD"))
+		initializerStatements.WriteString(attribute.GongMarshallField(stage, "Order"))
+		initializerStatements.WriteString(attribute.GongMarshallField(stage, "Depth"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -2971,6 +4094,10 @@ func (complexcontent *ComplexContent) GongMarshallAllFields(stage *Stage) (initR
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(complexcontent.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(complexcontent.GongMarshallField(stage, "Annotation"))
+		initializerStatements.WriteString(complexcontent.GongMarshallField(stage, "Mixed"))
+		pointersInitializesStatements.WriteString(complexcontent.GongMarshallField(stage, "Extension"))
+		pointersInitializesStatements.WriteString(complexcontent.GongMarshallField(stage, "Restriction"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3046,9 +4173,13 @@ func (element *Element) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(element.GongMarshallField(stage, "Form"))
 		initializerStatements.WriteString(element.GongMarshallField(stage, "Block"))
 		initializerStatements.WriteString(element.GongMarshallField(stage, "Final"))
+		initializerStatements.WriteString(element.GongMarshallField(stage, "SubstitutionGroup"))
 		pointersInitializesStatements.WriteString(element.GongMarshallField(stage, "SimpleType"))
 		pointersInitializesStatements.WriteString(element.GongMarshallField(stage, "ComplexType"))
 		pointersInitializesStatements.WriteString(element.GongMarshallField(stage, "Groups"))
+		pointersInitializesStatements.WriteString(element.GongMarshallField(stage, "Keys"))
+		pointersInitializesStatements.WriteString(element.GongMarshallField(stage, "Uniques"))
+		pointersInitializesStatements.WriteString(element.GongMarshallField(stage, "KeyRefs"))
 		initializerStatements.WriteString(element.GongMarshallField(stage, "IsDuplicatedInXSD"))
 	}
 	initRes = initializerStatements.String()
@@ -3093,6 +4224,31 @@ func (extension *Extension) GongMarshallAllFields(stage *Stage) (initRes string,
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (fieldxpath *FieldXPath) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(fieldxpath.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(fieldxpath.GongMarshallField(stage, "XPath"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (fractiondigit *FractionDigit) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(fractiondigit.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(fractiondigit.GongMarshallField(stage, "Annotation"))
+		initializerStatements.WriteString(fractiondigit.GongMarshallField(stage, "Value"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (group *Group) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -3121,6 +4277,37 @@ func (group *Group) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (key *Key) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(key.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(key.GongMarshallField(stage, "Annotation"))
+		initializerStatements.WriteString(key.GongMarshallField(stage, "NameXSD"))
+		pointersInitializesStatements.WriteString(key.GongMarshallField(stage, "Selector"))
+		pointersInitializesStatements.WriteString(key.GongMarshallField(stage, "Fields"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (keyref *KeyRef) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(keyref.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(keyref.GongMarshallField(stage, "Annotation"))
+		initializerStatements.WriteString(keyref.GongMarshallField(stage, "NameXSD"))
+		initializerStatements.WriteString(keyref.GongMarshallField(stage, "Refer"))
+		pointersInitializesStatements.WriteString(keyref.GongMarshallField(stage, "Selector"))
+		pointersInitializesStatements.WriteString(keyref.GongMarshallField(stage, "Fields"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (length *Length) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -3129,6 +4316,33 @@ func (length *Length) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 		initializerStatements.WriteString(length.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(length.GongMarshallField(stage, "Annotation"))
 		initializerStatements.WriteString(length.GongMarshallField(stage, "Value"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (list *List) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(list.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(list.GongMarshallField(stage, "Annotation"))
+		initializerStatements.WriteString(list.GongMarshallField(stage, "ItemType"))
+		pointersInitializesStatements.WriteString(list.GongMarshallField(stage, "SimpleType"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (maxexclusive *MaxExclusive) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(maxexclusive.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(maxexclusive.GongMarshallField(stage, "Annotation"))
+		initializerStatements.WriteString(maxexclusive.GongMarshallField(stage, "Value"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3155,6 +4369,19 @@ func (maxlength *MaxLength) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(maxlength.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(maxlength.GongMarshallField(stage, "Annotation"))
 		initializerStatements.WriteString(maxlength.GongMarshallField(stage, "Value"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (minexclusive *MinExclusive) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(minexclusive.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(minexclusive.GongMarshallField(stage, "Annotation"))
+		initializerStatements.WriteString(minexclusive.GongMarshallField(stage, "Value"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3207,15 +4434,31 @@ func (restriction *Restriction) GongMarshallAllFields(stage *Stage) (initRes str
 		initializerStatements.WriteString(restriction.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "Annotation"))
 		initializerStatements.WriteString(restriction.GongMarshallField(stage, "Base"))
+		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "SimpleType"))
 		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "Enumerations"))
 		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "MinInclusive"))
 		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "MaxInclusive"))
+		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "MinExclusive"))
+		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "MaxExclusive"))
 		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "Pattern"))
 		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "WhiteSpace"))
 		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "MinLength"))
 		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "MaxLength"))
 		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "Length"))
 		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "TotalDigit"))
+		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "FractionDigit"))
+		initializerStatements.WriteString(restriction.GongMarshallField(stage, "OuterElementName"))
+		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "Sequences"))
+		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "Alls"))
+		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "Choices"))
+		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "Groups"))
+		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "Elements"))
+		initializerStatements.WriteString(restriction.GongMarshallField(stage, "Order"))
+		initializerStatements.WriteString(restriction.GongMarshallField(stage, "Depth"))
+		initializerStatements.WriteString(restriction.GongMarshallField(stage, "MinOccurs"))
+		initializerStatements.WriteString(restriction.GongMarshallField(stage, "MaxOccurs"))
+		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "Attributes"))
+		pointersInitializesStatements.WriteString(restriction.GongMarshallField(stage, "AttributeGroups"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3228,14 +4471,40 @@ func (schema *Schema) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(schema.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(schema.GongMarshallField(stage, "Xs"))
+		initializerStatements.WriteString(schema.GongMarshallField(stage, "TargetNamespace"))
+		initializerStatements.WriteString(schema.GongMarshallField(stage, "ElementFormDefault"))
+		initializerStatements.WriteString(schema.GongMarshallField(stage, "AttributeFormDefault"))
+		initializerStatements.WriteString(schema.GongMarshallField(stage, "Version"))
+		initializerStatements.WriteString(schema.GongMarshallField(stage, "FilePath"))
+		initializerStatements.WriteString(schema.GongMarshallField(stage, "PackageName"))
+		initializerStatements.WriteString(schema.GongMarshallField(stage, "PackageRelDir"))
+		initializerStatements.WriteString(schema.GongMarshallField(stage, "IsRootSchema"))
 		pointersInitializesStatements.WriteString(schema.GongMarshallField(stage, "Annotation"))
+		pointersInitializesStatements.WriteString(schema.GongMarshallField(stage, "Imports"))
+		pointersInitializesStatements.WriteString(schema.GongMarshallField(stage, "Includes"))
 		pointersInitializesStatements.WriteString(schema.GongMarshallField(stage, "Elements"))
+		pointersInitializesStatements.WriteString(schema.GongMarshallField(stage, "Attributes"))
 		pointersInitializesStatements.WriteString(schema.GongMarshallField(stage, "SimpleTypes"))
 		pointersInitializesStatements.WriteString(schema.GongMarshallField(stage, "ComplexTypes"))
 		pointersInitializesStatements.WriteString(schema.GongMarshallField(stage, "AttributeGroups"))
 		pointersInitializesStatements.WriteString(schema.GongMarshallField(stage, "Groups"))
+		pointersInitializesStatements.WriteString(schema.GongMarshallField(stage, "Keys"))
+		pointersInitializesStatements.WriteString(schema.GongMarshallField(stage, "Uniques"))
+		pointersInitializesStatements.WriteString(schema.GongMarshallField(stage, "KeyRefs"))
 		initializerStatements.WriteString(schema.GongMarshallField(stage, "Order"))
 		initializerStatements.WriteString(schema.GongMarshallField(stage, "Depth"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (selector *Selector) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(selector.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(selector.GongMarshallField(stage, "XPath"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3286,6 +4555,9 @@ func (simpletype *SimpleType) GongMarshallAllFields(stage *Stage) (initRes strin
 		initializerStatements.WriteString(simpletype.GongMarshallField(stage, "NameXSD"))
 		pointersInitializesStatements.WriteString(simpletype.GongMarshallField(stage, "Restriction"))
 		pointersInitializesStatements.WriteString(simpletype.GongMarshallField(stage, "Union"))
+		pointersInitializesStatements.WriteString(simpletype.GongMarshallField(stage, "List"))
+		initializerStatements.WriteString(simpletype.GongMarshallField(stage, "HasNameConflict"))
+		initializerStatements.WriteString(simpletype.GongMarshallField(stage, "GoIdentifier"))
 		initializerStatements.WriteString(simpletype.GongMarshallField(stage, "Order"))
 		initializerStatements.WriteString(simpletype.GongMarshallField(stage, "Depth"))
 	}
@@ -3314,6 +4586,22 @@ func (union *Union) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(union.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(union.GongMarshallField(stage, "Annotation"))
 		initializerStatements.WriteString(union.GongMarshallField(stage, "MemberTypes"))
+		pointersInitializesStatements.WriteString(union.GongMarshallField(stage, "SimpleTypes"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (unique *Unique) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(unique.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(unique.GongMarshallField(stage, "Annotation"))
+		initializerStatements.WriteString(unique.GongMarshallField(stage, "NameXSD"))
+		pointersInitializesStatements.WriteString(unique.GongMarshallField(stage, "Selector"))
+		pointersInitializesStatements.WriteString(unique.GongMarshallField(stage, "Fields"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3327,6 +4615,33 @@ func (whitespace *WhiteSpace) GongMarshallAllFields(stage *Stage) (initRes strin
 		initializerStatements.WriteString(whitespace.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(whitespace.GongMarshallField(stage, "Annotation"))
 		initializerStatements.WriteString(whitespace.GongMarshallField(stage, "Value"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (xsdimport *XSDImport) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(xsdimport.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(xsdimport.GongMarshallField(stage, "Annotation"))
+		initializerStatements.WriteString(xsdimport.GongMarshallField(stage, "Namespace"))
+		initializerStatements.WriteString(xsdimport.GongMarshallField(stage, "SchemaLocation"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (xsdinclude *XSDInclude) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(xsdinclude.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(xsdinclude.GongMarshallField(stage, "Annotation"))
+		initializerStatements.WriteString(xsdinclude.GongMarshallField(stage, "SchemaLocation"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

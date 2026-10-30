@@ -18,7 +18,12 @@ func (probe *Probe) ux_form() {
 			if onSave.GetCreationMode() {
 				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
+				if inst, ok := onSave.GetInstance().(models.GongstructIF); ok && !inst.GongIsStaged(probe.stageOfInterest) {
+					probe.formStage.Reset()
+					probe.formStage.Commit()
+				} else {
+					FillUpFormFromGongstruct(onSave.GetInstance(), probe)
+				}
 			}
 		}
 	}
@@ -185,6 +190,32 @@ func FillUpFormFromGongstructName(
 		extension := new(models.Extension)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(extension, formGroup, probe)
+	case "FieldXPath":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "FieldXPath Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__FieldXPathFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		fieldxpath := new(models.FieldXPath)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(fieldxpath, formGroup, probe)
+	case "FractionDigit":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "FractionDigit Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__FractionDigitFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		fractiondigit := new(models.FractionDigit)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(fractiondigit, formGroup, probe)
 	case "Group":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -198,6 +229,32 @@ func FillUpFormFromGongstructName(
 		group := new(models.Group)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(group, formGroup, probe)
+	case "Key":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Key Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__KeyFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		key := new(models.Key)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(key, formGroup, probe)
+	case "KeyRef":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "KeyRef Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__KeyRefFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		keyref := new(models.KeyRef)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(keyref, formGroup, probe)
 	case "Length":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -211,6 +268,32 @@ func FillUpFormFromGongstructName(
 		length := new(models.Length)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(length, formGroup, probe)
+	case "List":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "List Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ListFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		list := new(models.List)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(list, formGroup, probe)
+	case "MaxExclusive":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "MaxExclusive Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MaxExclusiveFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		maxexclusive := new(models.MaxExclusive)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(maxexclusive, formGroup, probe)
 	case "MaxInclusive":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -237,6 +320,19 @@ func FillUpFormFromGongstructName(
 		maxlength := new(models.MaxLength)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(maxlength, formGroup, probe)
+	case "MinExclusive":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "MinExclusive Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MinExclusiveFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		minexclusive := new(models.MinExclusive)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(minexclusive, formGroup, probe)
 	case "MinInclusive":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -302,6 +398,19 @@ func FillUpFormFromGongstructName(
 		schema := new(models.Schema)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(schema, formGroup, probe)
+	case "Selector":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Selector Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SelectorFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		selector := new(models.Selector)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(selector, formGroup, probe)
 	case "Sequence":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -367,6 +476,19 @@ func FillUpFormFromGongstructName(
 		union := new(models.Union)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(union, formGroup, probe)
+	case "Unique":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Unique Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__UniqueFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		unique := new(models.Unique)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(unique, formGroup, probe)
 	case "WhiteSpace":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -380,6 +502,32 @@ func FillUpFormFromGongstructName(
 		whitespace := new(models.WhiteSpace)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(whitespace, formGroup, probe)
+	case "XSDImport":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "XSDImport Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__XSDImportFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		xsdimport := new(models.XSDImport)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(xsdimport, formGroup, probe)
+	case "XSDInclude":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "XSDInclude Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__XSDIncludeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		xsdinclude := new(models.XSDInclude)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(xsdinclude, formGroup, probe)
 	}
 	formStage.Commit()
 }

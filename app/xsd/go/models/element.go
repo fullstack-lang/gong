@@ -22,18 +22,23 @@ type Element struct {
 
 	OccurrenceDefinitionAbstract
 
-	Default  string `xml:"default,attr"`
-	Fixed    string `xml:"fixed,attr"`
-	Nillable string `xml:"nillable,attr"`
-	Ref      string `xml:"ref,attr"`
-	Abstract string `xml:"abstract,attr"`
-	Form     string `xml:"form,attr"`
-	Block    string `xml:"block,attr"`
-	Final    string `xml:"final,attr"`
+	Default           string `xml:"default,attr"`
+	Fixed             string `xml:"fixed,attr"`
+	Nillable          string `xml:"nillable,attr"`
+	Ref               string `xml:"ref,attr"`
+	Abstract          string `xml:"abstract,attr"`
+	Form              string `xml:"form,attr"`
+	Block             string `xml:"block,attr"`
+	Final             string `xml:"final,attr"`
+	SubstitutionGroup string `xml:"substitutionGroup,attr"`
 
 	SimpleType  *SimpleType  `xml:"simpleType"`
 	ComplexType *ComplexType `xml:"complexType"`
 	Groups      []*Group     `xml:"group"`
+
+	Keys    []*Key    `xml:"key"`
+	Uniques []*Unique `xml:"unique"`
+	KeyRefs []*KeyRef `xml:"keyref"`
 
 	OuterParticleOwnerAbstract
 

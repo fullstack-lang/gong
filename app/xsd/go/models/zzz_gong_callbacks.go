@@ -313,6 +313,58 @@ func (extension *Extension) GongAfterDeleteFromFront(stage *Stage, front Gongstr
 	}
 }
 
+func (fieldxpath *FieldXPath) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterFieldXPathCreateCallback != nil {
+		stage.OnAfterFieldXPathCreateCallback.OnAfterCreate(stage, fieldxpath)
+	}
+}
+
+func (fieldxpath *FieldXPath) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterFieldXPathUpdateCallback != nil {
+		var frontFieldXPath *FieldXPath
+		if front != nil {
+			frontFieldXPath, _ = front.(*FieldXPath)
+		}
+		stage.OnAfterFieldXPathUpdateCallback.OnAfterUpdate(stage, fieldxpath, frontFieldXPath)
+	}
+}
+
+func (fieldxpath *FieldXPath) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterFieldXPathDeleteCallback != nil {
+		var frontFieldXPath *FieldXPath
+		if front != nil {
+			frontFieldXPath, _ = front.(*FieldXPath)
+		}
+		stage.OnAfterFieldXPathDeleteCallback.OnAfterDelete(stage, fieldxpath, frontFieldXPath)
+	}
+}
+
+func (fractiondigit *FractionDigit) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterFractionDigitCreateCallback != nil {
+		stage.OnAfterFractionDigitCreateCallback.OnAfterCreate(stage, fractiondigit)
+	}
+}
+
+func (fractiondigit *FractionDigit) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterFractionDigitUpdateCallback != nil {
+		var frontFractionDigit *FractionDigit
+		if front != nil {
+			frontFractionDigit, _ = front.(*FractionDigit)
+		}
+		stage.OnAfterFractionDigitUpdateCallback.OnAfterUpdate(stage, fractiondigit, frontFractionDigit)
+	}
+}
+
+func (fractiondigit *FractionDigit) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterFractionDigitDeleteCallback != nil {
+		var frontFractionDigit *FractionDigit
+		if front != nil {
+			frontFractionDigit, _ = front.(*FractionDigit)
+		}
+		stage.OnAfterFractionDigitDeleteCallback.OnAfterDelete(stage, fractiondigit, frontFractionDigit)
+	}
+}
+
 func (group *Group) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterGroupCreateCallback != nil {
 		stage.OnAfterGroupCreateCallback.OnAfterCreate(stage, group)
@@ -339,6 +391,58 @@ func (group *Group) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
 	}
 }
 
+func (key *Key) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterKeyCreateCallback != nil {
+		stage.OnAfterKeyCreateCallback.OnAfterCreate(stage, key)
+	}
+}
+
+func (key *Key) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterKeyUpdateCallback != nil {
+		var frontKey *Key
+		if front != nil {
+			frontKey, _ = front.(*Key)
+		}
+		stage.OnAfterKeyUpdateCallback.OnAfterUpdate(stage, key, frontKey)
+	}
+}
+
+func (key *Key) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterKeyDeleteCallback != nil {
+		var frontKey *Key
+		if front != nil {
+			frontKey, _ = front.(*Key)
+		}
+		stage.OnAfterKeyDeleteCallback.OnAfterDelete(stage, key, frontKey)
+	}
+}
+
+func (keyref *KeyRef) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterKeyRefCreateCallback != nil {
+		stage.OnAfterKeyRefCreateCallback.OnAfterCreate(stage, keyref)
+	}
+}
+
+func (keyref *KeyRef) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterKeyRefUpdateCallback != nil {
+		var frontKeyRef *KeyRef
+		if front != nil {
+			frontKeyRef, _ = front.(*KeyRef)
+		}
+		stage.OnAfterKeyRefUpdateCallback.OnAfterUpdate(stage, keyref, frontKeyRef)
+	}
+}
+
+func (keyref *KeyRef) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterKeyRefDeleteCallback != nil {
+		var frontKeyRef *KeyRef
+		if front != nil {
+			frontKeyRef, _ = front.(*KeyRef)
+		}
+		stage.OnAfterKeyRefDeleteCallback.OnAfterDelete(stage, keyref, frontKeyRef)
+	}
+}
+
 func (length *Length) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterLengthCreateCallback != nil {
 		stage.OnAfterLengthCreateCallback.OnAfterCreate(stage, length)
@@ -362,6 +466,58 @@ func (length *Length) GongAfterDeleteFromFront(stage *Stage, front GongstructIF)
 			frontLength, _ = front.(*Length)
 		}
 		stage.OnAfterLengthDeleteCallback.OnAfterDelete(stage, length, frontLength)
+	}
+}
+
+func (list *List) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterListCreateCallback != nil {
+		stage.OnAfterListCreateCallback.OnAfterCreate(stage, list)
+	}
+}
+
+func (list *List) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterListUpdateCallback != nil {
+		var frontList *List
+		if front != nil {
+			frontList, _ = front.(*List)
+		}
+		stage.OnAfterListUpdateCallback.OnAfterUpdate(stage, list, frontList)
+	}
+}
+
+func (list *List) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterListDeleteCallback != nil {
+		var frontList *List
+		if front != nil {
+			frontList, _ = front.(*List)
+		}
+		stage.OnAfterListDeleteCallback.OnAfterDelete(stage, list, frontList)
+	}
+}
+
+func (maxexclusive *MaxExclusive) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterMaxExclusiveCreateCallback != nil {
+		stage.OnAfterMaxExclusiveCreateCallback.OnAfterCreate(stage, maxexclusive)
+	}
+}
+
+func (maxexclusive *MaxExclusive) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMaxExclusiveUpdateCallback != nil {
+		var frontMaxExclusive *MaxExclusive
+		if front != nil {
+			frontMaxExclusive, _ = front.(*MaxExclusive)
+		}
+		stage.OnAfterMaxExclusiveUpdateCallback.OnAfterUpdate(stage, maxexclusive, frontMaxExclusive)
+	}
+}
+
+func (maxexclusive *MaxExclusive) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMaxExclusiveDeleteCallback != nil {
+		var frontMaxExclusive *MaxExclusive
+		if front != nil {
+			frontMaxExclusive, _ = front.(*MaxExclusive)
+		}
+		stage.OnAfterMaxExclusiveDeleteCallback.OnAfterDelete(stage, maxexclusive, frontMaxExclusive)
 	}
 }
 
@@ -414,6 +570,32 @@ func (maxlength *MaxLength) GongAfterDeleteFromFront(stage *Stage, front Gongstr
 			frontMaxLength, _ = front.(*MaxLength)
 		}
 		stage.OnAfterMaxLengthDeleteCallback.OnAfterDelete(stage, maxlength, frontMaxLength)
+	}
+}
+
+func (minexclusive *MinExclusive) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterMinExclusiveCreateCallback != nil {
+		stage.OnAfterMinExclusiveCreateCallback.OnAfterCreate(stage, minexclusive)
+	}
+}
+
+func (minexclusive *MinExclusive) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMinExclusiveUpdateCallback != nil {
+		var frontMinExclusive *MinExclusive
+		if front != nil {
+			frontMinExclusive, _ = front.(*MinExclusive)
+		}
+		stage.OnAfterMinExclusiveUpdateCallback.OnAfterUpdate(stage, minexclusive, frontMinExclusive)
+	}
+}
+
+func (minexclusive *MinExclusive) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMinExclusiveDeleteCallback != nil {
+		var frontMinExclusive *MinExclusive
+		if front != nil {
+			frontMinExclusive, _ = front.(*MinExclusive)
+		}
+		stage.OnAfterMinExclusiveDeleteCallback.OnAfterDelete(stage, minexclusive, frontMinExclusive)
 	}
 }
 
@@ -547,6 +729,32 @@ func (schema *Schema) GongAfterDeleteFromFront(stage *Stage, front GongstructIF)
 	}
 }
 
+func (selector *Selector) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterSelectorCreateCallback != nil {
+		stage.OnAfterSelectorCreateCallback.OnAfterCreate(stage, selector)
+	}
+}
+
+func (selector *Selector) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterSelectorUpdateCallback != nil {
+		var frontSelector *Selector
+		if front != nil {
+			frontSelector, _ = front.(*Selector)
+		}
+		stage.OnAfterSelectorUpdateCallback.OnAfterUpdate(stage, selector, frontSelector)
+	}
+}
+
+func (selector *Selector) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterSelectorDeleteCallback != nil {
+		var frontSelector *Selector
+		if front != nil {
+			frontSelector, _ = front.(*Selector)
+		}
+		stage.OnAfterSelectorDeleteCallback.OnAfterDelete(stage, selector, frontSelector)
+	}
+}
+
 func (sequence *Sequence) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterSequenceCreateCallback != nil {
 		stage.OnAfterSequenceCreateCallback.OnAfterCreate(stage, sequence)
@@ -677,6 +885,32 @@ func (union *Union) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
 	}
 }
 
+func (unique *Unique) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterUniqueCreateCallback != nil {
+		stage.OnAfterUniqueCreateCallback.OnAfterCreate(stage, unique)
+	}
+}
+
+func (unique *Unique) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterUniqueUpdateCallback != nil {
+		var frontUnique *Unique
+		if front != nil {
+			frontUnique, _ = front.(*Unique)
+		}
+		stage.OnAfterUniqueUpdateCallback.OnAfterUpdate(stage, unique, frontUnique)
+	}
+}
+
+func (unique *Unique) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterUniqueDeleteCallback != nil {
+		var frontUnique *Unique
+		if front != nil {
+			frontUnique, _ = front.(*Unique)
+		}
+		stage.OnAfterUniqueDeleteCallback.OnAfterDelete(stage, unique, frontUnique)
+	}
+}
+
 func (whitespace *WhiteSpace) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterWhiteSpaceCreateCallback != nil {
 		stage.OnAfterWhiteSpaceCreateCallback.OnAfterCreate(stage, whitespace)
@@ -700,6 +934,58 @@ func (whitespace *WhiteSpace) GongAfterDeleteFromFront(stage *Stage, front Gongs
 			frontWhiteSpace, _ = front.(*WhiteSpace)
 		}
 		stage.OnAfterWhiteSpaceDeleteCallback.OnAfterDelete(stage, whitespace, frontWhiteSpace)
+	}
+}
+
+func (xsdimport *XSDImport) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterXSDImportCreateCallback != nil {
+		stage.OnAfterXSDImportCreateCallback.OnAfterCreate(stage, xsdimport)
+	}
+}
+
+func (xsdimport *XSDImport) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterXSDImportUpdateCallback != nil {
+		var frontXSDImport *XSDImport
+		if front != nil {
+			frontXSDImport, _ = front.(*XSDImport)
+		}
+		stage.OnAfterXSDImportUpdateCallback.OnAfterUpdate(stage, xsdimport, frontXSDImport)
+	}
+}
+
+func (xsdimport *XSDImport) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterXSDImportDeleteCallback != nil {
+		var frontXSDImport *XSDImport
+		if front != nil {
+			frontXSDImport, _ = front.(*XSDImport)
+		}
+		stage.OnAfterXSDImportDeleteCallback.OnAfterDelete(stage, xsdimport, frontXSDImport)
+	}
+}
+
+func (xsdinclude *XSDInclude) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterXSDIncludeCreateCallback != nil {
+		stage.OnAfterXSDIncludeCreateCallback.OnAfterCreate(stage, xsdinclude)
+	}
+}
+
+func (xsdinclude *XSDInclude) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterXSDIncludeUpdateCallback != nil {
+		var frontXSDInclude *XSDInclude
+		if front != nil {
+			frontXSDInclude, _ = front.(*XSDInclude)
+		}
+		stage.OnAfterXSDIncludeUpdateCallback.OnAfterUpdate(stage, xsdinclude, frontXSDInclude)
+	}
+}
+
+func (xsdinclude *XSDInclude) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterXSDIncludeDeleteCallback != nil {
+		var frontXSDInclude *XSDInclude
+		if front != nil {
+			frontXSDInclude, _ = front.(*XSDInclude)
+		}
+		stage.OnAfterXSDIncludeDeleteCallback.OnAfterDelete(stage, xsdinclude, frontXSDInclude)
 	}
 }
 

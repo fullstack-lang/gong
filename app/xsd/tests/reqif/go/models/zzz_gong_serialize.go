@@ -348,17 +348,17 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
-			for instance := range stage.A_SOURCE_1s {
+			for instance := range stage.A_SOURCEs {
 				instances = append(instances, instance)
 			}
-			stage.SerializeExcelize(f, "A_SOURCE_1", instances, (*A_SOURCE_1)(nil).GongGetFieldHeaders(), addIDs)
+			stage.SerializeExcelize(f, "A_SOURCE", instances, (*A_SOURCE)(nil).GongGetFieldHeaders(), addIDs)
 		}
 		{
 			var instances []GongstructIF
-			for instance := range stage.A_SOURCE_SPECIFICATION_1s {
+			for instance := range stage.A_SOURCE_SPECIFICATIONs {
 				instances = append(instances, instance)
 			}
-			stage.SerializeExcelize(f, "A_SOURCE_SPECIFICATION_1", instances, (*A_SOURCE_SPECIFICATION_1)(nil).GongGetFieldHeaders(), addIDs)
+			stage.SerializeExcelize(f, "A_SOURCE_SPECIFICATION", instances, (*A_SOURCE_SPECIFICATION)(nil).GongGetFieldHeaders(), addIDs)
 		}
 		{
 			var instances []GongstructIF

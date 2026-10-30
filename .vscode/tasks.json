@@ -732,6 +732,389 @@
             ]
         },
         {
+            "label": "dsm - xsd: go install xsd2gong",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "install",
+                "."
+            ]
+        },
+        {
+            "label": "dsm - xsd: go run . read books.xsd",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "read",
+                "../../../tests/books/books.xsd",
+                "-o",
+                "../../../tests/books/go/models"
+            ]
+        },
+        {
+            "label": "dsm - xsd: go run . read complexrules/root.xsd",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "read",
+                "../../../tests/complexrules/root.xsd",
+                "-o",
+                "../../../tests/complexrules/go/models"
+            ]
+        },
+        {
+            "label": "dsm - xsd: go run . read musicxml.xsd",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "read",
+                "../../../tests/musicxml/musicxml.xsd",
+                "-o",
+                "../../../tests/musicxml/go/models"
+            ]
+        },
+        {
+            "label": "dsm - xsd: go run . read AIXM_BasicMessage.xsd",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "read",
+                "../../../tests/aixm/aixm-5.1.1/message/AIXM_BasicMessage.xsd",
+                "-o",
+                "../../../tests/aixm/go/models"
+            ]
+        },
+        {
+            "label": "dsm - xsd: go run . read reqif/dtc-11-04-05.xsd",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "read",
+                "../../../tests/reqif/dtc-11-04-05.xsd",
+                "-o",
+                "../../../tests/reqif/go/models"
+            ]
+        },
+        {
+            "label": "dsm - xsd - books: xsd2gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/books"
+            },
+            "command": "xsd2gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "books.xsd",
+                "-o",
+                "go/models",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - books: gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/books/go/models"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "label": "dsm - xsd - books: go test",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/books/go/models"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "test",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - books: go run . edit data/stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/books/go/cmd/books"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
+            "label": "dsm - xsd - complexrules: xsd2gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/complexrules"
+            },
+            "command": "xsd2gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "root.xsd",
+                "-o",
+                "go/models",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - complexrules: gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/complexrules/go/models"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "label": "dsm - xsd - complexrules: go test",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/complexrules/go/models"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "test",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - complexrules: go run . edit data/stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/complexrules/go/cmd/complexrules"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
+            "label": "dsm - xsd - musicxml: xsd2gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/musicxml"
+            },
+            "command": "xsd2gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "musicxml.xsd",
+                "-o",
+                "go/models",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - musicxml: gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/musicxml/go/models"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "label": "dsm - xsd - musicxml: go test",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/musicxml/go/models"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "test",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - musicxml: go run . edit data/stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/musicxml/go/cmd/musicxml"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm: xsd2gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm"
+            },
+            "command": "xsd2gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "aixm-5.1.1/message/AIXM_BasicMessage.xsd",
+                "-o",
+                "go/models",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm: gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/go/models"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm: go test",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/go/models"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "test",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm: go run . edit data/stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/go/cmd/aixm"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
+            "label": "dsm - xsd - reqif: xsd2gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/reqif"
+            },
+            "command": "xsd2gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "dtc-11-04-05.xsd",
+                "-o",
+                "go/models",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - reqif: gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/reqif/go/models"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "label": "dsm - xsd - reqif: go test",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/reqif/go/models"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "test",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - reqif: go run . edit data/stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/reqif/go/cmd/reqif"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
             "label": "go - gong: go install gong",
             "type": "shell",
             "options": {

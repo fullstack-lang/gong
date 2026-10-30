@@ -81,63 +81,6 @@ func (enum_bookformatenum Enum_BookFormatEnum) CodeValues() (res []string) {
 	return
 }
 
-// Utility function for Enum_TitleType
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (enum_titletype Enum_TitleType) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch enum_titletype {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_titletype *Enum_TitleType) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		return errUnkownEnum
-	}
-}
-
-func (enum_titletype *Enum_TitleType) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	default:
-		err = errUnkownEnum
-	}
-	return
-}
-
-func (enum_titletype *Enum_TitleType) ToCodeString() (res string) {
-
-	switch *enum_titletype {
-	// insertion code per enum code
-	}
-	return
-}
-
-func (enum_titletype Enum_TitleType) Codes() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
-
-	return
-}
-
-func (enum_titletype Enum_TitleType) CodeValues() (res []string) {
-
-	res = make([]string, 0)
-
-	// insertion code per enum code
-
-	return
-}
-
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
