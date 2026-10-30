@@ -37,9 +37,9 @@ func _(stage *models.Stage) {
 	// ------------------------------------------------------------------------
 	__gml__CodeType__00000000_ := (&gml.CodeType{Name: `PARIS CHARLES DE GAULLE_1`}).Stage(stage.GmlStage)
 	__gml__CodeType__00000001_ := (&gml.CodeType{Name: `MOPAR_2`}).Stage(stage.GmlStage)
-	__gml__CodeWithAuthorityType__00000000_ := (&gml.CodeWithAuthorityType{Name: `423e4567-e89b-12d3-a456-426614174000_1`}).Stage(stage.GmlStage)
-	__gml__CodeWithAuthorityType__00000001_ := (&gml.CodeWithAuthorityType{Name: `00000000-0000-0000-0000-000000000031_2`}).Stage(stage.GmlStage)
-	__gml__CodeWithAuthorityType__00000002_ := (&gml.CodeWithAuthorityType{Name: `00000000-0000-0000-0000-000000000032_3`}).Stage(stage.GmlStage)
+	__gml__CodeWithAuthorityType__00000000_ := (&gml.CodeWithAuthorityType{Name: `423e4567-e89b-12d3-a456-426614174000_2`}).Stage(stage.GmlStage)
+	__gml__CodeWithAuthorityType__00000001_ := (&gml.CodeWithAuthorityType{Name: `00000000-0000-0000-0000-000000000031_3`}).Stage(stage.GmlStage)
+	__gml__CodeWithAuthorityType__00000002_ := (&gml.CodeWithAuthorityType{Name: `00000000-0000-0000-0000-000000000032_1`}).Stage(stage.GmlStage)
 
 	__aixmdatatypes__CodeDesignatedPointDesignatorType__00000000_ := (&aixmdatatypes.CodeDesignatedPointDesignatorType{Name: `MOPAR_1`}).Stage(stage.AixmdatatypesStage)
 	__aixmdatatypes__CodeDesignatedPointType__00000000_ := (&aixmdatatypes.CodeDesignatedPointType{Name: `ICAO_1`}).Stage(stage.AixmdatatypesStage)
@@ -66,13 +66,13 @@ func _(stage *models.Stage) {
 	__gml__CodeType__00000001_.Name = `MOPAR_2`
 	__gml__CodeType__00000001_.CodeSpace = ``
 	__gml__CodeType__00000001_.EnclosedText = `MOPAR`
-	__gml__CodeWithAuthorityType__00000000_.Name = `423e4567-e89b-12d3-a456-426614174000_1`
+	__gml__CodeWithAuthorityType__00000000_.Name = `423e4567-e89b-12d3-a456-426614174000_2`
 	__gml__CodeWithAuthorityType__00000000_.CodeSpace = `urn:uuid:`
 	__gml__CodeWithAuthorityType__00000000_.EnclosedText = `423e4567-e89b-12d3-a456-426614174000`
-	__gml__CodeWithAuthorityType__00000001_.Name = `00000000-0000-0000-0000-000000000031_2`
+	__gml__CodeWithAuthorityType__00000001_.Name = `00000000-0000-0000-0000-000000000031_3`
 	__gml__CodeWithAuthorityType__00000001_.CodeSpace = `urn:uuid:`
 	__gml__CodeWithAuthorityType__00000001_.EnclosedText = `00000000-0000-0000-0000-000000000031`
-	__gml__CodeWithAuthorityType__00000002_.Name = `00000000-0000-0000-0000-000000000032_3`
+	__gml__CodeWithAuthorityType__00000002_.Name = `00000000-0000-0000-0000-000000000032_1`
 	__gml__CodeWithAuthorityType__00000002_.CodeSpace = `urn:uuid:`
 	__gml__CodeWithAuthorityType__00000002_.EnclosedText = `00000000-0000-0000-0000-000000000032`
 

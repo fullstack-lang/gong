@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 
@@ -142,7 +143,8 @@ func TestPopulateDomainUMLDiagrams(t *testing.T) {
 			diagramPkg.SelectedClassdiagram = cd
 		}
 
-		var cols [5][]structRef
+		var allRefs []structRef
+		hintCol := make(map[string]int)
 		seen := make(map[string]bool)
 		addRef := func(col int, ref structRef) {
 			key := ref.Pkg + "." + ref.Name
@@ -153,7 +155,8 @@ func TestPopulateDomainUMLDiagrams(t *testing.T) {
 				return
 			}
 			seen[key] = true
-			cols[col] = append(cols[col], ref)
+			hintCol[key] = col
+			allRefs = append(allRefs, ref)
 		}
 
 		for _, feat := range spec.Features {
@@ -175,40 +178,13 @@ func TestPopulateDomainUMLDiagrams(t *testing.T) {
 			}
 		}
 
-		// Add Feature PropertyTypes to Col 3 only if referenced by a TimeSlice or Object in the diagram
-		referencedKeys := make(map[string]bool)
-		for c := range 5 {
-			for _, srcRef := range cols[c] {
-				if gs := structsByPkgName[srcRef.Pkg+"."+srcRef.Name]; gs != nil {
-					for _, f := range gs.Fields {
-						var targetGS *gong_models.GongStruct
-						switch rf := f.(type) {
-						case *gong_models.PointerToGongStructField:
-							targetGS = rf.GongStruct
-						case *gong_models.SliceOfPointerToGongStructField:
-							targetGS = rf.GongStruct
-						}
-						if targetGS != nil && targetGS.ModelPkg != nil {
-							referencedKeys[targetGS.ModelPkg.PkgGoName+"."+targetGS.Name] = true
-						}
-					}
-				}
-			}
-		}
-		for _, feat := range spec.Features {
-			base := strings.TrimPrefix(feat, "Abstract")
-			propRef := structRef{Pkg: "aixmfeatures", Name: base + "PropertyType"}
-			if referencedKeys[propRef.Pkg+"."+propRef.Name] {
-				addRef(3, propRef)
-			}
-		}
-
 		if len(spec.Features) > 0 || len(spec.Objects) > 0 {
 			dtCount := 0
 			const maxAutoDataTypes = 4
-			checkSources := append([]structRef{}, cols[2]...)
-			checkSources = append(checkSources, cols[4]...)
-			for _, srcRef := range checkSources {
+			for _, srcRef := range allRefs {
+				if hintCol[srcRef.Pkg+"."+srcRef.Name] != 2 && hintCol[srcRef.Pkg+"."+srcRef.Name] != 4 {
+					continue
+				}
 				if dtCount >= maxAutoDataTypes {
 					break
 				}
@@ -239,20 +215,185 @@ func TestPopulateDomainUMLDiagrams(t *testing.T) {
 			}
 		}
 
+		// Build directed graph among included structs and count links per struct
+		outEdges := make(map[string][]string)
+		inEdges := make(map[string][]string)
+		outLinkCount := make(map[string]int)
+		inLinkCount := make(map[string]int)
+
+		for _, srcRef := range allRefs {
+			srcKey := srcRef.Pkg + "." + srcRef.Name
+			srcGS := structsByPkgName[srcKey]
+			if srcGS == nil {
+				continue
+			}
+			pairCount := make(map[string]int)
+			for _, field := range srcGS.Fields {
+				var targetGS *gong_models.GongStruct
+				switch rf := field.(type) {
+				case *gong_models.PointerToGongStructField:
+					targetGS = rf.GongStruct
+				case *gong_models.SliceOfPointerToGongStructField:
+					targetGS = rf.GongStruct
+				}
+				if targetGS == nil {
+					continue
+				}
+				tPkg := "models"
+				if targetGS.ModelPkg != nil && targetGS.ModelPkg.PkgGoName != "" {
+					tPkg = targetGS.ModelPkg.PkgGoName
+				}
+				tKey := tPkg + "." + targetGS.Name
+				if !seen[tKey] || tKey == srcKey {
+					continue
+				}
+				if pairCount[tKey] >= 1 {
+					continue
+				}
+				pairCount[tKey]++
+				outEdges[srcKey] = append(outEdges[srcKey], tKey)
+				inEdges[tKey] = append(inEdges[tKey], srcKey)
+				outLinkCount[srcKey]++
+				inLinkCount[tKey]++
+			}
+		}
+
+		// Compute topological column for each struct so links flow left-to-right
+		rawCol := make(map[string]int)
+		pinnedRoot := make(map[string]bool)
+		for _, ref := range allRefs {
+			key := ref.Pkg + "." + ref.Name
+			if len(inEdges[key]) == 0 {
+				rawCol[key] = 0
+				pinnedRoot[key] = true
+			} else {
+				rawCol[key] = -1
+			}
+		}
+		if len(pinnedRoot) == 0 && len(allRefs) > 0 {
+			firstKey := allRefs[0].Pkg + "." + allRefs[0].Name
+			rawCol[firstKey] = 0
+			pinnedRoot[firstKey] = true
+		}
+
+		for range len(allRefs) + 1 {
+			changed := false
+			for _, ref := range allRefs {
+				u := ref.Pkg + "." + ref.Name
+				if rawCol[u] < 0 {
+					continue
+				}
+				for _, v := range outEdges[u] {
+					if pinnedRoot[v] {
+						continue
+					}
+					nextCol := rawCol[u] + 1
+					if nextCol > 8 {
+						nextCol = 8
+					}
+					if rawCol[v] < nextCol {
+						rawCol[v] = nextCol
+						changed = true
+					}
+				}
+			}
+			if !changed {
+				break
+			}
+		}
+		for _, ref := range allRefs {
+			key := ref.Pkg + "." + ref.Name
+			if rawCol[key] < 0 {
+				rawCol[key] = hintCol[key]
+			}
+		}
+
+		// Group into compacted columns 0..numCols-1
+		var usedColNums []int
+		colPresent := make(map[int]bool)
+		for _, ref := range allRefs {
+			c := rawCol[ref.Pkg+"."+ref.Name]
+			if !colPresent[c] {
+				colPresent[c] = true
+				usedColNums = append(usedColNums, c)
+			}
+		}
+		slices.Sort(usedColNums)
+		colRemap := make(map[int]int)
+		for idx, c := range usedColNums {
+			colRemap[c] = idx
+		}
+
+		numCols := len(usedColNums)
+		cols := make([][]structRef, numCols)
+		origOrder := make(map[string]int)
+		for idx, ref := range allRefs {
+			key := ref.Pkg + "." + ref.Name
+			origOrder[key] = idx
+			c := colRemap[rawCol[key]]
+			cols[c] = append(cols[c], ref)
+		}
+
+		// Barycenter row ordering within each column to align children with parents
+		rowPosInCol := make(map[string]float64)
+		for c := range numCols {
+			if c > 0 {
+				bary := make(map[string]float64)
+				for _, ref := range cols[c] {
+					key := ref.Pkg + "." + ref.Name
+					sum := 0.0
+					cnt := 0
+					for _, pKey := range inEdges[key] {
+						if pPos, ok := rowPosInCol[pKey]; ok {
+							sum += pPos
+							cnt++
+						}
+					}
+					if cnt > 0 {
+						bary[key] = sum / float64(cnt)
+					} else {
+						bary[key] = float64(origOrder[key])
+					}
+				}
+				slices.SortStableFunc(cols[c], func(a, b structRef) int {
+					ka := a.Pkg + "." + a.Name
+					kb := b.Pkg + "." + b.Name
+					if math.Abs(bary[ka]-bary[kb]) > 1e-6 {
+						if bary[ka] < bary[kb] {
+							return -1
+						}
+						return 1
+					}
+					return origOrder[ka] - origOrder[kb]
+				})
+			}
+			for rIdx, ref := range cols[c] {
+				key := ref.Pkg + "." + ref.Name
+				if len(cols[c]) <= 1 {
+					rowPosInCol[key] = 0.5
+				} else {
+					rowPosInCol[key] = float64(rIdx) / float64(len(cols[c])-1)
+				}
+			}
+		}
+
 		const colStartX = 60.0
-		const colGapX = 250.0
+		const colGapX = 280.0
 		const rowStartY = 60.0
 		const rowGapY = 90.0
 
 		shapeByKey := make(map[string]*doc_models.GongStructShape)
 		colByKey := make(map[string]int)
+		colLeft := make([]float64, numCols)
+		colRight := make([]float64, numCols)
 
 		currentX := colStartX
-		for c := range 5 {
+		for c := range numCols {
 			if len(cols[c]) == 0 {
 				continue
 			}
-			currentY := rowStartY + float64(c%2)*35.0
+			colLeft[c] = currentX
+			currentY := rowStartY + float64(c%2)*25.0
 			maxColWidth := 320.0
 
 			for _, ref := range cols[c] {
@@ -299,15 +440,22 @@ func TestPopulateDomainUMLDiagrams(t *testing.T) {
 				if ref.Pkg != "models" {
 					titleText = ref.Pkg + "." + gs.Name
 				}
-				width := math.Max(320.0, float64(len(titleText))*8.5+50.0)
+				width := math.Max(320.0, float64(len(titleText))*9.2+80.0)
 				for _, as := range attrShapes {
 					lineLen := len(as.Name) + 3 + len(as.Fieldtypename)
-					w := float64(lineLen)*8.0 + 40.0
+					w := float64(lineLen)*8.0 + 45.0
 					if w > width {
 						width = w
 					}
 				}
 				height := 63.0 + float64(len(attrShapes))*20.0
+				maxSideLinks := max(inLinkCount[key], outLinkCount[key])
+				if maxSideLinks >= 2 {
+					minLinkH := 40.0 + float64(maxSideLinks)*48.0
+					if minLinkH > height {
+						height = minLinkH
+					}
+				}
 
 				gss := (&doc_models.GongStructShape{
 					Name:            cd.Name + "-" + gs.Name,
@@ -329,6 +477,7 @@ func TestPopulateDomainUMLDiagrams(t *testing.T) {
 				currentY += gss.Height + rowGapY
 			}
 
+			colRight[c] = currentX + maxColWidth
 			currentX += maxColWidth + colGapX
 		}
 
@@ -362,7 +511,7 @@ func TestPopulateDomainUMLDiagrams(t *testing.T) {
 					valShapes = append(valShapes, evs)
 				}
 				titleText := enumRef.Pkg + "." + ge.Name
-				width := math.Max(340.0, float64(len(titleText))*8.5+50.0)
+				width := math.Max(340.0, float64(len(titleText))*9.2+80.0)
 				height := 63.0 + float64(len(valShapes))*20.0
 
 				ges := (&doc_models.GongEnumShape{
@@ -380,7 +529,30 @@ func TestPopulateDomainUMLDiagrams(t *testing.T) {
 			}
 		}
 
-		for _, c := range []int{0, 1, 2, 3, 4} {
+		// Collect all links across the diagram for coordinated ratio and corner calculation
+		type linkItem struct {
+			srcKey             string
+			srcPkg             string
+			srcName            string
+			srcShape           *doc_models.GongStructShape
+			srcCol             int
+			dstKey             string
+			dstPkg             string
+			dstName            string
+			dstShape           *doc_models.GongStructShape
+			dstCol             int
+			fieldName          string
+			targetMultiplicity doc_models.MultiplicityType
+			startRatio         float64
+			endRatio           float64
+			cornerOffsetRatio  float64
+		}
+
+		var allLinks []*linkItem
+		outLinksBySrc := make(map[string][]*linkItem)
+		inLinksByDst := make(map[string][]*linkItem)
+
+		for c := range numCols {
 			for _, srcRef := range cols[c] {
 				srcKey := srcRef.Pkg + "." + srcRef.Name
 				srcShape := shapeByKey[srcKey]
@@ -388,18 +560,7 @@ func TestPopulateDomainUMLDiagrams(t *testing.T) {
 				if srcShape == nil || srcGS == nil {
 					continue
 				}
-
-				type pendingLink struct {
-					fieldName          string
-					targetKey          string
-					targetPkg          string
-					targetName         string
-					targetShape        *doc_models.GongStructShape
-					targetMultiplicity doc_models.MultiplicityType
-				}
-				var links []pendingLink
 				pairCount := make(map[string]int)
-
 				for _, field := range srcGS.Fields {
 					var targetGS *gong_models.GongStruct
 					var mult doc_models.MultiplicityType
@@ -423,59 +584,237 @@ func TestPopulateDomainUMLDiagrams(t *testing.T) {
 					if !exists || tKey == srcKey {
 						continue
 					}
-					if pairCount[tKey] >= 2 {
+					if pairCount[tKey] >= 1 {
 						continue
 					}
 					pairCount[tKey]++
-					links = append(links, pendingLink{
+					li := &linkItem{
+						srcKey:             srcKey,
+						srcPkg:             srcRef.Pkg,
+						srcName:            srcGS.Name,
+						srcShape:           srcShape,
+						srcCol:             c,
+						dstKey:             tKey,
+						dstPkg:             tPkg,
+						dstName:            targetGS.Name,
+						dstShape:           tShape,
+						dstCol:             colByKey[tKey],
 						fieldName:          field.GetName(),
-						targetKey:          tKey,
-						targetPkg:          tPkg,
-						targetName:         targetGS.Name,
-						targetShape:        tShape,
 						targetMultiplicity: mult,
-					})
-				}
-
-				for idx, pl := range links {
-					startRatio := 0.5
-					if len(links) > 1 {
-						startRatio = 0.2 + 0.6*float64(idx)/float64(len(links)-1)
 					}
-					endRatio := 0.5
-					if pairCount[pl.targetKey] > 1 {
-						endRatio = 0.3 + 0.4*float64(idx%2)
-					}
-
-					startOrient := doc_models.ORIENTATION_HORIZONTAL
-					endOrient := doc_models.ORIENTATION_HORIZONTAL
-					cornerOffset := 0.45 + 0.15*float64(idx%3)
-
-					if colByKey[srcKey] == colByKey[pl.targetKey] {
-						startOrient = doc_models.ORIENTATION_VERTICAL
-						endOrient = doc_models.ORIENTATION_VERTICAL
-						cornerOffset = 0.5
-					}
-
-					ls := (&doc_models.LinkShape{
-						Name:                    pl.fieldName,
-						IdentifierMeta:          fmt.Sprintf("ref_%s.%s{}.%s", srcRef.Pkg, srcGS.Name, pl.fieldName),
-						FieldTypeIdentifierMeta: fmt.Sprintf("ref_%s.%s{}", pl.targetPkg, pl.targetName),
-						SourceMultiplicity:      doc_models.MANY,
-						TargetMultiplicity:      pl.targetMultiplicity,
-						StartOrientation:        startOrient,
-						StartRatio:              math.Round(startRatio*100) / 100,
-						EndOrientation:          endOrient,
-						EndRatio:                math.Round(endRatio*100) / 100,
-						CornerOffsetRatio:       math.Round(cornerOffset*100) / 100,
-						X:                       (srcShape.X + pl.targetShape.X) / 2.0,
-						Y:                       (srcShape.Y + pl.targetShape.Y) / 2.0,
-						IsHidden:                false,
-					}).Stage(docStage)
-
-					srcShape.LinkShapes = append(srcShape.LinkShapes, ls)
+					allLinks = append(allLinks, li)
+					outLinksBySrc[srcKey] = append(outLinksBySrc[srcKey], li)
+					inLinksByDst[tKey] = append(inLinksByDst[tKey], li)
 				}
 			}
+		}
+
+		// 1. Compute StartRatio per source shape (sorted top-to-bottom by target center Y)
+		for _, list := range outLinksBySrc {
+			slices.SortStableFunc(list, func(a, b *linkItem) int {
+				ay := a.dstShape.Y + a.dstShape.Height*0.5
+				by := b.dstShape.Y + b.dstShape.Height*0.5
+				if math.Abs(ay-by) > 1.0 {
+					if ay < by {
+						return -1
+					}
+					return 1
+				}
+				return strings.Compare(a.fieldName, b.fieldName)
+			})
+			for idx, li := range list {
+				if len(list) == 1 {
+					li.startRatio = 0.5
+				} else {
+					li.startRatio = 0.22 + 0.56*float64(idx)/float64(len(list)-1)
+				}
+			}
+		}
+
+		// 2. Compute EndRatio per target shape (sorted top-to-bottom by source exit Y)
+		for _, list := range inLinksByDst {
+			slices.SortStableFunc(list, func(a, b *linkItem) int {
+				ay := a.srcShape.Y + a.startRatio*a.srcShape.Height
+				by := b.srcShape.Y + b.startRatio*b.srcShape.Height
+				if math.Abs(ay-by) > 1.0 {
+					if ay < by {
+						return -1
+					}
+					return 1
+				}
+				return strings.Compare(a.fieldName, b.fieldName)
+			})
+			for idx, li := range list {
+				if len(list) == 1 {
+					li.endRatio = 0.5
+				} else {
+					li.endRatio = 0.25 + 0.50*float64(idx)/float64(len(list)-1)
+				}
+			}
+		}
+
+		// 3. Compute CornerOffsetRatio per corridor using exact lib/svg math:
+		//    c1_X = StartRect.X + CornerOffsetRatio * StartRect.Width
+		//    => CornerOffsetRatio = (cornerX - StartRect.X) / StartRect.Width
+		forwardByCorridor := make(map[int][]*linkItem)
+		backwardByCorridor := make(map[int][]*linkItem)
+		for _, li := range allLinks {
+			if li.dstCol >= li.srcCol {
+				forwardByCorridor[li.srcCol] = append(forwardByCorridor[li.srcCol], li)
+			} else {
+				backwardByCorridor[li.srcCol] = append(backwardByCorridor[li.srcCol], li)
+			}
+		}
+
+		for c, list := range forwardByCorridor {
+			type linkSpan struct {
+				li   *linkItem
+				minY float64
+				maxY float64
+			}
+			var spans []linkSpan
+			for _, li := range list {
+				yStart := li.srcShape.Y + li.startRatio*li.srcShape.Height
+				yEnd := li.dstShape.Y + li.endRatio*li.dstShape.Height
+				spans = append(spans, linkSpan{
+					li:   li,
+					minY: math.Min(yStart, yEnd) - 15.0,
+					maxY: math.Max(yStart, yEnd) + 15.0,
+				})
+			}
+			slices.SortStableFunc(spans, func(a, b linkSpan) int {
+				if a.minY < b.minY {
+					return -1
+				}
+				if a.minY > b.minY {
+					return 1
+				}
+				return 0
+			})
+
+			// Group corridor links into vertically overlapping components
+			type spanComp struct {
+				items []*linkItem
+				minY  float64
+				maxY  float64
+			}
+			var comps []spanComp
+			for _, sp := range spans {
+				if len(comps) == 0 || sp.minY > comps[len(comps)-1].maxY {
+					comps = append(comps, spanComp{
+						items: []*linkItem{sp.li},
+						minY:  sp.minY,
+						maxY:  sp.maxY,
+					})
+				} else {
+					last := &comps[len(comps)-1]
+					last.items = append(last.items, sp.li)
+					if sp.maxY > last.maxY {
+						last.maxY = sp.maxY
+					}
+				}
+			}
+
+			for _, comp := range comps {
+				compRightX := 0.0
+				for _, li := range comp.items {
+					if r := li.srcShape.X + li.srcShape.Width; r > compRightX {
+						compRightX = r
+					}
+				}
+				for _, ref := range cols[c] {
+					if gss := shapeByKey[ref.Pkg+"."+ref.Name]; gss != nil {
+						if gss.Y+gss.Height+15.0 >= comp.minY && gss.Y-15.0 <= comp.maxY {
+							if r := gss.X + gss.Width; r > compRightX {
+								compRightX = r
+							}
+						}
+					}
+				}
+
+				if len(comp.items) == 1 {
+					li := comp.items[0]
+					cornerX := compRightX + 55.0
+					li.cornerOffsetRatio = (cornerX - li.srcShape.X) / li.srcShape.Width
+					continue
+				}
+
+				var upLinks, flatLinks, downLinks []*linkItem
+				for _, li := range comp.items {
+					yStart := li.srcShape.Y + li.startRatio*li.srcShape.Height
+					yEnd := li.dstShape.Y + li.endRatio*li.dstShape.Height
+					if yEnd < yStart-4.0 {
+						upLinks = append(upLinks, li)
+					} else if yEnd > yStart+4.0 {
+						downLinks = append(downLinks, li)
+					} else {
+						flatLinks = append(flatLinks, li)
+					}
+				}
+				// Up links: sort by yStart ascending so higher links turn closer to source column
+				slices.SortStableFunc(upLinks, func(a, b *linkItem) int {
+					ay := a.srcShape.Y + a.startRatio*a.srcShape.Height
+					by := b.srcShape.Y + b.startRatio*b.srcShape.Height
+					if ay < by {
+						return -1
+					}
+					if ay > by {
+						return 1
+					}
+					return 0
+				})
+				// Down links: sort by yStart descending so lower links turn closer to source column (no crossings)
+				slices.SortStableFunc(downLinks, func(a, b *linkItem) int {
+					ay := a.srcShape.Y + a.startRatio*a.srcShape.Height
+					by := b.srcShape.Y + b.startRatio*b.srcShape.Height
+					if ay > by {
+						return -1
+					}
+					if ay < by {
+						return 1
+					}
+					return 0
+				})
+				ordered := append(append(upLinks, flatLinks...), downLinks...)
+
+				channelMinX := compRightX + 40.0
+				channelMaxX := compRightX + 40.0 + math.Min(110.0, float64(len(ordered)-1)*28.0)
+				if c+1 < numCols && colLeft[c+1]-125.0 < channelMaxX && colLeft[c+1]-125.0 > channelMinX {
+					channelMaxX = colLeft[c+1] - 125.0
+				}
+
+				for idx, li := range ordered {
+					cornerX := channelMinX + (channelMaxX-channelMinX)*float64(idx)/float64(len(ordered)-1)
+					li.cornerOffsetRatio = (cornerX - li.srcShape.X) / li.srcShape.Width
+				}
+			}
+		}
+
+		for c, list := range backwardByCorridor {
+			for idx, li := range list {
+				cornerX := colLeft[c] - 50.0 - float64(idx)*20.0
+				li.cornerOffsetRatio = (cornerX - li.srcShape.X) / li.srcShape.Width
+			}
+		}
+
+		for _, li := range allLinks {
+			ls := (&doc_models.LinkShape{
+				Name:                    li.fieldName,
+				IdentifierMeta:          fmt.Sprintf("ref_%s.%s{}.%s", li.srcPkg, li.srcName, li.fieldName),
+				FieldTypeIdentifierMeta: fmt.Sprintf("ref_%s.%s{}", li.dstPkg, li.dstName),
+				SourceMultiplicity:      doc_models.MANY,
+				TargetMultiplicity:      li.targetMultiplicity,
+				StartOrientation:        doc_models.ORIENTATION_HORIZONTAL,
+				StartRatio:              math.Round(li.startRatio*1000) / 1000,
+				EndOrientation:          doc_models.ORIENTATION_HORIZONTAL,
+				EndRatio:                math.Round(li.endRatio*1000) / 1000,
+				CornerOffsetRatio:       math.Round(li.cornerOffsetRatio*1000) / 1000,
+				X:                       (li.srcShape.X + li.dstShape.X) / 2.0,
+				Y:                       (li.srcShape.Y + li.dstShape.Y) / 2.0,
+				IsHidden:                false,
+			}).Stage(docStage)
+
+			li.srcShape.LinkShapes = append(li.srcShape.LinkShapes, ls)
 		}
 	}
 
