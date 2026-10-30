@@ -42,7 +42,8 @@ func ParseEmbedModelWithFset(embeddedDir embed.FS, source string, fset *token.Fi
 			return nil
 		}
 
-		if filepath.Ext(path) != ".go" {
+		baseName := filepath.Base(path)
+		if filepath.Ext(path) != ".go" || strings.HasSuffix(baseName, "_test.go") || slices.Contains(GeneratedModelFiles, baseName) || strings.HasPrefix(baseName, "zzz_gong") {
 			return nil
 		}
 
@@ -56,14 +57,19 @@ func ParseEmbedModelWithFset(embeddedDir embed.FS, source string, fset *token.Fi
 		if errParser != nil {
 			panic(errParser)
 		}
-		_ = astFile
+		if pkg.Name == "" && astFile != nil && astFile.Name != nil {
+			pkg.Name = astFile.Name.Name
+		}
 		return nil
 
 	})
 	pkgs := make(map[string]*ast.Package)
 	sourcesElements := strings.Split(source, "/")
 	pkgName := sourcesElements[len(sourcesElements)-1]
-	pkgs[pkgName] = pkg
+	if pkg.Name == "" {
+		pkg.Name = pkgName
+	}
+	pkgs[pkg.Name] = pkg
 	return pkgs
 }
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message:AIXMBasicMessage xmlns:message="http://www.aixm.aero/schema/5.1.1/message"
+                          xmlns:aixm="http://www.aixm.aero/schema/5.1.1"
+                          xmlns:gml="http://www.opengis.net/gml/3.2"
+                          gml:id="MSG_OBSTACLE_001">
+    <gml:description>VerticalStructure and ObstacleArea Domain Message</gml:description>
+    <gml:identifier codeSpace="urn:uuid:">623e4567-e89b-12d3-a456-426614174000</gml:identifier>
+    <message:hasMember>
+        <aixm:VerticalStructure gml:id="VS_EIFFEL">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000051</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:VerticalStructureTimeSlice gml:id="VS_TS_EIFFEL_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:name>TOUR EIFFEL</aixm:name>
+                    <aixm:type>TOWER</aixm:type>
+                    <aixm:lighted>YES</aixm:lighted>
+                </aixm:VerticalStructureTimeSlice>
+            </aixm:timeSlice>
+        </aixm:VerticalStructure>
+    </message:hasMember>
+</message:AIXMBasicMessage>
+

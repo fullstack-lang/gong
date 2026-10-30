@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message:AIXMBasicMessage xmlns:message="http://www.aixm.aero/schema/5.1.1/message"
+                          xmlns:aixm="http://www.aixm.aero/schema/5.1.1"
+                          xmlns:gml="http://www.opengis.net/gml/3.2"
+                          gml:id="MSG_SERVICE_ORG_001">
+    <gml:description>OrganisationAuthority, Units and Services Domain Message</gml:description>
+    <gml:identifier codeSpace="urn:uuid:">723e4567-e89b-12d3-a456-426614174000</gml:identifier>
+    <message:hasMember>
+        <aixm:OrganisationAuthority gml:id="ORG_DGAC">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000061</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:OrganisationAuthorityTimeSlice gml:id="ORG_TS_DGAC_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:name>DGAC FRANCE</aixm:name>
+                    <aixm:designator>LF</aixm:designator>
+                    <aixm:type>STATE</aixm:type>
+                </aixm:OrganisationAuthorityTimeSlice>
+            </aixm:timeSlice>
+        </aixm:OrganisationAuthority>
+    </message:hasMember>
+</message:AIXMBasicMessage>

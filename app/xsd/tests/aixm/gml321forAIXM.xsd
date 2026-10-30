@@ -3,7 +3,7 @@
 	<annotation>
 		<documentation>A GML subset for aviation, as defined in the OGC Discussion Paper 12-028r1</documentation>
 	</annotation>
-	<import namespace="http://www.w3.org/1999/xlink" schemaLocation="http://www.w3.org/1999/xlink.xsd"/>
+	<import namespace="http://www.w3.org/1999/xlink" schemaLocation="./xlink/xlink.xsd"/>
 	<!-- basicTypes.xsd -->
 	<simpleType name="NilReasonType">
 		<annotation>

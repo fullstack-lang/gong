@@ -1,0 +1,2403 @@
+// generated code - do not edit
+package aixmdatatypes
+
+import (
+	"encoding/xml"
+)
+
+// to avoid compilation error if no xml element is generated
+var _ xml.Attr
+
+// insertion point for enums declaration
+
+// From xsd simple type with enumerate restriction "CodeAirspacePointPositionBaseType_Member_1"
+type Enum_CodeAirspacePointPositionBaseType_Member_1 string
+
+const (
+	Enum_CodeAirspacePointPositionBaseType_Member_1_IN Enum_CodeAirspacePointPositionBaseType_Member_1 = "IN"
+	Enum_CodeAirspacePointPositionBaseType_Member_1_OUT Enum_CodeAirspacePointPositionBaseType_Member_1 = "OUT"
+	Enum_CodeAirspacePointPositionBaseType_Member_1_BORDER Enum_CodeAirspacePointPositionBaseType_Member_1 = "BORDER"
+)
+
+// From xsd simple type with enumerate restriction "CodeAirspacePointRoleBaseType_Member_1"
+type Enum_CodeAirspacePointRoleBaseType_Member_1 string
+
+const (
+	Enum_CodeAirspacePointRoleBaseType_Member_1_ENTRY Enum_CodeAirspacePointRoleBaseType_Member_1 = "ENTRY"
+	Enum_CodeAirspacePointRoleBaseType_Member_1_EXIT Enum_CodeAirspacePointRoleBaseType_Member_1 = "EXIT"
+	Enum_CodeAirspacePointRoleBaseType_Member_1_ENTRY_EXIT Enum_CodeAirspacePointRoleBaseType_Member_1 = "ENTRY_EXIT"
+)
+
+// From xsd simple type with enumerate restriction "CodeAltitudeUseBaseType_Member_1"
+type Enum_CodeAltitudeUseBaseType_Member_1 string
+
+const (
+	Enum_CodeAltitudeUseBaseType_Member_1_ABOVE_LOWER Enum_CodeAltitudeUseBaseType_Member_1 = "ABOVE_LOWER"
+	Enum_CodeAltitudeUseBaseType_Member_1_BELOW_UPPER Enum_CodeAltitudeUseBaseType_Member_1 = "BELOW_UPPER"
+	Enum_CodeAltitudeUseBaseType_Member_1_AT_LOWER Enum_CodeAltitudeUseBaseType_Member_1 = "AT_LOWER"
+	Enum_CodeAltitudeUseBaseType_Member_1_BETWEEN Enum_CodeAltitudeUseBaseType_Member_1 = "BETWEEN"
+	Enum_CodeAltitudeUseBaseType_Member_1_RECOMMENDED Enum_CodeAltitudeUseBaseType_Member_1 = "RECOMMENDED"
+	Enum_CodeAltitudeUseBaseType_Member_1_EXPECT_LOWER Enum_CodeAltitudeUseBaseType_Member_1 = "EXPECT_LOWER"
+	Enum_CodeAltitudeUseBaseType_Member_1_AS_ASSIGNED Enum_CodeAltitudeUseBaseType_Member_1 = "AS_ASSIGNED"
+)
+
+// From xsd simple type with enumerate restriction "CodeAuthorityRoleBaseType_Member_1"
+type Enum_CodeAuthorityRoleBaseType_Member_1 string
+
+const (
+	Enum_CodeAuthorityRoleBaseType_Member_1_OWN Enum_CodeAuthorityRoleBaseType_Member_1 = "OWN"
+	Enum_CodeAuthorityRoleBaseType_Member_1_OPERATE Enum_CodeAuthorityRoleBaseType_Member_1 = "OPERATE"
+	Enum_CodeAuthorityRoleBaseType_Member_1_SUPERVISE Enum_CodeAuthorityRoleBaseType_Member_1 = "SUPERVISE"
+)
+
+// From xsd simple type with enumerate restriction "CodeBearingBaseType_Member_1"
+type Enum_CodeBearingBaseType_Member_1 string
+
+const (
+	Enum_CodeBearingBaseType_Member_1_TRUE_XSD Enum_CodeBearingBaseType_Member_1 = "TRUE"
+	Enum_CodeBearingBaseType_Member_1_MAG Enum_CodeBearingBaseType_Member_1 = "MAG"
+	Enum_CodeBearingBaseType_Member_1_RDL Enum_CodeBearingBaseType_Member_1 = "RDL"
+	Enum_CodeBearingBaseType_Member_1_TRK Enum_CodeBearingBaseType_Member_1 = "TRK"
+	Enum_CodeBearingBaseType_Member_1_HDG Enum_CodeBearingBaseType_Member_1 = "HDG"
+)
+
+// From xsd simple type with enumerate restriction "CodeCardinalDirectionBaseType_Member_1"
+type Enum_CodeCardinalDirectionBaseType_Member_1 string
+
+const (
+	Enum_CodeCardinalDirectionBaseType_Member_1_N Enum_CodeCardinalDirectionBaseType_Member_1 = "N"
+	Enum_CodeCardinalDirectionBaseType_Member_1_NE Enum_CodeCardinalDirectionBaseType_Member_1 = "NE"
+	Enum_CodeCardinalDirectionBaseType_Member_1_E Enum_CodeCardinalDirectionBaseType_Member_1 = "E"
+	Enum_CodeCardinalDirectionBaseType_Member_1_SE Enum_CodeCardinalDirectionBaseType_Member_1 = "SE"
+	Enum_CodeCardinalDirectionBaseType_Member_1_S Enum_CodeCardinalDirectionBaseType_Member_1 = "S"
+	Enum_CodeCardinalDirectionBaseType_Member_1_SW Enum_CodeCardinalDirectionBaseType_Member_1 = "SW"
+	Enum_CodeCardinalDirectionBaseType_Member_1_W Enum_CodeCardinalDirectionBaseType_Member_1 = "W"
+	Enum_CodeCardinalDirectionBaseType_Member_1_NW Enum_CodeCardinalDirectionBaseType_Member_1 = "NW"
+	Enum_CodeCardinalDirectionBaseType_Member_1_NNE Enum_CodeCardinalDirectionBaseType_Member_1 = "NNE"
+	Enum_CodeCardinalDirectionBaseType_Member_1_ENE Enum_CodeCardinalDirectionBaseType_Member_1 = "ENE"
+	Enum_CodeCardinalDirectionBaseType_Member_1_ESE Enum_CodeCardinalDirectionBaseType_Member_1 = "ESE"
+	Enum_CodeCardinalDirectionBaseType_Member_1_SSE Enum_CodeCardinalDirectionBaseType_Member_1 = "SSE"
+	Enum_CodeCardinalDirectionBaseType_Member_1_SSW Enum_CodeCardinalDirectionBaseType_Member_1 = "SSW"
+	Enum_CodeCardinalDirectionBaseType_Member_1_WSW Enum_CodeCardinalDirectionBaseType_Member_1 = "WSW"
+	Enum_CodeCardinalDirectionBaseType_Member_1_WNW Enum_CodeCardinalDirectionBaseType_Member_1 = "WNW"
+	Enum_CodeCardinalDirectionBaseType_Member_1_NNW Enum_CodeCardinalDirectionBaseType_Member_1 = "NNW"
+)
+
+// From xsd simple type with enumerate restriction "CodeCheckpointCategoryBaseType_Member_1"
+type Enum_CodeCheckpointCategoryBaseType_Member_1 string
+
+const (
+	Enum_CodeCheckpointCategoryBaseType_Member_1_A Enum_CodeCheckpointCategoryBaseType_Member_1 = "A"
+	Enum_CodeCheckpointCategoryBaseType_Member_1_G Enum_CodeCheckpointCategoryBaseType_Member_1 = "G"
+)
+
+// From xsd simple type with enumerate restriction "CodeCourseQualityILSBaseType_Member_1"
+type Enum_CodeCourseQualityILSBaseType_Member_1 string
+
+const (
+	Enum_CodeCourseQualityILSBaseType_Member_1_A Enum_CodeCourseQualityILSBaseType_Member_1 = "A"
+	Enum_CodeCourseQualityILSBaseType_Member_1_B Enum_CodeCourseQualityILSBaseType_Member_1 = "B"
+	Enum_CodeCourseQualityILSBaseType_Member_1_C Enum_CodeCourseQualityILSBaseType_Member_1 = "C"
+	Enum_CodeCourseQualityILSBaseType_Member_1_D Enum_CodeCourseQualityILSBaseType_Member_1 = "D"
+	Enum_CodeCourseQualityILSBaseType_Member_1_E Enum_CodeCourseQualityILSBaseType_Member_1 = "E"
+	Enum_CodeCourseQualityILSBaseType_Member_1_T Enum_CodeCourseQualityILSBaseType_Member_1 = "T"
+)
+
+// From xsd simple type with enumerate restriction "CodeDayBaseType_Member_1"
+type Enum_CodeDayBaseType_Member_1 string
+
+const (
+	Enum_CodeDayBaseType_Member_1_MON Enum_CodeDayBaseType_Member_1 = "MON"
+	Enum_CodeDayBaseType_Member_1_TUE Enum_CodeDayBaseType_Member_1 = "TUE"
+	Enum_CodeDayBaseType_Member_1_WED Enum_CodeDayBaseType_Member_1 = "WED"
+	Enum_CodeDayBaseType_Member_1_THU Enum_CodeDayBaseType_Member_1 = "THU"
+	Enum_CodeDayBaseType_Member_1_FRI Enum_CodeDayBaseType_Member_1 = "FRI"
+	Enum_CodeDayBaseType_Member_1_SAT Enum_CodeDayBaseType_Member_1 = "SAT"
+	Enum_CodeDayBaseType_Member_1_SUN Enum_CodeDayBaseType_Member_1 = "SUN"
+	Enum_CodeDayBaseType_Member_1_WORK_DAY Enum_CodeDayBaseType_Member_1 = "WORK_DAY"
+	Enum_CodeDayBaseType_Member_1_BEF_WORK_DAY Enum_CodeDayBaseType_Member_1 = "BEF_WORK_DAY"
+	Enum_CodeDayBaseType_Member_1_AFT_WORK_DAY Enum_CodeDayBaseType_Member_1 = "AFT_WORK_DAY"
+	Enum_CodeDayBaseType_Member_1_HOL Enum_CodeDayBaseType_Member_1 = "HOL"
+	Enum_CodeDayBaseType_Member_1_BEF_HOL Enum_CodeDayBaseType_Member_1 = "BEF_HOL"
+	Enum_CodeDayBaseType_Member_1_AFT_HOL Enum_CodeDayBaseType_Member_1 = "AFT_HOL"
+	Enum_CodeDayBaseType_Member_1_ANY_XSD Enum_CodeDayBaseType_Member_1 = "ANY"
+	Enum_CodeDayBaseType_Member_1_BUSY_FRI Enum_CodeDayBaseType_Member_1 = "BUSY_FRI"
+)
+
+// From xsd simple type with enumerate restriction "CodeDesignatedPointBaseType_Member_1"
+type Enum_CodeDesignatedPointBaseType_Member_1 string
+
+const (
+	Enum_CodeDesignatedPointBaseType_Member_1_ICAO Enum_CodeDesignatedPointBaseType_Member_1 = "ICAO"
+	Enum_CodeDesignatedPointBaseType_Member_1_COORD Enum_CodeDesignatedPointBaseType_Member_1 = "COORD"
+	Enum_CodeDesignatedPointBaseType_Member_1_CNF Enum_CodeDesignatedPointBaseType_Member_1 = "CNF"
+	Enum_CodeDesignatedPointBaseType_Member_1_DESIGNED Enum_CodeDesignatedPointBaseType_Member_1 = "DESIGNED"
+	Enum_CodeDesignatedPointBaseType_Member_1_MTR Enum_CodeDesignatedPointBaseType_Member_1 = "MTR"
+	Enum_CodeDesignatedPointBaseType_Member_1_TERMINAL Enum_CodeDesignatedPointBaseType_Member_1 = "TERMINAL"
+	Enum_CodeDesignatedPointBaseType_Member_1_BRG_DIST Enum_CodeDesignatedPointBaseType_Member_1 = "BRG_DIST"
+)
+
+// From xsd simple type with enumerate restriction "CodeDirectionReferenceBaseType_Member_1"
+type Enum_CodeDirectionReferenceBaseType_Member_1 string
+
+const (
+	Enum_CodeDirectionReferenceBaseType_Member_1_TO Enum_CodeDirectionReferenceBaseType_Member_1 = "TO"
+	Enum_CodeDirectionReferenceBaseType_Member_1_FROM Enum_CodeDirectionReferenceBaseType_Member_1 = "FROM"
+)
+
+// From xsd simple type with enumerate restriction "CodeDistanceIndicationBaseType_Member_1"
+type Enum_CodeDistanceIndicationBaseType_Member_1 string
+
+const (
+	Enum_CodeDistanceIndicationBaseType_Member_1_DME Enum_CodeDistanceIndicationBaseType_Member_1 = "DME"
+	Enum_CodeDistanceIndicationBaseType_Member_1_GEODETIC Enum_CodeDistanceIndicationBaseType_Member_1 = "GEODETIC"
+)
+
+// From xsd simple type with enumerate restriction "CodeDMEBaseType_Member_1"
+type Enum_CodeDMEBaseType_Member_1 string
+
+const (
+	Enum_CodeDMEBaseType_Member_1_NARROW Enum_CodeDMEBaseType_Member_1 = "NARROW"
+	Enum_CodeDMEBaseType_Member_1_PRECISION Enum_CodeDMEBaseType_Member_1 = "PRECISION"
+	Enum_CodeDMEBaseType_Member_1_WIDE Enum_CodeDMEBaseType_Member_1 = "WIDE"
+)
+
+// From xsd simple type with enumerate restriction "CodeDMEChannelBaseType_Member_1"
+type Enum_CodeDMEChannelBaseType_Member_1 string
+
+const (
+	Enum_CodeDMEChannelBaseType_Member_1_N_1X Enum_CodeDMEChannelBaseType_Member_1 = "1X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_1Y Enum_CodeDMEChannelBaseType_Member_1 = "1Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_2X Enum_CodeDMEChannelBaseType_Member_1 = "2X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_2Y Enum_CodeDMEChannelBaseType_Member_1 = "2Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_3X Enum_CodeDMEChannelBaseType_Member_1 = "3X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_3Y Enum_CodeDMEChannelBaseType_Member_1 = "3Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_4X Enum_CodeDMEChannelBaseType_Member_1 = "4X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_4Y Enum_CodeDMEChannelBaseType_Member_1 = "4Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_5X Enum_CodeDMEChannelBaseType_Member_1 = "5X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_5Y Enum_CodeDMEChannelBaseType_Member_1 = "5Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_6X Enum_CodeDMEChannelBaseType_Member_1 = "6X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_6Y Enum_CodeDMEChannelBaseType_Member_1 = "6Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_7X Enum_CodeDMEChannelBaseType_Member_1 = "7X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_7Y Enum_CodeDMEChannelBaseType_Member_1 = "7Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_8X Enum_CodeDMEChannelBaseType_Member_1 = "8X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_8Y Enum_CodeDMEChannelBaseType_Member_1 = "8Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_9X Enum_CodeDMEChannelBaseType_Member_1 = "9X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_9Y Enum_CodeDMEChannelBaseType_Member_1 = "9Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_10X Enum_CodeDMEChannelBaseType_Member_1 = "10X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_10Y Enum_CodeDMEChannelBaseType_Member_1 = "10Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_11X Enum_CodeDMEChannelBaseType_Member_1 = "11X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_11Y Enum_CodeDMEChannelBaseType_Member_1 = "11Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_12X Enum_CodeDMEChannelBaseType_Member_1 = "12X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_12Y Enum_CodeDMEChannelBaseType_Member_1 = "12Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_13X Enum_CodeDMEChannelBaseType_Member_1 = "13X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_13Y Enum_CodeDMEChannelBaseType_Member_1 = "13Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_14X Enum_CodeDMEChannelBaseType_Member_1 = "14X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_14Y Enum_CodeDMEChannelBaseType_Member_1 = "14Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_15X Enum_CodeDMEChannelBaseType_Member_1 = "15X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_15Y Enum_CodeDMEChannelBaseType_Member_1 = "15Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_16X Enum_CodeDMEChannelBaseType_Member_1 = "16X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_16Y Enum_CodeDMEChannelBaseType_Member_1 = "16Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_17X Enum_CodeDMEChannelBaseType_Member_1 = "17X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_17Y Enum_CodeDMEChannelBaseType_Member_1 = "17Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_17Z Enum_CodeDMEChannelBaseType_Member_1 = "17Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_18X Enum_CodeDMEChannelBaseType_Member_1 = "18X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_18W Enum_CodeDMEChannelBaseType_Member_1 = "18W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_18Y Enum_CodeDMEChannelBaseType_Member_1 = "18Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_18Z Enum_CodeDMEChannelBaseType_Member_1 = "18Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_19X Enum_CodeDMEChannelBaseType_Member_1 = "19X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_19Y Enum_CodeDMEChannelBaseType_Member_1 = "19Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_19Z Enum_CodeDMEChannelBaseType_Member_1 = "19Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_20X Enum_CodeDMEChannelBaseType_Member_1 = "20X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_20W Enum_CodeDMEChannelBaseType_Member_1 = "20W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_20Y Enum_CodeDMEChannelBaseType_Member_1 = "20Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_20Z Enum_CodeDMEChannelBaseType_Member_1 = "20Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_21X Enum_CodeDMEChannelBaseType_Member_1 = "21X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_21Y Enum_CodeDMEChannelBaseType_Member_1 = "21Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_21Z Enum_CodeDMEChannelBaseType_Member_1 = "21Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_22X Enum_CodeDMEChannelBaseType_Member_1 = "22X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_22W Enum_CodeDMEChannelBaseType_Member_1 = "22W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_22Y Enum_CodeDMEChannelBaseType_Member_1 = "22Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_22Z Enum_CodeDMEChannelBaseType_Member_1 = "22Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_23X Enum_CodeDMEChannelBaseType_Member_1 = "23X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_23Y Enum_CodeDMEChannelBaseType_Member_1 = "23Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_23Z Enum_CodeDMEChannelBaseType_Member_1 = "23Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_24X Enum_CodeDMEChannelBaseType_Member_1 = "24X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_24W Enum_CodeDMEChannelBaseType_Member_1 = "24W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_24Y Enum_CodeDMEChannelBaseType_Member_1 = "24Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_24Z Enum_CodeDMEChannelBaseType_Member_1 = "24Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_25X Enum_CodeDMEChannelBaseType_Member_1 = "25X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_25Y Enum_CodeDMEChannelBaseType_Member_1 = "25Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_25Z Enum_CodeDMEChannelBaseType_Member_1 = "25Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_26X Enum_CodeDMEChannelBaseType_Member_1 = "26X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_26W Enum_CodeDMEChannelBaseType_Member_1 = "26W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_26Y Enum_CodeDMEChannelBaseType_Member_1 = "26Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_26Z Enum_CodeDMEChannelBaseType_Member_1 = "26Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_27X Enum_CodeDMEChannelBaseType_Member_1 = "27X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_27Y Enum_CodeDMEChannelBaseType_Member_1 = "27Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_27Z Enum_CodeDMEChannelBaseType_Member_1 = "27Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_28X Enum_CodeDMEChannelBaseType_Member_1 = "28X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_28W Enum_CodeDMEChannelBaseType_Member_1 = "28W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_28Y Enum_CodeDMEChannelBaseType_Member_1 = "28Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_28Z Enum_CodeDMEChannelBaseType_Member_1 = "28Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_29X Enum_CodeDMEChannelBaseType_Member_1 = "29X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_29Y Enum_CodeDMEChannelBaseType_Member_1 = "29Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_29Z Enum_CodeDMEChannelBaseType_Member_1 = "29Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_30X Enum_CodeDMEChannelBaseType_Member_1 = "30X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_30W Enum_CodeDMEChannelBaseType_Member_1 = "30W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_30Y Enum_CodeDMEChannelBaseType_Member_1 = "30Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_30Z Enum_CodeDMEChannelBaseType_Member_1 = "30Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_31X Enum_CodeDMEChannelBaseType_Member_1 = "31X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_31Y Enum_CodeDMEChannelBaseType_Member_1 = "31Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_31Z Enum_CodeDMEChannelBaseType_Member_1 = "31Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_32X Enum_CodeDMEChannelBaseType_Member_1 = "32X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_32W Enum_CodeDMEChannelBaseType_Member_1 = "32W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_32Y Enum_CodeDMEChannelBaseType_Member_1 = "32Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_32Z Enum_CodeDMEChannelBaseType_Member_1 = "32Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_33X Enum_CodeDMEChannelBaseType_Member_1 = "33X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_33Y Enum_CodeDMEChannelBaseType_Member_1 = "33Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_33Z Enum_CodeDMEChannelBaseType_Member_1 = "33Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_34X Enum_CodeDMEChannelBaseType_Member_1 = "34X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_34W Enum_CodeDMEChannelBaseType_Member_1 = "34W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_34Y Enum_CodeDMEChannelBaseType_Member_1 = "34Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_34Z Enum_CodeDMEChannelBaseType_Member_1 = "34Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_35X Enum_CodeDMEChannelBaseType_Member_1 = "35X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_35Y Enum_CodeDMEChannelBaseType_Member_1 = "35Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_35Z Enum_CodeDMEChannelBaseType_Member_1 = "35Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_36X Enum_CodeDMEChannelBaseType_Member_1 = "36X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_36W Enum_CodeDMEChannelBaseType_Member_1 = "36W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_36Y Enum_CodeDMEChannelBaseType_Member_1 = "36Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_36Z Enum_CodeDMEChannelBaseType_Member_1 = "36Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_37X Enum_CodeDMEChannelBaseType_Member_1 = "37X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_37Y Enum_CodeDMEChannelBaseType_Member_1 = "37Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_37Z Enum_CodeDMEChannelBaseType_Member_1 = "37Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_38X Enum_CodeDMEChannelBaseType_Member_1 = "38X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_38W Enum_CodeDMEChannelBaseType_Member_1 = "38W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_38Y Enum_CodeDMEChannelBaseType_Member_1 = "38Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_38Z Enum_CodeDMEChannelBaseType_Member_1 = "38Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_39X Enum_CodeDMEChannelBaseType_Member_1 = "39X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_39Y Enum_CodeDMEChannelBaseType_Member_1 = "39Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_39Z Enum_CodeDMEChannelBaseType_Member_1 = "39Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_40X Enum_CodeDMEChannelBaseType_Member_1 = "40X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_40W Enum_CodeDMEChannelBaseType_Member_1 = "40W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_40Y Enum_CodeDMEChannelBaseType_Member_1 = "40Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_40Z Enum_CodeDMEChannelBaseType_Member_1 = "40Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_41X Enum_CodeDMEChannelBaseType_Member_1 = "41X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_41Y Enum_CodeDMEChannelBaseType_Member_1 = "41Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_41Z Enum_CodeDMEChannelBaseType_Member_1 = "41Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_42X Enum_CodeDMEChannelBaseType_Member_1 = "42X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_42W Enum_CodeDMEChannelBaseType_Member_1 = "42W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_42Y Enum_CodeDMEChannelBaseType_Member_1 = "42Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_42Z Enum_CodeDMEChannelBaseType_Member_1 = "42Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_43X Enum_CodeDMEChannelBaseType_Member_1 = "43X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_43Y Enum_CodeDMEChannelBaseType_Member_1 = "43Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_43Z Enum_CodeDMEChannelBaseType_Member_1 = "43Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_44X Enum_CodeDMEChannelBaseType_Member_1 = "44X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_44W Enum_CodeDMEChannelBaseType_Member_1 = "44W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_44Y Enum_CodeDMEChannelBaseType_Member_1 = "44Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_44Z Enum_CodeDMEChannelBaseType_Member_1 = "44Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_45X Enum_CodeDMEChannelBaseType_Member_1 = "45X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_45Y Enum_CodeDMEChannelBaseType_Member_1 = "45Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_45Z Enum_CodeDMEChannelBaseType_Member_1 = "45Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_46X Enum_CodeDMEChannelBaseType_Member_1 = "46X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_46W Enum_CodeDMEChannelBaseType_Member_1 = "46W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_46Y Enum_CodeDMEChannelBaseType_Member_1 = "46Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_46Z Enum_CodeDMEChannelBaseType_Member_1 = "46Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_47X Enum_CodeDMEChannelBaseType_Member_1 = "47X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_47Y Enum_CodeDMEChannelBaseType_Member_1 = "47Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_47Z Enum_CodeDMEChannelBaseType_Member_1 = "47Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_48X Enum_CodeDMEChannelBaseType_Member_1 = "48X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_48W Enum_CodeDMEChannelBaseType_Member_1 = "48W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_48Y Enum_CodeDMEChannelBaseType_Member_1 = "48Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_48Z Enum_CodeDMEChannelBaseType_Member_1 = "48Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_49X Enum_CodeDMEChannelBaseType_Member_1 = "49X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_49Y Enum_CodeDMEChannelBaseType_Member_1 = "49Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_49Z Enum_CodeDMEChannelBaseType_Member_1 = "49Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_50X Enum_CodeDMEChannelBaseType_Member_1 = "50X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_50W Enum_CodeDMEChannelBaseType_Member_1 = "50W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_50Y Enum_CodeDMEChannelBaseType_Member_1 = "50Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_50Z Enum_CodeDMEChannelBaseType_Member_1 = "50Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_51X Enum_CodeDMEChannelBaseType_Member_1 = "51X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_51Y Enum_CodeDMEChannelBaseType_Member_1 = "51Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_51Z Enum_CodeDMEChannelBaseType_Member_1 = "51Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_52X Enum_CodeDMEChannelBaseType_Member_1 = "52X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_52W Enum_CodeDMEChannelBaseType_Member_1 = "52W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_52Y Enum_CodeDMEChannelBaseType_Member_1 = "52Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_52Z Enum_CodeDMEChannelBaseType_Member_1 = "52Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_53X Enum_CodeDMEChannelBaseType_Member_1 = "53X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_53Y Enum_CodeDMEChannelBaseType_Member_1 = "53Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_53Z Enum_CodeDMEChannelBaseType_Member_1 = "53Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_54X Enum_CodeDMEChannelBaseType_Member_1 = "54X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_54W Enum_CodeDMEChannelBaseType_Member_1 = "54W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_54Y Enum_CodeDMEChannelBaseType_Member_1 = "54Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_54Z Enum_CodeDMEChannelBaseType_Member_1 = "54Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_55X Enum_CodeDMEChannelBaseType_Member_1 = "55X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_55Y Enum_CodeDMEChannelBaseType_Member_1 = "55Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_55Z Enum_CodeDMEChannelBaseType_Member_1 = "55Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_56X Enum_CodeDMEChannelBaseType_Member_1 = "56X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_56W Enum_CodeDMEChannelBaseType_Member_1 = "56W"
+	Enum_CodeDMEChannelBaseType_Member_1_N_56Y Enum_CodeDMEChannelBaseType_Member_1 = "56Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_56Z Enum_CodeDMEChannelBaseType_Member_1 = "56Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_57X Enum_CodeDMEChannelBaseType_Member_1 = "57X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_57Y Enum_CodeDMEChannelBaseType_Member_1 = "57Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_58X Enum_CodeDMEChannelBaseType_Member_1 = "58X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_58Y Enum_CodeDMEChannelBaseType_Member_1 = "58Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_59X Enum_CodeDMEChannelBaseType_Member_1 = "59X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_59Y Enum_CodeDMEChannelBaseType_Member_1 = "59Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_60X Enum_CodeDMEChannelBaseType_Member_1 = "60X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_60Y Enum_CodeDMEChannelBaseType_Member_1 = "60Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_61X Enum_CodeDMEChannelBaseType_Member_1 = "61X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_61Y Enum_CodeDMEChannelBaseType_Member_1 = "61Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_62X Enum_CodeDMEChannelBaseType_Member_1 = "62X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_62Y Enum_CodeDMEChannelBaseType_Member_1 = "62Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_63X Enum_CodeDMEChannelBaseType_Member_1 = "63X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_63Y Enum_CodeDMEChannelBaseType_Member_1 = "63Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_64X Enum_CodeDMEChannelBaseType_Member_1 = "64X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_64Y Enum_CodeDMEChannelBaseType_Member_1 = "64Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_65X Enum_CodeDMEChannelBaseType_Member_1 = "65X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_65Y Enum_CodeDMEChannelBaseType_Member_1 = "65Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_66X Enum_CodeDMEChannelBaseType_Member_1 = "66X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_66Y Enum_CodeDMEChannelBaseType_Member_1 = "66Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_67X Enum_CodeDMEChannelBaseType_Member_1 = "67X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_67Y Enum_CodeDMEChannelBaseType_Member_1 = "67Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_68X Enum_CodeDMEChannelBaseType_Member_1 = "68X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_68Y Enum_CodeDMEChannelBaseType_Member_1 = "68Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_69X Enum_CodeDMEChannelBaseType_Member_1 = "69X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_69Y Enum_CodeDMEChannelBaseType_Member_1 = "69Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_70X Enum_CodeDMEChannelBaseType_Member_1 = "70X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_70Y Enum_CodeDMEChannelBaseType_Member_1 = "70Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_71X Enum_CodeDMEChannelBaseType_Member_1 = "71X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_71Y Enum_CodeDMEChannelBaseType_Member_1 = "71Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_72X Enum_CodeDMEChannelBaseType_Member_1 = "72X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_72Y Enum_CodeDMEChannelBaseType_Member_1 = "72Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_73X Enum_CodeDMEChannelBaseType_Member_1 = "73X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_73Y Enum_CodeDMEChannelBaseType_Member_1 = "73Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_74X Enum_CodeDMEChannelBaseType_Member_1 = "74X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_74Y Enum_CodeDMEChannelBaseType_Member_1 = "74Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_75X Enum_CodeDMEChannelBaseType_Member_1 = "75X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_75Y Enum_CodeDMEChannelBaseType_Member_1 = "75Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_76X Enum_CodeDMEChannelBaseType_Member_1 = "76X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_76Y Enum_CodeDMEChannelBaseType_Member_1 = "76Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_77X Enum_CodeDMEChannelBaseType_Member_1 = "77X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_77Y Enum_CodeDMEChannelBaseType_Member_1 = "77Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_78X Enum_CodeDMEChannelBaseType_Member_1 = "78X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_78Y Enum_CodeDMEChannelBaseType_Member_1 = "78Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_79X Enum_CodeDMEChannelBaseType_Member_1 = "79X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_79Y Enum_CodeDMEChannelBaseType_Member_1 = "79Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_80X Enum_CodeDMEChannelBaseType_Member_1 = "80X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_80Y Enum_CodeDMEChannelBaseType_Member_1 = "80Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_80Z Enum_CodeDMEChannelBaseType_Member_1 = "80Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_81X Enum_CodeDMEChannelBaseType_Member_1 = "81X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_81Y Enum_CodeDMEChannelBaseType_Member_1 = "81Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_81Z Enum_CodeDMEChannelBaseType_Member_1 = "81Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_82X Enum_CodeDMEChannelBaseType_Member_1 = "82X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_82Y Enum_CodeDMEChannelBaseType_Member_1 = "82Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_82Z Enum_CodeDMEChannelBaseType_Member_1 = "82Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_83X Enum_CodeDMEChannelBaseType_Member_1 = "83X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_83Y Enum_CodeDMEChannelBaseType_Member_1 = "83Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_83Z Enum_CodeDMEChannelBaseType_Member_1 = "83Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_84X Enum_CodeDMEChannelBaseType_Member_1 = "84X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_84Y Enum_CodeDMEChannelBaseType_Member_1 = "84Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_84Z Enum_CodeDMEChannelBaseType_Member_1 = "84Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_85X Enum_CodeDMEChannelBaseType_Member_1 = "85X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_85Y Enum_CodeDMEChannelBaseType_Member_1 = "85Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_85Z Enum_CodeDMEChannelBaseType_Member_1 = "85Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_86X Enum_CodeDMEChannelBaseType_Member_1 = "86X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_86Y Enum_CodeDMEChannelBaseType_Member_1 = "86Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_86Z Enum_CodeDMEChannelBaseType_Member_1 = "86Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_87X Enum_CodeDMEChannelBaseType_Member_1 = "87X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_87Y Enum_CodeDMEChannelBaseType_Member_1 = "87Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_87Z Enum_CodeDMEChannelBaseType_Member_1 = "87Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_88X Enum_CodeDMEChannelBaseType_Member_1 = "88X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_88Y Enum_CodeDMEChannelBaseType_Member_1 = "88Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_88Z Enum_CodeDMEChannelBaseType_Member_1 = "88Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_89X Enum_CodeDMEChannelBaseType_Member_1 = "89X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_89Y Enum_CodeDMEChannelBaseType_Member_1 = "89Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_89Z Enum_CodeDMEChannelBaseType_Member_1 = "89Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_90X Enum_CodeDMEChannelBaseType_Member_1 = "90X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_90Y Enum_CodeDMEChannelBaseType_Member_1 = "90Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_90Z Enum_CodeDMEChannelBaseType_Member_1 = "90Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_91X Enum_CodeDMEChannelBaseType_Member_1 = "91X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_91Y Enum_CodeDMEChannelBaseType_Member_1 = "91Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_91Z Enum_CodeDMEChannelBaseType_Member_1 = "91Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_92X Enum_CodeDMEChannelBaseType_Member_1 = "92X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_92Y Enum_CodeDMEChannelBaseType_Member_1 = "92Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_92Z Enum_CodeDMEChannelBaseType_Member_1 = "92Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_93X Enum_CodeDMEChannelBaseType_Member_1 = "93X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_93Y Enum_CodeDMEChannelBaseType_Member_1 = "93Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_93Z Enum_CodeDMEChannelBaseType_Member_1 = "93Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_94X Enum_CodeDMEChannelBaseType_Member_1 = "94X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_94Y Enum_CodeDMEChannelBaseType_Member_1 = "94Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_94Z Enum_CodeDMEChannelBaseType_Member_1 = "94Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_95X Enum_CodeDMEChannelBaseType_Member_1 = "95X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_95Y Enum_CodeDMEChannelBaseType_Member_1 = "95Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_95Z Enum_CodeDMEChannelBaseType_Member_1 = "95Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_96X Enum_CodeDMEChannelBaseType_Member_1 = "96X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_96Y Enum_CodeDMEChannelBaseType_Member_1 = "96Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_96Z Enum_CodeDMEChannelBaseType_Member_1 = "96Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_97X Enum_CodeDMEChannelBaseType_Member_1 = "97X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_97Y Enum_CodeDMEChannelBaseType_Member_1 = "97Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_97Z Enum_CodeDMEChannelBaseType_Member_1 = "97Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_98X Enum_CodeDMEChannelBaseType_Member_1 = "98X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_98Y Enum_CodeDMEChannelBaseType_Member_1 = "98Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_98Z Enum_CodeDMEChannelBaseType_Member_1 = "98Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_99X Enum_CodeDMEChannelBaseType_Member_1 = "99X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_99Y Enum_CodeDMEChannelBaseType_Member_1 = "99Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_99Z Enum_CodeDMEChannelBaseType_Member_1 = "99Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_100X Enum_CodeDMEChannelBaseType_Member_1 = "100X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_100Y Enum_CodeDMEChannelBaseType_Member_1 = "100Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_100Z Enum_CodeDMEChannelBaseType_Member_1 = "100Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_101X Enum_CodeDMEChannelBaseType_Member_1 = "101X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_101Y Enum_CodeDMEChannelBaseType_Member_1 = "101Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_101Z Enum_CodeDMEChannelBaseType_Member_1 = "101Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_102X Enum_CodeDMEChannelBaseType_Member_1 = "102X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_102Y Enum_CodeDMEChannelBaseType_Member_1 = "102Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_102Z Enum_CodeDMEChannelBaseType_Member_1 = "102Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_103X Enum_CodeDMEChannelBaseType_Member_1 = "103X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_103Y Enum_CodeDMEChannelBaseType_Member_1 = "103Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_103Z Enum_CodeDMEChannelBaseType_Member_1 = "103Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_104X Enum_CodeDMEChannelBaseType_Member_1 = "104X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_104Y Enum_CodeDMEChannelBaseType_Member_1 = "104Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_104Z Enum_CodeDMEChannelBaseType_Member_1 = "104Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_105X Enum_CodeDMEChannelBaseType_Member_1 = "105X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_105Y Enum_CodeDMEChannelBaseType_Member_1 = "105Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_105Z Enum_CodeDMEChannelBaseType_Member_1 = "105Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_106X Enum_CodeDMEChannelBaseType_Member_1 = "106X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_106Y Enum_CodeDMEChannelBaseType_Member_1 = "106Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_106Z Enum_CodeDMEChannelBaseType_Member_1 = "106Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_107X Enum_CodeDMEChannelBaseType_Member_1 = "107X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_107Y Enum_CodeDMEChannelBaseType_Member_1 = "107Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_107Z Enum_CodeDMEChannelBaseType_Member_1 = "107Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_108X Enum_CodeDMEChannelBaseType_Member_1 = "108X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_108Y Enum_CodeDMEChannelBaseType_Member_1 = "108Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_108Z Enum_CodeDMEChannelBaseType_Member_1 = "108Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_109X Enum_CodeDMEChannelBaseType_Member_1 = "109X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_109Y Enum_CodeDMEChannelBaseType_Member_1 = "109Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_109Z Enum_CodeDMEChannelBaseType_Member_1 = "109Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_110X Enum_CodeDMEChannelBaseType_Member_1 = "110X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_110Y Enum_CodeDMEChannelBaseType_Member_1 = "110Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_110Z Enum_CodeDMEChannelBaseType_Member_1 = "110Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_111X Enum_CodeDMEChannelBaseType_Member_1 = "111X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_111Y Enum_CodeDMEChannelBaseType_Member_1 = "111Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_111Z Enum_CodeDMEChannelBaseType_Member_1 = "111Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_112X Enum_CodeDMEChannelBaseType_Member_1 = "112X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_112Y Enum_CodeDMEChannelBaseType_Member_1 = "112Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_112Z Enum_CodeDMEChannelBaseType_Member_1 = "112Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_113X Enum_CodeDMEChannelBaseType_Member_1 = "113X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_113Y Enum_CodeDMEChannelBaseType_Member_1 = "113Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_113Z Enum_CodeDMEChannelBaseType_Member_1 = "113Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_114X Enum_CodeDMEChannelBaseType_Member_1 = "114X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_114Y Enum_CodeDMEChannelBaseType_Member_1 = "114Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_114Z Enum_CodeDMEChannelBaseType_Member_1 = "114Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_115X Enum_CodeDMEChannelBaseType_Member_1 = "115X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_115Y Enum_CodeDMEChannelBaseType_Member_1 = "115Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_115Z Enum_CodeDMEChannelBaseType_Member_1 = "115Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_116X Enum_CodeDMEChannelBaseType_Member_1 = "116X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_116Y Enum_CodeDMEChannelBaseType_Member_1 = "116Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_116Z Enum_CodeDMEChannelBaseType_Member_1 = "116Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_117X Enum_CodeDMEChannelBaseType_Member_1 = "117X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_117Y Enum_CodeDMEChannelBaseType_Member_1 = "117Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_117Z Enum_CodeDMEChannelBaseType_Member_1 = "117Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_118X Enum_CodeDMEChannelBaseType_Member_1 = "118X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_118Y Enum_CodeDMEChannelBaseType_Member_1 = "118Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_118Z Enum_CodeDMEChannelBaseType_Member_1 = "118Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_119X Enum_CodeDMEChannelBaseType_Member_1 = "119X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_119Y Enum_CodeDMEChannelBaseType_Member_1 = "119Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_119Z Enum_CodeDMEChannelBaseType_Member_1 = "119Z"
+	Enum_CodeDMEChannelBaseType_Member_1_N_120X Enum_CodeDMEChannelBaseType_Member_1 = "120X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_120Y Enum_CodeDMEChannelBaseType_Member_1 = "120Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_121X Enum_CodeDMEChannelBaseType_Member_1 = "121X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_121Y Enum_CodeDMEChannelBaseType_Member_1 = "121Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_122X Enum_CodeDMEChannelBaseType_Member_1 = "122X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_122Y Enum_CodeDMEChannelBaseType_Member_1 = "122Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_123X Enum_CodeDMEChannelBaseType_Member_1 = "123X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_123Y Enum_CodeDMEChannelBaseType_Member_1 = "123Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_124X Enum_CodeDMEChannelBaseType_Member_1 = "124X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_124Y Enum_CodeDMEChannelBaseType_Member_1 = "124Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_125X Enum_CodeDMEChannelBaseType_Member_1 = "125X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_125Y Enum_CodeDMEChannelBaseType_Member_1 = "125Y"
+	Enum_CodeDMEChannelBaseType_Member_1_N_126X Enum_CodeDMEChannelBaseType_Member_1 = "126X"
+	Enum_CodeDMEChannelBaseType_Member_1_N_126Y Enum_CodeDMEChannelBaseType_Member_1 = "126Y"
+)
+
+// From xsd simple type with enumerate restriction "CodeEmissionBandBaseType_Member_1"
+type Enum_CodeEmissionBandBaseType_Member_1 string
+
+const (
+	Enum_CodeEmissionBandBaseType_Member_1_U Enum_CodeEmissionBandBaseType_Member_1 = "U"
+	Enum_CodeEmissionBandBaseType_Member_1_H Enum_CodeEmissionBandBaseType_Member_1 = "H"
+	Enum_CodeEmissionBandBaseType_Member_1_M Enum_CodeEmissionBandBaseType_Member_1 = "M"
+)
+
+// From xsd simple type with enumerate restriction "CodeILSBackCourseBaseType_Member_1"
+type Enum_CodeILSBackCourseBaseType_Member_1 string
+
+const (
+	Enum_CodeILSBackCourseBaseType_Member_1_YES Enum_CodeILSBackCourseBaseType_Member_1 = "YES"
+	Enum_CodeILSBackCourseBaseType_Member_1_NO Enum_CodeILSBackCourseBaseType_Member_1 = "NO"
+	Enum_CodeILSBackCourseBaseType_Member_1_RSTR Enum_CodeILSBackCourseBaseType_Member_1 = "RSTR"
+)
+
+// From xsd simple type with enumerate restriction "CodeIntegrityLevelILSBaseType_Member_1"
+type Enum_CodeIntegrityLevelILSBaseType_Member_1 string
+
+const (
+	Enum_CodeIntegrityLevelILSBaseType_Member_1_N_1 Enum_CodeIntegrityLevelILSBaseType_Member_1 = "1"
+	Enum_CodeIntegrityLevelILSBaseType_Member_1_N_2 Enum_CodeIntegrityLevelILSBaseType_Member_1 = "2"
+	Enum_CodeIntegrityLevelILSBaseType_Member_1_N_3 Enum_CodeIntegrityLevelILSBaseType_Member_1 = "3"
+	Enum_CodeIntegrityLevelILSBaseType_Member_1_N_4 Enum_CodeIntegrityLevelILSBaseType_Member_1 = "4"
+)
+
+// From xsd simple type with enumerate restriction "CodeMarkerBeaconSignalBaseType_Member_1"
+type Enum_CodeMarkerBeaconSignalBaseType_Member_1 string
+
+const (
+	Enum_CodeMarkerBeaconSignalBaseType_Member_1_FAN Enum_CodeMarkerBeaconSignalBaseType_Member_1 = "FAN"
+	Enum_CodeMarkerBeaconSignalBaseType_Member_1_LOW_PWR_FAN Enum_CodeMarkerBeaconSignalBaseType_Member_1 = "LOW_PWR_FAN"
+	Enum_CodeMarkerBeaconSignalBaseType_Member_1_Z Enum_CodeMarkerBeaconSignalBaseType_Member_1 = "Z"
+	Enum_CodeMarkerBeaconSignalBaseType_Member_1_BONES Enum_CodeMarkerBeaconSignalBaseType_Member_1 = "BONES"
+)
+
+// From xsd simple type with enumerate restriction "CodeMLSAzimuthBaseType_Member_1"
+type Enum_CodeMLSAzimuthBaseType_Member_1 string
+
+const (
+	Enum_CodeMLSAzimuthBaseType_Member_1_FWD Enum_CodeMLSAzimuthBaseType_Member_1 = "FWD"
+	Enum_CodeMLSAzimuthBaseType_Member_1_BWD Enum_CodeMLSAzimuthBaseType_Member_1 = "BWD"
+)
+
+// From xsd simple type with enumerate restriction "CodeMLSChannelBaseType_Member_1"
+type Enum_CodeMLSChannelBaseType_Member_1 string
+
+const (
+	Enum_CodeMLSChannelBaseType_Member_1_N_500 Enum_CodeMLSChannelBaseType_Member_1 = "500"
+	Enum_CodeMLSChannelBaseType_Member_1_N_501 Enum_CodeMLSChannelBaseType_Member_1 = "501"
+	Enum_CodeMLSChannelBaseType_Member_1_N_502 Enum_CodeMLSChannelBaseType_Member_1 = "502"
+	Enum_CodeMLSChannelBaseType_Member_1_N_503 Enum_CodeMLSChannelBaseType_Member_1 = "503"
+	Enum_CodeMLSChannelBaseType_Member_1_N_504 Enum_CodeMLSChannelBaseType_Member_1 = "504"
+	Enum_CodeMLSChannelBaseType_Member_1_N_505 Enum_CodeMLSChannelBaseType_Member_1 = "505"
+	Enum_CodeMLSChannelBaseType_Member_1_N_506 Enum_CodeMLSChannelBaseType_Member_1 = "506"
+	Enum_CodeMLSChannelBaseType_Member_1_N_507 Enum_CodeMLSChannelBaseType_Member_1 = "507"
+	Enum_CodeMLSChannelBaseType_Member_1_N_508 Enum_CodeMLSChannelBaseType_Member_1 = "508"
+	Enum_CodeMLSChannelBaseType_Member_1_N_509 Enum_CodeMLSChannelBaseType_Member_1 = "509"
+	Enum_CodeMLSChannelBaseType_Member_1_N_510 Enum_CodeMLSChannelBaseType_Member_1 = "510"
+	Enum_CodeMLSChannelBaseType_Member_1_N_511 Enum_CodeMLSChannelBaseType_Member_1 = "511"
+	Enum_CodeMLSChannelBaseType_Member_1_N_512 Enum_CodeMLSChannelBaseType_Member_1 = "512"
+	Enum_CodeMLSChannelBaseType_Member_1_N_513 Enum_CodeMLSChannelBaseType_Member_1 = "513"
+	Enum_CodeMLSChannelBaseType_Member_1_N_514 Enum_CodeMLSChannelBaseType_Member_1 = "514"
+	Enum_CodeMLSChannelBaseType_Member_1_N_515 Enum_CodeMLSChannelBaseType_Member_1 = "515"
+	Enum_CodeMLSChannelBaseType_Member_1_N_516 Enum_CodeMLSChannelBaseType_Member_1 = "516"
+	Enum_CodeMLSChannelBaseType_Member_1_N_517 Enum_CodeMLSChannelBaseType_Member_1 = "517"
+	Enum_CodeMLSChannelBaseType_Member_1_N_518 Enum_CodeMLSChannelBaseType_Member_1 = "518"
+	Enum_CodeMLSChannelBaseType_Member_1_N_519 Enum_CodeMLSChannelBaseType_Member_1 = "519"
+	Enum_CodeMLSChannelBaseType_Member_1_N_520 Enum_CodeMLSChannelBaseType_Member_1 = "520"
+	Enum_CodeMLSChannelBaseType_Member_1_N_521 Enum_CodeMLSChannelBaseType_Member_1 = "521"
+	Enum_CodeMLSChannelBaseType_Member_1_N_522 Enum_CodeMLSChannelBaseType_Member_1 = "522"
+	Enum_CodeMLSChannelBaseType_Member_1_N_523 Enum_CodeMLSChannelBaseType_Member_1 = "523"
+	Enum_CodeMLSChannelBaseType_Member_1_N_524 Enum_CodeMLSChannelBaseType_Member_1 = "524"
+	Enum_CodeMLSChannelBaseType_Member_1_N_525 Enum_CodeMLSChannelBaseType_Member_1 = "525"
+	Enum_CodeMLSChannelBaseType_Member_1_N_526 Enum_CodeMLSChannelBaseType_Member_1 = "526"
+	Enum_CodeMLSChannelBaseType_Member_1_N_527 Enum_CodeMLSChannelBaseType_Member_1 = "527"
+	Enum_CodeMLSChannelBaseType_Member_1_N_528 Enum_CodeMLSChannelBaseType_Member_1 = "528"
+	Enum_CodeMLSChannelBaseType_Member_1_N_529 Enum_CodeMLSChannelBaseType_Member_1 = "529"
+	Enum_CodeMLSChannelBaseType_Member_1_N_530 Enum_CodeMLSChannelBaseType_Member_1 = "530"
+	Enum_CodeMLSChannelBaseType_Member_1_N_531 Enum_CodeMLSChannelBaseType_Member_1 = "531"
+	Enum_CodeMLSChannelBaseType_Member_1_N_532 Enum_CodeMLSChannelBaseType_Member_1 = "532"
+	Enum_CodeMLSChannelBaseType_Member_1_N_533 Enum_CodeMLSChannelBaseType_Member_1 = "533"
+	Enum_CodeMLSChannelBaseType_Member_1_N_534 Enum_CodeMLSChannelBaseType_Member_1 = "534"
+	Enum_CodeMLSChannelBaseType_Member_1_N_535 Enum_CodeMLSChannelBaseType_Member_1 = "535"
+	Enum_CodeMLSChannelBaseType_Member_1_N_536 Enum_CodeMLSChannelBaseType_Member_1 = "536"
+	Enum_CodeMLSChannelBaseType_Member_1_N_537 Enum_CodeMLSChannelBaseType_Member_1 = "537"
+	Enum_CodeMLSChannelBaseType_Member_1_N_538 Enum_CodeMLSChannelBaseType_Member_1 = "538"
+	Enum_CodeMLSChannelBaseType_Member_1_N_539 Enum_CodeMLSChannelBaseType_Member_1 = "539"
+	Enum_CodeMLSChannelBaseType_Member_1_N_540 Enum_CodeMLSChannelBaseType_Member_1 = "540"
+	Enum_CodeMLSChannelBaseType_Member_1_N_541 Enum_CodeMLSChannelBaseType_Member_1 = "541"
+	Enum_CodeMLSChannelBaseType_Member_1_N_542 Enum_CodeMLSChannelBaseType_Member_1 = "542"
+	Enum_CodeMLSChannelBaseType_Member_1_N_543 Enum_CodeMLSChannelBaseType_Member_1 = "543"
+	Enum_CodeMLSChannelBaseType_Member_1_N_544 Enum_CodeMLSChannelBaseType_Member_1 = "544"
+	Enum_CodeMLSChannelBaseType_Member_1_N_545 Enum_CodeMLSChannelBaseType_Member_1 = "545"
+	Enum_CodeMLSChannelBaseType_Member_1_N_546 Enum_CodeMLSChannelBaseType_Member_1 = "546"
+	Enum_CodeMLSChannelBaseType_Member_1_N_547 Enum_CodeMLSChannelBaseType_Member_1 = "547"
+	Enum_CodeMLSChannelBaseType_Member_1_N_548 Enum_CodeMLSChannelBaseType_Member_1 = "548"
+	Enum_CodeMLSChannelBaseType_Member_1_N_549 Enum_CodeMLSChannelBaseType_Member_1 = "549"
+	Enum_CodeMLSChannelBaseType_Member_1_N_550 Enum_CodeMLSChannelBaseType_Member_1 = "550"
+	Enum_CodeMLSChannelBaseType_Member_1_N_551 Enum_CodeMLSChannelBaseType_Member_1 = "551"
+	Enum_CodeMLSChannelBaseType_Member_1_N_552 Enum_CodeMLSChannelBaseType_Member_1 = "552"
+	Enum_CodeMLSChannelBaseType_Member_1_N_553 Enum_CodeMLSChannelBaseType_Member_1 = "553"
+	Enum_CodeMLSChannelBaseType_Member_1_N_554 Enum_CodeMLSChannelBaseType_Member_1 = "554"
+	Enum_CodeMLSChannelBaseType_Member_1_N_555 Enum_CodeMLSChannelBaseType_Member_1 = "555"
+	Enum_CodeMLSChannelBaseType_Member_1_N_556 Enum_CodeMLSChannelBaseType_Member_1 = "556"
+	Enum_CodeMLSChannelBaseType_Member_1_N_557 Enum_CodeMLSChannelBaseType_Member_1 = "557"
+	Enum_CodeMLSChannelBaseType_Member_1_N_558 Enum_CodeMLSChannelBaseType_Member_1 = "558"
+	Enum_CodeMLSChannelBaseType_Member_1_N_559 Enum_CodeMLSChannelBaseType_Member_1 = "559"
+	Enum_CodeMLSChannelBaseType_Member_1_N_560 Enum_CodeMLSChannelBaseType_Member_1 = "560"
+	Enum_CodeMLSChannelBaseType_Member_1_N_561 Enum_CodeMLSChannelBaseType_Member_1 = "561"
+	Enum_CodeMLSChannelBaseType_Member_1_N_562 Enum_CodeMLSChannelBaseType_Member_1 = "562"
+	Enum_CodeMLSChannelBaseType_Member_1_N_563 Enum_CodeMLSChannelBaseType_Member_1 = "563"
+	Enum_CodeMLSChannelBaseType_Member_1_N_564 Enum_CodeMLSChannelBaseType_Member_1 = "564"
+	Enum_CodeMLSChannelBaseType_Member_1_N_565 Enum_CodeMLSChannelBaseType_Member_1 = "565"
+	Enum_CodeMLSChannelBaseType_Member_1_N_566 Enum_CodeMLSChannelBaseType_Member_1 = "566"
+	Enum_CodeMLSChannelBaseType_Member_1_N_567 Enum_CodeMLSChannelBaseType_Member_1 = "567"
+	Enum_CodeMLSChannelBaseType_Member_1_N_568 Enum_CodeMLSChannelBaseType_Member_1 = "568"
+	Enum_CodeMLSChannelBaseType_Member_1_N_569 Enum_CodeMLSChannelBaseType_Member_1 = "569"
+	Enum_CodeMLSChannelBaseType_Member_1_N_570 Enum_CodeMLSChannelBaseType_Member_1 = "570"
+	Enum_CodeMLSChannelBaseType_Member_1_N_571 Enum_CodeMLSChannelBaseType_Member_1 = "571"
+	Enum_CodeMLSChannelBaseType_Member_1_N_572 Enum_CodeMLSChannelBaseType_Member_1 = "572"
+	Enum_CodeMLSChannelBaseType_Member_1_N_573 Enum_CodeMLSChannelBaseType_Member_1 = "573"
+	Enum_CodeMLSChannelBaseType_Member_1_N_574 Enum_CodeMLSChannelBaseType_Member_1 = "574"
+	Enum_CodeMLSChannelBaseType_Member_1_N_575 Enum_CodeMLSChannelBaseType_Member_1 = "575"
+	Enum_CodeMLSChannelBaseType_Member_1_N_576 Enum_CodeMLSChannelBaseType_Member_1 = "576"
+	Enum_CodeMLSChannelBaseType_Member_1_N_577 Enum_CodeMLSChannelBaseType_Member_1 = "577"
+	Enum_CodeMLSChannelBaseType_Member_1_N_578 Enum_CodeMLSChannelBaseType_Member_1 = "578"
+	Enum_CodeMLSChannelBaseType_Member_1_N_579 Enum_CodeMLSChannelBaseType_Member_1 = "579"
+	Enum_CodeMLSChannelBaseType_Member_1_N_580 Enum_CodeMLSChannelBaseType_Member_1 = "580"
+	Enum_CodeMLSChannelBaseType_Member_1_N_581 Enum_CodeMLSChannelBaseType_Member_1 = "581"
+	Enum_CodeMLSChannelBaseType_Member_1_N_582 Enum_CodeMLSChannelBaseType_Member_1 = "582"
+	Enum_CodeMLSChannelBaseType_Member_1_N_583 Enum_CodeMLSChannelBaseType_Member_1 = "583"
+	Enum_CodeMLSChannelBaseType_Member_1_N_584 Enum_CodeMLSChannelBaseType_Member_1 = "584"
+	Enum_CodeMLSChannelBaseType_Member_1_N_585 Enum_CodeMLSChannelBaseType_Member_1 = "585"
+	Enum_CodeMLSChannelBaseType_Member_1_N_586 Enum_CodeMLSChannelBaseType_Member_1 = "586"
+	Enum_CodeMLSChannelBaseType_Member_1_N_587 Enum_CodeMLSChannelBaseType_Member_1 = "587"
+	Enum_CodeMLSChannelBaseType_Member_1_N_588 Enum_CodeMLSChannelBaseType_Member_1 = "588"
+	Enum_CodeMLSChannelBaseType_Member_1_N_589 Enum_CodeMLSChannelBaseType_Member_1 = "589"
+	Enum_CodeMLSChannelBaseType_Member_1_N_590 Enum_CodeMLSChannelBaseType_Member_1 = "590"
+	Enum_CodeMLSChannelBaseType_Member_1_N_591 Enum_CodeMLSChannelBaseType_Member_1 = "591"
+	Enum_CodeMLSChannelBaseType_Member_1_N_592 Enum_CodeMLSChannelBaseType_Member_1 = "592"
+	Enum_CodeMLSChannelBaseType_Member_1_N_593 Enum_CodeMLSChannelBaseType_Member_1 = "593"
+	Enum_CodeMLSChannelBaseType_Member_1_N_594 Enum_CodeMLSChannelBaseType_Member_1 = "594"
+	Enum_CodeMLSChannelBaseType_Member_1_N_595 Enum_CodeMLSChannelBaseType_Member_1 = "595"
+	Enum_CodeMLSChannelBaseType_Member_1_N_596 Enum_CodeMLSChannelBaseType_Member_1 = "596"
+	Enum_CodeMLSChannelBaseType_Member_1_N_597 Enum_CodeMLSChannelBaseType_Member_1 = "597"
+	Enum_CodeMLSChannelBaseType_Member_1_N_598 Enum_CodeMLSChannelBaseType_Member_1 = "598"
+	Enum_CodeMLSChannelBaseType_Member_1_N_599 Enum_CodeMLSChannelBaseType_Member_1 = "599"
+	Enum_CodeMLSChannelBaseType_Member_1_N_600 Enum_CodeMLSChannelBaseType_Member_1 = "600"
+	Enum_CodeMLSChannelBaseType_Member_1_N_601 Enum_CodeMLSChannelBaseType_Member_1 = "601"
+	Enum_CodeMLSChannelBaseType_Member_1_N_602 Enum_CodeMLSChannelBaseType_Member_1 = "602"
+	Enum_CodeMLSChannelBaseType_Member_1_N_603 Enum_CodeMLSChannelBaseType_Member_1 = "603"
+	Enum_CodeMLSChannelBaseType_Member_1_N_604 Enum_CodeMLSChannelBaseType_Member_1 = "604"
+	Enum_CodeMLSChannelBaseType_Member_1_N_605 Enum_CodeMLSChannelBaseType_Member_1 = "605"
+	Enum_CodeMLSChannelBaseType_Member_1_N_606 Enum_CodeMLSChannelBaseType_Member_1 = "606"
+	Enum_CodeMLSChannelBaseType_Member_1_N_607 Enum_CodeMLSChannelBaseType_Member_1 = "607"
+	Enum_CodeMLSChannelBaseType_Member_1_N_608 Enum_CodeMLSChannelBaseType_Member_1 = "608"
+	Enum_CodeMLSChannelBaseType_Member_1_N_609 Enum_CodeMLSChannelBaseType_Member_1 = "609"
+	Enum_CodeMLSChannelBaseType_Member_1_N_610 Enum_CodeMLSChannelBaseType_Member_1 = "610"
+	Enum_CodeMLSChannelBaseType_Member_1_N_611 Enum_CodeMLSChannelBaseType_Member_1 = "611"
+	Enum_CodeMLSChannelBaseType_Member_1_N_612 Enum_CodeMLSChannelBaseType_Member_1 = "612"
+	Enum_CodeMLSChannelBaseType_Member_1_N_613 Enum_CodeMLSChannelBaseType_Member_1 = "613"
+	Enum_CodeMLSChannelBaseType_Member_1_N_614 Enum_CodeMLSChannelBaseType_Member_1 = "614"
+	Enum_CodeMLSChannelBaseType_Member_1_N_615 Enum_CodeMLSChannelBaseType_Member_1 = "615"
+	Enum_CodeMLSChannelBaseType_Member_1_N_616 Enum_CodeMLSChannelBaseType_Member_1 = "616"
+	Enum_CodeMLSChannelBaseType_Member_1_N_617 Enum_CodeMLSChannelBaseType_Member_1 = "617"
+	Enum_CodeMLSChannelBaseType_Member_1_N_618 Enum_CodeMLSChannelBaseType_Member_1 = "618"
+	Enum_CodeMLSChannelBaseType_Member_1_N_619 Enum_CodeMLSChannelBaseType_Member_1 = "619"
+	Enum_CodeMLSChannelBaseType_Member_1_N_620 Enum_CodeMLSChannelBaseType_Member_1 = "620"
+	Enum_CodeMLSChannelBaseType_Member_1_N_621 Enum_CodeMLSChannelBaseType_Member_1 = "621"
+	Enum_CodeMLSChannelBaseType_Member_1_N_622 Enum_CodeMLSChannelBaseType_Member_1 = "622"
+	Enum_CodeMLSChannelBaseType_Member_1_N_623 Enum_CodeMLSChannelBaseType_Member_1 = "623"
+	Enum_CodeMLSChannelBaseType_Member_1_N_624 Enum_CodeMLSChannelBaseType_Member_1 = "624"
+	Enum_CodeMLSChannelBaseType_Member_1_N_625 Enum_CodeMLSChannelBaseType_Member_1 = "625"
+	Enum_CodeMLSChannelBaseType_Member_1_N_626 Enum_CodeMLSChannelBaseType_Member_1 = "626"
+	Enum_CodeMLSChannelBaseType_Member_1_N_627 Enum_CodeMLSChannelBaseType_Member_1 = "627"
+	Enum_CodeMLSChannelBaseType_Member_1_N_628 Enum_CodeMLSChannelBaseType_Member_1 = "628"
+	Enum_CodeMLSChannelBaseType_Member_1_N_629 Enum_CodeMLSChannelBaseType_Member_1 = "629"
+	Enum_CodeMLSChannelBaseType_Member_1_N_630 Enum_CodeMLSChannelBaseType_Member_1 = "630"
+	Enum_CodeMLSChannelBaseType_Member_1_N_631 Enum_CodeMLSChannelBaseType_Member_1 = "631"
+	Enum_CodeMLSChannelBaseType_Member_1_N_632 Enum_CodeMLSChannelBaseType_Member_1 = "632"
+	Enum_CodeMLSChannelBaseType_Member_1_N_633 Enum_CodeMLSChannelBaseType_Member_1 = "633"
+	Enum_CodeMLSChannelBaseType_Member_1_N_634 Enum_CodeMLSChannelBaseType_Member_1 = "634"
+	Enum_CodeMLSChannelBaseType_Member_1_N_635 Enum_CodeMLSChannelBaseType_Member_1 = "635"
+	Enum_CodeMLSChannelBaseType_Member_1_N_636 Enum_CodeMLSChannelBaseType_Member_1 = "636"
+	Enum_CodeMLSChannelBaseType_Member_1_N_637 Enum_CodeMLSChannelBaseType_Member_1 = "637"
+	Enum_CodeMLSChannelBaseType_Member_1_N_638 Enum_CodeMLSChannelBaseType_Member_1 = "638"
+	Enum_CodeMLSChannelBaseType_Member_1_N_639 Enum_CodeMLSChannelBaseType_Member_1 = "639"
+	Enum_CodeMLSChannelBaseType_Member_1_N_640 Enum_CodeMLSChannelBaseType_Member_1 = "640"
+	Enum_CodeMLSChannelBaseType_Member_1_N_641 Enum_CodeMLSChannelBaseType_Member_1 = "641"
+	Enum_CodeMLSChannelBaseType_Member_1_N_642 Enum_CodeMLSChannelBaseType_Member_1 = "642"
+	Enum_CodeMLSChannelBaseType_Member_1_N_643 Enum_CodeMLSChannelBaseType_Member_1 = "643"
+	Enum_CodeMLSChannelBaseType_Member_1_N_644 Enum_CodeMLSChannelBaseType_Member_1 = "644"
+	Enum_CodeMLSChannelBaseType_Member_1_N_645 Enum_CodeMLSChannelBaseType_Member_1 = "645"
+	Enum_CodeMLSChannelBaseType_Member_1_N_646 Enum_CodeMLSChannelBaseType_Member_1 = "646"
+	Enum_CodeMLSChannelBaseType_Member_1_N_647 Enum_CodeMLSChannelBaseType_Member_1 = "647"
+	Enum_CodeMLSChannelBaseType_Member_1_N_648 Enum_CodeMLSChannelBaseType_Member_1 = "648"
+	Enum_CodeMLSChannelBaseType_Member_1_N_649 Enum_CodeMLSChannelBaseType_Member_1 = "649"
+	Enum_CodeMLSChannelBaseType_Member_1_N_650 Enum_CodeMLSChannelBaseType_Member_1 = "650"
+	Enum_CodeMLSChannelBaseType_Member_1_N_651 Enum_CodeMLSChannelBaseType_Member_1 = "651"
+	Enum_CodeMLSChannelBaseType_Member_1_N_652 Enum_CodeMLSChannelBaseType_Member_1 = "652"
+	Enum_CodeMLSChannelBaseType_Member_1_N_653 Enum_CodeMLSChannelBaseType_Member_1 = "653"
+	Enum_CodeMLSChannelBaseType_Member_1_N_654 Enum_CodeMLSChannelBaseType_Member_1 = "654"
+	Enum_CodeMLSChannelBaseType_Member_1_N_655 Enum_CodeMLSChannelBaseType_Member_1 = "655"
+	Enum_CodeMLSChannelBaseType_Member_1_N_656 Enum_CodeMLSChannelBaseType_Member_1 = "656"
+	Enum_CodeMLSChannelBaseType_Member_1_N_657 Enum_CodeMLSChannelBaseType_Member_1 = "657"
+	Enum_CodeMLSChannelBaseType_Member_1_N_658 Enum_CodeMLSChannelBaseType_Member_1 = "658"
+	Enum_CodeMLSChannelBaseType_Member_1_N_659 Enum_CodeMLSChannelBaseType_Member_1 = "659"
+	Enum_CodeMLSChannelBaseType_Member_1_N_660 Enum_CodeMLSChannelBaseType_Member_1 = "660"
+	Enum_CodeMLSChannelBaseType_Member_1_N_661 Enum_CodeMLSChannelBaseType_Member_1 = "661"
+	Enum_CodeMLSChannelBaseType_Member_1_N_662 Enum_CodeMLSChannelBaseType_Member_1 = "662"
+	Enum_CodeMLSChannelBaseType_Member_1_N_663 Enum_CodeMLSChannelBaseType_Member_1 = "663"
+	Enum_CodeMLSChannelBaseType_Member_1_N_664 Enum_CodeMLSChannelBaseType_Member_1 = "664"
+	Enum_CodeMLSChannelBaseType_Member_1_N_665 Enum_CodeMLSChannelBaseType_Member_1 = "665"
+	Enum_CodeMLSChannelBaseType_Member_1_N_666 Enum_CodeMLSChannelBaseType_Member_1 = "666"
+	Enum_CodeMLSChannelBaseType_Member_1_N_667 Enum_CodeMLSChannelBaseType_Member_1 = "667"
+	Enum_CodeMLSChannelBaseType_Member_1_N_668 Enum_CodeMLSChannelBaseType_Member_1 = "668"
+	Enum_CodeMLSChannelBaseType_Member_1_N_669 Enum_CodeMLSChannelBaseType_Member_1 = "669"
+	Enum_CodeMLSChannelBaseType_Member_1_N_670 Enum_CodeMLSChannelBaseType_Member_1 = "670"
+	Enum_CodeMLSChannelBaseType_Member_1_N_671 Enum_CodeMLSChannelBaseType_Member_1 = "671"
+	Enum_CodeMLSChannelBaseType_Member_1_N_672 Enum_CodeMLSChannelBaseType_Member_1 = "672"
+	Enum_CodeMLSChannelBaseType_Member_1_N_673 Enum_CodeMLSChannelBaseType_Member_1 = "673"
+	Enum_CodeMLSChannelBaseType_Member_1_N_674 Enum_CodeMLSChannelBaseType_Member_1 = "674"
+	Enum_CodeMLSChannelBaseType_Member_1_N_675 Enum_CodeMLSChannelBaseType_Member_1 = "675"
+	Enum_CodeMLSChannelBaseType_Member_1_N_676 Enum_CodeMLSChannelBaseType_Member_1 = "676"
+	Enum_CodeMLSChannelBaseType_Member_1_N_677 Enum_CodeMLSChannelBaseType_Member_1 = "677"
+	Enum_CodeMLSChannelBaseType_Member_1_N_678 Enum_CodeMLSChannelBaseType_Member_1 = "678"
+	Enum_CodeMLSChannelBaseType_Member_1_N_679 Enum_CodeMLSChannelBaseType_Member_1 = "679"
+	Enum_CodeMLSChannelBaseType_Member_1_N_680 Enum_CodeMLSChannelBaseType_Member_1 = "680"
+	Enum_CodeMLSChannelBaseType_Member_1_N_681 Enum_CodeMLSChannelBaseType_Member_1 = "681"
+	Enum_CodeMLSChannelBaseType_Member_1_N_682 Enum_CodeMLSChannelBaseType_Member_1 = "682"
+	Enum_CodeMLSChannelBaseType_Member_1_N_683 Enum_CodeMLSChannelBaseType_Member_1 = "683"
+	Enum_CodeMLSChannelBaseType_Member_1_N_684 Enum_CodeMLSChannelBaseType_Member_1 = "684"
+	Enum_CodeMLSChannelBaseType_Member_1_N_685 Enum_CodeMLSChannelBaseType_Member_1 = "685"
+	Enum_CodeMLSChannelBaseType_Member_1_N_686 Enum_CodeMLSChannelBaseType_Member_1 = "686"
+	Enum_CodeMLSChannelBaseType_Member_1_N_687 Enum_CodeMLSChannelBaseType_Member_1 = "687"
+	Enum_CodeMLSChannelBaseType_Member_1_N_688 Enum_CodeMLSChannelBaseType_Member_1 = "688"
+	Enum_CodeMLSChannelBaseType_Member_1_N_689 Enum_CodeMLSChannelBaseType_Member_1 = "689"
+	Enum_CodeMLSChannelBaseType_Member_1_N_690 Enum_CodeMLSChannelBaseType_Member_1 = "690"
+	Enum_CodeMLSChannelBaseType_Member_1_N_691 Enum_CodeMLSChannelBaseType_Member_1 = "691"
+	Enum_CodeMLSChannelBaseType_Member_1_N_692 Enum_CodeMLSChannelBaseType_Member_1 = "692"
+	Enum_CodeMLSChannelBaseType_Member_1_N_693 Enum_CodeMLSChannelBaseType_Member_1 = "693"
+	Enum_CodeMLSChannelBaseType_Member_1_N_694 Enum_CodeMLSChannelBaseType_Member_1 = "694"
+	Enum_CodeMLSChannelBaseType_Member_1_N_695 Enum_CodeMLSChannelBaseType_Member_1 = "695"
+	Enum_CodeMLSChannelBaseType_Member_1_N_696 Enum_CodeMLSChannelBaseType_Member_1 = "696"
+	Enum_CodeMLSChannelBaseType_Member_1_N_697 Enum_CodeMLSChannelBaseType_Member_1 = "697"
+	Enum_CodeMLSChannelBaseType_Member_1_N_698 Enum_CodeMLSChannelBaseType_Member_1 = "698"
+	Enum_CodeMLSChannelBaseType_Member_1_N_699 Enum_CodeMLSChannelBaseType_Member_1 = "699"
+)
+
+// From xsd simple type with enumerate restriction "CodeNavaidPurposeBaseType_Member_1"
+type Enum_CodeNavaidPurposeBaseType_Member_1 string
+
+const (
+	Enum_CodeNavaidPurposeBaseType_Member_1_TERMINAL Enum_CodeNavaidPurposeBaseType_Member_1 = "TERMINAL"
+	Enum_CodeNavaidPurposeBaseType_Member_1_ENROUTE Enum_CodeNavaidPurposeBaseType_Member_1 = "ENROUTE"
+	Enum_CodeNavaidPurposeBaseType_Member_1_ALL Enum_CodeNavaidPurposeBaseType_Member_1 = "ALL"
+)
+
+// From xsd simple type with enumerate restriction "CodeNavaidServiceBaseType_Member_1"
+type Enum_CodeNavaidServiceBaseType_Member_1 string
+
+const (
+	Enum_CodeNavaidServiceBaseType_Member_1_VOR Enum_CodeNavaidServiceBaseType_Member_1 = "VOR"
+	Enum_CodeNavaidServiceBaseType_Member_1_DME Enum_CodeNavaidServiceBaseType_Member_1 = "DME"
+	Enum_CodeNavaidServiceBaseType_Member_1_NDB Enum_CodeNavaidServiceBaseType_Member_1 = "NDB"
+	Enum_CodeNavaidServiceBaseType_Member_1_TACAN Enum_CodeNavaidServiceBaseType_Member_1 = "TACAN"
+	Enum_CodeNavaidServiceBaseType_Member_1_MKR Enum_CodeNavaidServiceBaseType_Member_1 = "MKR"
+	Enum_CodeNavaidServiceBaseType_Member_1_ILS Enum_CodeNavaidServiceBaseType_Member_1 = "ILS"
+	Enum_CodeNavaidServiceBaseType_Member_1_ILS_DME Enum_CodeNavaidServiceBaseType_Member_1 = "ILS_DME"
+	Enum_CodeNavaidServiceBaseType_Member_1_MLS Enum_CodeNavaidServiceBaseType_Member_1 = "MLS"
+	Enum_CodeNavaidServiceBaseType_Member_1_MLS_DME Enum_CodeNavaidServiceBaseType_Member_1 = "MLS_DME"
+	Enum_CodeNavaidServiceBaseType_Member_1_VORTAC Enum_CodeNavaidServiceBaseType_Member_1 = "VORTAC"
+	Enum_CodeNavaidServiceBaseType_Member_1_VOR_DME Enum_CodeNavaidServiceBaseType_Member_1 = "VOR_DME"
+	Enum_CodeNavaidServiceBaseType_Member_1_NDB_DME Enum_CodeNavaidServiceBaseType_Member_1 = "NDB_DME"
+	Enum_CodeNavaidServiceBaseType_Member_1_TLS Enum_CodeNavaidServiceBaseType_Member_1 = "TLS"
+	Enum_CodeNavaidServiceBaseType_Member_1_LOC Enum_CodeNavaidServiceBaseType_Member_1 = "LOC"
+	Enum_CodeNavaidServiceBaseType_Member_1_LOC_DME Enum_CodeNavaidServiceBaseType_Member_1 = "LOC_DME"
+	Enum_CodeNavaidServiceBaseType_Member_1_NDB_MKR Enum_CodeNavaidServiceBaseType_Member_1 = "NDB_MKR"
+	Enum_CodeNavaidServiceBaseType_Member_1_DF Enum_CodeNavaidServiceBaseType_Member_1 = "DF"
+	Enum_CodeNavaidServiceBaseType_Member_1_SDF Enum_CodeNavaidServiceBaseType_Member_1 = "SDF"
+)
+
+// From xsd simple type with enumerate restriction "CodeNDBUsageBaseType_Member_1"
+type Enum_CodeNDBUsageBaseType_Member_1 string
+
+const (
+	Enum_CodeNDBUsageBaseType_Member_1_ENR Enum_CodeNDBUsageBaseType_Member_1 = "ENR"
+	Enum_CodeNDBUsageBaseType_Member_1_L Enum_CodeNDBUsageBaseType_Member_1 = "L"
+	Enum_CodeNDBUsageBaseType_Member_1_MAR Enum_CodeNDBUsageBaseType_Member_1 = "MAR"
+)
+
+// From xsd simple type with enumerate restriction "CodeNorthReferenceBaseType_Member_1"
+type Enum_CodeNorthReferenceBaseType_Member_1 string
+
+const (
+	Enum_CodeNorthReferenceBaseType_Member_1_TRUE_XSD Enum_CodeNorthReferenceBaseType_Member_1 = "TRUE"
+	Enum_CodeNorthReferenceBaseType_Member_1_MAG Enum_CodeNorthReferenceBaseType_Member_1 = "MAG"
+	Enum_CodeNorthReferenceBaseType_Member_1_GRID Enum_CodeNorthReferenceBaseType_Member_1 = "GRID"
+)
+
+// From xsd simple type with enumerate restriction "CodeNotePurposeBaseType_Member_1"
+type Enum_CodeNotePurposeBaseType_Member_1 string
+
+const (
+	Enum_CodeNotePurposeBaseType_Member_1_DESCRIPTION Enum_CodeNotePurposeBaseType_Member_1 = "DESCRIPTION"
+	Enum_CodeNotePurposeBaseType_Member_1_REMARK Enum_CodeNotePurposeBaseType_Member_1 = "REMARK"
+	Enum_CodeNotePurposeBaseType_Member_1_WARNING Enum_CodeNotePurposeBaseType_Member_1 = "WARNING"
+	Enum_CodeNotePurposeBaseType_Member_1_DISCLAIMER Enum_CodeNotePurposeBaseType_Member_1 = "DISCLAIMER"
+)
+
+// From xsd simple type with enumerate restriction "CodePARBaseType_Member_1"
+type Enum_CodePARBaseType_Member_1 string
+
+const (
+	Enum_CodePARBaseType_Member_1_FPN16 Enum_CodePARBaseType_Member_1 = "FPN16"
+	Enum_CodePARBaseType_Member_1_FPN62 Enum_CodePARBaseType_Member_1 = "FPN62"
+	Enum_CodePARBaseType_Member_1_GPN22 Enum_CodePARBaseType_Member_1 = "GPN22"
+	Enum_CodePARBaseType_Member_1_GPN25 Enum_CodePARBaseType_Member_1 = "GPN25"
+	Enum_CodePARBaseType_Member_1_MPN14K Enum_CodePARBaseType_Member_1 = "MPN14K"
+	Enum_CodePARBaseType_Member_1_TPN19 Enum_CodePARBaseType_Member_1 = "TPN19"
+)
+
+// From xsd simple type with enumerate restriction "CodePositionInILSBaseType_Member_1"
+type Enum_CodePositionInILSBaseType_Member_1 string
+
+const (
+	Enum_CodePositionInILSBaseType_Member_1_OUTER Enum_CodePositionInILSBaseType_Member_1 = "OUTER"
+	Enum_CodePositionInILSBaseType_Member_1_MIDDLE Enum_CodePositionInILSBaseType_Member_1 = "MIDDLE"
+	Enum_CodePositionInILSBaseType_Member_1_INNER Enum_CodePositionInILSBaseType_Member_1 = "INNER"
+	Enum_CodePositionInILSBaseType_Member_1_BACKCOURSE Enum_CodePositionInILSBaseType_Member_1 = "BACKCOURSE"
+)
+
+// From xsd simple type with enumerate restriction "CodePrimaryRadarBaseType_Member_1"
+type Enum_CodePrimaryRadarBaseType_Member_1 string
+
+const (
+	Enum_CodePrimaryRadarBaseType_Member_1_ASR Enum_CodePrimaryRadarBaseType_Member_1 = "ASR"
+	Enum_CodePrimaryRadarBaseType_Member_1_ARSR Enum_CodePrimaryRadarBaseType_Member_1 = "ARSR"
+)
+
+// From xsd simple type with enumerate restriction "CodeRadarServiceBaseType_Member_1"
+type Enum_CodeRadarServiceBaseType_Member_1 string
+
+const (
+	Enum_CodeRadarServiceBaseType_Member_1_PAR Enum_CodeRadarServiceBaseType_Member_1 = "PAR"
+	Enum_CodeRadarServiceBaseType_Member_1_ARSR Enum_CodeRadarServiceBaseType_Member_1 = "ARSR"
+	Enum_CodeRadarServiceBaseType_Member_1_ASR Enum_CodeRadarServiceBaseType_Member_1 = "ASR"
+	Enum_CodeRadarServiceBaseType_Member_1_SSR Enum_CodeRadarServiceBaseType_Member_1 = "SSR"
+)
+
+// From xsd simple type with enumerate restriction "CodeRadioEmissionBaseType_Member_1"
+type Enum_CodeRadioEmissionBaseType_Member_1 string
+
+const (
+	Enum_CodeRadioEmissionBaseType_Member_1_A2 Enum_CodeRadioEmissionBaseType_Member_1 = "A2"
+	Enum_CodeRadioEmissionBaseType_Member_1_A3A Enum_CodeRadioEmissionBaseType_Member_1 = "A3A"
+	Enum_CodeRadioEmissionBaseType_Member_1_A3B Enum_CodeRadioEmissionBaseType_Member_1 = "A3B"
+	Enum_CodeRadioEmissionBaseType_Member_1_A3E Enum_CodeRadioEmissionBaseType_Member_1 = "A3E"
+	Enum_CodeRadioEmissionBaseType_Member_1_A3H Enum_CodeRadioEmissionBaseType_Member_1 = "A3H"
+	Enum_CodeRadioEmissionBaseType_Member_1_A3J Enum_CodeRadioEmissionBaseType_Member_1 = "A3J"
+	Enum_CodeRadioEmissionBaseType_Member_1_A3L Enum_CodeRadioEmissionBaseType_Member_1 = "A3L"
+	Enum_CodeRadioEmissionBaseType_Member_1_A3U Enum_CodeRadioEmissionBaseType_Member_1 = "A3U"
+	Enum_CodeRadioEmissionBaseType_Member_1_J3E Enum_CodeRadioEmissionBaseType_Member_1 = "J3E"
+	Enum_CodeRadioEmissionBaseType_Member_1_NONA1A Enum_CodeRadioEmissionBaseType_Member_1 = "NONA1A"
+	Enum_CodeRadioEmissionBaseType_Member_1_NONA2A Enum_CodeRadioEmissionBaseType_Member_1 = "NONA2A"
+	Enum_CodeRadioEmissionBaseType_Member_1_PON Enum_CodeRadioEmissionBaseType_Member_1 = "PON"
+	Enum_CodeRadioEmissionBaseType_Member_1_A8W Enum_CodeRadioEmissionBaseType_Member_1 = "A8W"
+	Enum_CodeRadioEmissionBaseType_Member_1_A9W Enum_CodeRadioEmissionBaseType_Member_1 = "A9W"
+	Enum_CodeRadioEmissionBaseType_Member_1_NOX Enum_CodeRadioEmissionBaseType_Member_1 = "NOX"
+	Enum_CodeRadioEmissionBaseType_Member_1_G1D Enum_CodeRadioEmissionBaseType_Member_1 = "G1D"
+)
+
+// From xsd simple type with enumerate restriction "CodeRadioSignalBaseType_Member_1"
+type Enum_CodeRadioSignalBaseType_Member_1 string
+
+const (
+	Enum_CodeRadioSignalBaseType_Member_1_AZIMUTH Enum_CodeRadioSignalBaseType_Member_1 = "AZIMUTH"
+	Enum_CodeRadioSignalBaseType_Member_1_DISTANCE Enum_CodeRadioSignalBaseType_Member_1 = "DISTANCE"
+	Enum_CodeRadioSignalBaseType_Member_1_BEAM Enum_CodeRadioSignalBaseType_Member_1 = "BEAM"
+	Enum_CodeRadioSignalBaseType_Member_1_VOICE Enum_CodeRadioSignalBaseType_Member_1 = "VOICE"
+	Enum_CodeRadioSignalBaseType_Member_1_DATALINK Enum_CodeRadioSignalBaseType_Member_1 = "DATALINK"
+)
+
+// From xsd simple type with enumerate restriction "CodeReflectorBaseType_Member_1"
+type Enum_CodeReflectorBaseType_Member_1 string
+
+const (
+	Enum_CodeReflectorBaseType_Member_1_TOUCHDOWN Enum_CodeReflectorBaseType_Member_1 = "TOUCHDOWN"
+	Enum_CodeReflectorBaseType_Member_1_RUNWAY_END Enum_CodeReflectorBaseType_Member_1 = "RUNWAY_END"
+	Enum_CodeReflectorBaseType_Member_1_REFERENCE_XSD Enum_CodeReflectorBaseType_Member_1 = "REFERENCE"
+)
+
+// From xsd simple type with enumerate restriction "CodeSignalPerformanceILSBaseType_Member_1"
+type Enum_CodeSignalPerformanceILSBaseType_Member_1 string
+
+const (
+	Enum_CodeSignalPerformanceILSBaseType_Member_1_I Enum_CodeSignalPerformanceILSBaseType_Member_1 = "I"
+	Enum_CodeSignalPerformanceILSBaseType_Member_1_II Enum_CodeSignalPerformanceILSBaseType_Member_1 = "II"
+	Enum_CodeSignalPerformanceILSBaseType_Member_1_III Enum_CodeSignalPerformanceILSBaseType_Member_1 = "III"
+	Enum_CodeSignalPerformanceILSBaseType_Member_1_IIIA Enum_CodeSignalPerformanceILSBaseType_Member_1 = "IIIA"
+	Enum_CodeSignalPerformanceILSBaseType_Member_1_IIIB Enum_CodeSignalPerformanceILSBaseType_Member_1 = "IIIB"
+	Enum_CodeSignalPerformanceILSBaseType_Member_1_IIIC Enum_CodeSignalPerformanceILSBaseType_Member_1 = "IIIC"
+)
+
+// From xsd simple type with enumerate restriction "CodeSpecialNavigationStationBaseType_Member_1"
+type Enum_CodeSpecialNavigationStationBaseType_Member_1 string
+
+const (
+	Enum_CodeSpecialNavigationStationBaseType_Member_1_MASTER Enum_CodeSpecialNavigationStationBaseType_Member_1 = "MASTER"
+	Enum_CodeSpecialNavigationStationBaseType_Member_1_SLAVE Enum_CodeSpecialNavigationStationBaseType_Member_1 = "SLAVE"
+	Enum_CodeSpecialNavigationStationBaseType_Member_1_RED_SLAVE Enum_CodeSpecialNavigationStationBaseType_Member_1 = "RED_SLAVE"
+	Enum_CodeSpecialNavigationStationBaseType_Member_1_GREEN_SLAVE Enum_CodeSpecialNavigationStationBaseType_Member_1 = "GREEN_SLAVE"
+	Enum_CodeSpecialNavigationStationBaseType_Member_1_PURPLE_SLAVE Enum_CodeSpecialNavigationStationBaseType_Member_1 = "PURPLE_SLAVE"
+)
+
+// From xsd simple type with enumerate restriction "CodeSpecialNavigationSystemBaseType_Member_1"
+type Enum_CodeSpecialNavigationSystemBaseType_Member_1 string
+
+const (
+	Enum_CodeSpecialNavigationSystemBaseType_Member_1_LORANA Enum_CodeSpecialNavigationSystemBaseType_Member_1 = "LORANA"
+	Enum_CodeSpecialNavigationSystemBaseType_Member_1_LORANC Enum_CodeSpecialNavigationSystemBaseType_Member_1 = "LORANC"
+	Enum_CodeSpecialNavigationSystemBaseType_Member_1_LORAND Enum_CodeSpecialNavigationSystemBaseType_Member_1 = "LORAND"
+	Enum_CodeSpecialNavigationSystemBaseType_Member_1_DECCA Enum_CodeSpecialNavigationSystemBaseType_Member_1 = "DECCA"
+	Enum_CodeSpecialNavigationSystemBaseType_Member_1_GNSS Enum_CodeSpecialNavigationSystemBaseType_Member_1 = "GNSS"
+)
+
+// From xsd simple type with enumerate restriction "CodeStandbyPowerBaseType_Member_1"
+type Enum_CodeStandbyPowerBaseType_Member_1 string
+
+const (
+	Enum_CodeStandbyPowerBaseType_Member_1_BATTERY Enum_CodeStandbyPowerBaseType_Member_1 = "BATTERY"
+	Enum_CodeStandbyPowerBaseType_Member_1_COMMERCIAL Enum_CodeStandbyPowerBaseType_Member_1 = "COMMERCIAL"
+	Enum_CodeStandbyPowerBaseType_Member_1_GENERATOR Enum_CodeStandbyPowerBaseType_Member_1 = "GENERATOR"
+	Enum_CodeStandbyPowerBaseType_Member_1_UNKNOWN Enum_CodeStandbyPowerBaseType_Member_1 = "UNKNOWN"
+	Enum_CodeStandbyPowerBaseType_Member_1_NONE Enum_CodeStandbyPowerBaseType_Member_1 = "NONE"
+)
+
+// From xsd simple type with enumerate restriction "CodeStatusNavaidBaseType_Member_1"
+type Enum_CodeStatusNavaidBaseType_Member_1 string
+
+const (
+	Enum_CodeStatusNavaidBaseType_Member_1_OPERATIONAL Enum_CodeStatusNavaidBaseType_Member_1 = "OPERATIONAL"
+	Enum_CodeStatusNavaidBaseType_Member_1_UNSERVICEABLE Enum_CodeStatusNavaidBaseType_Member_1 = "UNSERVICEABLE"
+	Enum_CodeStatusNavaidBaseType_Member_1_ONTEST Enum_CodeStatusNavaidBaseType_Member_1 = "ONTEST"
+	Enum_CodeStatusNavaidBaseType_Member_1_INTERRUPT Enum_CodeStatusNavaidBaseType_Member_1 = "INTERRUPT"
+	Enum_CodeStatusNavaidBaseType_Member_1_PARTIAL Enum_CodeStatusNavaidBaseType_Member_1 = "PARTIAL"
+	Enum_CodeStatusNavaidBaseType_Member_1_CONDITIONAL Enum_CodeStatusNavaidBaseType_Member_1 = "CONDITIONAL"
+	Enum_CodeStatusNavaidBaseType_Member_1_FALSE_INDICATION Enum_CodeStatusNavaidBaseType_Member_1 = "FALSE_INDICATION"
+	Enum_CodeStatusNavaidBaseType_Member_1_FALSE_POSSIBLE Enum_CodeStatusNavaidBaseType_Member_1 = "FALSE_POSSIBLE"
+	Enum_CodeStatusNavaidBaseType_Member_1_DISPLACED Enum_CodeStatusNavaidBaseType_Member_1 = "DISPLACED"
+	Enum_CodeStatusNavaidBaseType_Member_1_IN_CONSTRUCTION Enum_CodeStatusNavaidBaseType_Member_1 = "IN_CONSTRUCTION"
+)
+
+// From xsd simple type with enumerate restriction "CodeTACANChannelBaseType_Member_1"
+type Enum_CodeTACANChannelBaseType_Member_1 string
+
+const (
+	Enum_CodeTACANChannelBaseType_Member_1_N_1X Enum_CodeTACANChannelBaseType_Member_1 = "1X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_1Y Enum_CodeTACANChannelBaseType_Member_1 = "1Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_2X Enum_CodeTACANChannelBaseType_Member_1 = "2X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_2Y Enum_CodeTACANChannelBaseType_Member_1 = "2Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_3X Enum_CodeTACANChannelBaseType_Member_1 = "3X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_3Y Enum_CodeTACANChannelBaseType_Member_1 = "3Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_4X Enum_CodeTACANChannelBaseType_Member_1 = "4X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_4Y Enum_CodeTACANChannelBaseType_Member_1 = "4Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_5X Enum_CodeTACANChannelBaseType_Member_1 = "5X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_5Y Enum_CodeTACANChannelBaseType_Member_1 = "5Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_6X Enum_CodeTACANChannelBaseType_Member_1 = "6X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_6Y Enum_CodeTACANChannelBaseType_Member_1 = "6Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_7X Enum_CodeTACANChannelBaseType_Member_1 = "7X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_7Y Enum_CodeTACANChannelBaseType_Member_1 = "7Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_8X Enum_CodeTACANChannelBaseType_Member_1 = "8X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_8Y Enum_CodeTACANChannelBaseType_Member_1 = "8Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_9X Enum_CodeTACANChannelBaseType_Member_1 = "9X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_9Y Enum_CodeTACANChannelBaseType_Member_1 = "9Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_10X Enum_CodeTACANChannelBaseType_Member_1 = "10X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_10Y Enum_CodeTACANChannelBaseType_Member_1 = "10Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_11X Enum_CodeTACANChannelBaseType_Member_1 = "11X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_11Y Enum_CodeTACANChannelBaseType_Member_1 = "11Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_12X Enum_CodeTACANChannelBaseType_Member_1 = "12X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_12Y Enum_CodeTACANChannelBaseType_Member_1 = "12Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_13X Enum_CodeTACANChannelBaseType_Member_1 = "13X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_13Y Enum_CodeTACANChannelBaseType_Member_1 = "13Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_14X Enum_CodeTACANChannelBaseType_Member_1 = "14X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_14Y Enum_CodeTACANChannelBaseType_Member_1 = "14Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_15X Enum_CodeTACANChannelBaseType_Member_1 = "15X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_15Y Enum_CodeTACANChannelBaseType_Member_1 = "15Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_16X Enum_CodeTACANChannelBaseType_Member_1 = "16X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_16Y Enum_CodeTACANChannelBaseType_Member_1 = "16Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_17X Enum_CodeTACANChannelBaseType_Member_1 = "17X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_17Y Enum_CodeTACANChannelBaseType_Member_1 = "17Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_17Z Enum_CodeTACANChannelBaseType_Member_1 = "17Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_18X Enum_CodeTACANChannelBaseType_Member_1 = "18X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_18W Enum_CodeTACANChannelBaseType_Member_1 = "18W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_18Y Enum_CodeTACANChannelBaseType_Member_1 = "18Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_18Z Enum_CodeTACANChannelBaseType_Member_1 = "18Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_19X Enum_CodeTACANChannelBaseType_Member_1 = "19X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_19Y Enum_CodeTACANChannelBaseType_Member_1 = "19Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_19Z Enum_CodeTACANChannelBaseType_Member_1 = "19Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_20X Enum_CodeTACANChannelBaseType_Member_1 = "20X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_20W Enum_CodeTACANChannelBaseType_Member_1 = "20W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_20Y Enum_CodeTACANChannelBaseType_Member_1 = "20Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_20Z Enum_CodeTACANChannelBaseType_Member_1 = "20Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_21X Enum_CodeTACANChannelBaseType_Member_1 = "21X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_21Y Enum_CodeTACANChannelBaseType_Member_1 = "21Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_21Z Enum_CodeTACANChannelBaseType_Member_1 = "21Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_22X Enum_CodeTACANChannelBaseType_Member_1 = "22X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_22W Enum_CodeTACANChannelBaseType_Member_1 = "22W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_22Y Enum_CodeTACANChannelBaseType_Member_1 = "22Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_22Z Enum_CodeTACANChannelBaseType_Member_1 = "22Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_23X Enum_CodeTACANChannelBaseType_Member_1 = "23X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_23Y Enum_CodeTACANChannelBaseType_Member_1 = "23Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_23Z Enum_CodeTACANChannelBaseType_Member_1 = "23Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_24X Enum_CodeTACANChannelBaseType_Member_1 = "24X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_24W Enum_CodeTACANChannelBaseType_Member_1 = "24W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_24Y Enum_CodeTACANChannelBaseType_Member_1 = "24Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_24Z Enum_CodeTACANChannelBaseType_Member_1 = "24Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_25X Enum_CodeTACANChannelBaseType_Member_1 = "25X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_25Y Enum_CodeTACANChannelBaseType_Member_1 = "25Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_25Z Enum_CodeTACANChannelBaseType_Member_1 = "25Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_26X Enum_CodeTACANChannelBaseType_Member_1 = "26X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_26W Enum_CodeTACANChannelBaseType_Member_1 = "26W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_26Y Enum_CodeTACANChannelBaseType_Member_1 = "26Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_26Z Enum_CodeTACANChannelBaseType_Member_1 = "26Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_27X Enum_CodeTACANChannelBaseType_Member_1 = "27X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_27Y Enum_CodeTACANChannelBaseType_Member_1 = "27Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_27Z Enum_CodeTACANChannelBaseType_Member_1 = "27Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_28X Enum_CodeTACANChannelBaseType_Member_1 = "28X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_28W Enum_CodeTACANChannelBaseType_Member_1 = "28W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_28Y Enum_CodeTACANChannelBaseType_Member_1 = "28Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_28Z Enum_CodeTACANChannelBaseType_Member_1 = "28Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_29X Enum_CodeTACANChannelBaseType_Member_1 = "29X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_29Y Enum_CodeTACANChannelBaseType_Member_1 = "29Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_29Z Enum_CodeTACANChannelBaseType_Member_1 = "29Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_30X Enum_CodeTACANChannelBaseType_Member_1 = "30X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_30W Enum_CodeTACANChannelBaseType_Member_1 = "30W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_30Y Enum_CodeTACANChannelBaseType_Member_1 = "30Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_30Z Enum_CodeTACANChannelBaseType_Member_1 = "30Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_31X Enum_CodeTACANChannelBaseType_Member_1 = "31X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_31Y Enum_CodeTACANChannelBaseType_Member_1 = "31Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_31Z Enum_CodeTACANChannelBaseType_Member_1 = "31Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_32X Enum_CodeTACANChannelBaseType_Member_1 = "32X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_32W Enum_CodeTACANChannelBaseType_Member_1 = "32W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_32Y Enum_CodeTACANChannelBaseType_Member_1 = "32Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_32Z Enum_CodeTACANChannelBaseType_Member_1 = "32Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_33X Enum_CodeTACANChannelBaseType_Member_1 = "33X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_33Y Enum_CodeTACANChannelBaseType_Member_1 = "33Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_33Z Enum_CodeTACANChannelBaseType_Member_1 = "33Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_34X Enum_CodeTACANChannelBaseType_Member_1 = "34X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_34W Enum_CodeTACANChannelBaseType_Member_1 = "34W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_34Y Enum_CodeTACANChannelBaseType_Member_1 = "34Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_34Z Enum_CodeTACANChannelBaseType_Member_1 = "34Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_35X Enum_CodeTACANChannelBaseType_Member_1 = "35X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_35Y Enum_CodeTACANChannelBaseType_Member_1 = "35Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_35Z Enum_CodeTACANChannelBaseType_Member_1 = "35Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_36X Enum_CodeTACANChannelBaseType_Member_1 = "36X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_36W Enum_CodeTACANChannelBaseType_Member_1 = "36W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_36Y Enum_CodeTACANChannelBaseType_Member_1 = "36Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_36Z Enum_CodeTACANChannelBaseType_Member_1 = "36Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_37X Enum_CodeTACANChannelBaseType_Member_1 = "37X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_37Y Enum_CodeTACANChannelBaseType_Member_1 = "37Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_37Z Enum_CodeTACANChannelBaseType_Member_1 = "37Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_38X Enum_CodeTACANChannelBaseType_Member_1 = "38X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_38W Enum_CodeTACANChannelBaseType_Member_1 = "38W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_38Y Enum_CodeTACANChannelBaseType_Member_1 = "38Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_38Z Enum_CodeTACANChannelBaseType_Member_1 = "38Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_39X Enum_CodeTACANChannelBaseType_Member_1 = "39X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_39Y Enum_CodeTACANChannelBaseType_Member_1 = "39Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_39Z Enum_CodeTACANChannelBaseType_Member_1 = "39Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_40X Enum_CodeTACANChannelBaseType_Member_1 = "40X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_40W Enum_CodeTACANChannelBaseType_Member_1 = "40W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_40Y Enum_CodeTACANChannelBaseType_Member_1 = "40Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_40Z Enum_CodeTACANChannelBaseType_Member_1 = "40Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_41X Enum_CodeTACANChannelBaseType_Member_1 = "41X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_41Y Enum_CodeTACANChannelBaseType_Member_1 = "41Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_41Z Enum_CodeTACANChannelBaseType_Member_1 = "41Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_42X Enum_CodeTACANChannelBaseType_Member_1 = "42X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_42W Enum_CodeTACANChannelBaseType_Member_1 = "42W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_42Y Enum_CodeTACANChannelBaseType_Member_1 = "42Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_42Z Enum_CodeTACANChannelBaseType_Member_1 = "42Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_43X Enum_CodeTACANChannelBaseType_Member_1 = "43X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_43Y Enum_CodeTACANChannelBaseType_Member_1 = "43Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_43Z Enum_CodeTACANChannelBaseType_Member_1 = "43Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_44X Enum_CodeTACANChannelBaseType_Member_1 = "44X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_44W Enum_CodeTACANChannelBaseType_Member_1 = "44W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_44Y Enum_CodeTACANChannelBaseType_Member_1 = "44Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_44Z Enum_CodeTACANChannelBaseType_Member_1 = "44Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_45X Enum_CodeTACANChannelBaseType_Member_1 = "45X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_45Y Enum_CodeTACANChannelBaseType_Member_1 = "45Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_45Z Enum_CodeTACANChannelBaseType_Member_1 = "45Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_46X Enum_CodeTACANChannelBaseType_Member_1 = "46X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_46W Enum_CodeTACANChannelBaseType_Member_1 = "46W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_46Y Enum_CodeTACANChannelBaseType_Member_1 = "46Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_46Z Enum_CodeTACANChannelBaseType_Member_1 = "46Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_47X Enum_CodeTACANChannelBaseType_Member_1 = "47X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_47Y Enum_CodeTACANChannelBaseType_Member_1 = "47Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_47Z Enum_CodeTACANChannelBaseType_Member_1 = "47Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_48X Enum_CodeTACANChannelBaseType_Member_1 = "48X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_48W Enum_CodeTACANChannelBaseType_Member_1 = "48W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_48Y Enum_CodeTACANChannelBaseType_Member_1 = "48Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_48Z Enum_CodeTACANChannelBaseType_Member_1 = "48Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_49X Enum_CodeTACANChannelBaseType_Member_1 = "49X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_49Y Enum_CodeTACANChannelBaseType_Member_1 = "49Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_49Z Enum_CodeTACANChannelBaseType_Member_1 = "49Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_50X Enum_CodeTACANChannelBaseType_Member_1 = "50X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_50W Enum_CodeTACANChannelBaseType_Member_1 = "50W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_50Y Enum_CodeTACANChannelBaseType_Member_1 = "50Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_50Z Enum_CodeTACANChannelBaseType_Member_1 = "50Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_51X Enum_CodeTACANChannelBaseType_Member_1 = "51X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_51Y Enum_CodeTACANChannelBaseType_Member_1 = "51Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_51Z Enum_CodeTACANChannelBaseType_Member_1 = "51Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_52X Enum_CodeTACANChannelBaseType_Member_1 = "52X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_52W Enum_CodeTACANChannelBaseType_Member_1 = "52W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_52Y Enum_CodeTACANChannelBaseType_Member_1 = "52Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_52Z Enum_CodeTACANChannelBaseType_Member_1 = "52Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_53X Enum_CodeTACANChannelBaseType_Member_1 = "53X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_53Y Enum_CodeTACANChannelBaseType_Member_1 = "53Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_53Z Enum_CodeTACANChannelBaseType_Member_1 = "53Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_54X Enum_CodeTACANChannelBaseType_Member_1 = "54X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_54W Enum_CodeTACANChannelBaseType_Member_1 = "54W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_54Y Enum_CodeTACANChannelBaseType_Member_1 = "54Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_54Z Enum_CodeTACANChannelBaseType_Member_1 = "54Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_55X Enum_CodeTACANChannelBaseType_Member_1 = "55X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_55Y Enum_CodeTACANChannelBaseType_Member_1 = "55Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_55Z Enum_CodeTACANChannelBaseType_Member_1 = "55Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_56X Enum_CodeTACANChannelBaseType_Member_1 = "56X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_56W Enum_CodeTACANChannelBaseType_Member_1 = "56W"
+	Enum_CodeTACANChannelBaseType_Member_1_N_56Y Enum_CodeTACANChannelBaseType_Member_1 = "56Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_56Z Enum_CodeTACANChannelBaseType_Member_1 = "56Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_57X Enum_CodeTACANChannelBaseType_Member_1 = "57X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_57Y Enum_CodeTACANChannelBaseType_Member_1 = "57Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_58X Enum_CodeTACANChannelBaseType_Member_1 = "58X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_58Y Enum_CodeTACANChannelBaseType_Member_1 = "58Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_59X Enum_CodeTACANChannelBaseType_Member_1 = "59X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_59Y Enum_CodeTACANChannelBaseType_Member_1 = "59Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_60X Enum_CodeTACANChannelBaseType_Member_1 = "60X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_60Y Enum_CodeTACANChannelBaseType_Member_1 = "60Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_61X Enum_CodeTACANChannelBaseType_Member_1 = "61X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_61Y Enum_CodeTACANChannelBaseType_Member_1 = "61Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_62X Enum_CodeTACANChannelBaseType_Member_1 = "62X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_62Y Enum_CodeTACANChannelBaseType_Member_1 = "62Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_63X Enum_CodeTACANChannelBaseType_Member_1 = "63X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_63Y Enum_CodeTACANChannelBaseType_Member_1 = "63Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_64X Enum_CodeTACANChannelBaseType_Member_1 = "64X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_64Y Enum_CodeTACANChannelBaseType_Member_1 = "64Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_65X Enum_CodeTACANChannelBaseType_Member_1 = "65X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_65Y Enum_CodeTACANChannelBaseType_Member_1 = "65Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_66X Enum_CodeTACANChannelBaseType_Member_1 = "66X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_66Y Enum_CodeTACANChannelBaseType_Member_1 = "66Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_67X Enum_CodeTACANChannelBaseType_Member_1 = "67X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_67Y Enum_CodeTACANChannelBaseType_Member_1 = "67Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_68X Enum_CodeTACANChannelBaseType_Member_1 = "68X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_68Y Enum_CodeTACANChannelBaseType_Member_1 = "68Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_69X Enum_CodeTACANChannelBaseType_Member_1 = "69X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_69Y Enum_CodeTACANChannelBaseType_Member_1 = "69Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_70X Enum_CodeTACANChannelBaseType_Member_1 = "70X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_70Y Enum_CodeTACANChannelBaseType_Member_1 = "70Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_71X Enum_CodeTACANChannelBaseType_Member_1 = "71X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_71Y Enum_CodeTACANChannelBaseType_Member_1 = "71Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_72X Enum_CodeTACANChannelBaseType_Member_1 = "72X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_72Y Enum_CodeTACANChannelBaseType_Member_1 = "72Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_73X Enum_CodeTACANChannelBaseType_Member_1 = "73X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_73Y Enum_CodeTACANChannelBaseType_Member_1 = "73Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_74X Enum_CodeTACANChannelBaseType_Member_1 = "74X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_74Y Enum_CodeTACANChannelBaseType_Member_1 = "74Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_75X Enum_CodeTACANChannelBaseType_Member_1 = "75X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_75Y Enum_CodeTACANChannelBaseType_Member_1 = "75Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_76X Enum_CodeTACANChannelBaseType_Member_1 = "76X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_76Y Enum_CodeTACANChannelBaseType_Member_1 = "76Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_77X Enum_CodeTACANChannelBaseType_Member_1 = "77X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_77Y Enum_CodeTACANChannelBaseType_Member_1 = "77Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_78X Enum_CodeTACANChannelBaseType_Member_1 = "78X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_78Y Enum_CodeTACANChannelBaseType_Member_1 = "78Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_79X Enum_CodeTACANChannelBaseType_Member_1 = "79X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_79Y Enum_CodeTACANChannelBaseType_Member_1 = "79Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_80X Enum_CodeTACANChannelBaseType_Member_1 = "80X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_80Y Enum_CodeTACANChannelBaseType_Member_1 = "80Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_80Z Enum_CodeTACANChannelBaseType_Member_1 = "80Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_81X Enum_CodeTACANChannelBaseType_Member_1 = "81X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_81Y Enum_CodeTACANChannelBaseType_Member_1 = "81Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_81Z Enum_CodeTACANChannelBaseType_Member_1 = "81Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_82X Enum_CodeTACANChannelBaseType_Member_1 = "82X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_82Y Enum_CodeTACANChannelBaseType_Member_1 = "82Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_82Z Enum_CodeTACANChannelBaseType_Member_1 = "82Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_83X Enum_CodeTACANChannelBaseType_Member_1 = "83X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_83Y Enum_CodeTACANChannelBaseType_Member_1 = "83Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_83Z Enum_CodeTACANChannelBaseType_Member_1 = "83Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_84X Enum_CodeTACANChannelBaseType_Member_1 = "84X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_84Y Enum_CodeTACANChannelBaseType_Member_1 = "84Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_84Z Enum_CodeTACANChannelBaseType_Member_1 = "84Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_85X Enum_CodeTACANChannelBaseType_Member_1 = "85X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_85Y Enum_CodeTACANChannelBaseType_Member_1 = "85Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_85Z Enum_CodeTACANChannelBaseType_Member_1 = "85Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_86X Enum_CodeTACANChannelBaseType_Member_1 = "86X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_86Y Enum_CodeTACANChannelBaseType_Member_1 = "86Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_86Z Enum_CodeTACANChannelBaseType_Member_1 = "86Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_87X Enum_CodeTACANChannelBaseType_Member_1 = "87X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_87Y Enum_CodeTACANChannelBaseType_Member_1 = "87Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_87Z Enum_CodeTACANChannelBaseType_Member_1 = "87Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_88X Enum_CodeTACANChannelBaseType_Member_1 = "88X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_88Y Enum_CodeTACANChannelBaseType_Member_1 = "88Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_88Z Enum_CodeTACANChannelBaseType_Member_1 = "88Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_89X Enum_CodeTACANChannelBaseType_Member_1 = "89X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_89Y Enum_CodeTACANChannelBaseType_Member_1 = "89Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_89Z Enum_CodeTACANChannelBaseType_Member_1 = "89Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_90X Enum_CodeTACANChannelBaseType_Member_1 = "90X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_90Y Enum_CodeTACANChannelBaseType_Member_1 = "90Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_90Z Enum_CodeTACANChannelBaseType_Member_1 = "90Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_91X Enum_CodeTACANChannelBaseType_Member_1 = "91X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_91Y Enum_CodeTACANChannelBaseType_Member_1 = "91Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_91Z Enum_CodeTACANChannelBaseType_Member_1 = "91Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_92X Enum_CodeTACANChannelBaseType_Member_1 = "92X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_92Y Enum_CodeTACANChannelBaseType_Member_1 = "92Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_92Z Enum_CodeTACANChannelBaseType_Member_1 = "92Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_93X Enum_CodeTACANChannelBaseType_Member_1 = "93X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_93Y Enum_CodeTACANChannelBaseType_Member_1 = "93Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_93Z Enum_CodeTACANChannelBaseType_Member_1 = "93Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_94X Enum_CodeTACANChannelBaseType_Member_1 = "94X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_94Y Enum_CodeTACANChannelBaseType_Member_1 = "94Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_94Z Enum_CodeTACANChannelBaseType_Member_1 = "94Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_95X Enum_CodeTACANChannelBaseType_Member_1 = "95X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_95Y Enum_CodeTACANChannelBaseType_Member_1 = "95Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_95Z Enum_CodeTACANChannelBaseType_Member_1 = "95Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_96X Enum_CodeTACANChannelBaseType_Member_1 = "96X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_96Y Enum_CodeTACANChannelBaseType_Member_1 = "96Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_96Z Enum_CodeTACANChannelBaseType_Member_1 = "96Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_97X Enum_CodeTACANChannelBaseType_Member_1 = "97X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_97Y Enum_CodeTACANChannelBaseType_Member_1 = "97Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_97Z Enum_CodeTACANChannelBaseType_Member_1 = "97Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_98X Enum_CodeTACANChannelBaseType_Member_1 = "98X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_98Y Enum_CodeTACANChannelBaseType_Member_1 = "98Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_98Z Enum_CodeTACANChannelBaseType_Member_1 = "98Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_99X Enum_CodeTACANChannelBaseType_Member_1 = "99X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_99Y Enum_CodeTACANChannelBaseType_Member_1 = "99Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_99Z Enum_CodeTACANChannelBaseType_Member_1 = "99Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_100X Enum_CodeTACANChannelBaseType_Member_1 = "100X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_100Y Enum_CodeTACANChannelBaseType_Member_1 = "100Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_100Z Enum_CodeTACANChannelBaseType_Member_1 = "100Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_101X Enum_CodeTACANChannelBaseType_Member_1 = "101X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_101Y Enum_CodeTACANChannelBaseType_Member_1 = "101Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_101Z Enum_CodeTACANChannelBaseType_Member_1 = "101Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_102X Enum_CodeTACANChannelBaseType_Member_1 = "102X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_102Y Enum_CodeTACANChannelBaseType_Member_1 = "102Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_102Z Enum_CodeTACANChannelBaseType_Member_1 = "102Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_103X Enum_CodeTACANChannelBaseType_Member_1 = "103X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_103Y Enum_CodeTACANChannelBaseType_Member_1 = "103Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_103Z Enum_CodeTACANChannelBaseType_Member_1 = "103Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_104X Enum_CodeTACANChannelBaseType_Member_1 = "104X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_104Y Enum_CodeTACANChannelBaseType_Member_1 = "104Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_104Z Enum_CodeTACANChannelBaseType_Member_1 = "104Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_105X Enum_CodeTACANChannelBaseType_Member_1 = "105X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_105Y Enum_CodeTACANChannelBaseType_Member_1 = "105Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_105Z Enum_CodeTACANChannelBaseType_Member_1 = "105Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_106X Enum_CodeTACANChannelBaseType_Member_1 = "106X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_106Y Enum_CodeTACANChannelBaseType_Member_1 = "106Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_106Z Enum_CodeTACANChannelBaseType_Member_1 = "106Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_107X Enum_CodeTACANChannelBaseType_Member_1 = "107X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_107Y Enum_CodeTACANChannelBaseType_Member_1 = "107Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_107Z Enum_CodeTACANChannelBaseType_Member_1 = "107Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_108X Enum_CodeTACANChannelBaseType_Member_1 = "108X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_108Y Enum_CodeTACANChannelBaseType_Member_1 = "108Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_108Z Enum_CodeTACANChannelBaseType_Member_1 = "108Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_109X Enum_CodeTACANChannelBaseType_Member_1 = "109X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_109Y Enum_CodeTACANChannelBaseType_Member_1 = "109Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_109Z Enum_CodeTACANChannelBaseType_Member_1 = "109Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_110X Enum_CodeTACANChannelBaseType_Member_1 = "110X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_110Y Enum_CodeTACANChannelBaseType_Member_1 = "110Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_110Z Enum_CodeTACANChannelBaseType_Member_1 = "110Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_111X Enum_CodeTACANChannelBaseType_Member_1 = "111X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_111Y Enum_CodeTACANChannelBaseType_Member_1 = "111Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_111Z Enum_CodeTACANChannelBaseType_Member_1 = "111Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_112X Enum_CodeTACANChannelBaseType_Member_1 = "112X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_112Y Enum_CodeTACANChannelBaseType_Member_1 = "112Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_112Z Enum_CodeTACANChannelBaseType_Member_1 = "112Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_113X Enum_CodeTACANChannelBaseType_Member_1 = "113X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_113Y Enum_CodeTACANChannelBaseType_Member_1 = "113Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_113Z Enum_CodeTACANChannelBaseType_Member_1 = "113Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_114X Enum_CodeTACANChannelBaseType_Member_1 = "114X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_114Y Enum_CodeTACANChannelBaseType_Member_1 = "114Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_114Z Enum_CodeTACANChannelBaseType_Member_1 = "114Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_115X Enum_CodeTACANChannelBaseType_Member_1 = "115X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_115Y Enum_CodeTACANChannelBaseType_Member_1 = "115Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_115Z Enum_CodeTACANChannelBaseType_Member_1 = "115Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_116X Enum_CodeTACANChannelBaseType_Member_1 = "116X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_116Y Enum_CodeTACANChannelBaseType_Member_1 = "116Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_116Z Enum_CodeTACANChannelBaseType_Member_1 = "116Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_117X Enum_CodeTACANChannelBaseType_Member_1 = "117X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_117Y Enum_CodeTACANChannelBaseType_Member_1 = "117Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_117Z Enum_CodeTACANChannelBaseType_Member_1 = "117Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_118X Enum_CodeTACANChannelBaseType_Member_1 = "118X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_118Y Enum_CodeTACANChannelBaseType_Member_1 = "118Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_118Z Enum_CodeTACANChannelBaseType_Member_1 = "118Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_119X Enum_CodeTACANChannelBaseType_Member_1 = "119X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_119Y Enum_CodeTACANChannelBaseType_Member_1 = "119Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_119Z Enum_CodeTACANChannelBaseType_Member_1 = "119Z"
+	Enum_CodeTACANChannelBaseType_Member_1_N_120X Enum_CodeTACANChannelBaseType_Member_1 = "120X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_120Y Enum_CodeTACANChannelBaseType_Member_1 = "120Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_121X Enum_CodeTACANChannelBaseType_Member_1 = "121X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_121Y Enum_CodeTACANChannelBaseType_Member_1 = "121Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_122X Enum_CodeTACANChannelBaseType_Member_1 = "122X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_122Y Enum_CodeTACANChannelBaseType_Member_1 = "122Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_123X Enum_CodeTACANChannelBaseType_Member_1 = "123X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_123Y Enum_CodeTACANChannelBaseType_Member_1 = "123Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_124X Enum_CodeTACANChannelBaseType_Member_1 = "124X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_124Y Enum_CodeTACANChannelBaseType_Member_1 = "124Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_125X Enum_CodeTACANChannelBaseType_Member_1 = "125X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_125Y Enum_CodeTACANChannelBaseType_Member_1 = "125Y"
+	Enum_CodeTACANChannelBaseType_Member_1_N_126X Enum_CodeTACANChannelBaseType_Member_1 = "126X"
+	Enum_CodeTACANChannelBaseType_Member_1_N_126Y Enum_CodeTACANChannelBaseType_Member_1 = "126Y"
+)
+
+// From xsd simple type with enumerate restriction "CodeTelecomNetworkBaseType_Member_1"
+type Enum_CodeTelecomNetworkBaseType_Member_1 string
+
+const (
+	Enum_CodeTelecomNetworkBaseType_Member_1_AFTN Enum_CodeTelecomNetworkBaseType_Member_1 = "AFTN"
+	Enum_CodeTelecomNetworkBaseType_Member_1_AMHS Enum_CodeTelecomNetworkBaseType_Member_1 = "AMHS"
+	Enum_CodeTelecomNetworkBaseType_Member_1_INTERNET Enum_CodeTelecomNetworkBaseType_Member_1 = "INTERNET"
+	Enum_CodeTelecomNetworkBaseType_Member_1_SITA Enum_CodeTelecomNetworkBaseType_Member_1 = "SITA"
+	Enum_CodeTelecomNetworkBaseType_Member_1_ACARS Enum_CodeTelecomNetworkBaseType_Member_1 = "ACARS"
+	Enum_CodeTelecomNetworkBaseType_Member_1_ADNS Enum_CodeTelecomNetworkBaseType_Member_1 = "ADNS"
+)
+
+// From xsd simple type with enumerate restriction "CodeTimeEventBaseType_Member_1"
+type Enum_CodeTimeEventBaseType_Member_1 string
+
+const (
+	Enum_CodeTimeEventBaseType_Member_1_SR Enum_CodeTimeEventBaseType_Member_1 = "SR"
+	Enum_CodeTimeEventBaseType_Member_1_SS Enum_CodeTimeEventBaseType_Member_1 = "SS"
+)
+
+// From xsd simple type with enumerate restriction "CodeTimeEventCombinationBaseType_Member_1"
+type Enum_CodeTimeEventCombinationBaseType_Member_1 string
+
+const (
+	Enum_CodeTimeEventCombinationBaseType_Member_1_EARLIEST Enum_CodeTimeEventCombinationBaseType_Member_1 = "EARLIEST"
+	Enum_CodeTimeEventCombinationBaseType_Member_1_LATEST Enum_CodeTimeEventCombinationBaseType_Member_1 = "LATEST"
+)
+
+// From xsd simple type with enumerate restriction "CodeTimeReferenceBaseType_Member_1"
+type Enum_CodeTimeReferenceBaseType_Member_1 string
+
+const (
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC Enum_CodeTimeReferenceBaseType_Member_1 = "UTC"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_12 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC-12"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_11 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC-11"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_10 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC-10"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_9 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC-9"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_8 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC-8"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_7 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC-7"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_6 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC-6"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_5 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC-5"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_4 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC-4"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_3 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC-3"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_2 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC-2"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_1 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC-1"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_1_1 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC+1"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_2_1 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC+2"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_3_1 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC+3"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_4_1 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC+4"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_5_1 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC+5"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_6_1 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC+6"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_7_1 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC+7"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_8_1 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC+8"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_9_1 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC+9"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_10_1 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC+10"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_11_1 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC+11"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_12_1 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC+12"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_13 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC+13"
+	Enum_CodeTimeReferenceBaseType_Member_1_UTC_14 Enum_CodeTimeReferenceBaseType_Member_1 = "UTC+14"
+)
+
+// From xsd simple type with enumerate restriction "CodeTransponderBaseType_Member_1"
+type Enum_CodeTransponderBaseType_Member_1 string
+
+const (
+	Enum_CodeTransponderBaseType_Member_1_MODE_1 Enum_CodeTransponderBaseType_Member_1 = "MODE_1"
+	Enum_CodeTransponderBaseType_Member_1_MODE_2 Enum_CodeTransponderBaseType_Member_1 = "MODE_2"
+	Enum_CodeTransponderBaseType_Member_1_MODE_3A Enum_CodeTransponderBaseType_Member_1 = "MODE_3A"
+	Enum_CodeTransponderBaseType_Member_1_MODE_4 Enum_CodeTransponderBaseType_Member_1 = "MODE_4"
+	Enum_CodeTransponderBaseType_Member_1_MODE_5 Enum_CodeTransponderBaseType_Member_1 = "MODE_5"
+	Enum_CodeTransponderBaseType_Member_1_MODE_C Enum_CodeTransponderBaseType_Member_1 = "MODE_C"
+	Enum_CodeTransponderBaseType_Member_1_MODE_S Enum_CodeTransponderBaseType_Member_1 = "MODE_S"
+)
+
+// From xsd simple type with enumerate restriction "CodeVerticalDatumBaseType_Member_1"
+type Enum_CodeVerticalDatumBaseType_Member_1 string
+
+const (
+	Enum_CodeVerticalDatumBaseType_Member_1_EGM_96 Enum_CodeVerticalDatumBaseType_Member_1 = "EGM_96"
+	Enum_CodeVerticalDatumBaseType_Member_1_AHD Enum_CodeVerticalDatumBaseType_Member_1 = "AHD"
+	Enum_CodeVerticalDatumBaseType_Member_1_NAVD88 Enum_CodeVerticalDatumBaseType_Member_1 = "NAVD88"
+)
+
+// From xsd simple type with enumerate restriction "CodeVerticalReferenceBaseType_Member_1"
+type Enum_CodeVerticalReferenceBaseType_Member_1 string
+
+const (
+	Enum_CodeVerticalReferenceBaseType_Member_1_SFC Enum_CodeVerticalReferenceBaseType_Member_1 = "SFC"
+	Enum_CodeVerticalReferenceBaseType_Member_1_MSL Enum_CodeVerticalReferenceBaseType_Member_1 = "MSL"
+	Enum_CodeVerticalReferenceBaseType_Member_1_W84 Enum_CodeVerticalReferenceBaseType_Member_1 = "W84"
+	Enum_CodeVerticalReferenceBaseType_Member_1_STD Enum_CodeVerticalReferenceBaseType_Member_1 = "STD"
+)
+
+// From xsd simple type with enumerate restriction "CodeVORBaseType_Member_1"
+type Enum_CodeVORBaseType_Member_1 string
+
+const (
+	Enum_CodeVORBaseType_Member_1_VOR Enum_CodeVORBaseType_Member_1 = "VOR"
+	Enum_CodeVORBaseType_Member_1_DVOR Enum_CodeVORBaseType_Member_1 = "DVOR"
+	Enum_CodeVORBaseType_Member_1_VOT Enum_CodeVORBaseType_Member_1 = "VOT"
+)
+
+// From xsd simple type with enumerate restriction "CodeYesNoBaseType_Member_1"
+type Enum_CodeYesNoBaseType_Member_1 string
+
+const (
+	Enum_CodeYesNoBaseType_Member_1_YES Enum_CodeYesNoBaseType_Member_1 = "YES"
+	Enum_CodeYesNoBaseType_Member_1_NO Enum_CodeYesNoBaseType_Member_1 = "NO"
+)
+
+// From xsd simple type with enumerate restriction "UomDistanceType_Member_1"
+type Enum_UomDistanceType_Member_1 string
+
+const (
+	Enum_UomDistanceType_Member_1_NM Enum_UomDistanceType_Member_1 = "NM"
+	Enum_UomDistanceType_Member_1_KM Enum_UomDistanceType_Member_1 = "KM"
+	Enum_UomDistanceType_Member_1_M Enum_UomDistanceType_Member_1 = "M"
+	Enum_UomDistanceType_Member_1_FT Enum_UomDistanceType_Member_1 = "FT"
+	Enum_UomDistanceType_Member_1_MI Enum_UomDistanceType_Member_1 = "MI"
+	Enum_UomDistanceType_Member_1_CM Enum_UomDistanceType_Member_1 = "CM"
+)
+
+// From xsd simple type with enumerate restriction "UomDistanceVerticalType_Member_1"
+type Enum_UomDistanceVerticalType_Member_1 string
+
+const (
+	Enum_UomDistanceVerticalType_Member_1_FT Enum_UomDistanceVerticalType_Member_1 = "FT"
+	Enum_UomDistanceVerticalType_Member_1_M Enum_UomDistanceVerticalType_Member_1 = "M"
+	Enum_UomDistanceVerticalType_Member_1_FL Enum_UomDistanceVerticalType_Member_1 = "FL"
+	Enum_UomDistanceVerticalType_Member_1_SM Enum_UomDistanceVerticalType_Member_1 = "SM"
+)
+
+// From xsd simple type with enumerate restriction "UomDurationType_Member_1"
+type Enum_UomDurationType_Member_1 string
+
+const (
+	Enum_UomDurationType_Member_1_HR Enum_UomDurationType_Member_1 = "HR"
+	Enum_UomDurationType_Member_1_MIN_XSD Enum_UomDurationType_Member_1 = "MIN"
+	Enum_UomDurationType_Member_1_SEC Enum_UomDurationType_Member_1 = "SEC"
+)
+
+// From xsd simple type with enumerate restriction "UomFrequencyType_Member_1"
+type Enum_UomFrequencyType_Member_1 string
+
+const (
+	Enum_UomFrequencyType_Member_1_HZ Enum_UomFrequencyType_Member_1 = "HZ"
+	Enum_UomFrequencyType_Member_1_KHZ Enum_UomFrequencyType_Member_1 = "KHZ"
+	Enum_UomFrequencyType_Member_1_MHZ Enum_UomFrequencyType_Member_1 = "MHZ"
+	Enum_UomFrequencyType_Member_1_GHZ Enum_UomFrequencyType_Member_1 = "GHZ"
+)
+
+// insertion point for gongstructs declarations
+
+// CodeAirspacePointPositionType Named source named complex type "CodeAirspacePointPositionType"
+type CodeAirspacePointPositionType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeAirspacePointRoleType Named source named complex type "CodeAirspacePointRoleType"
+type CodeAirspacePointRoleType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeAltitudeUseType Named source named complex type "CodeAltitudeUseType"
+type CodeAltitudeUseType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeAuralMorseType Named source named complex type "CodeAuralMorseType"
+type CodeAuralMorseType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeAuthorityRoleType Named source named complex type "CodeAuthorityRoleType"
+type CodeAuthorityRoleType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeBearingType Named source named complex type "CodeBearingType"
+type CodeBearingType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeCardinalDirectionType Named source named complex type "CodeCardinalDirectionType"
+type CodeCardinalDirectionType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeCheckpointCategoryType Named source named complex type "CodeCheckpointCategoryType"
+type CodeCheckpointCategoryType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeCourseQualityILSType Named source named complex type "CodeCourseQualityILSType"
+type CodeCourseQualityILSType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeDayType Named source named complex type "CodeDayType"
+type CodeDayType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeDesignatedPointDesignatorType Named source named complex type "CodeDesignatedPointDesignatorType"
+type CodeDesignatedPointDesignatorType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeDesignatedPointType Named source named complex type "CodeDesignatedPointType"
+type CodeDesignatedPointType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeDirectionReferenceType Named source named complex type "CodeDirectionReferenceType"
+type CodeDirectionReferenceType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeDistanceIndicationType Named source named complex type "CodeDistanceIndicationType"
+type CodeDistanceIndicationType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeDMEChannelType Named source named complex type "CodeDMEChannelType"
+type CodeDMEChannelType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeDMEType Named source named complex type "CodeDMEType"
+type CodeDMEType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeEmissionBandType Named source named complex type "CodeEmissionBandType"
+type CodeEmissionBandType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeILSBackCourseType Named source named complex type "CodeILSBackCourseType"
+type CodeILSBackCourseType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeIntegrityLevelILSType Named source named complex type "CodeIntegrityLevelILSType"
+type CodeIntegrityLevelILSType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeMarkerBeaconSignalType Named source named complex type "CodeMarkerBeaconSignalType"
+type CodeMarkerBeaconSignalType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeMLSAzimuthType Named source named complex type "CodeMLSAzimuthType"
+type CodeMLSAzimuthType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeMLSChannelType Named source named complex type "CodeMLSChannelType"
+type CodeMLSChannelType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeNavaidDesignatorType Named source named complex type "CodeNavaidDesignatorType"
+type CodeNavaidDesignatorType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeNavaidPurposeType Named source named complex type "CodeNavaidPurposeType"
+type CodeNavaidPurposeType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeNavaidServiceType Named source named complex type "CodeNavaidServiceType"
+type CodeNavaidServiceType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeNDBUsageType Named source named complex type "CodeNDBUsageType"
+type CodeNDBUsageType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeNorthReferenceType Named source named complex type "CodeNorthReferenceType"
+type CodeNorthReferenceType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeNotePurposeType Named source named complex type "CodeNotePurposeType"
+type CodeNotePurposeType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodePARType Named source named complex type "CodePARType"
+type CodePARType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodePositionInILSType Named source named complex type "CodePositionInILSType"
+type CodePositionInILSType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodePrimaryRadarType Named source named complex type "CodePrimaryRadarType"
+type CodePrimaryRadarType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeRadarServiceType Named source named complex type "CodeRadarServiceType"
+type CodeRadarServiceType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeRadioEmissionType Named source named complex type "CodeRadioEmissionType"
+type CodeRadioEmissionType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeRadioSignalType Named source named complex type "CodeRadioSignalType"
+type CodeRadioSignalType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeReflectorType Named source named complex type "CodeReflectorType"
+type CodeReflectorType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeSignalPerformanceILSType Named source named complex type "CodeSignalPerformanceILSType"
+type CodeSignalPerformanceILSType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeSpecialNavigationChainDesignatorType Named source named complex type "CodeSpecialNavigationChainDesignatorType"
+type CodeSpecialNavigationChainDesignatorType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeSpecialNavigationStationType Named source named complex type "CodeSpecialNavigationStationType"
+type CodeSpecialNavigationStationType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeSpecialNavigationSystemType Named source named complex type "CodeSpecialNavigationSystemType"
+type CodeSpecialNavigationSystemType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeStandbyPowerType Named source named complex type "CodeStandbyPowerType"
+type CodeStandbyPowerType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeStatusNavaidType Named source named complex type "CodeStatusNavaidType"
+type CodeStatusNavaidType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeTACANChannelType Named source named complex type "CodeTACANChannelType"
+type CodeTACANChannelType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeTelecomNetworkType Named source named complex type "CodeTelecomNetworkType"
+type CodeTelecomNetworkType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeTimeEventCombinationType Named source named complex type "CodeTimeEventCombinationType"
+type CodeTimeEventCombinationType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeTimeEventType Named source named complex type "CodeTimeEventType"
+type CodeTimeEventType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeTimeReferenceType Named source named complex type "CodeTimeReferenceType"
+type CodeTimeReferenceType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeTransponderType Named source named complex type "CodeTransponderType"
+type CodeTransponderType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeVerticalDatumType Named source named complex type "CodeVerticalDatumType"
+type CodeVerticalDatumType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeVerticalReferenceType Named source named complex type "CodeVerticalReferenceType"
+type CodeVerticalReferenceType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeVORType Named source named complex type "CodeVORType"
+type CodeVORType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// CodeYesNoType Named source named complex type "CodeYesNoType"
+type CodeYesNoType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// DateMonthDayType Named source named complex type "DateMonthDayType"
+type DateMonthDayType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// DateYearType Named source named complex type "DateYearType"
+type DateYearType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// NoSequenceType Named source named complex type "NoSequenceType"
+type NoSequenceType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText int `xml:",chardata"`
+}
+
+// TextAddressType Named source named complex type "TextAddressType"
+type TextAddressType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// TextDesignatorType Named source named complex type "TextDesignatorType"
+type TextDesignatorType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// TextNameType Named source named complex type "TextNameType"
+type TextNameType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// TextNoteType Named source named complex type "TextNoteType"
+type TextNoteType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// generated from attribute "lang"
+	Lang string `xml:"lang,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// TextPhoneType Named source named complex type "TextPhoneType"
+type TextPhoneType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// TextPropertyNameType Named source named complex type "TextPropertyNameType"
+type TextPropertyNameType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// TimeType Named source named complex type "TimeType"
+type TimeType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// ValAngleType Named source named complex type "ValAngleType"
+type ValAngleType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// ValBearingType Named source named complex type "ValBearingType"
+type ValBearingType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// ValDistanceSignedType Named source named complex type "ValDistanceSignedType"
+type ValDistanceSignedType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "uom"
+	Uom string `xml:"uom,attr,omitempty"`
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// ValDistanceType Named source named complex type "ValDistanceType"
+type ValDistanceType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "uom"
+	Uom string `xml:"uom,attr,omitempty"`
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// ValDistanceVerticalType Named source named complex type "ValDistanceVerticalType"
+type ValDistanceVerticalType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "uom"
+	Uom string `xml:"uom,attr,omitempty"`
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// ValDurationType Named source named complex type "ValDurationType"
+type ValDurationType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "uom"
+	Uom string `xml:"uom,attr,omitempty"`
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// ValFrequencyType Named source named complex type "ValFrequencyType"
+type ValFrequencyType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "uom"
+	Uom string `xml:"uom,attr,omitempty"`
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}
+
+// ValMagneticVariationType Named source named complex type "ValMagneticVariationType"
+type ValMagneticVariationType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from attribute "nilReason"
+	NilReason string `xml:"nilReason,attr,omitempty"`
+
+	// simpleContent character data
+	EnclosedText string `xml:",chardata"`
+}

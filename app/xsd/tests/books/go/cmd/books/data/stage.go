@@ -92,4 +92,3 @@ func _(stage *models.Stage) {
 	__models__Credit__00000001_.Link = append(__models__Credit__00000001_.Link, __models__Link__00000001_)
 	__models__Credit__00000002_.Link = append(__models__Credit__00000002_.Link, __models__Link__00000002_)
 }
-

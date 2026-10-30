@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns:message="http://www.aixm.aero/schema/5.1.1/message"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:gml="http://www.opengis.net/gml/3.2"
+        xmlns:aixm="http://www.aixm.aero/schema/5.1.1"
+        targetNamespace="http://www.aixm.aero/schema/5.1.1/message"
+        elementFormDefault="qualified"
+        attributeFormDefault="unqualified"
+        version="5.1.1">
+	<import namespace="http://www.w3.org/1999/xlink" schemaLocation="../xlink/xlink.xsd"/>
+	<import namespace="http://www.opengis.net/gml/3.2" schemaLocation="../gml321forAIXM.xsd"/>
+	<import namespace="http://www.aixm.aero/schema/5.1.1" schemaLocation="../aixm-5.1.1/AIXM_Features.xsd"/>
+
+	<group name="AIXMBasicMessagePropertyGroup">
+		<sequence>
+			<element name="hasMember" type="message:BasicMessageMemberAIXMPropertyType" maxOccurs="unbounded"/>
+		</sequence>
+	</group>
+	<complexType name="AIXMBasicMessageType">
+		<complexContent>
+			<extension base="aixm:AbstractAIXMMessageType">
+				<sequence>
+					<group ref="message:AIXMBasicMessagePropertyGroup"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="AIXMBasicMessage" type="message:AIXMBasicMessageType" substitutionGroup="gml:AbstractFeature"/>
+	<complexType name="BasicMessageMemberAIXMPropertyType">
+		<complexContent>
+			<extension base="gml:AbstractFeatureMemberType">
+				<choice>
+					<element ref="aixm:OrganisationAuthority"/>
+					<element ref="aixm:Unit"/>
+					<element ref="aixm:AirTrafficControlService"/>
+					<element ref="aixm:AirTrafficManagementService"/>
+					<element ref="aixm:GroundTrafficControlService"/>
+					<element ref="aixm:InformationService"/>
+					<element ref="aixm:SearchRescueService"/>
+					<element ref="aixm:AircraftGroundService"/>
+					<element ref="aixm:AirportClearanceService"/>
+					<element ref="aixm:AirportSuppliesService"/>
+					<element ref="aixm:FireFightingService"/>
+					<element ref="aixm:PassengerService"/>
+					<element ref="aixm:PilotControlledLighting"/>
+					<element ref="aixm:RadioCommunicationChannel"/>
+					<element ref="aixm:SpecialDate"/>
+					<element ref="aixm:StandardLevelTable"/>
+					<element ref="aixm:StandardLevelColumn"/>
+					<element ref="aixm:StandardLevelSector"/>
+					<element ref="aixm:StandardLevel"/>
+				</choice>
+				<attributeGroup ref="gml:AssociationAttributeGroup"/>
+			</extension>
+		</complexContent>
+	</complexType>
+</schema>

@@ -796,7 +796,7 @@
             ]
         },
         {
-            "label": "dsm - xsd: go run . read AIXM_BasicMessage.xsd",
+            "label": "dsm - xsd: go run . read aixm/airport/airport_message.xsd",
             "type": "shell",
             "options": {
                 "cwd": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong"
@@ -807,9 +807,9 @@
                 "run",
                 ".",
                 "read",
-                "../../../tests/aixm/aixm-5.1.1/message/AIXM_BasicMessage.xsd",
+                "../../../tests/aixm/airport/airport_message.xsd",
                 "-o",
-                "../../../tests/aixm/go/models"
+                "../../../tests/aixm/airport/go/models"
             ]
         },
         {
@@ -1001,26 +1001,26 @@
             ]
         },
         {
-            "label": "dsm - xsd - aixm: xsd2gong generate",
+            "label": "dsm - xsd - aixm/airport: xsd2gong generate",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/app/xsd/tests/aixm"
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/airport"
             },
             "command": "xsd2gong",
             "group": "build",
             "args": [
                 "generate",
-                "aixm-5.1.1/message/AIXM_BasicMessage.xsd",
+                "airport_message.xsd",
                 "-o",
                 "go/models",
                 "-v"
             ]
         },
         {
-            "label": "dsm - xsd - aixm: gong generate",
+            "label": "dsm - xsd - aixm/airport: gong generate",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/go/models"
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/airport/go/models"
             },
             "command": "gong",
             "group": "build",
@@ -1030,10 +1030,10 @@
             ]
         },
         {
-            "label": "dsm - xsd - aixm: go test",
+            "label": "dsm - xsd - aixm/airport: go test",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/go/models"
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/airport/go/models"
             },
             "command": "go",
             "group": "build",
@@ -1043,10 +1043,352 @@
             ]
         },
         {
-            "label": "dsm - xsd - aixm: go run . edit data/stage.go",
+            "label": "dsm - xsd - aixm/airport: go run . edit data/stage.go",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/go/cmd/aixm"
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/airport/go/cmd/airport"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/airspace: xsd2gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/airspace"
+            },
+            "command": "xsd2gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "airspace_message.xsd",
+                "-o",
+                "go/models",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/airspace: gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/airspace/go/models"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/airspace: go test",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/airspace/go/models"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "test",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/airspace: go run . edit data/stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/airspace/go/cmd/airspace"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/route: xsd2gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/route"
+            },
+            "command": "xsd2gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "route_message.xsd",
+                "-o",
+                "go/models",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/route: gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/route/go/models"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/route: go test",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/route/go/models"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "test",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/route: go run . edit data/stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/route/go/cmd/route"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/navaid: xsd2gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/navaid"
+            },
+            "command": "xsd2gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "navaid_message.xsd",
+                "-o",
+                "go/models",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/navaid: gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/navaid/go/models"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/navaid: go test",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/navaid/go/models"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "test",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/navaid: go run . edit data/stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/navaid/go/cmd/navaid"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/procedure: xsd2gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/procedure"
+            },
+            "command": "xsd2gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "procedure_message.xsd",
+                "-o",
+                "go/models",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/procedure: gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/procedure/go/models"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/procedure: go test",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/procedure/go/models"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "test",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/procedure: go run . edit data/stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/procedure/go/cmd/procedure"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/obstacle: xsd2gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/obstacle"
+            },
+            "command": "xsd2gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "obstacle_message.xsd",
+                "-o",
+                "go/models",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/obstacle: gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/obstacle/go/models"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/obstacle: go test",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/obstacle/go/models"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "test",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/obstacle: go run . edit data/stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/obstacle/go/cmd/obstacle"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/service: xsd2gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/service"
+            },
+            "command": "xsd2gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "service_message.xsd",
+                "-o",
+                "go/models",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/service: gong generate",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/service/go/models"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/service: go test",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/service/go/models"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "test",
+                "-v"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/service: go run . edit data/stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/service/go/cmd/service"
             },
             "command": "go",
             "group": "build",

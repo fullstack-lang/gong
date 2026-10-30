@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message:AIXMBasicMessage xmlns:message="http://www.aixm.aero/schema/5.1.1/message"
+                          xmlns:aixm="http://www.aixm.aero/schema/5.1.1"
+                          xmlns:gml="http://www.opengis.net/gml/3.2"
+                          gml:id="MSG_NAVAID_POINT_001">
+    <gml:description>Navaids and DesignatedPoints Domain Message</gml:description>
+    <gml:identifier codeSpace="urn:uuid:">423e4567-e89b-12d3-a456-426614174000</gml:identifier>
+    <message:hasMember>
+        <aixm:Navaid gml:id="NAV_PGN">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000031</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:NavaidTimeSlice gml:id="NAV_TS_PGN_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:type>VOR_DME</aixm:type>
+                    <aixm:designator>PGN</aixm:designator>
+                    <aixm:name>PARIS CHARLES DE GAULLE</aixm:name>
+                </aixm:NavaidTimeSlice>
+            </aixm:timeSlice>
+        </aixm:Navaid>
+    </message:hasMember>
+    <message:hasMember>
+        <aixm:DesignatedPoint gml:id="DP_MOPAR">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000032</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:DesignatedPointTimeSlice gml:id="DP_TS_MOPAR_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:designator>MOPAR</aixm:designator>
+                    <aixm:type>ICAO</aixm:type>
+                    <aixm:name>MOPAR</aixm:name>
+                </aixm:DesignatedPointTimeSlice>
+            </aixm:timeSlice>
+        </aixm:DesignatedPoint>
+    </message:hasMember>
+</message:AIXMBasicMessage>

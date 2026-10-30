@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message:AIXMBasicMessage xmlns:message="http://www.aixm.aero/schema/5.1.1/message"
+                          xmlns:aixm="http://www.aixm.aero/schema/5.1.1"
+                          xmlns:gml="http://www.opengis.net/gml/3.2"
+                          gml:id="MSG_PROCEDURE_LFPG_001">
+    <gml:description>LFPG Terminal Procedures (SID/STAR/IAP) Domain Message</gml:description>
+    <gml:identifier codeSpace="urn:uuid:">523e4567-e89b-12d3-a456-426614174000</gml:identifier>
+    <message:hasMember>
+        <aixm:StandardInstrumentDeparture gml:id="SID_LFPG_MOPAR1A">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000041</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:StandardInstrumentDepartureTimeSlice gml:id="SID_TS_MOPAR1A_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:RNAV>YES</aixm:RNAV>
+                    <aixm:designator>MOPAR1A</aixm:designator>
+                </aixm:StandardInstrumentDepartureTimeSlice>
+            </aixm:timeSlice>
+        </aixm:StandardInstrumentDeparture>
+    </message:hasMember>
+</message:AIXMBasicMessage>
+

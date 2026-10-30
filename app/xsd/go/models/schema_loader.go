@@ -154,6 +154,9 @@ func LoadSchemaGraph(stage *Stage, rootXSDPath string, targetModelsDir string) (
 	// Collect per-schema inventory, compute anonymous types, and build global symbol tables
 	sg.buildInventoriesAndSymbolTables()
 
+	// Prune constructs in imported/included schemas that are not transitively reachable from RootSchema
+	sg.pruneUnreachableConstructs()
+
 	// Assign names on the XSD stage for probe inspection
 	PostProcessingNames(stage)
 
@@ -715,6 +718,365 @@ func (sg *SchemaGraph) buildSubstitutionGroups() {
 			}
 		}
 		collect(headQName)
+	}
+}
+
+func (sg *SchemaGraph) pruneUnreachableConstructs() {
+	if sg.RootSchema == nil || len(sg.SchemasInOrder) <= 1 {
+		return
+	}
+	if len(sg.RootSchema.Elements) == 0 && len(sg.AllComplexTypesBySchema[sg.RootSchema]) == 0 {
+		return
+	}
+
+	reachableCT := make(map[*ComplexType]bool)
+	reachableST := make(map[*SimpleType]bool)
+	reachableGrp := make(map[*Group]bool)
+	reachableAG := make(map[*AttributeGroup]bool)
+	reachableEl := make(map[*Element]bool)
+	reachableAttr := make(map[*Attribute]bool)
+
+	var markElement func(contextSchema *Schema, el *Element)
+	var markComplexType func(ct *ComplexType)
+	var markSimpleType func(st *SimpleType)
+	var markGroup func(contextSchema *Schema, grp *Group)
+	var markAttributeGroup func(contextSchema *Schema, ag *AttributeGroup)
+	var markAttribute func(contextSchema *Schema, attr *Attribute)
+	var markModelGroup func(contextSchema *Schema, mg *ModelGroup)
+
+	markBaseType := func(contextSchema *Schema, rawType string) {
+		if rawType == "" {
+			return
+		}
+		if ct := sg.ResolveComplexType(contextSchema, rawType); ct != nil {
+			markComplexType(ct)
+		}
+		if st := sg.ResolveSimpleType(contextSchema, rawType); st != nil {
+			markSimpleType(st)
+		}
+	}
+
+	markElement = func(contextSchema *Schema, el *Element) {
+		if el == nil || reachableEl[el] {
+			return
+		}
+		reachableEl[el] = true
+		elSchema := sg.SchemaOfElement[el]
+		if elSchema == nil {
+			elSchema = contextSchema
+		}
+		if el.Ref != "" {
+			if targetEl := sg.ResolveElement(elSchema, el.Ref); targetEl != nil {
+				targetSchema := sg.SchemaOfElement[targetEl]
+				markElement(targetSchema, targetEl)
+				if targetSchema != nil && targetEl.NameXSD != "" {
+					headQName := QName{Namespace: targetSchema.TargetNamespace, LocalName: targetEl.NameXSD}
+					for _, sub := range sg.EligibleSubstitutionMembers(elSchema, headQName) {
+						markElement(sg.SchemaOfElement[sub], sub)
+					}
+				}
+			}
+		}
+		if el.Type != "" {
+			markBaseType(elSchema, el.Type)
+		}
+		if el.ComplexType != nil {
+			markComplexType(el.ComplexType)
+		}
+		if el.SimpleType != nil {
+			markSimpleType(el.SimpleType)
+		}
+	}
+
+	markAttribute = func(contextSchema *Schema, attr *Attribute) {
+		if attr == nil || reachableAttr[attr] {
+			return
+		}
+		reachableAttr[attr] = true
+		attrSchema := sg.SchemaOfAttribute[attr]
+		if attrSchema == nil {
+			attrSchema = contextSchema
+		}
+		if attr.Ref != "" {
+			if targetAttr := sg.ResolveAttribute(attrSchema, attr.Ref); targetAttr != nil {
+				markAttribute(sg.SchemaOfAttribute[targetAttr], targetAttr)
+			}
+		}
+		if attr.Type != "" {
+			markBaseType(attrSchema, attr.Type)
+		}
+		if attr.InnerSimpleType != nil {
+			markSimpleType(attr.InnerSimpleType)
+		}
+	}
+
+	markAttributeGroup = func(contextSchema *Schema, ag *AttributeGroup) {
+		if ag == nil || reachableAG[ag] {
+			return
+		}
+		reachableAG[ag] = true
+		agSchema := sg.SchemaOfAttributeGroup[ag]
+		if agSchema == nil {
+			agSchema = contextSchema
+		}
+		if ag.Ref != "" {
+			if targetAg := sg.ResolveAttributeGroup(agSchema, ag.Ref); targetAg != nil {
+				markAttributeGroup(sg.SchemaOfAttributeGroup[targetAg], targetAg)
+			}
+		}
+		for _, attr := range ag.Attributes {
+			markAttribute(agSchema, attr)
+		}
+		for _, subAg := range ag.AttributeGroups {
+			markAttributeGroup(agSchema, subAg)
+		}
+	}
+
+	markGroup = func(contextSchema *Schema, grp *Group) {
+		if grp == nil || reachableGrp[grp] {
+			return
+		}
+		reachableGrp[grp] = true
+		grpSchema := sg.SchemaOfGroup[grp]
+		if grpSchema == nil {
+			grpSchema = contextSchema
+		}
+		if grp.Ref != "" {
+			if targetGrp := sg.ResolveGroup(grpSchema, grp.Ref); targetGrp != nil {
+				markGroup(sg.SchemaOfGroup[targetGrp], targetGrp)
+			}
+		}
+		markModelGroup(grpSchema, &grp.ModelGroup)
+	}
+
+	markModelGroup = func(contextSchema *Schema, mg *ModelGroup) {
+		if mg == nil {
+			return
+		}
+		for _, el := range mg.Elements {
+			markElement(contextSchema, el)
+		}
+		for _, seq := range mg.Sequences {
+			for _, el := range seq.Elements {
+				markElement(contextSchema, el)
+			}
+			markModelGroup(contextSchema, &seq.ModelGroup)
+		}
+		for _, ch := range mg.Choices {
+			for _, el := range ch.Elements {
+				markElement(contextSchema, el)
+			}
+			markModelGroup(contextSchema, &ch.ModelGroup)
+		}
+		for _, all := range mg.Alls {
+			for _, el := range all.Elements {
+				markElement(contextSchema, el)
+			}
+			markModelGroup(contextSchema, &all.ModelGroup)
+		}
+		for _, grp := range mg.Groups {
+			markGroup(contextSchema, grp)
+		}
+	}
+
+	markSimpleType = func(st *SimpleType) {
+		if st == nil || reachableST[st] {
+			return
+		}
+		reachableST[st] = true
+		stSchema := sg.SchemaOfSimpleType[st]
+		if st.Restriction != nil {
+			if st.Restriction.Base != "" {
+				markBaseType(stSchema, st.Restriction.Base)
+			}
+			if st.Restriction.SimpleType != nil {
+				markSimpleType(st.Restriction.SimpleType)
+			}
+		}
+		if st.List != nil {
+			if st.List.ItemType != "" {
+				markBaseType(stSchema, st.List.ItemType)
+			}
+			if st.List.SimpleType != nil {
+				markSimpleType(st.List.SimpleType)
+			}
+		}
+		if st.Union != nil {
+			for _, mt := range strings.Fields(st.Union.MemberTypes) {
+				markBaseType(stSchema, mt)
+			}
+			for _, subSt := range st.Union.SimpleTypes {
+				markSimpleType(subSt)
+			}
+		}
+	}
+
+	markComplexType = func(ct *ComplexType) {
+		if ct == nil || reachableCT[ct] {
+			return
+		}
+		reachableCT[ct] = true
+		ctSchema := sg.SchemaOfComplexType[ct]
+		if ct.OuterElement != nil {
+			markElement(ctSchema, ct.OuterElement)
+		}
+		for _, attr := range ct.Attributes {
+			markAttribute(ctSchema, attr)
+		}
+		for _, ag := range ct.AttributeGroups {
+			markAttributeGroup(ctSchema, ag)
+		}
+		if ct.Extension != nil {
+			for _, attr := range ct.Extension.Attributes {
+				markAttribute(ctSchema, attr)
+			}
+			for _, ag := range ct.Extension.AttributeGroups {
+				markAttributeGroup(ctSchema, ag)
+			}
+			if ct.Extension.Base != "" {
+				markBaseType(ctSchema, ct.Extension.Base)
+			}
+			markModelGroup(ctSchema, &ct.Extension.ModelGroup)
+		}
+		if ct.ComplexContent != nil {
+			if ct.ComplexContent.Extension != nil {
+				for _, attr := range ct.ComplexContent.Extension.Attributes {
+					markAttribute(ctSchema, attr)
+				}
+				for _, ag := range ct.ComplexContent.Extension.AttributeGroups {
+					markAttributeGroup(ctSchema, ag)
+				}
+				if ct.ComplexContent.Extension.Base != "" {
+					markBaseType(ctSchema, ct.ComplexContent.Extension.Base)
+				}
+				markModelGroup(ctSchema, &ct.ComplexContent.Extension.ModelGroup)
+			}
+			if ct.ComplexContent.Restriction != nil {
+				for _, attr := range ct.ComplexContent.Restriction.Attributes {
+					markAttribute(ctSchema, attr)
+				}
+				for _, ag := range ct.ComplexContent.Restriction.AttributeGroups {
+					markAttributeGroup(ctSchema, ag)
+				}
+				if ct.ComplexContent.Restriction.Base != "" {
+					markBaseType(ctSchema, ct.ComplexContent.Restriction.Base)
+				}
+				markModelGroup(ctSchema, &ct.ComplexContent.Restriction.ModelGroup)
+			}
+		}
+		if ct.SimpleContent != nil {
+			if ct.SimpleContent.Extension != nil {
+				for _, attr := range ct.SimpleContent.Extension.Attributes {
+					markAttribute(ctSchema, attr)
+				}
+				for _, ag := range ct.SimpleContent.Extension.AttributeGroups {
+					markAttributeGroup(ctSchema, ag)
+				}
+				if ct.SimpleContent.Extension.Base != "" {
+					markBaseType(ctSchema, ct.SimpleContent.Extension.Base)
+				}
+			}
+			if ct.SimpleContent.Restriction != nil {
+				for _, attr := range ct.SimpleContent.Restriction.Attributes {
+					markAttribute(ctSchema, attr)
+				}
+				for _, ag := range ct.SimpleContent.Restriction.AttributeGroups {
+					markAttributeGroup(ctSchema, ag)
+				}
+				if ct.SimpleContent.Restriction.Base != "" {
+					markBaseType(ctSchema, ct.SimpleContent.Restriction.Base)
+				}
+				if ct.SimpleContent.Restriction.SimpleType != nil {
+					markSimpleType(ct.SimpleContent.Restriction.SimpleType)
+				}
+			}
+		}
+		markModelGroup(ctSchema, &ct.ModelGroup)
+	}
+
+	// Seed reachability from RootSchema constructs
+	for _, el := range sg.RootSchema.Elements {
+		markElement(sg.RootSchema, el)
+	}
+	for _, ct := range sg.AllComplexTypesBySchema[sg.RootSchema] {
+		markComplexType(ct)
+	}
+	for _, st := range sg.AllSimpleTypesBySchema[sg.RootSchema] {
+		markSimpleType(st)
+	}
+	for _, grp := range sg.RootSchema.Groups {
+		markGroup(sg.RootSchema, grp)
+	}
+	for _, ag := range sg.RootSchema.AttributeGroups {
+		markAttributeGroup(sg.RootSchema, ag)
+	}
+	for _, attr := range sg.RootSchema.Attributes {
+		markAttribute(sg.RootSchema, attr)
+	}
+
+	// Filter non-root schemas to keep only reachable constructs
+	for _, s := range sg.SchemasInOrder {
+		if s.IsRootSchema {
+			continue
+		}
+		var keptCT []*ComplexType
+		for _, ct := range sg.AllComplexTypesBySchema[s] {
+			if reachableCT[ct] {
+				keptCT = append(keptCT, ct)
+			}
+		}
+		sg.AllComplexTypesBySchema[s] = keptCT
+
+		var keptST []*SimpleType
+		for _, st := range sg.AllSimpleTypesBySchema[s] {
+			if reachableST[st] {
+				keptST = append(keptST, st)
+			}
+		}
+		sg.AllSimpleTypesBySchema[s] = keptST
+
+		var keptGrp []*Group
+		for _, grp := range s.Groups {
+			if reachableGrp[grp] {
+				keptGrp = append(keptGrp, grp)
+			}
+		}
+		s.Groups = keptGrp
+
+		var keptAG []*AttributeGroup
+		for _, ag := range s.AttributeGroups {
+			if reachableAG[ag] {
+				keptAG = append(keptAG, ag)
+			}
+		}
+		s.AttributeGroups = keptAG
+
+		var keptEl []*Element
+		for _, el := range s.Elements {
+			if reachableEl[el] {
+				keptEl = append(keptEl, el)
+			}
+		}
+		s.Elements = keptEl
+
+		var keptAttr []*Attribute
+		for _, attr := range s.Attributes {
+			if reachableAttr[attr] {
+				keptAttr = append(keptAttr, attr)
+			}
+		}
+		s.Attributes = keptAttr
+	}
+
+	// Filter SubstitutionGroupResult to keep only reachable elements
+	for headQName, members := range sg.SubstitutionGroupResult {
+		var keptMembers []*Element
+		for _, m := range members {
+			if reachableEl[m] {
+				keptMembers = append(keptMembers, m)
+			}
+		}
+		sg.SubstitutionGroupResult[headQName] = keptMembers
 	}
 }
 
@@ -1388,6 +1750,9 @@ func deriveSubPackageName(scc []*Schema) string {
 	s := scc[0]
 	rawBase := strings.TrimSuffix(filepath.Base(s.FilePath), filepath.Ext(s.FilePath))
 	cleaned := sanitizeGoPkgName(rawBase)
+	if strings.HasPrefix(cleaned, "gml") {
+		return "gml"
+	}
 	if cleaned == "" {
 		cleaned = "subpkg"
 	}

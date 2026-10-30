@@ -31,10 +31,10 @@ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
         <!--====================================================================-->
         <!--==== IMPORT GML 3.2 ====-->
         <!-- <import namespace="http://www.opengis.net/gml/3.2" schemaLocation="http://schemas.opengis.net/gml/3.2.1/gml.xsd"/> -->
-        <import namespace="http://www.opengis.net/gml/3.2" schemaLocation="./gml/3.2.1/gml.xsd"/>
+        <import namespace="http://www.opengis.net/gml/3.2" schemaLocation="../gml321forAIXM.xsd"/>
         <!--==== IMPORT ISO19139 METADATA SCHEMA ====-->
         <!-- <import namespace="http://www.isotc211.org/2005/gmd" schemaLocation="http://schemas.opengis.net/iso/19139/20070417/gmd/gmd.xsd"/> -->
-        <import namespace="http://www.isotc211.org/2005/gmd" schemaLocation="./iso/19139/20070417/gmd/gmd.xsd"/>
+        <!-- <import namespace="http://www.isotc211.org/2005/gmd" schemaLocation="./iso/19139/20070417/gmd/gmd.xsd"/> -->
         <!--====================================================================-->
         <!--Base AIXM Feature/Object Constructs-->
         <!--====================================================================-->
@@ -211,27 +211,21 @@ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
         <complexType name="FeatureMetadataPropertyType">
                 <complexContent>
                         <extension base="gml:AbstractMetadataPropertyType">
-                                <sequence minOccurs="0">
-                                        <element ref="gmd:MD_Metadata"/>
-                                </sequence>
+                                <sequence minOccurs="0"/>
                         </extension>
                 </complexContent>
         </complexType>
         <complexType name="FeatureTimeSliceMetadataPropertyType">
                 <complexContent>
                         <extension base="gml:AbstractMetadataPropertyType">
-                                <sequence minOccurs="0">
-                                        <element ref="gmd:MD_Metadata"/>
-                                </sequence>
+                                <sequence minOccurs="0"/>
                         </extension>
                 </complexContent>
         </complexType>
         <complexType name="MessageMetadataPropertyType">
                 <complexContent>
                         <extension base="gml:AbstractMetadataPropertyType">
-                                <sequence minOccurs="0">
-                                        <element ref="gmd:MD_Metadata"/>
-                                </sequence>
+                                <sequence minOccurs="0"/>
                         </extension>
                 </complexContent>
         </complexType>

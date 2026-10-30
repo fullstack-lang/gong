@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message:AIXMBasicMessage xmlns:message="http://www.aixm.aero/schema/5.1.1/message"
+                          xmlns:aixm="http://www.aixm.aero/schema/5.1.1"
+                          xmlns:gml="http://www.opengis.net/gml/3.2"
+                          gml:id="MSG_ROUTE_UN859_001">
+    <gml:description>ATS Route UN859 Domain Message</gml:description>
+    <gml:identifier codeSpace="urn:uuid:">323e4567-e89b-12d3-a456-426614174000</gml:identifier>
+    <message:hasMember>
+        <aixm:Route gml:id="RTE_UN859">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000021</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:RouteTimeSlice gml:id="RTE_TS_UN859_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:designatorPrefix>U</aixm:designatorPrefix>
+                    <aixm:designatorSecondLetter>N</aixm:designatorSecondLetter>
+                    <aixm:designatorNumber>859</aixm:designatorNumber>
+                    <aixm:type>ATS</aixm:type>
+                </aixm:RouteTimeSlice>
+            </aixm:timeSlice>
+        </aixm:Route>
+    </message:hasMember>
+</message:AIXMBasicMessage>
+

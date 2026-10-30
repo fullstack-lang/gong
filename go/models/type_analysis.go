@@ -158,10 +158,11 @@ func RunTypeAnalysis(modelPkg *ModelPkg, astPackage *ast.Package) {
 		}
 	}
 
-	// Filter user AST files (exclude generated files and subdirectories)
+	// Filter user AST files (exclude generated files, test files, and subdirectories)
 	var userAstFiles []*ast.File
 	for filePath, file := range astPackage.Files {
-		if slices.Contains(GeneratedModelFiles, filepath.Base(filePath)) {
+		baseName := filepath.Base(filePath)
+		if slices.Contains(GeneratedModelFiles, baseName) || strings.HasPrefix(baseName, "zzz_gong") || strings.HasSuffix(baseName, "_test.go") {
 			continue
 		}
 

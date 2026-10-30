@@ -159,6 +159,130 @@ func loadEmbeddedPackages(stage *gong.Stage, goModelsDir embed.FS, metaPackageIm
 		}
 	}
 
+	// Index all AST struct declarations by package and name (including non-GongStruct embedded groups)
+	astStructsByPkgAndName := make(map[string]*ast.StructType)
+	for _, pkgs := range allPkgs {
+		for _, astPkg := range pkgs {
+			for _, file := range astPkg.Files {
+				for _, decl := range file.Decls {
+					genDecl, ok := decl.(*ast.GenDecl)
+					if !ok || genDecl.Tok != token.TYPE {
+						continue
+					}
+					for _, spec := range genDecl.Specs {
+						typeSpec, ok := spec.(*ast.TypeSpec)
+						if !ok {
+							continue
+						}
+						if st, ok := typeSpec.Type.(*ast.StructType); ok {
+							astStructsByPkgAndName[astPkg.Name+"."+typeSpec.Name.Name] = st
+						}
+					}
+				}
+			}
+		}
+	}
+
+	var scanCrossPackageStructFields func(pkgName string, structType *ast.StructType, owningGS *gong.GongStruct, existingFields map[string]bool)
+	scanCrossPackageStructFields = func(pkgName string, structType *ast.StructType, owningGS *gong.GongStruct, existingFields map[string]bool) {
+		if structType == nil || structType.Fields == nil {
+			return
+		}
+		for _, field := range structType.Fields.List {
+			if len(field.Names) == 0 {
+				switch emb := field.Type.(type) {
+				case *ast.Ident:
+					if embST, ok := astStructsByPkgAndName[pkgName+"."+emb.Name]; ok {
+						scanCrossPackageStructFields(pkgName, embST, owningGS, existingFields)
+					}
+				case *ast.SelectorExpr:
+					if pkgIdent, ok := emb.X.(*ast.Ident); ok {
+						if embST, ok := astStructsByPkgAndName[pkgIdent.Name+"."+emb.Sel.Name]; ok {
+							scanCrossPackageStructFields(pkgIdent.Name, embST, owningGS, existingFields)
+						}
+					}
+				}
+				continue
+			}
+			fieldName := field.Names[0].Name
+			if existingFields[fieldName] {
+				continue
+			}
+
+			switch ft := field.Type.(type) {
+			case *ast.Ident:
+				switch ft.Name {
+				case "string", "int", "float64", "bool":
+					basicField := (&gong.GongBasicField{
+						Name:          fieldName,
+						BasicKindName: ft.Name,
+						DeclaredType:  ft.Name,
+						Index:         len(owningGS.Fields),
+					}).Stage(stage)
+					owningGS.Fields = append(owningGS.Fields, basicField)
+					owningGS.GongBasicFields = append(owningGS.GongBasicFields, basicField)
+					existingFields[fieldName] = true
+				}
+			case *ast.StarExpr:
+				var targetGS *gong.GongStruct
+				if sel, ok := ft.X.(*ast.SelectorExpr); ok {
+					pkgIdent, isIdent := sel.X.(*ast.Ident)
+					targetName := sel.Sel.Name
+					if isIdent {
+						targetGS = structsByPkgAndName[pkgIdent.Name+"."+targetName]
+					}
+					if targetGS == nil {
+						targetGS = structsByName[targetName]
+					}
+				} else if ident, ok := ft.X.(*ast.Ident); ok {
+					targetGS = structsByPkgAndName[pkgName+"."+ident.Name]
+					if targetGS == nil {
+						targetGS = structsByName[ident.Name]
+					}
+				}
+				if targetGS != nil {
+					ptrField := (&gong.PointerToGongStructField{
+						Name:       fieldName,
+						GongStruct: targetGS,
+						Index:      len(owningGS.Fields),
+					}).Stage(stage)
+					owningGS.Fields = append(owningGS.Fields, ptrField)
+					owningGS.PointerToGongStructFields = append(owningGS.PointerToGongStructFields, ptrField)
+					existingFields[fieldName] = true
+				}
+			case *ast.ArrayType:
+				if star, ok := ft.Elt.(*ast.StarExpr); ok {
+					var targetGS *gong.GongStruct
+					if sel, ok := star.X.(*ast.SelectorExpr); ok {
+						pkgIdent, isIdent := sel.X.(*ast.Ident)
+						targetName := sel.Sel.Name
+						if isIdent {
+							targetGS = structsByPkgAndName[pkgIdent.Name+"."+targetName]
+						}
+						if targetGS == nil {
+							targetGS = structsByName[targetName]
+						}
+					} else if ident, ok := star.X.(*ast.Ident); ok {
+						targetGS = structsByPkgAndName[pkgName+"."+ident.Name]
+						if targetGS == nil {
+							targetGS = structsByName[ident.Name]
+						}
+					}
+					if targetGS != nil {
+						sliceField := (&gong.SliceOfPointerToGongStructField{
+							Name:       fieldName,
+							GongStruct: targetGS,
+							Index:      len(owningGS.Fields),
+						}).Stage(stage)
+						owningGS.Fields = append(owningGS.Fields, sliceField)
+						owningGS.SliceOfPointerToGongStructFields = append(owningGS.SliceOfPointerToGongStructFields, sliceField)
+						existingFields[fieldName] = true
+					}
+				}
+			}
+		}
+	}
+
 	// Scan ASTs for cross-package pointer and slice fields that single-package parser skips
 	for _, pkgs := range allPkgs {
 		for _, astPkg := range pkgs {
@@ -190,64 +314,7 @@ func loadEmbeddedPackages(stage *gong.Stage, goModelsDir embed.FS, metaPackageIm
 							existingFields[f.GetName()] = true
 						}
 
-						for _, field := range structType.Fields.List {
-							if len(field.Names) == 0 {
-								continue
-							}
-							fieldName := field.Names[0].Name
-							if existingFields[fieldName] {
-								continue
-							}
-
-							switch ft := field.Type.(type) {
-							case *ast.StarExpr:
-								if sel, ok := ft.X.(*ast.SelectorExpr); ok {
-									pkgIdent, isIdent := sel.X.(*ast.Ident)
-									targetName := sel.Sel.Name
-									var targetGS *gong.GongStruct
-									if isIdent {
-										targetGS = structsByPkgAndName[pkgIdent.Name+"."+targetName]
-									}
-									if targetGS == nil {
-										targetGS = structsByName[targetName]
-									}
-									if targetGS != nil {
-										ptrField := (&gong.PointerToGongStructField{
-											Name:       fieldName,
-											GongStruct: targetGS,
-											Index:      len(owningGS.Fields),
-										}).Stage(stage)
-										owningGS.Fields = append(owningGS.Fields, ptrField)
-										owningGS.PointerToGongStructFields = append(owningGS.PointerToGongStructFields, ptrField)
-										existingFields[fieldName] = true
-									}
-								}
-							case *ast.ArrayType:
-								if star, ok := ft.Elt.(*ast.StarExpr); ok {
-									if sel, ok := star.X.(*ast.SelectorExpr); ok {
-										pkgIdent, isIdent := sel.X.(*ast.Ident)
-										targetName := sel.Sel.Name
-										var targetGS *gong.GongStruct
-										if isIdent {
-											targetGS = structsByPkgAndName[pkgIdent.Name+"."+targetName]
-										}
-										if targetGS == nil {
-											targetGS = structsByName[targetName]
-										}
-										if targetGS != nil {
-											sliceField := (&gong.SliceOfPointerToGongStructField{
-												Name:       fieldName,
-												GongStruct: targetGS,
-												Index:      len(owningGS.Fields),
-											}).Stage(stage)
-											owningGS.Fields = append(owningGS.Fields, sliceField)
-											owningGS.SliceOfPointerToGongStructFields = append(owningGS.SliceOfPointerToGongStructFields, sliceField)
-											existingFields[fieldName] = true
-										}
-									}
-								}
-							}
-						}
+						scanCrossPackageStructFields(astPkg.Name, structType, owningGS, existingFields)
 					}
 				}
 			}
@@ -256,8 +323,21 @@ func loadEmbeddedPackages(stage *gong.Stage, goModelsDir embed.FS, metaPackageIm
 
 	// Link intra-package pointer targets if any are placeholder instances
 	for gs := range *stage.GetInstancesSet[*gong.GongStruct]() {
+		pkgName := ""
+		if gs.ModelPkg != nil {
+			pkgName = gs.ModelPkg.PkgGoName
+		}
 		for _, ptrField := range gs.PointerToGongStructFields {
 			if ptrField.GongStruct != nil {
+				if ptrField.GongStruct.ModelPkg != nil && ptrField.GongStruct.ModelPkg.PkgGoName != "" {
+					continue
+				}
+				if pkgName != "" {
+					if actual, ok := structsByPkgAndName[pkgName+"."+ptrField.GongStruct.Name]; ok && ptrField.GongStruct != actual {
+						ptrField.GongStruct = actual
+						continue
+					}
+				}
 				if actual, ok := structsByName[ptrField.GongStruct.Name]; ok && ptrField.GongStruct != actual {
 					ptrField.GongStruct = actual
 				}
@@ -265,6 +345,15 @@ func loadEmbeddedPackages(stage *gong.Stage, goModelsDir embed.FS, metaPackageIm
 		}
 		for _, sliceField := range gs.SliceOfPointerToGongStructFields {
 			if sliceField.GongStruct != nil {
+				if sliceField.GongStruct.ModelPkg != nil && sliceField.GongStruct.ModelPkg.PkgGoName != "" {
+					continue
+				}
+				if pkgName != "" {
+					if actual, ok := structsByPkgAndName[pkgName+"."+sliceField.GongStruct.Name]; ok && sliceField.GongStruct != actual {
+						sliceField.GongStruct = actual
+						continue
+					}
+				}
 				if actual, ok := structsByName[sliceField.GongStruct.Name]; ok && sliceField.GongStruct != actual {
 					sliceField.GongStruct = actual
 				}
@@ -303,7 +392,9 @@ func prepareStagesSet(
 	if !embeddedDiagrams {
 		diagramsPath := "../../models/diagrams/diagrams_set.go"
 		if _, err := os.Stat(diagramsPath); os.IsNotExist(err) {
-			if _, errOld := os.Stat("../../diagrams/diagrams_set.go"); errOld == nil {
+			if _, errLocal := os.Stat("diagrams/diagrams_set.go"); errLocal == nil {
+				diagramsPath = "diagrams/diagrams_set.go"
+			} else if _, errOld := os.Stat("../../diagrams/diagrams_set.go"); errOld == nil {
 				diagramsPath = "../../diagrams/diagrams_set.go"
 			}
 		}
