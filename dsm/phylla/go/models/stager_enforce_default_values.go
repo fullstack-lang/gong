@@ -97,6 +97,11 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				vase.BulbousEndAngle = 30.0
 				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: default BulbousEndAngle set to 30.0", plant.Name))
 			}
+			if vase.ColorCombination < 1 || vase.ColorCombination > 10 {
+				needCommit = true
+				vase.ColorCombination = 1
+				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: default ColorCombination set to 1", plant.Name))
+			}
 		}
 		if stool := plant.StoolAbstract; stool != nil {
 			if stool.RadialRepetitions < 1 {

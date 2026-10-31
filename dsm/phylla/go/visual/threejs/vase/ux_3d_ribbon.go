@@ -26,7 +26,7 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 ) {
 	threejsStage := stager.GetThreejsStage()
 
-	hasAlternatingRingColors := false
+	colorCombination := 1
 	offsetKeyX := 0.0
 	widthKey := 0.0
 	offsetKeyY := 0.0
@@ -39,7 +39,7 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 	if plant.PlantType == models.TubeVase || plant.PlantType == models.VaseTrapeze {
 		vase := plant.TubeVaseAbstract
 		if vase != nil {
-			hasAlternatingRingColors = vase.HasAlternatingRingColors
+			colorCombination = vase.ColorCombination
 			offsetKeyX = vase.OffsetKeyX
 			widthKey = vase.WidthKey
 			offsetKeyY = vase.OffsetKeyY
@@ -52,10 +52,7 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 		}
 	}
 
-	japanesePaperColor := "#fdf6e3" // Off-white cream color for Washi paper
-	if hasAlternatingRingColors && h%2 != 0 {
-		japanesePaperColor = "#8d6e63" // Warm rose brown / wood paper color for alternating rings
-	}
+	japanesePaperColor := models.GetVaseRingColor(colorCombination, h)
 
 	// ============================================================================
 	// FIRST PASS: Vertex Generation & Elevation Levels

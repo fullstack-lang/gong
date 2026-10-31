@@ -849,8 +849,8 @@ func saveStageSet_TubeVaseAbstract_Stage(
 			FormDivBasicFieldToField(&inst.RadialRepetitions, formDiv)
 		case "Transparency":
 			FormDivBasicFieldToField(&inst.Transparency, formDiv)
-		case "HasAlternatingRingColors":
-			FormDivBasicFieldToField(&inst.HasAlternatingRingColors, formDiv)
+		case "ColorCombination":
+			FormDivBasicFieldToField(&inst.ColorCombination, formDiv)
 		case "RelativeTrajectoryOffsetX":
 			FormDivBasicFieldToField(&inst.RelativeTrajectoryOffsetX, formDiv)
 		case "RelativeTrajectoryOffsetY":

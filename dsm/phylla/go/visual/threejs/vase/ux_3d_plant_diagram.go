@@ -41,12 +41,12 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		checkedDiagram = plant.TubeVase3DDiagrams[0]
 	}
 
-	// lights
-	u.addLights(stager, canvas)
-
 	globalR := u.computeGlobalRadius(plant)
 
 	u.setupCamera(stager, canvas, checkedDiagram, globalR)
+
+	// lights (placed relative to camera so raking side-light always sculpts the visible undulations)
+	u.addLights(stager, canvas)
 
 	floorMinY := math.MaxFloat64
 
@@ -430,10 +430,11 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			// 4. Bottom ruled surface (side wall): between BottomCurvePlane2 and BottomCurvePlane1
 			addQuadStrip(cBottomB, cBottomA, "Bottom Wall Face", false)
 
-			color := "#fdf6e3"
-			if plant.TubeVaseAbstract != nil && plant.TubeVaseAbstract.HasAlternatingRingColors && h%2 != 0 {
-				color = "#8d6e63"
+			colorComb := 1
+			if plant.TubeVaseAbstract != nil {
+				colorComb = plant.TubeVaseAbstract.ColorCombination
 			}
+			color := models.GetVaseRingColor(colorComb, h)
 
 			transparency := 0.0
 			if plant.TubeVaseAbstract != nil {
@@ -856,6 +857,40 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				}
 			}
 
+			idxCapOuterTop := make([]int, M)
+			idxCapInnerTop := make([]int, M)
+			idxCapInnerFloor := make([]int, M)
+			idxCapOuterFloor := make([]int, M)
+			for i := 0; i < M; i++ {
+				vOutTop := basePlateGeom.Vertices[idxOuter[0][i]]
+				idxCapOuterTop[i] = len(basePlateGeom.Vertices)
+				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+					Name: fmt.Sprintf("%s %s Cap Outer Top %d", plant.Name, shapeName, i),
+					X:    vOutTop.X, Y: vOutTop.Y, Z: vOutTop.Z,
+				}).Stage(threejsStage))
+
+				vInTop := basePlateGeom.Vertices[idxInner[0][i]]
+				idxCapInnerTop[i] = len(basePlateGeom.Vertices)
+				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+					Name: fmt.Sprintf("%s %s Cap Inner Top %d", plant.Name, shapeName, i),
+					X:    vInTop.X, Y: vInTop.Y, Z: vInTop.Z,
+				}).Stage(threejsStage))
+
+				vInFloor := basePlateGeom.Vertices[idxInner[S][i]]
+				idxCapInnerFloor[i] = len(basePlateGeom.Vertices)
+				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+					Name: fmt.Sprintf("%s %s Cap Inner Floor %d", plant.Name, shapeName, i),
+					X:    vInFloor.X, Y: vInFloor.Y, Z: vInFloor.Z,
+				}).Stage(threejsStage))
+
+				vOutFloor := basePlateGeom.Vertices[idxOuter[S][i]]
+				idxCapOuterFloor[i] = len(basePlateGeom.Vertices)
+				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+					Name: fmt.Sprintf("%s %s Cap Outer Floor %d", plant.Name, shapeName, i),
+					X:    vOutFloor.X, Y: vOutFloor.Y, Z: vOutFloor.Z,
+				}).Stage(threejsStage))
+			}
+
 			for i := 0; i < M; i++ {
 				nextI := (i + 1) % M
 
@@ -863,11 +898,11 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				basePlateGeom.Faces = append(basePlateGeom.Faces,
 					(&threejs.Triangle{
 						Name: fmt.Sprintf("%s %s Top Face T1 %d", plant.Name, shapeName, i),
-						V1:   idxInner[0][i], V2: idxOuter[0][nextI], V3: idxOuter[0][i],
+						V1:   idxCapInnerTop[i], V2: idxCapOuterTop[nextI], V3: idxCapOuterTop[i],
 					}).Stage(threejsStage),
 					(&threejs.Triangle{
 						Name: fmt.Sprintf("%s %s Top Face T2 %d", plant.Name, shapeName, i),
-						V1:   idxInner[0][i], V2: idxInner[0][nextI], V3: idxOuter[0][nextI],
+						V1:   idxCapInnerTop[i], V2: idxCapInnerTop[nextI], V3: idxCapOuterTop[nextI],
 					}).Stage(threejsStage),
 				)
 
@@ -875,7 +910,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				basePlateGeom.Faces = append(basePlateGeom.Faces,
 					(&threejs.Triangle{
 						Name: fmt.Sprintf("%s %s Plancher Face %d", plant.Name, shapeName, i),
-						V1:   idxPlancherCenter, V2: idxInner[S][nextI], V3: idxInner[S][i],
+						V1:   idxPlancherCenter, V2: idxCapInnerFloor[nextI], V3: idxCapInnerFloor[i],
 					}).Stage(threejsStage),
 				)
 
@@ -883,16 +918,18 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				basePlateGeom.Faces = append(basePlateGeom.Faces,
 					(&threejs.Triangle{
 						Name: fmt.Sprintf("%s %s Floor Face %d", plant.Name, shapeName, i),
-						V1:   idxFloorCenter, V2: idxOuter[S][i], V3: idxOuter[S][nextI],
+						V1:   idxFloorCenter, V2: idxCapOuterFloor[i], V3: idxCapOuterFloor[nextI],
 					}).Stage(threejsStage),
 				)
 			}
 
-			color := "#fdf6e3"
+			colorComb := 1
 			transparency := 0.0
 			if plant.TubeVaseAbstract != nil {
+				colorComb = plant.TubeVaseAbstract.ColorCombination
 				transparency = plant.TubeVaseAbstract.Transparency
 			}
+			color := models.GetVaseRingColor(colorComb, 0)
 			opacity := 1.0 - transparency
 			if opacity < 0.0 {
 				opacity = 0.0

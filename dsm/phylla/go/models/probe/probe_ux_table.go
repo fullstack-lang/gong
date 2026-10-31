@@ -5690,7 +5690,7 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *Probe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
-		col.Name = "HasAlternatingRingColors"
+		col.Name = "ColorCombination"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -6040,8 +6040,8 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *Probe) {
 		}
 
 		{
-			cell := &table_models.Cell{Name: "HasAlternatingRingColors"}
-			cell.CellBool = &table_models.CellBoolean{Value: structInstance.HasAlternatingRingColors}
+			cell := &table_models.Cell{Name: "ColorCombination"}
+			cell.CellInt = &table_models.CellInt{Value: int(structInstance.ColorCombination)}
 			row.Cells = append(row.Cells, cell)
 		}
 

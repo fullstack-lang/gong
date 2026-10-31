@@ -25411,8 +25411,8 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "HasAlternatingRingColors",
-			GongFieldValueType: GongFieldValueTypeBool,
+			Name:               "ColorCombination",
+			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
 			Name:               "RelativeTrajectoryOffsetX",
@@ -30858,10 +30858,10 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldValue(fieldName string, st
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.Transparency)
 		res.valueFloat = tubevaseabstract.Transparency
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "HasAlternatingRingColors":
-		res.valueString = fmt.Sprintf("%t", tubevaseabstract.HasAlternatingRingColors)
-		res.valueBool = tubevaseabstract.HasAlternatingRingColors
-		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ColorCombination":
+		res.valueString = fmt.Sprintf("%d", tubevaseabstract.ColorCombination)
+		res.valueInt = tubevaseabstract.ColorCombination
+		res.GongFieldValueType = GongFieldValueTypeInt
 	case "RelativeTrajectoryOffsetX":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeTrajectoryOffsetX)
 		res.valueFloat = tubevaseabstract.RelativeTrajectoryOffsetX

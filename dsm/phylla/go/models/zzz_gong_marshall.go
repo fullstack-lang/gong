@@ -1504,7 +1504,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.RotationRatio = %f", tubevaseabstractIdent, tubevaseabstract.RotationRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.RadialRepetitions = %d", tubevaseabstractIdent, tubevaseabstract.RadialRepetitions))
 			values.WriteString(fmt.Sprintf("\n\t%s.Transparency = %f", tubevaseabstractIdent, tubevaseabstract.Transparency))
-			values.WriteString(fmt.Sprintf("\n\t%s.HasAlternatingRingColors = %t", tubevaseabstractIdent, tubevaseabstract.HasAlternatingRingColors))
+			values.WriteString(fmt.Sprintf("\n\t%s.ColorCombination = %d", tubevaseabstractIdent, tubevaseabstract.ColorCombination))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeTrajectoryOffsetX = %f", tubevaseabstractIdent, tubevaseabstract.RelativeTrajectoryOffsetX))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeTrajectoryOffsetY = %f", tubevaseabstractIdent, tubevaseabstract.RelativeTrajectoryOffsetY))
 			values.WriteString(fmt.Sprintf("\n\t%s.NbStepP1P2 = %d", tubevaseabstractIdent, tubevaseabstract.NbStepP1P2))
@@ -5127,8 +5127,8 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallField(stage *Stage, fieldN
 		res = __gong__marshallInt(ident, "RadialRepetitions", tubevaseabstract.RadialRepetitions)
 	case "Transparency":
 		res = __gong__marshallFloat(ident, "Transparency", tubevaseabstract.Transparency)
-	case "HasAlternatingRingColors":
-		res = __gong__marshallBool(ident, "HasAlternatingRingColors", tubevaseabstract.HasAlternatingRingColors)
+	case "ColorCombination":
+		res = __gong__marshallInt(ident, "ColorCombination", tubevaseabstract.ColorCombination)
 	case "RelativeTrajectoryOffsetX":
 		res = __gong__marshallFloat(ident, "RelativeTrajectoryOffsetX", tubevaseabstract.RelativeTrajectoryOffsetX)
 	case "RelativeTrajectoryOffsetY":
@@ -7612,7 +7612,7 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RotationRatio"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RadialRepetitions"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "Transparency"))
-		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "HasAlternatingRingColors"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "ColorCombination"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "NbStepP1P2"))

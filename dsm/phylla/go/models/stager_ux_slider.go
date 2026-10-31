@@ -312,10 +312,13 @@ func (stager *Stager) ux_slider() {
 			if plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze {
 				group1.Sliders = append(
 					group1.Sliders,
-					NewBoolSlider(
+					m.NewSlider(
 						stager,
-						"Alternating Ring Colors",
-						&plant.TubeVaseAbstract.HasAlternatingRingColors,
+						"Color Combination",
+						1,
+						10,
+						1,
+						&plant.TubeVaseAbstract.ColorCombination,
 					),
 				)
 			}

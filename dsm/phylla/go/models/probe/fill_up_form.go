@@ -694,7 +694,7 @@ func FillUpForm(
 		StageSetBasicFieldtoForm("RotationRatio", inst.RotationRatio, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("RadialRepetitions", inst.RadialRepetitions, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("Transparency", inst.Transparency, probe.formStage, formGroup)
-		StageSetBasicFieldtoForm("HasAlternatingRingColors", inst.HasAlternatingRingColors, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("ColorCombination", inst.ColorCombination, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("RelativeTrajectoryOffsetX", inst.RelativeTrajectoryOffsetX, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("RelativeTrajectoryOffsetY", inst.RelativeTrajectoryOffsetY, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("NbStepP1P2", inst.NbStepP1P2, probe.formStage, formGroup)

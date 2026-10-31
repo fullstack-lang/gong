@@ -1770,8 +1770,8 @@ func (plant2DDiagram *Plant2DDiagram) drawStackOfGrowthCurve2DRibbon(stager *Sta
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "blue"
-		if plant.PlantType == TubeVase && plant.TubeVaseAbstract.HasAlternatingRingColors && i%2 != 0 {
-			path.Presentation.Color = "saddlebrown"
+		if plant.PlantType == TubeVase && plant.TubeVaseAbstract.ColorCombination > 1 {
+			path.Presentation.Color = GetVaseRingColor(plant.TubeVaseAbstract.ColorCombination, i)
 		}
 		path.Presentation.Stroke = "none"
 	}
@@ -1824,8 +1824,8 @@ func (plant2DDiagram *Plant2DDiagram) drawStackOfGrowthCurve2DRibbon(stager *Sta
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "blue"
-		if plant.PlantType == TubeVase && plant.TubeVaseAbstract.HasAlternatingRingColors && i%2 != 0 {
-			path.Presentation.Color = "saddlebrown"
+		if plant.PlantType == TubeVase && plant.TubeVaseAbstract.ColorCombination > 1 {
+			path.Presentation.Color = GetVaseRingColor(plant.TubeVaseAbstract.ColorCombination, i)
 		}
 		path.Presentation.Stroke = "none"
 	}
@@ -1887,8 +1887,8 @@ func (plant2DDiagram *Plant2DDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stag
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "purple"
-		if plant.PlantType == TubeVase && plant.TubeVaseAbstract.HasAlternatingRingColors && i%2 != 0 {
-			path.Presentation.Color = "saddlebrown"
+		if plant.PlantType == TubeVase && plant.TubeVaseAbstract.ColorCombination > 1 {
+			path.Presentation.Color = GetVaseRingColor(plant.TubeVaseAbstract.ColorCombination, i)
 		}
 		path.Presentation.Stroke = "none"
 	}
@@ -1941,8 +1941,8 @@ func (plant2DDiagram *Plant2DDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stag
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "purple"
-		if plant.PlantType == TubeVase && plant.TubeVaseAbstract.HasAlternatingRingColors && i%2 != 0 {
-			path.Presentation.Color = "saddlebrown"
+		if plant.PlantType == TubeVase && plant.TubeVaseAbstract.ColorCombination > 1 {
+			path.Presentation.Color = GetVaseRingColor(plant.TubeVaseAbstract.ColorCombination, i)
 		}
 		path.Presentation.Stroke = "none"
 	}

@@ -450,4 +450,26 @@ func TestVaseTrapezeConstant3DThickness(t *testing.T) {
 	}
 }
 
+func TestVaseColorCombinations(t *testing.T) {
+	for comb := 1; comb <= 10; comb++ {
+		c0 := models.GetVaseRingColor(comb, 0)
+		c1 := models.GetVaseRingColor(comb, 1)
+		c2 := models.GetVaseRingColor(comb, 2)
+		c3 := models.GetVaseRingColor(comb, 3)
+		if c0 == "" || c1 == "" || c2 == "" || c3 == "" {
+			t.Fatalf("combination %d returned empty color", comb)
+		}
+		if comb <= 4 {
+			if c0 != c1 || c1 != c2 || c2 != c3 {
+				t.Errorf("expected combination %d to be homogeneous, got %s, %s, %s, %s", comb, c0, c1, c2, c3)
+			}
+		} else {
+			if c0 == c1 {
+				t.Errorf("expected combination %d to be heterogeneous across adjacent rings, got %s and %s", comb, c0, c1)
+			}
+		}
+	}
+}
+
+
 

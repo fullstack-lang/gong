@@ -72,8 +72,8 @@ type TubeVaseAbstract struct {
 	// Transparency of the 3D torus material (between 0.0 for opaque and 1.0 for transparent)
 	Transparency float64
 
-	// HasAlternatingRingColors when true alternates colors between rings in the stack
-	HasAlternatingRingColors bool
+	// ColorCombination selects one of 10 designer color combinations (from 1 to 10) for the rings in the stack
+	ColorCombination int
 
 	// RelativeTrajectoryOffsetX x PlantCircumferenceShape.Length
 	// RelativeTrajectoryOffsetY x PlantCircumferenceShape.Length
@@ -137,4 +137,43 @@ type TubeVaseAbstract struct {
 	PxShape                                 *PxShape
 	ChosenP1P2PairShape                     *ChosenP1P2PairShape
 	KeyHoleShape                            *KeyHoleShape
+}
+
+// VaseColorPalettes defines 10 designer color combinations (1-indexed: 1 to 10),
+// mixing homogeneous palettes (white, black, Hella Jongerius tones) and
+// heterogeneous palettes (Hella Jongerius multi-tone and bright crystal/glass colors).
+var VaseColorPalettes = [10][]string{
+	// 1. Porcelain White (Homogeneous) — warm gallery bisque porcelain
+	{"#f4f1ea"},
+	// 2. Anthracite Black (Homogeneous) — satin architectural charcoal/black
+	{"#4a4e54"},
+	// 3. Jongerius Celadon (Homogeneous) — Hella Jongerius mineral celadon green
+	{"#9caf9e"},
+	// 4. Jongerius Terracotta (Homogeneous) — Hella Jongerius warm oxblood/terracotta red
+	{"#b84a39"},
+	// 5. Jongerius Red & White Vase (Heterogeneous 2-tone) — porcelain white & vermilion terracotta
+	{"#f8f6f0", "#c83e2b"},
+	// 6. Jongerius Coloured Vases (Heterogeneous 4-tone) — chalk white, ochre amber, cobalt blue, celadon sage
+	{"#f4efe6", "#d48c46", "#3b5978", "#8a9a86"},
+	// 7. Jongerius Breathing Colour (Heterogeneous 4-tone) — petrol blue, dusty coral rose, mustard ochre, oxide green
+	{"#2b3a4a", "#e07a5f", "#e9c46a", "#457b63"},
+	// 8. Murano Crystal Jewel Glass (Heterogeneous 5-tone) — bright lagoon cyan, rubino fuchsia, amber citrine, amethyst, emerald aqua
+	{"#00b4d8", "#ff007f", "#ffbe0b", "#7209b7", "#06d6a0"},
+	// 9. Nordic Bright Art Glass (Heterogeneous 4-tone) — cobalt crystal blue, mandarin orange, cranberry rose, chartreuse green
+	{"#0077b6", "#fb5607", "#ff006e", "#8ac926"},
+	// 10. Bauhaus / Primary Pop Crystal (Heterogeneous 4-tone) — primary red, ultramarine blue, cadmium yellow, porcelain white
+	{"#e63946", "#1d3557", "#ffb703", "#f8f6f0"},
+}
+
+// GetVaseRingColor returns the hex color for a given 1-based colorCombination (1..10) and ring index h.
+func GetVaseRingColor(colorCombination int, ringIndex int) string {
+	idx := colorCombination - 1
+	if idx < 0 || idx >= len(VaseColorPalettes) {
+		idx = 0
+	}
+	palette := VaseColorPalettes[idx]
+	if ringIndex < 0 {
+		ringIndex = 0
+	}
+	return palette[ringIndex%len(palette)]
 }

@@ -13935,8 +13935,8 @@ func (tubevaseabstract *TubeVaseAbstract) GongDiff(stage *Stage, tubevaseabstrac
 	if tubevaseabstract.Transparency != tubevaseabstractOther.Transparency {
 		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "Transparency"))
 	}
-	if tubevaseabstract.HasAlternatingRingColors != tubevaseabstractOther.HasAlternatingRingColors {
-		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "HasAlternatingRingColors"))
+	if tubevaseabstract.ColorCombination != tubevaseabstractOther.ColorCombination {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "ColorCombination"))
 	}
 	if tubevaseabstract.RelativeTrajectoryOffsetX != tubevaseabstractOther.RelativeTrajectoryOffsetX {
 		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))

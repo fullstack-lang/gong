@@ -897,8 +897,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.RadialRepetitions = GongExtractInt(rhs)
 					case "Transparency":
 						inst.Transparency = GongExtractFloat(rhs)
-					case "HasAlternatingRingColors":
-						inst.HasAlternatingRingColors = GongExtractBool(rhs)
+					case "ColorCombination":
+						inst.ColorCombination = GongExtractInt(rhs)
 					case "RelativeTrajectoryOffsetX":
 						inst.RelativeTrajectoryOffsetX = GongExtractFloat(rhs)
 					case "RelativeTrajectoryOffsetY":
@@ -5301,8 +5301,8 @@ func (u *TubeVaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.RadialRepetitions = GongExtractInt(valueExpr)
 	case "Transparency":
 		instance.Transparency = GongExtractFloat(valueExpr)
-	case "HasAlternatingRingColors":
-		instance.HasAlternatingRingColors = GongExtractBool(valueExpr)
+	case "ColorCombination":
+		instance.ColorCombination = GongExtractInt(valueExpr)
 	case "RelativeTrajectoryOffsetX":
 		instance.RelativeTrajectoryOffsetX = GongExtractFloat(valueExpr)
 	case "RelativeTrajectoryOffsetY":

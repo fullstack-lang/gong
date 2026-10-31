@@ -12,32 +12,70 @@ import (
 func (u *ThreeJSStageUpdater) addLights(stager *models.Stager, canvas *threejs.Canvas) {
 	threejsStage := stager.GetThreejsStage()
 
+	// Compute horizontal camera Front and Left unit vectors so the raking key light
+	// strikes at ~85 degrees from the side across the visible undulations.
+	fx, fz := -1.0, 0.0
+	if canvas.Camera != nil {
+		dx := canvas.Camera.X - canvas.Camera.TargetX
+		dz := canvas.Camera.Z - canvas.Camera.TargetZ
+		if h := math.Hypot(dx, dz); h > 1e-6 {
+			fx, fz = dx/h, dz/h
+		}
+	}
+	// Left and Right unit vectors in the horizontal plane relative to camera view
+	lx, lz := -fz, fx
+	rx, rz := fz, -fx
+
+	const dist = 40.0
+
+	// 1. Dominant Raking Key Light (~85 degrees to the left of the camera, slight upward tilt):
+	// Grazing side light illuminates only the left-facing slopes of each undulation while leaving
+	// the right-facing slopes in shadow, creating strong 3D relief across the vertical waves.
 	dirLight1 := (&threejs.DirectionalLight{
-		Name: "Directional Light 1 (Key)",
-		X:    15, Y: 20, Z: 15,
-		Intensity:        1.2,
-		IsWithCastShadow: true,
+		Name:             "Directional Light 1 (Raking Key Left)",
+		X:                dist * (0.08*fx + 0.997*lx),
+		Y:                -6,
+		Z:                dist * (0.08*fz + 0.997*lz),
+		Intensity:        3.2,
+		IsWithCastShadow: false,
 	}).Stage(threejsStage)
 
+	// 2. Low Grazing Left-Front Light (~60 degrees left, upward angle for bulbous base & overhangs):
 	dirLight2 := (&threejs.DirectionalLight{
-		Name: "Directional Light 2 (Fill)",
-		X:    -15, Y: 10, Z: -15,
-		Intensity:        0.6,
+		Name:             "Directional Light 2 (Low Grazing Left)",
+		X:                dist * (0.50*fx + 0.866*lx),
+		Y:                -20,
+		Z:                dist * (0.50*fz + 0.866*lz),
+		Intensity:        1.1,
 		IsWithCastShadow: false,
 	}).Stage(threejsStage)
 
+	// 3. Subtle Front-Right Fill Light (keeps shadow troughs readable without washing out undulations):
 	dirLight3 := (&threejs.DirectionalLight{
-		Name: "Directional Light 3 (Rim)",
-		X:    0, Y: 30, Z: -20,
-		Intensity:        0.8,
+		Name:             "Directional Light 3 (Subtle Fill Right)",
+		X:                dist * (0.65*fx + 0.76*rx),
+		Y:                8,
+		Z:                dist * (0.65*fz + 0.76*rz),
+		Intensity:        0.30,
 		IsWithCastShadow: false,
 	}).Stage(threejsStage)
 
-	canvas.DirectionalLights = append(canvas.DirectionalLights, dirLight1, dirLight2, dirLight3)
+	// 4. Back-Top Rim Light (separates overlapping ring petals and interior walls):
+	dirLight4 := (&threejs.DirectionalLight{
+		Name:             "Directional Light 4 (Top-Back Rim)",
+		X:                dist * (-0.70*fx + 0.40*lx),
+		Y:                32,
+		Z:                dist * (-0.70*fz + 0.40*lz),
+		Intensity:        0.85,
+		IsWithCastShadow: false,
+	}).Stage(threejsStage)
+
+	canvas.DirectionalLights = append(canvas.DirectionalLights,
+		dirLight1, dirLight2, dirLight3, dirLight4)
 
 	ambiantLight := (&threejs.AmbiantLight{
 		Name:      "Ambiant Light",
-		Intensity: 0.3,
+		Intensity: 0.20,
 	}).Stage(threejsStage)
 	canvas.AmbiantLight = ambiantLight
 }

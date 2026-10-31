@@ -3023,7 +3023,7 @@ type TubeVaseAbstract_WOP struct {
 
 	Transparency float64
 
-	HasAlternatingRingColors bool
+	ColorCombination int
 
 	RelativeTrajectoryOffsetX float64
 
@@ -3069,7 +3069,7 @@ func (from *TubeVaseAbstract) GongCopyBasicFields(to *TubeVaseAbstract) {
 	to.RotationRatio = from.RotationRatio
 	to.RadialRepetitions = from.RadialRepetitions
 	to.Transparency = from.Transparency
-	to.HasAlternatingRingColors = from.HasAlternatingRingColors
+	to.ColorCombination = from.ColorCombination
 	to.RelativeTrajectoryOffsetX = from.RelativeTrajectoryOffsetX
 	to.RelativeTrajectoryOffsetY = from.RelativeTrajectoryOffsetY
 	to.NbStepP1P2 = from.NbStepP1P2
