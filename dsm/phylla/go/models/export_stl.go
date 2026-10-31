@@ -552,6 +552,18 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 			h_horiz := relativeHorizontalRingsHeight * sideLength
 
 			if plant.PlantType == VaseTrapeze && plant.TubeVaseAbstract != nil {
+				if len(resampledBaseBottom) == len(targetAngles) && len(resampledBaseTop) == len(targetAngles) {
+					baseBottomY := make([]float64, len(targetAngles))
+					for i, pt := range resampledBaseBottom {
+						baseBottomY[i] = pt.Y
+					}
+					if newBottomY, newTopY, _, _, _, ok := ComputeVaseTrapezeConstant3DThickness(plant, globalR, targetAngles, baseBottomY); ok {
+						for i := range targetAngles {
+							resampledBaseBottom[i].Y = newBottomY[i]
+							resampledBaseTop[i].Y = newTopY[i]
+						}
+					}
+				}
 				writeVaseTrapezeSTL(&sb, plant, resampledBaseBottom, resampledBaseTop, radialRepetitions, part)
 			} else if part == STLExportBottomRing {
 				massiveBottom, massiveTop := buildBaseRingSTL(resampledBaseBottom, resampledBaseTop, radialRepetitions, 0.0)

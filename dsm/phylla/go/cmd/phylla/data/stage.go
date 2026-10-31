@@ -625,7 +625,7 @@ func _(stage *models.Stage) {
 	__models__PlantAbstract__00000005_.Name = `Vase Trapeze`
 	__models__PlantAbstract__00000005_.N = 1
 	__models__PlantAbstract__00000005_.M = 3
-	__models__PlantAbstract__00000005_.StackHeight = 2
+	__models__PlantAbstract__00000005_.StackHeight = 1
 	__models__PlantAbstract__00000005_.RhombusInsideAngle = 130.000000
 	__models__PlantAbstract__00000005_.RhombusSideLength = 100.000000
 	__models__PlantAbstract__00000005_.PlantType = models.VaseTrapeze
@@ -714,12 +714,12 @@ func _(stage *models.Stage) {
 	__models__Rendered3DShape__00000009_.TargetZ = 0.000000
 	__models__Rendered3DShape__00000009_.Fov = 50.000000
 	__models__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__models__Rendered3DShape__00000010_.ViewX = 434.193914
-	__models__Rendered3DShape__00000010_.ViewY = 1416.218561
-	__models__Rendered3DShape__00000010_.ViewZ = 59.837553
-	__models__Rendered3DShape__00000010_.TargetX = 104.971683
-	__models__Rendered3DShape__00000010_.TargetY = 847.198470
-	__models__Rendered3DShape__00000010_.TargetZ = 89.272226
+	__models__Rendered3DShape__00000010_.ViewX = 883.502512
+	__models__Rendered3DShape__00000010_.ViewY = 802.229491
+	__models__Rendered3DShape__00000010_.ViewZ = 666.842242
+	__models__Rendered3DShape__00000010_.TargetX = 65.927512
+	__models__Rendered3DShape__00000010_.TargetY = 724.775585
+	__models__Rendered3DShape__00000010_.TargetZ = 110.546460
 	__models__Rendered3DShape__00000010_.Fov = 50.000000
 	__models__SampledPoints3DShape__00000000_.Name = `New Plant - Diagram-SampledPoints3DShape`
 	__models__SampledPoints3DShape__00000001_.Name = `New Plant - Diagram-SampledPoints3DShape`
@@ -866,7 +866,7 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000001_.BaseRingBottomPlaneHeight = 31.000000
 	__models__TubeVaseAbstract__00000001_.ProjectionAngle = -14.900000
 	__models__TubeVaseAbstract__00000001_.BasePlateHeight = 26.000000
-	__models__TubeVaseAbstract__00000001_.CarvedOutTopRingsParameter = 0.270000
+	__models__TubeVaseAbstract__00000001_.CarvedOutTopRingsParameter = 0.600000
 	__models__TubeVaseAbstract__00000001_.BulbousStartTangentMagnitude = 779.000000
 	__models__TubeVaseAbstract__00000001_.BulbousEndAngle = 50.000000
 	__models__TubeVaseAbstract__00000001_.BulbousEndTangentMagnitude = 395.000000
@@ -874,7 +874,7 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000
 	__models__TubeVaseAbstract__00000001_.RelativeCuttedStackFloorHeight = 0.000000
 	__models__TubeVaseAbstract__00000001_.RelativeRotatedTorusSeparation = 0.000000
-	__models__TubeVaseAbstract__00000001_.RotationRatio = 0.995000
+	__models__TubeVaseAbstract__00000001_.RotationRatio = 0.980000
 	__models__TubeVaseAbstract__00000001_.RadialRepetitions = 3
 	__models__TubeVaseAbstract__00000001_.Transparency = 0.000000
 	__models__TubeVaseAbstract__00000001_.HasAlternatingRingColors = true

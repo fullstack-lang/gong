@@ -251,3 +251,196 @@ func TestInspectBasePlateAndRing(t *testing.T) {
 	t.Logf("Generated Vase Trapeze One Ring STL (%d bytes) and Base+First Ring STL (%d bytes)", len(oneRingSTL), len(baseFirstRingSTL))
 }
 
+func TestVaseTrapezeConstant3DThickness(t *testing.T) {
+	stagePath := filepath.Join("..", "..", "..", "cmd", "phylla", "data", "stage.go")
+	stage := models.NewStage("test_thickness")
+	if err := stage.ParseAstFile(stagePath, true); err != nil {
+		t.Fatalf("failed to parse stage.go: %v", err)
+	}
+	stage.ComputeReverseMaps()
+	stage.ComputeInstancesNb()
+	stage.ComputeReferenceAndOrders()
+
+	var targetPlant *models.PlantAbstract
+	for plant := range stage.PlantAbstracts {
+		if plant.Name == "Vase Trapeze" {
+			plant.IsSelected = true
+			targetPlant = plant
+		} else {
+			plant.IsSelected = false
+		}
+	}
+	if targetPlant == nil {
+		t.Fatalf("Vase Trapeze not found")
+	}
+	targetPlant.TubeVaseAbstract.RotationRatio = 1.0
+
+	stager := models.NewStagerForTest(stage)
+	stager.EnforceSemanticForTest()
+	stager.SetCurrentPlant(targetPlant)
+	for d := range stage.TubeVase3DDiagrams {
+		if d.Name == "Vase Trapeze-TubeVase3DDiagram" {
+			d.IsChecked = true
+			d.IsHiddenTiledFloor3DShape = true
+			d.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = false
+		}
+	}
+	threejsStage := threejs.NewStage("threejs")
+	stager.SetThreejsStage(threejsStage)
+
+	updater := NewThreeJSStageUpdater()
+	updater.UpdateThreeJSStage(stager)
+
+	var baseBottom, baseTop *threejs.Curve
+	var topP2h0, botP2h0, topP1h0, botP2h1 *threejs.Curve
+	for c := range threejsStage.Curves {
+		switch c.Name {
+		case "Base Bottom Resampled":
+			baseBottom = c
+		case "Base Top Resampled":
+			baseTop = c
+		case "Vase Trapeze Rotated Carved Stack Top P2 h0":
+			topP2h0 = c
+		case "Vase Trapeze Rotated Carved Stack Bottom P2 h0":
+			botP2h0 = c
+		case "Vase Trapeze Rotated Carved Stack Top P1 h0":
+			topP1h0 = c
+		case "Vase Trapeze Rotated Carved Stack Bottom P2 h1":
+			botP2h1 = c
+		}
+	}
+	if baseBottom == nil || baseTop == nil {
+		t.Fatalf("missing Resampled Base Bottom or Base Top curves")
+	}
+
+	vase := targetPlant.TubeVaseAbstract
+	scaleY := vase.RibbonVerticalScale
+	projAngleRad := -vase.ProjectionAngle * math.Pi / 180.0
+	tanAlpha := math.Tan(projAngleRad)
+	cosAlpha := math.Cos(projAngleRad)
+	globalR := updater.computeGlobalRadius(targetPlant)
+	p1H := vase.Z_Ribbon + vase.TopPlaneHeight*scaleY
+	p2H := vase.Z_Ribbon + vase.BottomPlaneHeight*scaleY
+	yRef := 0.5 * (p1H + p2H)
+
+	minY, maxY := math.MaxFloat64, -math.MaxFloat64
+	for _, pt := range baseBottom.Points {
+		if pt.Y < minY {
+			minY = pt.Y
+		}
+		if pt.Y > maxY {
+			maxY = pt.Y
+		}
+	}
+	rRef := globalR + (yRef-0.5*(minY+maxY))*tanAlpha
+
+	K := len(baseBottom.Points) - 1
+	dTheta := (2.0 * math.Pi / float64(vase.RadialRepetitions)) / float64(K)
+
+	minT3D, maxT3D := math.MaxFloat64, -math.MaxFloat64
+	maxD2Bot, maxD2Top := 0.0, 0.0
+	for i := 0; i < K; i++ {
+		iPrev := (i - 1 + K) % K
+		iNext := (i + 1) % K
+		slope := (baseBottom.Points[iNext].Y - baseBottom.Points[iPrev].Y) / (2.0 * dTheta)
+		d2Bot := baseBottom.Points[iNext].Y - 2*baseBottom.Points[i].Y + baseBottom.Points[iPrev].Y
+		d2Top := baseTop.Points[iNext].Y - 2*baseTop.Points[i].Y + baseTop.Points[iPrev].Y
+		if math.Abs(d2Bot) > maxD2Bot {
+			maxD2Bot = math.Abs(d2Bot)
+		}
+		if math.Abs(d2Top) > maxD2Top {
+			maxD2Top = math.Abs(d2Top)
+		}
+		dy := baseTop.Points[i].Y - baseBottom.Points[i].Y
+		dHoriz := (dy * tanAlpha) / math.Hypot(1.0, (slope*tanAlpha)/rRef)
+		d3D := dHoriz * cosAlpha
+		if d3D < minT3D {
+			minT3D = d3D
+		}
+		if d3D > maxT3D {
+			maxT3D = d3D
+		}
+	}
+	t.Logf("3D Wall Thickness across sector: min=%.4f mm, max=%.4f mm (ratio=%.6f), maxD2Bot=%.2f, maxD2Top=%.2f",
+		minT3D, maxT3D, maxT3D/minT3D, maxD2Bot, maxD2Top)
+	if maxT3D/minT3D > 1.005 {
+		t.Errorf("expected constant 3D wall thickness (ratio <= 1.005), got min=%.4f, max=%.4f, ratio=%.6f", minT3D, maxT3D, maxT3D/minT3D)
+	}
+	if maxD2Bot > 1.5 || maxD2Top > 2.5 {
+		t.Errorf("expected smooth curves without squirks (maxD2Bot <= 1.5, maxD2Top <= 2.5), got maxD2Bot=%.2f, maxD2Top=%.2f", maxD2Bot, maxD2Top)
+	}
+
+	// Verify rotated fit between Ring 0 inner wall (baseTop) and Ring 1 outer wall (baseBottom shifted by rotatedStepDX, rotatedStepDY)
+	var growthVectorX, growthVectorY float64
+	if targetPlant.GrowthVectorShape != nil {
+		growthVectorX = targetPlant.GrowthVectorShape.X
+		growthVectorY = targetPlant.GrowthVectorShape.Y
+	}
+	vFirst := targetPlant.PerpendicularVectorGrid.PerpendicularVectors[0]
+	vx := vFirst.EndX - vFirst.StartX
+	vy := vFirst.EndY - vFirst.StartY
+	vLen := math.Hypot(vx, vy)
+	vx, vy = vx/vLen, vy/vLen
+	verticalThickness := vase.RelativeVerticalThickness * targetPlant.RhombusSideLength
+	deltaYV := (verticalThickness / vy) * scaleY
+	rotStepDY := growthVectorY*scaleY + deltaYV + vase.RelativeRotatedTorusSeparation*targetPlant.RhombusSideLength*scaleY
+	rotStepTheta := growthVectorX / globalR
+	thetaSector := 2.0 * math.Pi / float64(vase.RadialRepetitions)
+
+	// Interpolate baseTop(theta) periodically
+	evalCurveY := func(c *threejs.Curve, theta float64) float64 {
+		for theta < 0 {
+			theta += thetaSector
+		}
+		for theta >= thetaSector {
+			theta -= thetaSector
+		}
+		pos := theta / dTheta
+		idx := int(math.Floor(pos))
+		if idx < 0 {
+			idx = 0
+		}
+		if idx >= K {
+			idx = K - 1
+		}
+		frac := pos - float64(idx)
+		return c.Points[idx].Y*(1.0-frac) + c.Points[idx+1].Y*frac
+	}
+
+	// On M1 (theta in [61.5 deg, 90.0 deg], i in [123..180]) and M2 (theta in [91.0 deg, 119.5 deg], i in [182..239]),
+	// Ring 1's outer wall at theta + rotStepTheta has height baseBottom(theta) + rotStepDY,
+	// which touches Ring 0's inner wall at theta + rotStepTheta with height baseTop(theta + rotStepTheta).
+	maxRadialGapM1M2 := 0.0
+	maxRadialGapM2M3 := 0.0
+	for i := 124; i <= 179; i++ {
+		theta := float64(i) * dTheta
+		yOuterRing1 := baseBottom.Points[i].Y + rotStepDY
+		yInnerRing0 := evalCurveY(baseTop, theta+rotStepTheta)
+		radialGap := math.Abs(yOuterRing1-yInnerRing0) * tanAlpha
+		if radialGap > 0.05 {
+			t.Logf("M1->M2 gap at i=%d (theta=%.2f deg, shifted=%.2f deg): yOuter1=%.4f, yInner0=%.4f, radialGap=%.4f mm",
+				i, theta*180/math.Pi, (theta+rotStepTheta)*180/math.Pi, yOuterRing1, yInnerRing0, radialGap)
+		}
+		if radialGap > maxRadialGapM1M2 {
+			maxRadialGapM1M2 = radialGap
+		}
+	}
+	for i := 183; i <= 238; i++ {
+		theta := float64(i) * dTheta
+		yOuterRing1 := baseBottom.Points[i].Y + rotStepDY
+		yInnerRing0 := evalCurveY(baseTop, theta+rotStepTheta)
+		radialGap := math.Abs(yOuterRing1-yInnerRing0) * tanAlpha
+		if radialGap > maxRadialGapM2M3 {
+			maxRadialGapM2M3 = radialGap
+		}
+	}
+	t.Logf("Max rotated radial contact gap: M1->M2 = %.4f mm, M2->M3 = %.4f mm", maxRadialGapM1M2, maxRadialGapM2M3)
+	if maxRadialGapM1M2 > 0.05 || maxRadialGapM2M3 > 0.05 {
+		t.Errorf("expected rotated radial contact gap <= 0.05 mm on touching M-segments, got M1->M2=%.4f mm, M2->M3=%.4f mm", maxRadialGapM1M2, maxRadialGapM2M3)
+	}
+	if topP2h0 != nil && botP2h0 != nil && topP1h0 != nil && botP2h1 != nil {
+		t.Logf("Projected curves found: topP2h0=%d pts, botP2h1=%d pts", len(topP2h0.Points), len(botP2h1.Points))
+	}
+}
+
+

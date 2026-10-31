@@ -205,6 +205,25 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 	resampledBaseBottom := u.resampleCurveAtAngles(stager, anglesBottom, bottomPoints, targetAngles, "Base Bottom", expectedDegrees)
 	resampledBaseTop := u.resampleCurveAtAngles(stager, anglesTop, topPoints, targetAngles, "Base Top", expectedDegrees)
 
+	var trapezeUnrotatedStepDY, trapezeRotatedStepDX, trapezeRotatedStepDY float64
+	var hasTrapezeConstantThickness bool
+	if plant.PlantType == models.VaseTrapeze && len(resampledBaseBottom.Points) == len(targetAngles) && len(resampledBaseTop.Points) == len(targetAngles) {
+		baseBottomY := make([]float64, len(targetAngles))
+		for i, pt := range resampledBaseBottom.Points {
+			baseBottomY[i] = pt.Y
+		}
+		if newBottomY, newTopY, unrotDY, rotDX, rotDY, ok := models.ComputeVaseTrapezeConstant3DThickness(plant, globalR, targetAngles, baseBottomY); ok {
+			for i := range targetAngles {
+				resampledBaseBottom.Points[i].Y = newBottomY[i]
+				resampledBaseTop.Points[i].Y = newTopY[i]
+			}
+			trapezeUnrotatedStepDY = unrotDY
+			trapezeRotatedStepDX = rotDX
+			trapezeRotatedStepDY = rotDY
+			hasTrapezeConstantThickness = true
+		}
+	}
+
 	if !checkedDiagram.IsHiddenOriginalPoints3DShape {
 		u.addPointSpheres(stager, curve.Points, "green", canvas, plant.Name+" Original Bottom", 0, len(curve.Points))
 		u.addPointSpheres(stager, topCurve.Points, "orange", canvas, plant.Name+" Original Top", 0, len(topCurve.Points))
@@ -558,6 +577,11 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 
 				rotatedStepDX := growthVectorX + verticalThickness*vx
 				rotatedStepDY := (growthVectorY + verticalThickness*vy + rotatedSeparation) * scaleY
+				if hasTrapezeConstantThickness {
+					unrotatedStepDY = trapezeUnrotatedStepDY
+					rotatedStepDX = trapezeRotatedStepDX
+					rotatedStepDY = trapezeRotatedStepDY
+				}
 
 				var cumDX, cumDY float64
 				for k := 1; k <= numSteps; k++ {
