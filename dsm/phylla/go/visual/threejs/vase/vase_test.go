@@ -273,6 +273,9 @@ func TestVaseTrapezeConstant3DThickness(t *testing.T) {
 	if targetPlant == nil {
 		t.Fatalf("Vase Trapeze not found")
 	}
+	targetPlant.N = 1
+	targetPlant.M = 3
+	targetPlant.TubeVaseAbstract.RadialRepetitions = 3
 	targetPlant.TubeVaseAbstract.RotationRatio = 1.0
 
 	stager := models.NewStagerForTest(stage)
@@ -350,6 +353,10 @@ func TestVaseTrapezeConstant3DThickness(t *testing.T) {
 		}
 		if math.Abs(d2Top) > maxD2Top {
 			maxD2Top = math.Abs(d2Top)
+		}
+		if math.Abs(d2Bot) > 1.0 || math.Abs(d2Top) > 1.5 {
+			t.Logf("High d2 at i=%d (theta=%.2f deg): d2Bot=%.3f, d2Top=%.3f, botY=%.2f, topY=%.2f",
+				i, float64(i)*dTheta*180/math.Pi, d2Bot, d2Top, baseBottom.Points[i].Y, baseTop.Points[i].Y)
 		}
 		dy := baseTop.Points[i].Y - baseBottom.Points[i].Y
 		dHoriz := (dy * tanAlpha) / math.Hypot(1.0, (slope*tanAlpha)/rRef)

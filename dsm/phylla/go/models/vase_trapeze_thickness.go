@@ -165,18 +165,107 @@ func ComputeVaseTrapezeConstant3DThickness(
 		return nil, nil, 0, 0, 0, false
 	}
 
-	// Build a C3-smooth base curve across all segments that interpolates the exact
-	// rhombus vertex positions and vertex slope sV with zero 2nd and 3rd derivatives
-	// at every vertex, eliminating curvature-jump squirks at arc midpoints and vertices.
+	// Convolve the circular-arc deviation from each segment's chord with a narrow continuous
+	// Gaussian on the circle u in R/Z via its Fourier sine series sin(2*pi*k*u).
+	// On the gentle M-segments, no harmonic is artificially altered after Gaussian damping,
+	// so the flat constant curvature of the circular arcs is 100% preserved.
 	smoothBaseY := make([]float64, len(targetAngles))
 	copy(smoothBaseY, baseBottomY)
+	const numHarmonics = 12
+	const kCutGentle = 4.5
+	const kCutSteep = 3.2
+
+	// First compute the natural endpoint slope sVEff of the Gaussian-mollified gentle M-segments
+	sVEff := sV
 	for _, seg := range segments {
+		if !seg.isGentle {
+			continue
+		}
 		span := seg.endTheta - seg.startTheta
-		if span <= 1e-9 {
+		nPts := len(seg.indices)
+		if span <= 1e-9 || nPts < 4 {
 			continue
 		}
 		dySeg := seg.endY - seg.startY
-		m0 := sV * span
+		rawSlope := 0.0
+		for k := 1; k <= numHarmonics; k++ {
+			sum := 0.0
+			for j := 0; j+1 < nPts; j++ {
+				i0 := seg.indices[j]
+				i1 := seg.indices[j+1]
+				u0 := (targetAngles[i0] - seg.startTheta) / span
+				u1 := (targetAngles[i1] - seg.startTheta) / span
+				if u0 < 0 {
+					u0 = 0
+				}
+				if u1 > 1 {
+					u1 = 1
+				}
+				du := u1 - u0
+				if du <= 0 {
+					continue
+				}
+				phi0 := baseBottomY[i0] - (seg.startY + u0*dySeg)
+				phi1 := baseBottomY[i1] - (seg.startY + u1*dySeg)
+				f0 := phi0 * math.Sin(2.0*math.Pi*float64(k)*u0)
+				f1 := phi1 * math.Sin(2.0*math.Pi*float64(k)*u1)
+				sum += 0.5 * (f0 + f1) * du
+			}
+			damp := math.Exp(-0.5 * (float64(k*k) / (kCutGentle * kCutGentle)))
+			bK := 2.0 * sum * damp
+			rawSlope += 2.0 * math.Pi * float64(k) * bK
+		}
+		sVEff = (dySeg + rawSlope) / span
+		break
+	}
+
+	for _, seg := range segments {
+		span := seg.endTheta - seg.startTheta
+		nPts := len(seg.indices)
+		if span <= 1e-9 || nPts < 4 {
+			continue
+		}
+		dySeg := seg.endY - seg.startY
+		kCut := kCutGentle
+		if !seg.isGentle {
+			kCut = kCutSteep
+		}
+
+		bCoeffs := make([]float64, numHarmonics+1)
+		rawSlope := 0.0
+		for k := 1; k <= numHarmonics; k++ {
+			sum := 0.0
+			for j := 0; j+1 < nPts; j++ {
+				i0 := seg.indices[j]
+				i1 := seg.indices[j+1]
+				u0 := (targetAngles[i0] - seg.startTheta) / span
+				u1 := (targetAngles[i1] - seg.startTheta) / span
+				if u0 < 0 {
+					u0 = 0
+				}
+				if u1 > 1 {
+					u1 = 1
+				}
+				du := u1 - u0
+				if du <= 0 {
+					continue
+				}
+				phi0 := baseBottomY[i0] - (seg.startY + u0*dySeg)
+				phi1 := baseBottomY[i1] - (seg.startY + u1*dySeg)
+				f0 := phi0 * math.Sin(2.0*math.Pi*float64(k)*u0)
+				f1 := phi1 * math.Sin(2.0*math.Pi*float64(k)*u1)
+				sum += 0.5 * (f0 + f1) * du
+			}
+			damp := math.Exp(-0.5 * (float64(k*k) / (kCut * kCut)))
+			bCoeffs[k] = 2.0 * sum * damp
+			rawSlope += 2.0 * math.Pi * float64(k) * bCoeffs[k]
+		}
+
+		// Match the endpoint slope sVEff across all segment junctions
+		targetPhiSlope := sVEff*span - dySeg
+		slopeDiff := targetPhiSlope - rawSlope
+		bCoeffs[1] += slopeDiff / (2.0 * math.Pi)
+
 		for _, idx := range seg.indices {
 			u := (targetAngles[idx] - seg.startTheta) / span
 			if u < 0 {
@@ -184,15 +273,15 @@ func ComputeVaseTrapezeConstant3DThickness(
 			} else if u > 1 {
 				u = 1
 			}
-			u2 := u * u
-			u3 := u2 * u
-			u4 := u2 * u2
-			s5 := u3 * (10.0 - 15.0*u + 6.0*u2)
-			s7 := u4 * (35.0 - 84.0*u + 70.0*u2 - 20.0*u2*u)
-			smoothBaseY[idx] = seg.startY + m0*u + (dySeg-m0)*(0.5*s5+0.5*s7)
+			phi := 0.0
+			for k := 1; k <= numHarmonics; k++ {
+				phi += bCoeffs[k] * math.Sin(2.0*math.Pi*float64(k)*u)
+			}
+			smoothBaseY[idx] = seg.startY + u*dySeg + phi
 		}
 	}
 	smoothBaseY[K] = smoothBaseY[0]
+	sV = sVEff
 
 	// Update rRef using smoothBaseY mean height
 	minSmoothY := math.MaxFloat64
@@ -230,34 +319,67 @@ func ComputeVaseTrapezeConstant3DThickness(
 	}
 	topY[K] = topY[0]
 
-	// Find the contiguous run of gentle M-segments following a steep N-segment
-	firstGentle := -1
+	// Build chains of gentle M-segments connected by the rotated growth shift (+rotStepTheta)
+	nextGentle := make([]int, P)
+	prevGentle := make([]int, P)
 	for s := range P {
-		prev := (s - 1 + P) % P
-		if segments[s].isGentle && !segments[prev].isGentle {
-			firstGentle = s
-			break
-		}
+		nextGentle[s] = -1
+		prevGentle[s] = -1
 	}
-
-	var gentleRun []int
-	if firstGentle != -1 {
-		for step := range P {
-			s := (firstGentle + step) % P
-			if !segments[s].isGentle {
+	for s := range P {
+		if !segments[s].isGentle {
+			continue
+		}
+		targetStart := math.Mod(segments[s].startTheta+rotStepTheta, thetaSector)
+		if targetStart < 0 {
+			targetStart += thetaSector
+		}
+		for cand := range P {
+			if cand == s || !segments[cand].isGentle {
+				continue
+			}
+			diff := math.Abs(segments[cand].startTheta - targetStart)
+			if diff > 0.5*thetaSector {
+				diff = thetaSector - diff
+			}
+			if diff < 2.0*dTheta+1e-3 {
+				nextGentle[s] = cand
+				prevGentle[cand] = s
 				break
 			}
-			gentleRun = append(gentleRun, s)
-		}
-	} else {
-		for s := range P {
-			if segments[s].isGentle {
-				gentleRun = append(gentleRun, s)
-			}
 		}
 	}
 
-	mRef := len(gentleRun) - 1
+	var gentleChains [][]int
+	visitedGentle := make([]bool, P)
+	for s := range P {
+		if segments[s].isGentle && prevGentle[s] == -1 {
+			var chain []int
+			cur := s
+			for cur != -1 && !visitedGentle[cur] {
+				visitedGentle[cur] = true
+				chain = append(chain, cur)
+				cur = nextGentle[cur]
+			}
+			if len(chain) > 0 {
+				gentleChains = append(gentleChains, chain)
+			}
+		}
+	}
+	for s := range P {
+		if segments[s].isGentle && !visitedGentle[s] {
+			var chain []int
+			cur := s
+			for cur != -1 && !visitedGentle[cur] {
+				visitedGentle[cur] = true
+				chain = append(chain, cur)
+				cur = nextGentle[cur]
+			}
+			if len(chain) > 0 {
+				gentleChains = append(gentleChains, chain)
+			}
+		}
+	}
 
 	updateAllTopY := func() {
 		for i := range K {
@@ -270,22 +392,97 @@ func ComputeVaseTrapezeConstant3DThickness(
 		topY[K] = topY[0]
 	}
 
+	solveSegmentBottomFromTargetTop := func(idxs []int, targetTop []float64) {
+		n := len(idxs)
+		if n < 3 {
+			return
+		}
+		a := make([]float64, n)
+		b := make([]float64, n)
+		c := make([]float64, n)
+		rhs := make([]float64, n)
+		for iter := 0; iter < 30; iter++ {
+			maxRes := 0.0
+			for j := 0; j < n; j++ {
+				i := idxs[j] % K
+				iPrev := (i - 1 + K) % K
+				iNext := (i + 1) % K
+				slope := (bottomY[iNext] - bottomY[iPrev]) / (2.0 * dTheta)
+				dn := deltaYNormal(slope)
+				res := bottomY[i] + dn - targetTop[j]
+				if math.Abs(res) > maxRes {
+					maxRes = math.Abs(res)
+				}
+				ddnDslope := (deltaYV / denomVertex) * (slope * kSlope * kSlope) / math.Hypot(1.0, slope*kSlope)
+				coeff := ddnDslope / (2.0 * dTheta)
+				if j > 0 {
+					a[j] = -coeff
+				} else {
+					a[j] = 0
+				}
+				b[j] = 1.0
+				if j+1 < n {
+					c[j] = coeff
+				} else {
+					c[j] = 0
+				}
+				rhs[j] = -res
+			}
+			if maxRes < 1e-6 {
+				break
+			}
+			for j := 1; j < n; j++ {
+				w := a[j] / b[j-1]
+				b[j] -= w * c[j-1]
+				rhs[j] -= w * rhs[j-1]
+			}
+			delta := make([]float64, n)
+			delta[n-1] = rhs[n-1] / b[n-1]
+			for j := n - 2; j >= 0; j-- {
+				delta[j] = (rhs[j] - c[j]*delta[j+1]) / b[j]
+			}
+			for j := 0; j < n; j++ {
+				i := idxs[j] % K
+				bottomY[i] += 0.6 * delta[j]
+			}
+			bottomY[K] = bottomY[0]
+		}
+	}
+
 	for outer := 0; outer < 6; outer++ {
 		updateAllTopY()
 
-		// Propagate backwards from mRef-1 down to 0 (e.g. M3 -> M2 -> M1):
-		// bottomY on segment m matches topY on segment m+1 shifted by (-rotStepTheta, -rotStepDYContact)
-		for rank := mRef - 1; rank >= 0; rank-- {
-			seg := segments[gentleRun[rank]]
-			for _, idx := range seg.indices {
-				theta := targetAngles[idx]
-				bottomY[idx%K] = evalPeriodicY(topY, theta+rotStepTheta) - rotStepDYContact
+		for _, gentleRun := range gentleChains {
+			mRef := len(gentleRun) / 2
+
+			// Propagate backwards from mRef-1 down to 0 (e.g. M2 -> M1):
+			// bottomY on segment m matches topY on segment m+1 shifted by (-rotStepTheta, -rotStepDYContact)
+			for rank := mRef - 1; rank >= 0; rank-- {
+				seg := segments[gentleRun[rank]]
+				for _, idx := range seg.indices {
+					theta := targetAngles[idx]
+					bottomY[idx%K] = evalPeriodicY(topY, theta+rotStepTheta) - rotStepDYContact
+				}
+				bottomY[K] = bottomY[0]
+				updateAllTopY()
 			}
-			bottomY[K] = bottomY[0]
-			updateAllTopY()
+
+			// Propagate forwards from mRef+1 up to len(gentleRun)-1 (e.g. M2 -> M3):
+			// topY on segment m matches bottomY on segment m-1 shifted by (+rotStepTheta, +rotStepDYContact)
+			for rank := mRef + 1; rank < len(gentleRun); rank++ {
+				seg := segments[gentleRun[rank]]
+				targetTop := make([]float64, len(seg.indices))
+				for j, idx := range seg.indices {
+					theta := targetAngles[idx]
+					targetTop[j] = evalPeriodicY(bottomY, theta-rotStepTheta) + rotStepDYContact
+				}
+				solveSegmentBottomFromTargetTop(seg.indices, targetTop)
+				updateAllTopY()
+			}
 		}
 
-		// Smoothly blend any endpoint offset across non-contacting steep N-segments
+		// Smoothly blend any endpoint value and slope offset across non-contacting steep N-segments
+		// using a C2 quintic Hermite correction on top of the circular-arc smoothBaseY curve.
 		for s := range P {
 			if segments[s].isGentle || len(segments[s].indices) == 0 {
 				continue
@@ -295,6 +492,12 @@ func ComputeVaseTrapezeConstant3DThickness(
 			iAfter := (idxs[len(idxs)-1] + 1) % K
 			dStart := bottomY[iBefore] - smoothBaseY[iBefore]
 			dEnd := bottomY[iAfter] - smoothBaseY[iAfter]
+
+			iBeforePrev := (iBefore - 1 + K) % K
+			iAfterNext := (iAfter + 1) % K
+			slopeDiffStart := ((bottomY[iBefore] - smoothBaseY[iBefore]) - (bottomY[iBeforePrev] - smoothBaseY[iBeforePrev])) / dTheta
+			slopeDiffEnd := ((bottomY[iAfterNext] - smoothBaseY[iAfterNext]) - (bottomY[iAfter] - smoothBaseY[iAfter])) / dTheta
+
 			tStart := targetAngles[iBefore]
 			tEnd := targetAngles[iAfter]
 			if tEnd <= tStart {
@@ -302,13 +505,24 @@ func ComputeVaseTrapezeConstant3DThickness(
 			}
 			span := tEnd - tStart
 			if span > 1e-9 {
+				m0 := slopeDiffStart * span
+				m1 := slopeDiffEnd * span
 				for _, idx := range idxs {
 					th := targetAngles[idx]
 					if th < tStart {
 						th += thetaSector
 					}
 					u := (th - tStart) / span
-					bottomY[idx%K] = smoothBaseY[idx%K] + (1.0-u)*dStart + u*dEnd
+					u2 := u * u
+					u3 := u2 * u
+					u4 := u2 * u2
+					u5 := u3 * u2
+					h00 := 1.0 - 10.0*u3 + 15.0*u4 - 6.0*u5
+					h10 := u - 6.0*u3 + 8.0*u4 - 3.0*u5
+					h01 := 10.0*u3 - 15.0*u4 + 6.0*u5
+					h11 := -4.0*u3 + 7.0*u4 - 3.0*u5
+					corr := h00*dStart + h10*m0 + h01*dEnd + h11*m1
+					bottomY[idx%K] = smoothBaseY[idx%K] + corr
 				}
 				bottomY[K] = bottomY[0]
 			}
