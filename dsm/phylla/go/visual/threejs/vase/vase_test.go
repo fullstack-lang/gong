@@ -51,8 +51,12 @@ func TestInspectBasePlateAndRing(t *testing.T) {
 	for c := range threejsStage.Curves {
 		minY, maxY := math.MaxFloat64, -math.MaxFloat64
 		for _, p := range c.Points {
-			if p.Y < minY { minY = p.Y }
-			if p.Y > maxY { maxY = p.Y }
+			if p.Y < minY {
+				minY = p.Y
+			}
+			if p.Y > maxY {
+				maxY = p.Y
+			}
 		}
 		t.Logf("Curve %s: %d points, Y in [%.2f, %.2f]", c.Name, len(c.Points), minY, maxY)
 	}
@@ -121,11 +125,19 @@ func TestInspectBasePlateAndRing(t *testing.T) {
 			minR, maxR := math.MaxFloat64, -math.MaxFloat64
 			for i := 2 * sIdx * M; i < 2*(sIdx+1)*M; i++ {
 				v := ringMesh.BufferGeometry.Vertices[i]
-				if v.Y < minY { minY = v.Y }
-				if v.Y > maxY { maxY = v.Y }
+				if v.Y < minY {
+					minY = v.Y
+				}
+				if v.Y > maxY {
+					maxY = v.Y
+				}
 				r := math.Hypot(v.X, v.Z)
-				if r < minR { minR = r }
-				if r > maxR { maxR = r }
+				if r < minR {
+					minR = r
+				}
+				if r > maxR {
+					maxR = r
+				}
 			}
 			t.Logf("Ring Strip %d (%s): Y in [%.2f, %.2f], R in [%.2f, %.2f]", sIdx+1, sName, minY, maxY, minR, maxR)
 		}
@@ -141,11 +153,19 @@ func TestInspectBasePlateAndRing(t *testing.T) {
 				}
 				for _, v := range basePlateMesh.BufferGeometry.Vertices {
 					if v.Name == targetName {
-						if v.Y < minY { minY = v.Y }
-						if v.Y > maxY { maxY = v.Y }
+						if v.Y < minY {
+							minY = v.Y
+						}
+						if v.Y > maxY {
+							maxY = v.Y
+						}
 						r := math.Hypot(v.X, v.Z)
-						if r < minR { minR = r }
-						if r > maxR { maxR = r }
+						if r < minR {
+							minR = r
+						}
+						if r > maxR {
+							maxR = r
+						}
 						break
 					}
 				}
@@ -174,34 +194,34 @@ func TestInspectBasePlateAndRing(t *testing.T) {
 					topGreaterCount++
 				}
 			}
-		if curveBotP2 != nil {
-			t.Logf("curveBotP2 (ringBottomP2) has %d points. Sample points:", len(curveBotP2.Points))
-			for i := 0; i < len(curveBotP2.Points); i += 60 {
-				p := curveBotP2.Points[i]
-				r := math.Hypot(p.X, p.Z)
-				thetaDeg := math.Atan2(p.Z, p.X) * 180.0 / math.Pi
-				t.Logf("  i=%3d: theta=%6.1f deg, R=%6.2f, X=%6.2f, Y=%6.2f, Z=%6.2f", i, thetaDeg, r, p.X, p.Y, p.Z)
-			}
-
-			// Profile at i=60 (valley) in BasePlateMesh
-			t.Logf("BasePlate vertices at i=60:")
-			for s := 0; s <= 24; s++ {
-				targetName := fmt.Sprintf("Vase Trapeze Vase Trapeze Base Plate Outer s%d 60", s)
-				if s == 0 {
-					targetName = "Vase Trapeze Vase Trapeze Base Plate Outer Top 60"
-				} else if s == 24 {
-					targetName = "Vase Trapeze Vase Trapeze Base Plate Outer Floor 60"
+			if curveBotP2 != nil {
+				t.Logf("curveBotP2 (ringBottomP2) has %d points. Sample points:", len(curveBotP2.Points))
+				for i := 0; i < len(curveBotP2.Points); i += 60 {
+					p := curveBotP2.Points[i]
+					r := math.Hypot(p.X, p.Z)
+					thetaDeg := math.Atan2(p.Z, p.X) * 180.0 / math.Pi
+					t.Logf("  i=%3d: theta=%6.1f deg, R=%6.2f, X=%6.2f, Y=%6.2f, Z=%6.2f", i, thetaDeg, r, p.X, p.Y, p.Z)
 				}
-				for _, v := range basePlateMesh.BufferGeometry.Vertices {
-					if v.Name == targetName {
-						r := math.Hypot(v.X, v.Z)
-						t.Logf("  s=%2d: Y=%.2f, R=%.2f (diff from r0: %.2f)", s, v.Y, r, r-183.62)
-						break
+
+				// Profile at i=60 (valley) in BasePlateMesh
+				t.Logf("BasePlate vertices at i=60:")
+				for s := 0; s <= 24; s++ {
+					targetName := fmt.Sprintf("Vase Trapeze Vase Trapeze Base Plate Outer s%d 60", s)
+					if s == 0 {
+						targetName = "Vase Trapeze Vase Trapeze Base Plate Outer Top 60"
+					} else if s == 24 {
+						targetName = "Vase Trapeze Vase Trapeze Base Plate Outer Floor 60"
+					}
+					for _, v := range basePlateMesh.BufferGeometry.Vertices {
+						if v.Name == targetName {
+							r := math.Hypot(v.X, v.Z)
+							t.Logf("  s=%2d: Y=%.2f, R=%.2f (diff from r0: %.2f)", s, v.Y, r, r-183.62)
+							break
+						}
 					}
 				}
 			}
 		}
-	}
 
 		// Assert materials are opaque when transparency is 0
 		if targetPlant.TubeVaseAbstract != nil && targetPlant.TubeVaseAbstract.Transparency == 0 {
@@ -216,7 +236,7 @@ func TestInspectBasePlateAndRing(t *testing.T) {
 		// Verify that all M boundary vertices at Plane 2 between Ring outer wall and BasePlate outer top match exactly
 		var maxDiff float64
 		for i := 0; i < M; i++ {
-			vRing := ringMesh.BufferGeometry.Vertices[6*M + 2*i]
+			vRing := ringMesh.BufferGeometry.Vertices[6*M+2*i]
 			targetName := fmt.Sprintf("Vase Trapeze Vase Trapeze Base Plate Outer Top %d", i)
 			var vBase *threejs.Vector3
 			for _, v := range basePlateMesh.BufferGeometry.Vertices {
@@ -248,7 +268,12 @@ func TestInspectBasePlateAndRing(t *testing.T) {
 	if len(baseFirstRingSTL) == 0 {
 		t.Fatalf("expected non-empty base+first ring STL")
 	}
-	t.Logf("Generated Vase Trapeze One Ring STL (%d bytes) and Base+First Ring STL (%d bytes)", len(oneRingSTL), len(baseFirstRingSTL))
+	glbBytes := models.GenerateVaseTrapezeGLB(targetPlant)
+	if len(glbBytes) < 28 || string(glbBytes[0:4]) != "glTF" {
+		t.Fatalf("expected valid glTF 2.0 binary (.glb), got %d bytes", len(glbBytes))
+	}
+	t.Logf("Generated Vase Trapeze One Ring STL (%d bytes), Base+First Ring STL (%d bytes), and Full Vase GLB (%d bytes)",
+		len(oneRingSTL), len(baseFirstRingSTL), len(glbBytes))
 }
 
 func TestVaseTrapezeConstant3DThickness(t *testing.T) {
@@ -470,6 +495,3 @@ func TestVaseColorCombinations(t *testing.T) {
 		}
 	}
 }
-
-
-

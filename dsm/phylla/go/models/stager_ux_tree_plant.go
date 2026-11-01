@@ -358,6 +358,28 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			},
 		}
 		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, oneRingBtn)
+
+		glbBtn := &tree.Button{
+			Name:            "export full vase glTF (.glb)",
+			Icon:            string(buttons.BUTTON_view_in_ar),
+			ToolTipText:     "export full vase glTF (.glb) for Blender",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				stager.loadStage.Reset()
+				fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+
+				glbBytes := GenerateVaseTrapezeGLB(plant)
+
+				fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString(glbBytes)
+				fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + ".glb"
+				stager.loadStage.Commit()
+
+				time.Sleep(1 * time.Second)
+				stager.load()
+			},
+		}
+		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, glbBtn)
 	} else {
 		downloadBtn := &tree.Button{
 			Name:            "Download STL",
