@@ -371,16 +371,18 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 
 	var meshes []*glbMeshData
 
-	// 1. Build Base_Plate mesh (connected to h=0 at p2HBase)
+	// 1. Build Base_Plate mesh (including bottom ring h=0 connected at p2HBase)
 	baseBottom0, baseTop0 := buildBaseRingSTL(resampledBaseBottom, resampledBaseTop, radialRepetitions, 0.0)
 	cTopP1_0 := projectCurve(baseTop0, p1H, 0)
 	cBottomP1_0 := projectCurve(baseBottom0, p1H, 0)
 	cTopP2Base := projectCurve(baseTop0, p2HBase, 0)
 	cBottomP2Base := projectCurve(baseBottom0, p2HBase, 0)
+	cCarvedTopP1_0 := computeCarvedOutCurve(cTopP1_0, cTopP2Base, carvedParam)
+	cCarvedBottomP1_0 := computeCarvedOutCurve(cBottomP1_0, cBottomP2Base, carvedParam)
 
 	const floorY = 0.0
-	if p2HBase > floorY && len(cTopP1_0) >= 3 && len(cBottomP1_0) >= 3 && len(cTopP2Base) >= 3 && len(cBottomP2Base) >= 3 {
-		M := min(len(cTopP1_0), len(cBottomP1_0), len(cTopP2Base), len(cBottomP2Base))
+	if p2HBase > floorY && len(cTopP1_0) >= 3 && len(cBottomP1_0) >= 3 && len(cTopP2Base) >= 3 && len(cBottomP2Base) >= 3 && len(cCarvedTopP1_0) >= 3 && len(cCarvedBottomP1_0) >= 3 {
+		M := min(len(cTopP1_0), len(cBottomP1_0), len(cTopP2Base), len(cBottomP2Base), len(cCarvedTopP1_0), len(cCarvedBottomP1_0))
 		var sumRTop, sumRBottom float64
 		for i := range M {
 			sumRTop += math.Hypot(cTopP2Base[i].X, cTopP2Base[i].Z)
@@ -389,10 +391,14 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		cOuter := cTopP2Base[:M]
 		cInner := cBottomP2Base[:M]
 		cOuterP1 := cTopP1_0[:M]
+		cOuterCarvedP1 := cCarvedTopP1_0[:M]
+		cInnerCarvedP1 := cCarvedBottomP1_0[:M]
 		if sumRBottom > sumRTop {
 			cOuter = cBottomP2Base[:M]
 			cInner = cTopP2Base[:M]
 			cOuterP1 = cBottomP1_0[:M]
+			cOuterCarvedP1 = cCarvedBottomP1_0[:M]
+			cInnerCarvedP1 = cCarvedTopP1_0[:M]
 		}
 
 		pBottomH := p2HBase
@@ -412,6 +418,16 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		baseMesh := &glbMeshData{
 			name:     "Base_Plate",
 			colorHex: GetVaseRingColor(vase.ColorCombination, 0),
+		}
+
+		idxRingOuterTop := make([]uint32, M)
+		idxRingInnerTop := make([]uint32, M)
+		for i := range M {
+			idxRingOuterTop[i] = uint32(len(baseMesh.positions))
+			baseMesh.positions = append(baseMesh.positions, cOuterCarvedP1[i])
+
+			idxRingInnerTop[i] = uint32(len(baseMesh.positions))
+			baseMesh.positions = append(baseMesh.positions, cInnerCarvedP1[i])
 		}
 
 		idxOuter := make([][]uint32, S+1)
@@ -504,6 +520,20 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 			}
 		}
 
+		for i := range M {
+			nextI := (i + 1) % M
+			// Bottom ring (h=0) outer wall
+			baseMesh.indices = append(baseMesh.indices,
+				[3]uint32{idxRingOuterTop[i], idxRingOuterTop[nextI], idxOuter[0][nextI]},
+				[3]uint32{idxRingOuterTop[i], idxOuter[0][nextI], idxOuter[0][i]},
+			)
+			// Bottom ring (h=0) inner wall
+			baseMesh.indices = append(baseMesh.indices,
+				[3]uint32{idxRingInnerTop[i], idxInner[0][nextI], idxRingInnerTop[nextI]},
+				[3]uint32{idxRingInnerTop[i], idxInner[0][i], idxInner[0][nextI]},
+			)
+		}
+
 		for s := range S {
 			for i := range M {
 				nextI := (i + 1) % M
@@ -536,10 +566,10 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		idxCapOuterFloor := make([]uint32, M)
 		for i := range M {
 			idxCapOuterTop[i] = uint32(len(baseMesh.positions))
-			baseMesh.positions = append(baseMesh.positions, baseMesh.positions[idxOuter[0][i]])
+			baseMesh.positions = append(baseMesh.positions, cOuterCarvedP1[i])
 
 			idxCapInnerTop[i] = uint32(len(baseMesh.positions))
-			baseMesh.positions = append(baseMesh.positions, baseMesh.positions[idxInner[0][i]])
+			baseMesh.positions = append(baseMesh.positions, cInnerCarvedP1[i])
 
 			idxCapInnerFloor[i] = uint32(len(baseMesh.positions))
 			baseMesh.positions = append(baseMesh.positions, baseMesh.positions[idxInner[S][i]])
@@ -562,22 +592,18 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		meshes = append(meshes, baseMesh)
 	}
 
-	// 2. Build Ring_0 .. Ring_{stackHeight-1}
-	for h := range stackHeight {
+	// 2. Build Ring_1 .. Ring_{stackHeight-1}
+	for h := 1; h < stackHeight; h++ {
 		dx := dxs[h]
 		dy := dys[h]
 		thetaOffset := dx / globalR
 
 		curBottom, curTop := buildBaseRingSTL(resampledBaseBottom, resampledBaseTop, radialRepetitions, thetaOffset)
-		curP2H := p2H
-		if h == 0 {
-			curP2H = p2HBase
-		}
 
 		ringTopP1 := projectCurve(curTop, p1H+dy, dy)
 		ringBottomP1 := projectCurve(curBottom, p1H+dy, dy)
-		ringTopP2 := projectCurve(curTop, curP2H+dy, dy)
-		ringBottomP2 := projectCurve(curBottom, curP2H+dy, dy)
+		ringTopP2 := projectCurve(curTop, p2H+dy, dy)
+		ringBottomP2 := projectCurve(curBottom, p2H+dy, dy)
 
 		ringCarvedTopP1 := computeCarvedOutCurve(ringTopP1, ringTopP2, carvedParam)
 		ringCarvedBottomP1 := computeCarvedOutCurve(ringBottomP1, ringBottomP2, carvedParam)

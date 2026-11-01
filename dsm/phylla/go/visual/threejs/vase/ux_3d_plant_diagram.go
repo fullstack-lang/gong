@@ -599,28 +599,17 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				}
 			}
 
-			for h := range stackHeight {
+			for h := 1; h < stackHeight; h++ {
 				dx := dxs[h]
 				dy := dys[h]
 				thetaOffset := dx / globalR
 
-				var curBottomCurve, curTopCurve *threejs.Curve
-				if h == 0 {
-					curBottomCurve = trapezeBottomCurve
-					curTopCurve = trapezeTopCurve
-				} else {
-					curBottomCurve, curTopCurve = u.computeMassiveCurves(stager, thetaOffset, fmt.Sprintf("Trapeze Rotated Carved Stack h%d", h), plant, resampledBaseBottom, resampledBaseTop)
-				}
-
-				curP2H := p2H
-				if h == 0 {
-					curP2H = p2H_base
-				}
+				curBottomCurve, curTopCurve := u.computeMassiveCurves(stager, thetaOffset, fmt.Sprintf("Trapeze Rotated Carved Stack h%d", h), plant, resampledBaseBottom, resampledBaseTop)
 
 				ringTopP1 := projectCurve(curTopCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Top P1 h%d", plant.Name, h))
 				ringBottomP1 := projectCurve(curBottomCurve, p1H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Bottom P1 h%d", plant.Name, h))
-				ringTopP2 := projectCurve(curTopCurve, curP2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Top P2 h%d", plant.Name, h))
-				ringBottomP2 := projectCurve(curBottomCurve, curP2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Bottom P2 h%d", plant.Name, h))
+				ringTopP2 := projectCurve(curTopCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Top P2 h%d", plant.Name, h))
+				ringBottomP2 := projectCurve(curBottomCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Bottom P2 h%d", plant.Name, h))
 
 				ringCarvedTopP1 := computeCarvedOutCurve(ringTopP1, ringTopP2, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Top P1 h%d", plant.Name, h))
 				ringCarvedBottomP1 := computeCarvedOutCurve(ringBottomP1, ringBottomP2, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Bottom P1 h%d", plant.Name, h))
@@ -629,7 +618,9 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 
 		buildBasePlateMesh := func(cTopA, cBottomA, cTopB, cBottomB *threejs.Curve, shapeName string) {
-			M := min(len(cTopA.Points), len(cBottomA.Points), len(cTopB.Points), len(cBottomB.Points))
+			cCarvedTopA := computeCarvedOutCurve(cTopA, cTopB, carvedParam, plant.Name+" Base Plate Carved Top P1")
+			cCarvedBottomA := computeCarvedOutCurve(cBottomA, cBottomB, carvedParam, plant.Name+" Base Plate Carved Bottom P1")
+			M := min(len(cTopA.Points), len(cBottomA.Points), len(cTopB.Points), len(cBottomB.Points), len(cCarvedTopA.Points), len(cCarvedBottomA.Points))
 			if M < 3 {
 				return
 			}
@@ -660,10 +651,14 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			cOuter := cTopB
 			cInner := cBottomB
 			cOuterP1 := cTopA
+			cOuterCarvedP1 := cCarvedTopA
+			cInnerCarvedP1 := cCarvedBottomA
 			if sumRBottom > sumRTop {
 				cOuter = cBottomB
 				cInner = cTopB
 				cOuterP1 = cBottomA
+				cOuterCarvedP1 = cCarvedBottomA
+				cInnerCarvedP1 = cCarvedTopA
 			}
 
 			startMag := 0.0
@@ -685,6 +680,24 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			basePlateGeom := (&threejs.BufferGeometry{
 				Name: fmt.Sprintf("%s %s BufferGeometry", plant.Name, shapeName),
 			}).Stage(threejsStage)
+
+			idxRingOuterTop := make([]int, M)
+			idxRingInnerTop := make([]int, M)
+			for i := 0; i < M; i++ {
+				ptOutCarved := cOuterCarvedP1.Points[i]
+				idxRingOuterTop[i] = len(basePlateGeom.Vertices)
+				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+					Name: fmt.Sprintf("%s %s Ring Outer Top %d", plant.Name, shapeName, i),
+					X:    ptOutCarved.X, Y: ptOutCarved.Y, Z: ptOutCarved.Z,
+				}).Stage(threejsStage))
+
+				ptInCarved := cInnerCarvedP1.Points[i]
+				idxRingInnerTop[i] = len(basePlateGeom.Vertices)
+				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+					Name: fmt.Sprintf("%s %s Ring Inner Top %d", plant.Name, shapeName, i),
+					X:    ptInCarved.X, Y: ptInCarved.Y, Z: ptInCarved.Z,
+				}).Stage(threejsStage))
+			}
 
 			idxOuter := make([][]int, S+1)
 			idxInner := make([][]int, S+1)
@@ -828,6 +841,33 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				X:    sumOuterX / float64(M), Y: floorY, Z: sumOuterZ / float64(M),
 			}).Stage(threejsStage))
 
+			for i := 0; i < M; i++ {
+				nextI := (i + 1) % M
+				// Bottom ring (h=0) outer wall (from carved Plane 1 down to pBottomH)
+				basePlateGeom.Faces = append(basePlateGeom.Faces,
+					(&threejs.Triangle{
+						Name: fmt.Sprintf("%s %s Ring Outer Wall T1 %d", plant.Name, shapeName, i),
+						V1:   idxRingOuterTop[i], V2: idxRingOuterTop[nextI], V3: idxOuter[0][nextI],
+					}).Stage(threejsStage),
+					(&threejs.Triangle{
+						Name: fmt.Sprintf("%s %s Ring Outer Wall T2 %d", plant.Name, shapeName, i),
+						V1:   idxRingOuterTop[i], V2: idxOuter[0][nextI], V3: idxOuter[0][i],
+					}).Stage(threejsStage),
+				)
+
+				// Bottom ring (h=0) inner wall (from carved Plane 1 down to pBottomH)
+				basePlateGeom.Faces = append(basePlateGeom.Faces,
+					(&threejs.Triangle{
+						Name: fmt.Sprintf("%s %s Ring Inner Wall T1 %d", plant.Name, shapeName, i),
+						V1:   idxRingInnerTop[i], V2: idxInner[0][nextI], V3: idxRingInnerTop[nextI],
+					}).Stage(threejsStage),
+					(&threejs.Triangle{
+						Name: fmt.Sprintf("%s %s Ring Inner Wall T2 %d", plant.Name, shapeName, i),
+						V1:   idxRingInnerTop[i], V2: idxInner[0][i], V3: idxInner[0][nextI],
+					}).Stage(threejsStage),
+				)
+			}
+
 			for s := 0; s < S; s++ {
 				for i := 0; i < M; i++ {
 					nextI := (i + 1) % M
@@ -862,14 +902,14 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			idxCapInnerFloor := make([]int, M)
 			idxCapOuterFloor := make([]int, M)
 			for i := 0; i < M; i++ {
-				vOutTop := basePlateGeom.Vertices[idxOuter[0][i]]
+				vOutTop := cOuterCarvedP1.Points[i]
 				idxCapOuterTop[i] = len(basePlateGeom.Vertices)
 				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
 					Name: fmt.Sprintf("%s %s Cap Outer Top %d", plant.Name, shapeName, i),
 					X:    vOutTop.X, Y: vOutTop.Y, Z: vOutTop.Z,
 				}).Stage(threejsStage))
 
-				vInTop := basePlateGeom.Vertices[idxInner[0][i]]
+				vInTop := cInnerCarvedP1.Points[i]
 				idxCapInnerTop[i] = len(basePlateGeom.Vertices)
 				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
 					Name: fmt.Sprintf("%s %s Cap Inner Top %d", plant.Name, shapeName, i),
