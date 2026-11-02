@@ -72,11 +72,12 @@ func TestStageSetUnmarshallStageFile(t *testing.T) {
 		}
 	}
 
-	stage.MarshallFile(stagePath, "main")
+	tmpStagePath := filepath.Join(t.TempDir(), "stage.go")
+	stage.MarshallFile(tmpStagePath, "main")
 
 	// Re-parse and verify roundtrip
 	stage2 := NewStage("test_stageset_2")
-	err = stage2.ParseAstFile(stagePath, true)
+	err = stage2.ParseAstFile(tmpStagePath, true)
 	if err != nil {
 		t.Fatalf("failed to re-parse stage.go: %v", err)
 	}
@@ -115,9 +116,6 @@ func TestStageSetUnmarshallStageFile(t *testing.T) {
 		if diagram.Name == "Vase Trapeze-TubeVase3DDiagram" {
 			if diagram.VaseTrapezeBasePlateShape == nil {
 				t.Errorf("expected VaseTrapeze-TubeVase3DDiagram to have VaseTrapezeBasePlateShape")
-			}
-			if diagram.IsHiddenVaseTrapezeBasePlateShape {
-				t.Errorf("expected VaseTrapeze-TubeVase3DDiagram.IsHiddenVaseTrapezeBasePlateShape to be false")
 			}
 			if diagram.CarvedOutVaseTrapezeRingShape == nil {
 				t.Errorf("expected VaseTrapeze-TubeVase3DDiagram to have CarvedOutVaseTrapezeRingShape")

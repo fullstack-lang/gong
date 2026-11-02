@@ -24,7 +24,7 @@ func ComputeVaseTrapezeConstant3DThickness(
 	targetAngles []float64,
 	baseBottomY []float64,
 ) (bottomY []float64, topY []float64, unrotatedStepDY, rotatedStepDX, rotatedStepDY float64, ok bool) {
-	if plant == nil || plant.PlantType != VaseTrapeze || plant.TubeVaseAbstract == nil {
+	if plant == nil || plant.PlantType != VaseTrapeze || plant.TubeVaseAbstract == nil || !plant.TubeVaseAbstract.HasConstantThickness {
 		return nil, nil, 0, 0, 0, false
 	}
 	K := len(targetAngles) - 1

@@ -5655,6 +5655,11 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *Probe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "HasConstantThickness"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "RelativeVerticalThickness"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -5994,6 +5999,12 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *Probe) {
 		{
 			cell := &table_models.Cell{Name: "BulbousEndTangentMagnitude"}
 			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.BulbousEndTangentMagnitude)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "HasConstantThickness"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.HasConstantThickness}
 			row.Cells = append(row.Cells, cell)
 		}
 

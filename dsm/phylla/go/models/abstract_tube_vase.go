@@ -40,6 +40,11 @@ type TubeVaseAbstract struct {
 	// BulbousEndTangentMagnitude is the magnitude of the tangent vector to the bulbous base curve at the end (at the floor).
 	BulbousEndTangentMagnitude float64
 
+	// HasConstantThickness when true adjusts the 3D ribbon curves (for Vase Trapeze) so that
+	// the projected 3D rings have constant 3D wall thickness and surface-to-surface rotated contact.
+	// When false, the original variable thickness from the 2D growth curves is used.
+	HasConstantThickness bool
+
 	// RelativeVerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next
 	// the vertical thickness is RelativeVerticalThickness x RhombusSideLength
 	RelativeVerticalThickness float64

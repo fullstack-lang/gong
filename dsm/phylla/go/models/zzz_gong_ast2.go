@@ -883,6 +883,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.BulbousEndAngle = GongExtractFloat(rhs)
 					case "BulbousEndTangentMagnitude":
 						inst.BulbousEndTangentMagnitude = GongExtractFloat(rhs)
+					case "HasConstantThickness":
+						inst.HasConstantThickness = GongExtractBool(rhs)
 					case "RelativeVerticalThickness":
 						inst.RelativeVerticalThickness = GongExtractFloat(rhs)
 					case "RelativeRadialThickness":
@@ -5287,6 +5289,8 @@ func (u *TubeVaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.BulbousEndAngle = GongExtractFloat(valueExpr)
 	case "BulbousEndTangentMagnitude":
 		instance.BulbousEndTangentMagnitude = GongExtractFloat(valueExpr)
+	case "HasConstantThickness":
+		instance.HasConstantThickness = GongExtractBool(valueExpr)
 	case "RelativeVerticalThickness":
 		instance.RelativeVerticalThickness = GongExtractFloat(valueExpr)
 	case "RelativeRadialThickness":

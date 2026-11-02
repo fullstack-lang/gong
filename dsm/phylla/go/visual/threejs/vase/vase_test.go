@@ -162,6 +162,7 @@ func TestVaseTrapezeConstant3DThickness(t *testing.T) {
 	targetPlant.M = 3
 	targetPlant.TubeVaseAbstract.RadialRepetitions = 3
 	targetPlant.TubeVaseAbstract.RotationRatio = 1.0
+	targetPlant.TubeVaseAbstract.HasConstantThickness = true
 
 	stager := models.NewStagerForTest(stage)
 	stager.EnforceSemanticForTest()
@@ -332,6 +333,46 @@ func TestVaseTrapezeConstant3DThickness(t *testing.T) {
 	}
 	if topP2h0 != nil && botP2h0 != nil && topP1h0 != nil && botP2h1 != nil {
 		t.Logf("Projected curves found: topP2h0=%d pts, botP2h1=%d pts", len(topP2h0.Points), len(botP2h1.Points))
+	}
+
+	// Now verify that when HasConstantThickness is false, the original variable thickness is used
+	targetPlant.TubeVaseAbstract.HasConstantThickness = false
+	threejsStageVar := threejs.NewStage("threejs_var")
+	stager.SetThreejsStage(threejsStageVar)
+	updater.UpdateThreeJSStage(stager)
+
+	var varBottom, varTop *threejs.Curve
+	for c := range threejsStageVar.Curves {
+		switch c.Name {
+		case "Base Bottom Resampled":
+			varBottom = c
+		case "Base Top Resampled":
+			varTop = c
+		}
+	}
+	if varBottom == nil || varTop == nil {
+		t.Fatalf("missing Resampled Base Bottom or Base Top curves in variable thickness mode")
+	}
+	minVarT3D, maxVarT3D := math.MaxFloat64, -math.MaxFloat64
+	for i := 0; i < K; i++ {
+		iPrev := (i - 1 + K) % K
+		iNext := (i + 1) % K
+		slope := (varBottom.Points[iNext].Y - varBottom.Points[iPrev].Y) / (2.0 * dTheta)
+		dy := varTop.Points[i].Y - varBottom.Points[i].Y
+		dHoriz := (dy * tanAlpha) / math.Hypot(1.0, (slope*tanAlpha)/rRef)
+		d3D := dHoriz * cosAlpha
+		if d3D < minVarT3D {
+			minVarT3D = d3D
+		}
+		if d3D > maxVarT3D {
+			maxVarT3D = d3D
+		}
+	}
+	t.Logf("Variable 3D Wall Thickness across sector (HasConstantThickness=false): min=%.4f mm, max=%.4f mm (ratio=%.6f)",
+		minVarT3D, maxVarT3D, maxVarT3D/minVarT3D)
+	if maxVarT3D/minVarT3D <= 1.05 {
+		t.Errorf("expected variable 3D wall thickness when HasConstantThickness=false (ratio > 1.05), got min=%.4f, max=%.4f, ratio=%.6f",
+			minVarT3D, maxVarT3D, maxVarT3D/minVarT3D)
 	}
 }
 

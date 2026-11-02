@@ -306,6 +306,11 @@ func (stager *Stager) ux_slider() {
 						1.0,
 						&plant.TubeVaseAbstract.BulbousEndTangentMagnitude,
 					),
+					NewBoolSlider(
+						stager,
+						"Constant Thickness",
+						&plant.TubeVaseAbstract.HasConstantThickness,
+					),
 				)
 			}
 

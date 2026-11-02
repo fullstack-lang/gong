@@ -714,9 +714,9 @@ func _(stage *models.Stage) {
 	__models__Rendered3DShape__00000009_.TargetZ = 0.000000
 	__models__Rendered3DShape__00000009_.Fov = 50.000000
 	__models__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__models__Rendered3DShape__00000010_.ViewX = 1284.908188
-	__models__Rendered3DShape__00000010_.ViewY = 2733.500788
-	__models__Rendered3DShape__00000010_.ViewZ = 511.486543
+	__models__Rendered3DShape__00000010_.ViewX = 791.904047
+	__models__Rendered3DShape__00000010_.ViewY = 3130.911082
+	__models__Rendered3DShape__00000010_.ViewZ = -339.526095
 	__models__Rendered3DShape__00000010_.TargetX = -26.534718
 	__models__Rendered3DShape__00000010_.TargetY = 1412.453538
 	__models__Rendered3DShape__00000010_.TargetZ = -6.785737
@@ -839,6 +839,7 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000000_.BulbousStartTangentMagnitude = 0.000000
 	__models__TubeVaseAbstract__00000000_.BulbousEndAngle = 30.000000
 	__models__TubeVaseAbstract__00000000_.BulbousEndTangentMagnitude = 0.000000
+	__models__TubeVaseAbstract__00000000_.HasConstantThickness = false
 	__models__TubeVaseAbstract__00000000_.RelativeVerticalThickness = 0.100000
 	__models__TubeVaseAbstract__00000000_.RelativeRadialThickness = 0.000000
 	__models__TubeVaseAbstract__00000000_.RelativeCuttedStackFloorHeight = 0.000000
@@ -870,13 +871,14 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000001_.BulbousStartTangentMagnitude = 779.000000
 	__models__TubeVaseAbstract__00000001_.BulbousEndAngle = 50.000000
 	__models__TubeVaseAbstract__00000001_.BulbousEndTangentMagnitude = 395.000000
+	__models__TubeVaseAbstract__00000001_.HasConstantThickness = true
 	__models__TubeVaseAbstract__00000001_.RelativeVerticalThickness = 0.080000
 	__models__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000
 	__models__TubeVaseAbstract__00000001_.RelativeCuttedStackFloorHeight = 0.000000
 	__models__TubeVaseAbstract__00000001_.RelativeRotatedTorusSeparation = 0.000000
 	__models__TubeVaseAbstract__00000001_.RotationRatio = 1.000000
-	__models__TubeVaseAbstract__00000001_.RadialRepetitions = 1
-	__models__TubeVaseAbstract__00000001_.Transparency = 0.050000
+	__models__TubeVaseAbstract__00000001_.RadialRepetitions = 3
+	__models__TubeVaseAbstract__00000001_.Transparency = 0.000000
 	__models__TubeVaseAbstract__00000001_.ColorCombination = 6
 	__models__TubeVaseAbstract__00000001_.RelativeTrajectoryOffsetX = 0.000000
 	__models__TubeVaseAbstract__00000001_.RelativeTrajectoryOffsetY = 0.000000
