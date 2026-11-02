@@ -533,3 +533,256 @@ func ComputeVaseTrapezeConstant3DThickness(
 
 	return bottomY, topY, unrotatedStepDY, rotatedStepDX, rotatedStepDY, true
 }
+
+// ComputeVaseTrapezeUnoccupiedInteriorSurfaceProportion computes, for a VaseTrapeze plant,
+// the proportion of the interior surface that is not occupied by the ring above (measured at
+// the ring top) relative to the interior surface of the ring, computed as if
+// CarvedOutTopRingsParameter is 0 (flat ring top).
+func ComputeVaseTrapezeUnoccupiedInteriorSurfaceProportion(
+	plant *PlantAbstract,
+) (unoccupiedSurface, interiorSurface, proportion float64, ok bool) {
+	if plant == nil || plant.PlantType != VaseTrapeze || plant.TubeVaseAbstract == nil {
+		return 0, 0, 0, false
+	}
+	vase := plant.TubeVaseAbstract
+	radialRepetitions := max(vase.RadialRepetitions, 1)
+
+	circumference := 10.0
+	if plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil && plant.RhombusStuff.PlantCircumferenceShape.Length > 0 {
+		circumference = plant.RhombusStuff.PlantCircumferenceShape.Length
+	} else if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
+		pGrid := plant.PerpendicularVectorGrid
+		first := pGrid.PerpendicularVectors[0]
+		last := pGrid.PerpendicularVectors[len(pGrid.PerpendicularVectors)-1]
+		circumference = last.StartX - first.StartX
+	}
+	if circumference <= 0 {
+		circumference = 10.0
+	}
+	globalR := circumference * float64(radialRepetitions) / (2 * math.Pi)
+
+	gc := plant.GrowthCurve2D
+	tgc := vase.TopGrowthCurve2D
+	if gc == nil || tgc == nil ||
+		gc.StartHalfwayArcShapeGrid == nil ||
+		tgc.TopStartHalfwayArcShapeGrid == nil ||
+		len(gc.StartHalfwayArcShapeGrid.StartHalfwayArcShapes) == 0 ||
+		len(tgc.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes) == 0 {
+		return 0, 0, 0, false
+	}
+
+	startArcs := gc.StartHalfwayArcShapeGrid.StartHalfwayArcShapes
+	var endArcs []*EndHalfwayArcShape
+	if gc.EndHalfwayArcShapeGrid != nil {
+		endArcs = gc.EndHalfwayArcShapeGrid.EndHalfwayArcShapes
+	}
+	topStartArcs := tgc.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes
+	var topEndArcs []*TopEndHalfwayArcShape
+	if tgc.TopEndHalfwayArcShapeGrid != nil {
+		topEndArcs = tgc.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes
+	}
+
+	var curvePoints, topCurvePoints []vector3
+	appendArcPoints := func(targetCurve *[]vector3, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool) {
+		dx := (x1 - x2) / 2.0
+		dy := (y1 - y2) / 2.0
+		d2 := dx*dx + dy*dy
+		var cx, cy float64
+		if d2 == 0 || r*r < d2 {
+			cx = (x1 + x2) / 2.0
+			cy = (y1 + y2) / 2.0
+			r = math.Sqrt(d2)
+		} else {
+			root := math.Sqrt(r*r/d2 - 1.0)
+			if largeArcFlag == sweepFlag {
+				root = -root
+			}
+			cx = (x1+x2)/2.0 + root*dy
+			cy = (y1+y2)/2.0 - root*dx
+		}
+		startAngle := math.Atan2(y1-cy, x1-cx)
+		endAngle := math.Atan2(y2-cy, x2-cx)
+		if sweepFlag {
+			for endAngle < startAngle {
+				endAngle += 2 * math.Pi
+			}
+		} else {
+			for endAngle > startAngle {
+				endAngle -= 2 * math.Pi
+			}
+		}
+		const steps = 50
+		for i := 0; i <= steps; i++ {
+			if i == 0 && len(*targetCurve) > 0 {
+				continue
+			}
+			t := float64(i) / float64(steps)
+			angle := startAngle + t*(endAngle-startAngle)
+			x2d := cx + r*math.Cos(angle)
+			y2d := cy + r*math.Sin(angle)
+			theta := x2d / globalR
+			*targetCurve = append(*targetCurve, vector3{
+				X: globalR * math.Cos(theta),
+				Y: y2d,
+				Z: globalR * math.Sin(theta),
+			})
+		}
+	}
+
+	for i := range startArcs {
+		sa := startArcs[i]
+		appendArcPoints(&curvePoints, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
+		if i < len(endArcs) {
+			ea := endArcs[i]
+			appendArcPoints(&curvePoints, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
+		}
+	}
+	for i := range topStartArcs {
+		tsa := topStartArcs[i]
+		appendArcPoints(&topCurvePoints, tsa.StartX, tsa.StartY, tsa.EndX, tsa.EndY, tsa.RadiusX, !tsa.SweepFlag, tsa.LargeArcFlag)
+		if i < len(topEndArcs) {
+			ea := topEndArcs[i]
+			appendArcPoints(&topCurvePoints, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
+		}
+	}
+
+	scaleY := vase.RibbonVerticalScale
+	if scaleY == 0 {
+		scaleY = 1.0
+	}
+	if len(curvePoints) > 0 {
+		y0 := curvePoints[0].Y
+		for i := range curvePoints {
+			curvePoints[i].Y = vase.Z_Ribbon + scaleY*(curvePoints[i].Y-y0)
+		}
+		for i := range topCurvePoints {
+			topCurvePoints[i].Y = vase.Z_Ribbon + scaleY*(topCurvePoints[i].Y-y0)
+		}
+	}
+
+	targetAngles, anglesBottom, bottomPoints, anglesTop, topPoints := getTargetAnglesSTL(curvePoints, topCurvePoints, 0.5, radialRepetitions)
+	if len(targetAngles) < 4 {
+		return 0, 0, 0, false
+	}
+	expectedDegrees := 360.0 / float64(radialRepetitions)
+	resampledBaseBottom := resampleCurveAtAnglesSTL(anglesBottom, bottomPoints, targetAngles, expectedDegrees)
+	resampledBaseTop := resampleCurveAtAnglesSTL(anglesTop, topPoints, targetAngles, expectedDegrees)
+	if len(resampledBaseBottom) != len(targetAngles) || len(resampledBaseTop) != len(targetAngles) {
+		return 0, 0, 0, false
+	}
+
+	baseBottomY := make([]float64, len(targetAngles))
+	baseTopY := make([]float64, len(targetAngles))
+	for i := range targetAngles {
+		baseBottomY[i] = resampledBaseBottom[i].Y
+		baseTopY[i] = resampledBaseTop[i].Y
+	}
+
+	var rotatedStepDX, rotatedStepDY float64
+	if newBottomY, newTopY, _, rotDX, rotDY, constOk := ComputeVaseTrapezeConstant3DThickness(plant, globalR, targetAngles, baseBottomY); constOk {
+		baseBottomY = newBottomY
+		baseTopY = newTopY
+		rotatedStepDX = rotDX
+		rotatedStepDY = rotDY
+	} else {
+		var growthVectorX, growthVectorY float64
+		if plant.GrowthVectorShape != nil {
+			growthVectorX = plant.GrowthVectorShape.X
+			growthVectorY = plant.GrowthVectorShape.Y
+		}
+		var vx, vy float64
+		if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
+			vFirst := plant.PerpendicularVectorGrid.PerpendicularVectors[0]
+			vx = vFirst.EndX - vFirst.StartX
+			vy = vFirst.EndY - vFirst.StartY
+			if vLen := math.Hypot(vx, vy); vLen > 0 {
+				vx, vy = vx/vLen, vy/vLen
+			}
+		}
+		verticalThickness := vase.RelativeVerticalThickness * plant.RhombusSideLength
+		rotatedSeparation := vase.RelativeRotatedTorusSeparation * plant.RhombusSideLength
+		rotatedStepDX = growthVectorX + verticalThickness*vx
+		rotatedStepDY = (growthVectorY + verticalThickness*vy + rotatedSeparation) * scaleY
+	}
+
+	K := len(targetAngles) - 1
+	thetaSector := targetAngles[K] - targetAngles[0]
+	if K < 3 || thetaSector <= 0 {
+		return 0, 0, 0, false
+	}
+	dTheta := thetaSector / float64(K)
+
+	evalPeriodicY := func(arr []float64, theta float64) float64 {
+		for theta < 0 {
+			theta += thetaSector
+		}
+		for theta >= thetaSector {
+			theta -= thetaSector
+		}
+		pos := theta / dTheta
+		idx := int(math.Floor(pos))
+		if idx < 0 {
+			idx = 0
+		}
+		if idx >= K {
+			idx = K - 1
+		}
+		frac := pos - float64(idx)
+		return arr[idx]*(1.0-frac) + arr[idx+1]*frac
+	}
+
+	// Flat ring top height (as if CarvedOutTopRingsParameter == 0)
+	p1H := vase.Z_Ribbon + vase.TopPlaneHeight*scaleY
+	projAngleRad := -vase.ProjectionAngle * math.Pi / 180.0
+	tanAlpha := math.Tan(projAngleRad)
+	rotStepTheta := rotatedStepDX / globalR
+
+	rTop0 := make([]float64, len(targetAngles))
+	rBot0 := make([]float64, len(targetAngles))
+	var sumRTop0, sumRBot0 float64
+	for i := range targetAngles {
+		rTop0[i] = globalR + (p1H-baseTopY[i])*tanAlpha
+		rBot0[i] = globalR + (p1H-baseBottomY[i])*tanAlpha
+		if i < K {
+			sumRTop0 += rTop0[i]
+			sumRBot0 += rBot0[i]
+		}
+	}
+
+	rInner0 := make([]float64, len(targetAngles))
+	rOuter1 := make([]float64, len(targetAngles))
+	bottomIsOuter := sumRBot0 > sumRTop0
+	for i, th := range targetAngles {
+		if bottomIsOuter {
+			rInner0[i] = math.Max(0.0, rTop0[i])
+			yOuter1 := evalPeriodicY(baseBottomY, th-rotStepTheta) + rotatedStepDY
+			rOuter1[i] = math.Max(0.0, globalR+(p1H-yOuter1)*tanAlpha)
+		} else {
+			rInner0[i] = math.Max(0.0, rBot0[i])
+			yOuter1 := evalPeriodicY(baseTopY, th-rotStepTheta) + rotatedStepDY
+			rOuter1[i] = math.Max(0.0, globalR+(p1H-yOuter1)*tanAlpha)
+		}
+	}
+
+	var sectorInteriorArea, sectorOccupiedArea float64
+	for i := range K {
+		dTh := targetAngles[i+1] - targetAngles[i]
+		sinDTh := math.Sin(dTh)
+		rInA := rInner0[i]
+		rInB := rInner0[i+1]
+		rOccA := math.Min(rInA, rOuter1[i])
+		rOccB := math.Min(rInB, rOuter1[i+1])
+
+		sectorInteriorArea += 0.5 * rInA * rInB * sinDTh
+		sectorOccupiedArea += 0.5 * rOccA * rOccB * sinDTh
+	}
+
+	interiorSurface = sectorInteriorArea * float64(radialRepetitions)
+	occupiedSurface := sectorOccupiedArea * float64(radialRepetitions)
+	if interiorSurface <= 1e-9 {
+		return 0, 0, 0, false
+	}
+	unoccupiedSurface = math.Max(0.0, interiorSurface-occupiedSurface)
+	proportion = unoccupiedSurface / interiorSurface
+	return unoccupiedSurface, interiorSurface, proportion, true
+}

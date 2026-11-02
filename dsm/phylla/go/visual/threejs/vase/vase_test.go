@@ -355,3 +355,54 @@ func TestVaseColorCombinations(t *testing.T) {
 		}
 	}
 }
+
+func TestVaseTrapezeUnoccupiedInteriorSurfaceProportion(t *testing.T) {
+	stagePath := filepath.Join("..", "..", "..", "cmd", "phylla", "data", "stage.go")
+	stage := models.NewStage("test_unoccupied_surface")
+	if err := stage.ParseAstFile(stagePath, true); err != nil {
+		t.Fatalf("failed to parse stage.go: %v", err)
+	}
+	stage.ComputeReverseMaps()
+	stage.ComputeInstancesNb()
+	stage.ComputeReferenceAndOrders()
+
+	var targetPlant *models.PlantAbstract
+	for plant := range stage.PlantAbstracts {
+		if plant.Name == "Vase Trapeze" {
+			plant.IsSelected = true
+			targetPlant = plant
+		} else {
+			plant.IsSelected = false
+		}
+	}
+	if targetPlant == nil {
+		t.Fatalf("Vase Trapeze not found")
+	}
+
+	stager := models.NewStagerForTest(stage)
+	stager.EnforceSemanticForTest()
+
+	targetPlant.TubeVaseAbstract.CarvedOutTopRingsParameter = 0.0
+	unoccupied0, interior0, prop0, ok0 := models.ComputeVaseTrapezeUnoccupiedInteriorSurfaceProportion(targetPlant)
+	if !ok0 {
+		t.Fatalf("expected ComputeVaseTrapezeUnoccupiedInteriorSurfaceProportion to succeed")
+	}
+	if interior0 <= 0 || unoccupied0 <= 0 || prop0 <= 0 || prop0 >= 1 {
+		t.Errorf("expected valid positive surfaces and proportion in (0, 1), got unoccupied=%.2f, interior=%.2f, prop=%.4f",
+			unoccupied0, interior0, prop0)
+	}
+	t.Logf("Vase Trapeze unoccupied interior surface at ring top: %.4f (%.2f%%) (unoccupied: %.2f mm², interior: %.2f mm²)",
+		prop0, prop0*100.0, unoccupied0, interior0)
+
+	// Verify independence from CarvedOutTopRingsParameter (always computed as if CarvedOutTopRingsParameter == 0)
+	targetPlant.TubeVaseAbstract.CarvedOutTopRingsParameter = 0.75
+	unoccupied1, interior1, prop1, ok1 := models.ComputeVaseTrapezeUnoccupiedInteriorSurfaceProportion(targetPlant)
+	if !ok1 {
+		t.Fatalf("expected ComputeVaseTrapezeUnoccupiedInteriorSurfaceProportion to succeed with CarvedOutTopRingsParameter=0.75")
+	}
+	if math.Abs(unoccupied0-unoccupied1) > 1e-9 || math.Abs(interior0-interior1) > 1e-9 || math.Abs(prop0-prop1) > 1e-12 {
+		t.Errorf("expected result to be independent of CarvedOutTopRingsParameter, got (%.2f, %.2f, %.6f) vs (%.2f, %.2f, %.6f)",
+			unoccupied0, interior0, prop0, unoccupied1, interior1, prop1)
+	}
+}
+

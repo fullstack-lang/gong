@@ -40,14 +40,37 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stager.enforceOwningLibraryAndObjects()
 	stager.enforceDiagramMaps()
 
-	if needCommit {
+	notifiedVaseTrapeze := stager.logVaseTrapezeUnoccupiedInteriorSurfaceProportion()
+
+	if needCommit || notifiedVaseTrapeze {
 		if stager.probeForm != nil {
 			stager.probeForm.CommitNotificationTable()
 		}
+	}
+	if needCommit {
 		stage.CommitWithSuspendedCallbacks()
 	}
 
 	return
+}
+
+func (stager *Stager) logVaseTrapezeUnoccupiedInteriorSurfaceProportion() bool {
+	plant := stager.selectedPlant
+	if plant == nil {
+		plant = stager.GetCurrentPlant()
+	}
+	if plant == nil || plant.PlantType != VaseTrapeze || plant.TubeVaseAbstract == nil {
+		return false
+	}
+	unoccupiedSurface, interiorSurface, proportion, ok := ComputeVaseTrapezeUnoccupiedInteriorSurfaceProportion(plant)
+	if !ok {
+		return false
+	}
+	stager.logAndNotify(fmt.Sprintf(
+		"Plant %s: unoccupied : %.4f (%.2f%%) [unoccupied: %.2f mm², interior: %.2f mm²]",
+		plant.Name, proportion, proportion*100.0, unoccupiedSurface, interiorSurface,
+	))
+	return true
 }
 
 func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool {
@@ -114,7 +137,6 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 	return needCommit
 }
 
-
 func (stager *Stager) enforceSingleSelectedPlant() bool {
 	modified := false
 
@@ -122,15 +144,49 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 		if p == nil {
 			return false
 		}
-		for _, d := range p.Plant2DDiagrams { if d.IsChecked { return true } }
-		for _, d := range p.Plant3DDiagrams { if d.IsChecked { return true } }
-		for _, d := range p.Vase2DDiagrams { if d.IsChecked { return true } }
-		for _, d := range p.TubeVase3DDiagrams { if d.IsChecked { return true } }
-		for _, d := range p.Stool2DDiagrams { if d.IsChecked { return true } }
-		for _, d := range p.Stool3DDiagrams { if d.IsChecked { return true } }
-		for _, d := range p.Clock2DDiagrams { if d.IsChecked { return true } }
-		for _, d := range p.Clock3DDiagrams { if d.IsChecked { return true } }
-		if p.MusicAbstract != nil && p.MusicAbstract.IsChecked { return true }
+		for _, d := range p.Plant2DDiagrams {
+			if d.IsChecked {
+				return true
+			}
+		}
+		for _, d := range p.Plant3DDiagrams {
+			if d.IsChecked {
+				return true
+			}
+		}
+		for _, d := range p.Vase2DDiagrams {
+			if d.IsChecked {
+				return true
+			}
+		}
+		for _, d := range p.TubeVase3DDiagrams {
+			if d.IsChecked {
+				return true
+			}
+		}
+		for _, d := range p.Stool2DDiagrams {
+			if d.IsChecked {
+				return true
+			}
+		}
+		for _, d := range p.Stool3DDiagrams {
+			if d.IsChecked {
+				return true
+			}
+		}
+		for _, d := range p.Clock2DDiagrams {
+			if d.IsChecked {
+				return true
+			}
+		}
+		for _, d := range p.Clock3DDiagrams {
+			if d.IsChecked {
+				return true
+			}
+		}
+		if p.MusicAbstract != nil && p.MusicAbstract.IsChecked {
+			return true
+		}
 		return false
 	}
 
@@ -166,15 +222,58 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 				}
 			}
 			if !shouldBeSelected {
-				for _, d := range plant.Plant2DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
-				for _, d := range plant.Plant3DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
-				for _, d := range plant.Vase2DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
-				for _, d := range plant.TubeVase3DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
-				for _, d := range plant.Stool2DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
-				for _, d := range plant.Stool3DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
-				for _, d := range plant.Clock2DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
-				for _, d := range plant.Clock3DDiagrams { if d.IsChecked { d.IsChecked = false; modified = true } }
-				if plant.MusicAbstract != nil && plant.MusicAbstract.IsChecked { plant.MusicAbstract.IsChecked = false; modified = true }
+				for _, d := range plant.Plant2DDiagrams {
+					if d.IsChecked {
+						d.IsChecked = false
+						modified = true
+					}
+				}
+				for _, d := range plant.Plant3DDiagrams {
+					if d.IsChecked {
+						d.IsChecked = false
+						modified = true
+					}
+				}
+				for _, d := range plant.Vase2DDiagrams {
+					if d.IsChecked {
+						d.IsChecked = false
+						modified = true
+					}
+				}
+				for _, d := range plant.TubeVase3DDiagrams {
+					if d.IsChecked {
+						d.IsChecked = false
+						modified = true
+					}
+				}
+				for _, d := range plant.Stool2DDiagrams {
+					if d.IsChecked {
+						d.IsChecked = false
+						modified = true
+					}
+				}
+				for _, d := range plant.Stool3DDiagrams {
+					if d.IsChecked {
+						d.IsChecked = false
+						modified = true
+					}
+				}
+				for _, d := range plant.Clock2DDiagrams {
+					if d.IsChecked {
+						d.IsChecked = false
+						modified = true
+					}
+				}
+				for _, d := range plant.Clock3DDiagrams {
+					if d.IsChecked {
+						d.IsChecked = false
+						modified = true
+					}
+				}
+				if plant.MusicAbstract != nil && plant.MusicAbstract.IsChecked {
+					plant.MusicAbstract.IsChecked = false
+					modified = true
+				}
 			}
 		}
 		if stager.selectedPlant != plantWithCheckedDiagram {
