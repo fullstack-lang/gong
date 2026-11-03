@@ -1100,6 +1100,14 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.VerticalOffset = GongExtractFloat(rhs)
 					case "DisplayVerticalBar":
 						inst.DisplayVerticalBar = GongExtractBool(rhs)
+					case "VerticalBarStroke":
+						inst.VerticalBarStroke = GongExtractString(rhs)
+					case "VerticalBarStrokeWidth":
+						inst.VerticalBarStrokeWidth = GongExtractFloat(rhs)
+					case "VerticalBarStrokeOpacity":
+						inst.VerticalBarStrokeOpacity = GongExtractFloat(rhs)
+					case "VerticalBarStrokeDashArray":
+						inst.VerticalBarStrokeDashArray = GongExtractString(rhs)
 					case "IsLayoutDirectionDifferent":
 						inst.IsLayoutDirectionDifferent = GongExtractBool(rhs)
 					case "X":
@@ -2467,6 +2475,14 @@ func (u *TaskShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.VerticalOffset = GongExtractFloat(valueExpr)
 	case "DisplayVerticalBar":
 		instance.DisplayVerticalBar = GongExtractBool(valueExpr)
+	case "VerticalBarStroke":
+		instance.VerticalBarStroke = GongExtractString(valueExpr)
+	case "VerticalBarStrokeWidth":
+		instance.VerticalBarStrokeWidth = GongExtractFloat(valueExpr)
+	case "VerticalBarStrokeOpacity":
+		instance.VerticalBarStrokeOpacity = GongExtractFloat(valueExpr)
+	case "VerticalBarStrokeDashArray":
+		instance.VerticalBarStrokeDashArray = GongExtractString(valueExpr)
 	case "IsLayoutDirectionDifferent":
 		instance.IsLayoutDirectionDifferent = GongExtractBool(valueExpr)
 	case "X":

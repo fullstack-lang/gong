@@ -135,3 +135,10 @@ lib/splitlite/ng-github.com-fullstack-lang-gong-lib-splitlite/.angular
 
 app/xsd/tests/aixm/go/cmd/aixm/aixm
 app/xsd/tests/complexrules/go/cmd/complexrules/complexrules
+app/xsd/tests/aixm/airport/go/cmd/airport/airport
+app/xsd/tests/aixm/airspace/go/cmd/airspace/airspace
+app/xsd/tests/aixm/navaid/go/cmd/navaid/navaid
+app/xsd/tests/aixm/obstacle/go/cmd/obstacle/obstacle
+app/xsd/tests/aixm/procedure/go/cmd/procedure/procedure
+app/xsd/tests/aixm/route/go/cmd/route/route
+app/xsd/tests/aixm/service/go/cmd/service/service

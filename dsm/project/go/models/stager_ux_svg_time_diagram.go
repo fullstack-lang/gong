@@ -536,7 +536,7 @@ func (stager *Stager) displayTaskTitle(task *Task, taskShape *TaskShape, diagram
 		barText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 		barText.DominantBaseline = svg.DominantBaselineCentral
 		if task.IsWithCompletion {
-			barText.X_Offset = (distanceFromBorder + iconWidth)/2.0 + task.XOffset
+			barText.X_Offset = (distanceFromBorder+iconWidth)/2.0 + task.XOffset
 		} else {
 			barText.X_Offset = task.XOffset
 		}
@@ -596,6 +596,18 @@ func (stager *Stager) displayTaskTitle(task *Task, taskShape *TaskShape, diagram
 }
 
 func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *TaskShape, verticalLinesLayer *svg.Layer, yTimeLine float64, taskGroup *TaskGroup, layer *svg.Layer, mapTaskGroup_TextY map[*TaskGroup]float64) {
+	defaultLineStroke := "black"
+	defaultLineStrokeOpacity := 1.0
+	defaultLineStrokeWidth := 0.5
+	defaultLineStrokeDashArray := "2 2"
+
+	if taskShape != nil && !taskShape.GetIsPresentationOverridden() {
+		taskShape.VerticalBarStroke = defaultLineStroke
+		taskShape.VerticalBarStrokeOpacity = defaultLineStrokeOpacity
+		taskShape.VerticalBarStrokeWidth = defaultLineStrokeWidth
+		taskShape.VerticalBarStrokeDashArray = defaultLineStrokeDashArray
+	}
+
 	lineX := diagram.dateToX(task.Start)
 	if taskShape != nil && taskShape.DisplayVerticalBar {
 		line := new(svg.Line)
@@ -605,10 +617,29 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *
 		line.X2 = line.X1
 		line.Y1 = diagram.YTopMargin
 		line.Y2 = yTimeLine
-		line.Stroke = "black"
-		line.StrokeOpacity = 1
-		line.StrokeWidth = 0.5
-		line.StrokeDashArray = "2 2"
+		line.Stroke = defaultLineStroke
+		line.StrokeOpacity = defaultLineStrokeOpacity
+		line.StrokeWidth = defaultLineStrokeWidth
+		line.StrokeDashArray = defaultLineStrokeDashArray
+
+		if taskShape.GetIsPresentationOverridden() {
+			if taskShape.VerticalBarStroke != "" {
+				line.Stroke = taskShape.VerticalBarStroke
+			}
+			if taskShape.VerticalBarStrokeWidth != 0 {
+				line.StrokeWidth = taskShape.VerticalBarStrokeWidth
+			}
+			if taskShape.VerticalBarStrokeOpacity != 0 {
+				line.StrokeOpacity = taskShape.VerticalBarStrokeOpacity
+			}
+			if taskShape.VerticalBarStrokeDashArray != "" {
+				if taskShape.VerticalBarStrokeDashArray == "none" {
+					line.StrokeDashArray = ""
+				} else {
+					line.StrokeDashArray = taskShape.VerticalBarStrokeDashArray
+				}
+			}
+		}
 	}
 
 	diamondWidth := 18.0

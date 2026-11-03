@@ -1895,6 +1895,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.IsShowDate = %t", taskshapeIdent, taskshape.IsShowDate))
 			values.WriteString(fmt.Sprintf("\n\t%s.VerticalOffset = %f", taskshapeIdent, taskshape.VerticalOffset))
 			values.WriteString(fmt.Sprintf("\n\t%s.DisplayVerticalBar = %t", taskshapeIdent, taskshape.DisplayVerticalBar))
+			values.WriteString(fmt.Sprintf("\n\t%s.VerticalBarStroke = %s", taskshapeIdent, __gong__toRawStringLiteral(taskshape.VerticalBarStroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.VerticalBarStrokeWidth = %f", taskshapeIdent, taskshape.VerticalBarStrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.VerticalBarStrokeOpacity = %f", taskshapeIdent, taskshape.VerticalBarStrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.VerticalBarStrokeDashArray = %s", taskshapeIdent, __gong__toRawStringLiteral(taskshape.VerticalBarStrokeDashArray)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsLayoutDirectionDifferent = %t", taskshapeIdent, taskshape.IsLayoutDirectionDifferent))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", taskshapeIdent, taskshape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", taskshapeIdent, taskshape.Y))
@@ -3329,6 +3333,14 @@ func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = __gong__marshallFloat(ident, "VerticalOffset", taskshape.VerticalOffset)
 	case "DisplayVerticalBar":
 		res = __gong__marshallBool(ident, "DisplayVerticalBar", taskshape.DisplayVerticalBar)
+	case "VerticalBarStroke":
+		res = __gong__marshallString(ident, "VerticalBarStroke", taskshape.VerticalBarStroke)
+	case "VerticalBarStrokeWidth":
+		res = __gong__marshallFloat(ident, "VerticalBarStrokeWidth", taskshape.VerticalBarStrokeWidth)
+	case "VerticalBarStrokeOpacity":
+		res = __gong__marshallFloat(ident, "VerticalBarStrokeOpacity", taskshape.VerticalBarStrokeOpacity)
+	case "VerticalBarStrokeDashArray":
+		res = __gong__marshallString(ident, "VerticalBarStrokeDashArray", taskshape.VerticalBarStrokeDashArray)
 	case "IsLayoutDirectionDifferent":
 		res = __gong__marshallBool(ident, "IsLayoutDirectionDifferent", taskshape.IsLayoutDirectionDifferent)
 	case "X":
@@ -4008,6 +4020,10 @@ func (taskshape *TaskShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsShowDate"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "VerticalOffset"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "DisplayVerticalBar"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "VerticalBarStroke"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "VerticalBarStrokeWidth"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "VerticalBarStrokeOpacity"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "VerticalBarStrokeDashArray"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsLayoutDirectionDifferent"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Y"))

@@ -6311,6 +6311,22 @@ func (taskshape *TaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "VerticalBarStroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "VerticalBarStrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "VerticalBarStrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "VerticalBarStrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "IsLayoutDirectionDifferent",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -8320,6 +8336,18 @@ func (taskshape *TaskShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", taskshape.DisplayVerticalBar)
 		res.valueBool = taskshape.DisplayVerticalBar
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "VerticalBarStroke":
+		res.valueString = taskshape.VerticalBarStroke
+	case "VerticalBarStrokeWidth":
+		res.valueString = fmt.Sprintf("%f", taskshape.VerticalBarStrokeWidth)
+		res.valueFloat = taskshape.VerticalBarStrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "VerticalBarStrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", taskshape.VerticalBarStrokeOpacity)
+		res.valueFloat = taskshape.VerticalBarStrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "VerticalBarStrokeDashArray":
+		res.valueString = taskshape.VerticalBarStrokeDashArray
 	case "IsLayoutDirectionDifferent":
 		res.valueString = fmt.Sprintf("%t", taskshape.IsLayoutDirectionDifferent)
 		res.valueBool = taskshape.IsLayoutDirectionDifferent

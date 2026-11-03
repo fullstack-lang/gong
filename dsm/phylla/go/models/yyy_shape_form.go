@@ -82,6 +82,12 @@ func (cb *rectShapeAppearanceCallback) OnSave() {
 			val := cb.shape.GetFontColor()
 			gongprobe.FormDivBasicFieldToField(&val, formDiv)
 			cb.shape.SetFontColor(val)
+		default:
+			if extra, ok := any(cb.shape).(interface {
+				SaveExtraShapeAppearanceForm(formDiv *form.FormDiv)
+			}); ok {
+				extra.SaveExtraShapeAppearanceForm(formDiv)
+			}
 		}
 	}
 	cb.stage.Commit()
@@ -135,6 +141,12 @@ func (cb *linkShapeAppearanceCallback) OnSave() {
 			val := cb.shape.GetFontColor()
 			gongprobe.FormDivBasicFieldToField(&val, formDiv)
 			cb.shape.SetFontColor(val)
+		default:
+			if extra, ok := any(cb.shape).(interface {
+				SaveExtraShapeAppearanceForm(formDiv *form.FormDiv)
+			}); ok {
+				extra.SaveExtraShapeAppearanceForm(formDiv)
+			}
 		}
 	}
 	cb.stage.Commit()
@@ -188,6 +200,12 @@ func fillUpShapeAppearanceForm(stager *Stager, shape GongstructIF) {
 		gongprobe.BasicFieldtoForm("FontWeight", rectShape.GetFontWeight(), formStage, formGroup, false, false, 0, false, 0, false)
 		gongprobe.BasicFieldtoForm("FontColor", rectShape.GetFontColor(), formStage, formGroup, false, false, 0, false, 0, false)
 
+		if extra, ok := any(shape).(interface {
+			FillUpExtraShapeAppearanceForm(formStage *form.Stage, formGroup *form.FormGroup)
+		}); ok {
+			extra.FillUpExtraShapeAppearanceForm(formStage, formGroup)
+		}
+
 		formStage.Commit()
 		return
 	}
@@ -218,6 +236,12 @@ func fillUpShapeAppearanceForm(stager *Stager, shape GongstructIF) {
 		gongprobe.BasicFieldtoForm("StrokeDashArray", linkShape.GetStrokeDashArray(), formStage, formGroup, false, false, 0, false, 0, false)
 		gongprobe.BasicFieldtoForm("FontSize", linkShape.GetFontSize(), formStage, formGroup, false, false, 0, false, 0, false)
 		gongprobe.BasicFieldtoForm("FontColor", linkShape.GetFontColor(), formStage, formGroup, false, false, 0, false, 0, false)
+
+		if extra, ok := any(shape).(interface {
+			FillUpExtraShapeAppearanceForm(formStage *form.Stage, formGroup *form.FormGroup)
+		}); ok {
+			extra.FillUpExtraShapeAppearanceForm(formStage, formGroup)
+		}
 
 		formStage.Commit()
 		return

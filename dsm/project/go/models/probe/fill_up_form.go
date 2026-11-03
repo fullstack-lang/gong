@@ -1333,6 +1333,14 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("DisplayVerticalBar", instanceWithInferedType.DisplayVerticalBar, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("VerticalBarStroke", instanceWithInferedType.VerticalBarStroke, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("VerticalBarStrokeWidth", instanceWithInferedType.VerticalBarStrokeWidth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("VerticalBarStrokeOpacity", instanceWithInferedType.VerticalBarStrokeOpacity, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("VerticalBarStrokeDashArray", instanceWithInferedType.VerticalBarStrokeDashArray, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsLayoutDirectionDifferent", instanceWithInferedType.IsLayoutDirectionDifferent, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,

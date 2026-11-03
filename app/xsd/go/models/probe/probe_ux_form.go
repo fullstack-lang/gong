@@ -18,12 +18,7 @@ func (probe *Probe) ux_form() {
 			if onSave.GetCreationMode() {
 				FillUpFormFromGongstructName(probe, onSave.GetGongstructName(), true)
 			} else {
-				if inst, ok := onSave.GetInstance().(models.GongstructIF); ok && !inst.GongIsStaged(probe.stageOfInterest) {
-					probe.formStage.Reset()
-					probe.formStage.Commit()
-				} else {
-					FillUpFormFromGongstruct(onSave.GetInstance(), probe)
-				}
+				FillUpFormFromGongstruct(onSave.GetInstance(), probe)
 			}
 		}
 	}

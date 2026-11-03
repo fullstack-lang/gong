@@ -1,5 +1,10 @@
 package models
 
+import (
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
+)
+
 // ProductShape
 type ProductShape struct {
 	Name    string
@@ -117,9 +122,40 @@ type TaskShape struct {
 
 	DisplayVerticalBar bool
 
+	VerticalBarStroke          string
+	VerticalBarStrokeWidth     float64
+	VerticalBarStrokeOpacity   float64
+	VerticalBarStrokeDashArray string
+
 	ConcreteTypeFields
 
 	RectShape
+}
+
+func (s *TaskShape) FillUpExtraShapeAppearanceForm(formStage *form.Stage, formGroup *form.FormGroup) {
+	if s.Task == nil || !s.Task.IsMilestone {
+		return
+	}
+	gongprobe.BasicFieldtoForm("VerticalBarStroke", s.VerticalBarStroke, formStage, formGroup, false, false, 0, false, 0, false)
+	gongprobe.BasicFieldtoForm("VerticalBarStrokeWidth", s.VerticalBarStrokeWidth, formStage, formGroup, false, false, 0, false, 0, false)
+	gongprobe.BasicFieldtoForm("VerticalBarStrokeOpacity", s.VerticalBarStrokeOpacity, formStage, formGroup, false, false, 0, false, 0, false)
+	gongprobe.BasicFieldtoForm("VerticalBarStrokeDashArray", s.VerticalBarStrokeDashArray, formStage, formGroup, false, false, 0, false, 0, false)
+}
+
+func (s *TaskShape) SaveExtraShapeAppearanceForm(formDiv *form.FormDiv) {
+	if s.Task == nil || !s.Task.IsMilestone {
+		return
+	}
+	switch formDiv.Name {
+	case "VerticalBarStroke":
+		gongprobe.FormDivBasicFieldToField(&s.VerticalBarStroke, formDiv)
+	case "VerticalBarStrokeWidth":
+		gongprobe.FormDivBasicFieldToField(&s.VerticalBarStrokeWidth, formDiv)
+	case "VerticalBarStrokeOpacity":
+		gongprobe.FormDivBasicFieldToField(&s.VerticalBarStrokeOpacity, formDiv)
+	case "VerticalBarStrokeDashArray":
+		gongprobe.FormDivBasicFieldToField(&s.VerticalBarStrokeDashArray, formDiv)
+	}
 }
 
 func (s *TaskShape) GetAbstractElement() AbstractType {

@@ -1605,6 +1605,14 @@ func saveTaskShapeFields(
 			FormDivBasicFieldToField(&(_instance.VerticalOffset), formDiv)
 		case "DisplayVerticalBar":
 			FormDivBasicFieldToField(&(_instance.DisplayVerticalBar), formDiv)
+		case "VerticalBarStroke":
+			FormDivBasicFieldToField(&(_instance.VerticalBarStroke), formDiv)
+		case "VerticalBarStrokeWidth":
+			FormDivBasicFieldToField(&(_instance.VerticalBarStrokeWidth), formDiv)
+		case "VerticalBarStrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.VerticalBarStrokeOpacity), formDiv)
+		case "VerticalBarStrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.VerticalBarStrokeDashArray), formDiv)
 		case "IsLayoutDirectionDifferent":
 			FormDivBasicFieldToField(&(_instance.IsLayoutDirectionDifferent), formDiv)
 		case "X":

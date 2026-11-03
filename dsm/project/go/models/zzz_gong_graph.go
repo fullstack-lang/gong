@@ -3707,6 +3707,18 @@ func (taskshape *TaskShape) GongDiff(stage *Stage, taskshapeOther *TaskShape) (d
 	if taskshape.DisplayVerticalBar != taskshapeOther.DisplayVerticalBar {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "DisplayVerticalBar"))
 	}
+	if taskshape.VerticalBarStroke != taskshapeOther.VerticalBarStroke {
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "VerticalBarStroke"))
+	}
+	if taskshape.VerticalBarStrokeWidth != taskshapeOther.VerticalBarStrokeWidth {
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "VerticalBarStrokeWidth"))
+	}
+	if taskshape.VerticalBarStrokeOpacity != taskshapeOther.VerticalBarStrokeOpacity {
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "VerticalBarStrokeOpacity"))
+	}
+	if taskshape.VerticalBarStrokeDashArray != taskshapeOther.VerticalBarStrokeDashArray {
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "VerticalBarStrokeDashArray"))
+	}
 	if taskshape.IsLayoutDirectionDifferent != taskshapeOther.IsLayoutDirectionDifferent {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "IsLayoutDirectionDifferent"))
 	}

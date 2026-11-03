@@ -1187,6 +1187,14 @@ type TaskShape_WOP struct {
 
 	DisplayVerticalBar bool
 
+	VerticalBarStroke string
+
+	VerticalBarStrokeWidth float64
+
+	VerticalBarStrokeOpacity float64
+
+	VerticalBarStrokeDashArray string
+
 	IsLayoutDirectionDifferent bool
 
 	X float64
@@ -1228,6 +1236,10 @@ func (from *TaskShape) GongCopyBasicFields(to *TaskShape) {
 	to.IsShowDate = from.IsShowDate
 	to.VerticalOffset = from.VerticalOffset
 	to.DisplayVerticalBar = from.DisplayVerticalBar
+	to.VerticalBarStroke = from.VerticalBarStroke
+	to.VerticalBarStrokeWidth = from.VerticalBarStrokeWidth
+	to.VerticalBarStrokeOpacity = from.VerticalBarStrokeOpacity
+	to.VerticalBarStrokeDashArray = from.VerticalBarStrokeDashArray
 	to.IsLayoutDirectionDifferent = from.IsLayoutDirectionDifferent
 	to.X = from.X
 	to.Y = from.Y
