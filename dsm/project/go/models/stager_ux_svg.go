@@ -76,6 +76,9 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		svgObject.Layers = append(svgObject.Layers, dependencyArrowsLayer)
 	}
 
+	notesLayer := (&svg.Layer{Name: "Notes Layer"})
+	svgObject.Layers = append(svgObject.Layers, notesLayer)
+
 	for _, productShape := range diagram.Product_Shapes {
 		if productShape.IsHidden {
 			continue
@@ -387,7 +390,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			stager,
 			diagram,
 			noteShape,
-			layer)
+			notesLayer)
 		FormatNoteRect(stager, diagram, noteShape, rect)
 		diagram.map_Note_Rect[note] = rect
 		diagram.map_SvgRect_NoteShape[rect] = noteShape
@@ -406,12 +409,17 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			continue
 		}
 
+		targetLayer := layer
+		if diagram.IsTimeDiagram && dependencyArrowsLayer != nil {
+			targetLayer = dependencyArrowsLayer
+		}
+
 		link := svgAssociationLink(
 			stager,
 			startRect, endRect,
 			noteProductShape,
 			note,
-			layer,
+			targetLayer,
 			true,
 		)
 		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
@@ -439,12 +447,17 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			continue
 		}
 
+		targetLayer := layer
+		if diagram.IsTimeDiagram && dependencyArrowsLayer != nil {
+			targetLayer = dependencyArrowsLayer
+		}
+
 		link := svgAssociationLink(
 			stager,
 			startRect, endRect,
 			noteTaskShape,
 			note,
-			layer,
+			targetLayer,
 			true,
 		)
 		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
@@ -520,12 +533,16 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		if startRect == nil || endRect == nil {
 			continue
 		}
+		targetLayer := layer
+		if diagram.IsTimeDiagram && dependencyArrowsLayer != nil {
+			targetLayer = dependencyArrowsLayer
+		}
 		link := svgAssociationLink(
 			stager,
 			startRect, endRect,
 			noteResourceShape,
 			note,
-			layer,
+			targetLayer,
 			true,
 		)
 		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS

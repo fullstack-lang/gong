@@ -282,6 +282,25 @@ func TestDependencyArrowsLayerInTimeDiagram(t *testing.T) {
 	}).Stage(stage)
 	diag.TaskPredecessorShapes = []*models.TaskPredecessorShape{predShape}
 
+	note := (&models.Note{
+		Name:  "Note1",
+		Tasks: []*models.Task{t1},
+	}).Stage(stage)
+	lib.Notes = []*models.Note{note}
+
+	noteShape := (&models.NoteShape{
+		Name: "Note1-Gantt",
+		Note: note,
+	}).Stage(stage)
+	diag.Note_Shapes = []*models.NoteShape{noteShape}
+
+	noteTaskShape := (&models.NoteTaskShape{
+		Name: "Note1 to T1",
+		Note: note,
+		Task: t1,
+	}).Stage(stage)
+	diag.NoteTaskShapes = []*models.NoteTaskShape{noteTaskShape}
+
 	stage.Commit()
 
 	svgObj := stager.GetSvgObject()
@@ -290,8 +309,8 @@ func TestDependencyArrowsLayerInTimeDiagram(t *testing.T) {
 	}
 
 	// Verify layer structure
-	if len(svgObj.Layers) != 3 {
-		t.Fatalf("expected 3 layers in time diagram, got %d", len(svgObj.Layers))
+	if len(svgObj.Layers) != 4 {
+		t.Fatalf("expected 4 layers in time diagram, got %d", len(svgObj.Layers))
 	}
 
 	baseLayer := svgObj.Layers[0]
@@ -309,36 +328,57 @@ func TestDependencyArrowsLayerInTimeDiagram(t *testing.T) {
 		t.Errorf("expected layer 2 to be 'Dependency Arrows Layer', got %s", arrowsLayer.Name)
 	}
 
-	// Base layer must contain the task rectangles
+	notesLayer := svgObj.Layers[3]
+	if notesLayer.Name != "Notes Layer" {
+		t.Errorf("expected layer 3 to be 'Notes Layer', got %s", notesLayer.Name)
+	}
+
+	// Base layer must contain the task rectangles, and NOT the note rectangle
 	if len(baseLayer.Rects) == 0 {
 		t.Error("expected baseLayer.Rects to contain task rectangles, got 0")
 	}
-
-	// Base layer must NOT contain the dependency arrow
-	for _, l := range baseLayer.Links {
-		if l.Name == "T1 to T2" {
-			t.Error("dependency arrow found in baseLayer instead of arrowsLayer")
+	for _, r := range baseLayer.Rects {
+		if r.Name == "Note1" {
+			t.Error("note rect found in baseLayer instead of notesLayer")
 		}
 	}
 
-	// Arrows layer must contain the dependency arrow
-	if len(arrowsLayer.Links) != 1 {
-		t.Fatalf("expected 1 link in arrowsLayer, got %d", len(arrowsLayer.Links))
-	}
-	if arrowsLayer.Links[0].Name != "T1 to T2" {
-		t.Errorf("expected link name 'T1 to T2', got '%s'", arrowsLayer.Links[0].Name)
+	// Notes layer must contain the note rectangle
+	if len(notesLayer.Rects) != 1 || notesLayer.Rects[0].Name != "Note1" {
+		t.Errorf("expected notesLayer.Rects to contain 'Note1', got %v", notesLayer.Rects)
 	}
 
-	// Now switch diagram to non-time diagram: arrows must be on baseLayer, no separate arrowsLayer
+	// Base layer must NOT contain the dependency arrow or note link
+	for _, l := range baseLayer.Links {
+		if l.Name == "T1 to T2" || l.Name == "Note1 to T1" {
+			t.Errorf("link %s found in baseLayer instead of arrowsLayer", l.Name)
+		}
+	}
+
+	// Arrows layer must contain the dependency arrow and note link
+	if len(arrowsLayer.Links) != 2 {
+		t.Fatalf("expected 2 links in arrowsLayer, got %d", len(arrowsLayer.Links))
+	}
+	if arrowsLayer.Links[0].Name != "T1 to T2" {
+		t.Errorf("expected first link name 'T1 to T2', got '%s'", arrowsLayer.Links[0].Name)
+	}
+	if arrowsLayer.Links[1].Name != "Note1 to T1" {
+		t.Errorf("expected second link name 'Note1 to T1', got '%s'", arrowsLayer.Links[1].Name)
+	}
+
+	// Now switch diagram to non-time diagram: arrows must be on baseLayer, notes remain on top in notesLayer
 	diag.IsTimeDiagram = false
 	stage.Commit()
 
 	svgObjNonTime := stager.GetSvgObject()
-	if len(svgObjNonTime.Layers) != 1 {
-		t.Fatalf("expected 1 layer in non-time diagram, got %d", len(svgObjNonTime.Layers))
+	if len(svgObjNonTime.Layers) != 2 {
+		t.Fatalf("expected 2 layers in non-time diagram, got %d", len(svgObjNonTime.Layers))
 	}
-	if len(svgObjNonTime.Layers[0].Links) != 1 {
-		t.Fatalf("expected 1 link in base layer for non-time diagram, got %d", len(svgObjNonTime.Layers[0].Links))
+	if len(svgObjNonTime.Layers[0].Links) != 2 {
+		t.Fatalf("expected 2 links in base layer for non-time diagram, got %d", len(svgObjNonTime.Layers[0].Links))
+	}
+	if len(svgObjNonTime.Layers[1].Rects) != 1 || svgObjNonTime.Layers[1].Rects[0].Name != "Note1" {
+		t.Errorf("expected notesLayer in non-time diagram to contain 'Note1', got %v", svgObjNonTime.Layers[1].Rects)
 	}
 }
 

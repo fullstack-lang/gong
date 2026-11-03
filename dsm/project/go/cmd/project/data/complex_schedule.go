@@ -225,8 +225,8 @@ func _(stage *models.Stage) {
 	__models__Note__00000000_.LayoutDirection = models.Vertical
 	__models__NoteShape__00000000_.Name = `gantt-AAA AAA AAA Production Deployment`
 	__models__NoteShape__00000000_.IsLayoutDirectionDifferent = false
-	__models__NoteShape__00000000_.X = 432.548282
-	__models__NoteShape__00000000_.Y = 408.334842
+	__models__NoteShape__00000000_.X = 381.548282
+	__models__NoteShape__00000000_.Y = 190.334842
 	__models__NoteShape__00000000_.Width = 250.000000
 	__models__NoteShape__00000000_.Height = 119.230769
 	__models__NoteShape__00000000_.IsHidden = false
@@ -1281,11 +1281,11 @@ func _(stage *models.Stage) {
 	__models__TaskShape__00000003_.Width = 0.000000
 	__models__TaskShape__00000003_.Height = 0.000000
 	__models__TaskShape__00000003_.IsHidden = false
-	__models__TaskShape__00000003_.IsPresentationOverridden = false
-	__models__TaskShape__00000003_.Color = `crimson`
+	__models__TaskShape__00000003_.IsPresentationOverridden = true
+	__models__TaskShape__00000003_.Color = `blue`
 	__models__TaskShape__00000003_.FillOpacity = 1.000000
 	__models__TaskShape__00000003_.Stroke = `darkred`
-	__models__TaskShape__00000003_.StrokeWidth = 1.000000
+	__models__TaskShape__00000003_.StrokeWidth = 0.000000
 	__models__TaskShape__00000003_.StrokeOpacity = 0.000000
 	__models__TaskShape__00000003_.StrokeDashArray = ``
 	__models__TaskShape__00000003_.RX = 0.000000
