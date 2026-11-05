@@ -2,13 +2,9 @@ package level1stack
 
 import "fmt"
 
-func GetLevel1StackTemplate(useSplitlite bool) string {
+func GetLevel1StackTemplate() string {
 	staticPkg := "split_static"
 	staticImport := `split_static "github.com/fullstack-lang/gong/lib/split/go/static"`
-	if useSplitlite {
-		staticPkg = "splitlite_static"
-		staticImport = `splitlite_static "github.com/fullstack-lang/gong/lib/splitlite/go/static"`
-	}
 
 	beforeCommitStructField := "\n\tstage *models.Stage"
 	beforeCommitMarshall := `	if impl.stage != nil {
@@ -172,8 +168,7 @@ func (stack *Level1Stack) Run(addr string) error {
 	)
 }
 
-var Level1StackInstanceTemplate = GetLevel1StackTemplate(false)
-var Level1StackInstanceSplitliteTemplate = GetLevel1StackTemplate(true)
+var Level1StackInstanceTemplate = GetLevel1StackTemplate()
 
 type ModelGongNLevel1tackInstanceStructInsertionId int
 

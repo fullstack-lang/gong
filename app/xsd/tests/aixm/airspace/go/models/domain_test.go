@@ -20,7 +20,7 @@ import (
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	doc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
-	splitlite "github.com/fullstack-lang/gong/lib/splitlite/go/models"
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	"github.com/fullstack-lang/gong/lib/strutils"
 )
 
@@ -199,7 +199,7 @@ type diagramSpec struct {
 
 func TestPopulateDomainUMLDiagrams(t *testing.T) {
 	mux := http.NewServeMux()
-	diagramEditor := &splitlite.AsSplitArea{
+	diagramEditor := &split.AsSplitArea{
 		Name:             "Bottom",
 		ShowNameInHeader: false,
 		Size:             50,
@@ -212,7 +212,7 @@ func TestPopulateDomainUMLDiagrams(t *testing.T) {
 		{Alias: "ref_gml", Path: fmt.Sprintf("%q", domainImportPrefix+"/gml")},
 		{Alias: "ref_xlink", Path: fmt.Sprintf("%q", domainImportPrefix+"/xlink")},
 	}
-	docStager := prepare.PrepareStageSetSplitlite(
+	docStager := prepare.PrepareStageSet(
 		mux,
 		true,
 		domainImportPrefix+":diag_gen",
@@ -1253,8 +1253,8 @@ func TestPopulateDomainUMLDiagrams(t *testing.T) {
 	origDiagrams := len(*docStage.GetInstancesSet[*doc_models.Classdiagram]())
 
 	verifyMux := http.NewServeMux()
-	verifyEditor := &splitlite.AsSplitArea{Name: "VerifyBottom", Size: 50}
-	verifyStager := prepare.PrepareStageSetSplitlite(
+	verifyEditor := &split.AsSplitArea{Name: "VerifyBottom", Size: 50}
+	verifyStager := prepare.PrepareStageSet(
 		verifyMux,
 		false,
 		domainImportPrefix+":diag_verify",

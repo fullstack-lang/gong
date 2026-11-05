@@ -1,7 +1,5 @@
 package probe
 
-import "strings"
-
 const ProbeTemplate = `// generated code - do not edit
 package probe
 
@@ -372,11 +370,3 @@ func (probe *Probe) ExportStageExcel() {
 }
 `
 
-var ProbeSplitliteTemplate = strings.NewReplacer(
-	"split_fullstack \"github.com/fullstack-lang/gong/lib/split/go/fullstack\"", "splitlite_fullstack \"github.com/fullstack-lang/gong/lib/splitlite/go/fullstack\"",
-	"split \"github.com/fullstack-lang/gong/lib/split/go/models\"", "splitlite \"github.com/fullstack-lang/gong/lib/splitlite/go/models\"",
-	"prepare.Prepare(", "prepare.PrepareSplitlite(",
-	"split_fullstack.", "splitlite_fullstack.",
-	"split.", "splitlite.",
-	"gongprobe.CreateDataEditorLayout(", "gongprobe.CreateDataEditorLayoutSplitlite(",
-).Replace(ProbeTemplate)

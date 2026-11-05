@@ -21,7 +21,6 @@ import (
 	gong "github.com/fullstack-lang/gong/go/models"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
-	splitlite "github.com/fullstack-lang/gong/lib/splitlite/go/models"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
@@ -68,30 +67,6 @@ func Prepare(
 	stage, treeStage, svgStage, gongStage, formStage, treeNavigationStage := prepareStagesSet(r, embeddedDiagrams, docStackName, nil, goModelsDir, goDiagramsDir)
 
 	return models.NewStager(
-		r,
-		receivingAsSplitArea,
-		stage,
-		treeStage,
-		svgStage,
-		gongStage,
-		formStage,
-		treeNavigationStage,
-		embeddedDiagrams,
-		map_GongStructName_InstancesNb)
-}
-
-func PrepareSplitlite(
-	r *http.ServeMux,
-	embeddedDiagrams bool,
-	docStackName string,
-	goModelsDir embed.FS,
-	goDiagramsDir embed.FS,
-	receivingAsSplitArea *splitlite.AsSplitArea, // split area that will receive the doc areas
-	map_GongStructName_InstancesNb map[string]int,
-) (stager *models.Stager) {
-	stage, treeStage, svgStage, gongStage, formStage, treeNavigationStage := prepareStagesSet(r, embeddedDiagrams, docStackName, nil, goModelsDir, goDiagramsDir)
-
-	return models.NewStagerSplitlite(
 		r,
 		receivingAsSplitArea,
 		stage,
@@ -453,39 +428,6 @@ func PrepareStageSet(
 	)
 
 	return models.NewStager(
-		r,
-		receivingAsSplitArea,
-		stage,
-		treeStage,
-		svgStage,
-		gongStage,
-		formStage,
-		treeNavigationStage,
-		embeddedDiagrams,
-		map_GongStructName_InstancesNb,
-	)
-}
-
-func PrepareStageSetSplitlite(
-	r *http.ServeMux,
-	embeddedDiagrams bool,
-	docStackName string,
-	metaPackageImports []*models.MetaPackageImport,
-	goModelsDir embed.FS,
-	goDiagramsDir embed.FS,
-	receivingAsSplitArea *splitlite.AsSplitArea,
-	map_GongStructName_InstancesNb map[string]int,
-) (stager *models.Stager) {
-	stage, treeStage, svgStage, gongStage, formStage, treeNavigationStage := prepareStagesSet(
-		r,
-		embeddedDiagrams,
-		docStackName,
-		metaPackageImports,
-		goModelsDir,
-		goDiagramsDir,
-	)
-
-	return models.NewStagerSplitlite(
 		r,
 		receivingAsSplitArea,
 		stage,

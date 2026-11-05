@@ -2,17 +2,11 @@ package probe
 
 import "fmt"
 
-func GetProbeCmdMainTemplate(useSplitlite bool) string {
+func GetProbeCmdMainTemplate() string {
 	splitImport := `split "github.com/fullstack-lang/gong/lib/split/go/models"`
 	splitStackImport := `split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"`
 	splitStaticImport := `split_static "github.com/fullstack-lang/gong/lib/split/go/static"`
 	splitPkg := "split"
-	if useSplitlite {
-		splitImport = `splitlite "github.com/fullstack-lang/gong/lib/splitlite/go/models"`
-		splitStackImport = `splitlite_stack "github.com/fullstack-lang/gong/lib/splitlite/go/stack"`
-		splitStaticImport = `splitlite_static "github.com/fullstack-lang/gong/lib/splitlite/go/static"`
-		splitPkg = "splitlite"
-	}
 
 	return fmt.Sprintf(`//go:build !js
 
@@ -154,8 +148,7 @@ func main() {
 	)
 }
 
-var ProbeCmdMainTemplate = GetProbeCmdMainTemplate(false)
-var ProbeCmdMainSplitliteTemplate = GetProbeCmdMainTemplate(true)
+var ProbeCmdMainTemplate = GetProbeCmdMainTemplate()
 
 const ProbeCmdMainTemplateFullStack = `//go:build !js
 

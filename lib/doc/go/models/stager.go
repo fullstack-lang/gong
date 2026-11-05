@@ -11,7 +11,6 @@ import (
 	gong "github.com/fullstack-lang/gong/go/models"
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
-	splitlite "github.com/fullstack-lang/gong/lib/splitlite/go/models"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
@@ -84,33 +83,6 @@ func NewStager(
 		map_GongStructName_InstancesNb,
 	)
 	stager.createViews(receivingAsSplitArea)
-	stager.postInit()
-	return stager
-}
-
-func NewStagerSplitlite(
-	r *http.ServeMux,
-	receivingAsSplitArea *splitlite.AsSplitArea,
-	stage *Stage,
-	treeStage *tree.Stage,
-	svgStage *svg.Stage,
-	gongStage *gong.Stage,
-	formStage *form.Stage,
-	treeNavigationStage *tree.Stage,
-	embeddedDiagrams bool,
-	map_GongStructName_InstancesNb map[string]int,
-) (stager *Stager) {
-	stager = initStager(
-		stage,
-		treeStage,
-		svgStage,
-		gongStage,
-		formStage,
-		treeNavigationStage,
-		embeddedDiagrams,
-		map_GongStructName_InstancesNb,
-	)
-	stager.createViewsSplitlite(receivingAsSplitArea)
 	stager.postInit()
 	return stager
 }

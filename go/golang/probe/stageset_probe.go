@@ -35,7 +35,6 @@ func CodeGeneratorStageSetProbe(
 	pkgName string,
 	pkgPath string,
 	pkgPathRoot string,
-	useSplitlite bool,
 ) {
 	stageSet := modelPkg.StageSet
 	if stageSet == nil || len(stageSet.Fields) <= 1 {
@@ -109,7 +108,7 @@ func CodeGeneratorStageSetProbe(
 	generateStageSetFormHelpers(pkgPath)
 
 	// Generate probe/probe.go
-	generateStageSetProbeMain(pkgPath, pkgPathRoot, modelPkg, stageSet, useSplitlite)
+	generateStageSetProbeMain(pkgPath, pkgPathRoot, modelPkg, stageSet)
 
 	// Generate probe/probe_ux_tree.go
 	generateStageSetProbeUxTree(pkgPath, pkgPathRoot, modelPkg, stageSet, fieldToModelPkg)
@@ -494,16 +493,10 @@ func generateStageSetProbeMain(
 	pkgPathRoot string,
 	modelPkg *models.ModelPkg,
 	stageSet *models.StageSetModel,
-	useSplitlite bool,
 ) {
 	splitImportPath := "github.com/fullstack-lang/gong/lib/split"
 	splitPkg := "split"
 	prepareStageSetSuffix := ""
-	if useSplitlite {
-		splitImportPath = "github.com/fullstack-lang/gong/lib/splitlite"
-		splitPkg = "splitlite"
-		prepareStageSetSuffix = "Splitlite"
-	}
 
 	var metaPkgImports strings.Builder
 	for _, f := range stageSet.Fields {

@@ -598,6 +598,21 @@
             "group": "build"
         },
         {
+            "label": "dsm - statemachines: go run . edit data/uxloop.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/statemachines/go/cmd/statemachines"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/uxloop.go"
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - statemachines: go run . edit data/issue1415.go",
             "type": "shell",
             "options": {
@@ -1952,23 +1967,6 @@
             "type": "shell",
             "options": {
                 "cwd": "${workspaceFolder}/lib/split"
-            },
-            "command": "gong",
-            "group": "build",
-            "args": [
-                "generate",
-                "--skipGoModCommands",
-                "--skipNpmWorkspaces",
-                "--skipNpmInstall",
-                "--stack-height=4",
-                "go/models"
-            ]
-        },
-        {
-            "label": "lib - splitlite: gong generate splitlite",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/splitlite"
             },
             "command": "gong",
             "group": "build",

@@ -70,8 +70,8 @@ import (
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 	load_stack "github.com/fullstack-lang/gong/lib/load/go/stack"
 
-	split "github.com/fullstack-lang/gong/lib/splitlite/go/models"
-	split_stack "github.com/fullstack-lang/gong/lib/splitlite/go/stack"
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 	tree_stack "github.com/fullstack-lang/gong/lib/tree/go/stack"
@@ -140,7 +140,7 @@ func (ctx *MultiGenerateContext) generateStagerCreateViewsFile() error {
 package models
 
 import (
-	split "github.com/fullstack-lang/gong/lib/splitlite/go/models"
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
 )
 
 func (stager *Stager) createViews() {

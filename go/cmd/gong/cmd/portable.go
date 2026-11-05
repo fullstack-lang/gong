@@ -4,7 +4,6 @@ import (
 	"archive/zip"
 	"bytes"
 	"compress/gzip"
-	"embed"
 	"encoding/base64"
 	"fmt"
 	"io"
@@ -16,33 +15,8 @@ import (
 	"strings"
 
 	"github.com/fullstack-lang/gong/lib/split"
-	"github.com/fullstack-lang/gong/lib/splitlite"
 	"github.com/spf13/cobra"
 )
-
-var useSplitlitePortable bool
-
-func isUsingSplitlite() bool {
-	if useSplitlitePortable {
-		return true
-	}
-	searchDirs := []string{".", "..", "../..", "../../models", "../../level1stack", "../models", "../level1stack"}
-	for _, dir := range searchDirs {
-		files, err := os.ReadDir(dir)
-		if err != nil {
-			continue
-		}
-		for _, f := range files {
-			if !f.IsDir() && strings.HasSuffix(f.Name(), ".go") {
-				content, err := os.ReadFile(filepath.Join(dir, f.Name()))
-				if err == nil && strings.Contains(string(content), "splitlite") {
-					return true
-				}
-			}
-		}
-	}
-	return false
-}
 
 var portableCmd = &cobra.Command{
 	Use:   "portable [target dir]",
@@ -77,18 +51,9 @@ var portableCmd = &cobra.Command{
 		os.Remove(zipFile)
 		os.MkdirAll(".tmp_build", 0o755)
 
-		// 1. Copy Frontend Assets from the embedded lib/split or lib/splitlite directory
-		var embedFS embed.FS
-		var embedPath string
-		if isUsingSplitlite() {
-			fmt.Printf("📦 Using splitlite frontend distribution\n")
-			embedFS = splitlite.NgDistNg
-			embedPath = "ng-github.com-fullstack-lang-gong-lib-splitlite/dist/ng-github.com-fullstack-lang-gong-lib-splitlite/browser"
-		} else {
-			fmt.Printf("📦 Using standard split frontend distribution\n")
-			embedFS = split.NgDistNg
-			embedPath = "ng-github.com-fullstack-lang-gong-lib-split/dist/ng-github.com-fullstack-lang-gong-lib-split/browser"
-		}
+		// 1. Copy Frontend Assets from the embedded lib/split directory
+		embedFS := split.NgDistNg
+		embedPath := "ng-github.com-fullstack-lang-gong-lib-split/dist/ng-github.com-fullstack-lang-gong-lib-split/browser"
 		if err := copyFS(embedFS, embedPath, ".tmp_build"); err != nil {
 			fmt.Printf("❌ Error extracting embedded Angular files: %v\n", err)
 			os.Exit(1)
@@ -469,8 +434,6 @@ var portableCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(portableCmd)
-	portableCmd.Flags().BoolVar(&useSplitlitePortable, "use-splitlite", false, "use splitlite dist instead of split")
-	portableCmd.Flags().BoolVar(&useSplitlitePortable, "useSplitlite", false, "use splitlite dist instead of split")
 }
 
 // Helper: Run standard build commands

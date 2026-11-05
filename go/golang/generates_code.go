@@ -34,7 +34,6 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	stackHeight int,
 	withProbe bool,
 	skipNonUpdateFromControllers bool,
-	useSplitlite bool,
 	dsm bool,
 ) {
 	// generate main.go if absent
@@ -166,7 +165,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 			gong_models.VerySimpleCodeGenerator(
 				modelPkg,
 				coderFilePath,
-				models.GetStagerTemplate(useSplitlite, dsm))
+				models.GetStagerTemplate(dsm))
 		}
 
 	}
@@ -274,7 +273,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	if stackHeight == 0 {
 		template = fullstack.FullstackNewStackInstanceTemplateLevel1
 
-		level1StackTemplate := level1stack.GetLevel1StackTemplate(useSplitlite)
+		level1StackTemplate := level1stack.GetLevel1StackTemplate()
 
 		gong_models.CodeGenerator(
 			modelPkg,
@@ -312,7 +311,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 			static.ServeStaticFilesTemplate)
 	}
 
-	GeneratesGoModelPackageCode(modelPkg, pkgPath, skipSerialize, useSplitlite)
+	GeneratesGoModelPackageCode(modelPkg, pkgPath, skipSerialize)
 
 	if stackHeight == 4 {
 		gong_models.SimpleCodeGeneratorForGongStructWithNameField(
@@ -460,15 +459,10 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		modelPkg.PkgPath, filepath.Join(pkgPath, "probe/probe_ux_table.go"),
 		probe.UpdateProbeTableTemplate, probe.UpdateProbeTableSubTemplateCode)
 
-	probeTemplate := probe.ProbeTemplate
-	if useSplitlite {
-		probeTemplate = probe.ProbeSplitliteTemplate
-	}
-
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		filepath.Join(pkgPath, "probe/probe.go"),
-		probeTemplate)
+		probe.ProbeTemplate)
 
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
@@ -517,7 +511,6 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 			modelPkg.Name,
 			pkgPath,
 			modelPkg.PkgPath,
-			useSplitlite,
 		)
 	}
 
@@ -532,7 +525,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	os.WriteFile(gitignorePath, []byte("probe\nprobe.exe\n"), os.ModePerm)
 
 	if stackHeight == 0 {
-		probeCmdTemplate := probe.GetProbeCmdMainTemplate(useSplitlite)
+		probeCmdTemplate := probe.GetProbeCmdMainTemplate()
 		gong_models.SimpleCodeGenerator(
 			modelPkg,
 			modelPkg.Name,
@@ -555,7 +548,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 
 // GeneratesGoModelPackageCode generates strictly the model package files (zzz_gong*.go)
 // without creating orm, controllers, probe, stack, or stager boilerplate.
-func GeneratesGoModelPackageCode(modelPkg *gong_models.ModelPkg, pkgPath string, skipSerialize bool, useSplitlite bool) {
+func GeneratesGoModelPackageCode(modelPkg *gong_models.ModelPkg, pkgPath string, skipSerialize bool) {
 	models.CodeGeneratorModelGong(
 		modelPkg,
 		modelPkg.Name,
@@ -590,18 +583,12 @@ func GeneratesGoModelPackageCode(modelPkg *gong_models.ModelPkg, pkgPath string,
 
 	if modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/table/go/models" &&
 		modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/split/go/models" &&
-		modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/splitlite/go/models" &&
 		modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/form/go/models" {
-
-		probeTemplate := models.ModelGongProbeFileTemplate
-		if useSplitlite {
-			probeTemplate = models.ModelGongProbeSplitliteFileTemplate
-		}
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
 			filepath.Join(pkgPath, string(gong_models.GeneratedGongProbeGoFilePath)),
-			probeTemplate)
+			models.ModelGongProbeFileTemplate)
 	}
 
 	models.GongAst2(modelPkg, pkgPath)

@@ -43,7 +43,6 @@ var (
 	withProbe                    bool
 	dsm                          bool
 	skipNonUpdateFromControllers bool
-	useSplitlite                 bool
 )
 
 var generateCmd = &cobra.Command{
@@ -76,25 +75,6 @@ var generateCmd = &cobra.Command{
 			pkgPath = args[0]
 		} else {
 			pkgPath = "."
-		}
-
-		absPkgPath, _ := filepath.Abs(pkgPath)
-		if strings.Contains(absPkgPath, "splitlite") {
-			useSplitlite = true
-		}
-		if !useSplitlite {
-			files, err := os.ReadDir(pkgPath)
-			if err == nil {
-				for _, f := range files {
-					if !f.IsDir() && strings.HasSuffix(f.Name(), ".go") && !strings.HasPrefix(f.Name(), "zzz_") {
-						content, err := os.ReadFile(filepath.Join(pkgPath, f.Name()))
-						if err == nil && strings.Contains(string(content), "split \"github.com/fullstack-lang/gong/lib/splitlite/go/models\"") {
-							useSplitlite = true
-							break
-						}
-					}
-				}
-			}
 		}
 
 		if dsm {
@@ -171,7 +151,7 @@ var generateCmd = &cobra.Command{
 			}
 			log.Printf("Generating dependent model package in %s", depPkgPath)
 			golang.RemoveGeneratedSubModelPackageGongFiles(depPkgPath)
-			golang.GeneratesGoModelPackageCode(depModelPkg, depPkgPath, skipSerialize, useSplitlite)
+			golang.GeneratesGoModelPackageCode(depModelPkg, depPkgPath, skipSerialize)
 		}
 
 		// remove gong generated files
@@ -426,7 +406,7 @@ var generateCmd = &cobra.Command{
 
 		}
 
-		golang.GeneratesGoCode(modelPkg, pkgPath, skipCoder, dbLite, skipSerialize, skipStager, stackHeight, withProbe, skipNonUpdateFromControllers, useSplitlite, dsm)
+		golang.GeneratesGoCode(modelPkg, pkgPath, skipCoder, dbLite, skipSerialize, skipStager, stackHeight, withProbe, skipNonUpdateFromControllers, dsm)
 
 		// The copying of yyy files has been moved to the beginning of the command
 
@@ -576,6 +556,4 @@ func init() {
 	generateCmd.Flags().BoolVarP(&withProbe, "with-probe", "p", true, "generate probe")
 	generateCmd.Flags().BoolVar(&dsm, "dsm", false, "copy zzz_ files from dsm/process/go/models into the target package")
 	generateCmd.Flags().BoolVar(&skipNonUpdateFromControllers, "skipNonUpdateFromControllers", true, "skip generating non-update (GET, POST, DELETE) CRUD operations in controllers and frontend services")
-	generateCmd.Flags().BoolVar(&useSplitlite, "use-splitlite", false, "use splitlite instead of split")
-	generateCmd.Flags().BoolVar(&useSplitlite, "useSplitlite", false, "use splitlite instead of split")
 }

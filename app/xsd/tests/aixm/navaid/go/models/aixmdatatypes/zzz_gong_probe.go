@@ -5,14 +5,14 @@ import (
 	"time"
 
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
-	splitlite "github.com/fullstack-lang/gong/lib/splitlite/go/models"
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
 )
 
 type GongProbeIF interface {
 	Refresh()
 	GetFormStage() *form.Stage
-	GetDataEditor() *splitlite.AsSplit
-	GetDiagramEditor() *splitlite.AsSplitArea
+	GetDataEditor() *split.AsSplit
+	GetDiagramEditor() *split.AsSplitArea
 	FillUpFormFromGongstruct(instance any, formName string)
 	AddNotification(date time.Time, message string)
 	CommitNotificationTable()

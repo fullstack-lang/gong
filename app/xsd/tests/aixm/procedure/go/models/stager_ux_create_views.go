@@ -2,7 +2,7 @@
 package models
 
 import (
-	split "github.com/fullstack-lang/gong/lib/splitlite/go/models"
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
 )
 
 func (stager *Stager) createViews() {

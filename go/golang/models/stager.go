@@ -2,13 +2,9 @@ package models
 
 import "fmt"
 
-func GetStagerTemplate(useSplitlite bool, dsm bool) string {
+func GetStagerTemplate(dsm bool) string {
 	splitImport := `split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"`
-	if useSplitlite {
-		splitImport = `split "github.com/fullstack-lang/gong/lib/splitlite/go/models"
-	split_stack "github.com/fullstack-lang/gong/lib/splitlite/go/stack"`
-	}
 
 	if !dsm {
 		return fmt.Sprintf(`// generated boilerplate code
@@ -75,9 +71,6 @@ func (c *BeforeCommitImplementation) BeforeCommit(stage *Stage) {
 	}
 
 	createFormsLayoutCall := "gongprobe.CreateFormsLayout"
-	if useSplitlite {
-		createFormsLayoutCall = "gongprobe.CreateFormsLayoutSplitlite"
-	}
 
 	return fmt.Sprintf(`// generated boilerplate code
 // edit the file for adding other stages
@@ -354,4 +347,4 @@ func NewStager(
 `, splitImport, createFormsLayoutCall)
 }
 
-var StagerFileTemplate = GetStagerTemplate(false, false)
+var StagerFileTemplate = GetStagerTemplate(false)
