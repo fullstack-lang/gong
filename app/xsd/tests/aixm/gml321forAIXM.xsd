@@ -790,7 +790,10 @@ The content model follows the general pattern for the encoding of curve segments
 			<extension base="gml:AbstractCurveSegmentType">
 				<choice>
 					<element ref="gml:posList"/>
-					<group ref="gml:geometricPositionGroup" minOccurs="2" maxOccurs="unbounded"/>
+					<choice minOccurs="2" maxOccurs="unbounded">
+						<element ref="gml:pos"/>
+						<element ref="gml:pointProperty"/>
+					</choice>
 				</choice>
 				<attribute name="interpolation" type="gml:CurveInterpolationType" fixed="geodesic"/>
 			</extension>
@@ -885,6 +888,26 @@ interpolation is fixed to "planar", i.e. an interpolation shall return points on
 			<documentation>A ring is used to represent a single connected component of a surface boundary as specified in ISO 19107:2003, 6.3.6.
 Every gml:curveMember references or contains one curve, i.e. any element which is substitutable for gml:AbstractCurve. In the context of a ring, the curves describe the boundary of the surface. The sequence of curves shall be contiguous and connected in a cycle.
 If provided, the aggregationType attribute shall have the value "sequence".</documentation>
+		</annotation>
+	</element>
+	<complexType name="LinearRingType">
+		<complexContent>
+			<extension base="gml:AbstractRingType">
+				<sequence>
+					<choice>
+						<choice minOccurs="4" maxOccurs="unbounded">
+							<element ref="gml:pos"/>
+							<element ref="gml:pointProperty"/>
+						</choice>
+						<element ref="gml:posList"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="LinearRing" type="gml:LinearRingType" substitutionGroup="gml:AbstractRing">
+		<annotation>
+			<documentation>A LinearRing is defined by four or more coordinate tuples, with linear interpolation between them; the first and last coordinates shall be coincident. The number of direct positions in the list shall be at least four.</documentation>
 		</annotation>
 	</element>
 	<element name="curveMember" type="gml:CurvePropertyType"/>

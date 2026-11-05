@@ -218,10 +218,10 @@ type AirspaceActivationType struct {
 	// generated from element "name" of complex type CodeType
 	NameXSD []*gml.CodeType `xml:"name,omitempty"`
 
-	// generated from group "aixm:PropertiesWithSchedulePropertyGroup" with order 2588 depth 2
+	// generated from group "aixm:PropertiesWithSchedulePropertyGroup" with order 2598 depth 2
 	Group_PropertiesWithSchedulePropertyGroup
 
-	// generated from group "aixm:AirspaceActivationPropertyGroup" with order 2589 depth 2
+	// generated from group "aixm:AirspaceActivationPropertyGroup" with order 2599 depth 2
 	Group_AirspaceActivationPropertyGroup
 
 	// generated from anonymous complex type within element "extension"
@@ -296,7 +296,7 @@ type AirspaceGeometryComponentType struct {
 	// generated from element "name" of complex type CodeType
 	NameXSD []*gml.CodeType `xml:"name,omitempty"`
 
-	// generated from group "aixm:AirspaceGeometryComponentPropertyGroup" with order 2610 depth 2
+	// generated from group "aixm:AirspaceGeometryComponentPropertyGroup" with order 2620 depth 2
 	Group_AirspaceGeometryComponentPropertyGroup
 
 	// generated from anonymous complex type within element "extension"
@@ -365,10 +365,10 @@ type AirspaceLayerClassType struct {
 	// generated from element "name" of complex type CodeType
 	NameXSD []*gml.CodeType `xml:"name,omitempty"`
 
-	// generated from group "aixm:PropertiesWithSchedulePropertyGroup" with order 2629 depth 2
+	// generated from group "aixm:PropertiesWithSchedulePropertyGroup" with order 2639 depth 2
 	Group_PropertiesWithSchedulePropertyGroup
 
-	// generated from group "aixm:AirspaceLayerClassPropertyGroup" with order 2630 depth 2
+	// generated from group "aixm:AirspaceLayerClassPropertyGroup" with order 2640 depth 2
 	Group_AirspaceLayerClassPropertyGroup
 
 	// generated from anonymous complex type within element "extension"
@@ -434,7 +434,7 @@ type AirspaceVolumeType struct {
 	// generated from element "name" of complex type CodeType
 	NameXSD []*gml.CodeType `xml:"name,omitempty"`
 
-	// generated from group "aixm:AirspaceVolumePropertyGroup" with order 2648 depth 2
+	// generated from group "aixm:AirspaceVolumePropertyGroup" with order 2658 depth 2
 	Group_AirspaceVolumePropertyGroup
 
 	// generated from anonymous complex type within element "extension"
@@ -530,7 +530,7 @@ type AirspaceVolumeDependencyType struct {
 	// generated from element "name" of complex type CodeType
 	NameXSD []*gml.CodeType `xml:"name,omitempty"`
 
-	// generated from group "aixm:AirspaceVolumeDependencyPropertyGroup" with order 2676 depth 2
+	// generated from group "aixm:AirspaceVolumeDependencyPropertyGroup" with order 2686 depth 2
 	Group_AirspaceVolumeDependencyPropertyGroup
 
 	// generated from anonymous complex type within element "extension"
@@ -655,7 +655,7 @@ type AuthorityForAirspaceTimeSliceType struct {
 	// generated from element "featureLifetime" of complex type TimePrimitivePropertyType
 	FeatureLifetime *gml.TimePrimitivePropertyType `xml:"featureLifetime,omitempty"`
 
-	// generated from group "aixm:AuthorityForAirspacePropertyGroup" with order 2705 depth 2
+	// generated from group "aixm:AuthorityForAirspacePropertyGroup" with order 2715 depth 2
 	Group_AuthorityForAirspacePropertyGroup
 
 	// generated from anonymous complex type within element "extension"
@@ -838,7 +838,7 @@ type CurveType struct {
 	// generated from element "segments" of complex type CurveSegmentArrayPropertyType
 	Segments *gml.CurveSegmentArrayPropertyType `xml:"segments,omitempty"`
 
-	// generated from group "aixm:CurvePropertyGroup" with order 2748 depth 2
+	// generated from group "aixm:CurvePropertyGroup" with order 2758 depth 2
 	Group_CurvePropertyGroup
 }
 
@@ -894,10 +894,10 @@ type ElevatedCurveType struct {
 	// generated from element "segments" of complex type CurveSegmentArrayPropertyType
 	Segments *gml.CurveSegmentArrayPropertyType `xml:"segments,omitempty"`
 
-	// generated from group "aixm:CurvePropertyGroup" with order 2748 depth 2
+	// generated from group "aixm:CurvePropertyGroup" with order 2758 depth 2
 	Group_CurvePropertyGroup
 
-	// generated from group "aixm:ElevatedCurvePropertyGroup" with order 2759 depth 2
+	// generated from group "aixm:ElevatedCurvePropertyGroup" with order 2769 depth 2
 	Group_ElevatedCurvePropertyGroup
 
 	// generated from anonymous complex type within element "extension"
@@ -959,10 +959,10 @@ type ElevatedSurfaceType struct {
 	// generated from element "patches" of complex type SurfacePatchArrayPropertyType
 	Patches *gml.SurfacePatchArrayPropertyType `xml:"patches,omitempty"`
 
-	// generated from group "aixm:SurfacePropertyGroup" with order 2827 depth 2
+	// generated from group "aixm:SurfacePropertyGroup" with order 2837 depth 2
 	Group_SurfacePropertyGroup
 
-	// generated from group "aixm:ElevatedSurfacePropertyGroup" with order 2797 depth 2
+	// generated from group "aixm:ElevatedSurfacePropertyGroup" with order 2807 depth 2
 	Group_ElevatedSurfacePropertyGroup
 
 	// generated from anonymous complex type within element "extension"
@@ -1024,7 +1024,7 @@ type SurfaceType struct {
 	// generated from element "patches" of complex type SurfacePatchArrayPropertyType
 	Patches *gml.SurfacePatchArrayPropertyType `xml:"patches,omitempty"`
 
-	// generated from group "aixm:SurfacePropertyGroup" with order 2827 depth 2
+	// generated from group "aixm:SurfacePropertyGroup" with order 2837 depth 2
 	Group_SurfacePropertyGroup
 }
 
@@ -1074,7 +1074,7 @@ type LinguisticNoteType struct {
 	// generated from element "name" of complex type CodeType
 	NameXSD []*gml.CodeType `xml:"name,omitempty"`
 
-	// generated from group "aixm:LinguisticNotePropertyGroup" with order 3860 depth 2
+	// generated from group "aixm:LinguisticNotePropertyGroup" with order 3870 depth 2
 	Group_LinguisticNotePropertyGroup
 
 	// generated from anonymous complex type within element "extension"
@@ -1134,7 +1134,7 @@ type NoteType struct {
 	// generated from element "name" of complex type CodeType
 	NameXSD []*gml.CodeType `xml:"name,omitempty"`
 
-	// generated from group "aixm:NotePropertyGroup" with order 3876 depth 2
+	// generated from group "aixm:NotePropertyGroup" with order 3886 depth 2
 	Group_NotePropertyGroup
 
 	// generated from anonymous complex type within element "extension"
@@ -1226,7 +1226,7 @@ type AircraftCharacteristicType struct {
 	// generated from element "name" of complex type CodeType
 	NameXSD []*gml.CodeType `xml:"name,omitempty"`
 
-	// generated from group "aixm:AircraftCharacteristicPropertyGroup" with order 6273 depth 2
+	// generated from group "aixm:AircraftCharacteristicPropertyGroup" with order 6283 depth 2
 	Group_AircraftCharacteristicPropertyGroup
 
 	// generated from anonymous complex type within element "extension"
@@ -1349,7 +1349,7 @@ type AirspaceLayerType struct {
 	// generated from element "name" of complex type CodeType
 	NameXSD []*gml.CodeType `xml:"name,omitempty"`
 
-	// generated from group "aixm:AirspaceLayerPropertyGroup" with order 6332 depth 2
+	// generated from group "aixm:AirspaceLayerPropertyGroup" with order 6342 depth 2
 	Group_AirspaceLayerPropertyGroup
 
 	// generated from anonymous complex type within element "extension"
@@ -1461,7 +1461,7 @@ type TimesheetType struct {
 	// generated from element "name" of complex type CodeType
 	NameXSD []*gml.CodeType `xml:"name,omitempty"`
 
-	// generated from group "aixm:TimesheetPropertyGroup" with order 6518 depth 2
+	// generated from group "aixm:TimesheetPropertyGroup" with order 6528 depth 2
 	Group_TimesheetPropertyGroup
 
 	// generated from anonymous complex type within element "extension"

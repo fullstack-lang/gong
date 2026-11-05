@@ -4025,6 +4025,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			},
 		}
 		FillUpForm(inst, formGroup, probe)
+	case *gml.LinearRingType:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     inst.GetName(),
+			TypeLabel: "LinearRingType",
+		}).Stage(formStage)
+		formGroup.HasSuppressButton = true
+		formGroup.OnSave = &functionalStageSetFormCallback{
+			onSave: func() {
+				probe.stageOfInterest.GmlStage.Lock()
+				defer probe.stageOfInterest.GmlStage.Unlock()
+				probe.formStage.Checkout()
+				saveStageSet_LinearRingType_GmlStage(inst, probe, formGroup)
+				if formGroup.HasSuppressButtonBeenPressed {
+					inst.UnstageVoid(probe.stageOfInterest.GmlStage)
+				}
+				probe.stageOfInterest.GmlStage.Commit()
+				updateStageSetTable_LinearRingType_GmlStage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		FillUpForm(inst, formGroup, probe)
 	case *gml.MeasureType:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

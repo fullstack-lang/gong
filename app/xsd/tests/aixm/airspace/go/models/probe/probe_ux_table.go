@@ -352,6 +352,8 @@ func (probe *Probe) ux_table() {
 		updateStageSetTable_LengthType_GmlStage(probe)
 	case "gml.LineStringSegmentType":
 		updateStageSetTable_LineStringSegmentType_GmlStage(probe)
+	case "gml.LinearRingType":
+		updateStageSetTable_LinearRingType_GmlStage(probe)
 	case "gml.MeasureType":
 		updateStageSetTable_MeasureType_GmlStage(probe)
 	case "gml.OrientableCurveType":
@@ -21045,6 +21047,11 @@ func updateStageSetTable_AbstractRingPropertyType_GmlStage(probe *Probe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "LinearRing"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(gml.PolygonPatchType) -> Exterior"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -21101,6 +21108,16 @@ func updateStageSetTable_AbstractRingPropertyType_GmlStage(probe *Probe) {
 			val := ""
 			if structInstance.Ring != nil {
 				val = structInstance.Ring.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "LinearRing"}
+			val := ""
+			if structInstance.LinearRing != nil {
+				val = structInstance.LinearRing.GetName()
 			}
 			cell.CellString = &table_models.CellString{Value: val}
 			row.Cells = append(row.Cells, cell)
@@ -26458,6 +26475,11 @@ func updateStageSetTable_DirectPositionListType_GmlStage(probe *Probe) {
 		col.Name = "(gml.LineStringSegmentType) -> PosList"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(gml.LinearRingType) -> PosList"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
 
 	instances := probe.stageOfInterest.GmlStage.GetInstancesByOrder[*gml.DirectPositionListType]()
 
@@ -26622,6 +26644,19 @@ func updateStageSetTable_DirectPositionListType_GmlStage(probe *Probe) {
 			row.Cells = append(row.Cells, cell)
 		}
 
+		{
+			cell := &table_models.Cell{Name: "(gml.LinearRingType) -> PosList"}
+			var refNames []string
+			for src := range probe.stageOfInterest.GmlStage.LinearRingTypes {
+				if src.PosList == structInstance {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
 		table.Rows = append(table.Rows, row)
 	}
 
@@ -26709,6 +26744,11 @@ func updateStageSetTable_DirectPositionType_GmlStage(probe *Probe) {
 	{
 		col := new(table_models.DisplayedColumn)
 		col.Name = "(gml.LineStringSegmentType) -> Pos"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(gml.LinearRingType) -> Pos"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -26877,8 +26917,11 @@ func updateStageSetTable_DirectPositionType_GmlStage(probe *Probe) {
 			cell := &table_models.Cell{Name: "(gml.GeodesicStringType) -> Pos"}
 			var refNames []string
 			for src := range probe.stageOfInterest.GmlStage.GeodesicStringTypes {
-				if src.Pos == structInstance {
-					refNames = append(refNames, src.GetName())
+				for _, target := range src.Pos {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
 				}
 			}
 			sort.Strings(refNames)
@@ -26890,8 +26933,11 @@ func updateStageSetTable_DirectPositionType_GmlStage(probe *Probe) {
 			cell := &table_models.Cell{Name: "(gml.GeodesicType) -> Pos"}
 			var refNames []string
 			for src := range probe.stageOfInterest.GmlStage.GeodesicTypes {
-				if src.Pos == structInstance {
-					refNames = append(refNames, src.GetName())
+				for _, target := range src.Pos {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
 				}
 			}
 			sort.Strings(refNames)
@@ -26903,6 +26949,22 @@ func updateStageSetTable_DirectPositionType_GmlStage(probe *Probe) {
 			cell := &table_models.Cell{Name: "(gml.LineStringSegmentType) -> Pos"}
 			var refNames []string
 			for src := range probe.stageOfInterest.GmlStage.LineStringSegmentTypes {
+				for _, target := range src.Pos {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(gml.LinearRingType) -> Pos"}
+			var refNames []string
+			for src := range probe.stageOfInterest.GmlStage.LinearRingTypes {
 				for _, target := range src.Pos {
 					if target == structInstance {
 						refNames = append(refNames, src.GetName())
@@ -27363,21 +27425,25 @@ func updateStageSetTable_GeodesicStringType_GmlStage(probe *Probe) {
 
 		{
 			cell := &table_models.Cell{Name: "Pos"}
-			val := ""
-			if structInstance.Pos != nil {
-				val = structInstance.Pos.GetName()
+			var names []string
+			for _, elem := range structInstance.Pos {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
 			}
-			cell.CellString = &table_models.CellString{Value: val}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
 			row.Cells = append(row.Cells, cell)
 		}
 
 		{
 			cell := &table_models.Cell{Name: "PointProperty"}
-			val := ""
-			if structInstance.PointProperty != nil {
-				val = structInstance.PointProperty.GetName()
+			var names []string
+			for _, elem := range structInstance.PointProperty {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
 			}
-			cell.CellString = &table_models.CellString{Value: val}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
 			row.Cells = append(row.Cells, cell)
 		}
 
@@ -27550,21 +27616,25 @@ func updateStageSetTable_GeodesicType_GmlStage(probe *Probe) {
 
 		{
 			cell := &table_models.Cell{Name: "Pos"}
-			val := ""
-			if structInstance.Pos != nil {
-				val = structInstance.Pos.GetName()
+			var names []string
+			for _, elem := range structInstance.Pos {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
 			}
-			cell.CellString = &table_models.CellString{Value: val}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
 			row.Cells = append(row.Cells, cell)
 		}
 
 		{
 			cell := &table_models.Cell{Name: "PointProperty"}
-			val := ""
-			if structInstance.PointProperty != nil {
-				val = structInstance.PointProperty.GetName()
+			var names []string
+			for _, elem := range structInstance.PointProperty {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
 			}
-			cell.CellString = &table_models.CellString{Value: val}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
 			row.Cells = append(row.Cells, cell)
 		}
 
@@ -27892,6 +27962,150 @@ func updateStageSetTable_LineStringSegmentType_GmlStage(probe *Probe) {
 						refNames = append(refNames, src.GetName())
 						break
 					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		table.Rows = append(table.Rows, row)
+	}
+
+	probe.tableStage.StageBranch(table)
+	probe.tableStage.Commit()
+}
+
+func updateStageSetTable_LinearRingType_GmlStage(probe *Probe) {
+	probe.tableStage.Reset()
+
+	table := new(table_models.Table)
+	table.Name = "gml.LinearRingType"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+
+	colID := new(table_models.DisplayedColumn)
+	colID.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, colID)
+
+	colDel := new(table_models.DisplayedColumn)
+	colDel.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, colDel)
+
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Name"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "Pos"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "PointProperty"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "PosList"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(gml.AbstractRingPropertyType) -> LinearRing"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+
+	instances := probe.stageOfInterest.GmlStage.GetInstancesByOrder[*gml.LinearRingType]()
+
+	for _, structInstance := range instances {
+		row := new(table_models.Row)
+		row.Name = structInstance.GetName()
+
+		_captured := structInstance
+		row.Impl = &tableRowUpdater{
+			onClick: func() {
+				FillUpFormFromGongstruct(_captured, probe)
+			},
+		}
+
+		cellID := &table_models.Cell{Name: "ID"}
+		cellID.CellInt = &table_models.CellInt{Value: int(probe.stageOfInterest.GmlStage.GetOrder(structInstance))}
+		row.Cells = append(row.Cells, cellID)
+
+		cellDel := &table_models.Cell{Name: "Delete Icon"}
+		cellIcon := &table_models.CellIcon{
+			Name:                fmt.Sprintf("Delete %s", structInstance.GetName()),
+			Icon:                string(maticons.BUTTON_delete),
+			NeedsConfirmation:   true,
+			ConfirmationMessage: "Do you confirm you want to delete this instance?",
+		}
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, ci, uci *table_models.CellIcon) {
+				_captured.UnstageVoid(probe.stageOfInterest.GmlStage)
+				probe.stageOfInterest.Clean()
+				probe.stageOfInterest.Commit()
+				updateStageSetTable_LinearRingType_GmlStage(probe)
+				probe.ux_tree()
+				if probe.docStager != nil {
+					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+					probe.docStager.Svg()
+				}
+			},
+		}
+		cellDel.CellIcon = cellIcon
+		row.Cells = append(row.Cells, cellDel)
+
+
+		{
+			cell := &table_models.Cell{Name: "Name"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.Name)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "Pos"}
+			var names []string
+			for _, elem := range structInstance.Pos {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "PointProperty"}
+			var names []string
+			for _, elem := range structInstance.PointProperty {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			cell.CellString = &table_models.CellString{Value: strings.Join(names, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "PosList"}
+			val := ""
+			if structInstance.PosList != nil {
+				val = structInstance.PosList.GetName()
+			}
+			cell.CellString = &table_models.CellString{Value: val}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(gml.AbstractRingPropertyType) -> LinearRing"}
+			var refNames []string
+			for src := range probe.stageOfInterest.GmlStage.AbstractRingPropertyTypes {
+				if src.LinearRing == structInstance {
+					refNames = append(refNames, src.GetName())
 				}
 			}
 			sort.Strings(refNames)
@@ -28298,6 +28512,11 @@ func updateStageSetTable_PointPropertyType_GmlStage(probe *Probe) {
 		col.Name = "(gml.LineStringSegmentType) -> PointProperty"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "(gml.LinearRingType) -> PointProperty"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
 
 	instances := probe.stageOfInterest.GmlStage.GetInstancesByOrder[*gml.PointPropertyType]()
 
@@ -28479,8 +28698,11 @@ func updateStageSetTable_PointPropertyType_GmlStage(probe *Probe) {
 			cell := &table_models.Cell{Name: "(gml.GeodesicStringType) -> PointProperty"}
 			var refNames []string
 			for src := range probe.stageOfInterest.GmlStage.GeodesicStringTypes {
-				if src.PointProperty == structInstance {
-					refNames = append(refNames, src.GetName())
+				for _, target := range src.PointProperty {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
 				}
 			}
 			sort.Strings(refNames)
@@ -28492,8 +28714,11 @@ func updateStageSetTable_PointPropertyType_GmlStage(probe *Probe) {
 			cell := &table_models.Cell{Name: "(gml.GeodesicType) -> PointProperty"}
 			var refNames []string
 			for src := range probe.stageOfInterest.GmlStage.GeodesicTypes {
-				if src.PointProperty == structInstance {
-					refNames = append(refNames, src.GetName())
+				for _, target := range src.PointProperty {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
 				}
 			}
 			sort.Strings(refNames)
@@ -28505,6 +28730,22 @@ func updateStageSetTable_PointPropertyType_GmlStage(probe *Probe) {
 			cell := &table_models.Cell{Name: "(gml.LineStringSegmentType) -> PointProperty"}
 			var refNames []string
 			for src := range probe.stageOfInterest.GmlStage.LineStringSegmentTypes {
+				for _, target := range src.PointProperty {
+					if target == structInstance {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			cell.CellString = &table_models.CellString{Value: strings.Join(refNames, ", ")}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "(gml.LinearRingType) -> PointProperty"}
+			var refNames []string
+			for src := range probe.stageOfInterest.GmlStage.LinearRingTypes {
 				for _, target := range src.PointProperty {
 					if target == structInstance {
 						refNames = append(refNames, src.GetName())

@@ -2581,6 +2581,8 @@ func saveStageSet_AbstractRingPropertyType_GmlStage(
 			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "Ring":
 			StageSetFormDivSelectFieldToField(&inst.Ring, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.RingType](), formDiv)
+		case "LinearRing":
+			StageSetFormDivSelectFieldToField(&inst.LinearRing, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.LinearRingType](), formDiv)
 		}
 	}
 }
@@ -3110,10 +3112,6 @@ func saveStageSet_GeodesicStringType_GmlStage(
 			StageSetFormDivEnumStringFieldToField(&inst.Interpolation, formDiv)
 		case "PosList":
 			StageSetFormDivSelectFieldToField(&inst.PosList, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.DirectPositionListType](), formDiv)
-		case "Pos":
-			StageSetFormDivSelectFieldToField(&inst.Pos, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.DirectPositionType](), formDiv)
-		case "PointProperty":
-			StageSetFormDivSelectFieldToField(&inst.PointProperty, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.PointPropertyType](), formDiv)
 		}
 	}
 }
@@ -3137,10 +3135,6 @@ func saveStageSet_GeodesicType_GmlStage(
 			StageSetFormDivEnumStringFieldToField(&inst.Interpolation, formDiv)
 		case "PosList":
 			StageSetFormDivSelectFieldToField(&inst.PosList, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.DirectPositionListType](), formDiv)
-		case "Pos":
-			StageSetFormDivSelectFieldToField(&inst.Pos, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.DirectPositionType](), formDiv)
-		case "PointProperty":
-			StageSetFormDivSelectFieldToField(&inst.PointProperty, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.PointPropertyType](), formDiv)
 		}
 	}
 }
@@ -3177,6 +3171,21 @@ func saveStageSet_LineStringSegmentType_GmlStage(
 			FormDivBasicFieldToField(&inst.NumDerivativeInterior, formDiv)
 		case "Interpolation":
 			StageSetFormDivEnumStringFieldToField(&inst.Interpolation, formDiv)
+		case "PosList":
+			StageSetFormDivSelectFieldToField(&inst.PosList, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.DirectPositionListType](), formDiv)
+		}
+	}
+}
+
+func saveStageSet_LinearRingType_GmlStage(
+	inst *gml.LinearRingType,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		case "Name":
+			FormDivBasicFieldToField(&inst.Name, formDiv)
 		case "PosList":
 			StageSetFormDivSelectFieldToField(&inst.PosList, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.DirectPositionListType](), formDiv)
 		}
@@ -7915,6 +7924,35 @@ func StageSetNewInstance_LineStringSegmentType_GmlStage(probe *Probe) {
 			saveStageSet_LineStringSegmentType_GmlStage(inst, probe, formGroup)
 			probe.stageOfInterest.GmlStage.Commit()
 			updateStageSetTable_LineStringSegmentType_GmlStage(probe)
+			probe.ux_tree()
+			if probe.docStager != nil {
+				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
+				probe.docStager.Svg()
+			}
+			FillUpFormFromGongstruct(inst, probe)
+		},
+	}
+	FillUpForm(inst, formGroup, probe)
+	probe.formStage.Commit()
+}
+
+func StageSetNewInstance_LinearRingType_GmlStage(probe *Probe) {
+	probe.formStage.Reset()
+	formGroup := (&form.FormGroup{
+		Name:  FormName,
+		Label: "New LinearRingType",
+	}).Stage(probe.formStage)
+	inst := new(gml.LinearRingType)
+	formGroup.HasSuppressButton = false
+	formGroup.OnSave = &functionalStageSetFormCallback{
+		onSave: func() {
+			probe.stageOfInterest.GmlStage.Lock()
+			defer probe.stageOfInterest.GmlStage.Unlock()
+			probe.formStage.Checkout()
+			inst.Stage(probe.stageOfInterest.GmlStage)
+			saveStageSet_LinearRingType_GmlStage(inst, probe, formGroup)
+			probe.stageOfInterest.GmlStage.Commit()
+			updateStageSetTable_LinearRingType_GmlStage(probe)
 			probe.ux_tree()
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())

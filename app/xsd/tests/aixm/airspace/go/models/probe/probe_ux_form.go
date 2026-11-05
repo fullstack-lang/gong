@@ -319,6 +319,8 @@ func FillUpFormFromGongstructName(
 		StageSetNewInstance_LengthType_GmlStage(probe)
 	case "gml.LineStringSegmentType":
 		StageSetNewInstance_LineStringSegmentType_GmlStage(probe)
+	case "gml.LinearRingType":
+		StageSetNewInstance_LinearRingType_GmlStage(probe)
 	case "gml.MeasureType":
 		StageSetNewInstance_MeasureType_GmlStage(probe)
 	case "gml.OrientableCurveType":

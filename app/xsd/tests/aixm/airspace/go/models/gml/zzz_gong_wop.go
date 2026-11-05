@@ -685,6 +685,17 @@ func (from *LineStringSegmentType) GongCopyBasicFields(to *LineStringSegmentType
 	to.Interpolation = from.Interpolation
 }
 
+type LinearRingType_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *LinearRingType) GongCopyBasicFields(to *LinearRingType) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type MeasureType_WOP struct {
 	// insertion point
 

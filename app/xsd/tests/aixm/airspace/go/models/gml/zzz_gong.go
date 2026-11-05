@@ -641,6 +641,10 @@ type Stage struct {
 	GeodesicStringTypes_referenceOrder map[*GeodesicStringType]uint
 
 	// insertion point for slice of pointers maps
+	GeodesicStringType_Pos_reverseMap map[*DirectPositionType]*GeodesicStringType
+
+	GeodesicStringType_PointProperty_reverseMap map[*PointPropertyType]*GeodesicStringType
+
 	OnAfterGeodesicStringTypeCreateCallback GongOnAfterCreateInterface[GeodesicStringType]
 	OnAfterGeodesicStringTypeUpdateCallback GongOnAfterUpdateInterface[GeodesicStringType]
 	OnAfterGeodesicStringTypeDeleteCallback GongOnAfterDeleteInterface[GeodesicStringType]
@@ -655,6 +659,10 @@ type Stage struct {
 	GeodesicTypes_referenceOrder map[*GeodesicType]uint
 
 	// insertion point for slice of pointers maps
+	GeodesicType_Pos_reverseMap map[*DirectPositionType]*GeodesicType
+
+	GeodesicType_PointProperty_reverseMap map[*PointPropertyType]*GeodesicType
+
 	OnAfterGeodesicTypeCreateCallback GongOnAfterCreateInterface[GeodesicType]
 	OnAfterGeodesicTypeUpdateCallback GongOnAfterUpdateInterface[GeodesicType]
 	OnAfterGeodesicTypeDeleteCallback GongOnAfterDeleteInterface[GeodesicType]
@@ -690,6 +698,24 @@ type Stage struct {
 	OnAfterLineStringSegmentTypeCreateCallback GongOnAfterCreateInterface[LineStringSegmentType]
 	OnAfterLineStringSegmentTypeUpdateCallback GongOnAfterUpdateInterface[LineStringSegmentType]
 	OnAfterLineStringSegmentTypeDeleteCallback GongOnAfterDeleteInterface[LineStringSegmentType]
+
+	LinearRingTypes                map[*LinearRingType]struct{}
+	LinearRingTypes_instance       map[*LinearRingType]*LinearRingType
+	LinearRingTypes_mapString      map[string]*LinearRingType
+	LinearRingTypeOrder            uint
+	LinearRingType_stagedOrder     map[*LinearRingType]uint
+	LinearRingType_orderStaged     map[uint]*LinearRingType
+	LinearRingTypes_reference      map[*LinearRingType]*LinearRingType
+	LinearRingTypes_referenceOrder map[*LinearRingType]uint
+
+	// insertion point for slice of pointers maps
+	LinearRingType_Pos_reverseMap map[*DirectPositionType]*LinearRingType
+
+	LinearRingType_PointProperty_reverseMap map[*PointPropertyType]*LinearRingType
+
+	OnAfterLinearRingTypeCreateCallback GongOnAfterCreateInterface[LinearRingType]
+	OnAfterLinearRingTypeUpdateCallback GongOnAfterUpdateInterface[LinearRingType]
+	OnAfterLinearRingTypeDeleteCallback GongOnAfterDeleteInterface[LinearRingType]
 
 	MeasureTypes                map[*MeasureType]struct{}
 	MeasureTypes_instance       map[*MeasureType]*MeasureType
@@ -1028,6 +1054,8 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.LineStringSegmentTypes_reference, &stage.LineStringSegmentTypes_instance, &stage.LineStringSegmentTypes_referenceOrder)
 
+	__gong__clearReferences(&stage.LinearRingTypes_reference, &stage.LinearRingTypes_instance, &stage.LinearRingTypes_referenceOrder)
+
 	__gong__clearReferences(&stage.MeasureTypes_reference, &stage.MeasureTypes_instance, &stage.MeasureTypes_referenceOrder)
 
 	__gong__clearReferences(&stage.OrientableCurveTypes_reference, &stage.OrientableCurveTypes_instance, &stage.OrientableCurveTypes_referenceOrder)
@@ -1148,6 +1176,8 @@ func (stage *Stage) recomputeOrders() {
 	stage.LengthTypeOrder = __gong__recomputeOrder(stage.LengthType_stagedOrder)
 
 	stage.LineStringSegmentTypeOrder = __gong__recomputeOrder(stage.LineStringSegmentType_stagedOrder)
+
+	stage.LinearRingTypeOrder = __gong__recomputeOrder(stage.LinearRingType_stagedOrder)
 
 	stage.MeasureTypeOrder = __gong__recomputeOrder(stage.MeasureType_stagedOrder)
 
@@ -1929,6 +1959,26 @@ func (*LineStringSegmentType) GongNewInstance() any {
 	return new(LineStringSegmentType)
 }
 
+func (*LinearRingType) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.LinearRingTypes, stage.LinearRingType_stagedOrder)
+}
+
+func (*LinearRingType) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.LinearRingType_orderStaged[order]
+}
+
+func (*LinearRingType) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.LinearRingTypes_mapString
+}
+
+func (*LinearRingType) GongGetInstancesSet(stage *Stage) any {
+	return &stage.LinearRingTypes
+}
+
+func (*LinearRingType) GongNewInstance() any {
+	return new(LinearRingType)
+}
+
 func (*MeasureType) GongGetInstancesByOrder(stage *Stage) any {
 	return __gong__getStructInstancesByOrder(stage.MeasureTypes, stage.MeasureType_stagedOrder)
 }
@@ -2461,6 +2511,9 @@ func NewStage(name string) (stage *Stage) {
 		LineStringSegmentTypes:           make(map[*LineStringSegmentType]struct{}),
 		LineStringSegmentTypes_mapString: make(map[string]*LineStringSegmentType),
 
+		LinearRingTypes:           make(map[*LinearRingType]struct{}),
+		LinearRingTypes_mapString: make(map[string]*LinearRingType),
+
 		MeasureTypes:           make(map[*MeasureType]struct{}),
 		MeasureTypes_mapString: make(map[string]*MeasureType),
 
@@ -2653,6 +2706,10 @@ func NewStage(name string) (stage *Stage) {
 		LineStringSegmentType_orderStaged: make(map[uint]*LineStringSegmentType),
 		LineStringSegmentTypes_reference:  make(map[*LineStringSegmentType]*LineStringSegmentType),
 
+		LinearRingType_stagedOrder: make(map[*LinearRingType]uint),
+		LinearRingType_orderStaged: make(map[uint]*LinearRingType),
+		LinearRingTypes_reference:  make(map[*LinearRingType]*LinearRingType),
+
 		MeasureType_stagedOrder: make(map[*MeasureType]uint),
 		MeasureType_orderStaged: make(map[uint]*MeasureType),
 		MeasureTypes_reference:  make(map[*MeasureType]*MeasureType),
@@ -2776,6 +2833,8 @@ func NewStage(name string) (stage *Stage) {
 			"LengthType": &LengthTypeUnmarshaller{},
 
 			"LineStringSegmentType": &LineStringSegmentTypeUnmarshaller{},
+
+			"LinearRingType": &LinearRingTypeUnmarshaller{},
 
 			"MeasureType": &MeasureTypeUnmarshaller{},
 
@@ -2920,6 +2979,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["GeodesicType"] = len(stage.GeodesicTypes)
 	stage.Map_GongStructName_InstancesNb["LengthType"] = len(stage.LengthTypes)
 	stage.Map_GongStructName_InstancesNb["LineStringSegmentType"] = len(stage.LineStringSegmentTypes)
+	stage.Map_GongStructName_InstancesNb["LinearRingType"] = len(stage.LinearRingTypes)
 	stage.Map_GongStructName_InstancesNb["MeasureType"] = len(stage.MeasureTypes)
 	stage.Map_GongStructName_InstancesNb["OrientableCurveType"] = len(stage.OrientableCurveTypes)
 	stage.Map_GongStructName_InstancesNb["PointPropertyType"] = len(stage.PointPropertyTypes)
@@ -4452,6 +4512,46 @@ func (linestringsegmenttype *LineStringSegmentType) SetName(name string) {
 	linestringsegmenttype.Name = name
 }
 
+// Stage puts linearringtype to the model stage
+func (linearringtype *LinearRingType) Stage(stage *Stage) *LinearRingType {
+	__gong__stage(stage.LinearRingTypes, stage.LinearRingType_stagedOrder, stage.LinearRingType_orderStaged, &stage.LinearRingTypeOrder, stage.LinearRingTypes_mapString, linearringtype, linearringtype.Name)
+	return linearringtype
+}
+
+// StagePreserveOrder puts linearringtype to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LinearRingTypeOrder
+// - update stage.LinearRingTypeOrder accordingly
+func (linearringtype *LinearRingType) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.LinearRingTypes, stage.LinearRingType_stagedOrder, stage.LinearRingType_orderStaged, &stage.LinearRingTypeOrder, stage.LinearRingTypes_mapString, linearringtype, order, linearringtype.Name)
+}
+
+// Unstage removes linearringtype off the model stage
+func (linearringtype *LinearRingType) Unstage(stage *Stage) *LinearRingType {
+	__gong__unstage(stage.LinearRingTypes, stage.LinearRingTypes_mapString, linearringtype, linearringtype.Name)
+	return linearringtype
+}
+
+// UnstageVoid removes linearringtype off the model stage
+func (linearringtype *LinearRingType) UnstageVoid(stage *Stage) {
+	linearringtype.Unstage(stage)
+}
+
+func (linearringtype *LinearRingType) StageVoid(stage *Stage) {
+	linearringtype.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (linearringtype *LinearRingType) GetName() (res string) {
+	return linearringtype.Name
+}
+
+// for satisfaction of GongStruct interface
+func (linearringtype *LinearRingType) SetName(name string) {
+	linearringtype.Name = name
+}
+
 // Stage puts measuretype to the model stage
 func (measuretype *MeasureType) Stage(stage *Stage) *MeasureType {
 	__gong__stage(stage.MeasureTypes, stage.MeasureType_stagedOrder, stage.MeasureType_orderStaged, &stage.MeasureTypeOrder, stage.MeasureTypes_mapString, measuretype, measuretype.Name)
@@ -5007,6 +5107,8 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.LineStringSegmentTypes, &stage.LineStringSegmentTypes_mapString, &stage.LineStringSegmentType_stagedOrder, &stage.LineStringSegmentTypeOrder)
 
+	__gong__resetStageType(&stage.LinearRingTypes, &stage.LinearRingTypes_mapString, &stage.LinearRingType_stagedOrder, &stage.LinearRingTypeOrder)
+
 	__gong__resetStageType(&stage.MeasureTypes, &stage.MeasureTypes_mapString, &stage.MeasureType_stagedOrder, &stage.MeasureTypeOrder)
 
 	__gong__resetStageType(&stage.OrientableCurveTypes, &stage.OrientableCurveTypes_mapString, &stage.OrientableCurveType_stagedOrder, &stage.OrientableCurveTypeOrder)
@@ -5189,6 +5291,7 @@ func (AbstractMetadataPropertyType) GongGetAssociationName() any {
 func (AbstractRingPropertyType) GongGetAssociationName() any {
 	return &AbstractRingPropertyType{
 			Ring: &RingType{Name: "Ring"},
+			LinearRing: &LinearRingType{Name: "LinearRing"},
 	}
 }
 
@@ -5368,16 +5471,16 @@ func (EnvelopeType) GongGetAssociationName() any {
 func (GeodesicStringType) GongGetAssociationName() any {
 	return &GeodesicStringType{
 			PosList: &DirectPositionListType{Name: "PosList"},
-			Pos: &DirectPositionType{Name: "Pos"},
-			PointProperty: &PointPropertyType{Name: "PointProperty"},
+			Pos: []*DirectPositionType{{Name: "Pos"}},
+			PointProperty: []*PointPropertyType{{Name: "PointProperty"}},
 	}
 }
 
 func (GeodesicType) GongGetAssociationName() any {
 	return &GeodesicType{
 			PosList: &DirectPositionListType{Name: "PosList"},
-			Pos: &DirectPositionType{Name: "Pos"},
-			PointProperty: &PointPropertyType{Name: "PointProperty"},
+			Pos: []*DirectPositionType{{Name: "Pos"}},
+			PointProperty: []*PointPropertyType{{Name: "PointProperty"}},
 	}
 }
 
@@ -5388,6 +5491,14 @@ func (LengthType) GongGetAssociationName() any {
 
 func (LineStringSegmentType) GongGetAssociationName() any {
 	return &LineStringSegmentType{
+			Pos: []*DirectPositionType{{Name: "Pos"}},
+			PointProperty: []*PointPropertyType{{Name: "PointProperty"}},
+			PosList: &DirectPositionListType{Name: "PosList"},
+	}
+}
+
+func (LinearRingType) GongGetAssociationName() any {
+	return &LinearRingType{
 			Pos: []*DirectPositionType{{Name: "Pos"}},
 			PointProperty: []*PointPropertyType{{Name: "PointProperty"}},
 			PosList: &DirectPositionListType{Name: "PosList"},
@@ -5659,6 +5770,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					abstractringpropertytypes = append(abstractringpropertytypes, abstractringpropertytype)
 					res[ringtype_] = abstractringpropertytypes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "LinearRing":
+			res := make(map[*LinearRingType][]*AbstractRingPropertyType)
+			for abstractringpropertytype := range stage.AbstractRingPropertyTypes {
+				if abstractringpropertytype.LinearRing != nil {
+					linearringtype_ := abstractringpropertytype.LinearRing
+					var abstractringpropertytypes []*AbstractRingPropertyType
+					_, ok := res[linearringtype_]
+					if ok {
+						abstractringpropertytypes = res[linearringtype_]
+					} else {
+						abstractringpropertytypes = make([]*AbstractRingPropertyType, 0)
+					}
+					abstractringpropertytypes = append(abstractringpropertytypes, abstractringpropertytype)
+					res[linearringtype_] = abstractringpropertytypes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -6348,40 +6476,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Pos":
-			res := make(map[*DirectPositionType][]*GeodesicStringType)
-			for geodesicstringtype := range stage.GeodesicStringTypes {
-				if geodesicstringtype.Pos != nil {
-					directpositiontype_ := geodesicstringtype.Pos
-					var geodesicstringtypes []*GeodesicStringType
-					_, ok := res[directpositiontype_]
-					if ok {
-						geodesicstringtypes = res[directpositiontype_]
-					} else {
-						geodesicstringtypes = make([]*GeodesicStringType, 0)
-					}
-					geodesicstringtypes = append(geodesicstringtypes, geodesicstringtype)
-					res[directpositiontype_] = geodesicstringtypes
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PointProperty":
-			res := make(map[*PointPropertyType][]*GeodesicStringType)
-			for geodesicstringtype := range stage.GeodesicStringTypes {
-				if geodesicstringtype.PointProperty != nil {
-					pointpropertytype_ := geodesicstringtype.PointProperty
-					var geodesicstringtypes []*GeodesicStringType
-					_, ok := res[pointpropertytype_]
-					if ok {
-						geodesicstringtypes = res[pointpropertytype_]
-					} else {
-						geodesicstringtypes = make([]*GeodesicStringType, 0)
-					}
-					geodesicstringtypes = append(geodesicstringtypes, geodesicstringtype)
-					res[pointpropertytype_] = geodesicstringtypes
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of GeodesicType
 	case GeodesicType:
@@ -6401,40 +6495,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					geodesictypes = append(geodesictypes, geodesictype)
 					res[directpositionlisttype_] = geodesictypes
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Pos":
-			res := make(map[*DirectPositionType][]*GeodesicType)
-			for geodesictype := range stage.GeodesicTypes {
-				if geodesictype.Pos != nil {
-					directpositiontype_ := geodesictype.Pos
-					var geodesictypes []*GeodesicType
-					_, ok := res[directpositiontype_]
-					if ok {
-						geodesictypes = res[directpositiontype_]
-					} else {
-						geodesictypes = make([]*GeodesicType, 0)
-					}
-					geodesictypes = append(geodesictypes, geodesictype)
-					res[directpositiontype_] = geodesictypes
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PointProperty":
-			res := make(map[*PointPropertyType][]*GeodesicType)
-			for geodesictype := range stage.GeodesicTypes {
-				if geodesictype.PointProperty != nil {
-					pointpropertytype_ := geodesictype.PointProperty
-					var geodesictypes []*GeodesicType
-					_, ok := res[pointpropertytype_]
-					if ok {
-						geodesictypes = res[pointpropertytype_]
-					} else {
-						geodesictypes = make([]*GeodesicType, 0)
-					}
-					geodesictypes = append(geodesictypes, geodesictype)
-					res[pointpropertytype_] = geodesictypes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -6462,6 +6522,28 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					linestringsegmenttypes = append(linestringsegmenttypes, linestringsegmenttype)
 					res[directpositionlisttype_] = linestringsegmenttypes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of LinearRingType
+	case LinearRingType:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "PosList":
+			res := make(map[*DirectPositionListType][]*LinearRingType)
+			for linearringtype := range stage.LinearRingTypes {
+				if linearringtype.PosList != nil {
+					directpositionlisttype_ := linearringtype.PosList
+					var linearringtypes []*LinearRingType
+					_, ok := res[directpositionlisttype_]
+					if ok {
+						linearringtypes = res[directpositionlisttype_]
+					} else {
+						linearringtypes = make([]*LinearRingType, 0)
+					}
+					linearringtypes = append(linearringtypes, linearringtype)
+					res[directpositionlisttype_] = linearringtypes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -7168,11 +7250,43 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	case GeodesicStringType:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Pos":
+			res := make(map[*DirectPositionType][]*GeodesicStringType)
+			for geodesicstringtype := range stage.GeodesicStringTypes {
+				for _, directpositiontype_ := range geodesicstringtype.Pos {
+					res[directpositiontype_] = append(res[directpositiontype_], geodesicstringtype)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PointProperty":
+			res := make(map[*PointPropertyType][]*GeodesicStringType)
+			for geodesicstringtype := range stage.GeodesicStringTypes {
+				for _, pointpropertytype_ := range geodesicstringtype.PointProperty {
+					res[pointpropertytype_] = append(res[pointpropertytype_], geodesicstringtype)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of GeodesicType
 	case GeodesicType:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Pos":
+			res := make(map[*DirectPositionType][]*GeodesicType)
+			for geodesictype := range stage.GeodesicTypes {
+				for _, directpositiontype_ := range geodesictype.Pos {
+					res[directpositiontype_] = append(res[directpositiontype_], geodesictype)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PointProperty":
+			res := make(map[*PointPropertyType][]*GeodesicType)
+			for geodesictype := range stage.GeodesicTypes {
+				for _, pointpropertytype_ := range geodesictype.PointProperty {
+					res[pointpropertytype_] = append(res[pointpropertytype_], geodesictype)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of LengthType
 	case LengthType:
@@ -7196,6 +7310,27 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 			for linestringsegmenttype := range stage.LineStringSegmentTypes {
 				for _, pointpropertytype_ := range linestringsegmenttype.PointProperty {
 					res[pointpropertytype_] = append(res[pointpropertytype_], linestringsegmenttype)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of LinearRingType
+	case LinearRingType:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Pos":
+			res := make(map[*DirectPositionType][]*LinearRingType)
+			for linearringtype := range stage.LinearRingTypes {
+				for _, directpositiontype_ := range linearringtype.Pos {
+					res[directpositiontype_] = append(res[directpositiontype_], linearringtype)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PointProperty":
+			res := make(map[*PointPropertyType][]*LinearRingType)
+			for linearringtype := range stage.LinearRingTypes {
+				for _, pointpropertytype_ := range linearringtype.PointProperty {
+					res[pointpropertytype_] = append(res[pointpropertytype_], linearringtype)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -7626,7 +7761,19 @@ func (*DirectPositionType) GongGetReverseFields() []GongReverseField {
 			Fieldname: "Pos",
 		},
 		{
+			GongstructName: "GeodesicStringType",
+			Fieldname: "Pos",
+		},
+		{
+			GongstructName: "GeodesicType",
+			Fieldname: "Pos",
+		},
+		{
 			GongstructName: "LineStringSegmentType",
+			Fieldname: "Pos",
+		},
+		{
+			GongstructName: "LinearRingType",
 			Fieldname: "Pos",
 		},
 	}
@@ -7674,6 +7821,11 @@ func (*LineStringSegmentType) GongGetReverseFields() []GongReverseField {
 	}
 }
 
+func (*LinearRingType) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
 func (*MeasureType) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 	}
@@ -7695,7 +7847,19 @@ func (*PointPropertyType) GongGetReverseFields() []GongReverseField {
 			Fieldname: "PointProperty",
 		},
 		{
+			GongstructName: "GeodesicStringType",
+			Fieldname: "PointProperty",
+		},
+		{
+			GongstructName: "GeodesicType",
+			Fieldname: "PointProperty",
+		},
+		{
 			GongstructName: "LineStringSegmentType",
+			Fieldname: "PointProperty",
+		},
+		{
+			GongstructName: "LinearRingType",
 			Fieldname: "PointProperty",
 		},
 	}
@@ -7986,6 +8150,11 @@ func (abstractringpropertytype *AbstractRingPropertyType) GongGetFieldHeaders() 
 			Name:                 "Ring",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "RingType",
+		},
+		{
+			Name:                 "LinearRing",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "LinearRingType",
 		},
 	}
 	return
@@ -8816,12 +8985,12 @@ func (geodesicstringtype *GeodesicStringType) GongGetFieldHeaders() (res []GongF
 		},
 		{
 			Name:                 "Pos",
-			GongFieldValueType:   GongFieldValueTypePointer,
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "DirectPositionType",
 		},
 		{
 			Name:                 "PointProperty",
-			GongFieldValueType:   GongFieldValueTypePointer,
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "PointPropertyType",
 		},
 	}
@@ -8859,12 +9028,12 @@ func (geodesictype *GeodesicType) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:                 "Pos",
-			GongFieldValueType:   GongFieldValueTypePointer,
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "DirectPositionType",
 		},
 		{
 			Name:                 "PointProperty",
-			GongFieldValueType:   GongFieldValueTypePointer,
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "PointPropertyType",
 		},
 	}
@@ -8909,6 +9078,32 @@ func (linestringsegmenttype *LineStringSegmentType) GongGetFieldHeaders() (res [
 			Name:                 "Interpolation",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "Enum_CurveInterpolationType",
+		},
+		{
+			Name:                 "Pos",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DirectPositionType",
+		},
+		{
+			Name:                 "PointProperty",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "PointPropertyType",
+		},
+		{
+			Name:                 "PosList",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "DirectPositionListType",
+		},
+	}
+	return
+}
+
+func (linearringtype *LinearRingType) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Pos",
@@ -9599,6 +9794,12 @@ func (abstractringpropertytype *AbstractRingPropertyType) GongGetFieldValue(fiel
 		if abstractringpropertytype.Ring != nil {
 			res.valueString = abstractringpropertytype.Ring.Name
 			res.ids = abstractringpropertytype.Ring.GongGetUUID(stage)
+		}
+	case "LinearRing":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if abstractringpropertytype.LinearRing != nil {
+			res.valueString = abstractringpropertytype.LinearRing.Name
+			res.ids = abstractringpropertytype.LinearRing.GongGetUUID(stage)
 		}
 	}
 	return
@@ -10424,16 +10625,24 @@ func (geodesicstringtype *GeodesicStringType) GongGetFieldValue(fieldName string
 			res.ids = geodesicstringtype.PosList.GongGetUUID(stage)
 		}
 	case "Pos":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if geodesicstringtype.Pos != nil {
-			res.valueString = geodesicstringtype.Pos.Name
-			res.ids = geodesicstringtype.Pos.GongGetUUID(stage)
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range geodesicstringtype.Pos {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "PointProperty":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if geodesicstringtype.PointProperty != nil {
-			res.valueString = geodesicstringtype.PointProperty.Name
-			res.ids = geodesicstringtype.PointProperty.GongGetUUID(stage)
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range geodesicstringtype.PointProperty {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -10466,16 +10675,24 @@ func (geodesictype *GeodesicType) GongGetFieldValue(fieldName string, stage *Sta
 			res.ids = geodesictype.PosList.GongGetUUID(stage)
 		}
 	case "Pos":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if geodesictype.Pos != nil {
-			res.valueString = geodesictype.Pos.Name
-			res.ids = geodesictype.Pos.GongGetUUID(stage)
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range geodesictype.Pos {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "PointProperty":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if geodesictype.PointProperty != nil {
-			res.valueString = geodesictype.PointProperty.Name
-			res.ids = geodesictype.PointProperty.GongGetUUID(stage)
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range geodesictype.PointProperty {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -10537,6 +10754,41 @@ func (linestringsegmenttype *LineStringSegmentType) GongGetFieldValue(fieldName 
 		if linestringsegmenttype.PosList != nil {
 			res.valueString = linestringsegmenttype.PosList.Name
 			res.ids = linestringsegmenttype.PosList.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (linearringtype *LinearRingType) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = linearringtype.Name
+	case "Pos":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range linearringtype.Pos {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "PointProperty":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range linearringtype.PointProperty {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "PosList":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if linearringtype.PosList != nil {
+			res.valueString = linearringtype.PosList.Name
+			res.ids = linearringtype.PosList.GongGetUUID(stage)
 		}
 	}
 	return
@@ -11051,6 +11303,10 @@ func (linestringsegmenttype *LineStringSegmentType) GongGetGongstructName() stri
 	return "LineStringSegmentType"
 }
 
+func (linearringtype *LinearRingType) GongGetGongstructName() string {
+	return "LinearRingType"
+}
+
 func (measuretype *MeasureType) GongGetGongstructName() string {
 	return "MeasureType"
 }
@@ -11183,6 +11439,8 @@ func (stage *Stage) ResetMapStrings() {
 	__gong__rebuildMapString(stage.LengthTypes, &stage.LengthTypes_mapString)
 
 	__gong__rebuildMapString(stage.LineStringSegmentTypes, &stage.LineStringSegmentTypes_mapString)
+
+	__gong__rebuildMapString(stage.LinearRingTypes, &stage.LinearRingTypes_mapString)
 
 	__gong__rebuildMapString(stage.MeasureTypes, &stage.MeasureTypes_mapString)
 

@@ -481,18 +481,6 @@ type DirectPositionListType struct {
 	EnclosedText string `xml:",chardata"`
 }
 
-// Group_geometricPositionGroup UnNamed source named group "geometricPositionGroup"
-type Group_geometricPositionGroup struct {
-
-	// insertion point for fields
-
-	// generated from element "pos" of complex type DirectPositionType
-	Pos *DirectPositionType `xml:"pos,omitempty"`
-
-	// generated from element "pointProperty" of complex type PointPropertyType
-	PointProperty *PointPropertyType `xml:"pointProperty,omitempty"`
-}
-
 // EnvelopeType Named source named complex type "EnvelopeType"
 type EnvelopeType struct {
 	Name string `xml:"-"`
@@ -629,6 +617,9 @@ type AbstractRingPropertyType struct {
 
 	// generated from element "Ring" of complex type RingType
 	Ring *RingType `xml:"Ring,omitempty"`
+
+	// generated from element "LinearRing" of complex type LinearRingType
+	LinearRing *LinearRingType `xml:"LinearRing,omitempty"`
 }
 
 // CurveType Named source named complex type "CurveType"
@@ -937,10 +928,10 @@ type GeodesicStringType struct {
 	PosList *DirectPositionListType `xml:"posList,omitempty"`
 
 	// generated from element "pos" of complex type DirectPositionType
-	Pos *DirectPositionType `xml:"pos,omitempty"`
+	Pos []*DirectPositionType `xml:"pos,omitempty"`
 
 	// generated from element "pointProperty" of complex type PointPropertyType
-	PointProperty *PointPropertyType `xml:"pointProperty,omitempty"`
+	PointProperty []*PointPropertyType `xml:"pointProperty,omitempty"`
 }
 
 // GeodesicType Named source named complex type "GeodesicType"
@@ -965,10 +956,10 @@ type GeodesicType struct {
 	PosList *DirectPositionListType `xml:"posList,omitempty"`
 
 	// generated from element "pos" of complex type DirectPositionType
-	Pos *DirectPositionType `xml:"pos,omitempty"`
+	Pos []*DirectPositionType `xml:"pos,omitempty"`
 
 	// generated from element "pointProperty" of complex type PointPropertyType
-	PointProperty *PointPropertyType `xml:"pointProperty,omitempty"`
+	PointProperty []*PointPropertyType `xml:"pointProperty,omitempty"`
 }
 
 // SurfaceType Named source named complex type "SurfaceType"
@@ -1032,6 +1023,22 @@ type RingType struct {
 
 	// generated from element "curveMember" of complex type CurvePropertyType
 	CurveMember []*CurvePropertyType `xml:"curveMember,omitempty"`
+}
+
+// LinearRingType Named source named complex type "LinearRingType"
+type LinearRingType struct {
+	Name string `xml:"-"`
+
+	// insertion point for fields
+
+	// generated from element "pos" of complex type DirectPositionType
+	Pos []*DirectPositionType `xml:"pos,omitempty"`
+
+	// generated from element "pointProperty" of complex type PointPropertyType
+	PointProperty []*PointPropertyType `xml:"pointProperty,omitempty"`
+
+	// generated from element "posList" of complex type DirectPositionListType
+	PosList *DirectPositionListType `xml:"posList,omitempty"`
 }
 
 // CompositeCurveType Named source named complex type "CompositeCurveType"

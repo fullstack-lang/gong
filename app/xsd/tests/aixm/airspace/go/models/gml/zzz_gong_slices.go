@@ -250,6 +250,40 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct GeodesicStringType
+	// insertion point per field
+	stage.GeodesicStringType_Pos_reverseMap = make(map[*DirectPositionType]*GeodesicStringType)
+	for geodesicstringtype := range stage.GeodesicStringTypes {
+		_ = geodesicstringtype
+		for _, _directpositiontype := range geodesicstringtype.Pos {
+			stage.GeodesicStringType_Pos_reverseMap[_directpositiontype] = geodesicstringtype
+		}
+	}
+	stage.GeodesicStringType_PointProperty_reverseMap = make(map[*PointPropertyType]*GeodesicStringType)
+	for geodesicstringtype := range stage.GeodesicStringTypes {
+		_ = geodesicstringtype
+		for _, _pointpropertytype := range geodesicstringtype.PointProperty {
+			stage.GeodesicStringType_PointProperty_reverseMap[_pointpropertytype] = geodesicstringtype
+		}
+	}
+
+	// Compute reverse map for named struct GeodesicType
+	// insertion point per field
+	stage.GeodesicType_Pos_reverseMap = make(map[*DirectPositionType]*GeodesicType)
+	for geodesictype := range stage.GeodesicTypes {
+		_ = geodesictype
+		for _, _directpositiontype := range geodesictype.Pos {
+			stage.GeodesicType_Pos_reverseMap[_directpositiontype] = geodesictype
+		}
+	}
+	stage.GeodesicType_PointProperty_reverseMap = make(map[*PointPropertyType]*GeodesicType)
+	for geodesictype := range stage.GeodesicTypes {
+		_ = geodesictype
+		for _, _pointpropertytype := range geodesictype.PointProperty {
+			stage.GeodesicType_PointProperty_reverseMap[_pointpropertytype] = geodesictype
+		}
+	}
+
 	// Compute reverse map for named struct LineStringSegmentType
 	// insertion point per field
 	stage.LineStringSegmentType_Pos_reverseMap = make(map[*DirectPositionType]*LineStringSegmentType)
@@ -264,6 +298,23 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = linestringsegmenttype
 		for _, _pointpropertytype := range linestringsegmenttype.PointProperty {
 			stage.LineStringSegmentType_PointProperty_reverseMap[_pointpropertytype] = linestringsegmenttype
+		}
+	}
+
+	// Compute reverse map for named struct LinearRingType
+	// insertion point per field
+	stage.LinearRingType_Pos_reverseMap = make(map[*DirectPositionType]*LinearRingType)
+	for linearringtype := range stage.LinearRingTypes {
+		_ = linearringtype
+		for _, _directpositiontype := range linearringtype.Pos {
+			stage.LinearRingType_Pos_reverseMap[_directpositiontype] = linearringtype
+		}
+	}
+	stage.LinearRingType_PointProperty_reverseMap = make(map[*PointPropertyType]*LinearRingType)
+	for linearringtype := range stage.LinearRingTypes {
+		_ = linearringtype
+		for _, _pointpropertytype := range linearringtype.PointProperty {
+			stage.LinearRingType_PointProperty_reverseMap[_pointpropertytype] = linearringtype
 		}
 	}
 
@@ -415,6 +466,8 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	res = __gong__appendInstances(res, stage.LengthTypes)
 
 	res = __gong__appendInstances(res, stage.LineStringSegmentTypes)
+
+	res = __gong__appendInstances(res, stage.LinearRingTypes)
 
 	res = __gong__appendInstances(res, stage.MeasureTypes)
 
@@ -666,6 +719,12 @@ func (linestringsegmenttype *LineStringSegmentType) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (linearringtype *LinearRingType) GongCopy() GongstructIF {
+	newInstance := new(LinearRingType)
+	linearringtype.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (measuretype *MeasureType) GongCopy() GongstructIF {
 	newInstance := new(MeasureType)
 	measuretype.GongCopyBasicFields(newInstance)
@@ -885,6 +944,10 @@ func (lengthtype *LengthType) GongGetUUID(stage *Stage) string {
 
 func (linestringsegmenttype *LineStringSegmentType) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, linestringsegmenttype)
+}
+
+func (linearringtype *LinearRingType) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, linearringtype)
 }
 
 func (measuretype *MeasureType) GongGetUUID(stage *Stage) string {
@@ -1666,6 +1729,23 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
+		stage.LinearRingTypes,
+		stage.LinearRingType_stagedOrder,
+		stage.LinearRingTypes_reference,
+		&stage.LinearRingTypes_referenceOrder,
+		stage.LinearRingTypes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
 		stage.MeasureTypes,
 		stage.MeasureType_stagedOrder,
 		stage.MeasureTypes_reference,
@@ -1977,6 +2057,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.LineStringSegmentTypes, &stage.LineStringSegmentTypes_reference, &stage.LineStringSegmentTypes_referenceOrder, &stage.LineStringSegmentTypes_instance)
 
+	__gong__computeReferencePass1(stage, stage.LinearRingTypes, &stage.LinearRingTypes_reference, &stage.LinearRingTypes_referenceOrder, &stage.LinearRingTypes_instance)
+
 	__gong__computeReferencePass1(stage, stage.MeasureTypes, &stage.MeasureTypes_reference, &stage.MeasureTypes_referenceOrder, &stage.MeasureTypes_instance)
 
 	__gong__computeReferencePass1(stage, stage.OrientableCurveTypes, &stage.OrientableCurveTypes_reference, &stage.OrientableCurveTypes_referenceOrder, &stage.OrientableCurveTypes_instance)
@@ -2075,6 +2157,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass2(stage.LengthTypes, stage.LengthTypes_reference, stage)
 
 	__gong__computeReferencePass2(stage.LineStringSegmentTypes, stage.LineStringSegmentTypes_reference, stage)
+
+	__gong__computeReferencePass2(stage.LinearRingTypes, stage.LinearRingTypes_reference, stage)
 
 	__gong__computeReferencePass2(stage.MeasureTypes, stage.MeasureTypes_reference, stage)
 
@@ -2256,6 +2340,10 @@ func (lengthtype *LengthType) GongGetOrder(stage *Stage) uint {
 
 func (linestringsegmenttype *LineStringSegmentType) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.LineStringSegmentType_stagedOrder, stage.LineStringSegmentTypes_referenceOrder, linestringsegmenttype, "LineStringSegmentType")
+}
+
+func (linearringtype *LinearRingType) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.LinearRingType_stagedOrder, stage.LinearRingTypes_referenceOrder, linearringtype, "LinearRingType")
 }
 
 func (measuretype *MeasureType) GongGetOrder(stage *Stage) uint {
@@ -2644,6 +2732,15 @@ func (linestringsegmenttype *LineStringSegmentType) GongGetReferenceIdentifier(s
 	return linestringsegmenttype.GongGetIdentifier(stage)
 }
 
+func (linearringtype *LinearRingType) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(linearringtype, linearringtype.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (linearringtype *LinearRingType) GongGetReferenceIdentifier(stage *Stage) string {
+	return linearringtype.GongGetIdentifier(stage)
+}
+
 func (measuretype *MeasureType) GongGetIdentifier(stage *Stage) string {
 	return __gong__formatIdentifier(measuretype, measuretype.GongGetOrder(stage))
 }
@@ -2903,6 +3000,10 @@ func (linestringsegmenttype *LineStringSegmentType) GongMarshallIdentifier(stage
 	return __gong__marshallIdentifier(linestringsegmenttype.GongGetIdentifier(stage), "LineStringSegmentType", linestringsegmenttype.Name)
 }
 
+func (linearringtype *LinearRingType) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(linearringtype.GongGetIdentifier(stage), "LinearRingType", linearringtype.Name)
+}
+
 func (measuretype *MeasureType) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(measuretype.GongGetIdentifier(stage), "MeasureType", measuretype.Name)
 }
@@ -3098,6 +3199,10 @@ func (lengthtype *LengthType) GongMarshallUnstaging(stage *Stage) string {
 
 func (linestringsegmenttype *LineStringSegmentType) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(linestringsegmenttype.GongGetReferenceIdentifier(stage))
+}
+
+func (linearringtype *LinearRingType) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(linearringtype.GongGetReferenceIdentifier(stage))
 }
 
 func (measuretype *MeasureType) GongMarshallUnstaging(stage *Stage) string {

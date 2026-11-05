@@ -131,6 +131,7 @@ func TestUnmarshalAirspaceBaseline(t *testing.T) {
 		{"DirectPositionType", len(*stage.GmlStage.GetInstancesSet[*gml.DirectPositionType]())},
 		{"SurfacePatchArrayPropertyType", len(*stage.GmlStage.GetInstancesSet[*gml.SurfacePatchArrayPropertyType]())},
 		{"AbstractRingPropertyType", len(*stage.GmlStage.GetInstancesSet[*gml.AbstractRingPropertyType]())},
+		{"LinearRingType", len(*stage.GmlStage.GetInstancesSet[*gml.LinearRingType]())},
 		{"CurveSegmentArrayPropertyType", len(*stage.GmlStage.GetInstancesSet[*gml.CurveSegmentArrayPropertyType]())},
 		{"PolygonPatchType", len(*stage.GmlStage.GetInstancesSet[*gml.PolygonPatchType]())},
 		{"GeodesicStringType", len(*stage.GmlStage.GetInstancesSet[*gml.GeodesicStringType]())},
@@ -170,6 +171,9 @@ func TestUnmarshalDonlon(t *testing.T) {
 	}
 	if len(msgs[0].HasMember) == 0 {
 		t.Fatalf("expected > 0 HasMember in Donlon %s, got 0", domainName)
+	}
+	if len(*stage.GmlStage.GetInstancesSet[*gml.RingType]()) == 0 {
+		t.Fatalf("expected > 0 RingType in Donlon %s, got 0", domainName)
 	}
 	errs := models.ValidateXSDConstraints(stage)
 	t.Logf("Donlon %s: unmarshalled %d members (%d XSD constraint notices)", domainName, len(msgs[0].HasMember), len(errs))
@@ -1118,7 +1122,7 @@ func TestPopulateDomainUMLDiagrams(t *testing.T) {
 				for _, gss := range cd.GongStructShapes {
 					_, sName := doc_models.IdentifierMetaToPackageAndGongStructName(gss.IdentifierMeta)
 					if sName == gl.Name {
-						score := (gss.Y - rowStartY)*4.0 + math.Abs(gss.X-noteShape.X)*0.5
+						score := (gss.Y-rowStartY)*4.0 + math.Abs(gss.X-noteShape.X)*0.5
 						if score < bestScore {
 							bestScore = score
 							bestTargetName = gl.Name
@@ -1392,14 +1396,16 @@ func buildDomainDiagramSpecs() []diagramSpec {
 				0: {
 					{Pkg: "gml", Name: "DirectPositionListType"},
 					{Pkg: "gml", Name: "DirectPositionType"},
+					{Pkg: "gml", Name: "PointPropertyType"},
 				},
 				1: {
 					{Pkg: "gml", Name: "SurfacePatchArrayPropertyType"},
-					{Pkg: "gml", Name: "RingPropertyType"},
+					{Pkg: "gml", Name: "AbstractRingPropertyType"},
 					{Pkg: "gml", Name: "CurveSegmentArrayPropertyType"},
 				},
 				2: {
 					{Pkg: "gml", Name: "PolygonPatchType"},
+					{Pkg: "gml", Name: "RingType"},
 					{Pkg: "gml", Name: "LinearRingType"},
 					{Pkg: "gml", Name: "GeodesicStringType"},
 					{Pkg: "gml", Name: "ArcByCenterPointType"},

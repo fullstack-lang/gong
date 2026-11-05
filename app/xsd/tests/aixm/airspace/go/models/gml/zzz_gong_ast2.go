@@ -234,6 +234,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(LengthType), stage, ident.Name, instanceName, preserveOrder)
 				case "LineStringSegmentType":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(LineStringSegmentType), stage, ident.Name, instanceName, preserveOrder)
+				case "LinearRingType":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(LinearRingType), stage, ident.Name, instanceName, preserveOrder)
 				case "MeasureType":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(MeasureType), stage, ident.Name, instanceName, preserveOrder)
 				case "OrientableCurveType":
@@ -374,6 +376,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Name = GongExtractString(rhs)
 					case "Ring":
 						__gong__assignPointer(&inst.Ring, rhs, identifierMap)
+					case "LinearRing":
+						__gong__assignPointer(&inst.LinearRing, rhs, identifierMap)
 					}
 				case *AbstractRingType:
 					switch fieldName {
@@ -746,9 +750,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "PosList":
 						__gong__assignPointer(&inst.PosList, rhs, identifierMap)
 					case "Pos":
-						__gong__assignPointer(&inst.Pos, rhs, identifierMap)
+						__gong__assignSliceOfPointers(&inst.Pos, rhs, identifierMap)
 					case "PointProperty":
-						__gong__assignPointer(&inst.PointProperty, rhs, identifierMap)
+						__gong__assignSliceOfPointers(&inst.PointProperty, rhs, identifierMap)
 					}
 				case *GeodesicType:
 					switch fieldName {
@@ -765,9 +769,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "PosList":
 						__gong__assignPointer(&inst.PosList, rhs, identifierMap)
 					case "Pos":
-						__gong__assignPointer(&inst.Pos, rhs, identifierMap)
+						__gong__assignSliceOfPointers(&inst.Pos, rhs, identifierMap)
 					case "PointProperty":
-						__gong__assignPointer(&inst.PointProperty, rhs, identifierMap)
+						__gong__assignSliceOfPointers(&inst.PointProperty, rhs, identifierMap)
 					}
 				case *LengthType:
 					switch fieldName {
@@ -788,6 +792,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.NumDerivativeInterior = GongExtractInt(rhs)
 					case "Interpolation":
 						GongUnmarshallEnum(&inst.Interpolation, rhs)
+					case "Pos":
+						__gong__assignSliceOfPointers(&inst.Pos, rhs, identifierMap)
+					case "PointProperty":
+						__gong__assignSliceOfPointers(&inst.PointProperty, rhs, identifierMap)
+					case "PosList":
+						__gong__assignPointer(&inst.PosList, rhs, identifierMap)
+					}
+				case *LinearRingType:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
 					case "Pos":
 						__gong__assignSliceOfPointers(&inst.Pos, rhs, identifierMap)
 					case "PointProperty":
@@ -1363,6 +1378,8 @@ func (u *AbstractRingPropertyTypeUnmarshaller) UnmarshallField(stage *Stage, i G
 		instance.Name = GongExtractString(valueExpr)
 	case "Ring":
 		GongUnmarshallPointer(&instance.Ring, valueExpr, identifierMap)
+	case "LinearRing":
+		GongUnmarshallPointer(&instance.LinearRing, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -2035,9 +2052,9 @@ func (u *GeodesicStringTypeUnmarshaller) UnmarshallField(stage *Stage, i Gongstr
 	case "PosList":
 		GongUnmarshallPointer(&instance.PosList, valueExpr, identifierMap)
 	case "Pos":
-		GongUnmarshallPointer(&instance.Pos, valueExpr, identifierMap)
+		GongUnmarshallSliceOfPointers(&instance.Pos, valueExpr, identifierMap)
 	case "PointProperty":
-		GongUnmarshallPointer(&instance.PointProperty, valueExpr, identifierMap)
+		GongUnmarshallSliceOfPointers(&instance.PointProperty, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -2066,9 +2083,9 @@ func (u *GeodesicTypeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	case "PosList":
 		GongUnmarshallPointer(&instance.PosList, valueExpr, identifierMap)
 	case "Pos":
-		GongUnmarshallPointer(&instance.Pos, valueExpr, identifierMap)
+		GongUnmarshallSliceOfPointers(&instance.Pos, valueExpr, identifierMap)
 	case "PointProperty":
-		GongUnmarshallPointer(&instance.PointProperty, valueExpr, identifierMap)
+		GongUnmarshallSliceOfPointers(&instance.PointProperty, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -2113,6 +2130,29 @@ func (u *LineStringSegmentTypeUnmarshaller) UnmarshallField(stage *Stage, i Gong
 		instance.NumDerivativeInterior = GongExtractInt(valueExpr)
 	case "Interpolation":
 		GongUnmarshallEnum(&instance.Interpolation, valueExpr)
+	case "Pos":
+		GongUnmarshallSliceOfPointers(&instance.Pos, valueExpr, identifierMap)
+	case "PointProperty":
+		GongUnmarshallSliceOfPointers(&instance.PointProperty, valueExpr, identifierMap)
+	case "PosList":
+		GongUnmarshallPointer(&instance.PosList, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type LinearRingTypeUnmarshaller struct{}
+
+func (u *LinearRingTypeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(LinearRingType), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *LinearRingTypeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*LinearRingType)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
 	case "Pos":
 		GongUnmarshallSliceOfPointers(&instance.Pos, valueExpr, identifierMap)
 	case "PointProperty":

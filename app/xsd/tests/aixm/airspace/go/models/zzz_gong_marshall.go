@@ -649,6 +649,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := abstractringpropertytype.Ring.GongGetIdentifier(stage.GmlStage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Ring = %s", abstractringpropertytypeIdent, targetIdent))
 			}
+			if abstractringpropertytype.LinearRing != nil {
+				if lastStagePtr != "GmlStage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "GmlStage"
+				}
+				targetIdent := abstractringpropertytype.LinearRing.GongGetIdentifier(stage.GmlStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.LinearRing = %s", abstractringpropertytypeIdent, targetIdent))
+			}
 		}
 	}
 	if stage.GmlStage != nil {
@@ -1757,25 +1767,25 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := geodesicstringtype.PosList.GongGetIdentifier(stage.GmlStage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.PosList = %s", geodesicstringtypeIdent, targetIdent))
 			}
-			if geodesicstringtype.Pos != nil {
+			for _, elem := range geodesicstringtype.Pos {
 				if lastStagePtr != "GmlStage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "GmlStage"
 				}
-				targetIdent := geodesicstringtype.Pos.GongGetIdentifier(stage.GmlStage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Pos = %s", geodesicstringtypeIdent, targetIdent))
+				targetIdent := elem.GongGetIdentifier(stage.GmlStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Pos = append(%s.Pos, %s)", geodesicstringtypeIdent, geodesicstringtypeIdent, targetIdent))
 			}
-			if geodesicstringtype.PointProperty != nil {
+			for _, elem := range geodesicstringtype.PointProperty {
 				if lastStagePtr != "GmlStage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "GmlStage"
 				}
-				targetIdent := geodesicstringtype.PointProperty.GongGetIdentifier(stage.GmlStage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.PointProperty = %s", geodesicstringtypeIdent, targetIdent))
+				targetIdent := elem.GongGetIdentifier(stage.GmlStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointProperty = append(%s.PointProperty, %s)", geodesicstringtypeIdent, geodesicstringtypeIdent, targetIdent))
 			}
 		}
 	}
@@ -1814,25 +1824,25 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := geodesictype.PosList.GongGetIdentifier(stage.GmlStage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.PosList = %s", geodesictypeIdent, targetIdent))
 			}
-			if geodesictype.Pos != nil {
+			for _, elem := range geodesictype.Pos {
 				if lastStagePtr != "GmlStage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "GmlStage"
 				}
-				targetIdent := geodesictype.Pos.GongGetIdentifier(stage.GmlStage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Pos = %s", geodesictypeIdent, targetIdent))
+				targetIdent := elem.GongGetIdentifier(stage.GmlStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Pos = append(%s.Pos, %s)", geodesictypeIdent, geodesictypeIdent, targetIdent))
 			}
-			if geodesictype.PointProperty != nil {
+			for _, elem := range geodesictype.PointProperty {
 				if lastStagePtr != "GmlStage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "GmlStage"
 				}
-				targetIdent := geodesictype.PointProperty.GongGetIdentifier(stage.GmlStage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.PointProperty = %s", geodesictypeIdent, targetIdent))
+				targetIdent := elem.GongGetIdentifier(stage.GmlStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointProperty = append(%s.PointProperty, %s)", geodesictypeIdent, geodesictypeIdent, targetIdent))
 			}
 		}
 	}
@@ -1910,6 +1920,55 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := linestringsegmenttype.PosList.GongGetIdentifier(stage.GmlStage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.PosList = %s", linestringsegmenttypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage.GmlStage != nil {
+		for _, linearringtype := range __gong__sortStageSetInstances(stage.GmlStage.LinearRingTypes, stage.GmlStage.LinearRingType_stagedOrder) {
+			if lastStageDecl != "GmlStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "GmlStage"
+			}
+			linearringtypeIdent := linearringtype.GongGetIdentifier(stage.GmlStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&gml.LinearRingType{Name: %s}).Stage(stage.GmlStage)", linearringtypeIdent, __gong__toRawStringLiteral(linearringtype.Name)))
+			if lastStageVal != "GmlStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "GmlStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", linearringtypeIdent, __gong__toRawStringLiteral(linearringtype.Name)))
+			for _, elem := range linearringtype.Pos {
+				if lastStagePtr != "GmlStage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "GmlStage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage.GmlStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Pos = append(%s.Pos, %s)", linearringtypeIdent, linearringtypeIdent, targetIdent))
+			}
+			for _, elem := range linearringtype.PointProperty {
+				if lastStagePtr != "GmlStage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "GmlStage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage.GmlStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointProperty = append(%s.PointProperty, %s)", linearringtypeIdent, linearringtypeIdent, targetIdent))
+			}
+			if linearringtype.PosList != nil {
+				if lastStagePtr != "GmlStage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "GmlStage"
+				}
+				targetIdent := linearringtype.PosList.GongGetIdentifier(stage.GmlStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PosList = %s", linearringtypeIdent, targetIdent))
 			}
 		}
 	}

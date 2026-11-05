@@ -9541,6 +9541,67 @@ func (probe *Probe) ux_tree() {
 	}
 
 	{
+		count := len(probe.stageOfInterest.GmlStage.LinearRingTypes)
+		nodeGongstruct := &tree_models.Node{
+			Name:            fmt.Sprintf("LinearRingType (%d)", count),
+			HasToolTip:      true,
+			ToolTipText:     "Display table of all LinearRingType instances",
+			ToolTipPosition: tree_models.Right,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+		}
+		pkgNode_GmlStage.Children = append(pkgNode_GmlStage.Children, nodeGongstruct)
+
+		addButton := &tree_models.Button{
+			Name:            "LinearRingType " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipText:     "Add an instance of LinearRingType",
+			ToolTipPosition: tree_models.Right,
+			OnClick: func() {
+				StageSetNewInstance_LinearRingType_GmlStage(probe)
+			},
+		}
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+
+		nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+			nodeGongstruct.IsExpanded = isExpanded
+		}
+
+		nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+			updateStageSetTable_LinearRingType_GmlStage(probe)
+			for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+				node.BackgroundColor = ""
+			}
+			nodeGongstruct.BackgroundColor = "lightgrey"
+			probe.treeStage.Commit()
+		}
+
+		instCount := 0
+		for _, _inst := range probe.stageOfInterest.GmlStage.GetInstancesByOrder[*gml.LinearRingType]() {
+			if instCount >= probe.GetMaxElementsNbPerGongStructNode() {
+				nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+				break
+			}
+			instCount++
+			_captured := _inst
+			nodeInstance := &tree_models.Node{
+				Name:            _captured.GetName(),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree_models.Node) {
+					FillUpFormFromGongstruct(_captured, probe)
+					for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+						node.BackgroundColor = ""
+					}
+					frontNode.BackgroundColor = "lightgrey"
+					probe.treeStage.Commit()
+				},
+			}
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+	}
+
+	{
 		count := len(probe.stageOfInterest.GmlStage.MeasureTypes)
 		nodeGongstruct := &tree_models.Node{
 			Name:            fmt.Sprintf("MeasureType (%d)", count),

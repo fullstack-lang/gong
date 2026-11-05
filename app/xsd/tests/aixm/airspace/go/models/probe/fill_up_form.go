@@ -4888,6 +4888,7 @@ func FillUpForm(
 	case *gml.AbstractRingPropertyType:
 		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
 		StageSetAssociationFieldToForm("Ring", inst.Ring, formGroup, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.RingType](), probe.formStage)
+		StageSetAssociationFieldToForm("LinearRing", inst.LinearRing, formGroup, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.LinearRingType](), probe.formStage)
 
 		{
 			var refNames []string
@@ -6999,6 +7000,17 @@ func FillUpForm(
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("gml.LineStringSegmentType", "PosList", refNames, formGroup, probe.formStage)
 		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.GmlStage.LinearRingTypes {
+				if src.PosList == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("gml.LinearRingType", "PosList", refNames, formGroup, probe.formStage)
+		}
 	case *gml.DirectPositionType:
 		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("SrsName", inst.SrsName, probe.formStage, formGroup)
@@ -7090,8 +7102,11 @@ func FillUpForm(
 		{
 			var refNames []string
 			for src := range probe.stageOfInterest.GmlStage.GeodesicStringTypes {
-				if src.Pos == inst {
-					refNames = append(refNames, src.GetName())
+				for _, target := range src.Pos {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
 				}
 			}
 			sort.Strings(refNames)
@@ -7101,8 +7116,11 @@ func FillUpForm(
 		{
 			var refNames []string
 			for src := range probe.stageOfInterest.GmlStage.GeodesicTypes {
-				if src.Pos == inst {
-					refNames = append(refNames, src.GetName())
+				for _, target := range src.Pos {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
 				}
 			}
 			sort.Strings(refNames)
@@ -7121,6 +7139,20 @@ func FillUpForm(
 			}
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("gml.LineStringSegmentType", "Pos", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.GmlStage.LinearRingTypes {
+				for _, target := range src.Pos {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("gml.LinearRingType", "Pos", refNames, formGroup, probe.formStage)
 		}
 
 		{
@@ -7182,8 +7214,46 @@ func FillUpForm(
 		StageSetBasicFieldtoForm("NumDerivativeInterior", inst.NumDerivativeInterior, probe.formStage, formGroup)
 		StageSetEnumStringFieldToForm("Interpolation", inst.Interpolation, formGroup, probe.formStage)
 		StageSetAssociationFieldToForm("PosList", inst.PosList, formGroup, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.DirectPositionListType](), probe.formStage)
-		StageSetAssociationFieldToForm("Pos", inst.Pos, formGroup, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.DirectPositionType](), probe.formStage)
-		StageSetAssociationFieldToForm("PointProperty", inst.PointProperty, formGroup, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.PointPropertyType](), probe.formStage)
+
+		{
+			// Slice of pointers: Pos
+			div := (&form.FormDiv{Name: "Pos"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.Pos {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "Pos",
+				Label: "Pos",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			// Slice of pointers: PointProperty
+			div := (&form.FormDiv{Name: "PointProperty"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.PointProperty {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "PointProperty",
+				Label: "PointProperty",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
 
 		{
 			var refNames []string
@@ -7205,8 +7275,46 @@ func FillUpForm(
 		StageSetBasicFieldtoForm("NumDerivativeInterior", inst.NumDerivativeInterior, probe.formStage, formGroup)
 		StageSetEnumStringFieldToForm("Interpolation", inst.Interpolation, formGroup, probe.formStage)
 		StageSetAssociationFieldToForm("PosList", inst.PosList, formGroup, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.DirectPositionListType](), probe.formStage)
-		StageSetAssociationFieldToForm("Pos", inst.Pos, formGroup, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.DirectPositionType](), probe.formStage)
-		StageSetAssociationFieldToForm("PointProperty", inst.PointProperty, formGroup, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.PointPropertyType](), probe.formStage)
+
+		{
+			// Slice of pointers: Pos
+			div := (&form.FormDiv{Name: "Pos"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.Pos {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "Pos",
+				Label: "Pos",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			// Slice of pointers: PointProperty
+			div := (&form.FormDiv{Name: "PointProperty"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.PointProperty {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "PointProperty",
+				Label: "PointProperty",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
 
 		{
 			var refNames []string
@@ -7306,6 +7414,60 @@ func FillUpForm(
 			}
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("gml.CurveSegmentArrayPropertyType", "LineStringSegment", refNames, formGroup, probe.formStage)
+		}
+	case *gml.LinearRingType:
+		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
+
+		{
+			// Slice of pointers: Pos
+			div := (&form.FormDiv{Name: "Pos"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.Pos {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "Pos",
+				Label: "Pos",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+
+		{
+			// Slice of pointers: PointProperty
+			div := (&form.FormDiv{Name: "PointProperty"}).Stage(probe.formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, div)
+			var names []string
+			for _, elem := range inst.PointProperty {
+				if elem != nil {
+					names = append(names, elem.GetName())
+				}
+			}
+			fld := (&form.FormField{
+				Name:  "PointProperty",
+				Label: "PointProperty",
+				FormFieldString: &form.FormFieldString{
+					Value: strings.Join(names, ", "),
+				},
+			}).Stage(probe.formStage)
+			div.FormFields = append(div.FormFields, fld)
+		}
+		StageSetAssociationFieldToForm("PosList", inst.PosList, formGroup, probe.stageOfInterest.GmlStage.GetInstancesSet[*gml.DirectPositionListType](), probe.formStage)
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.GmlStage.AbstractRingPropertyTypes {
+				if src.LinearRing == inst {
+					refNames = append(refNames, src.GetName())
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("gml.AbstractRingPropertyType", "LinearRing", refNames, formGroup, probe.formStage)
 		}
 	case *gml.MeasureType:
 		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)
@@ -7426,8 +7588,11 @@ func FillUpForm(
 		{
 			var refNames []string
 			for src := range probe.stageOfInterest.GmlStage.GeodesicStringTypes {
-				if src.PointProperty == inst {
-					refNames = append(refNames, src.GetName())
+				for _, target := range src.PointProperty {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
 				}
 			}
 			sort.Strings(refNames)
@@ -7437,8 +7602,11 @@ func FillUpForm(
 		{
 			var refNames []string
 			for src := range probe.stageOfInterest.GmlStage.GeodesicTypes {
-				if src.PointProperty == inst {
-					refNames = append(refNames, src.GetName())
+				for _, target := range src.PointProperty {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
 				}
 			}
 			sort.Strings(refNames)
@@ -7457,6 +7625,20 @@ func FillUpForm(
 			}
 			sort.Strings(refNames)
 			StageSetAssociationReverseFieldToForm("gml.LineStringSegmentType", "PointProperty", refNames, formGroup, probe.formStage)
+		}
+
+		{
+			var refNames []string
+			for src := range probe.stageOfInterest.GmlStage.LinearRingTypes {
+				for _, target := range src.PointProperty {
+					if target == inst {
+						refNames = append(refNames, src.GetName())
+						break
+					}
+				}
+			}
+			sort.Strings(refNames)
+			StageSetAssociationReverseFieldToForm("gml.LinearRingType", "PointProperty", refNames, formGroup, probe.formStage)
 		}
 	case *gml.PointType:
 		StageSetBasicFieldtoForm("Name", inst.Name, probe.formStage, formGroup)

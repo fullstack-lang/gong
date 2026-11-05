@@ -630,6 +630,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := abstractringpropertytype.Ring.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Ring = %s", abstractringpropertytypeIdent, targetIdent))
 			}
+			if abstractringpropertytype.LinearRing != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := abstractringpropertytype.LinearRing.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.LinearRing = %s", abstractringpropertytypeIdent, targetIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -1738,25 +1748,25 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := geodesicstringtype.PosList.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.PosList = %s", geodesicstringtypeIdent, targetIdent))
 			}
-			if geodesicstringtype.Pos != nil {
+			for _, elem := range geodesicstringtype.Pos {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := geodesicstringtype.Pos.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Pos = %s", geodesicstringtypeIdent, targetIdent))
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Pos = append(%s.Pos, %s)", geodesicstringtypeIdent, geodesicstringtypeIdent, targetIdent))
 			}
-			if geodesicstringtype.PointProperty != nil {
+			for _, elem := range geodesicstringtype.PointProperty {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := geodesicstringtype.PointProperty.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.PointProperty = %s", geodesicstringtypeIdent, targetIdent))
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointProperty = append(%s.PointProperty, %s)", geodesicstringtypeIdent, geodesicstringtypeIdent, targetIdent))
 			}
 		}
 	}
@@ -1795,25 +1805,25 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := geodesictype.PosList.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.PosList = %s", geodesictypeIdent, targetIdent))
 			}
-			if geodesictype.Pos != nil {
+			for _, elem := range geodesictype.Pos {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := geodesictype.Pos.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Pos = %s", geodesictypeIdent, targetIdent))
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Pos = append(%s.Pos, %s)", geodesictypeIdent, geodesictypeIdent, targetIdent))
 			}
-			if geodesictype.PointProperty != nil {
+			for _, elem := range geodesictype.PointProperty {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := geodesictype.PointProperty.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.PointProperty = %s", geodesictypeIdent, targetIdent))
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointProperty = append(%s.PointProperty, %s)", geodesictypeIdent, geodesictypeIdent, targetIdent))
 			}
 		}
 	}
@@ -1891,6 +1901,55 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := linestringsegmenttype.PosList.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.PosList = %s", linestringsegmenttypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, linearringtype := range __gong__sortStageSetInstances(stage.LinearRingTypes, stage.LinearRingType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			linearringtypeIdent := linearringtype.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&gml.LinearRingType{Name: %s}).Stage(stage)", linearringtypeIdent, __gong__toRawStringLiteral(linearringtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", linearringtypeIdent, __gong__toRawStringLiteral(linearringtype.Name)))
+			for _, elem := range linearringtype.Pos {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Pos = append(%s.Pos, %s)", linearringtypeIdent, linearringtypeIdent, targetIdent))
+			}
+			for _, elem := range linearringtype.PointProperty {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointProperty = append(%s.PointProperty, %s)", linearringtypeIdent, linearringtypeIdent, targetIdent))
+			}
+			if linearringtype.PosList != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := linearringtype.PosList.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PosList = %s", linearringtypeIdent, targetIdent))
 			}
 		}
 	}
@@ -2678,6 +2737,12 @@ func (abstractringpropertytype *AbstractRingPropertyType) GongMarshallField(stag
 			res = __gong__marshallPointer(ident, "Ring", abstractringpropertytype.Ring.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "Ring", "nil")
+		}
+	case "LinearRing":
+		if abstractringpropertytype.LinearRing != nil {
+			res = __gong__marshallPointer(ident, "LinearRing", abstractringpropertytype.LinearRing.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "LinearRing", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct AbstractRingPropertyType", fieldName)
@@ -3467,17 +3532,17 @@ func (geodesicstringtype *GeodesicStringType) GongMarshallField(stage *Stage, fi
 			res = __gong__marshallPointer(ident, "PosList", "nil")
 		}
 	case "Pos":
-		if geodesicstringtype.Pos != nil {
-			res = __gong__marshallPointer(ident, "Pos", geodesicstringtype.Pos.GongGetIdentifier(stage))
-		} else {
-			res = __gong__marshallPointer(ident, "Pos", "nil")
+		var sb strings.Builder
+		for _, _directpositiontype := range geodesicstringtype.Pos {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Pos", _directpositiontype.GongGetIdentifier(stage)))
 		}
+		res = sb.String()
 	case "PointProperty":
-		if geodesicstringtype.PointProperty != nil {
-			res = __gong__marshallPointer(ident, "PointProperty", geodesicstringtype.PointProperty.GongGetIdentifier(stage))
-		} else {
-			res = __gong__marshallPointer(ident, "PointProperty", "nil")
+		var sb strings.Builder
+		for _, _pointpropertytype := range geodesicstringtype.PointProperty {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "PointProperty", _pointpropertytype.GongGetIdentifier(stage)))
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct GeodesicStringType", fieldName)
 	}
@@ -3506,17 +3571,17 @@ func (geodesictype *GeodesicType) GongMarshallField(stage *Stage, fieldName stri
 			res = __gong__marshallPointer(ident, "PosList", "nil")
 		}
 	case "Pos":
-		if geodesictype.Pos != nil {
-			res = __gong__marshallPointer(ident, "Pos", geodesictype.Pos.GongGetIdentifier(stage))
-		} else {
-			res = __gong__marshallPointer(ident, "Pos", "nil")
+		var sb strings.Builder
+		for _, _directpositiontype := range geodesictype.Pos {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Pos", _directpositiontype.GongGetIdentifier(stage)))
 		}
+		res = sb.String()
 	case "PointProperty":
-		if geodesictype.PointProperty != nil {
-			res = __gong__marshallPointer(ident, "PointProperty", geodesictype.PointProperty.GongGetIdentifier(stage))
-		} else {
-			res = __gong__marshallPointer(ident, "PointProperty", "nil")
+		var sb strings.Builder
+		for _, _pointpropertytype := range geodesictype.PointProperty {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "PointProperty", _pointpropertytype.GongGetIdentifier(stage)))
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct GeodesicType", fieldName)
 	}
@@ -3573,6 +3638,37 @@ func (linestringsegmenttype *LineStringSegmentType) GongMarshallField(stage *Sta
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct LineStringSegmentType", fieldName)
+	}
+	return
+}
+
+func (linearringtype *LinearRingType) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := linearringtype.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", linearringtype.Name)
+
+	case "Pos":
+		var sb strings.Builder
+		for _, _directpositiontype := range linearringtype.Pos {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Pos", _directpositiontype.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "PointProperty":
+		var sb strings.Builder
+		for _, _pointpropertytype := range linearringtype.PointProperty {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "PointProperty", _pointpropertytype.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "PosList":
+		if linearringtype.PosList != nil {
+			res = __gong__marshallPointer(ident, "PosList", linearringtype.PosList.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "PosList", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct LinearRingType", fieldName)
 	}
 	return
 }
@@ -4067,6 +4163,7 @@ func (abstractringpropertytype *AbstractRingPropertyType) GongMarshallAllFields(
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(abstractringpropertytype.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(abstractringpropertytype.GongMarshallField(stage, "Ring"))
+		pointersInitializesStatements.WriteString(abstractringpropertytype.GongMarshallField(stage, "LinearRing"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -4515,6 +4612,20 @@ func (linestringsegmenttype *LineStringSegmentType) GongMarshallAllFields(stage 
 		pointersInitializesStatements.WriteString(linestringsegmenttype.GongMarshallField(stage, "Pos"))
 		pointersInitializesStatements.WriteString(linestringsegmenttype.GongMarshallField(stage, "PointProperty"))
 		pointersInitializesStatements.WriteString(linestringsegmenttype.GongMarshallField(stage, "PosList"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (linearringtype *LinearRingType) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(linearringtype.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(linearringtype.GongMarshallField(stage, "Pos"))
+		pointersInitializesStatements.WriteString(linearringtype.GongMarshallField(stage, "PointProperty"))
+		pointersInitializesStatements.WriteString(linearringtype.GongMarshallField(stage, "PosList"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

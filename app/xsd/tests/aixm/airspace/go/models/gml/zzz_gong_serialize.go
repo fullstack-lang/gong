@@ -285,6 +285,13 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.LinearRingTypes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "LinearRingType", instances, (*LinearRingType)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.MeasureTypes {
 				instances = append(instances, instance)
 			}

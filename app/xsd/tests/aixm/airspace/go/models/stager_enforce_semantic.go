@@ -1509,6 +1509,17 @@ func enforceInstanceNames(stage *Stage) {
 		}
 		{
 			idx := 1
+			for inst := range *stage.GmlStage.GetInstancesSet[*gml.LinearRingType]() {
+				if inst.Name == "" {
+					if inst.Name == "" {
+						inst.Name = fmt.Sprintf("LinearRingType_%d", idx)
+					}
+				}
+				idx++
+			}
+		}
+		{
+			idx := 1
 			for inst := range *stage.GmlStage.GetInstancesSet[*gml.CompositeCurveType]() {
 				if inst.Name == "" {
 					if inst.Name == "" && inst.Id != "" {

@@ -279,6 +279,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(gml.LengthType), stage.GmlStage, ident.Name, instanceName, preserveOrder)
 				case "LineStringSegmentType":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(gml.LineStringSegmentType), stage.GmlStage, ident.Name, instanceName, preserveOrder)
+				case "LinearRingType":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(gml.LinearRingType), stage.GmlStage, ident.Name, instanceName, preserveOrder)
 				case "MeasureType":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(gml.MeasureType), stage.GmlStage, ident.Name, instanceName, preserveOrder)
 				case "OrientableCurveType":
@@ -670,6 +672,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Name = GongExtractString(rhs)
 					case "Ring":
 						__gong__assignPointer(&inst.Ring, rhs, identifierMap)
+					case "LinearRing":
+						__gong__assignPointer(&inst.LinearRing, rhs, identifierMap)
 					}
 				case *gml.AbstractRingType:
 					switch fieldName {
@@ -1042,9 +1046,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "PosList":
 						__gong__assignPointer(&inst.PosList, rhs, identifierMap)
 					case "Pos":
-						__gong__assignPointer(&inst.Pos, rhs, identifierMap)
+						__gong__assignSliceOfPointers(&inst.Pos, rhs, identifierMap)
 					case "PointProperty":
-						__gong__assignPointer(&inst.PointProperty, rhs, identifierMap)
+						__gong__assignSliceOfPointers(&inst.PointProperty, rhs, identifierMap)
 					}
 				case *gml.GeodesicType:
 					switch fieldName {
@@ -1061,9 +1065,9 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "PosList":
 						__gong__assignPointer(&inst.PosList, rhs, identifierMap)
 					case "Pos":
-						__gong__assignPointer(&inst.Pos, rhs, identifierMap)
+						__gong__assignSliceOfPointers(&inst.Pos, rhs, identifierMap)
 					case "PointProperty":
-						__gong__assignPointer(&inst.PointProperty, rhs, identifierMap)
+						__gong__assignSliceOfPointers(&inst.PointProperty, rhs, identifierMap)
 					}
 				case *gml.LengthType:
 					switch fieldName {
@@ -1084,6 +1088,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.NumDerivativeInterior = GongExtractInt(rhs)
 					case "Interpolation":
 						GongUnmarshallEnum(&inst.Interpolation, rhs)
+					case "Pos":
+						__gong__assignSliceOfPointers(&inst.Pos, rhs, identifierMap)
+					case "PointProperty":
+						__gong__assignSliceOfPointers(&inst.PointProperty, rhs, identifierMap)
+					case "PosList":
+						__gong__assignPointer(&inst.PosList, rhs, identifierMap)
+					}
+				case *gml.LinearRingType:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
 					case "Pos":
 						__gong__assignSliceOfPointers(&inst.Pos, rhs, identifierMap)
 					case "PointProperty":

@@ -989,6 +989,32 @@ func (linestringsegmenttype *LineStringSegmentType) GongAfterDeleteFromFront(sta
 	}
 }
 
+func (linearringtype *LinearRingType) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterLinearRingTypeCreateCallback != nil {
+		stage.OnAfterLinearRingTypeCreateCallback.OnAfterCreate(stage, linearringtype)
+	}
+}
+
+func (linearringtype *LinearRingType) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLinearRingTypeUpdateCallback != nil {
+		var frontLinearRingType *LinearRingType
+		if front != nil {
+			frontLinearRingType, _ = front.(*LinearRingType)
+		}
+		stage.OnAfterLinearRingTypeUpdateCallback.OnAfterUpdate(stage, linearringtype, frontLinearRingType)
+	}
+}
+
+func (linearringtype *LinearRingType) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLinearRingTypeDeleteCallback != nil {
+		var frontLinearRingType *LinearRingType
+		if front != nil {
+			frontLinearRingType, _ = front.(*LinearRingType)
+		}
+		stage.OnAfterLinearRingTypeDeleteCallback.OnAfterDelete(stage, linearringtype, frontLinearRingType)
+	}
+}
+
 func (measuretype *MeasureType) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterMeasureTypeCreateCallback != nil {
 		stage.OnAfterMeasureTypeCreateCallback.OnAfterCreate(stage, measuretype)

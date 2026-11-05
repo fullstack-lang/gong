@@ -200,6 +200,11 @@ func (linestringsegmenttype *LineStringSegmentType) GongIsStaged(stage *Stage) b
 	return ok
 }
 
+func (linearringtype *LinearRingType) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.LinearRingTypes[linearringtype]
+	return ok
+}
+
 func (measuretype *MeasureType) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.MeasureTypes[measuretype]
 	return ok
@@ -433,6 +438,9 @@ func (abstractringpropertytype *AbstractRingPropertyType) GongStageBranch(stage 
 	//insertion point for the staging of instances referenced by pointers
 	if abstractringpropertytype.Ring != nil {
 		stage.StageBranch(abstractringpropertytype.Ring)
+	}
+	if abstractringpropertytype.LinearRing != nil {
+		stage.StageBranch(abstractringpropertytype.LinearRing)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -971,14 +979,14 @@ func (geodesicstringtype *GeodesicStringType) GongStageBranch(stage *Stage) {
 	if geodesicstringtype.PosList != nil {
 		stage.StageBranch(geodesicstringtype.PosList)
 	}
-	if geodesicstringtype.Pos != nil {
-		stage.StageBranch(geodesicstringtype.Pos)
-	}
-	if geodesicstringtype.PointProperty != nil {
-		stage.StageBranch(geodesicstringtype.PointProperty)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _directpositiontype := range geodesicstringtype.Pos {
+		stage.StageBranch(_directpositiontype)
+	}
+	for _, _pointpropertytype := range geodesicstringtype.PointProperty {
+		stage.StageBranch(_pointpropertytype)
+	}
 
 }
 
@@ -995,14 +1003,14 @@ func (geodesictype *GeodesicType) GongStageBranch(stage *Stage) {
 	if geodesictype.PosList != nil {
 		stage.StageBranch(geodesictype.PosList)
 	}
-	if geodesictype.Pos != nil {
-		stage.StageBranch(geodesictype.Pos)
-	}
-	if geodesictype.PointProperty != nil {
-		stage.StageBranch(geodesictype.PointProperty)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _directpositiontype := range geodesictype.Pos {
+		stage.StageBranch(_directpositiontype)
+	}
+	for _, _pointpropertytype := range geodesictype.PointProperty {
+		stage.StageBranch(_pointpropertytype)
+	}
 
 }
 
@@ -1040,6 +1048,30 @@ func (linestringsegmenttype *LineStringSegmentType) GongStageBranch(stage *Stage
 		stage.StageBranch(_directpositiontype)
 	}
 	for _, _pointpropertytype := range linestringsegmenttype.PointProperty {
+		stage.StageBranch(_pointpropertytype)
+	}
+
+}
+
+func (linearringtype *LinearRingType) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(linearringtype) {
+		return
+	}
+
+	linearringtype.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if linearringtype.PosList != nil {
+		stage.StageBranch(linearringtype.PosList)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _directpositiontype := range linearringtype.Pos {
+		stage.StageBranch(_directpositiontype)
+	}
+	for _, _pointpropertytype := range linearringtype.PointProperty {
 		stage.StageBranch(_pointpropertytype)
 	}
 
@@ -1450,6 +1482,10 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchLineStringSegmentType(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *LinearRingType:
+		toT := GongCopyBranchLinearRingType(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *MeasureType:
 		toT := GongCopyBranchMeasureType(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -1669,6 +1705,9 @@ func GongCopyBranchAbstractRingPropertyType(mapOrigCopy map[any]any, abstractrin
 	//insertion point for the staging of instances referenced by pointers
 	if abstractringpropertytypeFrom.Ring != nil {
 		abstractringpropertytypeTo.Ring = GongCopyBranchRingType(mapOrigCopy, abstractringpropertytypeFrom.Ring)
+	}
+	if abstractringpropertytypeFrom.LinearRing != nil {
+		abstractringpropertytypeTo.LinearRing = GongCopyBranchLinearRingType(mapOrigCopy, abstractringpropertytypeFrom.LinearRing)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2207,14 +2246,14 @@ func GongCopyBranchGeodesicStringType(mapOrigCopy map[any]any, geodesicstringtyp
 	if geodesicstringtypeFrom.PosList != nil {
 		geodesicstringtypeTo.PosList = GongCopyBranchDirectPositionListType(mapOrigCopy, geodesicstringtypeFrom.PosList)
 	}
-	if geodesicstringtypeFrom.Pos != nil {
-		geodesicstringtypeTo.Pos = GongCopyBranchDirectPositionType(mapOrigCopy, geodesicstringtypeFrom.Pos)
-	}
-	if geodesicstringtypeFrom.PointProperty != nil {
-		geodesicstringtypeTo.PointProperty = GongCopyBranchPointPropertyType(mapOrigCopy, geodesicstringtypeFrom.PointProperty)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _directpositiontype := range geodesicstringtypeFrom.Pos {
+		geodesicstringtypeTo.Pos = append(geodesicstringtypeTo.Pos, GongCopyBranchDirectPositionType(mapOrigCopy, _directpositiontype))
+	}
+	for _, _pointpropertytype := range geodesicstringtypeFrom.PointProperty {
+		geodesicstringtypeTo.PointProperty = append(geodesicstringtypeTo.PointProperty, GongCopyBranchPointPropertyType(mapOrigCopy, _pointpropertytype))
+	}
 
 	return
 }
@@ -2231,14 +2270,14 @@ func GongCopyBranchGeodesicType(mapOrigCopy map[any]any, geodesictypeFrom *Geode
 	if geodesictypeFrom.PosList != nil {
 		geodesictypeTo.PosList = GongCopyBranchDirectPositionListType(mapOrigCopy, geodesictypeFrom.PosList)
 	}
-	if geodesictypeFrom.Pos != nil {
-		geodesictypeTo.Pos = GongCopyBranchDirectPositionType(mapOrigCopy, geodesictypeFrom.Pos)
-	}
-	if geodesictypeFrom.PointProperty != nil {
-		geodesictypeTo.PointProperty = GongCopyBranchPointPropertyType(mapOrigCopy, geodesictypeFrom.PointProperty)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _directpositiontype := range geodesictypeFrom.Pos {
+		geodesictypeTo.Pos = append(geodesictypeTo.Pos, GongCopyBranchDirectPositionType(mapOrigCopy, _directpositiontype))
+	}
+	for _, _pointpropertytype := range geodesictypeFrom.PointProperty {
+		geodesictypeTo.PointProperty = append(geodesictypeTo.PointProperty, GongCopyBranchPointPropertyType(mapOrigCopy, _pointpropertytype))
+	}
 
 	return
 }
@@ -2277,6 +2316,30 @@ func GongCopyBranchLineStringSegmentType(mapOrigCopy map[any]any, linestringsegm
 	}
 	for _, _pointpropertytype := range linestringsegmenttypeFrom.PointProperty {
 		linestringsegmenttypeTo.PointProperty = append(linestringsegmenttypeTo.PointProperty, GongCopyBranchPointPropertyType(mapOrigCopy, _pointpropertytype))
+	}
+
+	return
+}
+
+func GongCopyBranchLinearRingType(mapOrigCopy map[any]any, linearringtypeFrom *LinearRingType) (linearringtypeTo *LinearRingType) {
+	var alreadyCopied bool
+	linearringtypeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, linearringtypeFrom)
+	if alreadyCopied {
+		return
+	}
+	linearringtypeFrom.GongCopyBasicFields(linearringtypeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if linearringtypeFrom.PosList != nil {
+		linearringtypeTo.PosList = GongCopyBranchDirectPositionListType(mapOrigCopy, linearringtypeFrom.PosList)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _directpositiontype := range linearringtypeFrom.Pos {
+		linearringtypeTo.Pos = append(linearringtypeTo.Pos, GongCopyBranchDirectPositionType(mapOrigCopy, _directpositiontype))
+	}
+	for _, _pointpropertytype := range linearringtypeFrom.PointProperty {
+		linearringtypeTo.PointProperty = append(linearringtypeTo.PointProperty, GongCopyBranchPointPropertyType(mapOrigCopy, _pointpropertytype))
 	}
 
 	return
@@ -2705,6 +2768,9 @@ func (abstractringpropertytype *AbstractRingPropertyType) GongUnstageBranch(stag
 	//insertion point for the staging of instances referenced by pointers
 	if abstractringpropertytype.Ring != nil {
 		stage.UnstageBranch(abstractringpropertytype.Ring)
+	}
+	if abstractringpropertytype.LinearRing != nil {
+		stage.UnstageBranch(abstractringpropertytype.LinearRing)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -3243,14 +3309,14 @@ func (geodesicstringtype *GeodesicStringType) GongUnstageBranch(stage *Stage) {
 	if geodesicstringtype.PosList != nil {
 		stage.UnstageBranch(geodesicstringtype.PosList)
 	}
-	if geodesicstringtype.Pos != nil {
-		stage.UnstageBranch(geodesicstringtype.Pos)
-	}
-	if geodesicstringtype.PointProperty != nil {
-		stage.UnstageBranch(geodesicstringtype.PointProperty)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _directpositiontype := range geodesicstringtype.Pos {
+		stage.UnstageBranch(_directpositiontype)
+	}
+	for _, _pointpropertytype := range geodesicstringtype.PointProperty {
+		stage.UnstageBranch(_pointpropertytype)
+	}
 
 }
 
@@ -3267,14 +3333,14 @@ func (geodesictype *GeodesicType) GongUnstageBranch(stage *Stage) {
 	if geodesictype.PosList != nil {
 		stage.UnstageBranch(geodesictype.PosList)
 	}
-	if geodesictype.Pos != nil {
-		stage.UnstageBranch(geodesictype.Pos)
-	}
-	if geodesictype.PointProperty != nil {
-		stage.UnstageBranch(geodesictype.PointProperty)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _directpositiontype := range geodesictype.Pos {
+		stage.UnstageBranch(_directpositiontype)
+	}
+	for _, _pointpropertytype := range geodesictype.PointProperty {
+		stage.UnstageBranch(_pointpropertytype)
+	}
 
 }
 
@@ -3312,6 +3378,30 @@ func (linestringsegmenttype *LineStringSegmentType) GongUnstageBranch(stage *Sta
 		stage.UnstageBranch(_directpositiontype)
 	}
 	for _, _pointpropertytype := range linestringsegmenttype.PointProperty {
+		stage.UnstageBranch(_pointpropertytype)
+	}
+
+}
+
+func (linearringtype *LinearRingType) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(linearringtype) {
+		return
+	}
+
+	linearringtype.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if linearringtype.PosList != nil {
+		stage.UnstageBranch(linearringtype.PosList)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _directpositiontype := range linearringtype.Pos {
+		stage.UnstageBranch(_directpositiontype)
+	}
+	for _, _pointpropertytype := range linearringtype.PointProperty {
 		stage.UnstageBranch(_pointpropertytype)
 	}
 
@@ -3618,6 +3708,7 @@ func (reference *AbstractMetadataPropertyType) GongReconstructPointersFromRefere
 func (reference *AbstractRingPropertyType) GongReconstructPointersFromReferences(stage *Stage, instance *AbstractRingPropertyType) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Ring, stage.RingTypes_reference, instance.Ring)
+	__gong__reconstructPointer(&reference.LinearRing, stage.LinearRingTypes_reference, instance.LinearRing)
 	// insertion point for slice of pointers field
 }
 
@@ -3797,17 +3888,17 @@ func (reference *EnvelopeType) GongReconstructPointersFromReferences(stage *Stag
 func (reference *GeodesicStringType) GongReconstructPointersFromReferences(stage *Stage, instance *GeodesicStringType) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.PosList, stage.DirectPositionListTypes_reference, instance.PosList)
-	__gong__reconstructPointer(&reference.Pos, stage.DirectPositionTypes_reference, instance.Pos)
-	__gong__reconstructPointer(&reference.PointProperty, stage.PointPropertyTypes_reference, instance.PointProperty)
 	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Pos, stage.DirectPositionTypes_reference, instance.Pos)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.PointProperty, stage.PointPropertyTypes_reference, instance.PointProperty)
 }
 
 func (reference *GeodesicType) GongReconstructPointersFromReferences(stage *Stage, instance *GeodesicType) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.PosList, stage.DirectPositionListTypes_reference, instance.PosList)
-	__gong__reconstructPointer(&reference.Pos, stage.DirectPositionTypes_reference, instance.Pos)
-	__gong__reconstructPointer(&reference.PointProperty, stage.PointPropertyTypes_reference, instance.PointProperty)
 	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Pos, stage.DirectPositionTypes_reference, instance.Pos)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.PointProperty, stage.PointPropertyTypes_reference, instance.PointProperty)
 }
 
 func (reference *LengthType) GongReconstructPointersFromReferences(stage *Stage, instance *LengthType) {
@@ -3816,6 +3907,14 @@ func (reference *LengthType) GongReconstructPointersFromReferences(stage *Stage,
 }
 
 func (reference *LineStringSegmentType) GongReconstructPointersFromReferences(stage *Stage, instance *LineStringSegmentType) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.PosList, stage.DirectPositionListTypes_reference, instance.PosList)
+	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Pos, stage.DirectPositionTypes_reference, instance.Pos)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.PointProperty, stage.PointPropertyTypes_reference, instance.PointProperty)
+}
+
+func (reference *LinearRingType) GongReconstructPointersFromReferences(stage *Stage, instance *LinearRingType) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.PosList, stage.DirectPositionListTypes_reference, instance.PosList)
 	// insertion point for slice of pointers field
@@ -3960,6 +4059,7 @@ func (reference *AbstractMetadataPropertyType) GongReconstructPointersFromInstan
 func (reference *AbstractRingPropertyType) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Ring, stage.RingTypes_instance)
+	__gong__reconstructPointerFromInstance(&reference.LinearRing, stage.LinearRingTypes_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -4139,17 +4239,17 @@ func (reference *EnvelopeType) GongReconstructPointersFromInstances(stage *Stage
 func (reference *GeodesicStringType) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.PosList, stage.DirectPositionListTypes_instance)
-	__gong__reconstructPointerFromInstance(&reference.Pos, stage.DirectPositionTypes_instance)
-	__gong__reconstructPointerFromInstance(&reference.PointProperty, stage.PointPropertyTypes_instance)
 	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Pos, stage.DirectPositionTypes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.PointProperty, stage.PointPropertyTypes_instance)
 }
 
 func (reference *GeodesicType) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.PosList, stage.DirectPositionListTypes_instance)
-	__gong__reconstructPointerFromInstance(&reference.Pos, stage.DirectPositionTypes_instance)
-	__gong__reconstructPointerFromInstance(&reference.PointProperty, stage.PointPropertyTypes_instance)
 	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Pos, stage.DirectPositionTypes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.PointProperty, stage.PointPropertyTypes_instance)
 }
 
 func (reference *LengthType) GongReconstructPointersFromInstances(stage *Stage) {
@@ -4158,6 +4258,14 @@ func (reference *LengthType) GongReconstructPointersFromInstances(stage *Stage) 
 }
 
 func (reference *LineStringSegmentType) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.PosList, stage.DirectPositionListTypes_instance)
+	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Pos, stage.DirectPositionTypes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.PointProperty, stage.PointPropertyTypes_instance)
+}
+
+func (reference *LinearRingType) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.PosList, stage.DirectPositionListTypes_instance)
 	// insertion point for slice of pointers fields
@@ -4429,6 +4537,9 @@ func (abstractringpropertytype *AbstractRingPropertyType) GongDiff(stage *Stage,
 	}
 	if abstractringpropertytype.Ring != abstractringpropertytypeOther.Ring {
 		diffs = append(diffs, abstractringpropertytype.GongMarshallField(stage, "Ring"))
+	}
+	if abstractringpropertytype.LinearRing != abstractringpropertytypeOther.LinearRing {
+		diffs = append(diffs, abstractringpropertytype.GongMarshallField(stage, "LinearRing"))
 	}
 
 	return
@@ -5074,11 +5185,11 @@ func (geodesicstringtype *GeodesicStringType) GongDiff(stage *Stage, geodesicstr
 	if geodesicstringtype.PosList != geodesicstringtypeOther.PosList {
 		diffs = append(diffs, geodesicstringtype.GongMarshallField(stage, "PosList"))
 	}
-	if geodesicstringtype.Pos != geodesicstringtypeOther.Pos {
-		diffs = append(diffs, geodesicstringtype.GongMarshallField(stage, "Pos"))
+	if ops := __gong__diffSliceOfPointers(stage, geodesicstringtype, "Pos", geodesicstringtypeOther.Pos, geodesicstringtype.Pos); ops != "" {
+		diffs = append(diffs, ops)
 	}
-	if geodesicstringtype.PointProperty != geodesicstringtypeOther.PointProperty {
-		diffs = append(diffs, geodesicstringtype.GongMarshallField(stage, "PointProperty"))
+	if ops := __gong__diffSliceOfPointers(stage, geodesicstringtype, "PointProperty", geodesicstringtypeOther.PointProperty, geodesicstringtype.PointProperty); ops != "" {
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -5106,11 +5217,11 @@ func (geodesictype *GeodesicType) GongDiff(stage *Stage, geodesictypeOther *Geod
 	if geodesictype.PosList != geodesictypeOther.PosList {
 		diffs = append(diffs, geodesictype.GongMarshallField(stage, "PosList"))
 	}
-	if geodesictype.Pos != geodesictypeOther.Pos {
-		diffs = append(diffs, geodesictype.GongMarshallField(stage, "Pos"))
+	if ops := __gong__diffSliceOfPointers(stage, geodesictype, "Pos", geodesictypeOther.Pos, geodesictype.Pos); ops != "" {
+		diffs = append(diffs, ops)
 	}
-	if geodesictype.PointProperty != geodesictypeOther.PointProperty {
-		diffs = append(diffs, geodesictype.GongMarshallField(stage, "PointProperty"))
+	if ops := __gong__diffSliceOfPointers(stage, geodesictype, "PointProperty", geodesictypeOther.PointProperty, geodesictype.PointProperty); ops != "" {
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -5157,6 +5268,26 @@ func (linestringsegmenttype *LineStringSegmentType) GongDiff(stage *Stage, lines
 	}
 	if linestringsegmenttype.PosList != linestringsegmenttypeOther.PosList {
 		diffs = append(diffs, linestringsegmenttype.GongMarshallField(stage, "PosList"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (linearringtype *LinearRingType) GongDiff(stage *Stage, linearringtypeOther *LinearRingType) (diffs []string) {
+	// insertion point for field diffs
+	if linearringtype.Name != linearringtypeOther.Name {
+		diffs = append(diffs, linearringtype.GongMarshallField(stage, "Name"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, linearringtype, "Pos", linearringtypeOther.Pos, linearringtype.Pos); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, linearringtype, "PointProperty", linearringtypeOther.PointProperty, linearringtype.PointProperty); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if linearringtype.PosList != linearringtypeOther.PosList {
+		diffs = append(diffs, linearringtype.GongMarshallField(stage, "PosList"))
 	}
 
 	return

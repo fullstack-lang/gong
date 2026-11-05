@@ -374,11 +374,32 @@ func (inst *DirectPositionType) GongGetReverseFieldOwnerName(stage *Stage, rever
 				res = _circletype.Name
 			}
 		}
+	case "GeodesicStringType":
+		switch reverseField.Fieldname {
+		case "Pos":
+			if _geodesicstringtype, ok := stage.GeodesicStringType_Pos_reverseMap[inst]; ok {
+				res = _geodesicstringtype.Name
+			}
+		}
+	case "GeodesicType":
+		switch reverseField.Fieldname {
+		case "Pos":
+			if _geodesictype, ok := stage.GeodesicType_Pos_reverseMap[inst]; ok {
+				res = _geodesictype.Name
+			}
+		}
 	case "LineStringSegmentType":
 		switch reverseField.Fieldname {
 		case "Pos":
 			if _linestringsegmenttype, ok := stage.LineStringSegmentType_Pos_reverseMap[inst]; ok {
 				res = _linestringsegmenttype.Name
+			}
+		}
+	case "LinearRingType":
+		switch reverseField.Fieldname {
+		case "Pos":
+			if _linearringtype, ok := stage.LinearRingType_Pos_reverseMap[inst]; ok {
+				res = _linearringtype.Name
 			}
 		}
 	}
@@ -448,6 +469,11 @@ func (inst *LineStringSegmentType) GongGetReverseFieldOwnerName(stage *Stage, re
 	return
 }
 
+func (inst *LinearRingType) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+	res = ""
+	return
+}
+
 func (inst *MeasureType) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return
@@ -477,11 +503,32 @@ func (inst *PointPropertyType) GongGetReverseFieldOwnerName(stage *Stage, revers
 				res = _circletype.Name
 			}
 		}
+	case "GeodesicStringType":
+		switch reverseField.Fieldname {
+		case "PointProperty":
+			if _geodesicstringtype, ok := stage.GeodesicStringType_PointProperty_reverseMap[inst]; ok {
+				res = _geodesicstringtype.Name
+			}
+		}
+	case "GeodesicType":
+		switch reverseField.Fieldname {
+		case "PointProperty":
+			if _geodesictype, ok := stage.GeodesicType_PointProperty_reverseMap[inst]; ok {
+				res = _geodesictype.Name
+			}
+		}
 	case "LineStringSegmentType":
 		switch reverseField.Fieldname {
 		case "PointProperty":
 			if _linestringsegmenttype, ok := stage.LineStringSegmentType_PointProperty_reverseMap[inst]; ok {
 				res = _linestringsegmenttype.Name
+			}
+		}
+	case "LinearRingType":
+		switch reverseField.Fieldname {
+		case "PointProperty":
+			if _linearringtype, ok := stage.LinearRingType_PointProperty_reverseMap[inst]; ok {
+				res = _linearringtype.Name
 			}
 		}
 	}

@@ -93,6 +93,7 @@ func (abstractringpropertytype *AbstractRingPropertyType) GongClean(stage *Stage
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&abstractringpropertytype.Ring) || modified
+	modified = stage.CleanPointer(&abstractringpropertytype.LinearRing) || modified
 	return
 }
 
@@ -271,20 +272,20 @@ func (envelopetype *EnvelopeType) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by GeodesicStringType
 func (geodesicstringtype *GeodesicStringType) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = stage.CleanSlice(&geodesicstringtype.Pos) || modified
+	modified = stage.CleanSlice(&geodesicstringtype.PointProperty) || modified
 	// insertion point per field
 	modified = stage.CleanPointer(&geodesicstringtype.PosList) || modified
-	modified = stage.CleanPointer(&geodesicstringtype.Pos) || modified
-	modified = stage.CleanPointer(&geodesicstringtype.PointProperty) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by GeodesicType
 func (geodesictype *GeodesicType) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = stage.CleanSlice(&geodesictype.Pos) || modified
+	modified = stage.CleanSlice(&geodesictype.PointProperty) || modified
 	// insertion point per field
 	modified = stage.CleanPointer(&geodesictype.PosList) || modified
-	modified = stage.CleanPointer(&geodesictype.Pos) || modified
-	modified = stage.CleanPointer(&geodesictype.PointProperty) || modified
 	return
 }
 
@@ -295,6 +296,16 @@ func (linestringsegmenttype *LineStringSegmentType) GongClean(stage *Stage) (mod
 	modified = stage.CleanSlice(&linestringsegmenttype.PointProperty) || modified
 	// insertion point per field
 	modified = stage.CleanPointer(&linestringsegmenttype.PosList) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by LinearRingType
+func (linearringtype *LinearRingType) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = stage.CleanSlice(&linearringtype.Pos) || modified
+	modified = stage.CleanSlice(&linearringtype.PointProperty) || modified
+	// insertion point per field
+	modified = stage.CleanPointer(&linearringtype.PosList) || modified
 	return
 }
 
