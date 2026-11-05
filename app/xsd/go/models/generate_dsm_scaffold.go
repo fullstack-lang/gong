@@ -367,26 +367,34 @@ func (ctx *MultiGenerateContext) generateStagerXMLIOFile() error {
 	var defaultUnmarshalFallback string
 	if len(ctx.RootStructs) > 0 {
 		rs := ctx.RootStructs[0]
+		expectedRootName := rs.XMLRootName
+		if expectedRootName == "" {
+			expectedRootName = rs.GoName
+		}
 		defaultUnmarshalFallback = fmt.Sprintf(`	default:
 		var rootObj %s
-		if err := xml.Unmarshal(utf8Bytes, &rootObj); err != nil {
+		if err := unmarshalXMLWithExpectedRoot(utf8Bytes, %q, &rootObj); err != nil {
 			return fmt.Errorf("xml unmarshal into %s failed: %%w", err)
 		}
 		stage.StageBranch(&rootObj)
 		propagateCrossStageBranches(stage)
 		enforceInstanceNames(stage)
-		return nil`, rs.GoName, rs.GoName)
+		return nil`, rs.GoName, expectedRootName, rs.GoName)
 	} else if len(ctx.StructsByPkg[ctx.SG.RootPackage]) > 0 {
 		rs := ctx.StructsByPkg[ctx.SG.RootPackage][0]
+		expectedRootName := rs.XMLRootName
+		if expectedRootName == "" {
+			expectedRootName = rs.GoName
+		}
 		defaultUnmarshalFallback = fmt.Sprintf(`	default:
 		var rootObj %s
-		if err := xml.Unmarshal(utf8Bytes, &rootObj); err != nil {
+		if err := unmarshalXMLWithExpectedRoot(utf8Bytes, %q, &rootObj); err != nil {
 			return fmt.Errorf("xml unmarshal into %s failed: %%w", err)
 		}
 		stage.StageBranch(&rootObj)
 		propagateCrossStageBranches(stage)
 		enforceInstanceNames(stage)
-		return nil`, rs.GoName, rs.GoName)
+		return nil`, rs.GoName, expectedRootName, rs.GoName)
 		marshalCases.WriteString(fmt.Sprintf(`	if insts := stage.GetInstancesSorted[*%s](); len(insts) > 0 {
 		out, err := xml.MarshalIndent(insts[0], "", "  ")
 		if err != nil {
@@ -450,6 +458,21 @@ func detectRootXMLElementLocalName(data []byte) string {
 		}
 	}
 	return ""
+}
+
+func unmarshalXMLWithExpectedRoot(data []byte, expectedRootLocalName string, v any) error {
+	dec := xml.NewDecoder(bytes.NewReader(data))
+	for {
+		tok, err := dec.Token()
+		if err != nil {
+			return err
+		}
+		if se, ok := tok.(xml.StartElement); ok {
+			se.Name.Local = expectedRootLocalName
+			se.Name.Space = ""
+			return dec.DecodeElement(v, &se)
+		}
+	}
 }
 
 func ensureUTF8XML(data []byte) []byte {

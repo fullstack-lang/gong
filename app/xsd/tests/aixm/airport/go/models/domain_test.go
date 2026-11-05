@@ -13,6 +13,8 @@ import (
 
 	embeddedgo "github.com/fullstack-lang/gong/app/xsd/tests/aixm/airport/go"
 	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/airport/go/models"
+	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/airport/go/models/aixmfeatures"
+	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/airport/go/models/probe"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	doc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
@@ -64,6 +66,46 @@ func TestRoundTripAndPopulateStage(t *testing.T) {
 	stage3 := models.NewStage(domainName + "_xml")
 	if err := models.UnmarshallXMLToStage(stage3, xmlOut); err != nil {
 		t.Fatalf("round-trip UnmarshallXMLToStage failed: %v", err)
+	}
+}
+
+func TestUnmarshalAirportHeliportBaseline(t *testing.T) {
+	baselinePath := filepath.Join("..", "cmd", domainName, "data", "AirportHeliport.BASELINE")
+	xmlBytes, err := os.ReadFile(baselinePath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			t.Skipf("skipping baseline test, file not found: %s", baselinePath)
+		}
+		t.Fatalf("failed reading %s: %v", baselinePath, err)
+	}
+
+	mux := http.NewServeMux()
+	stage := models.NewStage(domainName + "_baseline")
+	prb := probe.NewProbe(mux, embeddedgo.GoModelsDir, embeddedgo.GoDiagramsDir, false, stage)
+	stage.SetProbeIF(prb)
+	stager := models.NewStager(mux, stage, prb)
+
+	stage.Reset()
+	if err := models.UnmarshallXMLToStage(stage, xmlBytes); err != nil {
+		t.Fatalf("UnmarshallXMLToStage on AirportHeliport.BASELINE failed: %v", err)
+	}
+	stage.Commit()
+
+	msgs := stage.GetInstancesSorted[*models.AIXMBasicMessage]()
+	if len(msgs) != 1 {
+		t.Fatalf("expected 1 AIXMBasicMessage, got %d", len(msgs))
+	}
+	airports := *stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.AirportHeliportType]()
+	if len(airports) != 10134 {
+		t.Fatalf("expected 10134 AirportHeliportType instances, got %d", len(airports))
+	}
+	t.Logf("Unmarshalled ADRMessage into AIXMBasicMessage (Id=%s) with %d members and %d AirportHeliportType instances",
+		msgs[0].Id, len(msgs[0].HasMember), len(airports))
+
+	errs := stager.GetSemanticErrors()
+	t.Logf("ValidateXSDConstraints reported %d errors", len(errs))
+	for i := 0; i < len(errs) && i < 20; i++ {
+		t.Logf("  err[%d]: %s", i, errs[i])
 	}
 }
 

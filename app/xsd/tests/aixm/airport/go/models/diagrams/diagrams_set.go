@@ -3084,7 +3084,7 @@ func _(stage *models.Stage) {
 	__models__Classdiagram__00000000_.NodeGongStructNodeExpansion = ``
 	__models__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
 	__models__Classdiagram__00000000_.NodeGongEnumNodeExpansion = ``
-	__models__Classdiagram__00000000_.NodeGongNotesIsExpanded = true
+	__models__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
 	__models__Classdiagram__00000000_.NodeGongNoteNodeExpansion = `[true]`
 	__models__Classdiagram__00000001_.Name = `02. AirportHeliport, Availability, Usage & City`
 	__models__Classdiagram__00000001_.Description = `AirportHeliport, AirportHeliportCollocation, Availability, Usage, ResponsibilityOrganisation, and Served City.`

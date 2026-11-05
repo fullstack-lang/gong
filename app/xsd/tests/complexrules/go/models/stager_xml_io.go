@@ -35,7 +35,7 @@ func UnmarshallXMLToStage(stage *Stage, xmlBytes []byte) error {
 		return nil
 	default:
 		var rootObj Catalog
-		if err := xml.Unmarshal(utf8Bytes, &rootObj); err != nil {
+		if err := unmarshalXMLWithExpectedRoot(utf8Bytes, "catalog", &rootObj); err != nil {
 			return fmt.Errorf("xml unmarshal into Catalog failed: %w", err)
 		}
 		stage.StageBranch(&rootObj)
@@ -72,6 +72,21 @@ func detectRootXMLElementLocalName(data []byte) string {
 		}
 	}
 	return ""
+}
+
+func unmarshalXMLWithExpectedRoot(data []byte, expectedRootLocalName string, v any) error {
+	dec := xml.NewDecoder(bytes.NewReader(data))
+	for {
+		tok, err := dec.Token()
+		if err != nil {
+			return err
+		}
+		if se, ok := tok.(xml.StartElement); ok {
+			se.Name.Local = expectedRootLocalName
+			se.Name.Space = ""
+			return dec.DecodeElement(v, &se)
+		}
+	}
 }
 
 func ensureUTF8XML(data []byte) []byte {
