@@ -6777,6 +6777,7 @@ func StageSetNewInstance_AIXMBasicMessage_Stage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -6806,6 +6807,7 @@ func StageSetNewInstance_AIXMBasicMessageType_Stage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -6835,6 +6837,7 @@ func StageSetNewInstance_BasicMessageMemberAIXMPropertyType_Stage(probe *Probe) 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -6864,6 +6867,7 @@ func StageSetNewInstance_A_extension_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -6893,6 +6897,7 @@ func StageSetNewInstance_A_extension_1_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -6922,6 +6927,7 @@ func StageSetNewInstance_A_extension_10_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -6951,6 +6957,7 @@ func StageSetNewInstance_A_extension_11_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -6980,6 +6987,7 @@ func StageSetNewInstance_A_extension_12_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7009,6 +7017,7 @@ func StageSetNewInstance_A_extension_13_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7038,6 +7047,7 @@ func StageSetNewInstance_A_extension_14_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7067,6 +7077,7 @@ func StageSetNewInstance_A_extension_15_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7096,6 +7107,7 @@ func StageSetNewInstance_A_extension_16_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7125,6 +7137,7 @@ func StageSetNewInstance_A_extension_17_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7154,6 +7167,7 @@ func StageSetNewInstance_A_extension_18_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7183,6 +7197,7 @@ func StageSetNewInstance_A_extension_19_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7212,6 +7227,7 @@ func StageSetNewInstance_A_extension_2_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7241,6 +7257,7 @@ func StageSetNewInstance_A_extension_20_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7270,6 +7287,7 @@ func StageSetNewInstance_A_extension_21_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7299,6 +7317,7 @@ func StageSetNewInstance_A_extension_22_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7328,6 +7347,7 @@ func StageSetNewInstance_A_extension_23_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7357,6 +7377,7 @@ func StageSetNewInstance_A_extension_24_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7386,6 +7407,7 @@ func StageSetNewInstance_A_extension_25_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7415,6 +7437,7 @@ func StageSetNewInstance_A_extension_26_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7444,6 +7467,7 @@ func StageSetNewInstance_A_extension_27_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7473,6 +7497,7 @@ func StageSetNewInstance_A_extension_28_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7502,6 +7527,7 @@ func StageSetNewInstance_A_extension_29_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7531,6 +7557,7 @@ func StageSetNewInstance_A_extension_3_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7560,6 +7587,7 @@ func StageSetNewInstance_A_extension_30_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7589,6 +7617,7 @@ func StageSetNewInstance_A_extension_31_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7618,6 +7647,7 @@ func StageSetNewInstance_A_extension_32_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7647,6 +7677,7 @@ func StageSetNewInstance_A_extension_33_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7676,6 +7707,7 @@ func StageSetNewInstance_A_extension_34_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7705,6 +7737,7 @@ func StageSetNewInstance_A_extension_35_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7734,6 +7767,7 @@ func StageSetNewInstance_A_extension_36_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7763,6 +7797,7 @@ func StageSetNewInstance_A_extension_37_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7792,6 +7827,7 @@ func StageSetNewInstance_A_extension_38_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7821,6 +7857,7 @@ func StageSetNewInstance_A_extension_39_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7850,6 +7887,7 @@ func StageSetNewInstance_A_extension_4_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7879,6 +7917,7 @@ func StageSetNewInstance_A_extension_40_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7908,6 +7947,7 @@ func StageSetNewInstance_A_extension_41_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7937,6 +7977,7 @@ func StageSetNewInstance_A_extension_42_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7966,6 +8007,7 @@ func StageSetNewInstance_A_extension_5_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -7995,6 +8037,7 @@ func StageSetNewInstance_A_extension_6_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8024,6 +8067,7 @@ func StageSetNewInstance_A_extension_7_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8053,6 +8097,7 @@ func StageSetNewInstance_A_extension_8_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8082,6 +8127,7 @@ func StageSetNewInstance_A_extension_9_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8111,6 +8157,7 @@ func StageSetNewInstance_AbstractDirectFlightType_AixmfeaturesStage(probe *Probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8140,6 +8187,7 @@ func StageSetNewInstance_AbstractPropertiesWithScheduleType_AixmfeaturesStage(pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8169,6 +8217,7 @@ func StageSetNewInstance_AbstractSegmentPointType_AixmfeaturesStage(probe *Probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8198,6 +8247,7 @@ func StageSetNewInstance_AerialRefuellingAnchorPropertyType_AixmfeaturesStage(pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8227,6 +8277,7 @@ func StageSetNewInstance_AerialRefuellingAnchorType_AixmfeaturesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8256,6 +8307,7 @@ func StageSetNewInstance_AerialRefuellingPointPropertyType_AixmfeaturesStage(pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8285,6 +8337,7 @@ func StageSetNewInstance_AerialRefuellingPointType_AixmfeaturesStage(probe *Prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8314,6 +8367,7 @@ func StageSetNewInstance_AerialRefuellingPropertyType_AixmfeaturesStage(probe *P
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8343,6 +8397,7 @@ func StageSetNewInstance_AerialRefuellingTimeSlicePropertyType_AixmfeaturesStage
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8372,6 +8427,7 @@ func StageSetNewInstance_AerialRefuellingTimeSliceType_AixmfeaturesStage(probe *
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8401,6 +8457,7 @@ func StageSetNewInstance_AerialRefuellingTrackPropertyType_AixmfeaturesStage(pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8430,6 +8487,7 @@ func StageSetNewInstance_AerialRefuellingTrackType_AixmfeaturesStage(probe *Prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8459,6 +8517,7 @@ func StageSetNewInstance_AerialRefuellingType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8488,6 +8547,7 @@ func StageSetNewInstance_AircraftCharacteristicPropertyType_AixmfeaturesStage(pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8517,6 +8577,7 @@ func StageSetNewInstance_AircraftCharacteristicType_AixmfeaturesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8546,6 +8607,7 @@ func StageSetNewInstance_AirportHeliportPropertyType_AixmfeaturesStage(probe *Pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8575,6 +8637,7 @@ func StageSetNewInstance_AirspaceBorderCrossingPropertyType_AixmfeaturesStage(pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8604,6 +8667,7 @@ func StageSetNewInstance_AirspaceBorderCrossingTimeSlicePropertyType_Aixmfeature
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8633,6 +8697,7 @@ func StageSetNewInstance_AirspaceBorderCrossingTimeSliceType_AixmfeaturesStage(p
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8662,6 +8727,7 @@ func StageSetNewInstance_AirspaceBorderCrossingType_AixmfeaturesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8691,6 +8757,7 @@ func StageSetNewInstance_AirspaceLayerPropertyType_AixmfeaturesStage(probe *Prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8720,6 +8787,7 @@ func StageSetNewInstance_AirspaceLayerType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8749,6 +8817,7 @@ func StageSetNewInstance_AirspacePropertyType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8778,6 +8847,7 @@ func StageSetNewInstance_AltitudeAdjustmentPropertyType_AixmfeaturesStage(probe 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8807,6 +8877,7 @@ func StageSetNewInstance_AltitudeAdjustmentType_AixmfeaturesStage(probe *Probe) 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8836,6 +8907,7 @@ func StageSetNewInstance_AngleIndicationPropertyType_AixmfeaturesStage(probe *Pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8865,6 +8937,7 @@ func StageSetNewInstance_AngleUsePropertyType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8894,6 +8967,7 @@ func StageSetNewInstance_AngleUseType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8923,6 +8997,7 @@ func StageSetNewInstance_AuthorityForAerialRefuellingPropertyType_AixmfeaturesSt
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8952,6 +9027,7 @@ func StageSetNewInstance_AuthorityForAerialRefuellingType_AixmfeaturesStage(prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -8981,6 +9057,7 @@ func StageSetNewInstance_ChangeOverPointTimeSlicePropertyType_AixmfeaturesStage(
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9010,6 +9087,7 @@ func StageSetNewInstance_ChangeOverPointTimeSliceType_AixmfeaturesStage(probe *P
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9039,6 +9117,7 @@ func StageSetNewInstance_ChangeOverPointType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9068,6 +9147,7 @@ func StageSetNewInstance_ContactInformationPropertyType_AixmfeaturesStage(probe 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9097,6 +9177,7 @@ func StageSetNewInstance_ContactInformationType_AixmfeaturesStage(probe *Probe) 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9126,6 +9207,7 @@ func StageSetNewInstance_CurvePropertyType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9155,6 +9237,7 @@ func StageSetNewInstance_CurveType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9184,6 +9267,7 @@ func StageSetNewInstance_DMEPropertyType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9213,6 +9297,7 @@ func StageSetNewInstance_DesignatedPointPropertyType_AixmfeaturesStage(probe *Pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9242,6 +9327,7 @@ func StageSetNewInstance_DirectFlightClassType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9271,6 +9357,7 @@ func StageSetNewInstance_DirectFlightPropertyType_AixmfeaturesStage(probe *Probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9300,6 +9387,7 @@ func StageSetNewInstance_DirectFlightSegmentPropertyType_AixmfeaturesStage(probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9329,6 +9417,7 @@ func StageSetNewInstance_DirectFlightSegmentType_AixmfeaturesStage(probe *Probe)
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9358,6 +9447,7 @@ func StageSetNewInstance_DistanceIndicationPropertyType_AixmfeaturesStage(probe 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9387,6 +9477,7 @@ func StageSetNewInstance_ElevatedCurveType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9416,6 +9507,7 @@ func StageSetNewInstance_ElevatedPointType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9445,6 +9537,7 @@ func StageSetNewInstance_ElevatedSurfaceType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9474,6 +9567,7 @@ func StageSetNewInstance_EnRouteSegmentPointPropertyType_AixmfeaturesStage(probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9503,6 +9597,7 @@ func StageSetNewInstance_EnRouteSegmentPointType_AixmfeaturesStage(probe *Probe)
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9532,6 +9627,7 @@ func StageSetNewInstance_FlightCharacteristicPropertyType_AixmfeaturesStage(prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9561,6 +9657,7 @@ func StageSetNewInstance_FlightCharacteristicType_AixmfeaturesStage(probe *Probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9590,6 +9687,7 @@ func StageSetNewInstance_FlightConditionCircumstancePropertyType_AixmfeaturesSta
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9619,6 +9717,7 @@ func StageSetNewInstance_FlightConditionCircumstanceType_AixmfeaturesStage(probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9648,6 +9747,7 @@ func StageSetNewInstance_FlightConditionCombinationPropertyType_AixmfeaturesStag
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9677,6 +9777,7 @@ func StageSetNewInstance_FlightConditionCombinationType_AixmfeaturesStage(probe 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9706,6 +9807,7 @@ func StageSetNewInstance_FlightConditionElementPropertyType_AixmfeaturesStage(pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9735,6 +9837,7 @@ func StageSetNewInstance_FlightConditionElementType_AixmfeaturesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9764,6 +9867,7 @@ func StageSetNewInstance_FlightRestrictionLevelPropertyType_AixmfeaturesStage(pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9793,6 +9897,7 @@ func StageSetNewInstance_FlightRestrictionLevelType_AixmfeaturesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9822,6 +9927,7 @@ func StageSetNewInstance_FlightRestrictionRoutePropertyType_AixmfeaturesStage(pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9851,6 +9957,7 @@ func StageSetNewInstance_FlightRestrictionRouteType_AixmfeaturesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9880,6 +9987,7 @@ func StageSetNewInstance_FlightRestrictionTimeSlicePropertyType_AixmfeaturesStag
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9909,6 +10017,7 @@ func StageSetNewInstance_FlightRestrictionTimeSliceType_AixmfeaturesStage(probe 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9938,6 +10047,7 @@ func StageSetNewInstance_FlightRestrictionType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9967,6 +10077,7 @@ func StageSetNewInstance_FlightRoutingElementPropertyType_AixmfeaturesStage(prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -9996,6 +10107,7 @@ func StageSetNewInstance_FlightRoutingElementType_AixmfeaturesStage(probe *Probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10025,6 +10137,7 @@ func StageSetNewInstance_LinguisticNotePropertyType_AixmfeaturesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10054,6 +10167,7 @@ func StageSetNewInstance_LinguisticNoteType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10083,6 +10197,7 @@ func StageSetNewInstance_MeteorologyPropertyType_AixmfeaturesStage(probe *Probe)
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10112,6 +10227,7 @@ func StageSetNewInstance_MeteorologyType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10141,6 +10257,7 @@ func StageSetNewInstance_NavaidPropertyType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10170,6 +10287,7 @@ func StageSetNewInstance_NotePropertyType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10199,6 +10317,7 @@ func StageSetNewInstance_NoteType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10228,6 +10347,7 @@ func StageSetNewInstance_ObstacleAssessmentAreaPropertyType_AixmfeaturesStage(pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10257,6 +10377,7 @@ func StageSetNewInstance_ObstacleAssessmentAreaType_AixmfeaturesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10286,6 +10407,7 @@ func StageSetNewInstance_ObstaclePlacementPropertyType_AixmfeaturesStage(probe *
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10315,6 +10437,7 @@ func StageSetNewInstance_ObstaclePlacementType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10344,6 +10467,7 @@ func StageSetNewInstance_ObstructionPropertyType_AixmfeaturesStage(probe *Probe)
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10373,6 +10497,7 @@ func StageSetNewInstance_ObstructionType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10402,6 +10527,7 @@ func StageSetNewInstance_OnlineContactPropertyType_AixmfeaturesStage(probe *Prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10431,6 +10557,7 @@ func StageSetNewInstance_OnlineContactType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10460,6 +10587,7 @@ func StageSetNewInstance_OrganisationAuthorityPropertyType_AixmfeaturesStage(pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10489,6 +10617,7 @@ func StageSetNewInstance_PointPropertyType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10518,6 +10647,7 @@ func StageSetNewInstance_PointReferencePropertyType_AixmfeaturesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10547,6 +10677,7 @@ func StageSetNewInstance_PointReferenceType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10576,6 +10707,7 @@ func StageSetNewInstance_PointType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10605,6 +10737,7 @@ func StageSetNewInstance_PostalAddressPropertyType_AixmfeaturesStage(probe *Prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10634,6 +10767,7 @@ func StageSetNewInstance_PostalAddressType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10663,6 +10797,7 @@ func StageSetNewInstance_RadioFrequencyAreaPropertyType_AixmfeaturesStage(probe 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10692,6 +10827,7 @@ func StageSetNewInstance_RouteAvailabilityPropertyType_AixmfeaturesStage(probe *
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10721,6 +10857,7 @@ func StageSetNewInstance_RouteAvailabilityType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10750,6 +10887,7 @@ func StageSetNewInstance_RouteDMETimeSlicePropertyType_AixmfeaturesStage(probe *
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10779,6 +10917,7 @@ func StageSetNewInstance_RouteDMETimeSliceType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10808,6 +10947,7 @@ func StageSetNewInstance_RouteDMEType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10837,6 +10977,7 @@ func StageSetNewInstance_RoutePortionPropertyType_AixmfeaturesStage(probe *Probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10866,6 +11007,7 @@ func StageSetNewInstance_RoutePortionType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10895,6 +11037,7 @@ func StageSetNewInstance_RoutePropertyType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10924,6 +11067,7 @@ func StageSetNewInstance_RouteSegmentTimeSlicePropertyType_AixmfeaturesStage(pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10953,6 +11097,7 @@ func StageSetNewInstance_RouteSegmentTimeSliceType_AixmfeaturesStage(probe *Prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -10982,6 +11127,7 @@ func StageSetNewInstance_RouteSegmentType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11011,6 +11157,7 @@ func StageSetNewInstance_RouteTimeSlicePropertyType_AixmfeaturesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11040,6 +11187,7 @@ func StageSetNewInstance_RouteTimeSliceType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11069,6 +11217,7 @@ func StageSetNewInstance_RouteType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11098,6 +11247,7 @@ func StageSetNewInstance_RulesProceduresTimeSlicePropertyType_AixmfeaturesStage(
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11127,6 +11277,7 @@ func StageSetNewInstance_RulesProceduresTimeSliceType_AixmfeaturesStage(probe *P
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11156,6 +11307,7 @@ func StageSetNewInstance_RulesProceduresType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11185,6 +11337,7 @@ func StageSetNewInstance_RunwayCentrelinePointPropertyType_AixmfeaturesStage(pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11214,6 +11367,7 @@ func StageSetNewInstance_StandardInstrumentArrivalPropertyType_AixmfeaturesStage
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11243,6 +11397,7 @@ func StageSetNewInstance_StandardInstrumentDeparturePropertyType_AixmfeaturesSta
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11272,6 +11427,7 @@ func StageSetNewInstance_StandardLevelColumnPropertyType_AixmfeaturesStage(probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11301,6 +11457,7 @@ func StageSetNewInstance_SurfacePropertyType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11330,6 +11487,7 @@ func StageSetNewInstance_SurfaceType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11359,6 +11517,7 @@ func StageSetNewInstance_TelephoneContactPropertyType_AixmfeaturesStage(probe *P
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11388,6 +11547,7 @@ func StageSetNewInstance_TelephoneContactType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11417,6 +11577,7 @@ func StageSetNewInstance_TimesheetPropertyType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11446,6 +11607,7 @@ func StageSetNewInstance_TimesheetType_AixmfeaturesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11475,6 +11637,7 @@ func StageSetNewInstance_TouchDownLiftOffPropertyType_AixmfeaturesStage(probe *P
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11504,6 +11667,7 @@ func StageSetNewInstance_VerticalStructurePropertyType_AixmfeaturesStage(probe *
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11533,6 +11697,7 @@ func StageSetNewInstance_CodeATCReportingType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11562,6 +11727,7 @@ func StageSetNewInstance_CodeAerialRefuellingPointType_AixmdatatypesStage(probe 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11591,6 +11757,7 @@ func StageSetNewInstance_CodeAerialRefuellingPrefixType_AixmdatatypesStage(probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11620,6 +11787,7 @@ func StageSetNewInstance_CodeAerialRefuellingType_AixmdatatypesStage(probe *Prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11649,6 +11817,7 @@ func StageSetNewInstance_CodeAircraftCategoryType_AixmdatatypesStage(probe *Prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11678,6 +11847,7 @@ func StageSetNewInstance_CodeAircraftEngineNumberType_AixmdatatypesStage(probe *
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11707,6 +11877,7 @@ func StageSetNewInstance_CodeAircraftEngineType_AixmdatatypesStage(probe *Probe)
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11736,6 +11907,7 @@ func StageSetNewInstance_CodeAircraftICAOType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11765,6 +11937,7 @@ func StageSetNewInstance_CodeAircraftType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11794,6 +11967,7 @@ func StageSetNewInstance_CodeAircraftWingspanClassType_AixmdatatypesStage(probe 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11823,6 +11997,7 @@ func StageSetNewInstance_CodeAltitudeAdjustmentType_AixmdatatypesStage(probe *Pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11852,6 +12027,7 @@ func StageSetNewInstance_CodeAltitudeUseType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11881,6 +12057,7 @@ func StageSetNewInstance_CodeAuthorityType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11910,6 +12087,7 @@ func StageSetNewInstance_CodeCardinalDirectionType_AixmdatatypesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11939,6 +12117,7 @@ func StageSetNewInstance_CodeCommunicationModeType_AixmdatatypesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11968,6 +12147,7 @@ func StageSetNewInstance_CodeComparisonType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -11997,6 +12177,7 @@ func StageSetNewInstance_CodeCourseType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12026,6 +12207,7 @@ func StageSetNewInstance_CodeDayType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12055,6 +12237,7 @@ func StageSetNewInstance_CodeDirectionTurnType_AixmdatatypesStage(probe *Probe) 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12084,6 +12267,7 @@ func StageSetNewInstance_CodeDirectionType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12113,6 +12297,7 @@ func StageSetNewInstance_CodeEquipmentAntiCollisionType_AixmdatatypesStage(probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12142,6 +12327,7 @@ func StageSetNewInstance_CodeFlightOriginType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12171,6 +12357,7 @@ func StageSetNewInstance_CodeFlightPurposeType_AixmdatatypesStage(probe *Probe) 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12200,6 +12387,7 @@ func StageSetNewInstance_CodeFlightRestrictionDesignatorType_AixmdatatypesStage(
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12229,6 +12417,7 @@ func StageSetNewInstance_CodeFlightRestrictionType_AixmdatatypesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12258,6 +12447,7 @@ func StageSetNewInstance_CodeFlightRuleType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12287,6 +12477,7 @@ func StageSetNewInstance_CodeFlightStatusType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12316,6 +12507,7 @@ func StageSetNewInstance_CodeFlightType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12345,6 +12537,7 @@ func StageSetNewInstance_CodeFlowConditionOperationType_AixmdatatypesStage(probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12374,6 +12567,7 @@ func StageSetNewInstance_CodeFreeFlightType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12403,6 +12597,7 @@ func StageSetNewInstance_CodeLevelType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12432,6 +12627,7 @@ func StageSetNewInstance_CodeLocationQualifierType_AixmdatatypesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12461,6 +12657,7 @@ func StageSetNewInstance_CodeMeteoConditionsType_AixmdatatypesStage(probe *Probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12490,6 +12687,7 @@ func StageSetNewInstance_CodeMilitaryRoutePointType_AixmdatatypesStage(probe *Pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12519,6 +12717,7 @@ func StageSetNewInstance_CodeMilitaryStatusType_AixmdatatypesStage(probe *Probe)
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12548,6 +12747,7 @@ func StageSetNewInstance_CodeMilitaryTrainingType_AixmdatatypesStage(probe *Prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12577,6 +12777,7 @@ func StageSetNewInstance_CodeNavigationEquipmentType_AixmdatatypesStage(probe *P
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12606,6 +12807,7 @@ func StageSetNewInstance_CodeNavigationSpecificationType_AixmdatatypesStage(prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12635,6 +12837,7 @@ func StageSetNewInstance_CodeNotePurposeType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12664,6 +12867,7 @@ func StageSetNewInstance_CodeObstacleAssessmentSurfaceType_AixmdatatypesStage(pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12693,6 +12897,7 @@ func StageSetNewInstance_CodeObstructionIdSurfaceZoneType_AixmdatatypesStage(pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12722,6 +12927,7 @@ func StageSetNewInstance_CodeRNPType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12751,6 +12957,7 @@ func StageSetNewInstance_CodeRVSMPointRoleType_AixmdatatypesStage(probe *Probe) 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12780,6 +12987,7 @@ func StageSetNewInstance_CodeRVSMType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12809,6 +13017,7 @@ func StageSetNewInstance_CodeReferenceRoleType_AixmdatatypesStage(probe *Probe) 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12838,6 +13047,7 @@ func StageSetNewInstance_CodeRouteAvailabilityType_AixmdatatypesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12867,6 +13077,7 @@ func StageSetNewInstance_CodeRouteDesignatorLetterType_AixmdatatypesStage(probe 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12896,6 +13107,7 @@ func StageSetNewInstance_CodeRouteDesignatorPrefixType_AixmdatatypesStage(probe 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12925,6 +13137,7 @@ func StageSetNewInstance_CodeRouteDesignatorSuffixType_AixmdatatypesStage(probe 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12954,6 +13167,7 @@ func StageSetNewInstance_CodeRouteNavigationType_AixmdatatypesStage(probe *Probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -12983,6 +13197,7 @@ func StageSetNewInstance_CodeRouteOriginType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13012,6 +13227,7 @@ func StageSetNewInstance_CodeRouteSegmentPathType_AixmdatatypesStage(probe *Prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13041,6 +13257,7 @@ func StageSetNewInstance_CodeRouteType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13070,6 +13287,7 @@ func StageSetNewInstance_CodeRuleProcedureTitleType_AixmdatatypesStage(probe *Pr
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13099,6 +13317,7 @@ func StageSetNewInstance_CodeRuleProcedureType_AixmdatatypesStage(probe *Probe) 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13128,6 +13347,7 @@ func StageSetNewInstance_CodeSideType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13157,6 +13377,7 @@ func StageSetNewInstance_CodeSpeedReferenceType_AixmdatatypesStage(probe *Probe)
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13186,6 +13407,7 @@ func StageSetNewInstance_CodeTACANChannelType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13215,6 +13437,7 @@ func StageSetNewInstance_CodeTelecomNetworkType_AixmdatatypesStage(probe *Probe)
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13244,6 +13467,7 @@ func StageSetNewInstance_CodeTimeEventCombinationType_AixmdatatypesStage(probe *
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13273,6 +13497,7 @@ func StageSetNewInstance_CodeTimeEventType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13302,6 +13527,7 @@ func StageSetNewInstance_CodeTimeReferenceType_AixmdatatypesStage(probe *Probe) 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13331,6 +13557,7 @@ func StageSetNewInstance_CodeTransponderType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13360,6 +13587,7 @@ func StageSetNewInstance_CodeUpperAlphaType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13389,6 +13617,7 @@ func StageSetNewInstance_CodeValueInterpretationType_AixmdatatypesStage(probe *P
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13418,6 +13647,7 @@ func StageSetNewInstance_CodeVerticalDatumType_AixmdatatypesStage(probe *Probe) 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13447,6 +13677,7 @@ func StageSetNewInstance_CodeVerticalReferenceType_AixmdatatypesStage(probe *Pro
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13476,6 +13707,7 @@ func StageSetNewInstance_CodeWakeTurbulenceType_AixmdatatypesStage(probe *Probe)
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13505,6 +13737,7 @@ func StageSetNewInstance_CodeYesNoType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13534,6 +13767,7 @@ func StageSetNewInstance_DateMonthDayType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13563,6 +13797,7 @@ func StageSetNewInstance_NoNumberType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13592,6 +13827,7 @@ func StageSetNewInstance_NoSequenceType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13621,6 +13857,7 @@ func StageSetNewInstance_TextAddressType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13650,6 +13887,7 @@ func StageSetNewInstance_TextDesignatorType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13679,6 +13917,7 @@ func StageSetNewInstance_TextInstructionType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13708,6 +13947,7 @@ func StageSetNewInstance_TextNameType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13737,6 +13977,7 @@ func StageSetNewInstance_TextNoteType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13766,6 +14007,7 @@ func StageSetNewInstance_TextPhoneType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13795,6 +14037,7 @@ func StageSetNewInstance_TextPropertyNameType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13824,6 +14067,7 @@ func StageSetNewInstance_TimeType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13853,6 +14097,7 @@ func StageSetNewInstance_ValAngleType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13882,6 +14127,7 @@ func StageSetNewInstance_ValBearingType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13911,6 +14157,7 @@ func StageSetNewInstance_ValDistanceSignedType_AixmdatatypesStage(probe *Probe) 
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13940,6 +14187,7 @@ func StageSetNewInstance_ValDistanceType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13969,6 +14217,7 @@ func StageSetNewInstance_ValDistanceVerticalType_AixmdatatypesStage(probe *Probe
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -13998,6 +14247,7 @@ func StageSetNewInstance_ValDurationType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14027,6 +14277,7 @@ func StageSetNewInstance_ValSlopeType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14056,6 +14307,7 @@ func StageSetNewInstance_ValSpeedType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14085,6 +14337,7 @@ func StageSetNewInstance_ValWeightType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14114,6 +14367,7 @@ func StageSetNewInstance_XHTMLType_AixmdatatypesStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14143,6 +14397,7 @@ func StageSetNewInstance_AbstractAIXMFeatureBaseType_AixmabstractgmlobjecttypesS
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14172,6 +14427,7 @@ func StageSetNewInstance_AbstractAIXMFeatureType_AixmabstractgmlobjecttypesStage
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14201,6 +14457,7 @@ func StageSetNewInstance_AbstractAIXMMessageBaseType_AixmabstractgmlobjecttypesS
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14230,6 +14487,7 @@ func StageSetNewInstance_AbstractAIXMMessageType_AixmabstractgmlobjecttypesStage
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14259,6 +14517,7 @@ func StageSetNewInstance_AbstractAIXMObjectType_AixmabstractgmlobjecttypesStage(
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14288,6 +14547,7 @@ func StageSetNewInstance_AbstractAIXMPropertyType_AixmabstractgmlobjecttypesStag
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14317,6 +14577,7 @@ func StageSetNewInstance_AbstractAIXMTimeSliceBaseType_Aixmabstractgmlobjecttype
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14346,6 +14607,7 @@ func StageSetNewInstance_AbstractAIXMTimeSliceType_AixmabstractgmlobjecttypesSta
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14375,6 +14637,7 @@ func StageSetNewInstance_AbstractExtensionType_AixmabstractgmlobjecttypesStage(p
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14404,6 +14667,7 @@ func StageSetNewInstance_FeatureMetadataPropertyType_AixmabstractgmlobjecttypesS
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14433,6 +14697,7 @@ func StageSetNewInstance_FeatureTimeSliceMetadataPropertyType_Aixmabstractgmlobj
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14462,6 +14727,7 @@ func StageSetNewInstance_MessageMetadataPropertyType_AixmabstractgmlobjecttypesS
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14491,6 +14757,7 @@ func StageSetNewInstance_AbstractCurveSegmentType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14520,6 +14787,7 @@ func StageSetNewInstance_AbstractCurveType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14549,6 +14817,7 @@ func StageSetNewInstance_AbstractFeatureMemberType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14578,6 +14847,7 @@ func StageSetNewInstance_AbstractFeatureType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14607,6 +14877,7 @@ func StageSetNewInstance_AbstractGMLType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14636,6 +14907,7 @@ func StageSetNewInstance_AbstractGeometricPrimitiveType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14665,6 +14937,7 @@ func StageSetNewInstance_AbstractGeometryType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14694,6 +14967,7 @@ func StageSetNewInstance_AbstractMetadataPropertyType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14723,6 +14997,7 @@ func StageSetNewInstance_AbstractRingPropertyType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14752,6 +15027,7 @@ func StageSetNewInstance_AbstractRingType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14781,6 +15057,7 @@ func StageSetNewInstance_AbstractSurfacePatchType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14810,6 +15087,7 @@ func StageSetNewInstance_AbstractSurfaceType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14839,6 +15117,7 @@ func StageSetNewInstance_AbstractTimeGeometricPrimitiveType_GmlStage(probe *Prob
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14868,6 +15147,7 @@ func StageSetNewInstance_AbstractTimeObjectType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14897,6 +15177,7 @@ func StageSetNewInstance_AbstractTimePrimitiveType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14926,6 +15207,7 @@ func StageSetNewInstance_AbstractTimeSliceType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14955,6 +15237,7 @@ func StageSetNewInstance_AngleType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -14984,6 +15267,7 @@ func StageSetNewInstance_ArcByCenterPointType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15013,6 +15297,7 @@ func StageSetNewInstance_ArcStringType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15042,6 +15327,7 @@ func StageSetNewInstance_ArcType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15071,6 +15357,7 @@ func StageSetNewInstance_BoundingShapeType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15100,6 +15387,7 @@ func StageSetNewInstance_CircleByCenterPointType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15129,6 +15417,7 @@ func StageSetNewInstance_CircleType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15158,6 +15447,7 @@ func StageSetNewInstance_CodeType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15187,6 +15477,7 @@ func StageSetNewInstance_CodeWithAuthorityType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15216,6 +15507,7 @@ func StageSetNewInstance_CompositeCurveType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15245,6 +15537,7 @@ func StageSetNewInstance_CurvePropertyType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15274,6 +15567,7 @@ func StageSetNewInstance_CurveSegmentArrayPropertyType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15303,6 +15597,7 @@ func StageSetNewInstance_CurveType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15332,6 +15627,7 @@ func StageSetNewInstance_DirectPositionListType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15361,6 +15657,7 @@ func StageSetNewInstance_DirectPositionType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15390,6 +15687,7 @@ func StageSetNewInstance_DynamicFeatureType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15419,6 +15717,7 @@ func StageSetNewInstance_EnvelopeType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15448,6 +15747,7 @@ func StageSetNewInstance_GeodesicStringType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15477,6 +15777,7 @@ func StageSetNewInstance_GeodesicType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15506,6 +15807,7 @@ func StageSetNewInstance_LengthType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15535,6 +15837,7 @@ func StageSetNewInstance_LineStringSegmentType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15564,6 +15867,7 @@ func StageSetNewInstance_MeasureType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15593,6 +15897,7 @@ func StageSetNewInstance_OrientableCurveType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15622,6 +15927,7 @@ func StageSetNewInstance_PointPropertyType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15651,6 +15957,7 @@ func StageSetNewInstance_PointType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15680,6 +15987,7 @@ func StageSetNewInstance_PolygonPatchType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15709,6 +16017,7 @@ func StageSetNewInstance_RingType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15738,6 +16047,7 @@ func StageSetNewInstance_SurfacePatchArrayPropertyType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15767,6 +16077,7 @@ func StageSetNewInstance_SurfaceType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15796,6 +16107,7 @@ func StageSetNewInstance_TimeInstantType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15825,6 +16137,7 @@ func StageSetNewInstance_TimePeriodType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15854,6 +16167,7 @@ func StageSetNewInstance_TimePositionType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15883,6 +16197,7 @@ func StageSetNewInstance_TimePrimitivePropertyType_GmlStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -15912,6 +16227,7 @@ func StageSetNewInstance_Xlink_SchemaElement_XlinkStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},

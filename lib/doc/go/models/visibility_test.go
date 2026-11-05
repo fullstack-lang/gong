@@ -287,3 +287,80 @@ func TestSvgHiding(t *testing.T) {
 		t.Errorf("expected note to be omitted when hidden")
 	}
 }
+
+func TestTreeShowNbInstancesButton(t *testing.T) {
+	docStage := NewStage("test_doc_tree_nb")
+	treeStage := tree.NewStage("test_tree_nb")
+	gongStage := gong.NewStage("test_gong_tree_nb")
+
+	structA := (&gong.GongStruct{Name: "A"}).Stage(gongStage)
+	_ = structA
+
+	classdiagram := (&Classdiagram{Name: "Diagram1"}).Stage(docStage)
+	diagramPkg := (&DiagramPackage{
+		Name:                 "Pkg",
+		SelectedClassdiagram: classdiagram,
+		Classdiagrams:        []*Classdiagram{classdiagram},
+	}).Stage(docStage)
+	_ = diagramPkg
+
+	stager := &Stager{
+		stage:     docStage,
+		treeStage: treeStage,
+		gongStage: gongStage,
+		map_GongStructName_InstancesNb: map[string]int{
+			"A": 5,
+		},
+	}
+
+	stager.tree()
+
+	trees := treeStage.GetInstancesSorted[*tree.Tree]()
+	if len(trees) != 1 {
+		t.Fatalf("expected 1 tree, got %d", len(trees))
+	}
+	root := trees[0].RootNodes[0]
+	var showNbButton *tree.Button
+	for _, btn := range root.Buttons {
+		if btn.Name == "Show/Unshow number of instances" {
+			showNbButton = btn
+			break
+		}
+	}
+	if showNbButton == nil {
+		t.Fatalf("expected 'Show/Unshow number of instances' button on root node")
+	}
+	if showNbButton.Icon != string(buttons.BUTTON_visibility) {
+		t.Errorf("expected visibility icon initially, got %s", showNbButton.Icon)
+	}
+
+	diagramNode := trees[0].RootNodes[1]
+	gongStructsNode := diagramNode.Children[0]
+	structANode := gongStructsNode.Children[0]
+	if structANode.Name != "A" {
+		t.Errorf("expected struct node name 'A' before clicking button, got '%s'", structANode.Name)
+	}
+
+	// Click button to show number of instances
+	showNbButton.OnClick()
+
+	trees = treeStage.GetInstancesSorted[*tree.Tree]()
+	root = trees[0].RootNodes[0]
+	for _, btn := range root.Buttons {
+		if btn.Name == "Show/Unshow number of instances" {
+			showNbButton = btn
+			break
+		}
+	}
+	if showNbButton.Icon != string(buttons.BUTTON_visibility_off) {
+		t.Errorf("expected visibility_off icon after enabling, got %s", showNbButton.Icon)
+	}
+
+	diagramNode = trees[0].RootNodes[1]
+	gongStructsNode = diagramNode.Children[0]
+	structANode = gongStructsNode.Children[0]
+	if structANode.Name != "A (5)" {
+		t.Errorf("expected struct node name 'A (5)' after clicking button, got '%s'", structANode.Name)
+	}
+}
+

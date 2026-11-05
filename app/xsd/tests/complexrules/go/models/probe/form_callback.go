@@ -120,6 +120,7 @@ func StageSetNewInstance_Catalog_Stage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -149,6 +150,7 @@ func StageSetNewInstance_DerivedItemType_Stage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -178,6 +180,7 @@ func StageSetNewInstance_RefTargetType_RefsStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -207,6 +210,7 @@ func StageSetNewInstance_BaseItemType_CommonStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},

@@ -36,6 +36,8 @@ type Stager struct {
 	// to inform of the number of instance by gongstruct names
 	// this map is managed by callee stage struct
 	map_GongStructName_InstancesNb map[string]int
+
+	showNbInstances bool
 }
 
 func initStager(
@@ -174,4 +176,9 @@ func (stager *Stager) GetTreeStage() *tree.Stage {
 func (stager *Stager) GetSvgStage() *svg.Stage {
 	return stager.svgStage
 }
+
+func (stager *Stager) Tree() {
+	stager.tree()
+}
+
 

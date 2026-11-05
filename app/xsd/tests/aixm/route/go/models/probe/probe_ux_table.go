@@ -853,6 +853,7 @@ func updateStageSetTable_AIXMBasicMessage_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1053,6 +1054,7 @@ func updateStageSetTable_AIXMBasicMessageType_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1298,6 +1300,7 @@ func updateStageSetTable_BasicMessageMemberAIXMPropertyType_Stage(probe *Probe) 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1550,6 +1553,7 @@ func updateStageSetTable_A_extension_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1676,6 +1680,7 @@ func updateStageSetTable_A_extension_1_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1802,6 +1807,7 @@ func updateStageSetTable_A_extension_10_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1928,6 +1934,7 @@ func updateStageSetTable_A_extension_11_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2054,6 +2061,7 @@ func updateStageSetTable_A_extension_12_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2180,6 +2188,7 @@ func updateStageSetTable_A_extension_13_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2306,6 +2315,7 @@ func updateStageSetTable_A_extension_14_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2437,6 +2447,7 @@ func updateStageSetTable_A_extension_15_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2575,6 +2586,7 @@ func updateStageSetTable_A_extension_16_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2701,6 +2713,7 @@ func updateStageSetTable_A_extension_17_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2827,6 +2840,7 @@ func updateStageSetTable_A_extension_18_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2953,6 +2967,7 @@ func updateStageSetTable_A_extension_19_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3084,6 +3099,7 @@ func updateStageSetTable_A_extension_2_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3227,6 +3243,7 @@ func updateStageSetTable_A_extension_20_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3370,6 +3387,7 @@ func updateStageSetTable_A_extension_21_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3508,6 +3526,7 @@ func updateStageSetTable_A_extension_22_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3639,6 +3658,7 @@ func updateStageSetTable_A_extension_23_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3777,6 +3797,7 @@ func updateStageSetTable_A_extension_24_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3903,6 +3924,7 @@ func updateStageSetTable_A_extension_25_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4029,6 +4051,7 @@ func updateStageSetTable_A_extension_26_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4155,6 +4178,7 @@ func updateStageSetTable_A_extension_27_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4281,6 +4305,7 @@ func updateStageSetTable_A_extension_28_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4407,6 +4432,7 @@ func updateStageSetTable_A_extension_29_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4533,6 +4559,7 @@ func updateStageSetTable_A_extension_3_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4659,6 +4686,7 @@ func updateStageSetTable_A_extension_30_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4790,6 +4818,7 @@ func updateStageSetTable_A_extension_31_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4933,6 +4962,7 @@ func updateStageSetTable_A_extension_32_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5076,6 +5106,7 @@ func updateStageSetTable_A_extension_33_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5214,6 +5245,7 @@ func updateStageSetTable_A_extension_34_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5340,6 +5372,7 @@ func updateStageSetTable_A_extension_35_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5466,6 +5499,7 @@ func updateStageSetTable_A_extension_36_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5592,6 +5626,7 @@ func updateStageSetTable_A_extension_37_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5718,6 +5753,7 @@ func updateStageSetTable_A_extension_38_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5844,6 +5880,7 @@ func updateStageSetTable_A_extension_39_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5970,6 +6007,7 @@ func updateStageSetTable_A_extension_4_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6096,6 +6134,7 @@ func updateStageSetTable_A_extension_40_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6222,6 +6261,7 @@ func updateStageSetTable_A_extension_41_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6348,6 +6388,7 @@ func updateStageSetTable_A_extension_42_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6474,6 +6515,7 @@ func updateStageSetTable_A_extension_5_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6600,6 +6642,7 @@ func updateStageSetTable_A_extension_6_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6726,6 +6769,7 @@ func updateStageSetTable_A_extension_7_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6852,6 +6896,7 @@ func updateStageSetTable_A_extension_8_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6983,6 +7028,7 @@ func updateStageSetTable_A_extension_9_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7126,6 +7172,7 @@ func updateStageSetTable_AbstractDirectFlightType_AixmfeaturesStage(probe *Probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7257,6 +7304,7 @@ func updateStageSetTable_AbstractPropertiesWithScheduleType_AixmfeaturesStage(pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7388,6 +7436,7 @@ func updateStageSetTable_AbstractSegmentPointType_AixmfeaturesStage(probe *Probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7514,6 +7563,7 @@ func updateStageSetTable_AerialRefuellingAnchorPropertyType_AixmfeaturesStage(pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7718,6 +7768,7 @@ func updateStageSetTable_AerialRefuellingAnchorType_AixmfeaturesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -8010,6 +8061,7 @@ func updateStageSetTable_AerialRefuellingPointPropertyType_AixmfeaturesStage(pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -8240,6 +8292,7 @@ func updateStageSetTable_AerialRefuellingPointType_AixmfeaturesStage(probe *Prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -8590,6 +8643,7 @@ func updateStageSetTable_AerialRefuellingPropertyType_AixmfeaturesStage(probe *P
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -8775,6 +8829,7 @@ func updateStageSetTable_AerialRefuellingTimeSlicePropertyType_AixmfeaturesStage
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -9044,6 +9099,7 @@ func updateStageSetTable_AerialRefuellingTimeSliceType_AixmfeaturesStage(probe *
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -9455,6 +9511,7 @@ func updateStageSetTable_AerialRefuellingTrackPropertyType_AixmfeaturesStage(pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -9614,6 +9671,7 @@ func updateStageSetTable_AerialRefuellingTrackType_AixmfeaturesStage(probe *Prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -9836,6 +9894,7 @@ func updateStageSetTable_AerialRefuellingType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -10012,6 +10071,7 @@ func updateStageSetTable_AircraftCharacteristicPropertyType_AixmfeaturesStage(pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -10274,6 +10334,7 @@ func updateStageSetTable_AircraftCharacteristicType_AixmfeaturesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -10742,6 +10803,7 @@ func updateStageSetTable_AirportHeliportPropertyType_AixmfeaturesStage(probe *Pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -11095,6 +11157,7 @@ func updateStageSetTable_AirspaceBorderCrossingPropertyType_AixmfeaturesStage(pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -11254,6 +11317,7 @@ func updateStageSetTable_AirspaceBorderCrossingTimeSlicePropertyType_Aixmfeature
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -11438,6 +11502,7 @@ func updateStageSetTable_AirspaceBorderCrossingTimeSliceType_AixmfeaturesStage(p
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -11694,6 +11759,7 @@ func updateStageSetTable_AirspaceBorderCrossingType_AixmfeaturesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -11875,6 +11941,7 @@ func updateStageSetTable_AirspaceLayerPropertyType_AixmfeaturesStage(probe *Prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -12081,6 +12148,7 @@ func updateStageSetTable_AirspaceLayerType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -12364,6 +12432,7 @@ func updateStageSetTable_AirspacePropertyType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -12594,6 +12663,7 @@ func updateStageSetTable_AltitudeAdjustmentPropertyType_AixmfeaturesStage(probe 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -12758,6 +12828,7 @@ func updateStageSetTable_AltitudeAdjustmentType_AixmfeaturesStage(probe *Probe) 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -12996,6 +13067,7 @@ func updateStageSetTable_AngleIndicationPropertyType_AixmfeaturesStage(probe *Pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -13155,6 +13227,7 @@ func updateStageSetTable_AngleUsePropertyType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -13309,6 +13382,7 @@ func updateStageSetTable_AngleUseType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -13492,6 +13566,7 @@ func updateStageSetTable_AuthorityForAerialRefuellingPropertyType_AixmfeaturesSt
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -13646,6 +13721,7 @@ func updateStageSetTable_AuthorityForAerialRefuellingType_AixmfeaturesStage(prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -13829,6 +13905,7 @@ func updateStageSetTable_ChangeOverPointTimeSlicePropertyType_AixmfeaturesStage(
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -14043,6 +14120,7 @@ func updateStageSetTable_ChangeOverPointTimeSliceType_AixmfeaturesStage(probe *P
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -14359,6 +14437,7 @@ func updateStageSetTable_ChangeOverPointType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -14530,6 +14609,7 @@ func updateStageSetTable_ContactInformationPropertyType_AixmfeaturesStage(probe 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -14694,6 +14774,7 @@ func updateStageSetTable_ContactInformationType_AixmfeaturesStage(probe *Probe) 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -14918,6 +14999,7 @@ func updateStageSetTable_CurvePropertyType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -15105,6 +15187,7 @@ func updateStageSetTable_CurveType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -15317,6 +15400,7 @@ func updateStageSetTable_DMEPropertyType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -15561,6 +15645,7 @@ func updateStageSetTable_DesignatedPointPropertyType_AixmfeaturesStage(probe *Pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -15875,6 +15960,7 @@ func updateStageSetTable_DirectFlightClassType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -16053,6 +16139,7 @@ func updateStageSetTable_DirectFlightPropertyType_AixmfeaturesStage(probe *Probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -16184,6 +16271,7 @@ func updateStageSetTable_DirectFlightSegmentPropertyType_AixmfeaturesStage(probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -16390,6 +16478,7 @@ func updateStageSetTable_DirectFlightSegmentType_AixmfeaturesStage(probe *Probe)
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -16721,6 +16810,7 @@ func updateStageSetTable_DistanceIndicationPropertyType_AixmfeaturesStage(probe 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -16938,6 +17028,7 @@ func updateStageSetTable_ElevatedCurveType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -17222,6 +17313,7 @@ func updateStageSetTable_ElevatedPointType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -17506,6 +17598,7 @@ func updateStageSetTable_ElevatedSurfaceType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -17740,6 +17833,7 @@ func updateStageSetTable_EnRouteSegmentPointPropertyType_AixmfeaturesStage(probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -17974,6 +18068,7 @@ func updateStageSetTable_EnRouteSegmentPointType_AixmfeaturesStage(probe *Probe)
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -18299,6 +18394,7 @@ func updateStageSetTable_FlightCharacteristicPropertyType_AixmfeaturesStage(prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -18470,6 +18566,7 @@ func updateStageSetTable_FlightCharacteristicType_AixmfeaturesStage(probe *Probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -18693,6 +18790,7 @@ func updateStageSetTable_FlightConditionCircumstancePropertyType_AixmfeaturesSta
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -18844,6 +18942,7 @@ func updateStageSetTable_FlightConditionCircumstanceType_AixmfeaturesStage(probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -19032,6 +19131,7 @@ func updateStageSetTable_FlightConditionCombinationPropertyType_AixmfeaturesStag
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -19206,6 +19306,7 @@ func updateStageSetTable_FlightConditionCombinationType_AixmfeaturesStage(probe 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -19415,6 +19516,7 @@ func updateStageSetTable_FlightConditionElementPropertyType_AixmfeaturesStage(pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -19669,6 +19771,7 @@ func updateStageSetTable_FlightConditionElementType_AixmfeaturesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -20059,6 +20162,7 @@ func updateStageSetTable_FlightRestrictionLevelPropertyType_AixmfeaturesStage(pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -20239,6 +20343,7 @@ func updateStageSetTable_FlightRestrictionLevelType_AixmfeaturesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -20442,6 +20547,7 @@ func updateStageSetTable_FlightRestrictionRoutePropertyType_AixmfeaturesStage(pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -20601,6 +20707,7 @@ func updateStageSetTable_FlightRestrictionRouteType_AixmfeaturesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -20798,6 +20905,7 @@ func updateStageSetTable_FlightRestrictionTimeSlicePropertyType_AixmfeaturesStag
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -20997,6 +21105,7 @@ func updateStageSetTable_FlightRestrictionTimeSliceType_AixmfeaturesStage(probe 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -21285,6 +21394,7 @@ func updateStageSetTable_FlightRestrictionType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -21456,6 +21566,7 @@ func updateStageSetTable_FlightRoutingElementPropertyType_AixmfeaturesStage(prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -21690,6 +21801,7 @@ func updateStageSetTable_FlightRoutingElementType_AixmfeaturesStage(probe *Probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -22035,6 +22147,7 @@ func updateStageSetTable_LinguisticNotePropertyType_AixmfeaturesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -22179,6 +22292,7 @@ func updateStageSetTable_LinguisticNoteType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -22340,6 +22454,7 @@ func updateStageSetTable_MeteorologyPropertyType_AixmfeaturesStage(probe *Probe)
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -22506,6 +22621,7 @@ func updateStageSetTable_MeteorologyType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -22799,6 +22915,7 @@ func updateStageSetTable_NavaidPropertyType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -23290,6 +23407,7 @@ func updateStageSetTable_NotePropertyType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -24132,6 +24250,7 @@ func updateStageSetTable_NoteType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -24315,6 +24434,7 @@ func updateStageSetTable_ObstacleAssessmentAreaPropertyType_AixmfeaturesStage(pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -24516,6 +24636,7 @@ func updateStageSetTable_ObstacleAssessmentAreaType_AixmfeaturesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -24803,6 +24924,7 @@ func updateStageSetTable_ObstaclePlacementPropertyType_AixmfeaturesStage(probe *
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -24967,6 +25089,7 @@ func updateStageSetTable_ObstaclePlacementType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -25170,6 +25293,7 @@ func updateStageSetTable_ObstructionPropertyType_AixmfeaturesStage(probe *Probe)
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -25359,6 +25483,7 @@ func updateStageSetTable_ObstructionType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -25616,6 +25741,7 @@ func updateStageSetTable_OnlineContactPropertyType_AixmfeaturesStage(probe *Prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -25790,6 +25916,7 @@ func updateStageSetTable_OnlineContactType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -26087,6 +26214,7 @@ func updateStageSetTable_OrganisationAuthorityPropertyType_AixmfeaturesStage(pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -26402,6 +26530,7 @@ func updateStageSetTable_PointPropertyType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -26655,6 +26784,7 @@ func updateStageSetTable_PointReferencePropertyType_AixmfeaturesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -26850,6 +26980,7 @@ func updateStageSetTable_PointReferenceType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -27117,6 +27248,7 @@ func updateStageSetTable_PointType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -27294,6 +27426,7 @@ func updateStageSetTable_PostalAddressPropertyType_AixmfeaturesStage(probe *Prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -27473,6 +27606,7 @@ func updateStageSetTable_PostalAddressType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -27750,6 +27884,7 @@ func updateStageSetTable_RadioFrequencyAreaPropertyType_AixmfeaturesStage(probe 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -27927,6 +28062,7 @@ func updateStageSetTable_RouteAvailabilityPropertyType_AixmfeaturesStage(probe *
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -28117,6 +28253,7 @@ func updateStageSetTable_RouteAvailabilityType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -28346,6 +28483,7 @@ func updateStageSetTable_RouteDMETimeSlicePropertyType_AixmfeaturesStage(probe *
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -28540,6 +28678,7 @@ func updateStageSetTable_RouteDMETimeSliceType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -28816,6 +28955,7 @@ func updateStageSetTable_RouteDMEType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -29002,6 +29142,7 @@ func updateStageSetTable_RoutePortionPropertyType_AixmfeaturesStage(probe *Probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -29277,6 +29418,7 @@ func updateStageSetTable_RoutePortionType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -29670,6 +29812,7 @@ func updateStageSetTable_RoutePropertyType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -29842,6 +29985,7 @@ func updateStageSetTable_RouteSegmentTimeSlicePropertyType_AixmfeaturesStage(pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -30166,6 +30310,7 @@ func updateStageSetTable_RouteSegmentTimeSliceType_AixmfeaturesStage(probe *Prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -30704,6 +30849,7 @@ func updateStageSetTable_RouteSegmentType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -30875,6 +31021,7 @@ func updateStageSetTable_RouteTimeSlicePropertyType_AixmfeaturesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -31104,6 +31251,7 @@ func updateStageSetTable_RouteTimeSliceType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -31450,6 +31598,7 @@ func updateStageSetTable_RouteType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -31621,6 +31770,7 @@ func updateStageSetTable_RulesProceduresTimeSlicePropertyType_AixmfeaturesStage(
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -31820,6 +31970,7 @@ func updateStageSetTable_RulesProceduresTimeSliceType_AixmfeaturesStage(probe *P
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -32110,6 +32261,7 @@ func updateStageSetTable_RulesProceduresType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -32361,6 +32513,7 @@ func updateStageSetTable_RunwayCentrelinePointPropertyType_AixmfeaturesStage(pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -32677,6 +32830,7 @@ func updateStageSetTable_StandardInstrumentArrivalPropertyType_AixmfeaturesStage
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -32889,6 +33043,7 @@ func updateStageSetTable_StandardInstrumentDeparturePropertyType_AixmfeaturesSta
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -33096,6 +33251,7 @@ func updateStageSetTable_StandardLevelColumnPropertyType_AixmfeaturesStage(probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -33270,6 +33426,7 @@ func updateStageSetTable_SurfacePropertyType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -33457,6 +33614,7 @@ func updateStageSetTable_SurfaceType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -33634,6 +33792,7 @@ func updateStageSetTable_TelephoneContactPropertyType_AixmfeaturesStage(probe *P
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -33798,6 +33957,7 @@ func updateStageSetTable_TelephoneContactType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -34025,6 +34185,7 @@ func updateStageSetTable_TimesheetPropertyType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -34308,6 +34469,7 @@ func updateStageSetTable_TimesheetType_AixmfeaturesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -34701,6 +34863,7 @@ func updateStageSetTable_TouchDownLiftOffPropertyType_AixmfeaturesStage(probe *P
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -35012,6 +35175,7 @@ func updateStageSetTable_VerticalStructurePropertyType_AixmfeaturesStage(probe *
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -35176,6 +35340,7 @@ func updateStageSetTable_CodeATCReportingType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -35306,6 +35471,7 @@ func updateStageSetTable_CodeAerialRefuellingPointType_AixmdatatypesStage(probe 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -35423,6 +35589,7 @@ func updateStageSetTable_CodeAerialRefuellingPrefixType_AixmdatatypesStage(probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -35540,6 +35707,7 @@ func updateStageSetTable_CodeAerialRefuellingType_AixmdatatypesStage(probe *Prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -35657,6 +35825,7 @@ func updateStageSetTable_CodeAircraftCategoryType_AixmdatatypesStage(probe *Prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -35774,6 +35943,7 @@ func updateStageSetTable_CodeAircraftEngineNumberType_AixmdatatypesStage(probe *
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -35891,6 +36061,7 @@ func updateStageSetTable_CodeAircraftEngineType_AixmdatatypesStage(probe *Probe)
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -36008,6 +36179,7 @@ func updateStageSetTable_CodeAircraftICAOType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -36125,6 +36297,7 @@ func updateStageSetTable_CodeAircraftType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -36242,6 +36415,7 @@ func updateStageSetTable_CodeAircraftWingspanClassType_AixmdatatypesStage(probe 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -36359,6 +36533,7 @@ func updateStageSetTable_CodeAltitudeAdjustmentType_AixmdatatypesStage(probe *Pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -36476,6 +36651,7 @@ func updateStageSetTable_CodeAltitudeUseType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -36593,6 +36769,7 @@ func updateStageSetTable_CodeAuthorityType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -36715,6 +36892,7 @@ func updateStageSetTable_CodeCardinalDirectionType_AixmdatatypesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -36845,6 +37023,7 @@ func updateStageSetTable_CodeCommunicationModeType_AixmdatatypesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -36962,6 +37141,7 @@ func updateStageSetTable_CodeComparisonType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -37079,6 +37259,7 @@ func updateStageSetTable_CodeCourseType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -37201,6 +37382,7 @@ func updateStageSetTable_CodeDayType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -37341,6 +37523,7 @@ func updateStageSetTable_CodeDirectionTurnType_AixmdatatypesStage(probe *Probe) 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -37484,6 +37667,7 @@ func updateStageSetTable_CodeDirectionType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -37601,6 +37785,7 @@ func updateStageSetTable_CodeEquipmentAntiCollisionType_AixmdatatypesStage(probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -37718,6 +37903,7 @@ func updateStageSetTable_CodeFlightOriginType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -37835,6 +38021,7 @@ func updateStageSetTable_CodeFlightPurposeType_AixmdatatypesStage(probe *Probe) 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -37952,6 +38139,7 @@ func updateStageSetTable_CodeFlightRestrictionDesignatorType_AixmdatatypesStage(
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -38069,6 +38257,7 @@ func updateStageSetTable_CodeFlightRestrictionType_AixmdatatypesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -38191,6 +38380,7 @@ func updateStageSetTable_CodeFlightRuleType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -38321,6 +38511,7 @@ func updateStageSetTable_CodeFlightStatusType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -38438,6 +38629,7 @@ func updateStageSetTable_CodeFlightType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -38555,6 +38747,7 @@ func updateStageSetTable_CodeFlowConditionOperationType_AixmdatatypesStage(probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -38672,6 +38865,7 @@ func updateStageSetTable_CodeFreeFlightType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -38789,6 +38983,7 @@ func updateStageSetTable_CodeLevelType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -38906,6 +39101,7 @@ func updateStageSetTable_CodeLocationQualifierType_AixmdatatypesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -39023,6 +39219,7 @@ func updateStageSetTable_CodeMeteoConditionsType_AixmdatatypesStage(probe *Probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -39140,6 +39337,7 @@ func updateStageSetTable_CodeMilitaryRoutePointType_AixmdatatypesStage(probe *Pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -39262,6 +39460,7 @@ func updateStageSetTable_CodeMilitaryStatusType_AixmdatatypesStage(probe *Probe)
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -39392,6 +39591,7 @@ func updateStageSetTable_CodeMilitaryTrainingType_AixmdatatypesStage(probe *Prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -39509,6 +39709,7 @@ func updateStageSetTable_CodeNavigationEquipmentType_AixmdatatypesStage(probe *P
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -39626,6 +39827,7 @@ func updateStageSetTable_CodeNavigationSpecificationType_AixmdatatypesStage(prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -39743,6 +39945,7 @@ func updateStageSetTable_CodeNotePurposeType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -39860,6 +40063,7 @@ func updateStageSetTable_CodeObstacleAssessmentSurfaceType_AixmdatatypesStage(pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -39977,6 +40181,7 @@ func updateStageSetTable_CodeObstructionIdSurfaceZoneType_AixmdatatypesStage(pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -40094,6 +40299,7 @@ func updateStageSetTable_CodeRNPType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -40211,6 +40417,7 @@ func updateStageSetTable_CodeRVSMPointRoleType_AixmdatatypesStage(probe *Probe) 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -40328,6 +40535,7 @@ func updateStageSetTable_CodeRVSMType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -40445,6 +40653,7 @@ func updateStageSetTable_CodeReferenceRoleType_AixmdatatypesStage(probe *Probe) 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -40562,6 +40771,7 @@ func updateStageSetTable_CodeRouteAvailabilityType_AixmdatatypesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -40679,6 +40889,7 @@ func updateStageSetTable_CodeRouteDesignatorLetterType_AixmdatatypesStage(probe 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -40796,6 +41007,7 @@ func updateStageSetTable_CodeRouteDesignatorPrefixType_AixmdatatypesStage(probe 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -40913,6 +41125,7 @@ func updateStageSetTable_CodeRouteDesignatorSuffixType_AixmdatatypesStage(probe 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -41030,6 +41243,7 @@ func updateStageSetTable_CodeRouteNavigationType_AixmdatatypesStage(probe *Probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -41147,6 +41361,7 @@ func updateStageSetTable_CodeRouteOriginType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -41264,6 +41479,7 @@ func updateStageSetTable_CodeRouteSegmentPathType_AixmdatatypesStage(probe *Prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -41381,6 +41597,7 @@ func updateStageSetTable_CodeRouteType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -41498,6 +41715,7 @@ func updateStageSetTable_CodeRuleProcedureTitleType_AixmdatatypesStage(probe *Pr
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -41615,6 +41833,7 @@ func updateStageSetTable_CodeRuleProcedureType_AixmdatatypesStage(probe *Probe) 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -41732,6 +41951,7 @@ func updateStageSetTable_CodeSideType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -41849,6 +42069,7 @@ func updateStageSetTable_CodeSpeedReferenceType_AixmdatatypesStage(probe *Probe)
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -41971,6 +42192,7 @@ func updateStageSetTable_CodeTACANChannelType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -42101,6 +42323,7 @@ func updateStageSetTable_CodeTelecomNetworkType_AixmdatatypesStage(probe *Probe)
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -42223,6 +42446,7 @@ func updateStageSetTable_CodeTimeEventCombinationType_AixmdatatypesStage(probe *
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -42358,6 +42582,7 @@ func updateStageSetTable_CodeTimeEventType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -42488,6 +42713,7 @@ func updateStageSetTable_CodeTimeReferenceType_AixmdatatypesStage(probe *Probe) 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -42605,6 +42831,7 @@ func updateStageSetTable_CodeTransponderType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -42722,6 +42949,7 @@ func updateStageSetTable_CodeUpperAlphaType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -42864,6 +43092,7 @@ func updateStageSetTable_CodeValueInterpretationType_AixmdatatypesStage(probe *P
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -43056,6 +43285,7 @@ func updateStageSetTable_CodeVerticalDatumType_AixmdatatypesStage(probe *Probe) 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -43239,6 +43469,7 @@ func updateStageSetTable_CodeVerticalReferenceType_AixmdatatypesStage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -43460,6 +43691,7 @@ func updateStageSetTable_CodeWakeTurbulenceType_AixmdatatypesStage(probe *Probe)
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -43682,6 +43914,7 @@ func updateStageSetTable_CodeYesNoType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -44077,6 +44310,7 @@ func updateStageSetTable_DateMonthDayType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -44232,6 +44466,7 @@ func updateStageSetTable_NoNumberType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -44424,6 +44659,7 @@ func updateStageSetTable_NoSequenceType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -44577,6 +44813,7 @@ func updateStageSetTable_TextAddressType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -44725,6 +44962,7 @@ func updateStageSetTable_TextDesignatorType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -44855,6 +45093,7 @@ func updateStageSetTable_TextInstructionType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -45007,6 +45246,7 @@ func updateStageSetTable_TextNameType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -45220,6 +45460,7 @@ func updateStageSetTable_TextNoteType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -45348,6 +45589,7 @@ func updateStageSetTable_TextPhoneType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -45478,6 +45720,7 @@ func updateStageSetTable_TextPropertyNameType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -45600,6 +45843,7 @@ func updateStageSetTable_TimeType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -45730,6 +45974,7 @@ func updateStageSetTable_ValAngleType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -45877,6 +46122,7 @@ func updateStageSetTable_ValBearingType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -46097,6 +46343,7 @@ func updateStageSetTable_ValDistanceSignedType_AixmdatatypesStage(probe *Probe) 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -46382,6 +46629,7 @@ func updateStageSetTable_ValDistanceType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -46868,6 +47116,7 @@ func updateStageSetTable_ValDistanceVerticalType_AixmdatatypesStage(probe *Probe
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -47222,6 +47471,7 @@ func updateStageSetTable_ValDurationType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -47363,6 +47613,7 @@ func updateStageSetTable_ValSlopeType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -47508,6 +47759,7 @@ func updateStageSetTable_ValSpeedType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -47662,6 +47914,7 @@ func updateStageSetTable_ValWeightType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -47780,6 +48033,7 @@ func updateStageSetTable_XHTMLType_AixmdatatypesStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -47901,6 +48155,7 @@ func updateStageSetTable_AbstractAIXMFeatureBaseType_AixmabstractgmlobjecttypesS
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -48052,6 +48307,7 @@ func updateStageSetTable_AbstractAIXMFeatureType_AixmabstractgmlobjecttypesStage
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -48218,6 +48474,7 @@ func updateStageSetTable_AbstractAIXMMessageBaseType_AixmabstractgmlobjecttypesS
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -48395,6 +48652,7 @@ func updateStageSetTable_AbstractAIXMMessageType_AixmabstractgmlobjecttypesStage
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -48543,6 +48801,7 @@ func updateStageSetTable_AbstractAIXMObjectType_AixmabstractgmlobjecttypesStage(
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -48631,6 +48890,7 @@ func updateStageSetTable_AbstractAIXMPropertyType_AixmabstractgmlobjecttypesStag
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -48724,6 +48984,7 @@ func updateStageSetTable_AbstractAIXMTimeSliceBaseType_Aixmabstractgmlobjecttype
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -48867,6 +49128,7 @@ func updateStageSetTable_AbstractAIXMTimeSliceType_AixmabstractgmlobjecttypesSta
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -49306,6 +49568,7 @@ func updateStageSetTable_AbstractExtensionType_AixmabstractgmlobjecttypesStage(p
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -50299,6 +50562,7 @@ func updateStageSetTable_FeatureMetadataPropertyType_AixmabstractgmlobjecttypesS
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -50549,6 +50813,7 @@ func updateStageSetTable_FeatureTimeSliceMetadataPropertyType_Aixmabstractgmlobj
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -50774,6 +51039,7 @@ func updateStageSetTable_MessageMetadataPropertyType_AixmabstractgmlobjecttypesS
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -50924,6 +51190,7 @@ func updateStageSetTable_AbstractCurveSegmentType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -51044,6 +51311,7 @@ func updateStageSetTable_AbstractCurveType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -51161,6 +51429,7 @@ func updateStageSetTable_AbstractFeatureMemberType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -51263,6 +51532,7 @@ func updateStageSetTable_AbstractFeatureType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -51404,6 +51674,7 @@ func updateStageSetTable_AbstractGMLType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -51540,6 +51811,7 @@ func updateStageSetTable_AbstractGeometricPrimitiveType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -51682,6 +51954,7 @@ func updateStageSetTable_AbstractGeometryType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -51804,6 +52077,7 @@ func updateStageSetTable_AbstractMetadataPropertyType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -51897,6 +52171,7 @@ func updateStageSetTable_AbstractRingPropertyType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -51997,6 +52272,7 @@ func updateStageSetTable_AbstractRingType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -52074,6 +52350,7 @@ func updateStageSetTable_AbstractSurfacePatchType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -52176,6 +52453,7 @@ func updateStageSetTable_AbstractSurfaceType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -52318,6 +52596,7 @@ func updateStageSetTable_AbstractTimeGeometricPrimitiveType_GmlStage(probe *Prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -52455,6 +52734,7 @@ func updateStageSetTable_AbstractTimeObjectType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -52586,6 +52866,7 @@ func updateStageSetTable_AbstractTimePrimitiveType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -52722,6 +53003,7 @@ func updateStageSetTable_AbstractTimeSliceType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -52858,6 +53140,7 @@ func updateStageSetTable_AngleType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -53027,6 +53310,7 @@ func updateStageSetTable_ArcByCenterPointType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -53255,6 +53539,7 @@ func updateStageSetTable_ArcStringType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -53457,6 +53742,7 @@ func updateStageSetTable_ArcType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -53700,6 +53986,7 @@ func updateStageSetTable_BoundingShapeType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -54051,6 +54338,7 @@ func updateStageSetTable_CircleByCenterPointType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -54259,6 +54547,7 @@ func updateStageSetTable_CircleType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -54841,6 +55130,7 @@ func updateStageSetTable_CodeType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -56683,6 +56973,7 @@ func updateStageSetTable_CodeWithAuthorityType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -57891,6 +58182,7 @@ func updateStageSetTable_CompositeCurveType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -58109,6 +58401,7 @@ func updateStageSetTable_CurvePropertyType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -58364,6 +58657,7 @@ func updateStageSetTable_CurveSegmentArrayPropertyType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -58611,6 +58905,7 @@ func updateStageSetTable_CurveType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -58801,6 +59096,7 @@ func updateStageSetTable_DirectPositionListType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -59069,6 +59365,7 @@ func updateStageSetTable_DirectPositionType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -59361,6 +59658,7 @@ func updateStageSetTable_DynamicFeatureType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -59502,6 +59800,7 @@ func updateStageSetTable_EnvelopeType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -59658,6 +59957,7 @@ func updateStageSetTable_GeodesicStringType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -59845,6 +60145,7 @@ func updateStageSetTable_GeodesicType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -60007,6 +60308,7 @@ func updateStageSetTable_LengthType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -60156,6 +60458,7 @@ func updateStageSetTable_LineStringSegmentType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -60317,6 +60620,7 @@ func updateStageSetTable_MeasureType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -60446,6 +60750,7 @@ func updateStageSetTable_OrientableCurveType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -60677,6 +60982,7 @@ func updateStageSetTable_PointPropertyType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -60960,6 +61266,7 @@ func updateStageSetTable_PointType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -61115,6 +61422,7 @@ func updateStageSetTable_PolygonPatchType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -61239,6 +61547,7 @@ func updateStageSetTable_RingType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -61367,6 +61676,7 @@ func updateStageSetTable_SurfacePatchArrayPropertyType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -61525,6 +61835,7 @@ func updateStageSetTable_SurfaceType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -61687,6 +61998,7 @@ func updateStageSetTable_TimeInstantType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -61867,6 +62179,7 @@ func updateStageSetTable_TimePeriodType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -62047,6 +62360,7 @@ func updateStageSetTable_TimePositionType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -62331,6 +62645,7 @@ func updateStageSetTable_TimePrimitivePropertyType_GmlStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -62736,6 +63051,7 @@ func updateStageSetTable_Xlink_SchemaElement_XlinkStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}

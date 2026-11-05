@@ -352,6 +352,7 @@ func updateStageSetTable_ALTERNATIVE_ID_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -493,6 +494,7 @@ func updateStageSetTable_ATTRIBUTE_DEFINITION_BOOLEAN_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -691,6 +693,7 @@ func updateStageSetTable_ATTRIBUTE_DEFINITION_DATE_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -894,6 +897,7 @@ func updateStageSetTable_ATTRIBUTE_DEFINITION_ENUMERATION_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1098,6 +1102,7 @@ func updateStageSetTable_ATTRIBUTE_DEFINITION_INTEGER_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1296,6 +1301,7 @@ func updateStageSetTable_ATTRIBUTE_DEFINITION_REAL_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1494,6 +1500,7 @@ func updateStageSetTable_ATTRIBUTE_DEFINITION_STRING_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1692,6 +1699,7 @@ func updateStageSetTable_ATTRIBUTE_DEFINITION_XHTML_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1865,6 +1873,7 @@ func updateStageSetTable_ATTRIBUTE_VALUE_BOOLEAN_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2010,6 +2019,7 @@ func updateStageSetTable_ATTRIBUTE_VALUE_DATE_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2155,6 +2165,7 @@ func updateStageSetTable_ATTRIBUTE_VALUE_ENUMERATION_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2304,6 +2315,7 @@ func updateStageSetTable_ATTRIBUTE_VALUE_INTEGER_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2449,6 +2461,7 @@ func updateStageSetTable_ATTRIBUTE_VALUE_REAL_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2594,6 +2607,7 @@ func updateStageSetTable_ATTRIBUTE_VALUE_STRING_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2749,6 +2763,7 @@ func updateStageSetTable_ATTRIBUTE_VALUE_XHTML_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3019,6 +3034,7 @@ func updateStageSetTable_A_ALTERNATIVE_ID_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3428,6 +3444,7 @@ func updateStageSetTable_A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_Stage(probe *Probe) 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3534,6 +3551,7 @@ func updateStageSetTable_A_ATTRIBUTE_DEFINITION_DATE_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3640,6 +3658,7 @@ func updateStageSetTable_A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_Stage(probe *Pro
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3746,6 +3765,7 @@ func updateStageSetTable_A_ATTRIBUTE_DEFINITION_INTEGER_REF_Stage(probe *Probe) 
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3852,6 +3872,7 @@ func updateStageSetTable_A_ATTRIBUTE_DEFINITION_REAL_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3958,6 +3979,7 @@ func updateStageSetTable_A_ATTRIBUTE_DEFINITION_STRING_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4064,6 +4086,7 @@ func updateStageSetTable_A_ATTRIBUTE_DEFINITION_XHTML_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4170,6 +4193,7 @@ func updateStageSetTable_A_ATTRIBUTE_VALUE_BOOLEAN_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4282,6 +4306,7 @@ func updateStageSetTable_A_ATTRIBUTE_VALUE_DATE_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4394,6 +4419,7 @@ func updateStageSetTable_A_ATTRIBUTE_VALUE_ENUMERATION_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4506,6 +4532,7 @@ func updateStageSetTable_A_ATTRIBUTE_VALUE_INTEGER_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4618,6 +4645,7 @@ func updateStageSetTable_A_ATTRIBUTE_VALUE_REAL_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4730,6 +4758,7 @@ func updateStageSetTable_A_ATTRIBUTE_VALUE_STRING_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4842,6 +4871,7 @@ func updateStageSetTable_A_ATTRIBUTE_VALUE_XHTML_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4994,6 +5024,7 @@ func updateStageSetTable_A_ATTRIBUTE_VALUE_XHTML_1_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5209,6 +5240,7 @@ func updateStageSetTable_A_CHILDREN_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5334,6 +5366,7 @@ func updateStageSetTable_A_CORE_CONTENT_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5474,6 +5507,7 @@ func updateStageSetTable_A_DATATYPES_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5658,6 +5692,7 @@ func updateStageSetTable_A_DATATYPE_DEFINITION_BOOLEAN_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5764,6 +5799,7 @@ func updateStageSetTable_A_DATATYPE_DEFINITION_DATE_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5870,6 +5906,7 @@ func updateStageSetTable_A_DATATYPE_DEFINITION_ENUMERATION_REF_Stage(probe *Prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5976,6 +6013,7 @@ func updateStageSetTable_A_DATATYPE_DEFINITION_INTEGER_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6082,6 +6120,7 @@ func updateStageSetTable_A_DATATYPE_DEFINITION_REAL_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6188,6 +6227,7 @@ func updateStageSetTable_A_DATATYPE_DEFINITION_STRING_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6294,6 +6334,7 @@ func updateStageSetTable_A_DATATYPE_DEFINITION_XHTML_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6430,6 +6471,7 @@ func updateStageSetTable_A_EDITABLE_ATTS_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6572,6 +6614,7 @@ func updateStageSetTable_A_ENUM_VALUE_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6678,6 +6721,7 @@ func updateStageSetTable_A_OBJECT_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6784,6 +6828,7 @@ func updateStageSetTable_A_PROPERTIES_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6894,6 +6939,7 @@ func updateStageSetTable_A_RELATION_GROUP_TYPE_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7005,6 +7051,7 @@ func updateStageSetTable_A_SOURCE_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7129,6 +7176,7 @@ func updateStageSetTable_A_SOURCE_SPECIFICATION_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7248,6 +7296,7 @@ func updateStageSetTable_A_SPECIFICATIONS_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7360,6 +7409,7 @@ func updateStageSetTable_A_SPECIFICATION_TYPE_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7466,6 +7516,7 @@ func updateStageSetTable_A_SPECIFIED_VALUES_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7623,6 +7674,7 @@ func updateStageSetTable_A_SPEC_ATTRIBUTES_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7846,6 +7898,7 @@ func updateStageSetTable_A_SPEC_OBJECTS_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7958,6 +8011,7 @@ func updateStageSetTable_A_SPEC_OBJECT_TYPE_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -8064,6 +8118,7 @@ func updateStageSetTable_A_SPEC_RELATIONS_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -8176,6 +8231,7 @@ func updateStageSetTable_A_SPEC_RELATION_GROUPS_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -8288,6 +8344,7 @@ func updateStageSetTable_A_SPEC_RELATION_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -8394,6 +8451,7 @@ func updateStageSetTable_A_SPEC_RELATION_TYPE_REF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -8515,6 +8573,7 @@ func updateStageSetTable_A_SPEC_TYPES_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -8663,6 +8722,7 @@ func updateStageSetTable_A_THE_HEADER_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -8773,6 +8833,7 @@ func updateStageSetTable_A_TOOL_EXTENSIONS_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -8905,6 +8966,7 @@ func updateStageSetTable_DATATYPE_DEFINITION_BOOLEAN_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -9062,6 +9124,7 @@ func updateStageSetTable_DATATYPE_DEFINITION_DATE_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -9224,6 +9287,7 @@ func updateStageSetTable_DATATYPE_DEFINITION_ENUMERATION_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -9401,6 +9465,7 @@ func updateStageSetTable_DATATYPE_DEFINITION_INTEGER_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -9585,6 +9650,7 @@ func updateStageSetTable_DATATYPE_DEFINITION_REAL_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -9765,6 +9831,7 @@ func updateStageSetTable_DATATYPE_DEFINITION_STRING_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -9928,6 +9995,7 @@ func updateStageSetTable_DATATYPE_DEFINITION_XHTML_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -10070,6 +10138,7 @@ func updateStageSetTable_EMBEDDED_VALUE_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -10207,6 +10276,7 @@ func updateStageSetTable_ENUM_VALUE_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -10394,6 +10464,7 @@ func updateStageSetTable_RELATION_GROUP_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -10596,6 +10667,7 @@ func updateStageSetTable_RELATION_GROUP_TYPE_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -10753,6 +10825,7 @@ func updateStageSetTable_REQ_IF_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -10901,6 +10974,7 @@ func updateStageSetTable_REQ_IF_CONTENT_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -11096,6 +11170,7 @@ func updateStageSetTable_REQ_IF_HEADER_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -11239,6 +11314,7 @@ func updateStageSetTable_REQ_IF_TOOL_EXTENSION_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -11377,6 +11453,7 @@ func updateStageSetTable_SPECIFICATION_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -11569,6 +11646,7 @@ func updateStageSetTable_SPECIFICATION_TYPE_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -11761,6 +11839,7 @@ func updateStageSetTable_SPEC_HIERARCHY_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -11970,6 +12049,7 @@ func updateStageSetTable_SPEC_OBJECT_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -12152,6 +12232,7 @@ func updateStageSetTable_SPEC_OBJECT_TYPE_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -12339,6 +12420,7 @@ func updateStageSetTable_SPEC_RELATION_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -12541,6 +12623,7 @@ func updateStageSetTable_SPEC_RELATION_TYPE_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -12693,6 +12776,7 @@ func updateStageSetTable_XHTML_CONTENT_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -12802,6 +12886,7 @@ func updateStageSetTable_Xmlxsd_SchemaElement_XmlxsdStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}

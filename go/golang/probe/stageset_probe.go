@@ -767,6 +767,7 @@ func (probe *Probe) Refresh() {
 	if probe.docStager != nil {
 		probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 		probe.docStager.Svg()
+		probe.docStager.Tree()
 	}
 	probe.ux_tree()
 	probe.ux_table()
@@ -1394,6 +1395,7 @@ func updateStageSetTable_%s_%s(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1727,6 +1729,7 @@ func generateStageSetFormCallback(
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1809,6 +1812,7 @@ func StageSetNewInstance_%s_%s(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},

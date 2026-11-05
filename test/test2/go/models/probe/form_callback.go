@@ -128,6 +128,7 @@ func StageSetNewInstance_A_Stage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -157,6 +158,7 @@ func StageSetNewInstance_B_Stage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -186,6 +188,7 @@ func StageSetNewInstance_X_XStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -215,6 +218,7 @@ func StageSetNewInstance_Y_YStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},
@@ -244,6 +248,7 @@ func StageSetNewInstance_SubModel_ModelStage(probe *Probe) {
 			if probe.docStager != nil {
 				probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 				probe.docStager.Svg()
+				probe.docStager.Tree()
 			}
 			FillUpFormFromGongstruct(inst, probe)
 		},

@@ -40,6 +40,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -66,6 +67,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -92,6 +94,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -118,6 +121,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}

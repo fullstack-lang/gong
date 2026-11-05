@@ -247,6 +247,7 @@ func updateStageSetTable_Angle0Shape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -342,6 +343,7 @@ func updateStageSetTable_BottomCurvePlane1Shape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -437,6 +439,7 @@ func updateStageSetTable_BottomCurvePlane2Shape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -532,6 +535,7 @@ func updateStageSetTable_CarvedOutBottomCurvePlane1Shape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -627,6 +631,7 @@ func updateStageSetTable_CarvedOutTopCurvePlane1Shape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -722,6 +727,7 @@ func updateStageSetTable_CarvedOutVaseTrapezeRingShape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -817,6 +823,7 @@ func updateStageSetTable_Circumference3DShape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -937,6 +944,7 @@ func updateStageSetTable_Clock2DDiagram_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1125,6 +1133,7 @@ func updateStageSetTable_Clock3DDiagram_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1315,6 +1324,7 @@ func updateStageSetTable_CutLine3DShape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1410,6 +1420,7 @@ func updateStageSetTable_Leaves3DShape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1540,6 +1551,7 @@ func updateStageSetTable_Library_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1692,6 +1704,7 @@ func updateStageSetTable_OriginalPoints3DShape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1787,6 +1800,7 @@ func updateStageSetTable_ParastichyMCurves3DShape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -1882,6 +1896,7 @@ func updateStageSetTable_ParastichyNCurves3DShape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2117,6 +2132,7 @@ func updateStageSetTable_Plant2DDiagram_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2473,6 +2489,7 @@ func updateStageSetTable_Plant3DDiagram_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -2916,6 +2933,7 @@ func updateStageSetTable_PlantAbstract_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3418,6 +3436,7 @@ func updateStageSetTable_Rendered3DShape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3604,6 +3623,7 @@ func updateStageSetTable_SampledPoints3DShape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3725,6 +3745,7 @@ func updateStageSetTable_StackOfRotatedCarvedOutVaseTrapezeRingsShape_Stage(prob
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3825,6 +3846,7 @@ func updateStageSetTable_StemCylinder3DShape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -3951,6 +3973,7 @@ func updateStageSetTable_Stool2DDiagram_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4279,6 +4302,7 @@ func updateStageSetTable_Stool3DDiagram_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4693,6 +4717,7 @@ func updateStageSetTable_TopCurvePlane1Shape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -4788,6 +4813,7 @@ func updateStageSetTable_TopCurvePlane2Shape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5138,6 +5164,7 @@ func updateStageSetTable_TubeVase3DDiagram_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -5923,6 +5950,7 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6654,6 +6682,7 @@ func updateStageSetTable_Vase2DDiagram_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -6980,6 +7009,7 @@ func updateStageSetTable_VaseTrapezeBasePlateShape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7075,6 +7105,7 @@ func updateStageSetTable_VaseTrapezeRingShape_Stage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7220,6 +7251,7 @@ func updateStageSetTable_StoolAbstract_StoolStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7505,6 +7537,7 @@ func updateStageSetTable_MusicAbstract_MusicStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}
@@ -7791,6 +7824,7 @@ func updateStageSetTable_ClockAbstract_ClockStage(probe *Probe) {
 				if probe.docStager != nil {
 					probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 					probe.docStager.Svg()
+					probe.docStager.Tree()
 				}
 			},
 		}

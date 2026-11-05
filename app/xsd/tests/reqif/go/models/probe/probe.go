@@ -248,6 +248,7 @@ func (probe *Probe) Refresh() {
 	if probe.docStager != nil {
 		probe.docStager.SetMap_GongStructName_InstancesNb(probe.ComputeInstancesNb())
 		probe.docStager.Svg()
+		probe.docStager.Tree()
 	}
 	probe.ux_tree()
 	probe.ux_table()

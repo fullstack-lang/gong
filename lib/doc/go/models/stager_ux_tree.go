@@ -59,6 +59,28 @@ func (stager *Stager) tree() {
 		)
 	}
 
+	{
+		button := &tree.Button{
+			Name: "Show/Unshow number of instances",
+			OnClick: func() {
+				stager.showNbInstances = !stager.showNbInstances
+				stager.tree()
+			},
+			HasToolTip:      true,
+			ToolTipPosition: tree.Above,
+		}
+
+		if !stager.showNbInstances {
+			button.ToolTipText = "Show nb of instances"
+			button.Icon = string(buttons.BUTTON_visibility)
+		} else {
+			button.ToolTipText = "Hide nb of instances"
+			button.Icon = string(buttons.BUTTON_visibility_off)
+		}
+
+		root.Buttons = append(root.Buttons, button)
+	}
+
 	// append a node below for each diagram
 	diagramPackage := getTheDiagramPackage(stager.stage)
 
@@ -479,6 +501,15 @@ func (stager *Stager) createStructNode(
 	nodeName := gongStruct.Name
 	if len(stager.stage.MetaPackageImports) == 0 && pkgName != "" && pkgName != "models" {
 		nodeName = gongStruct.Name + " (" + pkgName + ")"
+	}
+	if stager.showNbInstances {
+		nbInstance, ok := stager.map_GongStructName_InstancesNb[pkgName+"."+gongStruct.Name]
+		if !ok {
+			nbInstance, ok = stager.map_GongStructName_InstancesNb[gongStruct.Name]
+		}
+		if ok {
+			nodeName = fmt.Sprintf("%s (%d)", nodeName, nbInstance)
+		}
 	}
 
 	nodeNamedStruct := &tree.Node{

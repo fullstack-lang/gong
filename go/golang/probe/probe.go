@@ -253,6 +253,7 @@ func (probe *Probe) Refresh() {
 	probe.ux_table()
 	probe.ux_form()
 	probe.docStager.Svg()
+	probe.docStager.Tree()
 }
 
 type Notification = gongprobe.Notification
