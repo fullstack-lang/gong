@@ -1114,6 +1114,20 @@
                 "data/stage.go"
             ]
         },
+                {
+            "label": "dsm - xsd - aixm/airspace: go run . edit",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/airspace/go/cmd/airspace"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "edit",
+            ]
+        },
         {
             "label": "dsm - xsd - aixm/route: xsd2gong generate",
             "type": "shell",

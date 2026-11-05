@@ -109,6 +109,32 @@ func TestUnmarshalAirportHeliportBaseline(t *testing.T) {
 	}
 }
 
+func TestUnmarshalDonlon(t *testing.T) {
+	donlonPath := filepath.Join("..", "cmd", domainName, "data", "donlon_"+domainName+".xml")
+	xmlBytes, err := os.ReadFile(donlonPath)
+	if err != nil {
+		t.Fatalf("failed reading %s: %v", donlonPath, err)
+	}
+
+	stage := models.NewStage(domainName + "_donlon")
+	if err := models.UnmarshallXMLToStage(stage, xmlBytes); err != nil {
+		t.Fatalf("UnmarshallXMLToStage on %s failed: %v", donlonPath, err)
+	}
+
+	msgs := stage.GetInstancesSorted[*models.AIXMBasicMessage]()
+	if len(msgs) != 1 {
+		t.Fatalf("expected 1 AIXMBasicMessage, got %d", len(msgs))
+	}
+	if len(msgs[0].HasMember) == 0 {
+		t.Fatalf("expected > 0 HasMember in Donlon %s, got 0", domainName)
+	}
+	errs := models.ValidateXSDConstraints(stage)
+	t.Logf("Donlon %s: unmarshalled %d members (%d XSD constraint notices)", domainName, len(msgs[0].HasMember), len(errs))
+	for i := 0; i < len(errs) && i < 10; i++ {
+		t.Logf("  err[%d]: %s", i, errs[i])
+	}
+}
+
 type structRef struct {
 	Pkg  string
 	Name string

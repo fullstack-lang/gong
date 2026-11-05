@@ -143,3 +143,5 @@ app/xsd/tests/aixm/procedure/go/cmd/procedure/procedure
 app/xsd/tests/aixm/route/go/cmd/route/route
 app/xsd/tests/aixm/service/go/cmd/service/service
 app/xsd/tests/aixm/airport/go/cmd/airport/data/AirportHeliport.BASELINE
+app/xsd/tests/aixm/airspace/go/cmd/airspace/data/Airspace.BASELINE
+app/xsd/tests/aixm/airspace/go/cmd/airspace/data/Airspace.BASELINE.xml

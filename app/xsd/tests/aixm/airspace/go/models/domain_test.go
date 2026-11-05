@@ -13,6 +13,10 @@ import (
 
 	embeddedgo "github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go"
 	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models"
+	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models/aixmabstractgmlobjecttypes"
+	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models/aixmfeatures"
+	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models/gml"
+	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models/probe"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	doc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
@@ -64,6 +68,113 @@ func TestRoundTripAndPopulateStage(t *testing.T) {
 	stage3 := models.NewStage(domainName + "_xml")
 	if err := models.UnmarshallXMLToStage(stage3, xmlOut); err != nil {
 		t.Fatalf("round-trip UnmarshallXMLToStage failed: %v", err)
+	}
+}
+
+func TestUnmarshalAirspaceBaseline(t *testing.T) {
+	baselinePath := filepath.Join("..", "cmd", domainName, "data", "Airspace.BASELINE")
+	xmlBytes, err := os.ReadFile(baselinePath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			t.Skipf("skipping baseline test, file not found: %s", baselinePath)
+		}
+		t.Fatalf("failed reading %s: %v", baselinePath, err)
+	}
+	if len(xmlBytes) >= 1024*1024 {
+		t.Fatalf("expected Airspace.BASELINE subset to be < 1 MB, got %d bytes", len(xmlBytes))
+	}
+
+	mux := http.NewServeMux()
+	stage := models.NewStage(domainName + "_baseline")
+	prb := probe.NewProbe(mux, embeddedgo.GoModelsDir, embeddedgo.GoDiagramsDir, false, stage)
+	stage.SetProbeIF(prb)
+	stager := models.NewStager(mux, stage, prb)
+
+	stage.Reset()
+	if err := models.UnmarshallXMLToStage(stage, xmlBytes); err != nil {
+		t.Fatalf("UnmarshallXMLToStage on Airspace.BASELINE failed: %v", err)
+	}
+	stage.Commit()
+
+	msgs := stage.GetInstancesSorted[*models.AIXMBasicMessage]()
+	if len(msgs) != 1 {
+		t.Fatalf("expected 1 AIXMBasicMessage, got %d", len(msgs))
+	}
+
+	checks := []struct {
+		name  string
+		count int
+	}{
+		{"AIXMBasicMessage", len(*stage.GetInstancesSet[*models.AIXMBasicMessage]())},
+		{"MessageMetadataPropertyType", len(*stage.AixmabstractgmlobjecttypesStage.GetInstancesSet[*aixmabstractgmlobjecttypes.MessageMetadataPropertyType]())},
+		{"BasicMessageMemberAIXMPropertyType", len(*stage.GetInstancesSet[*models.BasicMessageMemberAIXMPropertyType]())},
+		{"AirspaceType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.AirspaceType]())},
+		{"AirspaceTimeSlicePropertyType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.AirspaceTimeSlicePropertyType]())},
+		{"AirspaceTimeSliceType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.AirspaceTimeSliceType]())},
+		{"TimePrimitivePropertyType", len(*stage.GmlStage.GetInstancesSet[*gml.TimePrimitivePropertyType]())},
+		{"AirspaceGeometryComponentType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.AirspaceGeometryComponentType]())},
+		{"AirspaceVolumeType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.AirspaceVolumeType]())},
+		{"AirspaceVolumeDependencyType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.AirspaceVolumeDependencyType]())},
+		{"SurfaceType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.SurfaceType]())},
+		{"AirspaceActivationType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.AirspaceActivationType]())},
+		{"AirspaceLayerClassType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.AirspaceLayerClassType]())},
+		{"AirspaceLayerType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.AirspaceLayerType]())},
+		{"TimesheetType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.TimesheetType]())},
+		{"AuthorityForAirspaceType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.AuthorityForAirspaceType]())},
+		{"AuthorityForAirspaceTimeSliceType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.AuthorityForAirspaceTimeSliceType]())},
+		{"GeoBorderType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.GeoBorderType]())},
+		{"GeoBorderTimeSliceType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.GeoBorderTimeSliceType]())},
+		{"CurveType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.CurveType]())},
+		{"ElevatedCurveType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.ElevatedCurveType]())},
+		{"NoteType", len(*stage.AixmfeaturesStage.GetInstancesSet[*aixmfeatures.NoteType]())},
+		{"DirectPositionListType", len(*stage.GmlStage.GetInstancesSet[*gml.DirectPositionListType]())},
+		{"DirectPositionType", len(*stage.GmlStage.GetInstancesSet[*gml.DirectPositionType]())},
+		{"SurfacePatchArrayPropertyType", len(*stage.GmlStage.GetInstancesSet[*gml.SurfacePatchArrayPropertyType]())},
+		{"AbstractRingPropertyType", len(*stage.GmlStage.GetInstancesSet[*gml.AbstractRingPropertyType]())},
+		{"CurveSegmentArrayPropertyType", len(*stage.GmlStage.GetInstancesSet[*gml.CurveSegmentArrayPropertyType]())},
+		{"PolygonPatchType", len(*stage.GmlStage.GetInstancesSet[*gml.PolygonPatchType]())},
+		{"GeodesicStringType", len(*stage.GmlStage.GetInstancesSet[*gml.GeodesicStringType]())},
+		{"ArcByCenterPointType", len(*stage.GmlStage.GetInstancesSet[*gml.ArcByCenterPointType]())},
+		{"CircleByCenterPointType", len(*stage.GmlStage.GetInstancesSet[*gml.CircleByCenterPointType]())},
+	}
+
+	for _, c := range checks {
+		t.Logf("  %-35s: %d instances", c.name, c.count)
+		if c.count == 0 {
+			t.Errorf("expected > 0 instances for %s, got 0", c.name)
+		}
+	}
+
+	errs := stager.GetSemanticErrors()
+	t.Logf("ValidateXSDConstraints reported %d errors", len(errs))
+	for i := 0; i < len(errs) && i < 20; i++ {
+		t.Logf("  err[%d]: %s", i, errs[i])
+	}
+}
+
+func TestUnmarshalDonlon(t *testing.T) {
+	donlonPath := filepath.Join("..", "cmd", domainName, "data", "donlon_"+domainName+".xml")
+	xmlBytes, err := os.ReadFile(donlonPath)
+	if err != nil {
+		t.Fatalf("failed reading %s: %v", donlonPath, err)
+	}
+
+	stage := models.NewStage(domainName + "_donlon")
+	if err := models.UnmarshallXMLToStage(stage, xmlBytes); err != nil {
+		t.Fatalf("UnmarshallXMLToStage on %s failed: %v", donlonPath, err)
+	}
+
+	msgs := stage.GetInstancesSorted[*models.AIXMBasicMessage]()
+	if len(msgs) != 1 {
+		t.Fatalf("expected 1 AIXMBasicMessage, got %d", len(msgs))
+	}
+	if len(msgs[0].HasMember) == 0 {
+		t.Fatalf("expected > 0 HasMember in Donlon %s, got 0", domainName)
+	}
+	errs := models.ValidateXSDConstraints(stage)
+	t.Logf("Donlon %s: unmarshalled %d members (%d XSD constraint notices)", domainName, len(msgs[0].HasMember), len(errs))
+	for i := 0; i < len(errs) && i < 10; i++ {
+		t.Logf("  err[%d]: %s", i, errs[i])
 	}
 }
 

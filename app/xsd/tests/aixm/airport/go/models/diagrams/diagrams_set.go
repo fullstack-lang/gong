@@ -3079,7 +3079,7 @@ func _(stage *models.Stage) {
 	__models__Classdiagram__00000000_.ShowMultiplicity = true
 	__models__Classdiagram__00000000_.ShowLinkNames = true
 	__models__Classdiagram__00000000_.IsInRenameMode = false
-	__models__Classdiagram__00000000_.IsExpanded = true
+	__models__Classdiagram__00000000_.IsExpanded = false
 	__models__Classdiagram__00000000_.NodeGongStructsIsExpanded = false
 	__models__Classdiagram__00000000_.NodeGongStructNodeExpansion = ``
 	__models__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
@@ -3643,8 +3643,8 @@ by [models.AirportHeliportTimeSliceType] and [models.RunwayTimeSliceType] slices
 Each feature (<a href="/models#AirportHeliportType">models.AirportHeliportType</a>, <a href="/models#RunwayType">models.RunwayType</a>) follows the AIXM Temporality Model: its state over time is carried
 by <a href="/models#AirportHeliportTimeSliceType">models.AirportHeliportTimeSliceType</a> and <a href="/models#RunwayTimeSliceType">models.RunwayTimeSliceType</a> slices bounded by ValidTime (<a href="/models#TimePrimitivePropertyType">models.TimePrimitivePropertyType</a>).
 `
-	__models__GongNoteShape__00000000_.X = 40.000000
-	__models__GongNoteShape__00000000_.Y = 20.000000
+	__models__GongNoteShape__00000000_.X = 33.000000
+	__models__GongNoteShape__00000000_.Y = 16.000000
 	__models__GongNoteShape__00000000_.Width = 640.000000
 	__models__GongNoteShape__00000000_.Height = 142.000000
 	__models__GongNoteShape__00000000_.IsHidden = false

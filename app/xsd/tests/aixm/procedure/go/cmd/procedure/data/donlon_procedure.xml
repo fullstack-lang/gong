@@ -1,0 +1,1619 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file includes contributions from Solitec Software Solutions, Luciad, EUROCONTROL, Comsoft -->
+<!-- Copyright (c) 2025, EUROCONTROL & FAA
+
+  All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+  Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+  Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+  Neither the names of EUROCONTROL or FAA nor the names of their contributors may be used to endorse or promote products derived from this specification without specific prior written permission.
+
+  THIS FICTITIOUS DATA SET IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+  TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+  Editorial note: this license is an instance of the BSD license template as provided by the Open Source Initiative: http://www.opensource.org/licenses/bsd-license.php-->
+
+<message:AIXMBasicMessage
+  xmlns:message="http://www.aixm.aero/schema/5.1.1/message"
+  xmlns:gts="http://www.isotc211.org/2005/gts"
+  xmlns:gco="http://www.isotc211.org/2005/gco"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:gml="http://www.opengis.net/gml/3.2"
+  xmlns:gss="http://www.isotc211.org/2005/gss"
+  xmlns:aixm="http://www.aixm.aero/schema/5.1.1"
+  xmlns:event="http://www.aixm.aero/schema/5.1.1/event"
+  xmlns:gsr="http://www.isotc211.org/2005/gsr"
+  xmlns:gmd="http://www.isotc211.org/2005/gmd"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.aixm.aero/schema/5.1.1/message http://www.aixm.aero/schema/5.1.1/message/AIXM_BasicMessage.xsd
+  http://www.aixm.aero/schema/5.1.1/event https://aixm.aero/schema/5.1.1/event/version_5.1.1-k/Event_Features.xsd"
+  gml:id="DONLON_PROCEDURE_Baseline">
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.f37a6ecd-4765-48ed-88f1-6a42643fc13a">
+      <gml:identifier codeSpace="urn:uuid:">f37a6ecd-4765-48ed-88f1-6a42643fc13a</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_BOR_090_3500FT-FL140_1MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_34b593f5-801e-470b-8084-04852468aef7_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_34b593f5-801e-470b-8084-04852468aef7_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>270</aixm:outboundCourse>
+          
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>090</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">140</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FT">3500</aixm:lowerLimit>
+          <aixm:lowerLimitReference>MSL</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">230</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_34b593f5-801e-470b-8084-04852468aef7_1_0_B_3">
+              <aixm:duration uom="MIN">1</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_34b593f5-801e-470b-8084-04852468aef7_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:08a1bbd5-ea70-4fe3-836a-ea9686349495" xlink:title="NAV VOR/DME BOR BOORSPIJK" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true" nilReason="unknown"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.e7bdf634-6478-4c2e-91a1-a39bffd0cac3">
+      <gml:identifier codeSpace="urn:uuid:">e7bdf634-6478-4c2e-91a1-a39bffd0cac3</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_BOR_090_FL150-FL200_1.5MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_8fb674d1-76c4-4ce4-a4ed-f7fcd6c6973c_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_8fb674d1-76c4-4ce4-a4ed-f7fcd6c6973c_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>270</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>090</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">200</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FL">150</aixm:lowerLimit>
+          <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">240</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_8fb674d1-76c4-4ce4-a4ed-f7fcd6c6973c_1_0_B_3">
+              <aixm:duration uom="MIN">1.5</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_8fb674d1-76c4-4ce4-a4ed-f7fcd6c6973c_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:08a1bbd5-ea70-4fe3-836a-ea9686349495" xlink:title="NAV VOR/DME BOR BOORSPIJK" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.2f288711-bed0-44cf-a637-9c5d3738fdc4">
+      <gml:identifier codeSpace="urn:uuid:">2f288711-bed0-44cf-a637-9c5d3738fdc4</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_BOR_090_FL210-FL340_1.5MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_065e30ff-8120-4c67-85b9-e9392678f893_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_065e30ff-8120-4c67-85b9-e9392678f893_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>270</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>090</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">340</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FL">210</aixm:lowerLimit>
+          <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">265</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_065e30ff-8120-4c67-85b9-e9392678f893_1_0_B_3">
+              <aixm:duration uom="MIN">1.5</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_065e30ff-8120-4c67-85b9-e9392678f893_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:08a1bbd5-ea70-4fe3-836a-ea9686349495" xlink:title="NAV VOR/DME BOR BOORSPIJK" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.b173e35e-d96a-448c-9da8-260861d3ce8d">
+      <gml:identifier codeSpace="urn:uuid:">b173e35e-d96a-448c-9da8-260861d3ce8d</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_BOR_090_FL350-FL460_1.5MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_0d3589ee-60c5-49be-8d87-cb8a71aabcdd_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_0d3589ee-60c5-49be-8d87-cb8a71aabcdd_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>270</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>090</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">460</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FL">350</aixm:lowerLimit>
+          <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="MACH">0.83</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_0d3589ee-60c5-49be-8d87-cb8a71aabcdd_1_0_B_3">
+              <aixm:duration uom="MIN">1.5</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_0d3589ee-60c5-49be-8d87-cb8a71aabcdd_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:08a1bbd5-ea70-4fe3-836a-ea9686349495" xlink:title="NAV VOR/DME BOR BOORSPIJK" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.99c47a9b-a1b4-4652-8bca-4db982cd276a">
+      <gml:identifier codeSpace="urn:uuid:">99c47a9b-a1b4-4652-8bca-4db982cd276a</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_JUS_329_3500FT-FL140_1MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_eea8e169-856d-4469-83fc-9d5d6b499eee_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_eea8e169-856d-4469-83fc-9d5d6b499eee_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>149</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>329</aixm:inboundCourse>
+          <aixm:turnDirection>LEFT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">140</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FT">3500</aixm:lowerLimit>
+          <aixm:lowerLimitReference>MSL</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">230</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>YES</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_eea8e169-856d-4469-83fc-9d5d6b499eee_1_0_B_3">
+              <aixm:duration uom="MIN">1</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_eea8e169-856d-4469-83fc-9d5d6b499eee_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:d138d6ab-a83c-4a0c-97ed-f46a22ccafb4" xlink:title="NAV VOR JUS JUSTINE" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.5244c5b3-3965-4e57-93ab-4400c2834e48">
+      <gml:identifier codeSpace="urn:uuid:">5244c5b3-3965-4e57-93ab-4400c2834e48</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_WOB_015_3500FT-FL140_1MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_95a3e45f-1495-4c22-8131-3c624d31f3e0_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_95a3e45f-1495-4c22-8131-3c624d31f3e0_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>195</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>015</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">140</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FT">3500</aixm:lowerLimit>
+          <aixm:lowerLimitReference>MSL</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">230</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_95a3e45f-1495-4c22-8131-3c624d31f3e0_1_0_B_3">
+              <aixm:duration uom="MIN">1</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_95a3e45f-1495-4c22-8131-3c624d31f3e0_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:882e849c-682d-4e95-ac19-a7808d55cdbb" xlink:title="NAV VOR/DME WOB WOODBANK" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.d6a55bfe-9fee-4d2d-9bdf-93de23b6c9d9">
+      <gml:identifier codeSpace="urn:uuid:">d6a55bfe-9fee-4d2d-9bdf-93de23b6c9d9</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_WOB_015_FL150-FL200_1.5MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_1f767f48-2af5-4ee5-986d-3cfb1b3f8829_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_1f767f48-2af5-4ee5-986d-3cfb1b3f8829_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>195</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>015</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">200</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FL">150</aixm:lowerLimit>
+          <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">240</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_1f767f48-2af5-4ee5-986d-3cfb1b3f8829_1_0_B_3">
+              <aixm:duration uom="MIN">1.5</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_1f767f48-2af5-4ee5-986d-3cfb1b3f8829_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:882e849c-682d-4e95-ac19-a7808d55cdbb" xlink:title="NAV VOR/DME WOB WOODBANK" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.56c4eccb-3e47-45c9-bac0-5c7521fd7549">
+      <gml:identifier codeSpace="urn:uuid:">56c4eccb-3e47-45c9-bac0-5c7521fd7549</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_WOB_015_FL210-FL340_1.5MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_0c2216e0-3b07-4090-8f53-0a10b8435b4b_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_0c2216e0-3b07-4090-8f53-0a10b8435b4b_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>195</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>015</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">340</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FL">210</aixm:lowerLimit>
+          <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">265</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_0c2216e0-3b07-4090-8f53-0a10b8435b4b_1_0_B_3">
+              <aixm:duration uom="MIN">1.5</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_0c2216e0-3b07-4090-8f53-0a10b8435b4b_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:882e849c-682d-4e95-ac19-a7808d55cdbb" xlink:title="NAV VOR/DME WOB WOODBANK" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.51e0bb79-3441-405e-af3a-024bb818dd5c">
+      <gml:identifier codeSpace="urn:uuid:">51e0bb79-3441-405e-af3a-024bb818dd5c</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_WOB_015_FL350-FL460_1.5MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_66be18c9-d11f-4df8-afa9-529b993e1f85_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_66be18c9-d11f-4df8-afa9-529b993e1f85_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>195</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>015</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">460</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FL">350</aixm:lowerLimit>
+          <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="MACH">0.83</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_66be18c9-d11f-4df8-afa9-529b993e1f85_1_0_B_3">
+              <aixm:duration uom="MIN">1.5</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_66be18c9-d11f-4df8-afa9-529b993e1f85_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:882e849c-682d-4e95-ac19-a7808d55cdbb" xlink:title="NAV VOR/DME WOB WOODBANK" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.702a1cb4-5f1c-4b89-a347-8e604141573e">
+      <gml:identifier codeSpace="urn:uuid:">702a1cb4-5f1c-4b89-a347-8e604141573e</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_EKO_340_3500FT-FL140_1MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_caad042b-fa41-4127-8961-3bc0bfab4148_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_caad042b-fa41-4127-8961-3bc0bfab4148_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>160</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>340</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">140</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FT">3500</aixm:lowerLimit>
+          <aixm:lowerLimitReference>MSL</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">230</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_caad042b-fa41-4127-8961-3bc0bfab4148_1_0_B_3">
+              <aixm:duration uom="MIN">1</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_caad042b-fa41-4127-8961-3bc0bfab4148_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:cc271a99-e28c-49e6-86ac-53078e6e59e3" xlink:title="NAV VOR EKO EKCOMBE" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.ca501262-c373-4731-835e-8fa00845813a">
+      <gml:identifier codeSpace="urn:uuid:">ca501262-c373-4731-835e-8fa00845813a</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_EKO_340_FL150-FL200_1.5MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_369ad9f3-ba91-4554-8b0d-9346e126d316_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_369ad9f3-ba91-4554-8b0d-9346e126d316_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>160</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>340</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">200</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FL">150</aixm:lowerLimit>
+          <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">240</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_369ad9f3-ba91-4554-8b0d-9346e126d316_1_0_B_3">
+              <aixm:duration uom="MIN">1.5</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_369ad9f3-ba91-4554-8b0d-9346e126d316_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:cc271a99-e28c-49e6-86ac-53078e6e59e3" xlink:title="NAV VOR EKO EKCOMBE" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.d80fb743-1fbc-45c5-bc78-8e105cc5528e">
+      <gml:identifier codeSpace="urn:uuid:">d80fb743-1fbc-45c5-bc78-8e105cc5528e</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_EKO_340_FL210-FL340_1.5MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_047172cf-ed61-46ea-b9d8-0874924e6feb_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_047172cf-ed61-46ea-b9d8-0874924e6feb_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>160</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>340</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">340</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FL">210</aixm:lowerLimit>
+          <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">265</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_047172cf-ed61-46ea-b9d8-0874924e6feb_1_0_B_3">
+              <aixm:duration uom="MIN">1.5</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_047172cf-ed61-46ea-b9d8-0874924e6feb_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:cc271a99-e28c-49e6-86ac-53078e6e59e3" xlink:title="NAV VOR EKO EKCOMBE" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.18ddd27c-0d4f-4c8e-a042-0c27c023d051">
+      <gml:identifier codeSpace="urn:uuid:">18ddd27c-0d4f-4c8e-a042-0c27c023d051</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_EKO_340_FL350-FL460_1.5MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_b24cff6a-8630-4fc8-8f9b-7f8cd27cfa8b_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_b24cff6a-8630-4fc8-8f9b-7f8cd27cfa8b_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>160</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>340</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">460</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FL">350</aixm:lowerLimit>
+          <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="MACH">0.83</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_b24cff6a-8630-4fc8-8f9b-7f8cd27cfa8b_1_0_B_3">
+              <aixm:duration uom="MIN">1.5</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_b24cff6a-8630-4fc8-8f9b-7f8cd27cfa8b_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:cc271a99-e28c-49e6-86ac-53078e6e59e3" xlink:title="NAV VOR EKO EKCOMBE" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.49221353-49b7-432e-a4e8-cd46e379ad04">
+      <gml:identifier codeSpace="urn:uuid:">49221353-49b7-432e-a4e8-cd46e379ad04</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_WIK_287_3500FT-FL140_1MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_ad1504c7-5837-4de6-b931-92e41759aff2_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_ad1504c7-5837-4de6-b931-92e41759aff2_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>107</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>287</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">140</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FT">3500</aixm:lowerLimit>
+          <aixm:lowerLimitReference>MSL</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">230</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_ad1504c7-5837-4de6-b931-92e41759aff2_1_0_B_3">
+              <aixm:duration uom="MIN">1</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_ad1504c7-5837-4de6-b931-92e41759aff2_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:8993baa1-6718-4a7a-9584-dc0af6a966c6" xlink:title="NAV NDB WIK WIJKARD" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.faea12de-38e1-4375-b3e4-cc8c8a387851">
+      <gml:identifier codeSpace="urn:uuid:">faea12de-38e1-4375-b3e4-cc8c8a387851</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_WIK_287_FL150-FL200_1.5MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_1f285c78-f7f1-4063-8b26-1926b0d3bc3b_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_1f285c78-f7f1-4063-8b26-1926b0d3bc3b_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>107</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>287</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">200</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FL">150</aixm:lowerLimit>
+          <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">240</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_1f285c78-f7f1-4063-8b26-1926b0d3bc3b_1_0_B_3">
+              <aixm:duration uom="MIN">1.5</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_1f285c78-f7f1-4063-8b26-1926b0d3bc3b_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:8993baa1-6718-4a7a-9584-dc0af6a966c6" xlink:title="NAV NDB WIK WIJKARD" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.00151241-0949-47b3-a5f1-e6e16ce8c161">
+      <gml:identifier codeSpace="urn:uuid:">00151241-0949-47b3-a5f1-e6e16ce8c161</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_WIK_287_FL210-FL340_1.5MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_9cbca1c5-30c0-4650-b502-9455d2a70304_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_9cbca1c5-30c0-4650-b502-9455d2a70304_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>107</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>287</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">340</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FL">210</aixm:lowerLimit>
+          <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">265</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_9cbca1c5-30c0-4650-b502-9455d2a70304_1_0_B_3">
+              <aixm:duration uom="MIN">1.5</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_9cbca1c5-30c0-4650-b502-9455d2a70304_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:8993baa1-6718-4a7a-9584-dc0af6a966c6" xlink:title="NAV NDB WIK WIJKARD" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.badd47a2-d265-4e19-a4a2-9d374bb66a13">
+      <gml:identifier codeSpace="urn:uuid:">badd47a2-d265-4e19-a4a2-9d374bb66a13</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_WIK_287_FL350-FL460_1.5MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_a4945b7e-b8f3-48ae-8dfc-cd509e70d08f_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_a4945b7e-b8f3-48ae-8dfc-cd509e70d08f_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>107</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>287</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">460</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FL">350</aixm:lowerLimit>
+          <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="MACH">0.83</aixm:speedLimit>
+          <aixm:instruction>The en-route holdings may be used only when indicated as CLEARANCE LIMIT or after permission from ATC</aixm:instruction>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_a4945b7e-b8f3-48ae-8dfc-cd509e70d08f_1_0_B_3">
+              <aixm:duration uom="MIN">1.5</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_a4945b7e-b8f3-48ae-8dfc-cd509e70d08f_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:8993baa1-6718-4a7a-9584-dc0af6a966c6" xlink:title="NAV NDB WIK WIJKARD" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.8da6a639-e2b3-4486-ab4c-9347fdaff073">
+      <gml:identifier codeSpace="urn:uuid:">8da6a639-e2b3-4486-ab4c-9347fdaff073</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_TEMPO_264_3500FT-FL140_5NM">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_fd1e8f0a-72f3-4a26-93b5-f999f062e345_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_fd1e8f0a-72f3-4a26-93b5-f999f062e345_1_0_B_2">
+              <gml:beginPosition>2017-07-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>084</aixm:outboundCourse>
+          <aixm:outboundCourseType>HDG</aixm:outboundCourseType>
+          <aixm:inboundCourse>264</aixm:inboundCourse>
+          <aixm:turnDirection>LEFT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">140</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FT">3500</aixm:lowerLimit>
+          <aixm:lowerLimitReference>MSL</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">220</aixm:speedLimit>
+          <aixm:instruction xsi:nil="true" nilReason="unknown"/>
+          <aixm:nonStandardHolding>YES</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endDistance>
+            <aixm:HoldingPatternDistance gml:id="id_fd1e8f0a-72f3-4a26-93b5-f999f062e345_1_0_B_3">
+              <aixm:length uom="NM">5.0</aixm:length>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDistance>
+          </aixm:outboundLegSpan_endDistance>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_fd1e8f0a-72f3-4a26-93b5-f999f062e345_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_fixDesignatedPoint xlink:href="urn:uuid:81e47548-9f00-4970-b641-8ff8f99098a5" xlink:title="DPN TEMPO" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.393cf299-b8fd-467d-ad57-7a5345bdd58e">
+      <gml:identifier codeSpace="urn:uuid:">393cf299-b8fd-467d-ad57-7a5345bdd58e</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_TEMPO_278_FL210-FL210_1.5MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_a3ffc2c4-c6b8-4754-bc72-e4c17f83d2a9_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_a3ffc2c4-c6b8-4754-bc72-e4c17f83d2a9_1_0_B_2">
+              <gml:beginPosition>2017-07-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>107</aixm:outboundCourse>
+          <aixm:outboundCourseType>HDG</aixm:outboundCourseType>
+          <aixm:inboundCourse>278</aixm:inboundCourse>
+          <aixm:turnDirection>LEFT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">210</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FL">150</aixm:lowerLimit>
+          <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">240</aixm:speedLimit>
+          <aixm:instruction xsi:nil="true" nilReason="unknown"/>
+          <aixm:nonStandardHolding>YES</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_a3ffc2c4-c6b8-4754-bc72-e4c17f83d2a9_1_0_B_3">
+              <aixm:duration uom="MIN">1.5</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_a3ffc2c4-c6b8-4754-bc72-e4c17f83d2a9_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_fixDesignatedPoint xlink:href="urn:uuid:81e47548-9f00-4970-b641-8ff8f99098a5" xlink:title="DPN TEMPO" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.9450ad7d-29f4-4ec1-9d71-947c2681fa6b">
+      <gml:identifier codeSpace="urn:uuid:">9450ad7d-29f4-4ec1-9d71-947c2681fa6b</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_AK_050_3500FT-FL140_1MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_4c1155a6-5d8d-4286-8e57-4a5b87ad5213_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_4c1155a6-5d8d-4286-8e57-4a5b87ad5213_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>TER</aixm:type>
+          <aixm:outboundCourse>050</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>230</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">140</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FT">3500</aixm:lowerLimit>
+          <aixm:lowerLimitReference>MSL</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">230</aixm:speedLimit>
+          <aixm:instruction xsi:nil="true" nilReason="unknown"/>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_4c1155a6-5d8d-4286-8e57-4a5b87ad5213_1_0_B_3">
+              <aixm:duration uom="MIN">1</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_4c1155a6-5d8d-4286-8e57-4a5b87ad5213_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:fcbefe09-5313-4f5f-8e49-25ecaf528c78" xlink:title="NAV NDB AK AKVIN" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.7e179f82-84bb-43b4-965a-21a1de9a6ec1">
+      <gml:identifier codeSpace="urn:uuid:">7e179f82-84bb-43b4-965a-21a1de9a6ec1</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_KAV_327_950M-FL245_1MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_0c44b1cc-f788-4906-8a6d-dd8010369175_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_0c44b1cc-f788-4906-8a6d-dd8010369175_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>TER</aixm:type>
+          <aixm:outboundCourse>327</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>147</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">245</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="M">950</aixm:lowerLimit>
+          <aixm:lowerLimitReference>MSL</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">230</aixm:speedLimit>
+          <aixm:instruction xsi:nil="true" nilReason="unknown"/>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_0c44b1cc-f788-4906-8a6d-dd8010369175_1_0_B_3">
+              <aixm:duration uom="MIN">1</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_0c44b1cc-f788-4906-8a6d-dd8010369175_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>NO</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_navaidSystem xlink:href="urn:uuid:6237f900-1320-4f01-95ec-8378ebc26e9f" xlink:title="NAV VOR/DME KAV KAVRAN" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.d43d5fc5-6ca6-459e-9499-38c406a1c2ab">
+      <gml:identifier codeSpace="urn:uuid:">d43d5fc5-6ca6-459e-9499-38c406a1c2ab</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_BOR67_223_FL100-FL160_BOR61.8DME">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_9831e124-d203-494e-a040-107e9c21cf6c_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_9831e124-d203-494e-a040-107e9c21cf6c_1_0_B_2">
+              <gml:beginPosition>2017-07-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>043</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_TRACK</aixm:outboundCourseType>
+          <aixm:inboundCourse>223</aixm:inboundCourse>
+          <aixm:turnDirection>LEFT</aixm:turnDirection>
+          <aixm:upperLimit uom="FL">160</aixm:upperLimit>
+          <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="FL">100</aixm:lowerLimit>
+          <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">240</aixm:speedLimit>
+          <aixm:instruction xsi:nil="true" nilReason="unknown"/>
+          <aixm:nonStandardHolding>YES</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endDistance>
+            <aixm:HoldingPatternDistance gml:id="id_9831e124-d203-494e-a040-107e9c21cf6c_1_0_B_3">
+              <aixm:length uom="NM">5</aixm:length>
+              <aixm:annotation>
+                <aixm:Note gml:id="id_9831e124-d203-494e-a040-107e9c21cf6c_1_0_B_4">
+                  <aixm:propertyName>length</aixm:propertyName>
+                  <aixm:purpose>REMARK</aixm:purpose>
+                  <aixm:translatedNote>
+                    <aixm:LinguisticNote gml:id="id_9831e124-d203-494e-a040-107e9c21cf6c_1_0_B_5">
+                      <aixm:note lang="ENG">BOR DME indication: 61.8NM</aixm:note>
+                    </aixm:LinguisticNote>
+                  </aixm:translatedNote>
+                </aixm:Note>
+              </aixm:annotation>
+            </aixm:HoldingPatternDistance>
+          </aixm:outboundLegSpan_endDistance>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_9831e124-d203-494e-a040-107e9c21cf6c_1_0_B_6">
+              <aixm:reportingATC xsi:nil="true"/>
+              <aixm:flyOver xsi:nil="true"/>
+              <aixm:waypoint xsi:nil="true"/>
+              <aixm:radarGuidance xsi:nil="true"/>
+              <aixm:facilityMakeup>
+                <aixm:PointReference gml:id="id_9831e124-d203-494e-a040-107e9c21cf6c_1_0_B_7">
+                  <aixm:role>RAD_DME</aixm:role>
+                  <aixm:priorFixTolerance xsi:nil="true" nilReason="unknown"/>
+                  <aixm:postFixTolerance xsi:nil="true" nilReason="unknown"/>
+                  <aixm:point xlink:href="urn:uuid:2fea81e6-023b-4069-b8cd-2ab96da27862" xlink:title="DPN BOR67" xlink:type="simple"/>
+                  <aixm:facilityAngle>
+                    <aixm:AngleUse gml:id="id_9831e124-d203-494e-a040-107e9c21cf6c_1_0_B_8">
+                      <aixm:alongCourseGuidance>YES</aixm:alongCourseGuidance>
+                      <aixm:annotation xsi:nil="true"/>
+                      <aixm:theAngleIndication xlink:href="urn:uuid:fea12fb3-9f19-45f2-ac0c-90b83b850e37" xlink:title="AIN BOR029" xlink:type="simple"/>
+                    </aixm:AngleUse>
+                  </aixm:facilityAngle>
+                  <aixm:facilityDistance xlink:href="urn:uuid:711d3f53-1da1-46b9-b499-373110f018af" xlink:title="DIN BOR-BOR67 66.8DME" xlink:type="simple"/>
+                  <aixm:fixToleranceArea xsi:nil="true" nilReason="unknown"/>
+                  <aixm:annotation xsi:nil="true"/>
+                </aixm:PointReference>
+              </aixm:facilityMakeup>
+              <aixm:pointChoice_fixDesignatedPoint xlink:href="urn:uuid:2fea81e6-023b-4069-b8cd-2ab96da27862" xlink:title="DPN BOR67" xlink:type="simple"/>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.5ec34a95-b680-4f4b-a2d7-99f2f14b4560">
+      <gml:identifier codeSpace="urn:uuid:">5ec34a95-b680-4f4b-a2d7-99f2f14b4560</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_Point_137_4572M-6096M_1.5MIN">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_134ff89f-62e1-4074-85c6-285b5397d2dc_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_134ff89f-62e1-4074-85c6-285b5397d2dc_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>317</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_BRG</aixm:outboundCourseType>
+          <aixm:inboundCourse>137</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="M">6096</aixm:upperLimit>
+          <aixm:upperLimitReference>MSL</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="M">4572</aixm:lowerLimit>
+          <aixm:lowerLimitReference>MSL</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KT">230</aixm:speedLimit>
+          <aixm:instruction xsi:nil="true" nilReason="unknown"/>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_134ff89f-62e1-4074-85c6-285b5397d2dc_1_0_B_3">
+              <aixm:duration uom="MIN">1.5</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_134ff89f-62e1-4074-85c6-285b5397d2dc_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>YES</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_position>
+                <aixm:ElevatedPoint srsName="urn:ogc:def:crs:EPSG::4326" gml:id="id_134ff89f-62e1-4074-85c6-285b5397d2dc_1_0_B_5">
+                  <gml:pos>52.46833333333333 -32.475000</gml:pos>
+                  <aixm:horizontalAccuracy uom="M">10</aixm:horizontalAccuracy>
+                  <aixm:elevation xsi:nil="true" nilReason="unknown"/>
+                  <aixm:geoidUndulation xsi:nil="true" nilReason="unknown"/>
+                  <aixm:verticalDatum xsi:nil="true" nilReason="unknown"/>
+                  <aixm:verticalAccuracy xsi:nil="true" nilReason="unknown"/>
+                </aixm:ElevatedPoint>
+              </aixm:pointChoice_position>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.39f50cab-cf8a-43c7-b6c4-1705c3886ae7">
+      <gml:identifier codeSpace="urn:uuid:">39f50cab-cf8a-43c7-b6c4-1705c3886ae7</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_Point_137_6400.8M-10363.2M_90SEC">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_5e47391a-231d-4ea1-a0ec-8daaabf11e55_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_5e47391a-231d-4ea1-a0ec-8daaabf11e55_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>317</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_BRG</aixm:outboundCourseType>
+          <aixm:inboundCourse>137</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="M">10363.2</aixm:upperLimit>
+          <aixm:upperLimitReference>MSL</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="M">6400.8</aixm:lowerLimit>
+          <aixm:lowerLimitReference>MSL</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KM_H">256.1933112</aixm:speedLimit>
+          <aixm:instruction xsi:nil="true" nilReason="unknown"/>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_5e47391a-231d-4ea1-a0ec-8daaabf11e55_1_0_B_3">
+              <aixm:duration uom="SEC">90</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_5e47391a-231d-4ea1-a0ec-8daaabf11e55_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>YES</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_position>
+                <aixm:ElevatedPoint srsName="urn:ogc:def:crs:EPSG::4326" gml:id="id_5e47391a-231d-4ea1-a0ec-8daaabf11e55_1_0_B_5">
+                  <gml:pos>52.46833333333333 -32.475000</gml:pos>
+                  <aixm:horizontalAccuracy uom="M">10</aixm:horizontalAccuracy>
+                  <aixm:elevation xsi:nil="true" nilReason="unknown"/>
+                  <aixm:geoidUndulation xsi:nil="true" nilReason="unknown"/>
+                  <aixm:verticalDatum xsi:nil="true" nilReason="unknown"/>
+                  <aixm:verticalAccuracy xsi:nil="true" nilReason="unknown"/>
+                </aixm:ElevatedPoint>
+              </aixm:pointChoice_position>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+  <message:hasMember>
+    <aixm:HoldingPattern gml:id="uuid.39845412-b7b9-4932-93e0-807c92b7cbb5">
+      <gml:identifier codeSpace="urn:uuid:">39845412-b7b9-4932-93e0-807c92b7cbb5</gml:identifier>
+      <aixm:timeSlice>
+        <aixm:HoldingPatternTimeSlice gml:id="HPT_Point_137_10668.0M-14020.8M_90SEC">
+          <gml:validTime>
+            <gml:TimePeriod gml:id="id_3ad84c25-0e80-4624-b36c-8e8859d4d034_1_0_B_1">
+              <gml:beginPosition>2025-11-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </gml:validTime>
+          <aixm:interpretation>BASELINE</aixm:interpretation>
+          <aixm:sequenceNumber>1</aixm:sequenceNumber>
+          <aixm:correctionNumber>0</aixm:correctionNumber>
+          <aixm:featureLifetime>
+            <gml:TimePeriod gml:id="id_3ad84c25-0e80-4624-b36c-8e8859d4d034_1_0_B_2">
+              <gml:beginPosition>2009-01-01T00:00:00Z</gml:beginPosition>
+              <gml:endPosition indeterminatePosition="unknown"/>
+            </gml:TimePeriod>
+          </aixm:featureLifetime>
+          <aixm:type>ENR</aixm:type>
+          <aixm:outboundCourse>317</aixm:outboundCourse>
+          <aixm:outboundCourseType>MAG_BRG</aixm:outboundCourseType>
+          <aixm:inboundCourse>137</aixm:inboundCourse>
+          <aixm:turnDirection>RIGHT</aixm:turnDirection>
+          <aixm:upperLimit uom="M">14020.8</aixm:upperLimit>
+          <aixm:upperLimitReference>MSL</aixm:upperLimitReference>
+          <aixm:lowerLimit uom="M">10668.0</aixm:lowerLimit>
+          <aixm:lowerLimitReference>MSL</aixm:lowerLimitReference>
+          <aixm:speedLimit uom="KM_H">256.1933112</aixm:speedLimit>
+          <aixm:instruction xsi:nil="true" nilReason="unknown"/>
+          <aixm:nonStandardHolding>NO</aixm:nonStandardHolding>
+          <aixm:outboundLegSpan_endTime>
+            <aixm:HoldingPatternDuration gml:id="id_3ad84c25-0e80-4624-b36c-8e8859d4d034_1_0_B_3">
+              <aixm:duration uom="SEC">90</aixm:duration>
+              <aixm:annotation xsi:nil="true"/>
+            </aixm:HoldingPatternDuration>
+          </aixm:outboundLegSpan_endTime>
+          <aixm:holdingPoint>
+            <aixm:EnRouteSegmentPoint gml:id="id_3ad84c25-0e80-4624-b36c-8e8859d4d034_1_0_B_4">
+              <aixm:reportingATC xsi:nil="true" nilReason="unknown"/>
+              <aixm:flyOver>YES</aixm:flyOver>
+              <aixm:waypoint>YES</aixm:waypoint>
+              <aixm:radarGuidance>YES</aixm:radarGuidance>
+              <aixm:facilityMakeup xsi:nil="true"/>
+              <aixm:pointChoice_position>
+                <aixm:ElevatedPoint srsName="urn:ogc:def:crs:EPSG::4326" gml:id="id_3ad84c25-0e80-4624-b36c-8e8859d4d034_1_0_B_5">
+                  <gml:pos>52.46833333333333 -32.475000</gml:pos>
+                  <aixm:horizontalAccuracy uom="M">10</aixm:horizontalAccuracy>
+                  <aixm:elevation xsi:nil="true" nilReason="unknown"/>
+                  <aixm:geoidUndulation xsi:nil="true" nilReason="unknown"/>
+                  <aixm:verticalDatum xsi:nil="true" nilReason="unknown"/>
+                  <aixm:verticalAccuracy xsi:nil="true" nilReason="unknown"/>
+                </aixm:ElevatedPoint>
+              </aixm:pointChoice_position>
+              <aixm:extendedServiceVolume xsi:nil="true"/>
+              <aixm:annotation xsi:nil="true"/>
+              <aixm:roleFreeFlight xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleRVSM xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:turnRadius xsi:nil="true" nilReason="inapplicable"/>
+              <aixm:roleMilitaryTraining xsi:nil="true" nilReason="inapplicable"/>
+            </aixm:EnRouteSegmentPoint>
+          </aixm:holdingPoint>
+          <aixm:extent xsi:nil="true"/>
+          <aixm:annotation xsi:nil="true"/>
+        </aixm:HoldingPatternTimeSlice>
+      </aixm:timeSlice>
+    </aixm:HoldingPattern>
+  </message:hasMember>
+
+</message:AIXMBasicMessage>
