@@ -1095,83 +1095,14 @@ func saveDiagramFields(
 			FormDivSliceOfPointersToField(_instance, "ConceptsWhoseRequirementsNodeIsExpanded", &(_instance.ConceptsWhoseRequirementsNodeIsExpanded), formDiv, probe)
 		case "DeliverableConceptShapes":
 			FormDivSliceOfPointersToField(_instance, "DeliverableConceptShapes", &(_instance.DeliverableConceptShapes), formDiv, probe)
-		case "Diagram_Shapes":
-			FormDivSliceOfPointersToField(_instance, "Diagram_Shapes", &(_instance.Diagram_Shapes), formDiv, probe)
-		case "IsDiagramsNodeExpanded":
-			FormDivBasicFieldToField(&(_instance.IsDiagramsNodeExpanded), formDiv)
-		case "DiagramsWhoseNodeIsExpanded":
-			FormDivSliceOfPointersToField(_instance, "DiagramsWhoseNodeIsExpanded", &(_instance.DiagramsWhoseNodeIsExpanded), formDiv, probe)
-		case "Diagram:DiagramsWhoseNodeIsExpanded":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DiagramsWhoseNodeIsExpanded", func(owner *models.Diagram) *[]*models.Diagram { return &owner.DiagramsWhoseNodeIsExpanded })
+		case "Library_Shapes":
+			FormDivSliceOfPointersToField(_instance, "Library_Shapes", &(_instance.Library_Shapes), formDiv, probe)
+		case "IsLibrariesNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsLibrariesNodeExpanded), formDiv)
+		case "LibrariesWhoseNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "LibrariesWhoseNodeIsExpanded", &(_instance.LibrariesWhoseNodeIsExpanded), formDiv, probe)
 		case "Library:Diagrams":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Diagrams", func(owner *models.Library) *[]*models.Diagram { return &owner.Diagrams })
-		}
-	}
-}
-
-func __gong__New__DiagramShapeFormCallback(
-	_instance *models.DiagramShape,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (diagramshapeFormCallback *FormCallback[*models.DiagramShape]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveDiagramShapeFields,
-	)
-}
-
-type DiagramShapeFormCallback = FormCallback[*models.DiagramShape]
-
-func saveDiagramShapeFields(
-	_instance *models.DiagramShape,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) {
-	for _, formDiv := range formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
-		case "Diagram":
-			FormDivSelectFieldToField(&(_instance.Diagram), probe.stageOfInterest, formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
-		case "X":
-			FormDivBasicFieldToField(&(_instance.X), formDiv)
-		case "Y":
-			FormDivBasicFieldToField(&(_instance.Y), formDiv)
-		case "Width":
-			FormDivBasicFieldToField(&(_instance.Width), formDiv)
-		case "Height":
-			FormDivBasicFieldToField(&(_instance.Height), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
-		case "IsPresentationOverridden":
-			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
-		case "Color":
-			FormDivBasicFieldToField(&(_instance.Color), formDiv)
-		case "FillOpacity":
-			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
-		case "Stroke":
-			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
-		case "StrokeWidth":
-			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
-		case "StrokeOpacity":
-			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
-		case "StrokeDashArray":
-			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
-		case "RX":
-			FormDivBasicFieldToField(&(_instance.RX), formDiv)
-		case "FontSize":
-			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
-		case "FontWeight":
-			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
-		case "FontColor":
-			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
-		case "Diagram:Diagram_Shapes":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Diagram_Shapes", func(owner *models.Diagram) *[]*models.DiagramShape { return &owner.Diagram_Shapes })
 		}
 	}
 }
@@ -1229,8 +1160,77 @@ func saveLibraryFields(
 			FormDivSliceOfPointersToField(_instance, "SubLibraries", &(_instance.SubLibraries), formDiv, probe)
 		case "NbPixPerCharacter":
 			FormDivBasicFieldToField(&(_instance.NbPixPerCharacter), formDiv)
+		case "Diagram:LibrariesWhoseNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "LibrariesWhoseNodeIsExpanded", func(owner *models.Diagram) *[]*models.Library { return &owner.LibrariesWhoseNodeIsExpanded })
 		case "Library:SubLibraries":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SubLibraries", func(owner *models.Library) *[]*models.Library { return &owner.SubLibraries })
+		}
+	}
+}
+
+func __gong__New__LibraryShapeFormCallback(
+	_instance *models.LibraryShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (libraryshapeFormCallback *FormCallback[*models.LibraryShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveLibraryShapeFields,
+	)
+}
+
+type LibraryShapeFormCallback = FormCallback[*models.LibraryShape]
+
+func saveLibraryShapeFields(
+	_instance *models.LibraryShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Library":
+			FormDivSelectFieldToField(&(_instance.Library), probe.stageOfInterest, formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(_instance.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(_instance.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(_instance.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(_instance.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
+		case "Diagram:Library_Shapes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Library_Shapes", func(owner *models.Diagram) *[]*models.LibraryShape { return &owner.Library_Shapes })
 		}
 	}
 }

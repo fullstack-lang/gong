@@ -7,85 +7,50 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeDiagramBSinDiagram(currentDiagram *Diagram, library *Library, parentNode *tree.Node) {
-	// First, sort and iterate over diagrams in this library
-	diagrams := library.Diagrams
-	slices.SortFunc(diagrams, func(a, b *Diagram) int {
-		return cmp.Compare(a.Name, b.Name)
-	})
-
-	for _, targetDiagram := range diagrams {
-		// Do not show the current diagram in its own diagram tree, to prevent infinite self-referencing diagram shapes?
-		// Or maybe it's fine. Usually, you shouldn't embed a diagram into itself.
-		if targetDiagram == currentDiagram {
-			continue
-		}
-
-		node := &tree.Node{
-			Name:                    targetDiagram.GetName(),
-			IsExpanded:              true,
-			IsNodeClickable:         true,
-			IsInEditMode:            targetDiagram.GetIsInRenameMode(),
-			HasCheckboxButton:       true,
-			CheckboxHasToolTip:      true,
-			CheckboxToolTipPosition: tree.Right,
-		}
-		parentNode.Children = append(parentNode.Children, node)
-		addRenameButton(targetDiagram, node, stager)
-		node.OnNameChange = func(newName string) {
-			targetDiagram.SetName(newName)
-			targetDiagram.SetIsInRenameMode(false)
-			stager.stage.Commit()
-		}
-
-		diagramShape, ok := currentDiagram.map_Diagram_DiagramShape[targetDiagram]
-		node.IsChecked = ok
-
-		if ok {
-			node.CheckboxToolTipText = "Uncheck to remove DiagramShape from diagram"
-		} else {
-			node.CheckboxToolTipText = "Check to add DiagramShape to diagram"
-		}
-
-		node.OnIsCheckedChanged = func(isChecked bool) {
-			if isChecked {
-				newShapeToDiagram(targetDiagram, currentDiagram, &currentDiagram.Diagram_Shapes, stager, node.ClientOnY)
-				stager.stage.Commit()
-			} else {
-				diagramShape.UnstageVoid(stager.stage)
-				// Remove it from currentDiagram.Diagram_Shapes
-				for i, ds := range currentDiagram.Diagram_Shapes {
-					if ds == diagramShape {
-						currentDiagram.Diagram_Shapes = append(currentDiagram.Diagram_Shapes[:i], currentDiagram.Diagram_Shapes[i+1:]...)
-						break
-					}
-				}
-				stager.stage.Commit()
-			}
-		}
-	}
-
-	// Recursively process sub-libraries
+func (stager *Stager) treeLibraryBSinDiagram(currentDiagram *Diagram, library *Library, parentNode *tree.Node) {
 	subLibraries := library.SubLibraries
 	slices.SortFunc(subLibraries, func(a, b *Library) int {
 		return cmp.Compare(a.Name, b.Name)
 	})
 
 	for _, subLibrary := range subLibraries {
-		libNode := &tree.Node{
-			Name:            subLibrary.GetName(),
-			IsExpanded:      true, // Expand by default or manage state if needed
-			IsNodeClickable: true,
-			IsInEditMode:    subLibrary.GetIsInRenameMode(),
+		confNode := TreeNodeAndShapeConfigurationWithoutLink[
+			*Library, Library,
+			*Library, Library,
+			*LibraryShape, LibraryShape,
+			*Diagram,
+		]{
+			diagram:                     currentDiagram,
+			parentNode:                  parentNode,
+			element:                     subLibrary,
+			parentElement:               library,
+			elementsWhoseNodeIsExpanded: &currentDiagram.LibrariesWhoseNodeIsExpanded,
+			shapes:                      &currentDiagram.Library_Shapes,
+			shapesMap:                   currentDiagram.map_Library_LibraryShape,
 		}
-		parentNode.Children = append(parentNode.Children, libNode)
-		addRenameButton(subLibrary, libNode, stager)
-		libNode.OnNameChange = func(newName string) {
-			subLibrary.SetName(newName)
-			subLibrary.SetIsInRenameMode(false)
-			stager.stage.Commit()
-		}
+		libNode := addNodeToTreeWithoutLink(stager, confNode)
 
-		stager.treeDiagramBSinDiagram(currentDiagram, subLibrary, libNode)
+		confSubLibraries := ItemAndShapeButtonConfiguration[
+			Library, *Library,
+			Library, *Library,
+			LibraryShape, *LibraryShape,
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Library, *Library,
+				Library, *Library,
+			]{
+				parentNode:                         libNode,
+				sliceForNewAddedItem:               &subLibrary.SubLibraries,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeBySlice,
+				parentNodeExpansionSliceEncoding:   &currentDiagram.LibrariesWhoseNodeIsExpanded,
+				parentElement:                      subLibrary,
+			},
+			receivingDiagram:      currentDiagram,
+			sliceForNewAddedShape: &currentDiagram.Library_Shapes,
+		}
+		addCreateItemAndShapeButton(stager, confSubLibraries)
+
+		stager.treeLibraryBSinDiagram(currentDiagram, subLibrary, libNode)
 	}
 }

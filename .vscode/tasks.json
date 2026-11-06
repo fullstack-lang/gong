@@ -225,6 +225,21 @@
             "group": "build"
         },
         {
+            "label": "dsm - capture: go run . edit data/15288.go",
+            "type": "shell",
+            "options": {
+                "cwd": "dsm/capture/go/cmd/capture"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/15288.go"
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - floss: gong generate --dsm",
             "type": "shell",
             "options": {

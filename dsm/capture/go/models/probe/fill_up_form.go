@@ -1008,24 +1008,15 @@ func FillUpForm(
 		AssociationSliceToForm("ConceptsWhoseDeliverablesNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ConceptsWhoseDeliverablesNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("ConceptsWhoseRequirementsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ConceptsWhoseRequirementsNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("DeliverableConceptShapes", instanceWithInferedType, &instanceWithInferedType.DeliverableConceptShapes, formGroup, probe)
-		AssociationSliceToForm("Diagram_Shapes", instanceWithInferedType, &instanceWithInferedType.Diagram_Shapes, formGroup, probe)
-		BasicFieldtoForm("IsDiagramsNodeExpanded", instanceWithInferedType.IsDiagramsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+		AssociationSliceToForm("Library_Shapes", instanceWithInferedType, &instanceWithInferedType.Library_Shapes, formGroup, probe)
+		BasicFieldtoForm("IsLibrariesNodeExpanded", instanceWithInferedType.IsLibrariesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationSliceToForm("DiagramsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DiagramsWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("LibrariesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.LibrariesWhoseNodeIsExpanded, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Diagram",
-			"DiagramsWhoseNodeIsExpanded",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Diagram) []*models.Diagram {
-				return owner.DiagramsWhoseNodeIsExpanded
-			})
 		AssociationReverseSliceToForm(
 			"Library",
 			"Diagrams",
@@ -1036,11 +1027,57 @@ func FillUpForm(
 				return owner.Diagrams
 			})
 
-	case *models.DiagramShape:
+	case *models.Library:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Diagram", instanceWithInferedType.Diagram, formGroup, probe)
+		BasicFieldtoForm("IsRootLibrary", instanceWithInferedType.IsRootLibrary, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("RootDeliverables", instanceWithInferedType, &instanceWithInferedType.RootDeliverables, formGroup, probe)
+		AssociationSliceToForm("RootConcerns", instanceWithInferedType, &instanceWithInferedType.RootConcerns, formGroup, probe)
+		AssociationSliceToForm("RootStakeholders", instanceWithInferedType, &instanceWithInferedType.RootStakeholders, formGroup, probe)
+		AssociationSliceToForm("RootRequirements", instanceWithInferedType, &instanceWithInferedType.RootRequirements, formGroup, probe)
+		AssociationSliceToForm("RootViews", instanceWithInferedType, &instanceWithInferedType.RootViews, formGroup, probe)
+		AssociationSliceToForm("RootConcepts", instanceWithInferedType, &instanceWithInferedType.RootConcepts, formGroup, probe)
+		AssociationSliceToForm("AnalysisNeeds", instanceWithInferedType, &instanceWithInferedType.AnalysisNeeds, formGroup, probe)
+		AssociationSliceToForm("Notes", instanceWithInferedType, &instanceWithInferedType.Notes, formGroup, probe)
+		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
+		AssociationSliceToForm("SubLibraries", instanceWithInferedType, &instanceWithInferedType.SubLibraries, formGroup, probe)
+		BasicFieldtoForm("NbPixPerCharacter", instanceWithInferedType.NbPixPerCharacter, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Diagram",
+			"LibrariesWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Diagram) []*models.Library {
+				return owner.LibrariesWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"SubLibraries",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.Library {
+				return owner.SubLibraries
+			})
+
+	case *models.LibraryShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Library", instanceWithInferedType.Library, formGroup, probe)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
@@ -1082,49 +1119,12 @@ func FillUpForm(
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		AssociationReverseSliceToForm(
 			"Diagram",
-			"Diagram_Shapes",
+			"Library_Shapes",
 			instanceWithInferedType,
 			formGroup,
 			probe,
-			func(owner *models.Diagram) []*models.DiagramShape {
-				return owner.Diagram_Shapes
-			})
-
-	case *models.Library:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsRootLibrary", instanceWithInferedType.IsRootLibrary, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("RootDeliverables", instanceWithInferedType, &instanceWithInferedType.RootDeliverables, formGroup, probe)
-		AssociationSliceToForm("RootConcerns", instanceWithInferedType, &instanceWithInferedType.RootConcerns, formGroup, probe)
-		AssociationSliceToForm("RootStakeholders", instanceWithInferedType, &instanceWithInferedType.RootStakeholders, formGroup, probe)
-		AssociationSliceToForm("RootRequirements", instanceWithInferedType, &instanceWithInferedType.RootRequirements, formGroup, probe)
-		AssociationSliceToForm("RootViews", instanceWithInferedType, &instanceWithInferedType.RootViews, formGroup, probe)
-		AssociationSliceToForm("RootConcepts", instanceWithInferedType, &instanceWithInferedType.RootConcepts, formGroup, probe)
-		AssociationSliceToForm("AnalysisNeeds", instanceWithInferedType, &instanceWithInferedType.AnalysisNeeds, formGroup, probe)
-		AssociationSliceToForm("Notes", instanceWithInferedType, &instanceWithInferedType.Notes, formGroup, probe)
-		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
-		AssociationSliceToForm("SubLibraries", instanceWithInferedType, &instanceWithInferedType.SubLibraries, formGroup, probe)
-		BasicFieldtoForm("NbPixPerCharacter", instanceWithInferedType.NbPixPerCharacter, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		AssociationReverseSliceToForm(
-			"Library",
-			"SubLibraries",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Library) []*models.Library {
-				return owner.SubLibraries
+			func(owner *models.Diagram) []*models.LibraryShape {
+				return owner.Library_Shapes
 			})
 
 	case *models.Note:

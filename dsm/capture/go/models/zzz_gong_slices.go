@@ -448,18 +448,18 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_DeliverableConceptShapes_reverseMap[_deliverableconceptshape] = diagram
 		}
 	}
-	stage.Diagram_Diagram_Shapes_reverseMap = make(map[*DiagramShape]*Diagram)
+	stage.Diagram_Library_Shapes_reverseMap = make(map[*LibraryShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
-		for _, _diagramshape := range diagram.Diagram_Shapes {
-			stage.Diagram_Diagram_Shapes_reverseMap[_diagramshape] = diagram
+		for _, _libraryshape := range diagram.Library_Shapes {
+			stage.Diagram_Library_Shapes_reverseMap[_libraryshape] = diagram
 		}
 	}
-	stage.Diagram_DiagramsWhoseNodeIsExpanded_reverseMap = make(map[*Diagram]*Diagram)
+	stage.Diagram_LibrariesWhoseNodeIsExpanded_reverseMap = make(map[*Library]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
-		for _, _diagram := range diagram.DiagramsWhoseNodeIsExpanded {
-			stage.Diagram_DiagramsWhoseNodeIsExpanded_reverseMap[_diagram] = diagram
+		for _, _library := range diagram.LibrariesWhoseNodeIsExpanded {
+			stage.Diagram_LibrariesWhoseNodeIsExpanded_reverseMap[_library] = diagram
 		}
 	}
 
@@ -743,9 +743,9 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.Diagrams)
 
-	res = __gong__appendInstances(res, stage.DiagramShapes)
-
 	res = __gong__appendInstances(res, stage.Librarys)
+
+	res = __gong__appendInstances(res, stage.LibraryShapes)
 
 	res = __gong__appendInstances(res, stage.Notes)
 
@@ -879,15 +879,15 @@ func (diagram *Diagram) GongCopy() GongstructIF {
 	return newInstance
 }
 
-func (diagramshape *DiagramShape) GongCopy() GongstructIF {
-	newInstance := new(DiagramShape)
-	diagramshape.GongCopyBasicFields(newInstance)
-	return newInstance
-}
-
 func (library *Library) GongCopy() GongstructIF {
 	newInstance := new(Library)
 	library.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (libraryshape *LibraryShape) GongCopy() GongstructIF {
+	newInstance := new(LibraryShape)
+	libraryshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1066,12 +1066,12 @@ func (diagram *Diagram) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, diagram)
 }
 
-func (diagramshape *DiagramShape) GongGetUUID(stage *Stage) string {
-	return __gong__getUUID(stage, diagramshape)
-}
-
 func (library *Library) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, library)
+}
+
+func (libraryshape *LibraryShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, libraryshape)
 }
 
 func (note *Note) GongGetUUID(stage *Stage) string {
@@ -1507,11 +1507,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
-		stage.DiagramShapes,
-		stage.DiagramShape_stagedOrder,
-		stage.DiagramShapes_reference,
-		&stage.DiagramShapes_referenceOrder,
-		stage.DiagramShapes_instance,
+		stage.Librarys,
+		stage.Library_stagedOrder,
+		stage.Librarys_reference,
+		&stage.Librarys_referenceOrder,
+		stage.Librarys_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -1524,11 +1524,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
-		stage.Librarys,
-		stage.Library_stagedOrder,
-		stage.Librarys_reference,
-		&stage.Librarys_referenceOrder,
-		stage.Librarys_instance,
+		stage.LibraryShapes,
+		stage.LibraryShape_stagedOrder,
+		stage.LibraryShapes_reference,
+		&stage.LibraryShapes_referenceOrder,
+		stage.LibraryShapes_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -1927,9 +1927,9 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.Diagrams, &stage.Diagrams_reference, &stage.Diagrams_referenceOrder, &stage.Diagrams_instance)
 
-	__gong__computeReferencePass1(stage, stage.DiagramShapes, &stage.DiagramShapes_reference, &stage.DiagramShapes_referenceOrder, &stage.DiagramShapes_instance)
-
 	__gong__computeReferencePass1(stage, stage.Librarys, &stage.Librarys_reference, &stage.Librarys_referenceOrder, &stage.Librarys_instance)
+
+	__gong__computeReferencePass1(stage, stage.LibraryShapes, &stage.LibraryShapes_reference, &stage.LibraryShapes_referenceOrder, &stage.LibraryShapes_instance)
 
 	__gong__computeReferencePass1(stage, stage.Notes, &stage.Notes_reference, &stage.Notes_referenceOrder, &stage.Notes_instance)
 
@@ -2000,9 +2000,9 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass2(stage.Diagrams, stage.Diagrams_reference, stage)
 
-	__gong__computeReferencePass2(stage.DiagramShapes, stage.DiagramShapes_reference, stage)
-
 	__gong__computeReferencePass2(stage.Librarys, stage.Librarys_reference, stage)
+
+	__gong__computeReferencePass2(stage.LibraryShapes, stage.LibraryShapes_reference, stage)
 
 	__gong__computeReferencePass2(stage.Notes, stage.Notes_reference, stage)
 
@@ -2112,12 +2112,12 @@ func (diagram *Diagram) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Diagram_stagedOrder, stage.Diagrams_referenceOrder, diagram, "Diagram")
 }
 
-func (diagramshape *DiagramShape) GongGetOrder(stage *Stage) uint {
-	return __gong__getOrder(stage.DiagramShape_stagedOrder, stage.DiagramShapes_referenceOrder, diagramshape, "DiagramShape")
-}
-
 func (library *Library) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Library_stagedOrder, stage.Librarys_referenceOrder, library, "Library")
+}
+
+func (libraryshape *LibraryShape) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.LibraryShape_stagedOrder, stage.LibraryShapes_referenceOrder, libraryshape, "LibraryShape")
 }
 
 func (note *Note) GongGetOrder(stage *Stage) uint {
@@ -2336,15 +2336,6 @@ func (diagram *Diagram) GongGetReferenceIdentifier(stage *Stage) string {
 	return diagram.GongGetIdentifier(stage)
 }
 
-func (diagramshape *DiagramShape) GongGetIdentifier(stage *Stage) string {
-	return __gong__formatIdentifier(diagramshape, diagramshape.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (diagramshape *DiagramShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return diagramshape.GongGetIdentifier(stage)
-}
-
 func (library *Library) GongGetIdentifier(stage *Stage) string {
 	return __gong__formatIdentifier(library, library.GongGetOrder(stage))
 }
@@ -2352,6 +2343,15 @@ func (library *Library) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (library *Library) GongGetReferenceIdentifier(stage *Stage) string {
 	return library.GongGetIdentifier(stage)
+}
+
+func (libraryshape *LibraryShape) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(libraryshape, libraryshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (libraryshape *LibraryShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return libraryshape.GongGetIdentifier(stage)
 }
 
 func (note *Note) GongGetIdentifier(stage *Stage) string {
@@ -2588,12 +2588,12 @@ func (diagram *Diagram) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(diagram.GongGetIdentifier(stage), "Diagram", diagram.Name)
 }
 
-func (diagramshape *DiagramShape) GongMarshallIdentifier(stage *Stage) string {
-	return __gong__marshallIdentifier(diagramshape.GongGetIdentifier(stage), "DiagramShape", diagramshape.Name)
-}
-
 func (library *Library) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(library.GongGetIdentifier(stage), "Library", library.Name)
+}
+
+func (libraryshape *LibraryShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(libraryshape.GongGetIdentifier(stage), "LibraryShape", libraryshape.Name)
 }
 
 func (note *Note) GongMarshallIdentifier(stage *Stage) string {
@@ -2733,12 +2733,12 @@ func (diagram *Diagram) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(diagram.GongGetReferenceIdentifier(stage))
 }
 
-func (diagramshape *DiagramShape) GongMarshallUnstaging(stage *Stage) string {
-	return __gong__marshallUnstaging(diagramshape.GongGetReferenceIdentifier(stage))
-}
-
 func (library *Library) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(library.GongGetReferenceIdentifier(stage))
+}
+
+func (libraryshape *LibraryShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(libraryshape.GongGetReferenceIdentifier(stage))
 }
 
 func (note *Note) GongMarshallUnstaging(stage *Stage) string {

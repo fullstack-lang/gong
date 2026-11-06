@@ -132,13 +132,13 @@ type Diagram struct {
 	map_SvgRect_RequirementShape map[*svg.Rect]*RequirementShape
 	map_SvgRect_ViewShape        map[*svg.Rect]*ViewShape
 	map_SvgRect_ConceptShape     map[*svg.Rect]*ConceptShape
-	map_SvgRect_DiagramShape     map[*svg.Rect]*DiagramShape
+	map_SvgRect_LibraryShape     map[*svg.Rect]*LibraryShape
 
-	Diagram_Shapes              []*DiagramShape
-	map_Diagram_DiagramShape    map[*Diagram]*DiagramShape
-	map_Diagram_Rect            map[*Diagram]*svg.Rect
-	IsDiagramsNodeExpanded      bool
-	DiagramsWhoseNodeIsExpanded []*Diagram
+	Library_Shapes               []*LibraryShape
+	map_Library_LibraryShape     map[*Library]*LibraryShape
+	map_Library_Rect             map[*Library]*svg.Rect
+	IsLibrariesNodeExpanded      bool
+	LibrariesWhoseNodeIsExpanded []*Library
 
 	elementWhoseDiagramListIsDisplayed AbstractType
 }

@@ -190,10 +190,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(DeliverableViewShape), stage, ident.Name, instanceName, preserveOrder)
 				case "Diagram":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Diagram), stage, ident.Name, instanceName, preserveOrder)
-				case "DiagramShape":
-					identifierMap[ident.Name] = __gong__stageSetInit(new(DiagramShape), stage, ident.Name, instanceName, preserveOrder)
 				case "Library":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Library), stage, ident.Name, instanceName, preserveOrder)
+				case "LibraryShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(LibraryShape), stage, ident.Name, instanceName, preserveOrder)
 				case "Note":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Note), stage, ident.Name, instanceName, preserveOrder)
 				case "NoteDeliverableShape":
@@ -792,19 +792,52 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignSliceOfPointers(&inst.ConceptsWhoseRequirementsNodeIsExpanded, rhs, identifierMap)
 					case "DeliverableConceptShapes":
 						__gong__assignSliceOfPointers(&inst.DeliverableConceptShapes, rhs, identifierMap)
-					case "Diagram_Shapes":
-						__gong__assignSliceOfPointers(&inst.Diagram_Shapes, rhs, identifierMap)
-					case "IsDiagramsNodeExpanded":
-						inst.IsDiagramsNodeExpanded = GongExtractBool(rhs)
-					case "DiagramsWhoseNodeIsExpanded":
-						__gong__assignSliceOfPointers(&inst.DiagramsWhoseNodeIsExpanded, rhs, identifierMap)
+					case "Library_Shapes":
+						__gong__assignSliceOfPointers(&inst.Library_Shapes, rhs, identifierMap)
+					case "IsLibrariesNodeExpanded":
+						inst.IsLibrariesNodeExpanded = GongExtractBool(rhs)
+					case "LibrariesWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.LibrariesWhoseNodeIsExpanded, rhs, identifierMap)
 					}
-				case *DiagramShape:
+				case *Library:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Diagram":
-						__gong__assignPointer(&inst.Diagram, rhs, identifierMap)
+					case "IsRootLibrary":
+						inst.IsRootLibrary = GongExtractBool(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "RootDeliverables":
+						__gong__assignSliceOfPointers(&inst.RootDeliverables, rhs, identifierMap)
+					case "RootConcerns":
+						__gong__assignSliceOfPointers(&inst.RootConcerns, rhs, identifierMap)
+					case "RootStakeholders":
+						__gong__assignSliceOfPointers(&inst.RootStakeholders, rhs, identifierMap)
+					case "RootRequirements":
+						__gong__assignSliceOfPointers(&inst.RootRequirements, rhs, identifierMap)
+					case "RootViews":
+						__gong__assignSliceOfPointers(&inst.RootViews, rhs, identifierMap)
+					case "RootConcepts":
+						__gong__assignSliceOfPointers(&inst.RootConcepts, rhs, identifierMap)
+					case "AnalysisNeeds":
+						__gong__assignSliceOfPointers(&inst.AnalysisNeeds, rhs, identifierMap)
+					case "Notes":
+						__gong__assignSliceOfPointers(&inst.Notes, rhs, identifierMap)
+					case "Diagrams":
+						__gong__assignSliceOfPointers(&inst.Diagrams, rhs, identifierMap)
+					case "SubLibraries":
+						__gong__assignSliceOfPointers(&inst.SubLibraries, rhs, identifierMap)
+					case "NbPixPerCharacter":
+						inst.NbPixPerCharacter = GongExtractFloat(rhs)
+					}
+				case *LibraryShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Library":
+						__gong__assignPointer(&inst.Library, rhs, identifierMap)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
 					case "X":
@@ -839,39 +872,6 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.FontWeight = GongExtractString(rhs)
 					case "FontColor":
 						inst.FontColor = GongExtractString(rhs)
-					}
-				case *Library:
-					switch fieldName {
-					case "Name":
-						inst.Name = GongExtractString(rhs)
-					case "IsRootLibrary":
-						inst.IsRootLibrary = GongExtractBool(rhs)
-					case "ComputedPrefix":
-						inst.ComputedPrefix = GongExtractString(rhs)
-					case "IsExpanded":
-						inst.IsExpanded = GongExtractBool(rhs)
-					case "RootDeliverables":
-						__gong__assignSliceOfPointers(&inst.RootDeliverables, rhs, identifierMap)
-					case "RootConcerns":
-						__gong__assignSliceOfPointers(&inst.RootConcerns, rhs, identifierMap)
-					case "RootStakeholders":
-						__gong__assignSliceOfPointers(&inst.RootStakeholders, rhs, identifierMap)
-					case "RootRequirements":
-						__gong__assignSliceOfPointers(&inst.RootRequirements, rhs, identifierMap)
-					case "RootViews":
-						__gong__assignSliceOfPointers(&inst.RootViews, rhs, identifierMap)
-					case "RootConcepts":
-						__gong__assignSliceOfPointers(&inst.RootConcepts, rhs, identifierMap)
-					case "AnalysisNeeds":
-						__gong__assignSliceOfPointers(&inst.AnalysisNeeds, rhs, identifierMap)
-					case "Notes":
-						__gong__assignSliceOfPointers(&inst.Notes, rhs, identifierMap)
-					case "Diagrams":
-						__gong__assignSliceOfPointers(&inst.Diagrams, rhs, identifierMap)
-					case "SubLibraries":
-						__gong__assignSliceOfPointers(&inst.SubLibraries, rhs, identifierMap)
-					case "NbPixPerCharacter":
-						inst.NbPixPerCharacter = GongExtractFloat(rhs)
 					}
 				case *Note:
 					switch fieldName {
@@ -2344,65 +2344,12 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.ConceptsWhoseRequirementsNodeIsExpanded, valueExpr, identifierMap)
 	case "DeliverableConceptShapes":
 		GongUnmarshallSliceOfPointers(&instance.DeliverableConceptShapes, valueExpr, identifierMap)
-	case "Diagram_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.Diagram_Shapes, valueExpr, identifierMap)
-	case "IsDiagramsNodeExpanded":
-		instance.IsDiagramsNodeExpanded = GongExtractBool(valueExpr)
-	case "DiagramsWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.DiagramsWhoseNodeIsExpanded, valueExpr, identifierMap)
-	}
-	return nil
-}
-
-type DiagramShapeUnmarshaller struct{}
-
-func (u *DiagramShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	return GongInitialize(new(DiagramShape), stage, identifier, instanceName, preserveOrder)
-}
-
-func (u *DiagramShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*DiagramShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "Diagram":
-		GongUnmarshallPointer(&instance.Diagram, valueExpr, identifierMap)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "X":
-		instance.X = GongExtractFloat(valueExpr)
-	case "Y":
-		instance.Y = GongExtractFloat(valueExpr)
-	case "Width":
-		instance.Width = GongExtractFloat(valueExpr)
-	case "Height":
-		instance.Height = GongExtractFloat(valueExpr)
-	case "IsHidden":
-		instance.IsHidden = GongExtractBool(valueExpr)
-	case "IsPresentationOverridden":
-		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
-	case "Color":
-		instance.Color = GongExtractString(valueExpr)
-	case "FillOpacity":
-		instance.FillOpacity = GongExtractFloat(valueExpr)
-	case "Stroke":
-		instance.Stroke = GongExtractString(valueExpr)
-	case "StrokeWidth":
-		instance.StrokeWidth = GongExtractFloat(valueExpr)
-	case "StrokeOpacity":
-		instance.StrokeOpacity = GongExtractFloat(valueExpr)
-	case "StrokeDashArray":
-		instance.StrokeDashArray = GongExtractString(valueExpr)
-	case "RX":
-		instance.RX = GongExtractFloat(valueExpr)
-	case "FontSize":
-		instance.FontSize = GongExtractString(valueExpr)
-	case "FontWeight":
-		instance.FontWeight = GongExtractString(valueExpr)
-	case "FontColor":
-		instance.FontColor = GongExtractString(valueExpr)
+	case "Library_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.Library_Shapes, valueExpr, identifierMap)
+	case "IsLibrariesNodeExpanded":
+		instance.IsLibrariesNodeExpanded = GongExtractBool(valueExpr)
+	case "LibrariesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.LibrariesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -2448,6 +2395,59 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.SubLibraries, valueExpr, identifierMap)
 	case "NbPixPerCharacter":
 		instance.NbPixPerCharacter = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type LibraryShapeUnmarshaller struct{}
+
+func (u *LibraryShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(LibraryShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *LibraryShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*LibraryShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Library":
+		GongUnmarshallPointer(&instance.Library, valueExpr, identifierMap)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	}
 	return nil
 }

@@ -437,27 +437,13 @@ type Stage struct {
 
 	Diagram_DeliverableConceptShapes_reverseMap map[*DeliverableConceptShape]*Diagram
 
-	Diagram_Diagram_Shapes_reverseMap map[*DiagramShape]*Diagram
+	Diagram_Library_Shapes_reverseMap map[*LibraryShape]*Diagram
 
-	Diagram_DiagramsWhoseNodeIsExpanded_reverseMap map[*Diagram]*Diagram
+	Diagram_LibrariesWhoseNodeIsExpanded_reverseMap map[*Library]*Diagram
 
 	OnAfterDiagramCreateCallback GongOnAfterCreateInterface[Diagram]
 	OnAfterDiagramUpdateCallback GongOnAfterUpdateInterface[Diagram]
 	OnAfterDiagramDeleteCallback GongOnAfterDeleteInterface[Diagram]
-
-	DiagramShapes                map[*DiagramShape]struct{}
-	DiagramShapes_instance       map[*DiagramShape]*DiagramShape
-	DiagramShapes_mapString      map[string]*DiagramShape
-	DiagramShapeOrder            uint
-	DiagramShape_stagedOrder     map[*DiagramShape]uint
-	DiagramShape_orderStaged     map[uint]*DiagramShape
-	DiagramShapes_reference      map[*DiagramShape]*DiagramShape
-	DiagramShapes_referenceOrder map[*DiagramShape]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterDiagramShapeCreateCallback GongOnAfterCreateInterface[DiagramShape]
-	OnAfterDiagramShapeUpdateCallback GongOnAfterUpdateInterface[DiagramShape]
-	OnAfterDiagramShapeDeleteCallback GongOnAfterDeleteInterface[DiagramShape]
 
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
@@ -492,6 +478,20 @@ type Stage struct {
 	OnAfterLibraryCreateCallback GongOnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback GongOnAfterUpdateInterface[Library]
 	OnAfterLibraryDeleteCallback GongOnAfterDeleteInterface[Library]
+
+	LibraryShapes                map[*LibraryShape]struct{}
+	LibraryShapes_instance       map[*LibraryShape]*LibraryShape
+	LibraryShapes_mapString      map[string]*LibraryShape
+	LibraryShapeOrder            uint
+	LibraryShape_stagedOrder     map[*LibraryShape]uint
+	LibraryShape_orderStaged     map[uint]*LibraryShape
+	LibraryShapes_reference      map[*LibraryShape]*LibraryShape
+	LibraryShapes_referenceOrder map[*LibraryShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterLibraryShapeCreateCallback GongOnAfterCreateInterface[LibraryShape]
+	OnAfterLibraryShapeUpdateCallback GongOnAfterUpdateInterface[LibraryShape]
+	OnAfterLibraryShapeDeleteCallback GongOnAfterDeleteInterface[LibraryShape]
 
 	Notes                map[*Note]struct{}
 	Notes_instance       map[*Note]*Note
@@ -908,9 +908,9 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.Diagrams_reference, &stage.Diagrams_instance, &stage.Diagrams_referenceOrder)
 
-	__gong__clearReferences(&stage.DiagramShapes_reference, &stage.DiagramShapes_instance, &stage.DiagramShapes_referenceOrder)
-
 	__gong__clearReferences(&stage.Librarys_reference, &stage.Librarys_instance, &stage.Librarys_referenceOrder)
+
+	__gong__clearReferences(&stage.LibraryShapes_reference, &stage.LibraryShapes_instance, &stage.LibraryShapes_referenceOrder)
 
 	__gong__clearReferences(&stage.Notes_reference, &stage.Notes_instance, &stage.Notes_referenceOrder)
 
@@ -1003,9 +1003,9 @@ func (stage *Stage) recomputeOrders() {
 
 	stage.DiagramOrder = __gong__recomputeOrder(stage.Diagram_stagedOrder)
 
-	stage.DiagramShapeOrder = __gong__recomputeOrder(stage.DiagramShape_stagedOrder)
-
 	stage.LibraryOrder = __gong__recomputeOrder(stage.Library_stagedOrder)
+
+	stage.LibraryShapeOrder = __gong__recomputeOrder(stage.LibraryShape_stagedOrder)
 
 	stage.NoteOrder = __gong__recomputeOrder(stage.Note_stagedOrder)
 
@@ -1361,26 +1361,6 @@ func (*Diagram) GongNewInstance() any {
 	return new(Diagram)
 }
 
-func (*DiagramShape) GongGetInstancesByOrder(stage *Stage) any {
-	return __gong__getStructInstancesByOrder(stage.DiagramShapes, stage.DiagramShape_stagedOrder)
-}
-
-func (*DiagramShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
-	return stage.DiagramShape_orderStaged[order]
-}
-
-func (*DiagramShape) GongGetInstancesMapByName(stage *Stage) any {
-	return stage.DiagramShapes_mapString
-}
-
-func (*DiagramShape) GongGetInstancesSet(stage *Stage) any {
-	return &stage.DiagramShapes
-}
-
-func (*DiagramShape) GongNewInstance() any {
-	return new(DiagramShape)
-}
-
 func (*Library) GongGetInstancesByOrder(stage *Stage) any {
 	return __gong__getStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
 }
@@ -1399,6 +1379,26 @@ func (*Library) GongGetInstancesSet(stage *Stage) any {
 
 func (*Library) GongNewInstance() any {
 	return new(Library)
+}
+
+func (*LibraryShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.LibraryShapes, stage.LibraryShape_stagedOrder)
+}
+
+func (*LibraryShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.LibraryShape_orderStaged[order]
+}
+
+func (*LibraryShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.LibraryShapes_mapString
+}
+
+func (*LibraryShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.LibraryShapes
+}
+
+func (*LibraryShape) GongNewInstance() any {
+	return new(LibraryShape)
 }
 
 func (*Note) GongGetInstancesByOrder(stage *Stage) any {
@@ -2007,11 +2007,11 @@ func NewStage(name string) (stage *Stage) {
 		Diagrams:           make(map[*Diagram]struct{}),
 		Diagrams_mapString: make(map[string]*Diagram),
 
-		DiagramShapes:           make(map[*DiagramShape]struct{}),
-		DiagramShapes_mapString: make(map[string]*DiagramShape),
-
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
+
+		LibraryShapes:           make(map[*LibraryShape]struct{}),
+		LibraryShapes_mapString: make(map[string]*LibraryShape),
 
 		Notes:           make(map[*Note]struct{}),
 		Notes_mapString: make(map[string]*Note),
@@ -2138,13 +2138,13 @@ func NewStage(name string) (stage *Stage) {
 		Diagram_orderStaged: make(map[uint]*Diagram),
 		Diagrams_reference:  make(map[*Diagram]*Diagram),
 
-		DiagramShape_stagedOrder: make(map[*DiagramShape]uint),
-		DiagramShape_orderStaged: make(map[uint]*DiagramShape),
-		DiagramShapes_reference:  make(map[*DiagramShape]*DiagramShape),
-
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
 		Librarys_reference:  make(map[*Library]*Library),
+
+		LibraryShape_stagedOrder: make(map[*LibraryShape]uint),
+		LibraryShape_orderStaged: make(map[uint]*LibraryShape),
+		LibraryShapes_reference:  make(map[*LibraryShape]*LibraryShape),
 
 		Note_stagedOrder: make(map[*Note]uint),
 		Note_orderStaged: make(map[uint]*Note),
@@ -2254,9 +2254,9 @@ func NewStage(name string) (stage *Stage) {
 
 			"Diagram": &DiagramUnmarshaller{},
 
-			"DiagramShape": &DiagramShapeUnmarshaller{},
-
 			"Library": &LibraryUnmarshaller{},
+
+			"LibraryShape": &LibraryShapeUnmarshaller{},
 
 			"Note": &NoteUnmarshaller{},
 
@@ -2393,8 +2393,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["DeliverableShape"] = len(stage.DeliverableShapes)
 	stage.Map_GongStructName_InstancesNb["DeliverableViewShape"] = len(stage.DeliverableViewShapes)
 	stage.Map_GongStructName_InstancesNb["Diagram"] = len(stage.Diagrams)
-	stage.Map_GongStructName_InstancesNb["DiagramShape"] = len(stage.DiagramShapes)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
+	stage.Map_GongStructName_InstancesNb["LibraryShape"] = len(stage.LibraryShapes)
 	stage.Map_GongStructName_InstancesNb["Note"] = len(stage.Notes)
 	stage.Map_GongStructName_InstancesNb["NoteDeliverableShape"] = len(stage.NoteDeliverableShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
@@ -3054,46 +3054,6 @@ func (diagram *Diagram) SetName(name string) {
 	diagram.Name = name
 }
 
-// Stage puts diagramshape to the model stage
-func (diagramshape *DiagramShape) Stage(stage *Stage) *DiagramShape {
-	__gong__stage(stage.DiagramShapes, stage.DiagramShape_stagedOrder, stage.DiagramShape_orderStaged, &stage.DiagramShapeOrder, stage.DiagramShapes_mapString, diagramshape, diagramshape.Name)
-	return diagramshape
-}
-
-// StagePreserveOrder puts diagramshape to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.DiagramShapeOrder
-// - update stage.DiagramShapeOrder accordingly
-func (diagramshape *DiagramShape) StagePreserveOrder(stage *Stage, order uint) {
-	__gong__stagePreserveOrder(stage.DiagramShapes, stage.DiagramShape_stagedOrder, stage.DiagramShape_orderStaged, &stage.DiagramShapeOrder, stage.DiagramShapes_mapString, diagramshape, order, diagramshape.Name)
-}
-
-// Unstage removes diagramshape off the model stage
-func (diagramshape *DiagramShape) Unstage(stage *Stage) *DiagramShape {
-	__gong__unstage(stage.DiagramShapes, stage.DiagramShapes_mapString, diagramshape, diagramshape.Name)
-	return diagramshape
-}
-
-// UnstageVoid removes diagramshape off the model stage
-func (diagramshape *DiagramShape) UnstageVoid(stage *Stage) {
-	diagramshape.Unstage(stage)
-}
-
-func (diagramshape *DiagramShape) StageVoid(stage *Stage) {
-	diagramshape.Stage(stage)
-}
-
-// for satisfaction of GongStruct interface
-func (diagramshape *DiagramShape) GetName() (res string) {
-	return diagramshape.Name
-}
-
-// for satisfaction of GongStruct interface
-func (diagramshape *DiagramShape) SetName(name string) {
-	diagramshape.Name = name
-}
-
 // Stage puts library to the model stage
 func (library *Library) Stage(stage *Stage) *Library {
 	__gong__stage(stage.Librarys, stage.Library_stagedOrder, stage.Library_orderStaged, &stage.LibraryOrder, stage.Librarys_mapString, library, library.Name)
@@ -3132,6 +3092,46 @@ func (library *Library) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (library *Library) SetName(name string) {
 	library.Name = name
+}
+
+// Stage puts libraryshape to the model stage
+func (libraryshape *LibraryShape) Stage(stage *Stage) *LibraryShape {
+	__gong__stage(stage.LibraryShapes, stage.LibraryShape_stagedOrder, stage.LibraryShape_orderStaged, &stage.LibraryShapeOrder, stage.LibraryShapes_mapString, libraryshape, libraryshape.Name)
+	return libraryshape
+}
+
+// StagePreserveOrder puts libraryshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LibraryShapeOrder
+// - update stage.LibraryShapeOrder accordingly
+func (libraryshape *LibraryShape) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.LibraryShapes, stage.LibraryShape_stagedOrder, stage.LibraryShape_orderStaged, &stage.LibraryShapeOrder, stage.LibraryShapes_mapString, libraryshape, order, libraryshape.Name)
+}
+
+// Unstage removes libraryshape off the model stage
+func (libraryshape *LibraryShape) Unstage(stage *Stage) *LibraryShape {
+	__gong__unstage(stage.LibraryShapes, stage.LibraryShapes_mapString, libraryshape, libraryshape.Name)
+	return libraryshape
+}
+
+// UnstageVoid removes libraryshape off the model stage
+func (libraryshape *LibraryShape) UnstageVoid(stage *Stage) {
+	libraryshape.Unstage(stage)
+}
+
+func (libraryshape *LibraryShape) StageVoid(stage *Stage) {
+	libraryshape.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (libraryshape *LibraryShape) GetName() (res string) {
+	return libraryshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (libraryshape *LibraryShape) SetName(name string) {
+	libraryshape.Name = name
 }
 
 // Stage puts note to the model stage
@@ -3925,9 +3925,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.Diagrams, &stage.Diagrams_mapString, &stage.Diagram_stagedOrder, &stage.DiagramOrder)
 
-	__gong__resetStageType(&stage.DiagramShapes, &stage.DiagramShapes_mapString, &stage.DiagramShape_stagedOrder, &stage.DiagramShapeOrder)
-
 	__gong__resetStageType(&stage.Librarys, &stage.Librarys_mapString, &stage.Library_stagedOrder, &stage.LibraryOrder)
+
+	__gong__resetStageType(&stage.LibraryShapes, &stage.LibraryShapes_mapString, &stage.LibraryShape_stagedOrder, &stage.LibraryShapeOrder)
 
 	__gong__resetStageType(&stage.Notes, &stage.Notes_mapString, &stage.Note_stagedOrder, &stage.NoteOrder)
 
@@ -4213,14 +4213,8 @@ func (Diagram) GongGetAssociationName() any {
 			ConceptsWhoseDeliverablesNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseDeliverablesNodeIsExpanded"}},
 			ConceptsWhoseRequirementsNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseRequirementsNodeIsExpanded"}},
 			DeliverableConceptShapes: []*DeliverableConceptShape{{Name: "DeliverableConceptShapes"}},
-			Diagram_Shapes: []*DiagramShape{{Name: "Diagram_Shapes"}},
-			DiagramsWhoseNodeIsExpanded: []*Diagram{{Name: "DiagramsWhoseNodeIsExpanded"}},
-	}
-}
-
-func (DiagramShape) GongGetAssociationName() any {
-	return &DiagramShape{
-			Diagram: &Diagram{Name: "Diagram"},
+			Library_Shapes: []*LibraryShape{{Name: "Library_Shapes"}},
+			LibrariesWhoseNodeIsExpanded: []*Library{{Name: "LibrariesWhoseNodeIsExpanded"}},
 	}
 }
 
@@ -4236,6 +4230,12 @@ func (Library) GongGetAssociationName() any {
 			Notes: []*Note{{Name: "Notes"}},
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
+	}
+}
+
+func (LibraryShape) GongGetAssociationName() any {
+	return &LibraryShape{
+			Library: &Library{Name: "Library"},
 	}
 }
 
@@ -4694,32 +4694,32 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of DiagramShape
-	case DiagramShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "Diagram":
-			res := make(map[*Diagram][]*DiagramShape)
-			for diagramshape := range stage.DiagramShapes {
-				if diagramshape.Diagram != nil {
-					diagram_ := diagramshape.Diagram
-					var diagramshapes []*DiagramShape
-					_, ok := res[diagram_]
-					if ok {
-						diagramshapes = res[diagram_]
-					} else {
-						diagramshapes = make([]*DiagramShape, 0)
-					}
-					diagramshapes = append(diagramshapes, diagramshape)
-					res[diagram_] = diagramshapes
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		}
 	// reverse maps of direct associations of Library
 	case Library:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of LibraryShape
+	case LibraryShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Library":
+			res := make(map[*Library][]*LibraryShape)
+			for libraryshape := range stage.LibraryShapes {
+				if libraryshape.Library != nil {
+					library_ := libraryshape.Library
+					var libraryshapes []*LibraryShape
+					_, ok := res[library_]
+					if ok {
+						libraryshapes = res[library_]
+					} else {
+						libraryshapes = make([]*LibraryShape, 0)
+					}
+					libraryshapes = append(libraryshapes, libraryshape)
+					res[library_] = libraryshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Note
 	case Note:
@@ -5730,27 +5730,22 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Diagram_Shapes":
-			res := make(map[*DiagramShape][]*Diagram)
+		case "Library_Shapes":
+			res := make(map[*LibraryShape][]*Diagram)
 			for diagram := range stage.Diagrams {
-				for _, diagramshape_ := range diagram.Diagram_Shapes {
-					res[diagramshape_] = append(res[diagramshape_], diagram)
+				for _, libraryshape_ := range diagram.Library_Shapes {
+					res[libraryshape_] = append(res[libraryshape_], diagram)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "DiagramsWhoseNodeIsExpanded":
-			res := make(map[*Diagram][]*Diagram)
+		case "LibrariesWhoseNodeIsExpanded":
+			res := make(map[*Library][]*Diagram)
 			for diagram := range stage.Diagrams {
-				for _, diagram_ := range diagram.DiagramsWhoseNodeIsExpanded {
-					res[diagram_] = append(res[diagram_], diagram)
+				for _, library_ := range diagram.LibrariesWhoseNodeIsExpanded {
+					res[library_] = append(res[library_], diagram)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		}
-	// reverse maps of direct associations of DiagramShape
-	case DiagramShape:
-		switch fieldname {
-		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Library
 	case Library:
@@ -5836,6 +5831,11 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of LibraryShape
+	case LibraryShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Note
 	case Note:
@@ -6410,21 +6410,8 @@ func (*DeliverableViewShape) GongGetReverseFields() []GongReverseField {
 func (*Diagram) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 		{
-			GongstructName: "Diagram",
-			Fieldname: "DiagramsWhoseNodeIsExpanded",
-		},
-		{
 			GongstructName: "Library",
 			Fieldname: "Diagrams",
-		},
-	}
-}
-
-func (*DiagramShape) GongGetReverseFields() []GongReverseField {
-	return []GongReverseField{ 
-		{
-			GongstructName: "Diagram",
-			Fieldname: "Diagram_Shapes",
 		},
 	}
 }
@@ -6432,8 +6419,21 @@ func (*DiagramShape) GongGetReverseFields() []GongReverseField {
 func (*Library) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 		{
+			GongstructName: "Diagram",
+			Fieldname: "LibrariesWhoseNodeIsExpanded",
+		},
+		{
 			GongstructName: "Library",
 			Fieldname: "SubLibraries",
+		},
+	}
+}
+
+func (*LibraryShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Diagram",
+			Fieldname: "Library_Shapes",
 		},
 	}
 }
@@ -7869,102 +7869,18 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "DeliverableConceptShape",
 		},
 		{
-			Name:                 "Diagram_Shapes",
+			Name:                 "Library_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "DiagramShape",
+			TargetGongstructName: "LibraryShape",
 		},
 		{
-			Name:               "IsDiagramsNodeExpanded",
+			Name:               "IsLibrariesNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "DiagramsWhoseNodeIsExpanded",
+			Name:                 "LibrariesWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Diagram",
-		},
-	}
-	return
-}
-
-func (diagramshape *DiagramShape) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:                 "Diagram",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Diagram",
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "X",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "Y",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "Width",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "IsHidden",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsPresentationOverridden",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "Color",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "FillOpacity",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "Stroke",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "StrokeWidth",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "StrokeOpacity",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "StrokeDashArray",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "RX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "FontSize",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "FontWeight",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "FontColor",
-			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "Library",
 		},
 	}
 	return
@@ -8042,6 +7958,90 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "NbPixPerCharacter",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (libraryshape *LibraryShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Library",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Library",
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FillOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "RX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontWeight",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -10651,9 +10651,9 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "Diagram_Shapes":
+	case "Library_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.Diagram_Shapes {
+		for idx, __instance__ := range diagram.Library_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -10661,13 +10661,13 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsDiagramsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsDiagramsNodeExpanded)
-		res.valueBool = diagram.IsDiagramsNodeExpanded
+	case "IsLibrariesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsLibrariesNodeExpanded)
+		res.valueBool = diagram.IsLibrariesNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "DiagramsWhoseNodeIsExpanded":
+	case "LibrariesWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.DiagramsWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagram.LibrariesWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -10675,77 +10675,6 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	}
-	return
-}
-
-func (diagramshape *DiagramShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = diagramshape.Name
-	case "Diagram":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if diagramshape.Diagram != nil {
-			res.valueString = diagramshape.Diagram.Name
-			res.ids = diagramshape.Diagram.GongGetUUID(stage)
-		}
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", diagramshape.IsExpanded)
-		res.valueBool = diagramshape.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "X":
-		res.valueString = fmt.Sprintf("%f", diagramshape.X)
-		res.valueFloat = diagramshape.X
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Y":
-		res.valueString = fmt.Sprintf("%f", diagramshape.Y)
-		res.valueFloat = diagramshape.Y
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Width":
-		res.valueString = fmt.Sprintf("%f", diagramshape.Width)
-		res.valueFloat = diagramshape.Width
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Height":
-		res.valueString = fmt.Sprintf("%f", diagramshape.Height)
-		res.valueFloat = diagramshape.Height
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", diagramshape.IsHidden)
-		res.valueBool = diagramshape.IsHidden
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsPresentationOverridden":
-		res.valueString = fmt.Sprintf("%t", diagramshape.IsPresentationOverridden)
-		res.valueBool = diagramshape.IsPresentationOverridden
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Color":
-		res.valueString = diagramshape.Color
-	case "FillOpacity":
-		res.valueString = fmt.Sprintf("%f", diagramshape.FillOpacity)
-		res.valueFloat = diagramshape.FillOpacity
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Stroke":
-		res.valueString = diagramshape.Stroke
-	case "StrokeWidth":
-		res.valueString = fmt.Sprintf("%f", diagramshape.StrokeWidth)
-		res.valueFloat = diagramshape.StrokeWidth
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "StrokeOpacity":
-		res.valueString = fmt.Sprintf("%f", diagramshape.StrokeOpacity)
-		res.valueFloat = diagramshape.StrokeOpacity
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "StrokeDashArray":
-		res.valueString = diagramshape.StrokeDashArray
-	case "RX":
-		res.valueString = fmt.Sprintf("%f", diagramshape.RX)
-		res.valueFloat = diagramshape.RX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "FontSize":
-		res.valueString = diagramshape.FontSize
-	case "FontWeight":
-		res.valueString = diagramshape.FontWeight
-	case "FontColor":
-		res.valueString = diagramshape.FontColor
 	}
 	return
 }
@@ -10869,6 +10798,77 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%f", library.NbPixPerCharacter)
 		res.valueFloat = library.NbPixPerCharacter
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (libraryshape *LibraryShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = libraryshape.Name
+	case "Library":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if libraryshape.Library != nil {
+			res.valueString = libraryshape.Library.Name
+			res.ids = libraryshape.Library.GongGetUUID(stage)
+		}
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", libraryshape.IsExpanded)
+		res.valueBool = libraryshape.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "X":
+		res.valueString = fmt.Sprintf("%f", libraryshape.X)
+		res.valueFloat = libraryshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", libraryshape.Y)
+		res.valueFloat = libraryshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", libraryshape.Width)
+		res.valueFloat = libraryshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", libraryshape.Height)
+		res.valueFloat = libraryshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", libraryshape.IsHidden)
+		res.valueBool = libraryshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", libraryshape.IsPresentationOverridden)
+		res.valueBool = libraryshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Color":
+		res.valueString = libraryshape.Color
+	case "FillOpacity":
+		res.valueString = fmt.Sprintf("%f", libraryshape.FillOpacity)
+		res.valueFloat = libraryshape.FillOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Stroke":
+		res.valueString = libraryshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", libraryshape.StrokeWidth)
+		res.valueFloat = libraryshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", libraryshape.StrokeOpacity)
+		res.valueFloat = libraryshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = libraryshape.StrokeDashArray
+	case "RX":
+		res.valueString = fmt.Sprintf("%f", libraryshape.RX)
+		res.valueFloat = libraryshape.RX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "FontSize":
+		res.valueString = libraryshape.FontSize
+	case "FontWeight":
+		res.valueString = libraryshape.FontWeight
+	case "FontColor":
+		res.valueString = libraryshape.FontColor
 	}
 	return
 }
@@ -12068,12 +12068,12 @@ func (diagram *Diagram) GongGetGongstructName() string {
 	return "Diagram"
 }
 
-func (diagramshape *DiagramShape) GongGetGongstructName() string {
-	return "DiagramShape"
-}
-
 func (library *Library) GongGetGongstructName() string {
 	return "Library"
+}
+
+func (libraryshape *LibraryShape) GongGetGongstructName() string {
+	return "LibraryShape"
 }
 
 func (note *Note) GongGetGongstructName() string {
@@ -12193,9 +12193,9 @@ func (stage *Stage) ResetMapStrings() {
 
 	__gong__rebuildMapString(stage.Diagrams, &stage.Diagrams_mapString)
 
-	__gong__rebuildMapString(stage.DiagramShapes, &stage.DiagramShapes_mapString)
-
 	__gong__rebuildMapString(stage.Librarys, &stage.Librarys_mapString)
+
+	__gong__rebuildMapString(stage.LibraryShapes, &stage.LibraryShapes_mapString)
 
 	__gong__rebuildMapString(stage.Notes, &stage.Notes_mapString)
 

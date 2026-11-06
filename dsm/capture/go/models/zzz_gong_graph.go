@@ -90,13 +90,13 @@ func (diagram *Diagram) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
-func (diagramshape *DiagramShape) GongIsStaged(stage *Stage) bool {
-	_, ok := stage.DiagramShapes[diagramshape]
+func (library *Library) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Librarys[library]
 	return ok
 }
 
-func (library *Library) GongIsStaged(stage *Stage) bool {
-	_, ok := stage.Librarys[library]
+func (libraryshape *LibraryShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.LibraryShapes[libraryshape]
 	return ok
 }
 
@@ -635,30 +635,12 @@ func (diagram *Diagram) GongStageBranch(stage *Stage) {
 	for _, _deliverableconceptshape := range diagram.DeliverableConceptShapes {
 		stage.StageBranch(_deliverableconceptshape)
 	}
-	for _, _diagramshape := range diagram.Diagram_Shapes {
-		stage.StageBranch(_diagramshape)
+	for _, _libraryshape := range diagram.Library_Shapes {
+		stage.StageBranch(_libraryshape)
 	}
-	for _, _diagram := range diagram.DiagramsWhoseNodeIsExpanded {
-		stage.StageBranch(_diagram)
+	for _, _library := range diagram.LibrariesWhoseNodeIsExpanded {
+		stage.StageBranch(_library)
 	}
-
-}
-
-func (diagramshape *DiagramShape) GongStageBranch(stage *Stage) {
-
-	// check if instance is already staged
-	if stage.IsStaged(diagramshape) {
-		return
-	}
-
-	diagramshape.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-	if diagramshape.Diagram != nil {
-		stage.StageBranch(diagramshape.Diagram)
-	}
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -704,6 +686,24 @@ func (library *Library) GongStageBranch(stage *Stage) {
 	for _, _library := range library.SubLibraries {
 		stage.StageBranch(_library)
 	}
+
+}
+
+func (libraryshape *LibraryShape) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(libraryshape) {
+		return
+	}
+
+	libraryshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if libraryshape.Library != nil {
+		stage.StageBranch(libraryshape.Library)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -1186,12 +1186,12 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchDiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *DiagramShape:
-		toT := GongCopyBranchDiagramShape(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
 	case *Library:
 		toT := GongCopyBranchLibrary(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *LibraryShape:
+		toT := GongCopyBranchLibraryShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Note:
@@ -1708,30 +1708,12 @@ func GongCopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagr
 	for _, _deliverableconceptshape := range diagramFrom.DeliverableConceptShapes {
 		diagramTo.DeliverableConceptShapes = append(diagramTo.DeliverableConceptShapes, GongCopyBranchDeliverableConceptShape(mapOrigCopy, _deliverableconceptshape))
 	}
-	for _, _diagramshape := range diagramFrom.Diagram_Shapes {
-		diagramTo.Diagram_Shapes = append(diagramTo.Diagram_Shapes, GongCopyBranchDiagramShape(mapOrigCopy, _diagramshape))
+	for _, _libraryshape := range diagramFrom.Library_Shapes {
+		diagramTo.Library_Shapes = append(diagramTo.Library_Shapes, GongCopyBranchLibraryShape(mapOrigCopy, _libraryshape))
 	}
-	for _, _diagram := range diagramFrom.DiagramsWhoseNodeIsExpanded {
-		diagramTo.DiagramsWhoseNodeIsExpanded = append(diagramTo.DiagramsWhoseNodeIsExpanded, GongCopyBranchDiagram(mapOrigCopy, _diagram))
+	for _, _library := range diagramFrom.LibrariesWhoseNodeIsExpanded {
+		diagramTo.LibrariesWhoseNodeIsExpanded = append(diagramTo.LibrariesWhoseNodeIsExpanded, GongCopyBranchLibrary(mapOrigCopy, _library))
 	}
-
-	return
-}
-
-func GongCopyBranchDiagramShape(mapOrigCopy map[any]any, diagramshapeFrom *DiagramShape) (diagramshapeTo *DiagramShape) {
-	var alreadyCopied bool
-	diagramshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, diagramshapeFrom)
-	if alreadyCopied {
-		return
-	}
-	diagramshapeFrom.GongCopyBasicFields(diagramshapeTo)
-
-	//insertion point for the staging of instances referenced by pointers
-	if diagramshapeFrom.Diagram != nil {
-		diagramshapeTo.Diagram = GongCopyBranchDiagram(mapOrigCopy, diagramshapeFrom.Diagram)
-	}
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -1777,6 +1759,24 @@ func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libra
 	for _, _library := range libraryFrom.SubLibraries {
 		libraryTo.SubLibraries = append(libraryTo.SubLibraries, GongCopyBranchLibrary(mapOrigCopy, _library))
 	}
+
+	return
+}
+
+func GongCopyBranchLibraryShape(mapOrigCopy map[any]any, libraryshapeFrom *LibraryShape) (libraryshapeTo *LibraryShape) {
+	var alreadyCopied bool
+	libraryshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, libraryshapeFrom)
+	if alreadyCopied {
+		return
+	}
+	libraryshapeFrom.GongCopyBasicFields(libraryshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if libraryshapeFrom.Library != nil {
+		libraryshapeTo.Library = GongCopyBranchLibrary(mapOrigCopy, libraryshapeFrom.Library)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -2633,30 +2633,12 @@ func (diagram *Diagram) GongUnstageBranch(stage *Stage) {
 	for _, _deliverableconceptshape := range diagram.DeliverableConceptShapes {
 		stage.UnstageBranch(_deliverableconceptshape)
 	}
-	for _, _diagramshape := range diagram.Diagram_Shapes {
-		stage.UnstageBranch(_diagramshape)
+	for _, _libraryshape := range diagram.Library_Shapes {
+		stage.UnstageBranch(_libraryshape)
 	}
-	for _, _diagram := range diagram.DiagramsWhoseNodeIsExpanded {
-		stage.UnstageBranch(_diagram)
+	for _, _library := range diagram.LibrariesWhoseNodeIsExpanded {
+		stage.UnstageBranch(_library)
 	}
-
-}
-
-func (diagramshape *DiagramShape) GongUnstageBranch(stage *Stage) {
-
-	// check if instance is already staged
-	if !stage.IsStaged(diagramshape) {
-		return
-	}
-
-	diagramshape.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-	if diagramshape.Diagram != nil {
-		stage.UnstageBranch(diagramshape.Diagram)
-	}
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -2702,6 +2684,24 @@ func (library *Library) GongUnstageBranch(stage *Stage) {
 	for _, _library := range library.SubLibraries {
 		stage.UnstageBranch(_library)
 	}
+
+}
+
+func (libraryshape *LibraryShape) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(libraryshape) {
+		return
+	}
+
+	libraryshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if libraryshape.Library != nil {
+		stage.UnstageBranch(libraryshape.Library)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -3257,14 +3257,8 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ConceptsWhoseDeliverablesNodeIsExpanded, stage.Concepts_reference, instance.ConceptsWhoseDeliverablesNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ConceptsWhoseRequirementsNodeIsExpanded, stage.Concepts_reference, instance.ConceptsWhoseRequirementsNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DeliverableConceptShapes, stage.DeliverableConceptShapes_reference, instance.DeliverableConceptShapes)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.Diagram_Shapes, stage.DiagramShapes_reference, instance.Diagram_Shapes)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.DiagramsWhoseNodeIsExpanded, stage.Diagrams_reference, instance.DiagramsWhoseNodeIsExpanded)
-}
-
-func (reference *DiagramShape) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramShape) {
-	// insertion point for pointers field
-	__gong__reconstructPointer(&reference.Diagram, stage.Diagrams_reference, instance.Diagram)
-	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Library_Shapes, stage.LibraryShapes_reference, instance.Library_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.LibrariesWhoseNodeIsExpanded, stage.Librarys_reference, instance.LibrariesWhoseNodeIsExpanded)
 }
 
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
@@ -3280,6 +3274,12 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Notes, stage.Notes_reference, instance.Notes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Diagrams, stage.Diagrams_reference, instance.Diagrams)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.SubLibraries, stage.Librarys_reference, instance.SubLibraries)
+}
+
+func (reference *LibraryShape) GongReconstructPointersFromReferences(stage *Stage, instance *LibraryShape) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Library, stage.Librarys_reference, instance.Library)
+	// insertion point for slice of pointers field
 }
 
 func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) {
@@ -3562,14 +3562,8 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ConceptsWhoseDeliverablesNodeIsExpanded, stage.Concepts_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ConceptsWhoseRequirementsNodeIsExpanded, stage.Concepts_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DeliverableConceptShapes, stage.DeliverableConceptShapes_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.Diagram_Shapes, stage.DiagramShapes_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.DiagramsWhoseNodeIsExpanded, stage.Diagrams_instance)
-}
-
-func (reference *DiagramShape) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
-	__gong__reconstructPointerFromInstance(&reference.Diagram, stage.Diagrams_instance)
-	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Library_Shapes, stage.LibraryShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.LibrariesWhoseNodeIsExpanded, stage.Librarys_instance)
 }
 
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3585,6 +3579,12 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Notes, stage.Notes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Diagrams, stage.Diagrams_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.SubLibraries, stage.Librarys_instance)
+}
+
+func (reference *LibraryShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Library, stage.Librarys_instance)
+	// insertion point for slice of pointers fields
 }
 
 func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
@@ -4593,79 +4593,14 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if ops := __gong__diffSliceOfPointers(stage, diagram, "DeliverableConceptShapes", diagramOther.DeliverableConceptShapes, diagram.DeliverableConceptShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if ops := __gong__diffSliceOfPointers(stage, diagram, "Diagram_Shapes", diagramOther.Diagram_Shapes, diagram.Diagram_Shapes); ops != "" {
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "Library_Shapes", diagramOther.Library_Shapes, diagram.Library_Shapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if diagram.IsDiagramsNodeExpanded != diagramOther.IsDiagramsNodeExpanded {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsDiagramsNodeExpanded"))
+	if diagram.IsLibrariesNodeExpanded != diagramOther.IsLibrariesNodeExpanded {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsLibrariesNodeExpanded"))
 	}
-	if ops := __gong__diffSliceOfPointers(stage, diagram, "DiagramsWhoseNodeIsExpanded", diagramOther.DiagramsWhoseNodeIsExpanded, diagram.DiagramsWhoseNodeIsExpanded); ops != "" {
+	if ops := __gong__diffSliceOfPointers(stage, diagram, "LibrariesWhoseNodeIsExpanded", diagramOther.LibrariesWhoseNodeIsExpanded, diagram.LibrariesWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (diagramshape *DiagramShape) GongDiff(stage *Stage, diagramshapeOther *DiagramShape) (diffs []string) {
-	// insertion point for field diffs
-	if diagramshape.Name != diagramshapeOther.Name {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "Name"))
-	}
-	if diagramshape.Diagram != diagramshapeOther.Diagram {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "Diagram"))
-	}
-	if diagramshape.IsExpanded != diagramshapeOther.IsExpanded {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "IsExpanded"))
-	}
-	if diagramshape.X != diagramshapeOther.X {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "X"))
-	}
-	if diagramshape.Y != diagramshapeOther.Y {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "Y"))
-	}
-	if diagramshape.Width != diagramshapeOther.Width {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "Width"))
-	}
-	if diagramshape.Height != diagramshapeOther.Height {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "Height"))
-	}
-	if diagramshape.IsHidden != diagramshapeOther.IsHidden {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "IsHidden"))
-	}
-	if diagramshape.IsPresentationOverridden != diagramshapeOther.IsPresentationOverridden {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "IsPresentationOverridden"))
-	}
-	if diagramshape.Color != diagramshapeOther.Color {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "Color"))
-	}
-	if diagramshape.FillOpacity != diagramshapeOther.FillOpacity {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "FillOpacity"))
-	}
-	if diagramshape.Stroke != diagramshapeOther.Stroke {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "Stroke"))
-	}
-	if diagramshape.StrokeWidth != diagramshapeOther.StrokeWidth {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "StrokeWidth"))
-	}
-	if diagramshape.StrokeOpacity != diagramshapeOther.StrokeOpacity {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "StrokeOpacity"))
-	}
-	if diagramshape.StrokeDashArray != diagramshapeOther.StrokeDashArray {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "StrokeDashArray"))
-	}
-	if diagramshape.RX != diagramshapeOther.RX {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "RX"))
-	}
-	if diagramshape.FontSize != diagramshapeOther.FontSize {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "FontSize"))
-	}
-	if diagramshape.FontWeight != diagramshapeOther.FontWeight {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "FontWeight"))
-	}
-	if diagramshape.FontColor != diagramshapeOther.FontColor {
-		diffs = append(diffs, diagramshape.GongMarshallField(stage, "FontColor"))
 	}
 
 	return
@@ -4719,6 +4654,71 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	}
 	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
 		diffs = append(diffs, library.GongMarshallField(stage, "NbPixPerCharacter"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (libraryshape *LibraryShape) GongDiff(stage *Stage, libraryshapeOther *LibraryShape) (diffs []string) {
+	// insertion point for field diffs
+	if libraryshape.Name != libraryshapeOther.Name {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "Name"))
+	}
+	if libraryshape.Library != libraryshapeOther.Library {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "Library"))
+	}
+	if libraryshape.IsExpanded != libraryshapeOther.IsExpanded {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "IsExpanded"))
+	}
+	if libraryshape.X != libraryshapeOther.X {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "X"))
+	}
+	if libraryshape.Y != libraryshapeOther.Y {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "Y"))
+	}
+	if libraryshape.Width != libraryshapeOther.Width {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "Width"))
+	}
+	if libraryshape.Height != libraryshapeOther.Height {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "Height"))
+	}
+	if libraryshape.IsHidden != libraryshapeOther.IsHidden {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if libraryshape.IsPresentationOverridden != libraryshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if libraryshape.Color != libraryshapeOther.Color {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "Color"))
+	}
+	if libraryshape.FillOpacity != libraryshapeOther.FillOpacity {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "FillOpacity"))
+	}
+	if libraryshape.Stroke != libraryshapeOther.Stroke {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "Stroke"))
+	}
+	if libraryshape.StrokeWidth != libraryshapeOther.StrokeWidth {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if libraryshape.StrokeOpacity != libraryshapeOther.StrokeOpacity {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if libraryshape.StrokeDashArray != libraryshapeOther.StrokeDashArray {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if libraryshape.RX != libraryshapeOther.RX {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "RX"))
+	}
+	if libraryshape.FontSize != libraryshapeOther.FontSize {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "FontSize"))
+	}
+	if libraryshape.FontWeight != libraryshapeOther.FontWeight {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "FontWeight"))
+	}
+	if libraryshape.FontColor != libraryshapeOther.FontColor {
+		diffs = append(diffs, libraryshape.GongMarshallField(stage, "FontColor"))
 	}
 
 	return

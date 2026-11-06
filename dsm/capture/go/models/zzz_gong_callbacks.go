@@ -417,32 +417,6 @@ func (diagram *Diagram) GongAfterDeleteFromFront(stage *Stage, front GongstructI
 	}
 }
 
-func (diagramshape *DiagramShape) GongAfterCreateFromFront(stage *Stage) {
-	if stage.OnAfterDiagramShapeCreateCallback != nil {
-		stage.OnAfterDiagramShapeCreateCallback.OnAfterCreate(stage, diagramshape)
-	}
-}
-
-func (diagramshape *DiagramShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterDiagramShapeUpdateCallback != nil {
-		var frontDiagramShape *DiagramShape
-		if front != nil {
-			frontDiagramShape, _ = front.(*DiagramShape)
-		}
-		stage.OnAfterDiagramShapeUpdateCallback.OnAfterUpdate(stage, diagramshape, frontDiagramShape)
-	}
-}
-
-func (diagramshape *DiagramShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterDiagramShapeDeleteCallback != nil {
-		var frontDiagramShape *DiagramShape
-		if front != nil {
-			frontDiagramShape, _ = front.(*DiagramShape)
-		}
-		stage.OnAfterDiagramShapeDeleteCallback.OnAfterDelete(stage, diagramshape, frontDiagramShape)
-	}
-}
-
 func (library *Library) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterLibraryCreateCallback != nil {
 		stage.OnAfterLibraryCreateCallback.OnAfterCreate(stage, library)
@@ -466,6 +440,32 @@ func (library *Library) GongAfterDeleteFromFront(stage *Stage, front GongstructI
 			frontLibrary, _ = front.(*Library)
 		}
 		stage.OnAfterLibraryDeleteCallback.OnAfterDelete(stage, library, frontLibrary)
+	}
+}
+
+func (libraryshape *LibraryShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterLibraryShapeCreateCallback != nil {
+		stage.OnAfterLibraryShapeCreateCallback.OnAfterCreate(stage, libraryshape)
+	}
+}
+
+func (libraryshape *LibraryShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLibraryShapeUpdateCallback != nil {
+		var frontLibraryShape *LibraryShape
+		if front != nil {
+			frontLibraryShape, _ = front.(*LibraryShape)
+		}
+		stage.OnAfterLibraryShapeUpdateCallback.OnAfterUpdate(stage, libraryshape, frontLibraryShape)
+	}
+}
+
+func (libraryshape *LibraryShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterLibraryShapeDeleteCallback != nil {
+		var frontLibraryShape *LibraryShape
+		if front != nil {
+			frontLibraryShape, _ = front.(*LibraryShape)
+		}
+		stage.OnAfterLibraryShapeDeleteCallback.OnAfterDelete(stage, libraryshape, frontLibraryShape)
 	}
 }
 

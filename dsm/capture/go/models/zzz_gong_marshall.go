@@ -1089,7 +1089,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.IsConcernsNodeExpanded = %t", diagramIdent, diagram.IsConcernsNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsNotesNodeExpanded = %t", diagramIdent, diagram.IsNotesNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsStakeholdersNodeExpanded = %t", diagramIdent, diagram.IsStakeholdersNodeExpanded))
-			values.WriteString(fmt.Sprintf("\n\t%s.IsDiagramsNodeExpanded = %t", diagramIdent, diagram.IsDiagramsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLibrariesNodeExpanded = %t", diagramIdent, diagram.IsLibrariesNodeExpanded))
 			for _, elem := range diagram.ConcernsWhoseRequirementsNodeIsExpanded {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1530,7 +1530,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DeliverableConceptShapes = append(%s.DeliverableConceptShapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
-			for _, elem := range diagram.Diagram_Shapes {
+			for _, elem := range diagram.Library_Shapes {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
@@ -1538,9 +1538,9 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					lastStagePtr = "Stage"
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Diagram_Shapes = append(%s.Diagram_Shapes, %s)", diagramIdent, diagramIdent, targetIdent))
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Library_Shapes = append(%s.Library_Shapes, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
-			for _, elem := range diagram.DiagramsWhoseNodeIsExpanded {
+			for _, elem := range diagram.LibrariesWhoseNodeIsExpanded {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
@@ -1548,53 +1548,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					lastStagePtr = "Stage"
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.DiagramsWhoseNodeIsExpanded = append(%s.DiagramsWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
-			}
-		}
-	}
-	if stage != nil {
-		for _, diagramshape := range __gong__sortStageSetInstances(stage.DiagramShapes, stage.DiagramShape_stagedOrder) {
-			if lastStageDecl != "Stage" {
-				if declarations.Len() > 0 {
-					declarations.WriteString("\n")
-				}
-				lastStageDecl = "Stage"
-			}
-			diagramshapeIdent := diagramshape.GongGetIdentifier(stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DiagramShape{Name: %s}).Stage(stage)", diagramshapeIdent, __gong__toRawStringLiteral(diagramshape.Name)))
-			if lastStageVal != "Stage" {
-				if values.Len() > 0 {
-					values.WriteString("\n")
-				}
-				lastStageVal = "Stage"
-			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", diagramshapeIdent, __gong__toRawStringLiteral(diagramshape.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", diagramshapeIdent, diagramshape.IsExpanded))
-			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", diagramshapeIdent, diagramshape.X))
-			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", diagramshapeIdent, diagramshape.Y))
-			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", diagramshapeIdent, diagramshape.Width))
-			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", diagramshapeIdent, diagramshape.Height))
-			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", diagramshapeIdent, diagramshape.IsHidden))
-			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", diagramshapeIdent, diagramshape.IsPresentationOverridden))
-			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", diagramshapeIdent, __gong__toRawStringLiteral(diagramshape.Color)))
-			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", diagramshapeIdent, diagramshape.FillOpacity))
-			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", diagramshapeIdent, __gong__toRawStringLiteral(diagramshape.Stroke)))
-			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", diagramshapeIdent, diagramshape.StrokeWidth))
-			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", diagramshapeIdent, diagramshape.StrokeOpacity))
-			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", diagramshapeIdent, __gong__toRawStringLiteral(diagramshape.StrokeDashArray)))
-			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", diagramshapeIdent, diagramshape.RX))
-			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", diagramshapeIdent, __gong__toRawStringLiteral(diagramshape.FontSize)))
-			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", diagramshapeIdent, __gong__toRawStringLiteral(diagramshape.FontWeight)))
-			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", diagramshapeIdent, __gong__toRawStringLiteral(diagramshape.FontColor)))
-			if diagramshape.Diagram != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := diagramshape.Diagram.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Diagram = %s", diagramshapeIdent, targetIdent))
+				pointers.WriteString(fmt.Sprintf("\n\t%s.LibrariesWhoseNodeIsExpanded = append(%s.LibrariesWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
 			}
 		}
 	}
@@ -1718,6 +1672,52 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibraries = append(%s.SubLibraries, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, libraryshape := range __gong__sortStageSetInstances(stage.LibraryShapes, stage.LibraryShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			libraryshapeIdent := libraryshape.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.LibraryShape{Name: %s}).Stage(stage)", libraryshapeIdent, __gong__toRawStringLiteral(libraryshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", libraryshapeIdent, __gong__toRawStringLiteral(libraryshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", libraryshapeIdent, libraryshape.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", libraryshapeIdent, libraryshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", libraryshapeIdent, libraryshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", libraryshapeIdent, libraryshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", libraryshapeIdent, libraryshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", libraryshapeIdent, libraryshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", libraryshapeIdent, libraryshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", libraryshapeIdent, __gong__toRawStringLiteral(libraryshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", libraryshapeIdent, libraryshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", libraryshapeIdent, __gong__toRawStringLiteral(libraryshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", libraryshapeIdent, libraryshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", libraryshapeIdent, libraryshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", libraryshapeIdent, __gong__toRawStringLiteral(libraryshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", libraryshapeIdent, libraryshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", libraryshapeIdent, __gong__toRawStringLiteral(libraryshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", libraryshapeIdent, __gong__toRawStringLiteral(libraryshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", libraryshapeIdent, __gong__toRawStringLiteral(libraryshape.FontColor)))
+			if libraryshape.Library != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := libraryshape.Library.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Library = %s", libraryshapeIdent, targetIdent))
 			}
 		}
 	}
@@ -3505,8 +3505,8 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = __gong__marshallBool(ident, "IsNotesNodeExpanded", diagram.IsNotesNodeExpanded)
 	case "IsStakeholdersNodeExpanded":
 		res = __gong__marshallBool(ident, "IsStakeholdersNodeExpanded", diagram.IsStakeholdersNodeExpanded)
-	case "IsDiagramsNodeExpanded":
-		res = __gong__marshallBool(ident, "IsDiagramsNodeExpanded", diagram.IsDiagramsNodeExpanded)
+	case "IsLibrariesNodeExpanded":
+		res = __gong__marshallBool(ident, "IsLibrariesNodeExpanded", diagram.IsLibrariesNodeExpanded)
 
 	case "ConcernsWhoseRequirementsNodeIsExpanded":
 		var sb strings.Builder
@@ -3772,73 +3772,20 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "DeliverableConceptShapes", _deliverableconceptshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
-	case "Diagram_Shapes":
+	case "Library_Shapes":
 		var sb strings.Builder
-		for _, _diagramshape := range diagram.Diagram_Shapes {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Diagram_Shapes", _diagramshape.GongGetIdentifier(stage)))
+		for _, _libraryshape := range diagram.Library_Shapes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Library_Shapes", _libraryshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
-	case "DiagramsWhoseNodeIsExpanded":
+	case "LibrariesWhoseNodeIsExpanded":
 		var sb strings.Builder
-		for _, _diagram := range diagram.DiagramsWhoseNodeIsExpanded {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "DiagramsWhoseNodeIsExpanded", _diagram.GongGetIdentifier(stage)))
+		for _, _library := range diagram.LibrariesWhoseNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "LibrariesWhoseNodeIsExpanded", _library.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Diagram", fieldName)
-	}
-	return
-}
-
-func (diagramshape *DiagramShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	ident := diagramshape.GongGetIdentifier(stage)
-	_ = ident
-	switch fieldName {
-	case "Name":
-		res = __gong__marshallString(ident, "Name", diagramshape.Name)
-	case "IsExpanded":
-		res = __gong__marshallBool(ident, "IsExpanded", diagramshape.IsExpanded)
-	case "X":
-		res = __gong__marshallFloat(ident, "X", diagramshape.X)
-	case "Y":
-		res = __gong__marshallFloat(ident, "Y", diagramshape.Y)
-	case "Width":
-		res = __gong__marshallFloat(ident, "Width", diagramshape.Width)
-	case "Height":
-		res = __gong__marshallFloat(ident, "Height", diagramshape.Height)
-	case "IsHidden":
-		res = __gong__marshallBool(ident, "IsHidden", diagramshape.IsHidden)
-	case "IsPresentationOverridden":
-		res = __gong__marshallBool(ident, "IsPresentationOverridden", diagramshape.IsPresentationOverridden)
-	case "Color":
-		res = __gong__marshallString(ident, "Color", diagramshape.Color)
-	case "FillOpacity":
-		res = __gong__marshallFloat(ident, "FillOpacity", diagramshape.FillOpacity)
-	case "Stroke":
-		res = __gong__marshallString(ident, "Stroke", diagramshape.Stroke)
-	case "StrokeWidth":
-		res = __gong__marshallFloat(ident, "StrokeWidth", diagramshape.StrokeWidth)
-	case "StrokeOpacity":
-		res = __gong__marshallFloat(ident, "StrokeOpacity", diagramshape.StrokeOpacity)
-	case "StrokeDashArray":
-		res = __gong__marshallString(ident, "StrokeDashArray", diagramshape.StrokeDashArray)
-	case "RX":
-		res = __gong__marshallFloat(ident, "RX", diagramshape.RX)
-	case "FontSize":
-		res = __gong__marshallString(ident, "FontSize", diagramshape.FontSize)
-	case "FontWeight":
-		res = __gong__marshallString(ident, "FontWeight", diagramshape.FontWeight)
-	case "FontColor":
-		res = __gong__marshallString(ident, "FontColor", diagramshape.FontColor)
-
-	case "Diagram":
-		if diagramshape.Diagram != nil {
-			res = __gong__marshallPointer(ident, "Diagram", diagramshape.Diagram.GongGetIdentifier(stage))
-		} else {
-			res = __gong__marshallPointer(ident, "Diagram", "nil")
-		}
-	default:
-		log.Panicf("Unknown field %s for Gongstruct DiagramShape", fieldName)
 	}
 	return
 }
@@ -3920,6 +3867,59 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Library", fieldName)
+	}
+	return
+}
+
+func (libraryshape *LibraryShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := libraryshape.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", libraryshape.Name)
+	case "IsExpanded":
+		res = __gong__marshallBool(ident, "IsExpanded", libraryshape.IsExpanded)
+	case "X":
+		res = __gong__marshallFloat(ident, "X", libraryshape.X)
+	case "Y":
+		res = __gong__marshallFloat(ident, "Y", libraryshape.Y)
+	case "Width":
+		res = __gong__marshallFloat(ident, "Width", libraryshape.Width)
+	case "Height":
+		res = __gong__marshallFloat(ident, "Height", libraryshape.Height)
+	case "IsHidden":
+		res = __gong__marshallBool(ident, "IsHidden", libraryshape.IsHidden)
+	case "IsPresentationOverridden":
+		res = __gong__marshallBool(ident, "IsPresentationOverridden", libraryshape.IsPresentationOverridden)
+	case "Color":
+		res = __gong__marshallString(ident, "Color", libraryshape.Color)
+	case "FillOpacity":
+		res = __gong__marshallFloat(ident, "FillOpacity", libraryshape.FillOpacity)
+	case "Stroke":
+		res = __gong__marshallString(ident, "Stroke", libraryshape.Stroke)
+	case "StrokeWidth":
+		res = __gong__marshallFloat(ident, "StrokeWidth", libraryshape.StrokeWidth)
+	case "StrokeOpacity":
+		res = __gong__marshallFloat(ident, "StrokeOpacity", libraryshape.StrokeOpacity)
+	case "StrokeDashArray":
+		res = __gong__marshallString(ident, "StrokeDashArray", libraryshape.StrokeDashArray)
+	case "RX":
+		res = __gong__marshallFloat(ident, "RX", libraryshape.RX)
+	case "FontSize":
+		res = __gong__marshallString(ident, "FontSize", libraryshape.FontSize)
+	case "FontWeight":
+		res = __gong__marshallString(ident, "FontWeight", libraryshape.FontWeight)
+	case "FontColor":
+		res = __gong__marshallString(ident, "FontColor", libraryshape.FontColor)
+
+	case "Library":
+		if libraryshape.Library != nil {
+			res = __gong__marshallPointer(ident, "Library", libraryshape.Library.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Library", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct LibraryShape", fieldName)
 	}
 	return
 }
@@ -5206,38 +5206,9 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ConceptsWhoseDeliverablesNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ConceptsWhoseRequirementsNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "DeliverableConceptShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Diagram_Shapes"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsDiagramsNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "DiagramsWhoseNodeIsExpanded"))
-	}
-	initRes = initializerStatements.String()
-	ptrRes = pointersInitializesStatements.String()
-	return
-}
-func (diagramshape *DiagramShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
-
-	var initializerStatements strings.Builder
-	var pointersInitializesStatements strings.Builder
-	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(diagramshape.GongMarshallField(stage, "Diagram"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "X"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "Y"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "Width"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "Height"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "IsHidden"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "IsPresentationOverridden"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "Color"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "FillOpacity"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "Stroke"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "StrokeWidth"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "StrokeOpacity"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "StrokeDashArray"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "RX"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "FontSize"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "FontWeight"))
-		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "FontColor"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Library_Shapes"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsLibrariesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "LibrariesWhoseNodeIsExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -5263,6 +5234,35 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Diagrams"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (libraryshape *LibraryShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(libraryshape.GongMarshallField(stage, "Library"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "IsPresentationOverridden"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "Color"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "FillOpacity"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "RX"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "FontSize"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "FontWeight"))
+		initializerStatements.WriteString(libraryshape.GongMarshallField(stage, "FontColor"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

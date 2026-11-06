@@ -199,17 +199,9 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&diagram.ConceptsWhoseDeliverablesNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagram.ConceptsWhoseRequirementsNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagram.DeliverableConceptShapes) || modified
-	modified = stage.CleanSlice(&diagram.Diagram_Shapes) || modified
-	modified = stage.CleanSlice(&diagram.DiagramsWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagram.Library_Shapes) || modified
+	modified = stage.CleanSlice(&diagram.LibrariesWhoseNodeIsExpanded) || modified
 	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by DiagramShape
-func (diagramshape *DiagramShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	modified = stage.CleanPointer(&diagramshape.Diagram) || modified
 	return
 }
 
@@ -227,6 +219,14 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&library.Diagrams) || modified
 	modified = stage.CleanSlice(&library.SubLibraries) || modified
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by LibraryShape
+func (libraryshape *LibraryShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&libraryshape.Library) || modified
 	return
 }
 

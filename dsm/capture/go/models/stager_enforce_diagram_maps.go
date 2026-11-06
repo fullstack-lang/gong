@@ -222,10 +222,20 @@ func (stager *Stager) enforceDiagramMaps() {
 			}
 		}
 
-		diagram.map_Diagram_DiagramShape = make(map[*Diagram]*DiagramShape)
-		for _, shape := range diagram.Diagram_Shapes {
-			if shape.Diagram != nil {
-				diagram.map_Diagram_DiagramShape[shape.Diagram] = shape
+		diagram.map_Library_LibraryShape = make(map[*Library]*LibraryShape)
+		for _, shape := range diagram.Library_Shapes {
+			if shape.Library != nil {
+				diagram.map_Library_LibraryShape[shape.Library] = shape
+				var diagrams = stager.map_Element_Diagrams[shape.Library]
+
+				if diagrams == nil {
+					diagrams = []*Diagram{diagram}
+				}
+
+				if !slices.Contains(diagrams, diagram) {
+					diagrams = append(diagrams, diagram)
+				}
+				stager.map_Element_Diagrams[shape.Library] = diagrams
 			}
 		}
 	}

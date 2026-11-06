@@ -705,7 +705,7 @@ Pain points with SysML v2 are:
 	__models__Diagram__00000000_.IsConcernsNodeExpanded = false
 	__models__Diagram__00000000_.IsNotesNodeExpanded = false
 	__models__Diagram__00000000_.IsStakeholdersNodeExpanded = true
-	__models__Diagram__00000000_.IsDiagramsNodeExpanded = false
+	__models__Diagram__00000000_.IsLibrariesNodeExpanded = false
 	__models__Diagram__00000001_.Name = `Default Diagram`
 	__models__Diagram__00000001_.ComputedPrefix = `2`
 	__models__Diagram__00000001_.IsExpanded = false
@@ -723,7 +723,7 @@ Pain points with SysML v2 are:
 	__models__Diagram__00000001_.IsConcernsNodeExpanded = true
 	__models__Diagram__00000001_.IsNotesNodeExpanded = false
 	__models__Diagram__00000001_.IsStakeholdersNodeExpanded = false
-	__models__Diagram__00000001_.IsDiagramsNodeExpanded = false
+	__models__Diagram__00000001_.IsLibrariesNodeExpanded = false
 	__models__Library__00000000_.Name = `MBSE capture process`
 	__models__Library__00000000_.IsRootLibrary = true
 	__models__Library__00000000_.ComputedPrefix = ``
@@ -932,4 +932,3 @@ Pain points with SysML v2 are:
 	__models__StakeholderConcernShape__00000000_.Concern = __models__Concern__00000005_
 	__models__StakeholderShape__00000000_.Stakeholder = __models__Stakeholder__00000004_
 }
-

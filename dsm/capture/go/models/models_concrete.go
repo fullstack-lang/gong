@@ -601,28 +601,28 @@ func (s *ConceptShape) SetAbstractElement(abstractElement AbstractType) {
 
 var _ ConcreteType = (*ConceptShape)(nil)
 
-// DiagramShape
-type DiagramShape struct {
+// LibraryShape
+type LibraryShape struct {
 	Name    string
-	Diagram *Diagram
+	Library *Library
 
 	IsExpanded bool
 
 	RectShape
 }
 
-func (s *DiagramShape) GetAbstractElement() AbstractType {
-	if s.Diagram == nil {
+func (s *LibraryShape) GetAbstractElement() AbstractType {
+	if s.Library == nil {
 		return nil
 	}
-	return s.Diagram
+	return s.Library
 }
 
-func (s *DiagramShape) SetAbstractElement(abstractElement AbstractType) {
-	s.Diagram = abstractElement.(*Diagram)
+func (s *LibraryShape) SetAbstractElement(abstractElement AbstractType) {
+	s.Library = abstractElement.(*Library)
 }
 
-var _ ConcreteType = (*DiagramShape)(nil)
+var _ ConcreteType = (*LibraryShape)(nil)
 
 type deliverableConceptKey struct {
 	Deliverable *Deliverable

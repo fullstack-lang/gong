@@ -29,7 +29,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	reachableViewConceptShapes := make(map[*ViewConceptShape]struct{})
 	reachableConceptShapes := make(map[*ConceptShape]struct{})
 	reachableDeliverableConceptShapes := make(map[*DeliverableConceptShape]struct{})
-	reachableDiagramShapes := make(map[*DiagramShape]struct{})
+	reachableLibraryShapes := make(map[*LibraryShape]struct{})
 
 	for _, diagram := range stager.stage.GetInstancesSorted[*Diagram]() {
 		collectShapes(diagram.Deliverable_Shapes, reachableDeliverableShapes)
@@ -54,7 +54,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 		collectShapes(diagram.ViewConceptShapes, reachableViewConceptShapes)
 		collectShapes(diagram.Concept_Shapes, reachableConceptShapes)
 		collectShapes(diagram.DeliverableConceptShapes, reachableDeliverableConceptShapes)
-		collectShapes(diagram.Diagram_Shapes, reachableDiagramShapes)
+		collectShapes(diagram.Library_Shapes, reachableLibraryShapes)
 	}
 
 	// 2. unstage shapes that are not attached to a diagram
@@ -80,7 +80,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	needCommit = unstageUnreachableOrphans(stager, reachableViewConceptShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableConceptShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableDeliverableConceptShapes) || needCommit
-	needCommit = unstageUnreachableOrphans(stager, reachableDiagramShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableLibraryShapes) || needCommit
 
 	return
 }

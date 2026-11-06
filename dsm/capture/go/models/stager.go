@@ -4,6 +4,7 @@ package models
 
 import (
 	"net/http"
+	"time"
 
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 
@@ -52,6 +53,11 @@ type Stager struct {
 
 	// map to navigate from abstract elements to all diagrams where they are displayed
 	map_Element_Diagrams map[AbstractType][]*Diagram
+
+	lastClickedLibraryShape      *LibraryShape
+	lastClickedLibraryShapeTime  time.Time
+	unselectCountForLibraryShape int
+	wasLibraryShapeSelected      bool
 }
 
 func NewStager(

@@ -643,7 +643,7 @@ type Diagram_WOP struct {
 
 	IsStakeholdersNodeExpanded bool
 
-	IsDiagramsNodeExpanded bool
+	IsLibrariesNodeExpanded bool
 }
 
 func (from *Diagram) GongCopyBasicFields(to *Diagram) {
@@ -665,10 +665,33 @@ func (from *Diagram) GongCopyBasicFields(to *Diagram) {
 	to.IsConcernsNodeExpanded = from.IsConcernsNodeExpanded
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 	to.IsStakeholdersNodeExpanded = from.IsStakeholdersNodeExpanded
-	to.IsDiagramsNodeExpanded = from.IsDiagramsNodeExpanded
+	to.IsLibrariesNodeExpanded = from.IsLibrariesNodeExpanded
 }
 
-type DiagramShape_WOP struct {
+type Library_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsRootLibrary bool
+
+	ComputedPrefix string
+
+	IsExpanded bool
+
+	NbPixPerCharacter float64
+}
+
+func (from *Library) GongCopyBasicFields(to *Library) {
+	// insertion point
+	to.Name = from.Name
+	to.IsRootLibrary = from.IsRootLibrary
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.NbPixPerCharacter = from.NbPixPerCharacter
+}
+
+type LibraryShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -708,7 +731,7 @@ type DiagramShape_WOP struct {
 	FontColor string
 }
 
-func (from *DiagramShape) GongCopyBasicFields(to *DiagramShape) {
+func (from *LibraryShape) GongCopyBasicFields(to *LibraryShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
@@ -728,29 +751,6 @@ func (from *DiagramShape) GongCopyBasicFields(to *DiagramShape) {
 	to.FontSize = from.FontSize
 	to.FontWeight = from.FontWeight
 	to.FontColor = from.FontColor
-}
-
-type Library_WOP struct {
-	// insertion point
-
-	Name string
-
-	IsRootLibrary bool
-
-	ComputedPrefix string
-
-	IsExpanded bool
-
-	NbPixPerCharacter float64
-}
-
-func (from *Library) GongCopyBasicFields(to *Library) {
-	// insertion point
-	to.Name = from.Name
-	to.IsRootLibrary = from.IsRootLibrary
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
-	to.NbPixPerCharacter = from.NbPixPerCharacter
 }
 
 type Note_WOP struct {

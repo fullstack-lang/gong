@@ -2,6 +2,7 @@ package models
 
 import (
 	"log"
+	"time"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
@@ -51,7 +52,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	diagram.map_Requirement_Rect = make(map[*Requirement]*svg.Rect)
 	diagram.map_View_Rect = make(map[*View]*svg.Rect)
 	diagram.map_Concept_Rect = make(map[*Concept]*svg.Rect)
-	diagram.map_Diagram_Rect = make(map[*Diagram]*svg.Rect)
+	diagram.map_Library_Rect = make(map[*Library]*svg.Rect)
 
 	diagram.map_SvgRect_DeliverableShape = make(map[*svg.Rect]*DeliverableShape)
 	diagram.map_SvgRect_ConcernShape = make(map[*svg.Rect]*ConcernShape)
@@ -60,7 +61,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	diagram.map_SvgRect_RequirementShape = make(map[*svg.Rect]*RequirementShape)
 	diagram.map_SvgRect_ViewShape = make(map[*svg.Rect]*ViewShape)
 	diagram.map_SvgRect_ConceptShape = make(map[*svg.Rect]*ConceptShape)
-	diagram.map_SvgRect_DiagramShape = make(map[*svg.Rect]*DiagramShape)
+	diagram.map_SvgRect_LibraryShape = make(map[*svg.Rect]*LibraryShape)
 
 	// // to implement association between abstract elements by mouse drag
 	// svgImpl := &svgProxy{
@@ -659,15 +660,15 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		}
 	}
 
-	for _, diagramShape := range diagram.Diagram_Shapes {
-		if diagramShape.IsHidden {
+	for _, libraryShape := range diagram.Library_Shapes {
+		if libraryShape.IsHidden {
 			continue
 		}
 
 		rect := svgRect(
 			stager,
 			diagram,
-			diagramShape,
+			libraryShape,
 			layer)
 		rect.RX = 5
 		rect.Color = "#E1F5FE"
@@ -683,56 +684,122 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			title.FontFamily = "sans-serif"
 		}
 
-		diagram.map_Diagram_Rect[diagramShape.Diagram] = rect
-		diagram.map_SvgRect_DiagramShape[rect] = diagramShape
+		diagram.map_Library_Rect[libraryShape.Library] = rect
+		diagram.map_SvgRect_LibraryShape[rect] = libraryShape
 
-		rect.OnSelect = func() {
-			for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
-				diagram_.IsChecked = false
+		rect.OnUpdate = func(updatedRect *svg.Rect) {
+			diffSize := libraryShape.GetWidth() != updatedRect.Width ||
+				libraryShape.GetHeight() != updatedRect.Height
+			diffPosition := libraryShape.GetX() != updatedRect.X ||
+				libraryShape.GetY() != updatedRect.Y
+			if diffSize || diffPosition {
+				stager.lastClickedLibraryShape = nil
+				return
 			}
-			diagramShape.Diagram.IsChecked = true
-			stager.stage.Commit()
-		}
-		rect.OnMove = func(x, y float64) {
-			diagramShape.SetX(x)
-			diagramShape.SetY(y)
 
-			stager.stage.CommitWithSuspendedCallbacks()
-			stager.ux_tree()
-		}
-		rect.OnResize = func(x, y, width, height float64) {
-			diagramShape.SetX(x)
-			diagramShape.SetY(y)
-			diagramShape.SetWidth(width)
-			diagramShape.SetHeight(height)
+			now := time.Now()
+			const doubleClickWindow = 500 * time.Millisecond
 
-			stager.stage.Commit()
+			openFirstDiagram := func() {
+				stager.lastClickedLibraryShape = nil
+				stager.unselectCountForLibraryShape = 0
+				if libraryShape.Library != nil && len(libraryShape.Library.Diagrams) > 0 {
+					for diagram_ := range *stager.stage.GetInstancesSet[*Diagram]() {
+						diagram_.IsChecked = false
+					}
+					firstDiagram := libraryShape.Library.Diagrams[0]
+					firstDiagram.IsChecked = true
+					if stager.probeForm != nil {
+						stager.probeForm.FillUpFormFromGongstruct(firstDiagram, "Diagram")
+					}
+					clearShapeAppearanceForm(stager)
+					stager.stage.Commit()
+				}
+			}
+
+			if !diagram.IsEditable() {
+				if updatedRect.MouseX != 0 || updatedRect.MouseY != 0 {
+					if updatedRect.MouseX < rect.X || updatedRect.MouseX > rect.X+rect.Width ||
+						updatedRect.MouseY < rect.Y || updatedRect.MouseY > rect.Y+rect.Height {
+						stager.lastClickedLibraryShape = nil
+						return
+					}
+				}
+				if stager.lastClickedLibraryShape == libraryShape &&
+					now.Sub(stager.lastClickedLibraryShapeTime) <= doubleClickWindow {
+					openFirstDiagram()
+					return
+				}
+				stager.lastClickedLibraryShape = libraryShape
+				stager.lastClickedLibraryShapeTime = now
+				if stager.probeForm != nil {
+					onSelectRectShape(stager, libraryShape.Library, libraryShape)()
+				}
+				return
+			}
+
+			if updatedRect.IsSelected {
+				if stager.lastClickedLibraryShape == libraryShape &&
+					!stager.wasLibraryShapeSelected &&
+					stager.unselectCountForLibraryShape >= 2 &&
+					now.Sub(stager.lastClickedLibraryShapeTime) <= doubleClickWindow {
+					openFirstDiagram()
+					return
+				}
+				stager.lastClickedLibraryShape = libraryShape
+				stager.lastClickedLibraryShapeTime = now
+				stager.unselectCountForLibraryShape = 0
+				stager.wasLibraryShapeSelected = true
+				return
+			}
+
+			if stager.lastClickedLibraryShape == libraryShape &&
+				stager.wasLibraryShapeSelected &&
+				now.Sub(stager.lastClickedLibraryShapeTime) <= doubleClickWindow {
+				stager.unselectCountForLibraryShape++
+				if stager.unselectCountForLibraryShape >= 2 {
+					openFirstDiagram()
+				}
+				return
+			}
+
+			if stager.lastClickedLibraryShape == libraryShape &&
+				!stager.wasLibraryShapeSelected &&
+				now.Sub(stager.lastClickedLibraryShapeTime) <= 100*time.Millisecond {
+				stager.unselectCountForLibraryShape++
+				return
+			}
+
+			stager.lastClickedLibraryShape = libraryShape
+			stager.lastClickedLibraryShapeTime = now
+			stager.unselectCountForLibraryShape = 1
+			stager.wasLibraryShapeSelected = false
 		}
 
-		diagramLogo := new(svg.RectAnchoredPath)
-		diagramLogo.Name = "Folder"
-		diagramLogo.Stroke = svg.Black.ToString()
-		diagramLogo.StrokeWidth = 1
-		diagramLogo.StrokeOpacity = 1
-		diagramLogo.Color = svg.Black.ToString()
-		diagramLogo.FillOpacity = 0.2
-		diagramLogo.ScalePropotionnally = true
-		diagramLogo.AppliedScaling = 1.0
+		libraryLogo := new(svg.RectAnchoredPath)
+		libraryLogo.Name = "Folder"
+		libraryLogo.Stroke = svg.Black.ToString()
+		libraryLogo.StrokeWidth = 1
+		libraryLogo.StrokeOpacity = 1
+		libraryLogo.Color = svg.Black.ToString()
+		libraryLogo.FillOpacity = 0.2
+		libraryLogo.ScalePropotionnally = true
+		libraryLogo.AppliedScaling = 1.0
 
 		// Material 'folder' outline icon path
-		diagramLogo.Definition = "M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
+		libraryLogo.Definition = "M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
 
 		distanceFromBorder := 5.0
 		iconWidth := 20.0
 
-		diagramLogo.X_Offset = distanceFromBorder
-		diagramLogo.Y_Offset = distanceFromBorder
-		diagramLogo.RectAnchorType = svg.RECT_TOP_LEFT
-		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, diagramLogo)
+		libraryLogo.X_Offset = distanceFromBorder
+		libraryLogo.Y_Offset = distanceFromBorder
+		libraryLogo.RectAnchorType = svg.RECT_TOP_LEFT
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, libraryLogo)
 
 		if len(rect.RectAnchoredTexts) > 0 {
 			padding := 10.0
-			AdjustRectTitleForLeftIcon(stager, diagram, diagramShape, rect, distanceFromBorder+iconWidth+padding)
+			AdjustRectTitleForLeftIcon(stager, diagram, libraryShape, rect, distanceFromBorder+iconWidth+padding)
 		}
 	}
 

@@ -473,7 +473,7 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Diagram__00000000_.IsConcernsNodeExpanded = true
 	__stage_0__Diagram__00000000_.IsNotesNodeExpanded = true
 	__stage_0__Diagram__00000000_.IsStakeholdersNodeExpanded = false
-	__stage_0__Diagram__00000000_.IsDiagramsNodeExpanded = false
+	__stage_0__Diagram__00000000_.IsLibrariesNodeExpanded = false
 	__stage_0__Library__00000000_.Name = `Capture of the state machine DSM concepts`
 	__stage_0__Library__00000000_.IsRootLibrary = true
 	__stage_0__Library__00000000_.ComputedPrefix = ``
