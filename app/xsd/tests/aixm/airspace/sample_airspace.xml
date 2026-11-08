@@ -2,8 +2,9 @@
 <message:AIXMBasicMessage xmlns:message="http://www.aixm.aero/schema/5.1.1/message"
                           xmlns:aixm="http://www.aixm.aero/schema/5.1.1"
                           xmlns:gml="http://www.opengis.net/gml/3.2"
+                          xmlns:xlink="http://www.w3.org/1999/xlink"
                           gml:id="MSG_AIRSPACE_LFFF_001">
-    <gml:description>Paris FIR (LFFF), TMA, CTR, Restricted Area &amp; Border Airspace Message</gml:description>
+    <gml:description>Paris FIR (LFFF), TMA, CTR, Restricted Area, Authorities &amp; Border Airspace Message</gml:description>
     <gml:identifier codeSpace="urn:uuid:">223e4567-e89b-12d3-a456-426614174000</gml:identifier>
     <message:hasMember>
         <aixm:Airspace gml:id="AS_LFFF">
@@ -15,6 +16,35 @@
                     <aixm:type>FIR</aixm:type>
                     <aixm:designator>LFFF</aixm:designator>
                     <aixm:name>PARIS FIR</aixm:name>
+                    <aixm:designatorICAO>YES</aixm:designatorICAO>
+                    <aixm:controlType>CIVIL</aixm:controlType>
+                    <aixm:upperLowerSeparation uom="FL">195</aixm:upperLowerSeparation>
+                    <aixm:class>
+                        <aixm:AirspaceLayerClass gml:id="ALC_LFFF_1">
+                            <aixm:classification>E</aixm:classification>
+                            <aixm:associatedLevels>
+                                <aixm:AirspaceLayer gml:id="AL_LFFF_1">
+                                    <aixm:upperLimit uom="FL">195</aixm:upperLimit>
+                                    <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+                                    <aixm:lowerLimit uom="FL">115</aixm:lowerLimit>
+                                    <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+                                </aixm:AirspaceLayer>
+                            </aixm:associatedLevels>
+                        </aixm:AirspaceLayerClass>
+                    </aixm:class>
+                    <aixm:class>
+                        <aixm:AirspaceLayerClass gml:id="ALC_LFFF_2">
+                            <aixm:classification>G</aixm:classification>
+                            <aixm:associatedLevels>
+                                <aixm:AirspaceLayer gml:id="AL_LFFF_2">
+                                    <aixm:upperLimit uom="FL">115</aixm:upperLimit>
+                                    <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+                                    <aixm:lowerLimit>GND</aixm:lowerLimit>
+                                    <aixm:lowerLimitReference>SFC</aixm:lowerLimitReference>
+                                </aixm:AirspaceLayer>
+                            </aixm:associatedLevels>
+                        </aixm:AirspaceLayerClass>
+                    </aixm:class>
                     <aixm:geometryComponent>
                         <aixm:AirspaceGeometryComponent gml:id="AGC_LFFF_1">
                             <aixm:operation>BASE</aixm:operation>
@@ -42,6 +72,30 @@
                             </aixm:theAirspaceVolume>
                         </aixm:AirspaceGeometryComponent>
                     </aixm:geometryComponent>
+                    <aixm:activation>
+                        <aixm:AirspaceActivation gml:id="ACT_LFFF_1">
+                            <aixm:timeInterval>
+                                <aixm:Timesheet gml:id="TSH_LFFF_1">
+                                    <aixm:timeReference>UTC</aixm:timeReference>
+                                    <aixm:day>ANY</aixm:day>
+                                    <aixm:startTime>00:00</aixm:startTime>
+                                    <aixm:endTime>24:00</aixm:endTime>
+                                </aixm:Timesheet>
+                            </aixm:timeInterval>
+                            <aixm:status>ACTIVE</aixm:status>
+                            <aixm:user xlink:href="urn:uuid:org-crna-nord" xlink:title="CRNA NORD (ATHIS-MONS ACC)"/>
+                        </aixm:AirspaceActivation>
+                    </aixm:activation>
+                    <aixm:annotation>
+                        <aixm:Note gml:id="NOTE_LFFF_1">
+                            <aixm:purpose>REMARK</aixm:purpose>
+                            <aixm:translatedNote>
+                                <aixm:LinguisticNote gml:id="LNOTE_LFFF_1">
+                                    <aixm:note>Paris Information: 125.700 MHz / 126.100 MHz (H24)</aixm:note>
+                                </aixm:LinguisticNote>
+                            </aixm:translatedNote>
+                        </aixm:Note>
+                    </aixm:annotation>
                 </aixm:AirspaceTimeSlice>
             </aixm:timeSlice>
         </aixm:Airspace>
@@ -56,6 +110,20 @@
                     <aixm:type>TMA</aixm:type>
                     <aixm:designator>LFPGTMA</aixm:designator>
                     <aixm:name>PARIS TMA SECTOR 1</aixm:name>
+                    <aixm:controlType>CIVIL</aixm:controlType>
+                    <aixm:class>
+                        <aixm:AirspaceLayerClass gml:id="ALC_LFPGTMA_1">
+                            <aixm:classification>A</aixm:classification>
+                            <aixm:associatedLevels>
+                                <aixm:AirspaceLayer gml:id="AL_LFPGTMA_1">
+                                    <aixm:upperLimit uom="FL">115</aixm:upperLimit>
+                                    <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+                                    <aixm:lowerLimit uom="FT">1500</aixm:lowerLimit>
+                                    <aixm:lowerLimitReference>MSL</aixm:lowerLimitReference>
+                                </aixm:AirspaceLayer>
+                            </aixm:associatedLevels>
+                        </aixm:AirspaceLayerClass>
+                    </aixm:class>
                     <aixm:geometryComponent>
                         <aixm:AirspaceGeometryComponent gml:id="AGC_LFPGTMA_1">
                             <aixm:operation>BASE</aixm:operation>
@@ -91,6 +159,22 @@
                             </aixm:theAirspaceVolume>
                         </aixm:AirspaceGeometryComponent>
                     </aixm:geometryComponent>
+                    <aixm:activation>
+                        <aixm:AirspaceActivation gml:id="ACT_LFPGTMA_1">
+                            <aixm:status>ACTIVE</aixm:status>
+                            <aixm:user xlink:href="urn:uuid:org-de-gaulle-app" xlink:title="DE GAULLE APPROACH (SNA-RP)"/>
+                        </aixm:AirspaceActivation>
+                    </aixm:activation>
+                    <aixm:annotation>
+                        <aixm:Note gml:id="NOTE_LFPGTMA_1">
+                            <aixm:purpose>DESCRIPTION</aixm:purpose>
+                            <aixm:translatedNote>
+                                <aixm:LinguisticNote gml:id="LNOTE_LFPGTMA_1">
+                                    <aixm:note>Class A airspace, VFR flights prohibited without special SVFR clearance</aixm:note>
+                                </aixm:LinguisticNote>
+                            </aixm:translatedNote>
+                        </aixm:Note>
+                    </aixm:annotation>
                 </aixm:AirspaceTimeSlice>
             </aixm:timeSlice>
         </aixm:Airspace>
@@ -105,6 +189,20 @@
                     <aixm:type>CTR</aixm:type>
                     <aixm:designator>LFPGCTR</aixm:designator>
                     <aixm:name>PARIS CHARLES DE GAULLE CTR</aixm:name>
+                    <aixm:controlType>CIVIL</aixm:controlType>
+                    <aixm:class>
+                        <aixm:AirspaceLayerClass gml:id="ALC_LFPGCTR_1">
+                            <aixm:classification>D</aixm:classification>
+                            <aixm:associatedLevels>
+                                <aixm:AirspaceLayer gml:id="AL_LFPGCTR_1">
+                                    <aixm:upperLimit uom="FT">2500</aixm:upperLimit>
+                                    <aixm:upperLimitReference>MSL</aixm:upperLimitReference>
+                                    <aixm:lowerLimit>GND</aixm:lowerLimit>
+                                    <aixm:lowerLimitReference>SFC</aixm:lowerLimitReference>
+                                </aixm:AirspaceLayer>
+                            </aixm:associatedLevels>
+                        </aixm:AirspaceLayerClass>
+                    </aixm:class>
                     <aixm:geometryComponent>
                         <aixm:AirspaceGeometryComponent gml:id="AGC_LFPGCTR_1">
                             <aixm:operation>BASE</aixm:operation>
@@ -140,6 +238,12 @@
                             </aixm:theAirspaceVolume>
                         </aixm:AirspaceGeometryComponent>
                     </aixm:geometryComponent>
+                    <aixm:activation>
+                        <aixm:AirspaceActivation gml:id="ACT_LFPGCTR_1">
+                            <aixm:status>ACTIVE</aixm:status>
+                            <aixm:user xlink:href="urn:uuid:org-de-gaulle-twr" xlink:title="DE GAULLE TOWER (LFPG TWR)"/>
+                        </aixm:AirspaceActivation>
+                    </aixm:activation>
                 </aixm:AirspaceTimeSlice>
             </aixm:timeSlice>
         </aixm:Airspace>
@@ -154,6 +258,7 @@
                     <aixm:type>R</aixm:type>
                     <aixm:designator>LFR45</aixm:designator>
                     <aixm:name>RAMBOUILLET RESTRICTED</aixm:name>
+                    <aixm:controlType>MIL</aixm:controlType>
                     <aixm:geometryComponent>
                         <aixm:AirspaceGeometryComponent gml:id="AGC_LFR45_1">
                             <aixm:operation>BASE</aixm:operation>
@@ -190,9 +295,101 @@
                             </aixm:theAirspaceVolume>
                         </aixm:AirspaceGeometryComponent>
                     </aixm:geometryComponent>
+                    <aixm:activation>
+                        <aixm:AirspaceActivation gml:id="ACT_LFR45_1">
+                            <aixm:timeInterval>
+                                <aixm:Timesheet gml:id="TSH_LFR45_1">
+                                    <aixm:timeReference>UTC</aixm:timeReference>
+                                    <aixm:day>WORK_DAY</aixm:day>
+                                    <aixm:startTime>07:00</aixm:startTime>
+                                    <aixm:endTime>17:00</aixm:endTime>
+                                </aixm:Timesheet>
+                            </aixm:timeInterval>
+                            <aixm:specialDateAuthority xlink:href="urn:uuid:org-french-state" xlink:title="FRENCH REPUBLIC (DGAC / DIRCAM)"/>
+                            <aixm:activity>MILOPS</aixm:activity>
+                            <aixm:status>INTERMITTENT</aixm:status>
+                            <aixm:user xlink:href="urn:uuid:org-ba107" xlink:title="FRENCH AIR FORCE - BA 107 VILLACOUBLAY"/>
+                        </aixm:AirspaceActivation>
+                    </aixm:activation>
+                    <aixm:annotation>
+                        <aixm:Note gml:id="NOTE_LFR45_1">
+                            <aixm:purpose>REMARK</aixm:purpose>
+                            <aixm:translatedNote>
+                                <aixm:LinguisticNote gml:id="LNOTE_LFR45_1">
+                                    <aixm:note>Activation announced by NOTAM; entry subject to Villacoublay Approach clearance</aixm:note>
+                                </aixm:LinguisticNote>
+                            </aixm:translatedNote>
+                        </aixm:Note>
+                    </aixm:annotation>
                 </aixm:AirspaceTimeSlice>
             </aixm:timeSlice>
         </aixm:Airspace>
+    </message:hasMember>
+    <message:hasMember>
+        <aixm:AuthorityForAirspace gml:id="AUTH_LFFF">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000021</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:AuthorityForAirspaceTimeSlice gml:id="AUTH_TS_LFFF_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:type>OWN</aixm:type>
+                    <aixm:responsibleOrganisation xlink:href="urn:uuid:org-dsna-france" xlink:title="DSNA - DIRECTION DES SERVICES DE LA NAVIGATION AERIENNE (DGAC)"/>
+                    <aixm:assignedAirspace xlink:href="urn:uuid:00000000-0000-0000-0000-000000000011" xlink:title="LFFF PARIS FIR"/>
+                    <aixm:annotation>
+                        <aixm:Note gml:id="NOTE_AUTH_LFFF_1">
+                            <aixm:purpose>REMARK</aixm:purpose>
+                            <aixm:translatedNote>
+                                <aixm:LinguisticNote gml:id="LNOTE_AUTH_LFFF_1">
+                                    <aixm:note>Sovereign FIR authority delegated to DSNA CRNA Nord (Athis-Mons)</aixm:note>
+                                </aixm:LinguisticNote>
+                            </aixm:translatedNote>
+                        </aixm:Note>
+                    </aixm:annotation>
+                </aixm:AuthorityForAirspaceTimeSlice>
+            </aixm:timeSlice>
+        </aixm:AuthorityForAirspace>
+    </message:hasMember>
+    <message:hasMember>
+        <aixm:AuthorityForAirspace gml:id="AUTH_LFPGTMA">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000022</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:AuthorityForAirspaceTimeSlice gml:id="AUTH_TS_LFPGTMA_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:type>OWN</aixm:type>
+                    <aixm:responsibleOrganisation xlink:href="urn:uuid:org-sna-rp" xlink:title="SNA-RP - SERVICE DE LA NAVIGATION AERIENNE REGION PARISIENNE"/>
+                    <aixm:assignedAirspace xlink:href="urn:uuid:00000000-0000-0000-0000-000000000012" xlink:title="LFPGTMA PARIS TMA SECTOR 1"/>
+                </aixm:AuthorityForAirspaceTimeSlice>
+            </aixm:timeSlice>
+        </aixm:AuthorityForAirspace>
+    </message:hasMember>
+    <message:hasMember>
+        <aixm:AuthorityForAirspace gml:id="AUTH_LFPGCTR">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000023</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:AuthorityForAirspaceTimeSlice gml:id="AUTH_TS_LFPGCTR_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:type>OWN</aixm:type>
+                    <aixm:responsibleOrganisation xlink:href="urn:uuid:org-lfpg-twr" xlink:title="SNA-RP - PARIS CHARLES DE GAULLE CONTROL TOWER"/>
+                    <aixm:assignedAirspace xlink:href="urn:uuid:00000000-0000-0000-0000-000000000013" xlink:title="LFPGCTR PARIS CHARLES DE GAULLE CTR"/>
+                </aixm:AuthorityForAirspaceTimeSlice>
+            </aixm:timeSlice>
+        </aixm:AuthorityForAirspace>
+    </message:hasMember>
+    <message:hasMember>
+        <aixm:AuthorityForAirspace gml:id="AUTH_LFR45">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000024</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:AuthorityForAirspaceTimeSlice gml:id="AUTH_TS_LFR45_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:type>OWN</aixm:type>
+                    <aixm:responsibleOrganisation xlink:href="urn:uuid:org-dircam" xlink:title="DIRCAM - DIRECTION DE LA CIRCULATION AERIENNE MILITAIRE"/>
+                    <aixm:assignedAirspace xlink:href="urn:uuid:00000000-0000-0000-0000-000000000014" xlink:title="LFR45 RAMBOUILLET RESTRICTED"/>
+                </aixm:AuthorityForAirspaceTimeSlice>
+            </aixm:timeSlice>
+        </aixm:AuthorityForAirspace>
     </message:hasMember>
     <message:hasMember>
         <aixm:GeoBorder gml:id="GB_FR_BE">

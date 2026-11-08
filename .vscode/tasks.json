@@ -1088,6 +1088,19 @@
             ]
         },
         {
+            "label": "dsm - xsd - aixm/airport: gong portable",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/airport"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "portable",
+                "go/cmd/airport"
+            ]
+        },
+        {
             "label": "dsm - xsd - aixm/airspace: xsd2gong generate",
             "type": "shell",
             "options": {
@@ -1144,7 +1157,7 @@
                 "data/stage.go"
             ]
         },
-                {
+        {
             "label": "dsm - xsd - aixm/airspace: go run . edit",
             "type": "shell",
             "options": {
@@ -1156,6 +1169,19 @@
                 "run",
                 ".",
                 "edit",
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/airspace: gong portable",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/airspace"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "portable",
+                "go/cmd/airspace"
             ]
         },
         {
@@ -1216,6 +1242,19 @@
             ]
         },
         {
+            "label": "dsm - xsd - aixm/route: gong portable",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/route"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "portable",
+                "go/cmd/route"
+            ]
+        },
+        {
             "label": "dsm - xsd - aixm/navaid: xsd2gong generate",
             "type": "shell",
             "options": {
@@ -1270,6 +1309,19 @@
                 ".",
                 "edit",
                 "data/stage.go"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/navaid: gong portable",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/navaid"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "portable",
+                "go/cmd/navaid"
             ]
         },
         {
@@ -1330,6 +1382,19 @@
             ]
         },
         {
+            "label": "dsm - xsd - aixm/procedure: gong portable",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/procedure"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "portable",
+                "go/cmd/procedure"
+            ]
+        },
+        {
             "label": "dsm - xsd - aixm/obstacle: xsd2gong generate",
             "type": "shell",
             "options": {
@@ -1387,6 +1452,19 @@
             ]
         },
         {
+            "label": "dsm - xsd - aixm/obstacle: gong portable",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/obstacle"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "portable",
+                "go/cmd/obstacle"
+            ]
+        },
+        {
             "label": "dsm - xsd - aixm/service: xsd2gong generate",
             "type": "shell",
             "options": {
@@ -1441,6 +1519,19 @@
                 ".",
                 "edit",
                 "data/stage.go"
+            ]
+        },
+        {
+            "label": "dsm - xsd - aixm/service: gong portable",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/service"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "portable",
+                "go/cmd/service"
             ]
         },
         {

@@ -119,6 +119,827 @@ func (stager *Stager) isCategoryExpanded(catKey string, defaultExpanded bool) bo
 	return defaultExpanded
 }
 
+func (stager *Stager) isAirspaceNodeExpanded(as *aixmfeatures.AirspaceType, defaultExpanded bool) bool {
+	if stager.expandedAirspaces != nil {
+		if val, ok := stager.expandedAirspaces[as]; ok {
+			return val
+		}
+	}
+	return defaultExpanded
+}
+
+func buildAirspaceAndAuthorityLookups(
+	airspaces []*aixmfeatures.AirspaceType,
+	authorities []*aixmfeatures.AuthorityForAirspaceType,
+) (
+	airspaceByKey map[string]*aixmfeatures.AirspaceType,
+	authoritiesByAirspace map[*aixmfeatures.AirspaceType][]*aixmfeatures.AuthorityForAirspaceTimeSliceType,
+) {
+	airspaceByKey = make(map[string]*aixmfeatures.AirspaceType, len(airspaces)*3)
+	designatorToAirspace := make(map[string]*aixmfeatures.AirspaceType, len(airspaces))
+
+	for _, as := range airspaces {
+		if as.Id != "" {
+			airspaceByKey[normalizeAirspaceKey(as.Id)] = as
+		}
+		if as.Identifier != nil && as.Identifier.EnclosedText != "" {
+			airspaceByKey[normalizeAirspaceKey(as.Identifier.EnclosedText)] = as
+		}
+		for _, tsp := range as.TimeSlice {
+			if tsp != nil && tsp.AirspaceTimeSlice != nil {
+				ts := tsp.AirspaceTimeSlice
+				if ts.Id != "" {
+					airspaceByKey[normalizeAirspaceKey(ts.Id)] = as
+				}
+				if ts.Designator != nil && strings.TrimSpace(ts.Designator.EnclosedText) != "" {
+					d := strings.ToUpper(strings.TrimSpace(ts.Designator.EnclosedText))
+					if _, exists := designatorToAirspace[d]; !exists {
+						designatorToAirspace[d] = as
+					}
+				}
+			}
+		}
+	}
+
+	authoritiesByAirspace = make(map[*aixmfeatures.AirspaceType][]*aixmfeatures.AuthorityForAirspaceTimeSliceType)
+	for _, auth := range authorities {
+		if auth == nil {
+			continue
+		}
+		for _, tsp := range auth.TimeSlice {
+			if tsp == nil || tsp.AuthorityForAirspaceTimeSlice == nil {
+				continue
+			}
+			authTS := tsp.AuthorityForAirspaceTimeSlice
+			if authTS.AssignedAirspace == nil {
+				continue
+			}
+			var matchedAS *aixmfeatures.AirspaceType
+			if authTS.AssignedAirspace.Href != "" {
+				matchedAS = airspaceByKey[normalizeAirspaceKey(authTS.AssignedAirspace.Href)]
+			}
+			if matchedAS == nil && authTS.AssignedAirspace.Title != "" {
+				fields := strings.Fields(strings.ToUpper(strings.TrimSpace(authTS.AssignedAirspace.Title)))
+				if len(fields) > 0 {
+					matchedAS = designatorToAirspace[fields[0]]
+				}
+			}
+			if matchedAS != nil {
+				authoritiesByAirspace[matchedAS] = append(authoritiesByAirspace[matchedAS], authTS)
+			}
+		}
+	}
+
+	return airspaceByKey, authoritiesByAirspace
+}
+
+func formatXlinkPropertyLabel(title, href string) string {
+	t := strings.TrimSpace(title)
+	h := strings.TrimSpace(href)
+	if t != "" && h != "" && !strings.Contains(strings.ToLower(t), strings.ToLower(h)) {
+		shortH := strings.TrimPrefix(h, "urn:uuid:")
+		shortH = strings.TrimPrefix(shortH, "#")
+		if len(shortH) > 20 {
+			return t
+		}
+		return fmt.Sprintf("%s (%s)", t, shortH)
+	}
+	if t != "" {
+		return t
+	}
+	if h != "" {
+		return strings.TrimPrefix(strings.TrimPrefix(h, "urn:uuid:"), "#")
+	}
+	return "Unspecified"
+}
+
+func formatAuthoritySummary(authTS *aixmfeatures.AuthorityForAirspaceTimeSliceType) string {
+	if authTS == nil {
+		return ""
+	}
+	authType := "AUTH"
+	if authTS.Type_XSD != nil && strings.TrimSpace(authTS.Type_XSD.EnclosedText) != "" {
+		authType = strings.TrimSpace(authTS.Type_XSD.EnclosedText)
+	}
+	org := ""
+	if authTS.ResponsibleOrganisation != nil {
+		org = formatXlinkPropertyLabel(authTS.ResponsibleOrganisation.Title, authTS.ResponsibleOrganisation.Href)
+	}
+	notes := extractNotesSummary(authTS.Annotation)
+	if notes != "" && org != "" {
+		return fmt.Sprintf("[%s] %s — %s", authType, org, notes)
+	}
+	if org != "" {
+		return fmt.Sprintf("[%s] %s", authType, org)
+	}
+	if notes != "" {
+		return fmt.Sprintf("[%s] %s", authType, notes)
+	}
+	return fmt.Sprintf("[%s] %s", authType, authTS.Id)
+}
+
+func extractNotesSummary(notes []*aixmfeatures.NotePropertyType) string {
+	var parts []string
+	for _, np := range notes {
+		if np == nil || np.Note == nil {
+			continue
+		}
+		for _, tn := range np.Note.TranslatedNote {
+			if tn != nil && tn.LinguisticNote != nil && tn.LinguisticNote.Note != nil {
+				txt := strings.TrimSpace(tn.LinguisticNote.Note.EnclosedText)
+				if txt != "" {
+					parts = append(parts, txt)
+				}
+			}
+		}
+	}
+	return strings.Join(parts, "; ")
+}
+
+func formatTimesheetSummary(ts *aixmfeatures.TimesheetType) string {
+	if ts == nil {
+		return ""
+	}
+	var parts []string
+	if ts.Day != nil && strings.TrimSpace(ts.Day.EnclosedText) != "" {
+		dayStr := strings.TrimSpace(ts.Day.EnclosedText)
+		if ts.DayTil != nil && strings.TrimSpace(ts.DayTil.EnclosedText) != "" {
+			dayStr += "->" + strings.TrimSpace(ts.DayTil.EnclosedText)
+		}
+		parts = append(parts, dayStr)
+	}
+	startT := ""
+	if ts.StartTime != nil && strings.TrimSpace(ts.StartTime.EnclosedText) != "" {
+		startT = strings.TrimSpace(ts.StartTime.EnclosedText)
+	} else if ts.StartEvent != nil && strings.TrimSpace(ts.StartEvent.EnclosedText) != "" {
+		startT = strings.TrimSpace(ts.StartEvent.EnclosedText)
+	}
+	endT := ""
+	if ts.EndTime != nil && strings.TrimSpace(ts.EndTime.EnclosedText) != "" {
+		endT = strings.TrimSpace(ts.EndTime.EnclosedText)
+	} else if ts.EndEvent != nil && strings.TrimSpace(ts.EndEvent.EnclosedText) != "" {
+		endT = strings.TrimSpace(ts.EndEvent.EnclosedText)
+	}
+	if startT != "" || endT != "" {
+		if startT == "" {
+			startT = "00:00"
+		}
+		if endT == "" {
+			endT = "24:00"
+		}
+		parts = append(parts, startT+"-"+endT)
+	}
+	if ts.TimeReference != nil && strings.TrimSpace(ts.TimeReference.EnclosedText) != "" {
+		parts = append(parts, strings.TrimSpace(ts.TimeReference.EnclosedText))
+	}
+	if ts.StartDate != nil && strings.TrimSpace(ts.StartDate.EnclosedText) != "" {
+		dateRange := strings.TrimSpace(ts.StartDate.EnclosedText)
+		if ts.EndDate != nil && strings.TrimSpace(ts.EndDate.EnclosedText) != "" {
+			dateRange += " to " + strings.TrimSpace(ts.EndDate.EnclosedText)
+		}
+		parts = append(parts, "("+dateRange+")")
+	}
+	if ts.Excluded != nil && strings.EqualFold(strings.TrimSpace(ts.Excluded.EnclosedText), "YES") {
+		parts = append(parts, "[EXCLUDED]")
+	}
+	if len(parts) == 0 {
+		return "Timesheet " + ts.Id
+	}
+	return strings.Join(parts, " ")
+}
+
+func (stager *Stager) buildNoteNodes(notes []*aixmfeatures.NotePropertyType) []*tree.Node {
+	var res []*tree.Node
+	for _, np := range notes {
+		if np == nil || np.Note == nil {
+			continue
+		}
+		noteObj := np.Note
+		purpose := ""
+		if noteObj.Purpose != nil && strings.TrimSpace(noteObj.Purpose.EnclosedText) != "" {
+			purpose = strings.TrimSpace(noteObj.Purpose.EnclosedText)
+		}
+		propName := ""
+		if noteObj.PropertyName != nil && strings.TrimSpace(noteObj.PropertyName.EnclosedText) != "" {
+			propName = strings.TrimSpace(noteObj.PropertyName.EnclosedText)
+		}
+		var texts []string
+		for _, tn := range noteObj.TranslatedNote {
+			if tn != nil && tn.LinguisticNote != nil && tn.LinguisticNote.Note != nil {
+				t := strings.TrimSpace(tn.LinguisticNote.Note.EnclosedText)
+				if t != "" {
+					texts = append(texts, t)
+				}
+			}
+		}
+		txt := strings.Join(texts, " | ")
+		if txt == "" {
+			txt = noteObj.Id
+		}
+		prefix := "Note"
+		if purpose != "" && propName != "" {
+			prefix = fmt.Sprintf("Note [%s / %s]", purpose, propName)
+		} else if purpose != "" {
+			prefix = fmt.Sprintf("Note [%s]", purpose)
+		} else if propName != "" {
+			prefix = fmt.Sprintf("Note [%s]", propName)
+		}
+		res = append(res, &tree.Node{
+			Name:            fmt.Sprintf("%s: %s", prefix, txt),
+			IsNodeClickable: true,
+			OnClick: func(frontNode *tree.Node) {
+				stager.mu.Lock()
+				defer stager.mu.Unlock()
+				if stager.probeForm != nil {
+					stager.probeForm.FillUpFormFromGongstruct(noteObj, "NoteType")
+				}
+			},
+		})
+	}
+	return res
+}
+
+func (stager *Stager) buildAirspaceDetailChildren(
+	as *aixmfeatures.AirspaceType,
+	ts *aixmfeatures.AirspaceTimeSliceType,
+	authorities []*aixmfeatures.AuthorityForAirspaceTimeSliceType,
+	airspaceByKey map[string]*aixmfeatures.AirspaceType,
+) []*tree.Node {
+	var children []*tree.Node
+	if ts == nil {
+		return children
+	}
+
+	// 1. Responsible Authorities (AuthorityForAirspace + Activation User + SpecialDateAuthority)
+	var authNodes []*tree.Node
+	for _, authTS := range authorities {
+		authTS := authTS
+		summary := formatAuthoritySummary(authTS)
+		authNode := &tree.Node{
+			Name:            "Authority: " + summary,
+			IsExpanded:      true,
+			IsNodeClickable: true,
+			OnClick: func(frontNode *tree.Node) {
+				stager.mu.Lock()
+				defer stager.mu.Unlock()
+				if stager.probeForm != nil {
+					stager.probeForm.FillUpFormFromGongstruct(authTS, "AuthorityForAirspaceTimeSliceType")
+				}
+			},
+		}
+		if authTS.ResponsibleOrganisation != nil {
+			orgProp := authTS.ResponsibleOrganisation
+			orgLabel := formatXlinkPropertyLabel(orgProp.Title, orgProp.Href)
+			authNode.Children = append(authNode.Children, &tree.Node{
+				Name:            "Responsible Organisation: " + orgLabel,
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree.Node) {
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					if stager.probeForm != nil {
+						stager.probeForm.FillUpFormFromGongstruct(orgProp, "OrganisationAuthorityPropertyType")
+					}
+				},
+			})
+		}
+		authNode.Children = append(authNode.Children, stager.buildNoteNodes(authTS.Annotation)...)
+		authNodes = append(authNodes, authNode)
+	}
+
+	// Check activation User authorities and SpecialDateAuthorities so they are also immediately visible under Authorities
+	seenOrgLabels := make(map[string]bool)
+	for _, actProp := range ts.Activation {
+		if actProp == nil || actProp.AirspaceActivation == nil {
+			continue
+		}
+		act := actProp.AirspaceActivation
+		for _, u := range act.User {
+			if u == nil || (u.Title == "" && u.Href == "") {
+				continue
+			}
+			u := u
+			lbl := formatXlinkPropertyLabel(u.Title, u.Href)
+			key := "USER:" + lbl
+			if seenOrgLabels[key] {
+				continue
+			}
+			seenOrgLabels[key] = true
+			authNodes = append(authNodes, &tree.Node{
+				Name:            "User / Operating Authority: " + lbl,
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree.Node) {
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					if stager.probeForm != nil {
+						stager.probeForm.FillUpFormFromGongstruct(u, "OrganisationAuthorityPropertyType")
+					}
+				},
+			})
+		}
+		for _, sda := range act.SpecialDateAuthority {
+			if sda == nil || (sda.Title == "" && sda.Href == "") {
+				continue
+			}
+			sda := sda
+			lbl := formatXlinkPropertyLabel(sda.Title, sda.Href)
+			key := "SDA:" + lbl
+			if seenOrgLabels[key] {
+				continue
+			}
+			seenOrgLabels[key] = true
+			authNodes = append(authNodes, &tree.Node{
+				Name:            "Special Date Authority: " + lbl,
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree.Node) {
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					if stager.probeForm != nil {
+						stager.probeForm.FillUpFormFromGongstruct(sda, "OrganisationAuthorityPropertyType")
+					}
+				},
+			})
+		}
+	}
+	for _, clsProp := range ts.Class {
+		if clsProp == nil || clsProp.AirspaceLayerClass == nil {
+			continue
+		}
+		for _, sda := range clsProp.AirspaceLayerClass.SpecialDateAuthority {
+			if sda == nil || (sda.Title == "" && sda.Href == "") {
+				continue
+			}
+			sda := sda
+			lbl := formatXlinkPropertyLabel(sda.Title, sda.Href)
+			key := "SDA:" + lbl
+			if seenOrgLabels[key] {
+				continue
+			}
+			seenOrgLabels[key] = true
+			authNodes = append(authNodes, &tree.Node{
+				Name:            "Special Date Authority: " + lbl,
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree.Node) {
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					if stager.probeForm != nil {
+						stager.probeForm.FillUpFormFromGongstruct(sda, "OrganisationAuthorityPropertyType")
+					}
+				},
+			})
+		}
+	}
+
+	if len(authNodes) == 1 {
+		children = append(children, authNodes[0])
+	} else if len(authNodes) > 1 {
+		firstSummary := authNodes[0].Name
+		authGroupNode := &tree.Node{
+			Name:       fmt.Sprintf("Authorities (%d) — %s", len(authNodes), strings.TrimPrefix(firstSummary, "Authority: ")),
+			IsExpanded: true,
+			Children:   authNodes,
+		}
+		children = append(children, authGroupNode)
+	}
+
+	// 2. General Operational Properties (ControlType, LocalType, UpperLowerSeparation, ProtectedRoute)
+	var propParts []string
+	if ts.ControlType != nil && strings.TrimSpace(ts.ControlType.EnclosedText) != "" {
+		propParts = append(propParts, "Control: "+strings.TrimSpace(ts.ControlType.EnclosedText))
+	}
+	if ts.LocalType != nil && strings.TrimSpace(ts.LocalType.EnclosedText) != "" {
+		propParts = append(propParts, "LocalType: "+strings.TrimSpace(ts.LocalType.EnclosedText))
+	}
+	if ts.DesignatorICAO != nil && strings.TrimSpace(ts.DesignatorICAO.EnclosedText) != "" {
+		propParts = append(propParts, "ICAO: "+strings.TrimSpace(ts.DesignatorICAO.EnclosedText))
+	}
+	if ts.UpperLowerSeparation != nil && ts.UpperLowerSeparation.EnclosedText != 0 {
+		uom := ts.UpperLowerSeparation.Uom
+		if uom == "" {
+			uom = "FL"
+		}
+		propParts = append(propParts, fmt.Sprintf("Upper/Lower Sep: %s %d", uom, ts.UpperLowerSeparation.EnclosedText))
+	}
+	if len(propParts) > 0 {
+		children = append(children, &tree.Node{
+			Name:            strings.Join(propParts, " | "),
+			IsNodeClickable: true,
+			OnClick: func(frontNode *tree.Node) {
+				stager.mu.Lock()
+				defer stager.mu.Unlock()
+				if stager.probeForm != nil {
+					stager.probeForm.FillUpFormFromGongstruct(ts, "AirspaceTimeSliceType")
+				}
+			},
+		})
+	}
+
+	if ts.ProtectedRoute != nil && (ts.ProtectedRoute.Title != "" || ts.ProtectedRoute.Href != "") {
+		pr := ts.ProtectedRoute
+		children = append(children, &tree.Node{
+			Name:            "Protected Route: " + formatXlinkPropertyLabel(pr.Title, pr.Href),
+			IsNodeClickable: true,
+			OnClick: func(frontNode *tree.Node) {
+				stager.mu.Lock()
+				defer stager.mu.Unlock()
+				if stager.probeForm != nil {
+					stager.probeForm.FillUpFormFromGongstruct(pr, "RoutePropertyType")
+				}
+			},
+		})
+	}
+
+	// 3. Airspace Classifications & Vertical Layers (ts.Class)
+	for _, clsProp := range ts.Class {
+		if clsProp == nil || clsProp.AirspaceLayerClass == nil {
+			continue
+		}
+		cls := clsProp.AirspaceLayerClass
+		clsCode := "?"
+		if cls.Classification != nil && strings.TrimSpace(cls.Classification.EnclosedText) != "" {
+			clsCode = strings.TrimSpace(cls.Classification.EnclosedText)
+		}
+		var levelSummaries []string
+		var layerNodes []*tree.Node
+		for _, lp := range cls.AssociatedLevels {
+			if lp == nil || lp.AirspaceLayer == nil {
+				continue
+			}
+			layer := lp.AirspaceLayer
+			lvlStr := formatVerticalLimits(layer.LowerLimit, layer.UpperLimit)
+			if layer.DiscreteLevelSeries != nil && layer.DiscreteLevelSeries.Title != "" {
+				if lvlStr != "" {
+					lvlStr += " [" + strings.TrimSpace(layer.DiscreteLevelSeries.Title) + "]"
+				} else {
+					lvlStr = strings.TrimSpace(layer.DiscreteLevelSeries.Title)
+				}
+			}
+			if lvlStr != "" {
+				levelSummaries = append(levelSummaries, lvlStr)
+			}
+			layerNodes = append(layerNodes, &tree.Node{
+				Name:            "Layer Levels: " + lvlStr,
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree.Node) {
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					if stager.probeForm != nil {
+						stager.probeForm.FillUpFormFromGongstruct(layer, "AirspaceLayerType")
+					}
+				},
+			})
+		}
+		clsTitle := fmt.Sprintf("Class %s", clsCode)
+		if len(levelSummaries) > 0 {
+			clsTitle = fmt.Sprintf("Class %s (%s)", clsCode, strings.Join(levelSummaries, ", "))
+		}
+		clsNode := &tree.Node{
+			Name:            clsTitle,
+			IsNodeClickable: true,
+			Children:        layerNodes,
+			OnClick: func(frontNode *tree.Node) {
+				stager.mu.Lock()
+				defer stager.mu.Unlock()
+				if stager.probeForm != nil {
+					stager.probeForm.FillUpFormFromGongstruct(cls, "AirspaceLayerClassType")
+				}
+			},
+		}
+		for _, tip := range cls.TimeInterval {
+			if tip == nil || tip.Timesheet == nil {
+				continue
+			}
+			tsh := tip.Timesheet
+			clsNode.Children = append(clsNode.Children, &tree.Node{
+				Name:            "Schedule: " + formatTimesheetSummary(tsh),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree.Node) {
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					if stager.probeForm != nil {
+						stager.probeForm.FillUpFormFromGongstruct(tsh, "TimesheetType")
+					}
+				},
+			})
+		}
+		clsNode.Children = append(clsNode.Children, stager.buildNoteNodes(cls.Annotation)...)
+		children = append(children, clsNode)
+	}
+
+	// 4. Activations & Schedules (ts.Activation)
+	for _, actProp := range ts.Activation {
+		if actProp == nil || actProp.AirspaceActivation == nil {
+			continue
+		}
+		act := actProp.AirspaceActivation
+		status := "ACTIVE"
+		if act.Status != nil && strings.TrimSpace(act.Status.EnclosedText) != "" {
+			status = strings.TrimSpace(act.Status.EnclosedText)
+		}
+		activity := ""
+		if act.Activity != nil && strings.TrimSpace(act.Activity.EnclosedText) != "" {
+			activity = strings.TrimSpace(act.Activity.EnclosedText)
+		}
+		actLabel := fmt.Sprintf("Activation [%s]", status)
+		if activity != "" {
+			actLabel += " — Activity: " + activity
+		}
+		actNode := &tree.Node{
+			Name:            actLabel,
+			IsNodeClickable: true,
+			OnClick: func(frontNode *tree.Node) {
+				stager.mu.Lock()
+				defer stager.mu.Unlock()
+				if stager.probeForm != nil {
+					stager.probeForm.FillUpFormFromGongstruct(act, "AirspaceActivationType")
+				}
+			},
+		}
+		for _, tip := range act.TimeInterval {
+			if tip == nil || tip.Timesheet == nil {
+				continue
+			}
+			tsh := tip.Timesheet
+			actNode.Children = append(actNode.Children, &tree.Node{
+				Name:            "Schedule: " + formatTimesheetSummary(tsh),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree.Node) {
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					if stager.probeForm != nil {
+						stager.probeForm.FillUpFormFromGongstruct(tsh, "TimesheetType")
+					}
+				},
+			})
+		}
+		for _, lp := range act.Levels {
+			if lp == nil || lp.AirspaceLayer == nil {
+				continue
+			}
+			layer := lp.AirspaceLayer
+			lvlStr := formatVerticalLimits(layer.LowerLimit, layer.UpperLimit)
+			if layer.DiscreteLevelSeries != nil && layer.DiscreteLevelSeries.Title != "" {
+				if lvlStr != "" {
+					lvlStr += " [" + strings.TrimSpace(layer.DiscreteLevelSeries.Title) + "]"
+				} else {
+					lvlStr = strings.TrimSpace(layer.DiscreteLevelSeries.Title)
+				}
+			}
+			actNode.Children = append(actNode.Children, &tree.Node{
+				Name:            "Activation Levels: " + lvlStr,
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree.Node) {
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					if stager.probeForm != nil {
+						stager.probeForm.FillUpFormFromGongstruct(layer, "AirspaceLayerType")
+					}
+				},
+			})
+		}
+		for _, u := range act.User {
+			if u == nil || (u.Title == "" && u.Href == "") {
+				continue
+			}
+			u := u
+			actNode.Children = append(actNode.Children, &tree.Node{
+				Name:            "User Authority: " + formatXlinkPropertyLabel(u.Title, u.Href),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree.Node) {
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					if stager.probeForm != nil {
+						stager.probeForm.FillUpFormFromGongstruct(u, "OrganisationAuthorityPropertyType")
+					}
+				},
+			})
+		}
+		for _, acp := range act.Aircraft {
+			if acp == nil || acp.AircraftCharacteristic == nil {
+				continue
+			}
+			ac := acp.AircraftCharacteristic
+			var acParts []string
+			if ac.Type_XSD != nil && strings.TrimSpace(ac.Type_XSD.EnclosedText) != "" {
+				acParts = append(acParts, "Type: "+strings.TrimSpace(ac.Type_XSD.EnclosedText))
+			}
+			if ac.Engine != nil && strings.TrimSpace(ac.Engine.EnclosedText) != "" {
+				acParts = append(acParts, "Engine: "+strings.TrimSpace(ac.Engine.EnclosedText))
+			}
+			if ac.NavigationSpecification != nil && strings.TrimSpace(ac.NavigationSpecification.EnclosedText) != "" {
+				acParts = append(acParts, "NavSpec: "+strings.TrimSpace(ac.NavigationSpecification.EnclosedText))
+			}
+			if ac.VerticalSeparationCapability != nil && strings.TrimSpace(ac.VerticalSeparationCapability.EnclosedText) != "" {
+				acParts = append(acParts, "RVSM: "+strings.TrimSpace(ac.VerticalSeparationCapability.EnclosedText))
+			}
+			acDesc := strings.Join(acParts, ", ")
+			if acDesc == "" {
+				acDesc = ac.Id
+			}
+			actNode.Children = append(actNode.Children, &tree.Node{
+				Name:            "Aircraft: " + acDesc,
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree.Node) {
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					if stager.probeForm != nil {
+						stager.probeForm.FillUpFormFromGongstruct(ac, "AircraftCharacteristicType")
+					}
+				},
+			})
+		}
+		actNode.Children = append(actNode.Children, stager.buildNoteNodes(act.Annotation)...)
+		children = append(children, actNode)
+	}
+
+	// 5. Geometry Components, Volumes & Contributor Airspaces (ts.GeometryComponent)
+	for gIdx, gcp := range ts.GeometryComponent {
+		if gcp == nil || gcp.AirspaceGeometryComponent == nil {
+			continue
+		}
+		gc := gcp.AirspaceGeometryComponent
+		op := "BASE"
+		if gc.Operation != nil && strings.TrimSpace(gc.Operation.EnclosedText) != "" {
+			op = strings.TrimSpace(gc.Operation.EnclosedText)
+		}
+		seq := fmt.Sprintf("%d", gIdx+1)
+		if gc.OperationSequence != nil && gc.OperationSequence.EnclosedText != 0 {
+			seq = fmt.Sprintf("%d", gc.OperationSequence.EnclosedText)
+		}
+
+		var vol *aixmfeatures.AirspaceVolumeType
+		if gc.TheAirspaceVolume != nil {
+			vol = gc.TheAirspaceVolume.AirspaceVolume
+		}
+		limits := ""
+		if vol != nil {
+			limits = formatVerticalLimits(vol.LowerLimit, vol.UpperLimit)
+		}
+		geomLabel := fmt.Sprintf("Geometry [%s #%s]", op, seq)
+		if limits != "" {
+			geomLabel += " (" + limits + ")"
+		}
+		if vol != nil && vol.Width != nil && strings.TrimSpace(vol.Width.EnclosedText) != "" {
+			geomLabel += fmt.Sprintf(" Width: %s %s", strings.TrimSpace(vol.Width.EnclosedText), vol.Width.Uom)
+		}
+
+		geomNode := &tree.Node{
+			Name:            geomLabel,
+			IsNodeClickable: true,
+			OnClick: func(frontNode *tree.Node) {
+				stager.mu.Lock()
+				defer stager.mu.Unlock()
+				if stager.probeForm != nil {
+					if vol != nil {
+						stager.probeForm.FillUpFormFromGongstruct(vol, "AirspaceVolumeType")
+					} else {
+						stager.probeForm.FillUpFormFromGongstruct(gc, "AirspaceGeometryComponentType")
+					}
+				}
+			},
+		}
+
+		if vol != nil {
+			// Check Contributor Airspace Dependency (allows clicking to jump to the referenced airspace!)
+			if vol.ContributorAirspace != nil && vol.ContributorAirspace.AirspaceVolumeDependency != nil {
+				dep := vol.ContributorAirspace.AirspaceVolumeDependency
+				depType := "DEPENDENCY"
+				if dep.Dependency != nil && strings.TrimSpace(dep.Dependency.EnclosedText) != "" {
+					depType = strings.TrimSpace(dep.Dependency.EnclosedText)
+				}
+				refLabel := dep.Id
+				var contribAS *aixmfeatures.AirspaceType
+				if dep.TheAirspace != nil {
+					refLabel = formatXlinkPropertyLabel(dep.TheAirspace.Title, dep.TheAirspace.Href)
+					if dep.TheAirspace.Href != "" {
+						contribAS = airspaceByKey[normalizeAirspaceKey(dep.TheAirspace.Href)]
+					}
+				}
+				contribNode := &tree.Node{
+					Name:            fmt.Sprintf("-> Contributor Airspace [%s]: %s", depType, refLabel),
+					IsNodeClickable: true,
+					OnClick: func(frontNode *tree.Node) {
+						stager.mu.Lock()
+						defer stager.mu.Unlock()
+						if contribAS != nil {
+							stager.selectAndFocusAirspaceLocked(contribAS)
+						} else if stager.probeForm != nil {
+							stager.probeForm.FillUpFormFromGongstruct(dep, "AirspaceVolumeDependencyType")
+						}
+					},
+				}
+				geomNode.Children = append(geomNode.Children, contribNode)
+			}
+
+			// Horizontal Projection (Surface / ElevatedSurface)
+			if vol.HorizontalProjection != nil {
+				hp := vol.HorizontalProjection
+				if hp.Surface != nil {
+					surf := hp.Surface
+					patchCount := 0
+					if surf.Patches != nil {
+						patchCount = len(surf.Patches.PolygonPatch)
+					}
+					geomNode.Children = append(geomNode.Children, &tree.Node{
+						Name:            fmt.Sprintf("Horizontal Surface: %s (%d patch(es))", surf.Id, patchCount),
+						IsNodeClickable: true,
+						OnClick: func(frontNode *tree.Node) {
+							stager.mu.Lock()
+							defer stager.mu.Unlock()
+							if stager.probeForm != nil {
+								stager.probeForm.FillUpFormFromGongstruct(surf, "SurfaceType")
+							}
+						},
+					})
+				} else if hp.ElevatedSurface != nil {
+					esurf := hp.ElevatedSurface
+					geomNode.Children = append(geomNode.Children, &tree.Node{
+						Name:            fmt.Sprintf("Elevated Surface: %s", esurf.Id),
+						IsNodeClickable: true,
+						OnClick: func(frontNode *tree.Node) {
+							stager.mu.Lock()
+							defer stager.mu.Unlock()
+							if stager.probeForm != nil {
+								stager.probeForm.FillUpFormFromGongstruct(esurf, "ElevatedSurfaceType")
+							}
+						},
+					})
+				}
+			}
+
+			// Centreline (Curve / ElevatedCurve)
+			if vol.Centreline != nil {
+				cl := vol.Centreline
+				if cl.Curve != nil {
+					crv := cl.Curve
+					geomNode.Children = append(geomNode.Children, &tree.Node{
+						Name:            fmt.Sprintf("Centreline Curve: %s", crv.Id),
+						IsNodeClickable: true,
+						OnClick: func(frontNode *tree.Node) {
+							stager.mu.Lock()
+							defer stager.mu.Unlock()
+							if stager.probeForm != nil {
+								stager.probeForm.FillUpFormFromGongstruct(crv, "CurveType")
+							}
+						},
+					})
+				}
+			}
+
+			geomNode.Children = append(geomNode.Children, stager.buildNoteNodes(vol.Annotation)...)
+		}
+		geomNode.Children = append(geomNode.Children, stager.buildNoteNodes(gc.Annotation)...)
+		children = append(children, geomNode)
+	}
+
+	// 6. Annotations / Notes on the AirspaceTimeSlice itself
+	children = append(children, stager.buildNoteNodes(ts.Annotation)...)
+
+	return children
+}
+
+func (stager *Stager) selectAndFocusAirspaceLocked(as *aixmfeatures.AirspaceType) {
+	if as == nil {
+		return
+	}
+	if stager.hiddenAirspaces != nil {
+		delete(stager.hiddenAirspaces, as)
+	}
+	if stager.expandedAirspaces == nil {
+		stager.expandedAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
+	}
+	stager.expandedAirspaces[as] = true
+
+	var targetTS *aixmfeatures.AirspaceTimeSliceType
+	asType := "OTHER"
+	for _, tsp := range as.TimeSlice {
+		if tsp != nil && tsp.AirspaceTimeSlice != nil {
+			targetTS = tsp.AirspaceTimeSlice
+			if targetTS.Type_XSD != nil && strings.TrimSpace(targetTS.Type_XSD.EnclosedText) != "" {
+				asType = strings.ToUpper(strings.TrimSpace(targetTS.Type_XSD.EnclosedText))
+			}
+			break
+		}
+	}
+	if stager.expandedCategories == nil {
+		stager.expandedCategories = make(map[string]bool)
+	}
+	stager.expandedCategories["AS_CAT_"+asType] = true
+	stager.isAirspacesExpanded = true
+
+	stager.selectedAirspace = targetTS
+	stager.selectedGeoBorder = nil
+	stager.focusOnSelected = true
+	if stager.probeForm != nil {
+		if targetTS != nil {
+			stager.probeForm.FillUpFormFromGongstruct(targetTS, "AirspaceTimeSliceType")
+		} else {
+			stager.probeForm.FillUpFormFromGongstruct(as, "AirspaceType")
+		}
+	}
+	stager.ux_tree()
+	stager.ux_maplibre()
+}
+
 func (stager *Stager) ux_tree() {
 	stager.treeStage.Reset()
 
@@ -178,6 +999,9 @@ func (stager *Stager) ux_tree() {
 
 		if stager.stage.AixmfeaturesStage != nil {
 			airspaces := stager.stage.AixmfeaturesStage.GetInstancesSorted[*aixmfeatures.AirspaceType]()
+			authorities := stager.stage.AixmfeaturesStage.GetInstancesSorted[*aixmfeatures.AuthorityForAirspaceType]()
+			airspaceByKey, authoritiesByAirspace := buildAirspaceAndAuthorityLookups(airspaces, authorities)
+
 			if len(airspaces) > 0 {
 				allAirspacesHidden := true
 				for _, as := range airspaces {
@@ -418,10 +1242,25 @@ func (stager *Stager) ux_tree() {
 							fontStyle = tree.ITALIC
 						}
 
+						defaultASExpanded := len(airspaces) <= 10 || (targetTS != nil && stager.selectedAirspace == targetTS)
+						isASExpanded := stager.isAirspaceNodeExpanded(as, defaultASExpanded)
+
 						asNode := &tree.Node{
 							Name:            label,
 							FontStyle:       fontStyle,
+							IsExpanded:      isASExpanded,
 							IsNodeClickable: true,
+							OnIsExpandedChange: func(isExpanded bool) {
+								stager.mu.Lock()
+								defer stager.mu.Unlock()
+								if stager.expandedAirspaces == nil {
+									stager.expandedAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
+								}
+								stager.expandedAirspaces[as] = isExpanded
+								if len(airspaces) > 80 {
+									stager.ux_tree()
+								}
+							},
 							Buttons: []*tree.Button{
 								{
 									Name:            "ToggleVisibility_Airspace_" + as.Name,
@@ -452,23 +1291,32 @@ func (stager *Stager) ux_tree() {
 							OnClick: func(frontNode *tree.Node) {
 								stager.mu.Lock()
 								defer stager.mu.Unlock()
-								if stager.hiddenAirspaces != nil && stager.hiddenAirspaces[as] {
-									delete(stager.hiddenAirspaces, as)
-								}
-								stager.selectedAirspace = targetTS
-								stager.selectedGeoBorder = nil
-								stager.focusOnSelected = true
-								if stager.probeForm != nil {
-									if targetTS != nil {
-										stager.probeForm.FillUpFormFromGongstruct(targetTS, "AirspaceTimeSliceType")
-									} else {
-										stager.probeForm.FillUpFormFromGongstruct(as, "AirspaceType")
-									}
-								}
-								stager.ux_tree()
-								stager.ux_maplibre()
+								stager.selectAndFocusAirspaceLocked(as)
 							},
 						}
+
+						// Build navigable child nodes under the zone (Authorities, Classifications, Activations, Geometry & Contributors, Notes)
+						if len(airspaces) <= 80 || isASExpanded || (targetTS != nil && stager.selectedAirspace == targetTS) {
+							asNode.Children = stager.buildAirspaceDetailChildren(
+								as,
+								targetTS,
+								authoritiesByAirspace[as],
+								airspaceByKey,
+							)
+						} else {
+							// Lightweight placeholder on huge datasets until the user expands or clicks the zone
+							authCount := len(authoritiesByAirspace[as])
+							if authCount > 0 {
+								asNode.Children = append(asNode.Children, &tree.Node{
+									Name: "Authority: " + formatAuthoritySummary(authoritiesByAirspace[as][0]),
+								})
+							} else {
+								asNode.Children = append(asNode.Children, &tree.Node{
+									Name: "Click or expand to inspect zone details...",
+								})
+							}
+						}
+
 						catNode.Children = append(catNode.Children, asNode)
 					}
 					if len(entries) > maxItems {
@@ -477,6 +1325,99 @@ func (stager *Stager) ux_tree() {
 							FontStyle: tree.ITALIC,
 						})
 					}
+				}
+			}
+
+			// Top-level Authorities for Airspace folder (allows browsing by Authority & jumping to Assigned Airspace)
+			if len(authorities) > 0 {
+				authFolder := &tree.Node{
+					Name:       fmt.Sprintf("Authorities for Airspace (%d)", len(authorities)),
+					IsExpanded: stager.isAuthoritiesExpanded || len(authorities) <= 10,
+					OnIsExpandedChange: func(isExpanded bool) {
+						stager.mu.Lock()
+						defer stager.mu.Unlock()
+						stager.isAuthoritiesExpanded = isExpanded
+						if len(authorities) > 40 {
+							stager.ux_tree()
+						}
+					},
+				}
+				node.Children = append(node.Children, authFolder)
+
+				if authFolder.IsExpanded || len(authorities) <= 40 {
+					maxAuth := len(authorities)
+					if maxAuth > 200 {
+						maxAuth = 200
+					}
+					for _, auth := range authorities[:maxAuth] {
+						auth := auth
+						for _, tsp := range auth.TimeSlice {
+							if tsp == nil || tsp.AuthorityForAirspaceTimeSlice == nil {
+								continue
+							}
+							authTS := tsp.AuthorityForAirspaceTimeSlice
+							summary := formatAuthoritySummary(authTS)
+							assignedLabel := ""
+							var assignedAS *aixmfeatures.AirspaceType
+							if authTS.AssignedAirspace != nil {
+								assignedLabel = formatXlinkPropertyLabel(authTS.AssignedAirspace.Title, authTS.AssignedAirspace.Href)
+								if authTS.AssignedAirspace.Href != "" {
+									assignedAS = airspaceByKey[normalizeAirspaceKey(authTS.AssignedAirspace.Href)]
+								}
+							}
+							itemTitle := summary
+							if assignedLabel != "" {
+								itemTitle = fmt.Sprintf("%s -> %s", summary, assignedLabel)
+							}
+							authItemNode := &tree.Node{
+								Name:            itemTitle,
+								IsNodeClickable: true,
+								OnClick: func(frontNode *tree.Node) {
+									stager.mu.Lock()
+									defer stager.mu.Unlock()
+									if stager.probeForm != nil {
+										stager.probeForm.FillUpFormFromGongstruct(authTS, "AuthorityForAirspaceTimeSliceType")
+									}
+								},
+							}
+							if authTS.ResponsibleOrganisation != nil {
+								orgProp := authTS.ResponsibleOrganisation
+								authItemNode.Children = append(authItemNode.Children, &tree.Node{
+									Name:            "Responsible Organisation: " + formatXlinkPropertyLabel(orgProp.Title, orgProp.Href),
+									IsNodeClickable: true,
+									OnClick: func(frontNode *tree.Node) {
+										stager.mu.Lock()
+										defer stager.mu.Unlock()
+										if stager.probeForm != nil {
+											stager.probeForm.FillUpFormFromGongstruct(orgProp, "OrganisationAuthorityPropertyType")
+										}
+									},
+								})
+							}
+							if assignedLabel != "" {
+								authItemNode.Children = append(authItemNode.Children, &tree.Node{
+									Name:            "-> Assigned Airspace: " + assignedLabel,
+									IsNodeClickable: true,
+									OnClick: func(frontNode *tree.Node) {
+										stager.mu.Lock()
+										defer stager.mu.Unlock()
+										if assignedAS != nil {
+											stager.selectAndFocusAirspaceLocked(assignedAS)
+										} else if stager.probeForm != nil && authTS.AssignedAirspace != nil {
+											stager.probeForm.FillUpFormFromGongstruct(authTS.AssignedAirspace, "AirspacePropertyType")
+										}
+									},
+								})
+							}
+							authItemNode.Children = append(authItemNode.Children, stager.buildNoteNodes(authTS.Annotation)...)
+							authFolder.Children = append(authFolder.Children, authItemNode)
+							break
+						}
+					}
+				} else {
+					authFolder.Children = append(authFolder.Children, &tree.Node{
+						Name: fmt.Sprintf("Expand to view %d AuthorityForAirspace entries...", len(authorities)),
+					})
 				}
 			}
 
@@ -728,6 +1669,23 @@ func (stager *Stager) ux_tree() {
 								stager.ux_tree()
 								stager.ux_maplibre()
 							},
+						}
+						if targetTS != nil {
+							if targetTS.Border != nil && targetTS.Border.Curve != nil {
+								crv := targetTS.Border.Curve
+								gbNode.Children = append(gbNode.Children, &tree.Node{
+									Name:            "Border Curve: " + crv.Id,
+									IsNodeClickable: true,
+									OnClick: func(frontNode *tree.Node) {
+										stager.mu.Lock()
+										defer stager.mu.Unlock()
+										if stager.probeForm != nil {
+											stager.probeForm.FillUpFormFromGongstruct(crv, "CurveType")
+										}
+									},
+								})
+							}
+							gbNode.Children = append(gbNode.Children, stager.buildNoteNodes(targetTS.Annotation)...)
 						}
 						catNode.Children = append(catNode.Children, gbNode)
 					}

@@ -82,22 +82,8 @@ func (stager *Stager) ux_maplibre() {
 
 	if stager.stage.AixmfeaturesStage != nil {
 		airspaces := stager.stage.AixmfeaturesStage.GetInstancesSorted[*aixmfeatures.AirspaceType]()
-
-		// Build lookup index for resolving <aixm:contributorAirspace xlink:href="..."/>
-		airspaceByKey := make(map[string]*aixmfeatures.AirspaceType, len(airspaces)*2)
-		for _, as := range airspaces {
-			if as.Id != "" {
-				airspaceByKey[normalizeAirspaceKey(as.Id)] = as
-			}
-			if as.Identifier != nil && as.Identifier.EnclosedText != "" {
-				airspaceByKey[normalizeAirspaceKey(as.Identifier.EnclosedText)] = as
-			}
-			for _, tsp := range as.TimeSlice {
-				if tsp != nil && tsp.AirspaceTimeSlice != nil && tsp.AirspaceTimeSlice.Id != "" {
-					airspaceByKey[normalizeAirspaceKey(tsp.AirspaceTimeSlice.Id)] = as
-				}
-			}
-		}
+		authorities := stager.stage.AixmfeaturesStage.GetInstancesSorted[*aixmfeatures.AuthorityForAirspaceType]()
+		airspaceByKey, authoritiesByAirspace := buildAirspaceAndAuthorityLookups(airspaces, authorities)
 
 		for _, as := range airspaces {
 			as := as
@@ -178,6 +164,9 @@ func (stager *Stager) ux_maplibre() {
 					if limitsLabel != "" {
 						popup += "<br/><small>" + limitsLabel + "</small>"
 					}
+					if authList := authoritiesByAirspace[as]; len(authList) > 0 {
+						popup += "<br/><small><b>Authority:</b> " + formatAuthoritySummary(authList[0]) + "</small>"
+					}
 
 					onSelectAirspace := func() {
 						stager.mu.Lock()
@@ -185,9 +174,22 @@ func (stager *Stager) ux_maplibre() {
 						stager.selectedAirspace = ts
 						stager.selectedGeoBorder = nil
 						stager.focusOnSelected = false
+						if stager.expandedAirspaces == nil {
+							stager.expandedAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
+						}
+						stager.expandedAirspaces[as] = true
+						if stager.expandedCategories == nil {
+							stager.expandedCategories = make(map[string]bool)
+						}
+						catKey := strings.ToUpper(strings.TrimSpace(asType))
+						if catKey == "" {
+							catKey = "OTHER"
+						}
+						stager.expandedCategories["AS_CAT_"+catKey] = true
 						if stager.probeForm != nil {
 							stager.probeForm.FillUpFormFromGongstruct(ts, "AirspaceTimeSliceType")
 						}
+						stager.ux_tree()
 						stager.ux_maplibre()
 					}
 

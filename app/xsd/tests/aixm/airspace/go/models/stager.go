@@ -25,27 +25,29 @@ import (
 )
 
 type Stager struct {
-	mu                sync.Mutex
-	stage             *Stage
-	splitStage        *split.Stage
-	probeForm         ProbeIF
-	treeStage         *tree.Stage
-	loadStageGo       *load.Stage
-	loadStageXML      *load.Stage
-	buttonStage       *button.Stage
-	maplibreStage     *maplibre.Stage
-	extrude3D         bool
-	selectedAirspace    *aixmfeatures.AirspaceTimeSliceType
-	selectedGeoBorder   *aixmfeatures.GeoBorderTimeSliceType
-	focusOnSelected     bool
-	resetCameraToBounds bool
-	hiddenAirspaces      map[*aixmfeatures.AirspaceType]bool
-	hiddenGeoBorders     map[*aixmfeatures.GeoBorderType]bool
-	expandedCategories   map[string]bool
-	isAirspacesExpanded  bool
-	isGeoBordersExpanded bool
-	fileName             string
-	semanticErrors       []string
+	mu                    sync.Mutex
+	stage                 *Stage
+	splitStage            *split.Stage
+	probeForm             ProbeIF
+	treeStage             *tree.Stage
+	loadStageGo           *load.Stage
+	loadStageXML          *load.Stage
+	buttonStage           *button.Stage
+	maplibreStage         *maplibre.Stage
+	extrude3D             bool
+	selectedAirspace      *aixmfeatures.AirspaceTimeSliceType
+	selectedGeoBorder     *aixmfeatures.GeoBorderTimeSliceType
+	focusOnSelected       bool
+	resetCameraToBounds   bool
+	hiddenAirspaces       map[*aixmfeatures.AirspaceType]bool
+	hiddenGeoBorders      map[*aixmfeatures.GeoBorderType]bool
+	expandedCategories    map[string]bool
+	expandedAirspaces     map[*aixmfeatures.AirspaceType]bool
+	isAirspacesExpanded   bool
+	isAuthoritiesExpanded bool
+	isGeoBordersExpanded  bool
+	fileName              string
+	semanticErrors        []string
 }
 
 func NewStager(
@@ -61,7 +63,9 @@ func NewStager(
 	stager.hiddenAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
 	stager.hiddenGeoBorders = make(map[*aixmfeatures.GeoBorderType]bool)
 	stager.expandedCategories = make(map[string]bool)
+	stager.expandedAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
 	stager.isAirspacesExpanded = true
+	stager.isAuthoritiesExpanded = false
 	stager.isGeoBordersExpanded = true
 
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
@@ -89,6 +93,7 @@ func NewStager(
 		stager.hiddenAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
 		stager.hiddenGeoBorders = make(map[*aixmfeatures.GeoBorderType]bool)
 		stager.expandedCategories = make(map[string]bool)
+		stager.expandedAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
 
 		numAirspaces := 0
 		if stager.stage.AixmfeaturesStage != nil {
