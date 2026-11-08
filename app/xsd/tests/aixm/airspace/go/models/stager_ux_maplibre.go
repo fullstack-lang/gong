@@ -186,6 +186,10 @@ func (stager *Stager) ux_maplibre() {
 							catKey = "OTHER"
 						}
 						stager.expandedCategories["AS_CAT_"+catKey] = true
+						letter := airspaceFirstLetter(designator)
+						pfx2 := airspaceTwoLetterPrefix(designator)
+						stager.expandedCategories[fmt.Sprintf("AS_LTR_%s_%s", catKey, letter)] = true
+						stager.expandedCategories[fmt.Sprintf("AS_PFX_%s_%s", catKey, pfx2)] = true
 						if stager.probeForm != nil {
 							stager.probeForm.FillUpFormFromGongstruct(ts, "AirspaceTimeSliceType")
 						}

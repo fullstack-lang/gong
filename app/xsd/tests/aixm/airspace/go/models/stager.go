@@ -159,3 +159,8 @@ func (stager *Stager) GetSemanticErrors() []string {
 func (stager *Stager) GetMaplibreStage() *maplibre.Stage {
 	return stager.maplibreStage
 }
+
+func (stager *Stager) GetTreeStage() *tree.Stage {
+	return stager.treeStage
+}
+

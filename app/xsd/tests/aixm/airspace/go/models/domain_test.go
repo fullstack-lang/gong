@@ -23,6 +23,7 @@ import (
 	maplibre "github.com/fullstack-lang/gong/lib/maplibre/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	"github.com/fullstack-lang/gong/lib/strutils"
+	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
 const (
@@ -199,6 +200,63 @@ func TestUnmarshalDonlon(t *testing.T) {
 		domainName, len(msgs[0].HasMember), nPolys, nLines, nMarkers, len(errs))
 	for i := 0; i < len(errs) && i < 10; i++ {
 		t.Logf("  err[%d]: %s", i, errs[i])
+	}
+
+	// Verify intermediate area-first-letter level between Zone Categories and Zones in the UX tree
+	treeNodes := stager.GetTreeStage().GetInstancesMapByName[*tree.Node]()
+	firCatNode, ok := treeNodes["[FIR] Flight Information Region (2)"]
+	if !ok {
+		t.Fatalf("expected '[FIR] Flight Information Region (2)' category node in tree")
+	}
+	if len(firCatNode.Children) != 2 {
+		t.Fatalf("expected 2 first-letter group nodes ([E], [K]) under FIR, got %d", len(firCatNode.Children))
+	}
+	expectedFIRLetterGroups := []string{
+		"[E] EAAD (1)",
+		"[K] KAAD (1)",
+	}
+	for idx, wantName := range expectedFIRLetterGroups {
+		grpNode := firCatNode.Children[idx]
+		if grpNode.Name != wantName {
+			t.Errorf("FIR letter group[%d]: expected Name %q, got %q", idx, wantName, grpNode.Name)
+		}
+		if len(grpNode.Buttons) == 0 {
+			t.Errorf("FIR letter group[%d]: expected visibility toggle button on intermediate group node", idx)
+		}
+	}
+
+	dOtherCatNode, ok := treeNodes["[D_OTHER] Danger / Activity Area (13)"]
+	if !ok {
+		t.Fatalf("expected '[D_OTHER] Danger / Activity Area (13)' category node in tree")
+	}
+	if len(dOtherCatNode.Children) != 1 {
+		t.Fatalf("expected 1 first-letter group node ([E] EAV1 -> EAV13 (13)) under D_OTHER, got %d", len(dOtherCatNode.Children))
+	}
+	eGroup := dOtherCatNode.Children[0]
+	if eGroup.Name != "[E] EAV1 -> EAV13 (13)" {
+		t.Fatalf("expected '[E] EAV1 -> EAV13 (13)', got %q", eGroup.Name)
+	}
+	if len(eGroup.Children) != 13 {
+		t.Fatalf("expected 13 zone nodes inside '[E] EAV1 -> EAV13 (13)', got %d", len(eGroup.Children))
+	}
+	for i := 1; i <= 13; i++ {
+		wantZonePrefix := fmt.Sprintf("[D_OTHER] EAV%d ", i)
+		if !strings.HasPrefix(eGroup.Children[i-1].Name, wantZonePrefix) {
+			t.Errorf("zone[%d] in [E]: expected Name starting with %q, got %q", i-1, wantZonePrefix, eGroup.Children[i-1].Name)
+		}
+	}
+
+	// Toggle visibility on the [E] EAAD (1) intermediate group button and verify [K] KAAD (1) remains visible
+	firstFIRGrp := firCatNode.Children[0]
+	firstFIRGrp.Buttons[0].OnClick()
+	treeNodes = stager.GetTreeStage().GetInstancesMapByName[*tree.Node]()
+	firstFIRGrp = treeNodes["[E] EAAD (1)"]
+	if firstFIRGrp.FontStyle != tree.ITALIC {
+		t.Errorf("expected '[E] EAAD (1)' to have FontStyle ITALIC after hiding group, got %q", firstFIRGrp.FontStyle)
+	}
+	secondFIRGrp := treeNodes["[K] KAAD (1)"]
+	if secondFIRGrp.FontStyle == tree.ITALIC {
+		t.Errorf("expected '[K] KAAD (1)' to remain NORMAL after hiding [E], got %q", secondFIRGrp.FontStyle)
 	}
 }
 

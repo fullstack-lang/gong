@@ -14,10 +14,11 @@ import (
 var _ = fmt.Sprint
 
 type airspaceEntry struct {
-	as       *aixmfeatures.AirspaceType
-	targetTS *aixmfeatures.AirspaceTimeSliceType
-	asType   string
-	label    string
+	as        *aixmfeatures.AirspaceType
+	targetTS  *aixmfeatures.AirspaceTimeSliceType
+	asType    string
+	shortName string
+	label     string
 }
 
 type geoBorderEntry struct {
@@ -126,6 +127,123 @@ func (stager *Stager) isAirspaceNodeExpanded(as *aixmfeatures.AirspaceType, defa
 		}
 	}
 	return defaultExpanded
+}
+
+func isAsciiDigit(b byte) bool {
+	return b >= '0' && b <= '9'
+}
+
+func airspaceGroupBucketSize(totalInCategory int) int {
+	switch {
+	case totalInCategory <= 25:
+		return 5
+	case totalInCategory <= 100:
+		return 10
+	case totalInCategory <= 500:
+		return 20
+	case totalInCategory <= 1500:
+		return 50
+	default:
+		return 100
+	}
+}
+
+
+// naturalCompareStrings compares two strings in natural alphanumeric order (e.g. "EAV2" < "EAV10").
+func naturalCompareStrings(a, b string) int {
+	sa := strings.ToUpper(strings.TrimSpace(a))
+	sb := strings.ToUpper(strings.TrimSpace(b))
+	ia, ib := 0, 0
+	for ia < len(sa) && ib < len(sb) {
+		ca, cb := sa[ia], sb[ib]
+		if isAsciiDigit(ca) && isAsciiDigit(cb) {
+			// Skip leading zeros while tracking length
+			za, zb := ia, ib
+			for ia < len(sa) && sa[ia] == '0' {
+				ia++
+			}
+			for ib < len(sb) && sb[ib] == '0' {
+				ib++
+			}
+			startA, startB := ia, ib
+			for ia < len(sa) && isAsciiDigit(sa[ia]) {
+				ia++
+			}
+			for ib < len(sb) && isAsciiDigit(sb[ib]) {
+				ib++
+			}
+			lenA := ia - startA
+			lenB := ib - startB
+			if lenA != lenB {
+				return lenA - lenB
+			}
+			if cmp := strings.Compare(sa[startA:ia], sb[startB:ib]); cmp != 0 {
+				return cmp
+			}
+			if (ia - za) != (ib - zb) {
+				return (ia - za) - (ib - zb)
+			}
+			continue
+		}
+		if ca != cb {
+			if ca < cb {
+				return -1
+			}
+			return 1
+		}
+		ia++
+		ib++
+	}
+	return len(sa) - len(sb)
+}
+
+func airspaceFirstLetter(shortName string) string {
+	s := strings.ToUpper(strings.TrimSpace(shortName))
+	if strings.HasPrefix(s, "UUID.") || strings.HasPrefix(s, "URN:UUID:") {
+		return "#"
+	}
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		if (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') {
+			return string(c)
+		}
+	}
+	return "#"
+}
+
+func airspaceTwoLetterPrefix(shortName string) string {
+	s := strings.ToUpper(strings.TrimSpace(shortName))
+	if strings.HasPrefix(s, "UUID.") || strings.HasPrefix(s, "URN:UUID:") {
+		return "#"
+	}
+	var buf [2]byte
+	n := 0
+	for i := 0; i < len(s) && n < 2; i++ {
+		c := s[i]
+		if (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') {
+			buf[n] = c
+			n++
+		} else if n > 0 {
+			break
+		}
+	}
+	if n == 0 {
+		return "#"
+	}
+	return string(buf[:n])
+}
+
+func compareGroupKeyStrings(a, b string) int {
+	if a == b {
+		return 0
+	}
+	if a == "#" {
+		return 1
+	}
+	if b == "#" {
+		return -1
+	}
+	return naturalCompareStrings(a, b)
 }
 
 func buildAirspaceAndAuthorityLookups(
@@ -911,11 +1029,22 @@ func (stager *Stager) selectAndFocusAirspaceLocked(as *aixmfeatures.AirspaceType
 
 	var targetTS *aixmfeatures.AirspaceTimeSliceType
 	asType := "OTHER"
+	shortName := as.Name
 	for _, tsp := range as.TimeSlice {
 		if tsp != nil && tsp.AirspaceTimeSlice != nil {
 			targetTS = tsp.AirspaceTimeSlice
 			if targetTS.Type_XSD != nil && strings.TrimSpace(targetTS.Type_XSD.EnclosedText) != "" {
 				asType = strings.ToUpper(strings.TrimSpace(targetTS.Type_XSD.EnclosedText))
+			}
+			if targetTS.Designator != nil && strings.TrimSpace(targetTS.Designator.EnclosedText) != "" {
+				shortName = strings.TrimSpace(targetTS.Designator.EnclosedText)
+			} else {
+				for _, n := range targetTS.NameXSD {
+					if n != nil && strings.TrimSpace(n.EnclosedText) != "" {
+						shortName = strings.TrimSpace(n.EnclosedText)
+						break
+					}
+				}
 			}
 			break
 		}
@@ -923,7 +1052,11 @@ func (stager *Stager) selectAndFocusAirspaceLocked(as *aixmfeatures.AirspaceType
 	if stager.expandedCategories == nil {
 		stager.expandedCategories = make(map[string]bool)
 	}
+	letter := airspaceFirstLetter(shortName)
+	pfx2 := airspaceTwoLetterPrefix(shortName)
 	stager.expandedCategories["AS_CAT_"+asType] = true
+	stager.expandedCategories[fmt.Sprintf("AS_LTR_%s_%s", asType, letter)] = true
+	stager.expandedCategories[fmt.Sprintf("AS_PFX_%s_%s", asType, pfx2)] = true
 	stager.isAirspacesExpanded = true
 
 	stager.selectedAirspace = targetTS
@@ -938,6 +1071,218 @@ func (stager *Stager) selectAndFocusAirspaceLocked(as *aixmfeatures.AirspaceType
 	}
 	stager.ux_tree()
 	stager.ux_maplibre()
+}
+
+func (stager *Stager) buildAirspaceEntryNode(
+	entry airspaceEntry,
+	totalAirspaces int,
+	authoritiesByAirspace map[*aixmfeatures.AirspaceType][]*aixmfeatures.AuthorityForAirspaceTimeSliceType,
+	airspaceByKey map[string]*aixmfeatures.AirspaceType,
+) *tree.Node {
+	as := entry.as
+	targetTS := entry.targetTS
+	label := entry.label
+
+	isHidden := stager.hiddenAirspaces != nil && stager.hiddenAirspaces[as]
+	visIcon := string(tree_buttons.BUTTON_visibility)
+	visTooltip := "Hide on map"
+	fontStyle := tree.NORMAL
+	if isHidden {
+		visIcon = string(tree_buttons.BUTTON_visibility_off)
+		visTooltip = "Show on map"
+		fontStyle = tree.ITALIC
+	}
+
+	defaultASExpanded := totalAirspaces <= 10 || (targetTS != nil && stager.selectedAirspace == targetTS)
+	isASExpanded := stager.isAirspaceNodeExpanded(as, defaultASExpanded)
+
+	asNode := &tree.Node{
+		Name:            label,
+		FontStyle:       fontStyle,
+		IsExpanded:      isASExpanded,
+		IsNodeClickable: true,
+		OnIsExpandedChange: func(isExpanded bool) {
+			stager.mu.Lock()
+			defer stager.mu.Unlock()
+			if stager.expandedAirspaces == nil {
+				stager.expandedAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
+			}
+			stager.expandedAirspaces[as] = isExpanded
+			if totalAirspaces > 80 {
+				stager.ux_tree()
+			}
+		},
+		Buttons: []*tree.Button{
+			{
+				Name:            "ToggleVisibility_Airspace_" + as.Name,
+				Icon:            visIcon,
+				HasToolTip:      true,
+				ToolTipText:     visTooltip,
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					if stager.hiddenAirspaces == nil {
+						stager.hiddenAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
+					}
+					if stager.hiddenAirspaces[as] {
+						delete(stager.hiddenAirspaces, as)
+					} else {
+						stager.hiddenAirspaces[as] = true
+						if stager.selectedAirspace == targetTS {
+							stager.selectedAirspace = nil
+						}
+					}
+					stager.focusOnSelected = false
+					stager.ux_tree()
+					stager.ux_maplibre()
+				},
+			},
+		},
+		OnClick: func(frontNode *tree.Node) {
+			stager.mu.Lock()
+			defer stager.mu.Unlock()
+			stager.selectAndFocusAirspaceLocked(as)
+		},
+	}
+
+	// Build navigable child nodes under the zone (Authorities, Classifications, Activations, Geometry & Contributors, Notes)
+	if totalAirspaces <= 80 || isASExpanded || (targetTS != nil && stager.selectedAirspace == targetTS) {
+		asNode.Children = stager.buildAirspaceDetailChildren(
+			as,
+			targetTS,
+			authoritiesByAirspace[as],
+			airspaceByKey,
+		)
+	} else {
+		// Lightweight placeholder on huge datasets until the user expands or clicks the zone
+		authCount := len(authoritiesByAirspace[as])
+		if authCount > 0 {
+			asNode.Children = append(asNode.Children, &tree.Node{
+				Name: "Authority: " + formatAuthoritySummary(authoritiesByAirspace[as][0]),
+			})
+		} else {
+			asNode.Children = append(asNode.Children, &tree.Node{
+				Name: "Click or expand to inspect zone details...",
+			})
+		}
+	}
+	return asNode
+}
+
+func (stager *Stager) appendAirspaceRangeBuckets(
+	parentNode *tree.Node,
+	keyPrefix string,
+	entries []airspaceEntry,
+	totalAirspaces int,
+	authoritiesByAirspace map[*aixmfeatures.AirspaceType][]*aixmfeatures.AuthorityForAirspaceTimeSliceType,
+	airspaceByKey map[string]*aixmfeatures.AirspaceType,
+) {
+	bucketSize := airspaceGroupBucketSize(len(entries))
+	for start := 0; start < len(entries); start += bucketSize {
+		end := start + bucketSize
+		if end > len(entries) {
+			end = len(entries)
+		}
+		groupEntries := entries[start:end]
+		groupIdx := start / bucketSize
+		groupKey := fmt.Sprintf("%s_%d", keyPrefix, groupIdx)
+
+		firstShort := groupEntries[0].shortName
+		lastShort := groupEntries[len(groupEntries)-1].shortName
+		var groupTitle string
+		if len(groupEntries) == 1 {
+			groupTitle = fmt.Sprintf("[%d] %s (1)", start+1, firstShort)
+		} else {
+			groupTitle = fmt.Sprintf("[%d–%d] %s -> %s (%d)", start+1, end, firstShort, lastShort, len(groupEntries))
+		}
+
+		allGroupHidden := true
+		hasSelectedInGroup := false
+		for _, ge := range groupEntries {
+			if stager.hiddenAirspaces == nil || !stager.hiddenAirspaces[ge.as] {
+				allGroupHidden = false
+			}
+			if ge.targetTS != nil && stager.selectedAirspace == ge.targetTS {
+				hasSelectedInGroup = true
+			}
+		}
+
+		grpVisIcon := string(tree_buttons.BUTTON_visibility)
+		grpVisTooltip := fmt.Sprintf("Hide group %s (%d)", groupTitle, len(groupEntries))
+		grpFontStyle := tree.NORMAL
+		if allGroupHidden {
+			grpVisIcon = string(tree_buttons.BUTTON_visibility_off)
+			grpVisTooltip = fmt.Sprintf("Show group %s (%d)", groupTitle, len(groupEntries))
+			grpFontStyle = tree.ITALIC
+		}
+
+		defaultGroupExpanded := totalAirspaces <= 10 || len(entries) <= bucketSize
+		isGroupExp := stager.isCategoryExpanded(groupKey, defaultGroupExpanded) || hasSelectedInGroup
+
+		groupNode := &tree.Node{
+			Name:       groupTitle,
+			FontStyle:  grpFontStyle,
+			IsExpanded: isGroupExp,
+			OnIsExpandedChange: func(isExpanded bool) {
+				stager.mu.Lock()
+				defer stager.mu.Unlock()
+				if stager.expandedCategories == nil {
+					stager.expandedCategories = make(map[string]bool)
+				}
+				stager.expandedCategories[groupKey] = isExpanded
+				stager.ux_tree()
+			},
+			Buttons: []*tree.Button{
+				{
+					Name:            "ToggleVisibility_" + groupKey,
+					Icon:            grpVisIcon,
+					HasToolTip:      true,
+					ToolTipText:     grpVisTooltip,
+					ToolTipPosition: tree.Right,
+					OnClick: func() {
+						stager.mu.Lock()
+						defer stager.mu.Unlock()
+						if stager.hiddenAirspaces == nil {
+							stager.hiddenAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
+						}
+						if allGroupHidden {
+							for _, ge := range groupEntries {
+								delete(stager.hiddenAirspaces, ge.as)
+							}
+						} else {
+							for _, ge := range groupEntries {
+								stager.hiddenAirspaces[ge.as] = true
+								if stager.selectedAirspace == ge.targetTS {
+									stager.selectedAirspace = nil
+								}
+							}
+						}
+						stager.focusOnSelected = false
+						stager.ux_tree()
+						stager.ux_maplibre()
+					},
+				},
+			},
+		}
+		parentNode.Children = append(parentNode.Children, groupNode)
+
+		if !isGroupExp {
+			groupNode.Children = append(groupNode.Children, &tree.Node{
+				Name: fmt.Sprintf("Expand to view %d zones (%s -> %s)...", len(groupEntries), firstShort, lastShort),
+			})
+			continue
+		}
+
+		for _, entry := range groupEntries {
+			groupNode.Children = append(groupNode.Children, stager.buildAirspaceEntryNode(
+				entry,
+				totalAirspaces,
+				authoritiesByAirspace,
+				airspaceByKey,
+			))
+		}
+	}
 }
 
 func (stager *Stager) ux_tree() {
@@ -1067,6 +1412,7 @@ func (stager *Stager) ux_tree() {
 				for _, as := range airspaces {
 					as := as
 					label := as.Name
+					shortName := as.Name
 					asType := "OTHER"
 					var targetTS *aixmfeatures.AirspaceTimeSliceType
 
@@ -1090,6 +1436,17 @@ func (stager *Stager) ux_tree() {
 								break
 							}
 						}
+						if desig != "" {
+							shortName = desig
+						} else if asName != "" {
+							shortName = asName
+						} else if ts.Id != "" {
+							shortName = ts.Id
+							if len(shortName) > 22 {
+								shortName = shortName[:22] + "…"
+							}
+						}
+
 						limits := ""
 						for _, gcp := range ts.GeometryComponent {
 							if gcp != nil && gcp.AirspaceGeometryComponent != nil &&
@@ -1125,10 +1482,11 @@ func (stager *Stager) ux_tree() {
 						categoryKeys = append(categoryKeys, asType)
 					}
 					byCategory[asType] = append(byCategory[asType], airspaceEntry{
-						as:       as,
-						targetTS: targetTS,
-						asType:   asType,
-						label:    label,
+						as:        as,
+						targetTS:  targetTS,
+						asType:    asType,
+						shortName: shortName,
+						label:     label,
 					})
 				}
 
@@ -1144,14 +1502,28 @@ func (stager *Stager) ux_tree() {
 				for _, catType := range categoryKeys {
 					catType := catType
 					entries := byCategory[catType]
+					slices.SortFunc(entries, func(a, b airspaceEntry) int {
+						la := airspaceFirstLetter(a.shortName)
+						lb := airspaceFirstLetter(b.shortName)
+						if cmp := compareGroupKeyStrings(la, lb); cmp != 0 {
+							return cmp
+						}
+						if cmp := naturalCompareStrings(a.shortName, b.shortName); cmp != 0 {
+							return cmp
+						}
+						return naturalCompareStrings(a.label, b.label)
+					})
 					_, catTitle := airspaceCategoryInfo(catType)
 					catKey := "AS_CAT_" + catType
 
 					allCatHidden := true
+					hasSelectedInCat := false
 					for _, e := range entries {
 						if stager.hiddenAirspaces == nil || !stager.hiddenAirspaces[e.as] {
 							allCatHidden = false
-							break
+						}
+						if e.targetTS != nil && stager.selectedAirspace == e.targetTS {
+							hasSelectedInCat = true
 						}
 					}
 
@@ -1165,7 +1537,7 @@ func (stager *Stager) ux_tree() {
 					}
 
 					defaultCatExpanded := len(airspaces) <= 30
-					isCatExp := stager.isCategoryExpanded(catKey, defaultCatExpanded)
+					isCatExp := stager.isCategoryExpanded(catKey, defaultCatExpanded) || hasSelectedInCat
 
 					catNode := &tree.Node{
 						Name:       fmt.Sprintf("%s (%d)", catTitle, len(entries)),
@@ -1178,9 +1550,6 @@ func (stager *Stager) ux_tree() {
 								stager.expandedCategories = make(map[string]bool)
 							}
 							stager.expandedCategories[catKey] = isExpanded
-							if len(entries) > 40 {
-								stager.ux_tree()
-							}
 						},
 						Buttons: []*tree.Button{
 							{
@@ -1216,57 +1585,77 @@ func (stager *Stager) ux_tree() {
 					}
 					asFolder.Children = append(asFolder.Children, catNode)
 
-					if !isCatExp && len(entries) > 40 {
-						catNode.Children = append(catNode.Children, &tree.Node{
-							Name: fmt.Sprintf("Expand to view %d items...", len(entries)),
-						})
-						continue
+					// Intermediate level between Zone Category and Zones:
+					// Group sorted entries by area first letter (e.g. [E], [L], [B], [G], ...),
+					// and if a single first-letter group has > 80 zones across multiple 2-letter
+					// ICAO prefixes (e.g. EB, ED, EE, EF, EG, LF, LE, LI), sub-group by 2-letter prefix.
+					byLetter := make(map[string][]airspaceEntry)
+					var letterKeys []string
+					for _, e := range entries {
+						ltr := airspaceFirstLetter(e.shortName)
+						if _, exists := byLetter[ltr]; !exists {
+							letterKeys = append(letterKeys, ltr)
+						}
+						byLetter[ltr] = append(byLetter[ltr], e)
 					}
+					slices.SortFunc(letterKeys, compareGroupKeyStrings)
 
-					maxItems := len(entries)
-					if maxItems > 200 {
-						maxItems = 200
-					}
-					for _, entry := range entries[:maxItems] {
-						as := entry.as
-						targetTS := entry.targetTS
-						label := entry.label
+					for _, letter := range letterKeys {
+						letter := letter
+						letterEntries := byLetter[letter]
+						letterKey := fmt.Sprintf("AS_LTR_%s_%s", catType, letter)
 
-						isHidden := stager.hiddenAirspaces != nil && stager.hiddenAirspaces[as]
-						visIcon := string(tree_buttons.BUTTON_visibility)
-						visTooltip := "Hide on map"
-						fontStyle := tree.NORMAL
-						if isHidden {
-							visIcon = string(tree_buttons.BUTTON_visibility_off)
-							visTooltip = "Show on map"
-							fontStyle = tree.ITALIC
+						firstShort := letterEntries[0].shortName
+						lastShort := letterEntries[len(letterEntries)-1].shortName
+						var letterTitle string
+						if len(letterEntries) == 1 {
+							letterTitle = fmt.Sprintf("[%s] %s (1)", letter, firstShort)
+						} else {
+							letterTitle = fmt.Sprintf("[%s] %s -> %s (%d)", letter, firstShort, lastShort, len(letterEntries))
 						}
 
-						defaultASExpanded := len(airspaces) <= 10 || (targetTS != nil && stager.selectedAirspace == targetTS)
-						isASExpanded := stager.isAirspaceNodeExpanded(as, defaultASExpanded)
+						allLetterHidden := true
+						hasSelectedInLetter := false
+						for _, le := range letterEntries {
+							if stager.hiddenAirspaces == nil || !stager.hiddenAirspaces[le.as] {
+								allLetterHidden = false
+							}
+							if le.targetTS != nil && stager.selectedAirspace == le.targetTS {
+								hasSelectedInLetter = true
+							}
+						}
 
-						asNode := &tree.Node{
-							Name:            label,
-							FontStyle:       fontStyle,
-							IsExpanded:      isASExpanded,
-							IsNodeClickable: true,
+						ltrVisIcon := string(tree_buttons.BUTTON_visibility)
+						ltrVisTooltip := fmt.Sprintf("Hide area [%s] in %s (%d)", letter, catType, len(letterEntries))
+						ltrFontStyle := tree.NORMAL
+						if allLetterHidden {
+							ltrVisIcon = string(tree_buttons.BUTTON_visibility_off)
+							ltrVisTooltip = fmt.Sprintf("Show area [%s] in %s (%d)", letter, catType, len(letterEntries))
+							ltrFontStyle = tree.ITALIC
+						}
+
+						defaultLetterExpanded := len(airspaces) <= 10 || (len(letterKeys) == 1 && len(letterEntries) <= 25 && len(airspaces) <= 60)
+						isLetterExp := stager.isCategoryExpanded(letterKey, defaultLetterExpanded) || hasSelectedInLetter
+
+						letterNode := &tree.Node{
+							Name:       letterTitle,
+							FontStyle:  ltrFontStyle,
+							IsExpanded: isLetterExp,
 							OnIsExpandedChange: func(isExpanded bool) {
 								stager.mu.Lock()
 								defer stager.mu.Unlock()
-								if stager.expandedAirspaces == nil {
-									stager.expandedAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
+								if stager.expandedCategories == nil {
+									stager.expandedCategories = make(map[string]bool)
 								}
-								stager.expandedAirspaces[as] = isExpanded
-								if len(airspaces) > 80 {
-									stager.ux_tree()
-								}
+								stager.expandedCategories[letterKey] = isExpanded
+								stager.ux_tree()
 							},
 							Buttons: []*tree.Button{
 								{
-									Name:            "ToggleVisibility_Airspace_" + as.Name,
-									Icon:            visIcon,
+									Name:            "ToggleVisibility_" + letterKey,
+									Icon:            ltrVisIcon,
 									HasToolTip:      true,
-									ToolTipText:     visTooltip,
+									ToolTipText:     ltrVisTooltip,
 									ToolTipPosition: tree.Right,
 									OnClick: func() {
 										stager.mu.Lock()
@@ -1274,12 +1663,16 @@ func (stager *Stager) ux_tree() {
 										if stager.hiddenAirspaces == nil {
 											stager.hiddenAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
 										}
-										if stager.hiddenAirspaces[as] {
-											delete(stager.hiddenAirspaces, as)
+										if allLetterHidden {
+											for _, le := range letterEntries {
+												delete(stager.hiddenAirspaces, le.as)
+											}
 										} else {
-											stager.hiddenAirspaces[as] = true
-											if stager.selectedAirspace == targetTS {
-												stager.selectedAirspace = nil
+											for _, le := range letterEntries {
+												stager.hiddenAirspaces[le.as] = true
+												if stager.selectedAirspace == le.targetTS {
+													stager.selectedAirspace = nil
+												}
 											}
 										}
 										stager.focusOnSelected = false
@@ -1288,42 +1681,141 @@ func (stager *Stager) ux_tree() {
 									},
 								},
 							},
-							OnClick: func(frontNode *tree.Node) {
-								stager.mu.Lock()
-								defer stager.mu.Unlock()
-								stager.selectAndFocusAirspaceLocked(as)
-							},
 						}
+						catNode.Children = append(catNode.Children, letterNode)
 
-						// Build navigable child nodes under the zone (Authorities, Classifications, Activations, Geometry & Contributors, Notes)
-						if len(airspaces) <= 80 || isASExpanded || (targetTS != nil && stager.selectedAirspace == targetTS) {
-							asNode.Children = stager.buildAirspaceDetailChildren(
-								as,
-								targetTS,
-								authoritiesByAirspace[as],
-								airspaceByKey,
-							)
-						} else {
-							// Lightweight placeholder on huge datasets until the user expands or clicks the zone
-							authCount := len(authoritiesByAirspace[as])
-							if authCount > 0 {
-								asNode.Children = append(asNode.Children, &tree.Node{
-									Name: "Authority: " + formatAuthoritySummary(authoritiesByAirspace[as][0]),
-								})
-							} else {
-								asNode.Children = append(asNode.Children, &tree.Node{
-									Name: "Click or expand to inspect zone details...",
-								})
+						// Check whether this first-letter group is large (> 80 items) and spans multiple 2-letter area prefixes
+						byPfx2 := make(map[string][]airspaceEntry)
+						var pfx2Keys []string
+						if len(letterEntries) > 80 {
+							for _, le := range letterEntries {
+								p2 := airspaceTwoLetterPrefix(le.shortName)
+								if _, exists := byPfx2[p2]; !exists {
+									pfx2Keys = append(pfx2Keys, p2)
+								}
+								byPfx2[p2] = append(byPfx2[p2], le)
 							}
+							slices.SortFunc(pfx2Keys, compareGroupKeyStrings)
 						}
 
-						catNode.Children = append(catNode.Children, asNode)
-					}
-					if len(entries) > maxItems {
-						catNode.Children = append(catNode.Children, &tree.Node{
-							Name:      fmt.Sprintf("... and %d more items in %s", len(entries)-maxItems, catType),
-							FontStyle: tree.ITALIC,
-						})
+						if len(pfx2Keys) > 1 {
+							for _, pfx2 := range pfx2Keys {
+								pfx2 := pfx2
+								subEntries := byPfx2[pfx2]
+								subKey := fmt.Sprintf("AS_PFX_%s_%s", catType, pfx2)
+
+								subFirst := subEntries[0].shortName
+								subLast := subEntries[len(subEntries)-1].shortName
+								var subTitle string
+								if len(subEntries) == 1 {
+									subTitle = fmt.Sprintf("[%s] %s (1)", pfx2, subFirst)
+								} else {
+									subTitle = fmt.Sprintf("[%s] %s -> %s (%d)", pfx2, subFirst, subLast, len(subEntries))
+								}
+
+								allSubHidden := true
+								hasSelectedInSub := false
+								for _, se := range subEntries {
+									if stager.hiddenAirspaces == nil || !stager.hiddenAirspaces[se.as] {
+										allSubHidden = false
+									}
+									if se.targetTS != nil && stager.selectedAirspace == se.targetTS {
+										hasSelectedInSub = true
+									}
+								}
+
+								subVisIcon := string(tree_buttons.BUTTON_visibility)
+								subVisTooltip := fmt.Sprintf("Hide area [%s] in %s (%d)", pfx2, catType, len(subEntries))
+								subFontStyle := tree.NORMAL
+								if allSubHidden {
+									subVisIcon = string(tree_buttons.BUTTON_visibility_off)
+									subVisTooltip = fmt.Sprintf("Show area [%s] in %s (%d)", pfx2, catType, len(subEntries))
+									subFontStyle = tree.ITALIC
+								}
+
+								isSubExp := stager.isCategoryExpanded(subKey, false) || hasSelectedInSub
+
+								subNode := &tree.Node{
+									Name:       subTitle,
+									FontStyle:  subFontStyle,
+									IsExpanded: isSubExp,
+									OnIsExpandedChange: func(isExpanded bool) {
+										stager.mu.Lock()
+										defer stager.mu.Unlock()
+										if stager.expandedCategories == nil {
+											stager.expandedCategories = make(map[string]bool)
+										}
+										stager.expandedCategories[subKey] = isExpanded
+										stager.ux_tree()
+									},
+									Buttons: []*tree.Button{
+										{
+											Name:            "ToggleVisibility_" + subKey,
+											Icon:            subVisIcon,
+											HasToolTip:      true,
+											ToolTipText:     subVisTooltip,
+											ToolTipPosition: tree.Right,
+											OnClick: func() {
+												stager.mu.Lock()
+												defer stager.mu.Unlock()
+												if stager.hiddenAirspaces == nil {
+													stager.hiddenAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
+												}
+												if allSubHidden {
+													for _, se := range subEntries {
+														delete(stager.hiddenAirspaces, se.as)
+													}
+												} else {
+													for _, se := range subEntries {
+														stager.hiddenAirspaces[se.as] = true
+														if stager.selectedAirspace == se.targetTS {
+															stager.selectedAirspace = nil
+														}
+													}
+												}
+												stager.focusOnSelected = false
+												stager.ux_tree()
+												stager.ux_maplibre()
+											},
+										},
+									},
+								}
+								letterNode.Children = append(letterNode.Children, subNode)
+
+								if !isSubExp {
+									subNode.Children = append(subNode.Children, &tree.Node{
+										Name: fmt.Sprintf("Expand to view %d zones (%s -> %s)...", len(subEntries), subFirst, subLast),
+									})
+									continue
+								}
+
+								for _, entry := range subEntries {
+									subNode.Children = append(subNode.Children, stager.buildAirspaceEntryNode(
+										entry,
+										len(airspaces),
+										authoritiesByAirspace,
+										airspaceByKey,
+									))
+								}
+							}
+							continue
+						}
+
+						if !isLetterExp {
+							letterNode.Children = append(letterNode.Children, &tree.Node{
+								Name: fmt.Sprintf("Expand to view %d zones (%s -> %s)...", len(letterEntries), firstShort, lastShort),
+							})
+							continue
+						}
+
+						for _, entry := range letterEntries {
+							letterNode.Children = append(letterNode.Children, stager.buildAirspaceEntryNode(
+								entry,
+								len(airspaces),
+								authoritiesByAirspace,
+								airspaceByKey,
+							))
+						}
 					}
 				}
 			}
@@ -1345,11 +1837,7 @@ func (stager *Stager) ux_tree() {
 				node.Children = append(node.Children, authFolder)
 
 				if authFolder.IsExpanded || len(authorities) <= 40 {
-					maxAuth := len(authorities)
-					if maxAuth > 200 {
-						maxAuth = 200
-					}
-					for _, auth := range authorities[:maxAuth] {
+					for _, auth := range authorities {
 						auth := auth
 						for _, tsp := range auth.TimeSlice {
 							if tsp == nil || tsp.AuthorityForAirspaceTimeSlice == nil {
