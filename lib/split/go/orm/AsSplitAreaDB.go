@@ -71,6 +71,10 @@ type AsSplitAreaPointersEncoding struct {
 	// This field is generated into another field to enable AS ONE association
 	LoadID sql.NullInt64
 
+	// field Maplibre is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	MaplibreID sql.NullInt64
+
 	// field Markdown is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	MarkdownID sql.NullInt64
@@ -373,6 +377,18 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 		} else {
 			assplitareaDB.LoadID.Int64 = 0
 			assplitareaDB.LoadID.Valid = true
+		}
+
+		// commit pointer value assplitarea.Maplibre translates to updating the assplitarea.MaplibreID
+		assplitareaDB.MaplibreID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Maplibre != nil {
+			if MaplibreId, ok := backRepo.BackRepoMaplibre.Map_MaplibrePtr_MaplibreDBID[assplitarea.Maplibre]; ok {
+				assplitareaDB.MaplibreID.Int64 = int64(MaplibreId)
+				assplitareaDB.MaplibreID.Valid = true
+			}
+		} else {
+			assplitareaDB.MaplibreID.Int64 = 0
+			assplitareaDB.MaplibreID.Valid = true
 		}
 
 		// commit pointer value assplitarea.Markdown translates to updating the assplitarea.MarkdownID
@@ -697,6 +713,27 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			}
 		} else {
 			assplitarea.Load = nil
+		}
+	}
+
+	// Maplibre field
+	{
+		id := assplitareaDB.MaplibreID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoMaplibre.Map_MaplibreDBID_MaplibrePtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Maplibre, unknown pointer id", id)
+				assplitarea.Maplibre = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Maplibre == nil || assplitarea.Maplibre != tmp {
+					assplitarea.Maplibre = tmp
+				}
+			}
+		} else {
+			assplitarea.Maplibre = nil
 		}
 	}
 
@@ -1204,6 +1241,12 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) RestorePhaseTwo() {
 		if assplitareaDB.LoadID.Int64 != 0 {
 			assplitareaDB.LoadID.Int64 = int64(BackRepoLoadid_atBckpTime_newID[uint(assplitareaDB.LoadID.Int64)])
 			assplitareaDB.LoadID.Valid = true
+		}
+
+		// reindexing Maplibre field
+		if assplitareaDB.MaplibreID.Int64 != 0 {
+			assplitareaDB.MaplibreID.Int64 = int64(BackRepoMaplibreid_atBckpTime_newID[uint(assplitareaDB.MaplibreID.Int64)])
+			assplitareaDB.MaplibreID.Valid = true
 		}
 
 		// reindexing Markdown field

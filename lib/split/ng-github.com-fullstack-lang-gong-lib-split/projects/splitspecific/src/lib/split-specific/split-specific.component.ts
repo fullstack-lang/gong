@@ -16,6 +16,7 @@ import { ButtonSpecificComponent } from '../../../../../../../button/ng-github.c
 import { CursorSpecificComponent } from '../../../../../../../cursor/ng-github.com-fullstack-lang-gong-lib-cursor/projects/cursorspecific/src/lib/cursor-specific/cursor-specific.component'
 import { FormSpecific } from '../../../../../../../form/ng-github.com-fullstack-lang-gong-lib-form/projects/formspecific/src/lib/form-specific/form-specific'
 import { LoadSpecificComponent } from '../../../../../../../load/ng-github.com-fullstack-lang-gong-lib-load/projects/loadspecific/src/lib/load-specific/load-specific.component'
+import { MaplibreSpecificComponent } from '../../../../../../../maplibre/ng-github.com-fullstack-lang-gong-lib-maplibre/projects/maplibrespecific/src/lib/maplibre-specific/maplibre-specific.component'
 import { MarkdownSpecificComponent } from '../../../../../../../markdown/ng-github.com-fullstack-lang-gong-lib-markdown/projects/markdownspecific/src/lib/markdown-specific/markdown-specific.component'
 import { SliderSpecificComponent } from '../../../../../../../slider/ng-github.com-fullstack-lang-gong-lib-slider/projects/sliderspecific/src/lib/slider-specific/slider-specific.component'
 import { SvgSpecificComponent } from '../../../../../../../svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svgspecific/src/lib/svg-specific/svg-specific.component'
@@ -42,6 +43,7 @@ import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
     CursorSpecificComponent,
     FormSpecific,
     LoadSpecificComponent,
+    MaplibreSpecificComponent,
     MarkdownSpecificComponent,
     SliderSpecificComponent,
     SvgSpecificComponent,

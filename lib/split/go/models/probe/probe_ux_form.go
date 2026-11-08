@@ -159,6 +159,19 @@ func FillUpFormFromGongstructName(
 		logoontheright := new(models.LogoOnTheRight)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(logoontheright, formGroup, probe)
+	case "Maplibre":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Maplibre Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MaplibreFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		maplibre := new(models.Maplibre)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(maplibre, formGroup, probe)
 	case "Markdown":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

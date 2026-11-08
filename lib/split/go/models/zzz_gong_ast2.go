@@ -178,6 +178,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(LogoOnTheLeft), stage, ident.Name, instanceName, preserveOrder)
 				case "LogoOnTheRight":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(LogoOnTheRight), stage, ident.Name, instanceName, preserveOrder)
+				case "Maplibre":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Maplibre), stage, ident.Name, instanceName, preserveOrder)
 				case "Markdown":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Markdown), stage, ident.Name, instanceName, preserveOrder)
 				case "Slider":
@@ -249,6 +251,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Form, rhs, identifierMap)
 					case "Load":
 						__gong__assignPointer(&inst.Load, rhs, identifierMap)
+					case "Maplibre":
+						__gong__assignPointer(&inst.Maplibre, rhs, identifierMap)
 					case "Markdown":
 						__gong__assignPointer(&inst.Markdown, rhs, identifierMap)
 					case "Slider":
@@ -330,6 +334,13 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Height = GongExtractInt(rhs)
 					case "SVG":
 						inst.SVG = GongExtractString(rhs)
+					}
+				case *Maplibre:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "StackName":
+						inst.StackName = GongExtractString(rhs)
 					}
 				case *Markdown:
 					switch fieldName {
@@ -657,6 +668,8 @@ func (u *AsSplitAreaUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallPointer(&instance.Form, valueExpr, identifierMap)
 	case "Load":
 		GongUnmarshallPointer(&instance.Load, valueExpr, identifierMap)
+	case "Maplibre":
+		GongUnmarshallPointer(&instance.Maplibre, valueExpr, identifierMap)
 	case "Markdown":
 		GongUnmarshallPointer(&instance.Markdown, valueExpr, identifierMap)
 	case "Slider":
@@ -822,6 +835,25 @@ func (u *LogoOnTheRightUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		instance.Height = GongExtractInt(valueExpr)
 	case "SVG":
 		instance.SVG = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type MaplibreUnmarshaller struct{}
+
+func (u *MaplibreUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(Maplibre), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *MaplibreUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Maplibre)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StackName":
+		instance.StackName = GongExtractString(valueExpr)
 	}
 	return nil
 }

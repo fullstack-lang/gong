@@ -261,6 +261,32 @@ func (logoontheright *LogoOnTheRight) GongAfterDeleteFromFront(stage *Stage, fro
 	}
 }
 
+func (maplibre *Maplibre) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterMaplibreCreateCallback != nil {
+		stage.OnAfterMaplibreCreateCallback.OnAfterCreate(stage, maplibre)
+	}
+}
+
+func (maplibre *Maplibre) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMaplibreUpdateCallback != nil {
+		var frontMaplibre *Maplibre
+		if front != nil {
+			frontMaplibre, _ = front.(*Maplibre)
+		}
+		stage.OnAfterMaplibreUpdateCallback.OnAfterUpdate(stage, maplibre, frontMaplibre)
+	}
+}
+
+func (maplibre *Maplibre) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterMaplibreDeleteCallback != nil {
+		var frontMaplibre *Maplibre
+		if front != nil {
+			frontMaplibre, _ = front.(*Maplibre)
+		}
+		stage.OnAfterMaplibreDeleteCallback.OnAfterDelete(stage, maplibre, frontMaplibre)
+	}
+}
+
 func (markdown *Markdown) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterMarkdownCreateCallback != nil {
 		stage.OnAfterMarkdownCreateCallback.OnAfterCreate(stage, markdown)

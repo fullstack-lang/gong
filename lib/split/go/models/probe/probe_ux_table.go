@@ -42,6 +42,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.LogoOnTheLeft](probe)
 	case "LogoOnTheRight":
 		updateProbeTable[*models.LogoOnTheRight](probe)
+	case "Maplibre":
+		updateProbeTable[*models.Maplibre](probe)
 	case "Markdown":
 		updateProbeTable[*models.Markdown](probe)
 	case "Slider":

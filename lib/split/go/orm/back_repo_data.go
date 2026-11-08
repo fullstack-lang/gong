@@ -22,6 +22,8 @@ type BackRepoData struct {
 
 	LogoOnTheRightAPIs []*LogoOnTheRightAPI
 
+	MaplibreAPIs []*MaplibreAPI
+
 	MarkdownAPIs []*MarkdownAPI
 
 	SliderAPIs []*SliderAPI
@@ -143,6 +145,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		logoontherightDB.CopyBasicFieldsToLogoOnTheRight_WOP(&logoontherightAPI.LogoOnTheRight_WOP)
 
 		backRepoData.LogoOnTheRightAPIs = append(backRepoData.LogoOnTheRightAPIs, &logoontherightAPI)
+	}
+
+	for _, maplibreDB := range backRepo.BackRepoMaplibre.Map_MaplibreDBID_MaplibreDB {
+
+		var maplibreAPI MaplibreAPI
+		maplibreAPI.ID = maplibreDB.ID
+		maplibreAPI.MaplibrePointersEncoding = maplibreDB.MaplibrePointersEncoding
+		maplibreDB.CopyBasicFieldsToMaplibre_WOP(&maplibreAPI.Maplibre_WOP)
+
+		backRepoData.MaplibreAPIs = append(backRepoData.MaplibreAPIs, &maplibreAPI)
 	}
 
 	for _, markdownDB := range backRepo.BackRepoMarkdown.Map_MarkdownDBID_MarkdownDB {

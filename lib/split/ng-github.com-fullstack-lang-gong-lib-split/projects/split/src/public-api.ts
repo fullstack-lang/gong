@@ -49,6 +49,10 @@ export * from './lib/logoontheright-api'
 export * from './lib/logoontheright'
 export * from './lib/logoontheright.service'
 
+export * from './lib/maplibre-api'
+export * from './lib/maplibre'
+export * from './lib/maplibre.service'
+
 export * from './lib/markdown-api'
 export * from './lib/markdown'
 export * from './lib/markdown.service'

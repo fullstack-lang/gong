@@ -14,11 +14,13 @@
         "lib/tone/ng-github.com-fullstack-lang-gong-lib-tone",
         "lib/tree/ng-github.com-fullstack-lang-gong-lib-tree",
         "test/test1/ng-github.com-fullstack-lang-gong-test-test1",
-        "lib/threejs/ng-github.com-fullstack-lang-gong-lib-threejs"
+        "lib/threejs/ng-github.com-fullstack-lang-gong-lib-threejs",
+        "lib/maplibre/ng-github.com-fullstack-lang-gong-lib-maplibre"
     ],
     "dependencies": {
         "@types/katex": "^0.16.8",
         "katex": "^0.16.21",
+        "maplibre-gl": "^6.17.0",
         "marked": "^18.0.0",
         "marked-katex-extension": "^5.1.12"
     }

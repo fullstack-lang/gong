@@ -65,6 +65,11 @@ func (inst *LogoOnTheRight) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
+func (inst *Maplibre) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+	res = ""
+	return
+}
+
 func (inst *Markdown) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return

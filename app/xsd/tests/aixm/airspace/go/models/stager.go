@@ -3,12 +3,19 @@ package models
 
 import (
 	"net/http"
+	"strings"
+	"sync"
+
+	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models/aixmfeatures"
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
 	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
 
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 	load_stack "github.com/fullstack-lang/gong/lib/load/go/stack"
+
+	maplibre "github.com/fullstack-lang/gong/lib/maplibre/go/models"
+	maplibre_stack "github.com/fullstack-lang/gong/lib/maplibre/go/stack"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
@@ -18,15 +25,27 @@ import (
 )
 
 type Stager struct {
-	stage          *Stage
-	splitStage     *split.Stage
-	probeForm      ProbeIF
-	treeStage      *tree.Stage
-	loadStageGo    *load.Stage
-	loadStageXML   *load.Stage
-	buttonStage    *button.Stage
-	fileName       string
-	semanticErrors []string
+	mu                sync.Mutex
+	stage             *Stage
+	splitStage        *split.Stage
+	probeForm         ProbeIF
+	treeStage         *tree.Stage
+	loadStageGo       *load.Stage
+	loadStageXML      *load.Stage
+	buttonStage       *button.Stage
+	maplibreStage     *maplibre.Stage
+	extrude3D         bool
+	selectedAirspace    *aixmfeatures.AirspaceTimeSliceType
+	selectedGeoBorder   *aixmfeatures.GeoBorderTimeSliceType
+	focusOnSelected     bool
+	resetCameraToBounds bool
+	hiddenAirspaces      map[*aixmfeatures.AirspaceType]bool
+	hiddenGeoBorders     map[*aixmfeatures.GeoBorderType]bool
+	expandedCategories   map[string]bool
+	isAirspacesExpanded  bool
+	isGeoBordersExpanded bool
+	fileName             string
+	semanticErrors       []string
 }
 
 func NewStager(
@@ -38,24 +57,84 @@ func NewStager(
 	stager.stage = stage
 	stager.probeForm = probeForm
 	stager.fileName = "document"
+	stager.resetCameraToBounds = true
+	stager.hiddenAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
+	stager.hiddenGeoBorders = make(map[*aixmfeatures.GeoBorderType]bool)
+	stager.expandedCategories = make(map[string]bool)
+	stager.isAirspacesExpanded = true
+	stager.isGeoBordersExpanded = true
 
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	stager.treeStage = tree_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.loadStageGo = load_stack.NewStack(r, "go", "", "", "", true, true).Stage
 	stager.loadStageXML = load_stack.NewStack(r, "xml", "", "", "", true, true).Stage
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.maplibreStage = maplibre_stack.NewStack(r, "maplibre", "", "", "", true, true).Stage
 
 	stager.createViews()
 	stager.splitStage.Commit()
 
 	beforeCommit := func(stage *Stage) {
+		stager.mu.Lock()
+		defer stager.mu.Unlock()
 		stager.enforceSemantic()
 	}
 	afterCommit := func(stage *Stage) {
+		stager.mu.Lock()
+		defer stager.mu.Unlock()
+		stager.selectedAirspace = nil
+		stager.selectedGeoBorder = nil
+		stager.focusOnSelected = false
+		stager.resetCameraToBounds = true
+		stager.hiddenAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
+		stager.hiddenGeoBorders = make(map[*aixmfeatures.GeoBorderType]bool)
+		stager.expandedCategories = make(map[string]bool)
+
+		numAirspaces := 0
+		if stager.stage.AixmfeaturesStage != nil {
+			airspaces := stager.stage.AixmfeaturesStage.GetInstancesSorted[*aixmfeatures.AirspaceType]()
+			numAirspaces = len(airspaces)
+			// On large datasets (> 150 airspaces), show only FIRs initially so the map renders immediately
+			// and the user can toggle other categories in the tree.
+			if numAirspaces > 150 {
+				hasFIR := false
+				for _, as := range airspaces {
+					for _, tsp := range as.TimeSlice {
+						if tsp != nil && tsp.AirspaceTimeSlice != nil && tsp.AirspaceTimeSlice.Type_XSD != nil {
+							if strings.EqualFold(strings.TrimSpace(tsp.AirspaceTimeSlice.Type_XSD.EnclosedText), "FIR") {
+								hasFIR = true
+								break
+							}
+						}
+					}
+					if hasFIR {
+						break
+					}
+				}
+				if hasFIR {
+					for _, as := range airspaces {
+						isFIR := false
+						for _, tsp := range as.TimeSlice {
+							if tsp != nil && tsp.AirspaceTimeSlice != nil && tsp.AirspaceTimeSlice.Type_XSD != nil {
+								if strings.EqualFold(strings.TrimSpace(tsp.AirspaceTimeSlice.Type_XSD.EnclosedText), "FIR") {
+									isFIR = true
+									break
+								}
+							}
+						}
+						if !isFIR {
+							stager.hiddenAirspaces[as] = true
+						}
+					}
+				}
+			}
+		}
+
 		stager.ux_tree()
 		stager.ux_load()
 		stager.ux_button()
-		if stager.probeForm != nil {
+		stager.ux_maplibre()
+		if stager.probeForm != nil && numAirspaces <= 300 {
 			stager.probeForm.Refresh()
 		}
 	}
@@ -70,4 +149,8 @@ func NewStager(
 
 func (stager *Stager) GetSemanticErrors() []string {
 	return stager.semanticErrors
+}
+
+func (stager *Stager) GetMaplibreStage() *maplibre.Stage {
+	return stager.maplibreStage
 }

@@ -2724,6 +2724,60 @@
                 "serve",
                 ""
             ]
+        },
+        {
+            "label": "lib - maplibre: go run . edit data/stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./lib/maplibre/go/cmd/maplibre"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "lib - maplibre: gong generate maplibre",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/maplibre/go/models"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmWorkspaces",
+                "--skipNpmInstall",
+                "--stack-height=4"
+            ]
+        },
+        {
+            "label": "lib - maplibre: ng build maplibre",
+            "type": "shell",
+            "options": {
+                "cwd": "lib/maplibre/ng-github.com-fullstack-lang-gong-lib-maplibre"
+            },
+            "command": "ng build",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "lib - maplibre: ng serve maplibre",
+            "type": "shell",
+            "options": {
+                "cwd": "lib/maplibre/ng-github.com-fullstack-lang-gong-lib-maplibre"
+            },
+            "command": "ng",
+            "group": "build",
+            "args": [
+                "serve",
+                ""
+            ]
         }
     ]
 }

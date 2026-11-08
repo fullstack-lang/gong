@@ -7,6 +7,7 @@ import (
 	_ "github.com/fullstack-lang/gong/lib/cursor/ng-github.com-fullstack-lang-gong-lib-cursor"
 	_ "github.com/fullstack-lang/gong/lib/form/ng-github.com-fullstack-lang-gong-lib-form"
 	_ "github.com/fullstack-lang/gong/lib/load/ng-github.com-fullstack-lang-gong-lib-load"
+	_ "github.com/fullstack-lang/gong/lib/maplibre/ng-github.com-fullstack-lang-gong-lib-maplibre"
 	_ "github.com/fullstack-lang/gong/lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown"
 	_ "github.com/fullstack-lang/gong/lib/sim/ng-github.com-fullstack-lang-gong-lib-sim"
 	_ "github.com/fullstack-lang/gong/lib/slider/ng-github.com-fullstack-lang-gong-lib-slider"
@@ -84,6 +85,7 @@ type AsSplitArea struct {
 	Cursor   *Cursor
 	Form     *Form
 	Load     *Load
+	Maplibre *Maplibre
 	Markdown *Markdown
 	Slider   *Slider
 	Split    *Split
@@ -115,6 +117,11 @@ type Form struct {
 }
 
 type Load struct {
+	Name      string // name of the stack
+	StackName string
+}
+
+type Maplibre struct {
 	Name      string // name of the stack
 	StackName string
 }

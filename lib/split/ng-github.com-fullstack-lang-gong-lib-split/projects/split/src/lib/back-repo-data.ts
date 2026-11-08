@@ -19,6 +19,8 @@ import { LogoOnTheLeftAPI } from './logoontheleft-api'
 
 import { LogoOnTheRightAPI } from './logoontheright-api'
 
+import { MaplibreAPI } from './maplibre-api'
+
 import { MarkdownAPI } from './markdown-api'
 
 import { SliderAPI } from './slider-api'
@@ -61,6 +63,8 @@ export class BackRepoData {
 	LogoOnTheLeftAPIs = new Array<LogoOnTheLeftAPI>()
 
 	LogoOnTheRightAPIs = new Array<LogoOnTheRightAPI>()
+
+	MaplibreAPIs = new Array<MaplibreAPI>()
 
 	MarkdownAPIs = new Array<MarkdownAPI>()
 
@@ -107,6 +111,8 @@ export class BackRepoData {
 		this.LogoOnTheLeftAPIs = data?.LogoOnTheLeftAPIs || [];
 
 		this.LogoOnTheRightAPIs = data?.LogoOnTheRightAPIs || [];
+
+		this.MaplibreAPIs = data?.MaplibreAPIs || [];
 
 		this.MarkdownAPIs = data?.MarkdownAPIs || [];
 

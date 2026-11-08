@@ -111,6 +111,9 @@
     @if (area.Load) {
         <lib-load-specific [Name]="area.Load.StackName"></lib-load-specific>
     }
+    @if (area.Maplibre) {
+        <lib-maplibre-specific [Name]="area.Maplibre.StackName"></lib-maplibre-specific>
+    }
     @if (area.Markdown) {
         <lib-markdown-specific [Name]="area.Markdown.StackName"></lib-markdown-specific>
     }

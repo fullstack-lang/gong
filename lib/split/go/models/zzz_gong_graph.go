@@ -60,6 +60,11 @@ func (logoontheright *LogoOnTheRight) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
+func (maplibre *Maplibre) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Maplibres[maplibre]
+	return ok
+}
+
 func (markdown *Markdown) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.Markdowns[markdown]
 	return ok
@@ -165,6 +170,9 @@ func (assplitarea *AsSplitArea) GongStageBranch(stage *Stage) {
 	}
 	if assplitarea.Load != nil {
 		stage.StageBranch(assplitarea.Load)
+	}
+	if assplitarea.Maplibre != nil {
+		stage.StageBranch(assplitarea.Maplibre)
 	}
 	if assplitarea.Markdown != nil {
 		stage.StageBranch(assplitarea.Markdown)
@@ -296,6 +304,21 @@ func (logoontheright *LogoOnTheRight) GongStageBranch(stage *Stage) {
 	}
 
 	logoontheright.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (maplibre *Maplibre) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(maplibre) {
+		return
+	}
+
+	maplibre.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -518,6 +541,10 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchLogoOnTheRight(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Maplibre:
+		toT := GongCopyBranchMaplibre(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Markdown:
 		toT := GongCopyBranchMarkdown(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -610,6 +637,9 @@ func GongCopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplit
 	}
 	if assplitareaFrom.Load != nil {
 		assplitareaTo.Load = GongCopyBranchLoad(mapOrigCopy, assplitareaFrom.Load)
+	}
+	if assplitareaFrom.Maplibre != nil {
+		assplitareaTo.Maplibre = GongCopyBranchMaplibre(mapOrigCopy, assplitareaFrom.Maplibre)
 	}
 	if assplitareaFrom.Markdown != nil {
 		assplitareaTo.Markdown = GongCopyBranchMarkdown(mapOrigCopy, assplitareaFrom.Markdown)
@@ -741,6 +771,21 @@ func GongCopyBranchLogoOnTheRight(mapOrigCopy map[any]any, logoontherightFrom *L
 		return
 	}
 	logoontherightFrom.GongCopyBasicFields(logoontherightTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchMaplibre(mapOrigCopy map[any]any, maplibreFrom *Maplibre) (maplibreTo *Maplibre) {
+	var alreadyCopied bool
+	maplibreTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, maplibreFrom)
+	if alreadyCopied {
+		return
+	}
+	maplibreFrom.GongCopyBasicFields(maplibreTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -972,6 +1017,9 @@ func (assplitarea *AsSplitArea) GongUnstageBranch(stage *Stage) {
 	if assplitarea.Load != nil {
 		stage.UnstageBranch(assplitarea.Load)
 	}
+	if assplitarea.Maplibre != nil {
+		stage.UnstageBranch(assplitarea.Maplibre)
+	}
 	if assplitarea.Markdown != nil {
 		stage.UnstageBranch(assplitarea.Markdown)
 	}
@@ -1102,6 +1150,21 @@ func (logoontheright *LogoOnTheRight) GongUnstageBranch(stage *Stage) {
 	}
 
 	logoontheright.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (maplibre *Maplibre) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(maplibre) {
+		return
+	}
+
+	maplibre.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1291,6 +1354,7 @@ func (reference *AsSplitArea) GongReconstructPointersFromReferences(stage *Stage
 	__gong__reconstructPointer(&reference.Cursor, stage.Cursors_reference, instance.Cursor)
 	__gong__reconstructPointer(&reference.Form, stage.Forms_reference, instance.Form)
 	__gong__reconstructPointer(&reference.Load, stage.Loads_reference, instance.Load)
+	__gong__reconstructPointer(&reference.Maplibre, stage.Maplibres_reference, instance.Maplibre)
 	__gong__reconstructPointer(&reference.Markdown, stage.Markdowns_reference, instance.Markdown)
 	__gong__reconstructPointer(&reference.Slider, stage.Sliders_reference, instance.Slider)
 	__gong__reconstructPointer(&reference.Split, stage.Splits_reference, instance.Split)
@@ -1334,6 +1398,11 @@ func (reference *LogoOnTheLeft) GongReconstructPointersFromReferences(stage *Sta
 }
 
 func (reference *LogoOnTheRight) GongReconstructPointersFromReferences(stage *Stage, instance *LogoOnTheRight) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *Maplibre) GongReconstructPointersFromReferences(stage *Stage, instance *Maplibre) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -1408,6 +1477,7 @@ func (reference *AsSplitArea) GongReconstructPointersFromInstances(stage *Stage)
 	__gong__reconstructPointerFromInstance(&reference.Cursor, stage.Cursors_instance)
 	__gong__reconstructPointerFromInstance(&reference.Form, stage.Forms_instance)
 	__gong__reconstructPointerFromInstance(&reference.Load, stage.Loads_instance)
+	__gong__reconstructPointerFromInstance(&reference.Maplibre, stage.Maplibres_instance)
 	__gong__reconstructPointerFromInstance(&reference.Markdown, stage.Markdowns_instance)
 	__gong__reconstructPointerFromInstance(&reference.Slider, stage.Sliders_instance)
 	__gong__reconstructPointerFromInstance(&reference.Split, stage.Splits_instance)
@@ -1451,6 +1521,11 @@ func (reference *LogoOnTheLeft) GongReconstructPointersFromInstances(stage *Stag
 }
 
 func (reference *LogoOnTheRight) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *Maplibre) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -1568,6 +1643,9 @@ func (assplitarea *AsSplitArea) GongDiff(stage *Stage, assplitareaOther *AsSplit
 	}
 	if assplitarea.Load != assplitareaOther.Load {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Load"))
+	}
+	if assplitarea.Maplibre != assplitareaOther.Maplibre {
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Maplibre"))
 	}
 	if assplitarea.Markdown != assplitareaOther.Markdown {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Markdown"))
@@ -1714,6 +1792,20 @@ func (logoontheright *LogoOnTheRight) GongDiff(stage *Stage, logoontherightOther
 	}
 	if logoontheright.SVG != logoontherightOther.SVG {
 		diffs = append(diffs, logoontheright.GongMarshallField(stage, "SVG"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (maplibre *Maplibre) GongDiff(stage *Stage, maplibreOther *Maplibre) (diffs []string) {
+	// insertion point for field diffs
+	if maplibre.Name != maplibreOther.Name {
+		diffs = append(diffs, maplibre.GongMarshallField(stage, "Name"))
+	}
+	if maplibre.StackName != maplibreOther.StackName {
+		diffs = append(diffs, maplibre.GongMarshallField(stage, "StackName"))
 	}
 
 	return

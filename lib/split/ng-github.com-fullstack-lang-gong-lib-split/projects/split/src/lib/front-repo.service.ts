@@ -33,6 +33,9 @@ import { LogoOnTheLeft, CopyLogoOnTheLeftAPIToLogoOnTheLeft } from './logoonthel
 import { LogoOnTheRightAPI } from './logoontheright-api'
 import { LogoOnTheRight, CopyLogoOnTheRightAPIToLogoOnTheRight } from './logoontheright'
 
+import { MaplibreAPI } from './maplibre-api'
+import { Maplibre, CopyMaplibreAPIToMaplibre } from './maplibre'
+
 import { MarkdownAPI } from './markdown-api'
 import { Markdown, CopyMarkdownAPIToMarkdown } from './markdown'
 
@@ -100,6 +103,9 @@ export class FrontRepo { // insertion point sub template
 	array_LogoOnTheRights = new Array<LogoOnTheRight>() // array of front instances
 	map_ID_LogoOnTheRight = new Map<number, LogoOnTheRight>() // map of front instances
 
+	array_Maplibres = new Array<Maplibre>() // array of front instances
+	map_ID_Maplibre = new Map<number, Maplibre>() // map of front instances
+
 	array_Markdowns = new Array<Markdown>() // array of front instances
 	map_ID_Markdown = new Map<number, Markdown>() // map of front instances
 
@@ -160,6 +166,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_LogoOnTheLefts as unknown as Array<Type>
 			case 'LogoOnTheRight':
 				return this.array_LogoOnTheRights as unknown as Array<Type>
+			case 'Maplibre':
+				return this.array_Maplibres as unknown as Array<Type>
 			case 'Markdown':
 				return this.array_Markdowns as unknown as Array<Type>
 			case 'Slider':
@@ -208,6 +216,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_LogoOnTheLeft as unknown as Map<number, Type>
 			case 'LogoOnTheRight':
 				return this.map_ID_LogoOnTheRight as unknown as Map<number, Type>
+			case 'Maplibre':
+				return this.map_ID_Maplibre as unknown as Map<number, Type>
 			case 'Markdown':
 				return this.map_ID_Markdown as unknown as Map<number, Type>
 			case 'Slider':
@@ -464,6 +474,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_Maplibres = []
+				frontRepo.map_ID_Maplibre.clear()
+
+				backRepoData.MaplibreAPIs.forEach(
+					maplibreAPI => {
+						let maplibre = new Maplibre
+						frontRepo.array_Maplibres.push(maplibre)
+						frontRepo.map_ID_Maplibre.set(maplibreAPI.ID, maplibre)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Markdowns = []
 				frontRepo.map_ID_Markdown.clear()
 
@@ -672,6 +694,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.MaplibreAPIs.forEach(
+					maplibreAPI => {
+						let maplibre = frontRepo.map_ID_Maplibre.get(maplibreAPI.ID)
+						CopyMaplibreAPIToMaplibre(maplibreAPI, maplibre!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.MarkdownAPIs.forEach(
 					markdownAPI => {
 						let markdown = frontRepo.map_ID_Markdown.get(markdownAPI.ID)
@@ -860,36 +890,39 @@ export function getLogoOnTheLeftUniqueID(id: number): number {
 export function getLogoOnTheRightUniqueID(id: number): number {
 	return 67 * id
 }
-export function getMarkdownUniqueID(id: number): number {
+export function getMaplibreUniqueID(id: number): number {
 	return 71 * id
 }
-export function getSliderUniqueID(id: number): number {
+export function getMarkdownUniqueID(id: number): number {
 	return 73 * id
 }
-export function getSplitUniqueID(id: number): number {
+export function getSliderUniqueID(id: number): number {
 	return 79 * id
 }
-export function getSvgUniqueID(id: number): number {
+export function getSplitUniqueID(id: number): number {
 	return 83 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getSvgUniqueID(id: number): number {
 	return 89 * id
 }
-export function getThreejsUniqueID(id: number): number {
+export function getTableUniqueID(id: number): number {
 	return 97 * id
 }
-export function getTitleUniqueID(id: number): number {
+export function getThreejsUniqueID(id: number): number {
 	return 101 * id
 }
-export function getToneUniqueID(id: number): number {
+export function getTitleUniqueID(id: number): number {
 	return 103 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getToneUniqueID(id: number): number {
 	return 107 * id
 }
-export function getViewUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
 	return 109 * id
 }
-export function getXlsxUniqueID(id: number): number {
+export function getViewUniqueID(id: number): number {
 	return 113 * id
+}
+export function getXlsxUniqueID(id: number): number {
+	return 127 * id
 }

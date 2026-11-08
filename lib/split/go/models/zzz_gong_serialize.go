@@ -89,6 +89,13 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.Maplibres {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Maplibre", instances, (*Maplibre)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.Markdowns {
 				instances = append(instances, instance)
 			}

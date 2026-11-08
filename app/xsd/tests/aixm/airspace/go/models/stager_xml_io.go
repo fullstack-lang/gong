@@ -152,6 +152,11 @@ func (cb *xmlFileUploadCallback) OnFileUpload(loadedFile *load.FileToUpload) err
 		return err
 	}
 
+	// Avoid overwriting data/stage.go with a massive file when a large XML dataset is dropped
+	if len(decodedBytes) > 512*1024 {
+		cb.stager.stage.OnInitCommitCallback = nil
+	}
+
 	cb.stager.stage.Reset()
 	if err := UnmarshallXMLToStage(cb.stager.stage, decodedBytes); err != nil {
 		log.Printf("Failed unmarshalling XML file: %v", err)
@@ -250,6 +255,8 @@ func (stager *Stager) ux_button() {
 		HasToolTip:  true,
 		ToolTipText: "Serialize all packages/stages to a single deterministic Go file",
 		OnClick: func() {
+			stager.mu.Lock()
+			defer stager.mu.Unlock()
 			stager.exportGoFile()
 		},
 	}).Stage(stager.buttonStage)
@@ -261,11 +268,27 @@ func (stager *Stager) ux_button() {
 		HasToolTip:  true,
 		ToolTipText: "Serialize the root document element to an XML file",
 		OnClick: func() {
+			stager.mu.Lock()
+			defer stager.mu.Unlock()
 			stager.exportXMLFile()
 		},
 	}).Stage(stager.buttonStage)
 
-	group1.Buttons = append(group1.Buttons, btnExportGo, btnExportXML)
+	btnToggle3D := (&button.Button{
+		Name:        "Toggle 2D / 3D Airspace Volumes",
+		Icon:        string(tree_buttons.BUTTON_visibility),
+		Label:       "Toggle 2D / 3D Volumes",
+		HasToolTip:  true,
+		ToolTipText: "Switch MapLibre between 2D Aeronautical Chart and 3D Extruded Airspace Volumes",
+		OnClick: func() {
+			stager.mu.Lock()
+			defer stager.mu.Unlock()
+			stager.extrude3D = !stager.extrude3D
+			stager.ux_maplibre()
+		},
+	}).Stage(stager.buttonStage)
+
+	group1.Buttons = append(group1.Buttons, btnExportGo, btnExportXML, btnToggle3D)
 
 	stager.buttonStage.Commit()
 }

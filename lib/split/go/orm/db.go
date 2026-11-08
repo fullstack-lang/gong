@@ -56,6 +56,10 @@ type DBLite struct {
 
 	nextIDLogoOnTheRightDB uint
 
+	maplibreDBs map[uint]*MaplibreDB
+
+	nextIDMaplibreDB uint
+
 	markdownDBs map[uint]*MarkdownDB
 
 	nextIDMarkdownDB uint
@@ -123,6 +127,8 @@ func NewDBLite() *DBLite {
 		logoontheleftDBs: make(map[uint]*LogoOnTheLeftDB),
 
 		logoontherightDBs: make(map[uint]*LogoOnTheRightDB),
+
+		maplibreDBs: make(map[uint]*MaplibreDB),
 
 		markdownDBs: make(map[uint]*MarkdownDB),
 
@@ -195,6 +201,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDLogoOnTheRightDB++
 		v.ID = db.nextIDLogoOnTheRightDB
 		db.logoontherightDBs[v.ID] = v
+	case *MaplibreDB:
+		db.nextIDMaplibreDB++
+		v.ID = db.nextIDMaplibreDB
+		db.maplibreDBs[v.ID] = v
 	case *MarkdownDB:
 		db.nextIDMarkdownDB++
 		v.ID = db.nextIDMarkdownDB
@@ -285,6 +295,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.logoontheleftDBs, v.ID)
 	case *LogoOnTheRightDB:
 		delete(db.logoontherightDBs, v.ID)
+	case *MaplibreDB:
+		delete(db.maplibreDBs, v.ID)
 	case *MarkdownDB:
 		delete(db.markdownDBs, v.ID)
 	case *SliderDB:
@@ -351,6 +363,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *LogoOnTheRightDB:
 		db.logoontherightDBs[v.ID] = v
+		return db, nil
+	case *MaplibreDB:
+		db.maplibreDBs[v.ID] = v
 		return db, nil
 	case *MarkdownDB:
 		db.markdownDBs[v.ID] = v
@@ -454,6 +469,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db LogoOnTheRight github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *MaplibreDB:
+		if existing, ok := db.maplibreDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Maplibre github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *MarkdownDB:
 		if existing, ok := db.markdownDBs[v.ID]; ok {
@@ -586,6 +607,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]LogoOnTheRightDB:
 		*ptr = make([]LogoOnTheRightDB, 0, len(db.logoontherightDBs))
 		for _, v := range db.logoontherightDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]MaplibreDB:
+		*ptr = make([]MaplibreDB, 0, len(db.maplibreDBs))
+		for _, v := range db.maplibreDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -777,6 +804,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		logoontherightDB, _ := instanceDB.(*LogoOnTheRightDB)
 		*logoontherightDB = *tmp
+
+	case *MaplibreDB:
+		tmp, ok := db.maplibreDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Maplibre Unkown entry %d", i))
+		}
+
+		maplibreDB, _ := instanceDB.(*MaplibreDB)
+		*maplibreDB = *tmp
 
 	case *MarkdownDB:
 		tmp, ok := db.markdownDBs[uint(i)]

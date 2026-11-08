@@ -433,6 +433,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := assplitarea.Load.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Load = %s", assplitareaIdent, targetIdent))
 			}
+			if assplitarea.Maplibre != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := assplitarea.Maplibre.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Maplibre = %s", assplitareaIdent, targetIdent))
+			}
 			if assplitarea.Markdown != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -668,6 +678,26 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %d", logoontherightIdent, logoontheright.Width))
 			values.WriteString(fmt.Sprintf("\n\t%s.Height = %d", logoontherightIdent, logoontheright.Height))
 			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", logoontherightIdent, __gong__toRawStringLiteral(logoontheright.SVG)))
+		}
+	}
+	if stage != nil {
+		for _, maplibre := range __gong__sortStageSetInstances(stage.Maplibres, stage.Maplibre_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			maplibreIdent := maplibre.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Maplibre{Name: %s}).Stage(stage)", maplibreIdent, __gong__toRawStringLiteral(maplibre.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", maplibreIdent, __gong__toRawStringLiteral(maplibre.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", maplibreIdent, __gong__toRawStringLiteral(maplibre.StackName)))
 		}
 	}
 	if stage != nil {
@@ -1053,6 +1083,12 @@ func (assplitarea *AsSplitArea) GongMarshallField(stage *Stage, fieldName string
 		} else {
 			res = __gong__marshallPointer(ident, "Load", "nil")
 		}
+	case "Maplibre":
+		if assplitarea.Maplibre != nil {
+			res = __gong__marshallPointer(ident, "Maplibre", assplitarea.Maplibre.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Maplibre", "nil")
+		}
 	case "Markdown":
 		if assplitarea.Markdown != nil {
 			res = __gong__marshallPointer(ident, "Markdown", assplitarea.Markdown.GongGetIdentifier(stage))
@@ -1224,6 +1260,21 @@ func (logoontheright *LogoOnTheRight) GongMarshallField(stage *Stage, fieldName 
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct LogoOnTheRight", fieldName)
+	}
+	return
+}
+
+func (maplibre *Maplibre) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := maplibre.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", maplibre.Name)
+	case "StackName":
+		res = __gong__marshallString(ident, "StackName", maplibre.StackName)
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Maplibre", fieldName)
 	}
 	return
 }
@@ -1442,6 +1493,7 @@ func (assplitarea *AsSplitArea) GongMarshallAllFields(stage *Stage) (initRes str
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Cursor"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Form"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Load"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Maplibre"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Markdown"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Slider"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Split"))
@@ -1542,6 +1594,18 @@ func (logoontheright *LogoOnTheRight) GongMarshallAllFields(stage *Stage) (initR
 		initializerStatements.WriteString(logoontheright.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(logoontheright.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(logoontheright.GongMarshallField(stage, "SVG"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (maplibre *Maplibre) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(maplibre.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(maplibre.GongMarshallField(stage, "StackName"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

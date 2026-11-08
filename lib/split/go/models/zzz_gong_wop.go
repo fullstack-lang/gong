@@ -157,6 +157,19 @@ func (from *LogoOnTheRight) GongCopyBasicFields(to *LogoOnTheRight) {
 	*to = *from
 }
 
+type Maplibre_WOP struct {
+	// insertion point
+
+	Name string
+
+	StackName string
+}
+
+func (from *Maplibre) GongCopyBasicFields(to *Maplibre) {
+	// insertion point
+	*to = *from
+}
+
 type Markdown_WOP struct {
 	// insertion point
 

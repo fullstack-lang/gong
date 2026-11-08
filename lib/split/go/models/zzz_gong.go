@@ -245,6 +245,20 @@ type Stage struct {
 	OnAfterLogoOnTheRightUpdateCallback GongOnAfterUpdateInterface[LogoOnTheRight]
 	OnAfterLogoOnTheRightDeleteCallback GongOnAfterDeleteInterface[LogoOnTheRight]
 
+	Maplibres                map[*Maplibre]struct{}
+	Maplibres_instance       map[*Maplibre]*Maplibre
+	Maplibres_mapString      map[string]*Maplibre
+	MaplibreOrder            uint
+	Maplibre_stagedOrder     map[*Maplibre]uint
+	Maplibre_orderStaged     map[uint]*Maplibre
+	Maplibres_reference      map[*Maplibre]*Maplibre
+	Maplibres_referenceOrder map[*Maplibre]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterMaplibreCreateCallback GongOnAfterCreateInterface[Maplibre]
+	OnAfterMaplibreUpdateCallback GongOnAfterUpdateInterface[Maplibre]
+	OnAfterMaplibreDeleteCallback GongOnAfterDeleteInterface[Maplibre]
+
 	Markdowns                map[*Markdown]struct{}
 	Markdowns_instance       map[*Markdown]*Markdown
 	Markdowns_mapString      map[string]*Markdown
@@ -500,6 +514,8 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.LogoOnTheRights_reference, &stage.LogoOnTheRights_instance, &stage.LogoOnTheRights_referenceOrder)
 
+	__gong__clearReferences(&stage.Maplibres_reference, &stage.Maplibres_instance, &stage.Maplibres_referenceOrder)
+
 	__gong__clearReferences(&stage.Markdowns_reference, &stage.Markdowns_instance, &stage.Markdowns_referenceOrder)
 
 	__gong__clearReferences(&stage.Sliders_reference, &stage.Sliders_instance, &stage.Sliders_referenceOrder)
@@ -562,6 +578,8 @@ func (stage *Stage) recomputeOrders() {
 	stage.LogoOnTheLeftOrder = __gong__recomputeOrder(stage.LogoOnTheLeft_stagedOrder)
 
 	stage.LogoOnTheRightOrder = __gong__recomputeOrder(stage.LogoOnTheRight_stagedOrder)
+
+	stage.MaplibreOrder = __gong__recomputeOrder(stage.Maplibre_stagedOrder)
 
 	stage.MarkdownOrder = __gong__recomputeOrder(stage.Markdown_stagedOrder)
 
@@ -779,6 +797,26 @@ func (*LogoOnTheRight) GongGetInstancesSet(stage *Stage) any {
 
 func (*LogoOnTheRight) GongNewInstance() any {
 	return new(LogoOnTheRight)
+}
+
+func (*Maplibre) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Maplibres, stage.Maplibre_stagedOrder)
+}
+
+func (*Maplibre) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Maplibre_orderStaged[order]
+}
+
+func (*Maplibre) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Maplibres_mapString
+}
+
+func (*Maplibre) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Maplibres
+}
+
+func (*Maplibre) GongNewInstance() any {
+	return new(Maplibre)
 }
 
 func (*Markdown) GongGetInstancesByOrder(stage *Stage) any {
@@ -1209,6 +1247,9 @@ func NewStage(name string) (stage *Stage) {
 		LogoOnTheRights:           make(map[*LogoOnTheRight]struct{}),
 		LogoOnTheRights_mapString: make(map[string]*LogoOnTheRight),
 
+		Maplibres:           make(map[*Maplibre]struct{}),
+		Maplibres_mapString: make(map[string]*Maplibre),
+
 		Markdowns:           make(map[*Markdown]struct{}),
 		Markdowns_mapString: make(map[string]*Markdown),
 
@@ -1286,6 +1327,10 @@ func NewStage(name string) (stage *Stage) {
 		LogoOnTheRight_orderStaged: make(map[uint]*LogoOnTheRight),
 		LogoOnTheRights_reference:  make(map[*LogoOnTheRight]*LogoOnTheRight),
 
+		Maplibre_stagedOrder: make(map[*Maplibre]uint),
+		Maplibre_orderStaged: make(map[uint]*Maplibre),
+		Maplibres_reference:  make(map[*Maplibre]*Maplibre),
+
 		Markdown_stagedOrder: make(map[*Markdown]uint),
 		Markdown_orderStaged: make(map[uint]*Markdown),
 		Markdowns_reference:  make(map[*Markdown]*Markdown),
@@ -1349,6 +1394,8 @@ func NewStage(name string) (stage *Stage) {
 			"LogoOnTheLeft": &LogoOnTheLeftUnmarshaller{},
 
 			"LogoOnTheRight": &LogoOnTheRightUnmarshaller{},
+
+			"Maplibre": &MaplibreUnmarshaller{},
 
 			"Markdown": &MarkdownUnmarshaller{},
 
@@ -1463,6 +1510,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Load"] = len(stage.Loads)
 	stage.Map_GongStructName_InstancesNb["LogoOnTheLeft"] = len(stage.LogoOnTheLefts)
 	stage.Map_GongStructName_InstancesNb["LogoOnTheRight"] = len(stage.LogoOnTheRights)
+	stage.Map_GongStructName_InstancesNb["Maplibre"] = len(stage.Maplibres)
 	stage.Map_GongStructName_InstancesNb["Markdown"] = len(stage.Markdowns)
 	stage.Map_GongStructName_InstancesNb["Slider"] = len(stage.Sliders)
 	stage.Map_GongStructName_InstancesNb["Split"] = len(stage.Splits)
@@ -1872,6 +1920,46 @@ func (logoontheright *LogoOnTheRight) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (logoontheright *LogoOnTheRight) SetName(name string) {
 	logoontheright.Name = name
+}
+
+// Stage puts maplibre to the model stage
+func (maplibre *Maplibre) Stage(stage *Stage) *Maplibre {
+	__gong__stage(stage.Maplibres, stage.Maplibre_stagedOrder, stage.Maplibre_orderStaged, &stage.MaplibreOrder, stage.Maplibres_mapString, maplibre, maplibre.Name)
+	return maplibre
+}
+
+// StagePreserveOrder puts maplibre to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MaplibreOrder
+// - update stage.MaplibreOrder accordingly
+func (maplibre *Maplibre) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.Maplibres, stage.Maplibre_stagedOrder, stage.Maplibre_orderStaged, &stage.MaplibreOrder, stage.Maplibres_mapString, maplibre, order, maplibre.Name)
+}
+
+// Unstage removes maplibre off the model stage
+func (maplibre *Maplibre) Unstage(stage *Stage) *Maplibre {
+	__gong__unstage(stage.Maplibres, stage.Maplibres_mapString, maplibre, maplibre.Name)
+	return maplibre
+}
+
+// UnstageVoid removes maplibre off the model stage
+func (maplibre *Maplibre) UnstageVoid(stage *Stage) {
+	maplibre.Unstage(stage)
+}
+
+func (maplibre *Maplibre) StageVoid(stage *Stage) {
+	maplibre.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (maplibre *Maplibre) GetName() (res string) {
+	return maplibre.Name
+}
+
+// for satisfaction of GongStruct interface
+func (maplibre *Maplibre) SetName(name string) {
+	maplibre.Name = name
 }
 
 // Stage puts markdown to the model stage
@@ -2333,6 +2421,8 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.LogoOnTheRights, &stage.LogoOnTheRights_mapString, &stage.LogoOnTheRight_stagedOrder, &stage.LogoOnTheRightOrder)
 
+	__gong__resetStageType(&stage.Maplibres, &stage.Maplibres_mapString, &stage.Maplibre_stagedOrder, &stage.MaplibreOrder)
+
 	__gong__resetStageType(&stage.Markdowns, &stage.Markdowns_mapString, &stage.Markdown_stagedOrder, &stage.MarkdownOrder)
 
 	__gong__resetStageType(&stage.Sliders, &stage.Sliders_mapString, &stage.Slider_stagedOrder, &stage.SliderOrder)
@@ -2472,6 +2562,7 @@ func (AsSplitArea) GongGetAssociationName() any {
 			Cursor: &Cursor{Name: "Cursor"},
 			Form: &Form{Name: "Form"},
 			Load: &Load{Name: "Load"},
+			Maplibre: &Maplibre{Name: "Maplibre"},
 			Markdown: &Markdown{Name: "Markdown"},
 			Slider: &Slider{Name: "Slider"},
 			Split: &Split{Name: "Split"},
@@ -2516,6 +2607,11 @@ func (LogoOnTheLeft) GongGetAssociationName() any {
 
 func (LogoOnTheRight) GongGetAssociationName() any {
 	return &LogoOnTheRight{
+	}
+}
+
+func (Maplibre) GongGetAssociationName() any {
+	return &Maplibre{
 	}
 }
 
@@ -2689,6 +2785,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					assplitareas = append(assplitareas, assplitarea)
 					res[load_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Maplibre":
+			res := make(map[*Maplibre][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.Maplibre != nil {
+					maplibre_ := assplitarea.Maplibre
+					var assplitareas []*AsSplitArea
+					_, ok := res[maplibre_]
+					if ok {
+						assplitareas = res[maplibre_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[maplibre_] = assplitareas
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -2881,6 +2994,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Maplibre
+	case Maplibre:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Markdown
 	case Markdown:
 		switch fieldname {
@@ -2996,6 +3114,11 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		}
 	// reverse maps of direct associations of LogoOnTheRight
 	case LogoOnTheRight:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Maplibre
+	case Maplibre:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -3164,6 +3287,11 @@ func (*LogoOnTheRight) GongGetReverseFields() []GongReverseField {
 	}
 }
 
+func (*Maplibre) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
 func (*Markdown) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 	}
@@ -3309,6 +3437,11 @@ func (assplitarea *AsSplitArea) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Load",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Load",
+		},
+		{
+			Name:                 "Maplibre",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Maplibre",
 		},
 		{
 			Name:                 "Markdown",
@@ -3486,6 +3619,21 @@ func (logoontheright *LogoOnTheRight) GongGetFieldHeaders() (res []GongFieldHead
 		},
 		{
 			Name:               "SVG",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (maplibre *Maplibre) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StackName",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
@@ -3827,6 +3975,12 @@ func (assplitarea *AsSplitArea) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString = assplitarea.Load.Name
 			res.ids = assplitarea.Load.GongGetUUID(stage)
 		}
+	case "Maplibre":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if assplitarea.Maplibre != nil {
+			res.valueString = assplitarea.Maplibre.Name
+			res.ids = assplitarea.Maplibre.GongGetUUID(stage)
+		}
 	case "Markdown":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Markdown != nil {
@@ -3982,6 +4136,17 @@ func (logoontheright *LogoOnTheRight) GongGetFieldValue(fieldName string, stage 
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "SVG":
 		res.valueString = logoontheright.SVG
+	}
+	return
+}
+
+func (maplibre *Maplibre) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = maplibre.Name
+	case "StackName":
+		res.valueString = maplibre.StackName
 	}
 	return
 }
@@ -4188,6 +4353,10 @@ func (logoontheright *LogoOnTheRight) GongGetGongstructName() string {
 	return "LogoOnTheRight"
 }
 
+func (maplibre *Maplibre) GongGetGongstructName() string {
+	return "Maplibre"
+}
+
 func (markdown *Markdown) GongGetGongstructName() string {
 	return "Markdown"
 }
@@ -4260,6 +4429,8 @@ func (stage *Stage) ResetMapStrings() {
 	__gong__rebuildMapString(stage.LogoOnTheLefts, &stage.LogoOnTheLefts_mapString)
 
 	__gong__rebuildMapString(stage.LogoOnTheRights, &stage.LogoOnTheRights_mapString)
+
+	__gong__rebuildMapString(stage.Maplibres, &stage.Maplibres_mapString)
 
 	__gong__rebuildMapString(stage.Markdowns, &stage.Markdowns_mapString)
 

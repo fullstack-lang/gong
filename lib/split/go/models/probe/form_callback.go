@@ -170,6 +170,8 @@ func saveAsSplitAreaFields(
 			FormDivSelectFieldToField(&(_instance.Form), probe.stageOfInterest, formDiv)
 		case "Load":
 			FormDivSelectFieldToField(&(_instance.Load), probe.stageOfInterest, formDiv)
+		case "Maplibre":
+			FormDivSelectFieldToField(&(_instance.Maplibre), probe.stageOfInterest, formDiv)
 		case "Markdown":
 			FormDivSelectFieldToField(&(_instance.Markdown), probe.stageOfInterest, formDiv)
 		case "Slider":
@@ -423,6 +425,37 @@ func saveLogoOnTheRightFields(
 			FormDivBasicFieldToField(&(_instance.Height), formDiv)
 		case "SVG":
 			FormDivBasicFieldToField(&(_instance.SVG), formDiv)
+		}
+	}
+}
+
+func __gong__New__MaplibreFormCallback(
+	_instance *models.Maplibre,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (maplibreFormCallback *FormCallback[*models.Maplibre]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveMaplibreFields,
+	)
+}
+
+type MaplibreFormCallback = FormCallback[*models.Maplibre]
+
+func saveMaplibreFields(
+	_instance *models.Maplibre,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "StackName":
+			FormDivBasicFieldToField(&(_instance.StackName), formDiv)
 		}
 	}
 }

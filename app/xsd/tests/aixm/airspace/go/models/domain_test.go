@@ -20,6 +20,7 @@ import (
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	doc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
+	maplibre "github.com/fullstack-lang/gong/lib/maplibre/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	"github.com/fullstack-lang/gong/lib/strutils"
 )
@@ -137,6 +138,11 @@ func TestUnmarshalAirspaceBaseline(t *testing.T) {
 		{"GeodesicStringType", len(*stage.GmlStage.GetInstancesSet[*gml.GeodesicStringType]())},
 		{"ArcByCenterPointType", len(*stage.GmlStage.GetInstancesSet[*gml.ArcByCenterPointType]())},
 		{"CircleByCenterPointType", len(*stage.GmlStage.GetInstancesSet[*gml.CircleByCenterPointType]())},
+		{"Maplibre.MapView", len(*stager.GetMaplibreStage().GetInstancesSet[*maplibre.MapView]())},
+		{"Maplibre.Layer", len(*stager.GetMaplibreStage().GetInstancesSet[*maplibre.Layer]())},
+		{"Maplibre.Polygon", len(*stager.GetMaplibreStage().GetInstancesSet[*maplibre.Polygon]())},
+		{"Maplibre.Polyline", len(*stager.GetMaplibreStage().GetInstancesSet[*maplibre.Polyline]())},
+		{"Maplibre.Marker", len(*stager.GetMaplibreStage().GetInstancesSet[*maplibre.Marker]())},
 	}
 
 	for _, c := range checks {
@@ -160,10 +166,17 @@ func TestUnmarshalDonlon(t *testing.T) {
 		t.Fatalf("failed reading %s: %v", donlonPath, err)
 	}
 
+	mux := http.NewServeMux()
 	stage := models.NewStage(domainName + "_donlon")
+	prb := probe.NewProbe(mux, embeddedgo.GoModelsDir, embeddedgo.GoDiagramsDir, false, stage)
+	stage.SetProbeIF(prb)
+	stager := models.NewStager(mux, stage, prb)
+
+	stage.Reset()
 	if err := models.UnmarshallXMLToStage(stage, xmlBytes); err != nil {
 		t.Fatalf("UnmarshallXMLToStage on %s failed: %v", donlonPath, err)
 	}
+	stage.Commit()
 
 	msgs := stage.GetInstancesSorted[*models.AIXMBasicMessage]()
 	if len(msgs) != 1 {
@@ -175,8 +188,15 @@ func TestUnmarshalDonlon(t *testing.T) {
 	if len(*stage.GmlStage.GetInstancesSet[*gml.RingType]()) == 0 {
 		t.Fatalf("expected > 0 RingType in Donlon %s, got 0", domainName)
 	}
+	nPolys := len(*stager.GetMaplibreStage().GetInstancesSet[*maplibre.Polygon]())
+	nLines := len(*stager.GetMaplibreStage().GetInstancesSet[*maplibre.Polyline]())
+	nMarkers := len(*stager.GetMaplibreStage().GetInstancesSet[*maplibre.Marker]())
+	if nPolys == 0 || nMarkers == 0 {
+		t.Fatalf("expected > 0 Maplibre polygons and markers for Donlon airspace, got %d polygons, %d markers", nPolys, nMarkers)
+	}
 	errs := models.ValidateXSDConstraints(stage)
-	t.Logf("Donlon %s: unmarshalled %d members (%d XSD constraint notices)", domainName, len(msgs[0].HasMember), len(errs))
+	t.Logf("Donlon %s: unmarshalled %d members -> Maplibre: %d Polygons, %d Polylines, %d SVG Markers (%d XSD constraint notices)",
+		domainName, len(msgs[0].HasMember), nPolys, nLines, nMarkers, len(errs))
 	for i := 0; i < len(errs) && i < 10; i++ {
 		t.Logf("  err[%d]: %s", i, errs[i])
 	}

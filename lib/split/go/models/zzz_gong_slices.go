@@ -63,6 +63,8 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.LogoOnTheRights)
 
+	res = __gong__appendInstances(res, stage.Maplibres)
+
 	res = __gong__appendInstances(res, stage.Markdowns)
 
 	res = __gong__appendInstances(res, stage.Sliders)
@@ -140,6 +142,12 @@ func (logoontheleft *LogoOnTheLeft) GongCopy() GongstructIF {
 func (logoontheright *LogoOnTheRight) GongCopy() GongstructIF {
 	newInstance := new(LogoOnTheRight)
 	logoontheright.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (maplibre *Maplibre) GongCopy() GongstructIF {
+	newInstance := new(Maplibre)
+	maplibre.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -244,6 +252,10 @@ func (logoontheleft *LogoOnTheLeft) GongGetUUID(stage *Stage) string {
 
 func (logoontheright *LogoOnTheRight) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, logoontheright)
+}
+
+func (maplibre *Maplibre) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, maplibre)
 }
 
 func (markdown *Markdown) GongGetUUID(stage *Stage) string {
@@ -545,6 +557,23 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
+		stage.Maplibres,
+		stage.Maplibre_stagedOrder,
+		stage.Maplibres_reference,
+		&stage.Maplibres_referenceOrder,
+		stage.Maplibres_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
 		stage.Markdowns,
 		stage.Markdown_stagedOrder,
 		stage.Markdowns_reference,
@@ -783,6 +812,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.LogoOnTheRights, &stage.LogoOnTheRights_reference, &stage.LogoOnTheRights_referenceOrder, &stage.LogoOnTheRights_instance)
 
+	__gong__computeReferencePass1(stage, stage.Maplibres, &stage.Maplibres_reference, &stage.Maplibres_referenceOrder, &stage.Maplibres_instance)
+
 	__gong__computeReferencePass1(stage, stage.Markdowns, &stage.Markdowns_reference, &stage.Markdowns_referenceOrder, &stage.Markdowns_instance)
 
 	__gong__computeReferencePass1(stage, stage.Sliders, &stage.Sliders_reference, &stage.Sliders_referenceOrder, &stage.Sliders_instance)
@@ -823,6 +854,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass2(stage.LogoOnTheLefts, stage.LogoOnTheLefts_reference, stage)
 
 	__gong__computeReferencePass2(stage.LogoOnTheRights, stage.LogoOnTheRights_reference, stage)
+
+	__gong__computeReferencePass2(stage.Maplibres, stage.Maplibres_reference, stage)
 
 	__gong__computeReferencePass2(stage.Markdowns, stage.Markdowns_reference, stage)
 
@@ -890,6 +923,10 @@ func (logoontheleft *LogoOnTheLeft) GongGetOrder(stage *Stage) uint {
 
 func (logoontheright *LogoOnTheRight) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.LogoOnTheRight_stagedOrder, stage.LogoOnTheRights_referenceOrder, logoontheright, "LogoOnTheRight")
+}
+
+func (maplibre *Maplibre) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.Maplibre_stagedOrder, stage.Maplibres_referenceOrder, maplibre, "Maplibre")
 }
 
 func (markdown *Markdown) GongGetOrder(stage *Stage) uint {
@@ -1020,6 +1057,15 @@ func (logoontheright *LogoOnTheRight) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (logoontheright *LogoOnTheRight) GongGetReferenceIdentifier(stage *Stage) string {
 	return logoontheright.GongGetIdentifier(stage)
+}
+
+func (maplibre *Maplibre) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(maplibre, maplibre.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (maplibre *Maplibre) GongGetReferenceIdentifier(stage *Stage) string {
+	return maplibre.GongGetIdentifier(stage)
 }
 
 func (markdown *Markdown) GongGetIdentifier(stage *Stage) string {
@@ -1160,6 +1206,10 @@ func (logoontheright *LogoOnTheRight) GongMarshallIdentifier(stage *Stage) strin
 	return __gong__marshallIdentifier(logoontheright.GongGetIdentifier(stage), "LogoOnTheRight", logoontheright.Name)
 }
 
+func (maplibre *Maplibre) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(maplibre.GongGetIdentifier(stage), "Maplibre", maplibre.Name)
+}
+
 func (markdown *Markdown) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(markdown.GongGetIdentifier(stage), "Markdown", markdown.Name)
 }
@@ -1239,6 +1289,10 @@ func (logoontheleft *LogoOnTheLeft) GongMarshallUnstaging(stage *Stage) string {
 
 func (logoontheright *LogoOnTheRight) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(logoontheright.GongGetReferenceIdentifier(stage))
+}
+
+func (maplibre *Maplibre) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(maplibre.GongGetReferenceIdentifier(stage))
 }
 
 func (markdown *Markdown) GongMarshallUnstaging(stage *Stage) string {

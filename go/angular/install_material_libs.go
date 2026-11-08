@@ -89,6 +89,7 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 			"maath@^0.10.8",
 			"ngxtension@^7.2.0",
 			"three-stdlib@^2.36.1",
+			"maplibre-gl@^6.17.0",
 			"--legacy-peer-deps")
 		ConfigureNodeEnv(cmd)
 		cmd.Dir = modelPkg.NgWorkspacePath

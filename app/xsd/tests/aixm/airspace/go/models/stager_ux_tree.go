@@ -3,11 +3,121 @@ package models
 
 import (
 	"fmt"
+	"slices"
+	"strings"
 
+	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models/aixmfeatures"
+	tree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
 var _ = fmt.Sprint
+
+type airspaceEntry struct {
+	as       *aixmfeatures.AirspaceType
+	targetTS *aixmfeatures.AirspaceTimeSliceType
+	asType   string
+	label    string
+}
+
+type geoBorderEntry struct {
+	gb       *aixmfeatures.GeoBorderType
+	targetTS *aixmfeatures.GeoBorderTimeSliceType
+	gbType   string
+	label    string
+}
+
+func airspaceCategoryInfo(asType string) (order int, title string) {
+	upper := strings.ToUpper(strings.TrimSpace(asType))
+	switch upper {
+	case "FIR":
+		return 10, "[FIR] Flight Information Region"
+	case "UIR":
+		return 11, "[UIR] Upper Flight Information Region"
+	case "OCA":
+		return 12, "[OCA] Oceanic Control Area"
+	case "UTA":
+		return 13, "[UTA] Upper Control Area"
+	case "CTA":
+		return 20, "[CTA] Control Area"
+	case "CTA_P":
+		return 21, "[CTA_P] Control Area (Part)"
+	case "TMA":
+		return 30, "[TMA] Terminal Control Area"
+	case "MTMA":
+		return 31, "[MTMA] Military TMA"
+	case "CTR":
+		return 40, "[CTR] Control Zone"
+	case "MCTR":
+		return 41, "[MCTR] Military CTR"
+	case "ATZ":
+		return 42, "[ATZ] Aerodrome Traffic Zone"
+	case "AWY":
+		return 50, "[AWY] Airway Corridor"
+	case "SECTOR":
+		return 60, "[SECTOR] Control Sector"
+	case "SECTOR_C":
+		return 61, "[SECTOR_C] Collapsed Sector"
+	case "RAS":
+		return 65, "[RAS] Regulated Airspace"
+	case "P":
+		return 70, "[P] Prohibited Area"
+	case "R":
+		return 71, "[R] Restricted Area"
+	case "D":
+		return 72, "[D] Danger Area"
+	case "D_OTHER":
+		return 73, "[D_OTHER] Danger / Activity Area"
+	case "TRA":
+		return 74, "[TRA] Temporary Reserved Area"
+	case "TSA":
+		return 75, "[TSA] Temporary Segregated Area"
+	case "CBA":
+		return 76, "[CBA] Cross-Border Area"
+	case "W":
+		return 77, "[W] Warning Area"
+	case "PROTECT":
+		return 80, "[PROTECT] Protected Area"
+	case "ADIZ":
+		return 85, "[ADIZ] Air Defense Identification Zone"
+	case "PART":
+		return 90, "[PART] Airspace Building Block / Part"
+	default:
+		if upper != "" {
+			return 95, fmt.Sprintf("[%s] Airspace Category", upper)
+		}
+		return 99, "[OTHER] Unclassified Airspace"
+	}
+}
+
+func geoBorderCategoryInfo(gbType string) (order int, title string) {
+	upper := strings.ToUpper(strings.TrimSpace(gbType))
+	switch upper {
+	case "STATE":
+		return 10, "[STATE] State Border / Territory"
+	case "COASTLINE":
+		return 20, "[COASTLINE] Coastline"
+	case "TERRITORY":
+		return 30, "[TERRITORY] Territory Boundary"
+	case "BORDER":
+		return 40, "[BORDER] Geographic Border"
+	default:
+		if upper != "" {
+			return 50, fmt.Sprintf("[%s] GeoBorder Category", upper)
+		}
+		return 99, "[BORDER] Geographic Border"
+	}
+}
+
+func (stager *Stager) isCategoryExpanded(catKey string, defaultExpanded bool) bool {
+	if stager.expandedCategories == nil {
+		return defaultExpanded
+	}
+	if val, ok := stager.expandedCategories[catKey]; ok {
+		return val
+	}
+	return defaultExpanded
+}
 
 func (stager *Stager) ux_tree() {
 	stager.treeStage.Reset()
@@ -53,12 +163,577 @@ func (stager *Stager) ux_tree() {
 			IsExpanded:      true,
 			IsNodeClickable: true,
 			OnClick: func(frontNode *tree.Node) {
+				stager.mu.Lock()
+				defer stager.mu.Unlock()
+				stager.selectedAirspace = nil
+				stager.selectedGeoBorder = nil
+				stager.focusOnSelected = false
 				if stager.probeForm != nil {
 					stager.probeForm.FillUpFormFromGongstruct(inst, "AIXMBasicMessage")
 				}
+				stager.ux_maplibre()
 			},
 		}
 		docRootNode.Children = append(docRootNode.Children, node)
+
+		if stager.stage.AixmfeaturesStage != nil {
+			airspaces := stager.stage.AixmfeaturesStage.GetInstancesSorted[*aixmfeatures.AirspaceType]()
+			if len(airspaces) > 0 {
+				allAirspacesHidden := true
+				for _, as := range airspaces {
+					if stager.hiddenAirspaces == nil || !stager.hiddenAirspaces[as] {
+						allAirspacesHidden = false
+						break
+					}
+				}
+				folderVisIcon := string(tree_buttons.BUTTON_visibility)
+				folderVisTooltip := "Hide all Airspaces"
+				folderFontStyle := tree.NORMAL
+				if allAirspacesHidden {
+					folderVisIcon = string(tree_buttons.BUTTON_visibility_off)
+					folderVisTooltip = "Show all Airspaces"
+					folderFontStyle = tree.ITALIC
+				}
+
+				asFolder := &tree.Node{
+					Name:       fmt.Sprintf("Airspaces (%d)", len(airspaces)),
+					FontStyle:  folderFontStyle,
+					IsExpanded: stager.isAirspacesExpanded,
+					OnIsExpandedChange: func(isExpanded bool) {
+						stager.mu.Lock()
+						defer stager.mu.Unlock()
+						stager.isAirspacesExpanded = isExpanded
+					},
+					Buttons: []*tree.Button{
+						{
+							Name:            "ToggleVisibility_AllAirspaces",
+							Icon:            folderVisIcon,
+							HasToolTip:      true,
+							ToolTipText:     folderVisTooltip,
+							ToolTipPosition: tree.Right,
+							OnClick: func() {
+								stager.mu.Lock()
+								defer stager.mu.Unlock()
+								if stager.hiddenAirspaces == nil {
+									stager.hiddenAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
+								}
+								if allAirspacesHidden {
+									for _, item := range airspaces {
+										delete(stager.hiddenAirspaces, item)
+									}
+								} else {
+									for _, item := range airspaces {
+										stager.hiddenAirspaces[item] = true
+									}
+									stager.selectedAirspace = nil
+								}
+								stager.focusOnSelected = false
+								stager.ux_tree()
+								stager.ux_maplibre()
+							},
+						},
+					},
+				}
+				node.Children = append(node.Children, asFolder)
+
+				// Group airspaces by category (AIXM Type)
+				byCategory := make(map[string][]airspaceEntry)
+				var categoryKeys []string
+
+				for _, as := range airspaces {
+					as := as
+					label := as.Name
+					asType := "OTHER"
+					var targetTS *aixmfeatures.AirspaceTimeSliceType
+
+					for _, tsp := range as.TimeSlice {
+						if tsp == nil || tsp.AirspaceTimeSlice == nil {
+							continue
+						}
+						ts := tsp.AirspaceTimeSlice
+						targetTS = ts
+						if ts.Type_XSD != nil && strings.TrimSpace(ts.Type_XSD.EnclosedText) != "" {
+							asType = strings.ToUpper(strings.TrimSpace(ts.Type_XSD.EnclosedText))
+						}
+						desig := ""
+						if ts.Designator != nil {
+							desig = strings.TrimSpace(ts.Designator.EnclosedText)
+						}
+						asName := ""
+						for _, n := range ts.NameXSD {
+							if n != nil && strings.TrimSpace(n.EnclosedText) != "" {
+								asName = strings.TrimSpace(n.EnclosedText)
+								break
+							}
+						}
+						limits := ""
+						for _, gcp := range ts.GeometryComponent {
+							if gcp != nil && gcp.AirspaceGeometryComponent != nil &&
+								gcp.AirspaceGeometryComponent.TheAirspaceVolume != nil &&
+								gcp.AirspaceGeometryComponent.TheAirspaceVolume.AirspaceVolume != nil {
+								vol := gcp.AirspaceGeometryComponent.TheAirspaceVolume.AirspaceVolume
+								if limits == "" {
+									limits = formatVerticalLimits(vol.LowerLimit, vol.UpperLimit)
+								}
+							}
+						}
+
+						parts := []string{}
+						if asType != "" {
+							parts = append(parts, "["+asType+"]")
+						}
+						if desig != "" {
+							parts = append(parts, desig)
+						}
+						if asName != "" && asName != desig {
+							parts = append(parts, "- "+asName)
+						}
+						if limits != "" {
+							parts = append(parts, "("+limits+")")
+						}
+						if len(parts) > 0 {
+							label = strings.Join(parts, " ")
+						}
+						break
+					}
+
+					if _, exists := byCategory[asType]; !exists {
+						categoryKeys = append(categoryKeys, asType)
+					}
+					byCategory[asType] = append(byCategory[asType], airspaceEntry{
+						as:       as,
+						targetTS: targetTS,
+						asType:   asType,
+						label:    label,
+					})
+				}
+
+				slices.SortFunc(categoryKeys, func(a, b string) int {
+					ordA, titleA := airspaceCategoryInfo(a)
+					ordB, titleB := airspaceCategoryInfo(b)
+					if ordA != ordB {
+						return ordA - ordB
+					}
+					return strings.Compare(titleA, titleB)
+				})
+
+				for _, catType := range categoryKeys {
+					catType := catType
+					entries := byCategory[catType]
+					_, catTitle := airspaceCategoryInfo(catType)
+					catKey := "AS_CAT_" + catType
+
+					allCatHidden := true
+					for _, e := range entries {
+						if stager.hiddenAirspaces == nil || !stager.hiddenAirspaces[e.as] {
+							allCatHidden = false
+							break
+						}
+					}
+
+					catVisIcon := string(tree_buttons.BUTTON_visibility)
+					catVisTooltip := fmt.Sprintf("Hide category %s (%d)", catType, len(entries))
+					catFontStyle := tree.NORMAL
+					if allCatHidden {
+						catVisIcon = string(tree_buttons.BUTTON_visibility_off)
+						catVisTooltip = fmt.Sprintf("Show category %s (%d)", catType, len(entries))
+						catFontStyle = tree.ITALIC
+					}
+
+					defaultCatExpanded := len(airspaces) <= 30
+					isCatExp := stager.isCategoryExpanded(catKey, defaultCatExpanded)
+
+					catNode := &tree.Node{
+						Name:       fmt.Sprintf("%s (%d)", catTitle, len(entries)),
+						FontStyle:  catFontStyle,
+						IsExpanded: isCatExp,
+						OnIsExpandedChange: func(isExpanded bool) {
+							stager.mu.Lock()
+							defer stager.mu.Unlock()
+							if stager.expandedCategories == nil {
+								stager.expandedCategories = make(map[string]bool)
+							}
+							stager.expandedCategories[catKey] = isExpanded
+							if len(entries) > 40 {
+								stager.ux_tree()
+							}
+						},
+						Buttons: []*tree.Button{
+							{
+								Name:            "ToggleVisibility_Category_" + catType,
+								Icon:            catVisIcon,
+								HasToolTip:      true,
+								ToolTipText:     catVisTooltip,
+								ToolTipPosition: tree.Right,
+								OnClick: func() {
+									stager.mu.Lock()
+									defer stager.mu.Unlock()
+									if stager.hiddenAirspaces == nil {
+										stager.hiddenAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
+									}
+									if allCatHidden {
+										for _, e := range entries {
+											delete(stager.hiddenAirspaces, e.as)
+										}
+									} else {
+										for _, e := range entries {
+											stager.hiddenAirspaces[e.as] = true
+											if stager.selectedAirspace == e.targetTS {
+												stager.selectedAirspace = nil
+											}
+										}
+									}
+									stager.focusOnSelected = false
+									stager.ux_tree()
+									stager.ux_maplibre()
+								},
+							},
+						},
+					}
+					asFolder.Children = append(asFolder.Children, catNode)
+
+					if !isCatExp && len(entries) > 40 {
+						catNode.Children = append(catNode.Children, &tree.Node{
+							Name: fmt.Sprintf("Expand to view %d items...", len(entries)),
+						})
+						continue
+					}
+
+					maxItems := len(entries)
+					if maxItems > 200 {
+						maxItems = 200
+					}
+					for _, entry := range entries[:maxItems] {
+						as := entry.as
+						targetTS := entry.targetTS
+						label := entry.label
+
+						isHidden := stager.hiddenAirspaces != nil && stager.hiddenAirspaces[as]
+						visIcon := string(tree_buttons.BUTTON_visibility)
+						visTooltip := "Hide on map"
+						fontStyle := tree.NORMAL
+						if isHidden {
+							visIcon = string(tree_buttons.BUTTON_visibility_off)
+							visTooltip = "Show on map"
+							fontStyle = tree.ITALIC
+						}
+
+						asNode := &tree.Node{
+							Name:            label,
+							FontStyle:       fontStyle,
+							IsNodeClickable: true,
+							Buttons: []*tree.Button{
+								{
+									Name:            "ToggleVisibility_Airspace_" + as.Name,
+									Icon:            visIcon,
+									HasToolTip:      true,
+									ToolTipText:     visTooltip,
+									ToolTipPosition: tree.Right,
+									OnClick: func() {
+										stager.mu.Lock()
+										defer stager.mu.Unlock()
+										if stager.hiddenAirspaces == nil {
+											stager.hiddenAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
+										}
+										if stager.hiddenAirspaces[as] {
+											delete(stager.hiddenAirspaces, as)
+										} else {
+											stager.hiddenAirspaces[as] = true
+											if stager.selectedAirspace == targetTS {
+												stager.selectedAirspace = nil
+											}
+										}
+										stager.focusOnSelected = false
+										stager.ux_tree()
+										stager.ux_maplibre()
+									},
+								},
+							},
+							OnClick: func(frontNode *tree.Node) {
+								stager.mu.Lock()
+								defer stager.mu.Unlock()
+								if stager.hiddenAirspaces != nil && stager.hiddenAirspaces[as] {
+									delete(stager.hiddenAirspaces, as)
+								}
+								stager.selectedAirspace = targetTS
+								stager.selectedGeoBorder = nil
+								stager.focusOnSelected = true
+								if stager.probeForm != nil {
+									if targetTS != nil {
+										stager.probeForm.FillUpFormFromGongstruct(targetTS, "AirspaceTimeSliceType")
+									} else {
+										stager.probeForm.FillUpFormFromGongstruct(as, "AirspaceType")
+									}
+								}
+								stager.ux_tree()
+								stager.ux_maplibre()
+							},
+						}
+						catNode.Children = append(catNode.Children, asNode)
+					}
+					if len(entries) > maxItems {
+						catNode.Children = append(catNode.Children, &tree.Node{
+							Name:      fmt.Sprintf("... and %d more items in %s", len(entries)-maxItems, catType),
+							FontStyle: tree.ITALIC,
+						})
+					}
+				}
+			}
+
+			borders := stager.stage.AixmfeaturesStage.GetInstancesSorted[*aixmfeatures.GeoBorderType]()
+			if len(borders) > 0 {
+				allBordersHidden := true
+				for _, gb := range borders {
+					if stager.hiddenGeoBorders == nil || !stager.hiddenGeoBorders[gb] {
+						allBordersHidden = false
+						break
+					}
+				}
+				gbFolderVisIcon := string(tree_buttons.BUTTON_visibility)
+				gbFolderVisTooltip := "Hide all GeoBorders"
+				gbFolderFontStyle := tree.NORMAL
+				if allBordersHidden {
+					gbFolderVisIcon = string(tree_buttons.BUTTON_visibility_off)
+					gbFolderVisTooltip = "Show all GeoBorders"
+					gbFolderFontStyle = tree.ITALIC
+				}
+
+				gbFolder := &tree.Node{
+					Name:       fmt.Sprintf("GeoBorders (%d)", len(borders)),
+					FontStyle:  gbFolderFontStyle,
+					IsExpanded: stager.isGeoBordersExpanded,
+					OnIsExpandedChange: func(isExpanded bool) {
+						stager.mu.Lock()
+						defer stager.mu.Unlock()
+						stager.isGeoBordersExpanded = isExpanded
+					},
+					Buttons: []*tree.Button{
+						{
+							Name:            "ToggleVisibility_AllGeoBorders",
+							Icon:            gbFolderVisIcon,
+							HasToolTip:      true,
+							ToolTipText:     gbFolderVisTooltip,
+							ToolTipPosition: tree.Right,
+							OnClick: func() {
+								stager.mu.Lock()
+								defer stager.mu.Unlock()
+								if stager.hiddenGeoBorders == nil {
+									stager.hiddenGeoBorders = make(map[*aixmfeatures.GeoBorderType]bool)
+								}
+								if allBordersHidden {
+									for _, item := range borders {
+										delete(stager.hiddenGeoBorders, item)
+									}
+								} else {
+									for _, item := range borders {
+										stager.hiddenGeoBorders[item] = true
+									}
+									stager.selectedGeoBorder = nil
+								}
+								stager.focusOnSelected = false
+								stager.ux_tree()
+								stager.ux_maplibre()
+							},
+						},
+					},
+				}
+				node.Children = append(node.Children, gbFolder)
+
+				// Group GeoBorders by category (Type)
+				byGBCategory := make(map[string][]geoBorderEntry)
+				var gbCatKeys []string
+
+				for _, gb := range borders {
+					gb := gb
+					label := gb.Name
+					gbType := "BORDER"
+					var targetTS *aixmfeatures.GeoBorderTimeSliceType
+
+					for _, tsp := range gb.TimeSlice {
+						if tsp == nil || tsp.GeoBorderTimeSlice == nil {
+							continue
+						}
+						ts := tsp.GeoBorderTimeSlice
+						targetTS = ts
+						if ts.Type_XSD != nil && strings.TrimSpace(ts.Type_XSD.EnclosedText) != "" {
+							gbType = strings.ToUpper(strings.TrimSpace(ts.Type_XSD.EnclosedText))
+						}
+						gbName := ""
+						for _, n := range ts.NameXSD {
+							if n != nil && strings.TrimSpace(n.EnclosedText) != "" {
+								gbName = strings.TrimSpace(n.EnclosedText)
+								break
+							}
+						}
+						if gbName != "" {
+							label = fmt.Sprintf("[%s] %s", gbType, gbName)
+						}
+						break
+					}
+
+					if _, exists := byGBCategory[gbType]; !exists {
+						gbCatKeys = append(gbCatKeys, gbType)
+					}
+					byGBCategory[gbType] = append(byGBCategory[gbType], geoBorderEntry{
+						gb:       gb,
+						targetTS: targetTS,
+						gbType:   gbType,
+						label:    label,
+					})
+				}
+
+				slices.SortFunc(gbCatKeys, func(a, b string) int {
+					ordA, titleA := geoBorderCategoryInfo(a)
+					ordB, titleB := geoBorderCategoryInfo(b)
+					if ordA != ordB {
+						return ordA - ordB
+					}
+					return strings.Compare(titleA, titleB)
+				})
+
+				for _, gbCatType := range gbCatKeys {
+					gbCatType := gbCatType
+					entries := byGBCategory[gbCatType]
+					_, catTitle := geoBorderCategoryInfo(gbCatType)
+					catKey := "GB_CAT_" + gbCatType
+
+					allCatHidden := true
+					for _, e := range entries {
+						if stager.hiddenGeoBorders == nil || !stager.hiddenGeoBorders[e.gb] {
+							allCatHidden = false
+							break
+						}
+					}
+
+					catVisIcon := string(tree_buttons.BUTTON_visibility)
+					catVisTooltip := fmt.Sprintf("Hide category %s (%d)", gbCatType, len(entries))
+					catFontStyle := tree.NORMAL
+					if allCatHidden {
+						catVisIcon = string(tree_buttons.BUTTON_visibility_off)
+						catVisTooltip = fmt.Sprintf("Show category %s (%d)", gbCatType, len(entries))
+						catFontStyle = tree.ITALIC
+					}
+
+					defaultGBCatExpanded := len(borders) <= 30
+					isGBCatExp := stager.isCategoryExpanded(catKey, defaultGBCatExpanded)
+
+					catNode := &tree.Node{
+						Name:       fmt.Sprintf("%s (%d)", catTitle, len(entries)),
+						FontStyle:  catFontStyle,
+						IsExpanded: isGBCatExp,
+						OnIsExpandedChange: func(isExpanded bool) {
+							stager.mu.Lock()
+							defer stager.mu.Unlock()
+							if stager.expandedCategories == nil {
+								stager.expandedCategories = make(map[string]bool)
+							}
+							stager.expandedCategories[catKey] = isExpanded
+						},
+						Buttons: []*tree.Button{
+							{
+								Name:            "ToggleVisibility_GBCategory_" + gbCatType,
+								Icon:            catVisIcon,
+								HasToolTip:      true,
+								ToolTipText:     catVisTooltip,
+								ToolTipPosition: tree.Right,
+								OnClick: func() {
+									stager.mu.Lock()
+									defer stager.mu.Unlock()
+									if stager.hiddenGeoBorders == nil {
+										stager.hiddenGeoBorders = make(map[*aixmfeatures.GeoBorderType]bool)
+									}
+									if allCatHidden {
+										for _, e := range entries {
+											delete(stager.hiddenGeoBorders, e.gb)
+										}
+									} else {
+										for _, e := range entries {
+											stager.hiddenGeoBorders[e.gb] = true
+											if stager.selectedGeoBorder == e.targetTS {
+												stager.selectedGeoBorder = nil
+											}
+										}
+									}
+									stager.focusOnSelected = false
+									stager.ux_tree()
+									stager.ux_maplibre()
+								},
+							},
+						},
+					}
+					gbFolder.Children = append(gbFolder.Children, catNode)
+
+					for _, entry := range entries {
+						gb := entry.gb
+						targetTS := entry.targetTS
+						label := entry.label
+
+						isHidden := stager.hiddenGeoBorders != nil && stager.hiddenGeoBorders[gb]
+						visIcon := string(tree_buttons.BUTTON_visibility)
+						visTooltip := "Hide on map"
+						fontStyle := tree.NORMAL
+						if isHidden {
+							visIcon = string(tree_buttons.BUTTON_visibility_off)
+							visTooltip = "Show on map"
+							fontStyle = tree.ITALIC
+						}
+
+						gbNode := &tree.Node{
+							Name:            label,
+							FontStyle:       fontStyle,
+							IsNodeClickable: true,
+							Buttons: []*tree.Button{
+								{
+									Name:            "ToggleVisibility_GeoBorder_" + gb.Name,
+									Icon:            visIcon,
+									HasToolTip:      true,
+									ToolTipText:     visTooltip,
+									ToolTipPosition: tree.Right,
+									OnClick: func() {
+										stager.mu.Lock()
+										defer stager.mu.Unlock()
+										if stager.hiddenGeoBorders == nil {
+											stager.hiddenGeoBorders = make(map[*aixmfeatures.GeoBorderType]bool)
+										}
+										if stager.hiddenGeoBorders[gb] {
+											delete(stager.hiddenGeoBorders, gb)
+										} else {
+											stager.hiddenGeoBorders[gb] = true
+											if stager.selectedGeoBorder == targetTS {
+												stager.selectedGeoBorder = nil
+											}
+										}
+										stager.focusOnSelected = false
+										stager.ux_tree()
+										stager.ux_maplibre()
+									},
+								},
+							},
+							OnClick: func(frontNode *tree.Node) {
+								stager.mu.Lock()
+								defer stager.mu.Unlock()
+								if stager.hiddenGeoBorders != nil && stager.hiddenGeoBorders[gb] {
+									delete(stager.hiddenGeoBorders, gb)
+								}
+								stager.selectedGeoBorder = targetTS
+								stager.selectedAirspace = nil
+								stager.focusOnSelected = true
+								if stager.probeForm != nil {
+									if targetTS != nil {
+										stager.probeForm.FillUpFormFromGongstruct(targetTS, "GeoBorderTimeSliceType")
+									} else {
+										stager.probeForm.FillUpFormFromGongstruct(gb, "GeoBorderType")
+									}
+								}
+								stager.ux_tree()
+								stager.ux_maplibre()
+							},
+						}
+						catNode.Children = append(catNode.Children, gbNode)
+					}
+				}
+			}
+		}
 	}
 
 	// 3. Multi-Package Stages Overview
@@ -84,17 +759,17 @@ func (stager *Stager) ux_tree() {
 		stagesNode.Children = append(stagesNode.Children, pkgNode)
 	}
 
-	if stager.stage.AixmdatatypesStage != nil {
+	if stager.stage.AixmabstractgmlobjecttypesStage != nil {
 		pkgNode := &tree.Node{
-			Name:       "Sub-Package: aixmdatatypes (AixmdatatypesStage)",
+			Name:       "Sub-Package: aixmabstractgmlobjecttypes (AixmabstractgmlobjecttypesStage)",
 			IsExpanded: false,
 		}
 		stagesNode.Children = append(stagesNode.Children, pkgNode)
 	}
 
-	if stager.stage.AixmabstractgmlobjecttypesStage != nil {
+	if stager.stage.AixmdatatypesStage != nil {
 		pkgNode := &tree.Node{
-			Name:       "Sub-Package: aixmabstractgmlobjecttypes (AixmabstractgmlobjecttypesStage)",
+			Name:       "Sub-Package: aixmdatatypes (AixmdatatypesStage)",
 			IsExpanded: false,
 		}
 		stagesNode.Children = append(stagesNode.Children, pkgNode)

@@ -9,6 +9,7 @@ import { Button } from './button'
 import { Cursor } from './cursor'
 import { Form } from './form'
 import { Load } from './load'
+import { Maplibre } from './maplibre'
 import { Markdown } from './markdown'
 import { Slider } from './slider'
 import { Split } from './split'
@@ -46,6 +47,8 @@ export class AsSplitArea {
 	Form?: Form
 
 	Load?: Load
+
+	Maplibre?: Maplibre
 
 	Markdown?: Markdown
 
@@ -118,6 +121,13 @@ export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, asspli
 		assplitareaAPI.AsSplitAreaPointersEncoding.LoadID.Int64 = assplitarea.Load.ID  
 	} else {
 		assplitareaAPI.AsSplitAreaPointersEncoding.LoadID.Int64 = 0 		
+	}
+
+	assplitareaAPI.AsSplitAreaPointersEncoding.MaplibreID.Valid = true
+	if (assplitarea.Maplibre != undefined) {
+		assplitareaAPI.AsSplitAreaPointersEncoding.MaplibreID.Int64 = assplitarea.Maplibre.ID  
+	} else {
+		assplitareaAPI.AsSplitAreaPointersEncoding.MaplibreID.Int64 = 0 		
 	}
 
 	assplitareaAPI.AsSplitAreaPointersEncoding.MarkdownID.Valid = true
@@ -211,6 +221,7 @@ export function CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI: AsSplitAreaAPI, 
 	assplitarea.Cursor = frontRepo.map_ID_Cursor.get(assplitareaAPI.AsSplitAreaPointersEncoding.CursorID.Int64)
 	assplitarea.Form = frontRepo.map_ID_Form.get(assplitareaAPI.AsSplitAreaPointersEncoding.FormID.Int64)
 	assplitarea.Load = frontRepo.map_ID_Load.get(assplitareaAPI.AsSplitAreaPointersEncoding.LoadID.Int64)
+	assplitarea.Maplibre = frontRepo.map_ID_Maplibre.get(assplitareaAPI.AsSplitAreaPointersEncoding.MaplibreID.Int64)
 	assplitarea.Markdown = frontRepo.map_ID_Markdown.get(assplitareaAPI.AsSplitAreaPointersEncoding.MarkdownID.Int64)
 	assplitarea.Slider = frontRepo.map_ID_Slider.get(assplitareaAPI.AsSplitAreaPointersEncoding.SliderID.Int64)
 	assplitarea.Split = frontRepo.map_ID_Split.get(assplitareaAPI.AsSplitAreaPointersEncoding.SplitID.Int64)

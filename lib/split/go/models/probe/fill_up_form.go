@@ -50,6 +50,7 @@ func FillUpForm(
 		AssociationFieldToForm("Cursor", instanceWithInferedType.Cursor, formGroup, probe)
 		AssociationFieldToForm("Form", instanceWithInferedType.Form, formGroup, probe)
 		AssociationFieldToForm("Load", instanceWithInferedType.Load, formGroup, probe)
+		AssociationFieldToForm("Maplibre", instanceWithInferedType.Maplibre, formGroup, probe)
 		AssociationFieldToForm("Markdown", instanceWithInferedType.Markdown, formGroup, probe)
 		AssociationFieldToForm("Slider", instanceWithInferedType.Slider, formGroup, probe)
 		AssociationFieldToForm("Split", instanceWithInferedType.Split, formGroup, probe)
@@ -175,6 +176,18 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("SVG", instanceWithInferedType.SVG, instanceWithInferedType, probe.formStage, formGroup,
 			false, true, 600, true, 300, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.Maplibre:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

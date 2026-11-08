@@ -81,6 +81,9 @@ func registerControllers(mux *http.ServeMux) {
 	mux.HandleFunc("PATCH " + base + "/logoontherights/{id}", GetController().UpdateLogoOnTheRight)
 	mux.HandleFunc("PUT " + base + "/logoontherights/{id}", GetController().UpdateLogoOnTheRight)
 
+	mux.HandleFunc("PATCH " + base + "/maplibres/{id}", GetController().UpdateMaplibre)
+	mux.HandleFunc("PUT " + base + "/maplibres/{id}", GetController().UpdateMaplibre)
+
 	mux.HandleFunc("PATCH " + base + "/markdowns/{id}", GetController().UpdateMarkdown)
 	mux.HandleFunc("PUT " + base + "/markdowns/{id}", GetController().UpdateMarkdown)
 

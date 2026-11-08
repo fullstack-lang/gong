@@ -5,6 +5,7 @@ import { ButtonAPI } from './button-api'
 import { CursorAPI } from './cursor-api'
 import { FormAPI } from './form-api'
 import { LoadAPI } from './load-api'
+import { MaplibreAPI } from './maplibre-api'
 import { MarkdownAPI } from './markdown-api'
 import { SliderAPI } from './slider-api'
 import { SplitAPI } from './split-api'
@@ -51,6 +52,8 @@ export class AsSplitAreaPointersEncoding {
 	FormID: NullInt64 = new NullInt64 // if pointer is null, Form.ID = 0
 
 	LoadID: NullInt64 = new NullInt64 // if pointer is null, Load.ID = 0
+
+	MaplibreID: NullInt64 = new NullInt64 // if pointer is null, Maplibre.ID = 0
 
 	MarkdownID: NullInt64 = new NullInt64 // if pointer is null, Markdown.ID = 0
 

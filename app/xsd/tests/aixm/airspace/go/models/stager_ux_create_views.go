@@ -21,7 +21,7 @@ func (stager *Stager) createViews() {
 			{
 				Name:             "Document Tree, Drop-in & Export",
 				ShowNameInHeader: false,
-				Size:             40,
+				Size:             25,
 				AsSplit: &split.AsSplit{
 					Name:      "sidebar split",
 					Direction: split.Vertical,
@@ -62,8 +62,16 @@ func (stager *Stager) createViews() {
 				},
 			},
 			{
+				Name:             "AIXM Aeronautical Map (MapLibre)",
+				Size:             45,
+				ShowNameInHeader: false,
+				Maplibre: &split.Maplibre{
+					StackName: stager.maplibreStage.GetName(),
+				},
+			},
+			{
 				Name:             "Inspector Form",
-				Size:             60,
+				Size:             30,
 				ShowNameInHeader: false,
 				Form: &split.Form{
 					StackName: formStageName,
