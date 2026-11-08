@@ -1,6 +1,7 @@
 package models
 
 import (
+	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -42,6 +43,26 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 	}
 	dataFlowNode.Children = append(dataFlowNode.Children, dataNode)
 	addRenameButton(data, dataNode, stager)
+
+	if isDataShapePresent && dataShape != nil {
+		visibilityButton := &tree.Button{
+			Name:            diagramProcess.GetName(),
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				dataShape.SetIsHidden(!dataShape.GetIsHidden())
+				stage.Commit()
+			},
+		}
+		if dataShape.GetIsHidden() {
+			visibilityButton.Icon = string(buttons.BUTTON_visibility)
+			visibilityButton.ToolTipText = "Show on diagram"
+		}
+		dataNode.Buttons = append(dataNode.Buttons, visibilityButton)
+	}
+
 	dataNode.OnNameChange = stager.onNameChange(data)
 
 	dataNode.OnIsCheckedChanged = func(isChecked bool) {
@@ -51,6 +72,7 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 				Data:     data,
 				DataFlow: dataFlow,
 			}).Stage(stager.stage)
+			dataShape.SetWidth(180.0)
 			diagramProcess.Data_Shapes = append(diagramProcess.Data_Shapes, dataShape)
 			stage.Commit()
 			return
@@ -61,5 +83,14 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 			return
 		}
 	}
-	dataNode.OnClick = onNodeClicked(stager, data)
+	dataNode.OnClick = func(frontNode *tree.Node) {
+		stager.probeForm.FillUpFormFromGongstruct(data, "Data")
+		if isDataShapePresent && dataShape != nil {
+			fillUpShapeAppearanceForm(stager, dataShape)
+		} else {
+			clearShapeAppearanceForm(stager)
+		}
+		stager.stage.CommitWithSuspendedCallbacks()
+	}
 }
+

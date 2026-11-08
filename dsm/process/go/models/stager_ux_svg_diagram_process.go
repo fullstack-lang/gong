@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"log"
+	"slices"
 	"strings"
 
 	"github.com/fullstack-lang/gong/lib/strutils"
@@ -665,6 +666,8 @@ func (stager *Stager) drawControlFlowShapes(diagramProcess *DiagramProcess, laye
 }
 
 func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
+	root := stager.GetRootLibrary()
+
 	for _, dataFlowShape := range diagramProcess.DataFlow_Shapes {
 		if dataFlowShape.GetIsHidden() {
 			continue
@@ -710,51 +713,195 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 		link.StrokeWidth = 1.5
 		syncLinkPresentation(dataFlowShape, link)
 
-		nbDataShapes := len(dataFlowShape.dataShapes)
-		for idx, dataShape := range dataFlowShape.dataShapes {
+		var visibleDataShapes []*DataShape
+		for _, ds := range dataFlowShape.dataShapes {
+			if ds != nil && !ds.GetIsHidden() && ds.Data != nil {
+				visibleDataShapes = append(visibleDataShapes, ds)
+			}
+		}
+		if len(visibleDataShapes) == 0 {
+			continue
+		}
+
+		var cornerX, cornerY float64
+		startDirection := svg.OrientationType(dataFlowShape.GetStartOrientation())
+		endDirection := svg.OrientationType(dataFlowShape.GetEndOrientation())
+		startRatio := dataFlowShape.GetStartRatio()
+		endRatio := dataFlowShape.GetEndRatio()
+		cornerOffsetRatio := dataFlowShape.GetCornerOffsetRatio()
+
+		if startDirection == svg.ORIENTATION_HORIZONTAL && endDirection == svg.ORIENTATION_VERTICAL {
+			cornerX = endRect.X + endRatio*endRect.Width
+			cornerY = startRect.Y + startRatio*startRect.Height
+		} else if startDirection == svg.ORIENTATION_VERTICAL && endDirection == svg.ORIENTATION_HORIZONTAL {
+			cornerX = startRect.X + startRatio*startRect.Width
+			cornerY = endRect.Y + endRatio*endRect.Height
+		} else if startDirection == svg.ORIENTATION_HORIZONTAL && endDirection == svg.ORIENTATION_HORIZONTAL {
+			cornerX = startRect.X + cornerOffsetRatio*startRect.Width
+			cornerY = startRect.Y + startRatio*startRect.Height
+		} else if startDirection == svg.ORIENTATION_VERTICAL && endDirection == svg.ORIENTATION_VERTICAL {
+			cornerX = startRect.X + startRatio*startRect.Width
+			cornerY = startRect.Y + cornerOffsetRatio*startRect.Height
+		}
+
+		type preparedDataItem struct {
+			dataShape  *DataShape
+			content    string
+			leftMargin float64
+			width      float64
+			height     float64
+		}
+
+		const lineHeight = 18.0
+		const verticalPadding = 6.0
+		const stackGap = 2.0
+
+		var items []preparedDataItem
+		totalStackHeight := 0.0
+
+		for idx, dataShape := range visibleDataShapes {
 			data := dataShape.Data
 
-			textXOffset := 4.0
+			width := dataShape.GetWidth()
+			if width <= 0 {
+				width = 180.0
+				dataShape.SetWidth(width)
+			}
+
+			leftMargin := 6.0
+			rightMargin := 6.0
 			if data.SVG_Path != "" {
-				textXOffset = 24.0
+				leftMargin = 24.0
 			}
 
-			textAnchoredText := &svg.LinkAnchoredText{
-				Name: func() string {
-					if dataShape.Data.Acronym != "" {
-						return dataShape.Data.Acronym
-					}
-					return dataShape.Data.Name
-				}(),
-				Content:     data.Name,
-				Color:       "#333333",
-				FillOpacity: 1.0,
-				Stroke:      "#FFFFFF",
-				StrokeWidth: 2.0,
-				FontWeight:  "600",
-
-				Y_Offset: float64(-nbDataShapes+idx+1)*18.0 - 4.0,
-				X_Offset: textXOffset,
+			content := data.Name
+			if data.Acronym != "" {
+				content = data.Acronym
 			}
-			link.TextAtCorner = append(link.TextAtCorner, textAnchoredText)
+			if diagramProcess.GetIsShowPrefix() && data.GetComputedPrefix() != "" {
+				content = data.GetComputedPrefix() + " " + content
+			}
+
+			availableWidth := width - (leftMargin + rightMargin)
+			if availableWidth > 0 && root != nil && root.NbPixPerCharacter > 0 {
+				content = strutils.WrapStringPreservingNewlines(content, int(availableWidth/root.NbPixPerCharacter))
+			}
+
+			lines := strings.Split(content, "\n")
+			height := float64(len(lines))*lineHeight + verticalPadding
+			dataShape.SetHeight(height)
+
+			items = append(items, preparedDataItem{
+				dataShape:  dataShape,
+				content:    content,
+				leftMargin: leftMargin,
+				width:      width,
+				height:     height,
+			})
+			totalStackHeight += height
+			if idx > 0 {
+				totalStackHeight += stackGap
+			}
+		}
+
+		currentY := cornerY - 4.0 - totalStackHeight
+		for _, item := range items {
+			dataShape := item.dataShape
+			data := dataShape.Data
+
+			rectX := cornerX + 4.0
+			rectY := currentY
+			currentY += item.height + stackGap
+
+			dataShape.SetX(rectX)
+			dataShape.SetY(rectY)
+
+			dataRect := &svg.Rect{
+				Name:          data.GetName(),
+				X:             rectX,
+				Y:             rectY,
+				Width:         item.width,
+				Height:        item.height,
+				RX:            3.0,
+				Color:         "#FFFFFF",
+				FillOpacity:   0.85,
+				Stroke:        "#A5D6A7",
+				StrokeWidth:   1.0,
+				StrokeOpacity: 1.0,
+				IsSelectable:  true,
+			}
+
+			title := &svg.RectAnchoredText{
+				Name:             data.GetName(),
+				Content:          item.content,
+				Color:            "#333333",
+				FillOpacity:      1.0,
+				Stroke:           "#333333",
+				StrokeWidth:      0,
+				StrokeOpacity:    1.0,
+				FontWeight:       "600",
+				FontSize:         "14px",
+				X_Offset:         item.leftMargin,
+				Y_Offset:         0,
+				RectAnchorType:   svg.RECT_LEFT_MIDDLE,
+				TextAnchorType:   svg.TEXT_ANCHOR_START,
+				DominantBaseline: svg.DominantBaselineCentral,
+			}
+			dataRect.RectAnchoredTexts = append(dataRect.RectAnchoredTexts, title)
 
 			if data.SVG_Path != "" {
 				if data.InverseAppliedScaling == 0 {
 					data.InverseAppliedScaling = 1.0
 				}
-				path := &svg.LinkAnchoredPath{
+				path := &svg.RectAnchoredPath{
 					Name:                data.GetName(),
 					Definition:          data.SVG_Path,
 					StrokeWidth:         0,
 					Color:               "#757575",
 					FillOpacity:         1,
 					X_Offset:            4.0,
-					Y_Offset:            float64(-nbDataShapes+idx+1)*18.0 - 4.0,
+					Y_Offset:            -8.0,
+					RectAnchorType:      svg.RECT_LEFT,
 					ScalePropotionnally: true,
 					AppliedScaling:      1.0 / data.InverseAppliedScaling,
 				}
-				link.PathAtCorner = append(link.PathAtCorner, path)
+				dataRect.RectAnchoredPaths = append(dataRect.RectAnchoredPaths, path)
 			}
+
+			syncRectPresentation(dataShape, dataRect)
+
+			dataRect.OnSelect = onSelectRectShape(stager, data, dataShape)
+			if diagramProcess.IsEditable() {
+				dataRect.CanHaveLeftHandle = true
+				dataRect.CanHaveRightHandle = true
+				dataRect.CanHaveTopHandle = false
+				dataRect.CanHaveBottomHandle = false
+
+				dataRect.CanMoveHorizontaly = true
+				dataRect.CanMoveVerticaly = true
+
+				dataShape.SetReceiver(dataShape)
+				dataRect.OnMove = func(x, y float64) {
+					stager.stage.Commit()
+				}
+				dataRect.OnResize = func(x, y, width, height float64) {
+					if width < 30.0 {
+						width = 30.0
+					}
+					dataShape.SetWidth(width)
+					stager.stage.Commit()
+				}
+			}
+
+			// Move with the start rect and any enclosing/peer rects (e.g. process and swimlanes)
+			startRect.Peers = append(startRect.Peers, dataRect)
+			for _, r := range layer.Rects {
+				if slices.Contains(r.Peers, startRect) {
+					r.Peers = append(r.Peers, dataRect)
+				}
+			}
+
+			layer.Rects = append(layer.Rects, dataRect)
 		}
 	}
 }

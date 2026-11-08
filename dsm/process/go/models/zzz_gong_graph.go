@@ -2496,6 +2496,54 @@ func (datashape *DataShape) GongDiff(stage *Stage, datashapeOther *DataShape) (d
 	if datashape.DataFlow != datashapeOther.DataFlow {
 		diffs = append(diffs, datashape.GongMarshallField(stage, "DataFlow"))
 	}
+	if datashape.X != datashapeOther.X {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "X"))
+	}
+	if datashape.Y != datashapeOther.Y {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "Y"))
+	}
+	if datashape.Width != datashapeOther.Width {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "Width"))
+	}
+	if datashape.Height != datashapeOther.Height {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "Height"))
+	}
+	if datashape.IsHidden != datashapeOther.IsHidden {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "IsHidden"))
+	}
+	if datashape.IsPresentationOverridden != datashapeOther.IsPresentationOverridden {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if datashape.Color != datashapeOther.Color {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "Color"))
+	}
+	if datashape.FillOpacity != datashapeOther.FillOpacity {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "FillOpacity"))
+	}
+	if datashape.Stroke != datashapeOther.Stroke {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "Stroke"))
+	}
+	if datashape.StrokeWidth != datashapeOther.StrokeWidth {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if datashape.StrokeOpacity != datashapeOther.StrokeOpacity {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if datashape.StrokeDashArray != datashapeOther.StrokeDashArray {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if datashape.RX != datashapeOther.RX {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "RX"))
+	}
+	if datashape.FontSize != datashapeOther.FontSize {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "FontSize"))
+	}
+	if datashape.FontWeight != datashapeOther.FontWeight {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "FontWeight"))
+	}
+	if datashape.FontColor != datashapeOther.FontColor {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "FontColor"))
+	}
 
 	return
 }

@@ -664,6 +664,22 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", datashapeIdent, datashape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", datashapeIdent, datashape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", datashapeIdent, datashape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", datashapeIdent, datashape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", datashapeIdent, datashape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", datashapeIdent, datashape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", datashapeIdent, datashape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", datashapeIdent, datashape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", datashapeIdent, datashape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", datashapeIdent, datashape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.FontColor)))
 			if datashape.Data != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -2043,6 +2059,38 @@ func (datashape *DataShape) GongMarshallField(stage *Stage, fieldName string) (r
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", datashape.Name)
+	case "X":
+		res = __gong__marshallFloat(ident, "X", datashape.X)
+	case "Y":
+		res = __gong__marshallFloat(ident, "Y", datashape.Y)
+	case "Width":
+		res = __gong__marshallFloat(ident, "Width", datashape.Width)
+	case "Height":
+		res = __gong__marshallFloat(ident, "Height", datashape.Height)
+	case "IsHidden":
+		res = __gong__marshallBool(ident, "IsHidden", datashape.IsHidden)
+	case "IsPresentationOverridden":
+		res = __gong__marshallBool(ident, "IsPresentationOverridden", datashape.IsPresentationOverridden)
+	case "Color":
+		res = __gong__marshallString(ident, "Color", datashape.Color)
+	case "FillOpacity":
+		res = __gong__marshallFloat(ident, "FillOpacity", datashape.FillOpacity)
+	case "Stroke":
+		res = __gong__marshallString(ident, "Stroke", datashape.Stroke)
+	case "StrokeWidth":
+		res = __gong__marshallFloat(ident, "StrokeWidth", datashape.StrokeWidth)
+	case "StrokeOpacity":
+		res = __gong__marshallFloat(ident, "StrokeOpacity", datashape.StrokeOpacity)
+	case "StrokeDashArray":
+		res = __gong__marshallString(ident, "StrokeDashArray", datashape.StrokeDashArray)
+	case "RX":
+		res = __gong__marshallFloat(ident, "RX", datashape.RX)
+	case "FontSize":
+		res = __gong__marshallString(ident, "FontSize", datashape.FontSize)
+	case "FontWeight":
+		res = __gong__marshallString(ident, "FontWeight", datashape.FontWeight)
+	case "FontColor":
+		res = __gong__marshallString(ident, "FontColor", datashape.FontColor)
 
 	case "Data":
 		if datashape.Data != nil {
@@ -3058,6 +3106,22 @@ func (datashape *DataShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(datashape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(datashape.GongMarshallField(stage, "Data"))
 		pointersInitializesStatements.WriteString(datashape.GongMarshallField(stage, "DataFlow"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "IsPresentationOverridden"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "Color"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "FillOpacity"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "RX"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "FontSize"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "FontWeight"))
+		initializerStatements.WriteString(datashape.GongMarshallField(stage, "FontColor"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

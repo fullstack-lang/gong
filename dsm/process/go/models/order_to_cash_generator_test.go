@@ -5,10 +5,13 @@ import (
 	"go/parser"
 	"go/token"
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/fullstack-lang/gong/dsm/process/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/process/go/models"
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
 func TestGenerateOrderToCashModel(t *testing.T) {
@@ -760,3 +763,70 @@ func TestIssue1500_EditSimpleGoAndEnforceSemantic(t *testing.T) {
 		t.Errorf("expected 1 DataFlowShape after unstaging its DataFlow, got %d", got)
 	}
 }
+
+func TestIssue1503_DataShapeSelectAndResize(t *testing.T) {
+	stack := level1stack.NewLevel1StackDelta("process", "../cmd/process/data/stage.go", "", true, true, true)
+	stager := models.NewStager(stack.R, stack.Stage, stack.Probe)
+
+	svgObj := stager.GetSvgObject()
+	if svgObj == nil || len(svgObj.Layers) == 0 {
+		t.Fatalf("expected SVG object with at least 1 layer")
+	}
+	layer := svgObj.Layers[0]
+
+	// Find the svg.Rect for "Order Confirmation"
+	var orderConfirmationRect *svg.Rect
+	for _, r := range layer.Rects {
+		if r.Name == "Order Confirmation" {
+			orderConfirmationRect = r
+			break
+		}
+	}
+	if orderConfirmationRect == nil {
+		t.Fatalf("expected to find an svg.Rect for Data 'Order Confirmation'")
+	}
+	if !orderConfirmationRect.CanHaveLeftHandle || !orderConfirmationRect.CanHaveRightHandle {
+		t.Errorf("expected Data svg.Rect to have left and right resize handles enabled")
+	}
+	if orderConfirmationRect.OnSelect == nil || orderConfirmationRect.OnResize == nil {
+		t.Fatalf("expected Data svg.Rect to have OnSelect and OnResize callbacks")
+	}
+
+	// 1. Selecting the Data rect should update the Probe Form with the Data ("Order Confirmation"), not the Participant
+	orderConfirmationRect.OnSelect()
+	formStage := stack.Probe.GetFormStage()
+	formGroups := formStage.GetInstancesSorted[*form.FormGroup]()
+	if len(formGroups) == 0 {
+		t.Fatalf("expected Probe FormGroup to be populated after selecting Data rect")
+	}
+	if formGroups[0].Label != "Order Confirmation" {
+		t.Errorf("expected Probe FormGroup Label to be 'Order Confirmation', got %q", formGroups[0].Label)
+	}
+
+	// 2. Resizing the Data rect narrower should wrap the text into multiple lines and increase rect height
+	initialHeight := orderConfirmationRect.Height
+	orderConfirmationRect.OnResize(orderConfirmationRect.X, orderConfirmationRect.Y, 90.0, orderConfirmationRect.Height)
+
+	svgObjAfter := stager.GetSvgObject()
+	var resizedRect *svg.Rect
+	for _, r := range svgObjAfter.Layers[0].Rects {
+		if r.Name == "Order Confirmation" && r.Width == 90.0 {
+			resizedRect = r
+			break
+		}
+	}
+	if resizedRect == nil {
+		t.Fatalf("expected to find resized svg.Rect with Width=90.0 for 'Order Confirmation'")
+	}
+	if len(resizedRect.RectAnchoredTexts) == 0 {
+		t.Fatalf("expected RectAnchoredText inside Data svg.Rect")
+	}
+	wrappedContent := resizedRect.RectAnchoredTexts[0].Content
+	if !strings.Contains(wrappedContent, "\n") {
+		t.Errorf("expected 'Order Confirmation' to wrap across multiple lines at Width=90.0, got %q", wrappedContent)
+	}
+	if resizedRect.Height <= initialHeight {
+		t.Errorf("expected wrapped Data rect height (%v) to be greater than single-line height (%v)", resizedRect.Height, initialHeight)
+	}
+}
+
