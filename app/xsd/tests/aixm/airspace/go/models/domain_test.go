@@ -158,6 +158,54 @@ func TestUnmarshalAirspaceBaseline(t *testing.T) {
 	for i := 0; i < len(errs) && i < 20; i++ {
 		t.Logf("  err[%d]: %s", i, errs[i])
 	}
+
+	// Verify that Eurocontrol ADR zones (e.g. LKTRA19Z, UKT732A, LFBB FIR) display their Authority node in the tree
+	baselineTreeNodes := stager.GetTreeStage().GetInstancesMapByName[*tree.Node]()
+	var lktra19zNode, ukt732aNode, lfbbNode *tree.Node
+	for name, n := range baselineTreeNodes {
+		if strings.HasPrefix(name, "[TRA] LKTRA19Z ") {
+			lktra19zNode = n
+		}
+		if strings.HasPrefix(name, "[TSA] UKT732A ") {
+			ukt732aNode = n
+		}
+		if strings.Contains(name, "LFBB FIR") {
+			lfbbNode = n
+		}
+	}
+	if lktra19zNode == nil {
+		t.Fatalf("expected '[TRA] LKTRA19Z ...' FBZ zone node in Airspace.BASELINE tree")
+	}
+	if len(lktra19zNode.Children) == 0 || !strings.HasPrefix(lktra19zNode.Children[0].Name, "Authority: ") {
+		t.Fatalf("expected first child of LKTRA19Z to start with 'Authority: ', got %v", lktra19zNode.Children)
+	}
+	t.Logf("LKTRA19Z Authority node: %s (%d sub-items)", lktra19zNode.Children[0].Name, len(lktra19zNode.Children[0].Children))
+	hasOwnerRSA := false
+	for _, sub := range lktra19zNode.Children[0].Children {
+		if strings.Contains(sub.Name, "Owner RSA") && strings.Contains(sub.Name, "LKTRA19") {
+			hasOwnerRSA = true
+			break
+		}
+	}
+	if !hasOwnerRSA {
+		t.Errorf("expected LKTRA19Z Authority node to include resolved Owner RSA link to LKTRA19")
+	}
+
+	if ukt732aNode == nil {
+		t.Fatalf("expected '[TSA] UKT732A ...' zone node in Airspace.BASELINE tree")
+	}
+	if len(ukt732aNode.Children) == 0 || !strings.HasPrefix(ukt732aNode.Children[0].Name, "Authority: ") {
+		t.Fatalf("expected first child of UKT732A to start with 'Authority: ', got %v", ukt732aNode.Children)
+	}
+	t.Logf("UKT732A Authority node: %s", ukt732aNode.Children[0].Name)
+
+	if lfbbNode == nil {
+		t.Fatalf("expected '[PART] LFBB FIR' zone node in Airspace.BASELINE tree")
+	}
+	if len(lfbbNode.Children) == 0 || !strings.HasPrefix(lfbbNode.Children[0].Name, "Authority: ") {
+		t.Fatalf("expected first child of LFBB FIR to start with 'Authority: ', got %v", lfbbNode.Children)
+	}
+	t.Logf("LFBB FIR Authority node: %s", lfbbNode.Children[0].Name)
 }
 
 func TestUnmarshalDonlon(t *testing.T) {
@@ -243,6 +291,9 @@ func TestUnmarshalDonlon(t *testing.T) {
 		wantZonePrefix := fmt.Sprintf("[D_OTHER] EAV%d ", i)
 		if !strings.HasPrefix(eGroup.Children[i-1].Name, wantZonePrefix) {
 			t.Errorf("zone[%d] in [E]: expected Name starting with %q, got %q", i-1, wantZonePrefix, eGroup.Children[i-1].Name)
+		}
+		if len(eGroup.Children[i-1].Children) == 0 || !strings.HasPrefix(eGroup.Children[i-1].Children[0].Name, "Authority: ") {
+			t.Errorf("zone[%d] (%s): expected first child to start with 'Authority: '", i-1, eGroup.Children[i-1].Name)
 		}
 	}
 

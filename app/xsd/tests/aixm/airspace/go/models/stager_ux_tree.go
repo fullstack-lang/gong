@@ -253,7 +253,7 @@ func buildAirspaceAndAuthorityLookups(
 	airspaceByKey map[string]*aixmfeatures.AirspaceType,
 	authoritiesByAirspace map[*aixmfeatures.AirspaceType][]*aixmfeatures.AuthorityForAirspaceTimeSliceType,
 ) {
-	airspaceByKey = make(map[string]*aixmfeatures.AirspaceType, len(airspaces)*3)
+	airspaceByKey = make(map[string]*aixmfeatures.AirspaceType, len(airspaces)*4)
 	designatorToAirspace := make(map[string]*aixmfeatures.AirspaceType, len(airspaces))
 
 	for _, as := range airspaces {
@@ -269,10 +269,33 @@ func buildAirspaceAndAuthorityLookups(
 				if ts.Id != "" {
 					airspaceByKey[normalizeAirspaceKey(ts.Id)] = as
 				}
+				asType := ""
+				if ts.Type_XSD != nil {
+					asType = strings.ToUpper(strings.TrimSpace(ts.Type_XSD.EnclosedText))
+				}
 				if ts.Designator != nil && strings.TrimSpace(ts.Designator.EnclosedText) != "" {
 					d := strings.ToUpper(strings.TrimSpace(ts.Designator.EnclosedText))
 					if _, exists := designatorToAirspace[d]; !exists {
 						designatorToAirspace[d] = as
+					}
+					desigKey := "desig:" + strings.ToLower(d)
+					if _, exists := airspaceByKey[desigKey]; !exists {
+						airspaceByKey[desigKey] = as
+					}
+					pfx2 := strings.ToLower(airspaceTwoLetterPrefix(d))
+					if pfx2 != "" && pfx2 != "#" {
+						if asType == "NAS" {
+							if _, exists := airspaceByKey["nas:"+pfx2]; !exists {
+								airspaceByKey["nas:"+pfx2] = as
+							}
+						} else if asType == "FIR" || asType == "UIR" {
+							firKey := "fir:" + pfx2
+							if existing, exists := airspaceByKey[firKey]; !exists || d == "LFFF" || d == "EAAD" || d == "EBBU" || d == "EGTT" || d == "EDGG" {
+								if !exists || existing != nil {
+									airspaceByKey[firKey] = as
+								}
+							}
+						}
 					}
 				}
 			}
@@ -280,6 +303,9 @@ func buildAirspaceAndAuthorityLookups(
 	}
 
 	authoritiesByAirspace = make(map[*aixmfeatures.AirspaceType][]*aixmfeatures.AuthorityForAirspaceTimeSliceType)
+	authoritiesByPrefix := make(map[string][]*aixmfeatures.AuthorityForAirspaceTimeSliceType)
+	var allStagedAuthorities []*aixmfeatures.AuthorityForAirspaceTimeSliceType
+
 	for _, auth := range authorities {
 		if auth == nil {
 			continue
@@ -289,6 +315,7 @@ func buildAirspaceAndAuthorityLookups(
 				continue
 			}
 			authTS := tsp.AuthorityForAirspaceTimeSlice
+			allStagedAuthorities = append(allStagedAuthorities, authTS)
 			if authTS.AssignedAirspace == nil {
 				continue
 			}
@@ -304,11 +331,214 @@ func buildAirspaceAndAuthorityLookups(
 			}
 			if matchedAS != nil {
 				authoritiesByAirspace[matchedAS] = append(authoritiesByAirspace[matchedAS], authTS)
+				if authTS.Id != "" {
+					airspaceByKey["auth_assigned:"+normalizeAirspaceKey(authTS.Id)] = matchedAS
+				}
+				for _, asTSP := range matchedAS.TimeSlice {
+					if asTSP != nil && asTSP.AirspaceTimeSlice != nil && asTSP.AirspaceTimeSlice.Designator != nil {
+						d := strings.TrimSpace(asTSP.AirspaceTimeSlice.Designator.EnclosedText)
+						pfx2 := airspaceTwoLetterPrefix(d)
+						if pfx2 != "" && pfx2 != "#" {
+							authoritiesByPrefix[pfx2] = append(authoritiesByPrefix[pfx2], authTS)
+						}
+						break
+					}
+				}
+			}
+		}
+	}
+
+	// Propagate inherited FIR / State AuthorityForAirspace to sub-zones that have no direct AuthorityForAirspace
+	for _, as := range airspaces {
+		if len(authoritiesByAirspace[as]) > 0 {
+			continue
+		}
+		pfx2 := ""
+		for _, tsp := range as.TimeSlice {
+			if tsp != nil && tsp.AirspaceTimeSlice != nil {
+				ts := tsp.AirspaceTimeSlice
+				d := ""
+				if ts.Designator != nil {
+					d = strings.TrimSpace(ts.Designator.EnclosedText)
+				}
+				if d == "" {
+					for _, n := range ts.NameXSD {
+						if n != nil && strings.TrimSpace(n.EnclosedText) != "" {
+							d = strings.TrimSpace(n.EnclosedText)
+							break
+						}
+					}
+				}
+				if d != "" {
+					pfx2 = airspaceTwoLetterPrefix(d)
+					break
+				}
+			}
+		}
+		if pfx2 != "" && len(authoritiesByPrefix[pfx2]) > 0 {
+			authoritiesByAirspace[as] = append(authoritiesByAirspace[as], authoritiesByPrefix[pfx2]...)
+		} else if len(allStagedAuthorities) == 1 {
+			if country, _ := icaoPrefixAuthorityInfo(pfx2); country == "" {
+				// Single-FIR dataset where non-prefixed sector names (e.g. NORTH, SOUTH) belong to the file's FIR
+				authoritiesByAirspace[as] = append(authoritiesByAirspace[as], allStagedAuthorities[0])
 			}
 		}
 	}
 
 	return airspaceByKey, authoritiesByAirspace
+}
+
+func formatAirspaceSummary(as *aixmfeatures.AirspaceType) string {
+	if as == nil {
+		return ""
+	}
+	for _, tsp := range as.TimeSlice {
+		if tsp == nil || tsp.AirspaceTimeSlice == nil {
+			continue
+		}
+		ts := tsp.AirspaceTimeSlice
+		asType := ""
+		if ts.Type_XSD != nil {
+			asType = strings.ToUpper(strings.TrimSpace(ts.Type_XSD.EnclosedText))
+		}
+		desig := ""
+		if ts.Designator != nil {
+			desig = strings.TrimSpace(ts.Designator.EnclosedText)
+		}
+		asName := ""
+		for _, n := range ts.NameXSD {
+			if n != nil && strings.TrimSpace(n.EnclosedText) != "" {
+				asName = strings.TrimSpace(n.EnclosedText)
+				break
+			}
+		}
+		var parts []string
+		if asType != "" {
+			parts = append(parts, "["+asType+"]")
+		}
+		if desig != "" {
+			parts = append(parts, desig)
+		}
+		if asName != "" && asName != desig {
+			parts = append(parts, "- "+asName)
+		}
+		if len(parts) > 0 {
+			return strings.Join(parts, " ")
+		}
+	}
+	return as.Name
+}
+
+// icaoPrefixAuthorityInfo returns the State and Civil/Military Airspace Authority (ANSP / AMC)
+// associated with a standard 2-letter ICAO location indicator prefix.
+func icaoPrefixAuthorityInfo(prefix2 string) (country string, authority string) {
+	switch strings.ToUpper(strings.TrimSpace(prefix2)) {
+	case "LF":
+		return "France", "DSNA / CNGE (Direction des Services de la Navigation Aérienne / French AMC)"
+	case "EA":
+		return "Donlon", "EA-CAA (Donlon Civil Aviation Administration)"
+	case "EB":
+		return "Belgium", "skeyes / Belgian AMC"
+	case "EL":
+		return "Luxembourg", "ANA Luxembourg / Belgian-Luxembourg AMC"
+	case "ED":
+		return "Germany", "DFS (Deutsche Flugsicherung) / German AMC"
+	case "ET":
+		return "Germany (Military)", "BAAINBw / DFS (German Military Airspace Management)"
+	case "EG":
+		return "United Kingdom", "NATS / UK CAA (UK Airspace Management Cell)"
+	case "EH":
+		return "Netherlands", "LVNL (Luchtverkeersleiding Nederland) / Dutch AMC"
+	case "EI":
+		return "Ireland", "AirNav Ireland (IAA)"
+	case "EK":
+		return "Denmark", "Naviair / Danish AMC"
+	case "EN":
+		return "Norway", "Avinor Air Navigation Services"
+	case "ES":
+		return "Sweden", "LFV (Luftfartsverket)"
+	case "EF":
+		return "Finland", "Fintraffic ANS"
+	case "EE":
+		return "Estonia", "EANS (Estonian Air Navigation Services)"
+	case "EV":
+		return "Latvia", "LGS (Latvijas Gaisa Satiksme)"
+	case "EY":
+		return "Lithuania", "Oro Navigacija"
+	case "EP":
+		return "Poland", "PANSA (Polska Agencja Żeglugi Powietrznej)"
+	case "LK":
+		return "Czechia", "ANS CR (Řízení letového provozu ČR)"
+	case "LZ":
+		return "Slovakia", "LPS SR (Letové prevádzkové služby)"
+	case "LH":
+		return "Hungary", "HungaroControl"
+	case "LO":
+		return "Austria", "Austro Control"
+	case "LS":
+		return "Switzerland", "Skyguide"
+	case "LI":
+		return "Italy", "ENAV / Italian Air Force (ITA-AMC)"
+	case "LE":
+		return "Spain", "ENAIRE / Spanish AMC"
+	case "GC":
+		return "Spain (Canary Islands)", "ENAIRE"
+	case "LP":
+		return "Portugal", "NAV Portugal"
+	case "LG":
+		return "Greece", "HCAA (Hellenic Civil Aviation Authority)"
+	case "LC":
+		return "Cyprus", "DCAC Cyprus"
+	case "LM":
+		return "Malta", "MATS (Malta Air Traffic Services)"
+	case "LD":
+		return "Croatia", "Croatia Control (HKZP)"
+	case "LJ":
+		return "Slovenia", "Slovenia Control (KZPS)"
+	case "LQ":
+		return "Bosnia and Herzegovina", "BHANSA"
+	case "LY":
+		return "Serbia / Montenegro", "SMATSA"
+	case "LW":
+		return "North Macedonia", "M-NAV"
+	case "LA":
+		return "Albania", "Albcontrol"
+	case "LR":
+		return "Romania", "ROMATSA"
+	case "LB":
+		return "Bulgaria", "BULATSA"
+	case "LT":
+		return "Türkiye", "DHMİ"
+	case "UK":
+		return "Ukraine", "UkSATSE"
+	case "LU":
+		return "Moldova", "MOLDATSA"
+	case "BG":
+		return "Greenland", "Naviair / Greenland CAA"
+	case "BI":
+		return "Iceland", "Isavia ANS"
+	case "DT":
+		return "Tunisia", "OACA (Office de l'Aviation Civile et des Aéroports)"
+	case "DA":
+		return "Algeria", "ENNA"
+	case "GM":
+		return "Morocco", "ONDA"
+	case "HE":
+		return "Egypt", "NANSC"
+	case "LL":
+		return "Israel", "IAA (Israel Airports Authority)"
+	case "OJ":
+		return "Jordan", "CARC"
+	case "OR":
+		return "Iraq", "ICAA"
+	case "UB":
+		return "Azerbaijan", "AZANS"
+	case "UG":
+		return "Georgia", "Sakaeronavigatsia"
+	case "UD":
+		return "Armenia", "ARMATS"
+	}
+	return "", ""
 }
 
 func formatXlinkPropertyLabel(title, href string) string {
@@ -488,13 +718,59 @@ func (stager *Stager) buildAirspaceDetailChildren(
 		return children
 	}
 
-	// 1. Responsible Authorities (AuthorityForAirspace + Activation User + SpecialDateAuthority)
+	// 1. Responsible Authorities (Direct AuthorityForAirspace + Inherited FIR/State Authority + ADR AMC/OwnerRSA + Activation User + ICAO State/ANSP)
 	var authNodes []*tree.Node
+	var primaryHeadline string
+
+	desig := ""
+	if ts.Designator != nil {
+		desig = strings.TrimSpace(ts.Designator.EnclosedText)
+	}
+	asName := ""
+	for _, n := range ts.NameXSD {
+		if n != nil && strings.TrimSpace(n.EnclosedText) != "" {
+			asName = strings.TrimSpace(n.EnclosedText)
+			break
+		}
+	}
+	shortKey := desig
+	if shortKey == "" {
+		shortKey = asName
+	}
+	pfx2 := airspaceTwoLetterPrefix(shortKey)
+	countryName, icaoAuth := icaoPrefixAuthorityInfo(pfx2)
+
+	var asIdentifier string
+	if as != nil && as.Identifier != nil {
+		asIdentifier = as.Identifier.EnclosedText
+	}
+	var asID string
+	if as != nil {
+		asID = as.Id
+	}
+	adrExt := GetADRAirspaceExtension(ts.Id, asID, asIdentifier, "desig:"+desig)
+
+	// 1a. Staged AuthorityForAirspace (Direct or Inherited via FIR/NAS)
 	for _, authTS := range authorities {
 		authTS := authTS
 		summary := formatAuthoritySummary(authTS)
+		assignedAS := airspaceByKey["auth_assigned:"+normalizeAirspaceKey(authTS.Id)]
+		isInherited := assignedAS != nil && assignedAS != as
+		nodeTitle := "Authority: " + summary
+		if isInherited {
+			assignedSummary := formatAirspaceSummary(assignedAS)
+			nodeTitle = fmt.Sprintf("Authority (via %s): %s", assignedSummary, summary)
+		}
+		if primaryHeadline == "" {
+			if isInherited {
+				primaryHeadline = fmt.Sprintf("%s (via %s)", summary, formatAirspaceSummary(assignedAS))
+			} else {
+				primaryHeadline = summary
+			}
+		}
+
 		authNode := &tree.Node{
-			Name:            "Authority: " + summary,
+			Name:            nodeTitle,
 			IsExpanded:      true,
 			IsNodeClickable: true,
 			OnClick: func(frontNode *tree.Node) {
@@ -520,11 +796,23 @@ func (stager *Stager) buildAirspaceDetailChildren(
 				},
 			})
 		}
+		if isInherited && assignedAS != nil {
+			assignedAS := assignedAS
+			authNode.Children = append(authNode.Children, &tree.Node{
+				Name:            "-> Assigned FIR / State Airspace: " + formatAirspaceSummary(assignedAS),
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree.Node) {
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					stager.selectAndFocusAirspaceLocked(assignedAS)
+				},
+			})
+		}
 		authNode.Children = append(authNode.Children, stager.buildNoteNodes(authTS.Annotation)...)
 		authNodes = append(authNodes, authNode)
 	}
 
-	// Check activation User authorities and SpecialDateAuthorities so they are also immediately visible under Authorities
+	// 1b. Activation User authorities and SpecialDateAuthorities
 	seenOrgLabels := make(map[string]bool)
 	for _, actProp := range ts.Activation {
 		if actProp == nil || actProp.AirspaceActivation == nil {
@@ -542,6 +830,9 @@ func (stager *Stager) buildAirspaceDetailChildren(
 				continue
 			}
 			seenOrgLabels[key] = true
+			if primaryHeadline == "" {
+				primaryHeadline = lbl
+			}
 			authNodes = append(authNodes, &tree.Node{
 				Name:            "User / Operating Authority: " + lbl,
 				IsNodeClickable: true,
@@ -565,6 +856,9 @@ func (stager *Stager) buildAirspaceDetailChildren(
 				continue
 			}
 			seenOrgLabels[key] = true
+			if primaryHeadline == "" {
+				primaryHeadline = lbl
+			}
 			authNodes = append(authNodes, &tree.Node{
 				Name:            "Special Date Authority: " + lbl,
 				IsNodeClickable: true,
@@ -593,6 +887,9 @@ func (stager *Stager) buildAirspaceDetailChildren(
 				continue
 			}
 			seenOrgLabels[key] = true
+			if primaryHeadline == "" {
+				primaryHeadline = lbl
+			}
 			authNodes = append(authNodes, &tree.Node{
 				Name:            "Special Date Authority: " + lbl,
 				IsNodeClickable: true,
@@ -607,12 +904,210 @@ func (stager *Stager) buildAirspaceDetailChildren(
 		}
 	}
 
+	// 1c. Eurocontrol ADR Extension Authorities (Responsible AMC, Requestor, Owner RSA for FBZ, Host Airspace, FUA/AMC management)
+	var adrRoleTags []string
+	if adrExt != nil {
+		if adrExt.ResponsibleAMCTitle != "" || adrExt.ResponsibleAMCHref != "" {
+			amcLbl := formatXlinkPropertyLabel(adrExt.ResponsibleAMCTitle, adrExt.ResponsibleAMCHref)
+			if primaryHeadline == "" {
+				primaryHeadline = "AMC: " + amcLbl
+			}
+			authNodes = append(authNodes, &tree.Node{
+				Name: "Responsible AMC: " + amcLbl,
+			})
+		}
+		if adrExt.RequestorTitle != "" || adrExt.RequestorHref != "" {
+			reqLbl := formatXlinkPropertyLabel(adrExt.RequestorTitle, adrExt.RequestorHref)
+			authNodes = append(authNodes, &tree.Node{
+				Name: "Requestor Authority: " + reqLbl,
+			})
+		}
+		var mgmtParts []string
+		if strings.EqualFold(adrExt.IsAMC, "YES") {
+			mgmtParts = append(mgmtParts, "AMC Managed (isAMC: YES)")
+			adrRoleTags = append(adrRoleTags, "AMC Managed")
+		}
+		if strings.EqualFold(adrExt.FlexibleUse, "YES") {
+			var lvls []string
+			if strings.EqualFold(adrExt.Level1, "YES") {
+				lvls = append(lvls, "1")
+			}
+			if strings.EqualFold(adrExt.Level2, "YES") {
+				lvls = append(lvls, "2")
+			}
+			if strings.EqualFold(adrExt.Level3, "YES") {
+				lvls = append(lvls, "3")
+			}
+			if len(lvls) > 0 {
+				fuaStr := "FUA Level " + strings.Join(lvls, "/")
+				mgmtParts = append(mgmtParts, "Flexible Use ("+fuaStr+")")
+				adrRoleTags = append(adrRoleTags, fuaStr)
+			} else {
+				mgmtParts = append(mgmtParts, "Flexible Use (FUA)")
+				adrRoleTags = append(adrRoleTags, "FUA")
+			}
+		}
+		if strings.EqualFold(adrExt.IsFBZ, "YES") {
+			mgmtParts = append(mgmtParts, "Flight Buffer Zone (FBZ)")
+		}
+		if adrExt.Usage != "" {
+			mgmtParts = append(mgmtParts, "Usage: "+adrExt.Usage)
+		}
+		if len(mgmtParts) > 0 {
+			authNodes = append(authNodes, &tree.Node{
+				Name: "ADR Management: " + strings.Join(mgmtParts, " | "),
+			})
+		}
+	}
+
+	// Resolve Owner RSA (for Flight Buffer Zones like LFCBA1THZ or LKTRA19Z) via ADR ownerRSA href OR designator suffix "Z"
+	var ownerRSA *aixmfeatures.AirspaceType
+	var ownerRSALabel string
+	parentDesig := ""
+	if strings.HasSuffix(strings.ToUpper(desig), "Z") && (strings.Contains(strings.ToUpper(asName), "FBZ") || (adrExt != nil && strings.EqualFold(adrExt.IsFBZ, "YES"))) {
+		parentDesig = strings.TrimSuffix(strings.ToUpper(desig), "Z")
+	}
+	if adrExt != nil && (adrExt.OwnerRSAHref != "" || adrExt.OwnerRSATitle != "") {
+		if adrExt.OwnerRSAHref != "" {
+			ownerRSA = airspaceByKey[normalizeAirspaceKey(adrExt.OwnerRSAHref)]
+		}
+		if ownerRSA == nil && parentDesig != "" {
+			ownerRSA = airspaceByKey["desig:"+strings.ToLower(parentDesig)]
+		}
+		if ownerRSA != nil {
+			ownerRSALabel = formatAirspaceSummary(ownerRSA)
+		} else if parentDesig != "" {
+			parentName := strings.TrimSpace(strings.TrimSuffix(strings.TrimSpace(asName), "FBZ"))
+			if parentName != "" && parentName != parentDesig {
+				ownerRSALabel = fmt.Sprintf("%s - %s (%s)", parentDesig, parentName, formatXlinkPropertyLabel(adrExt.OwnerRSATitle, adrExt.OwnerRSAHref))
+			} else {
+				ownerRSALabel = fmt.Sprintf("%s (%s)", parentDesig, formatXlinkPropertyLabel(adrExt.OwnerRSATitle, adrExt.OwnerRSAHref))
+			}
+		} else {
+			ownerRSALabel = formatXlinkPropertyLabel(adrExt.OwnerRSATitle, adrExt.OwnerRSAHref)
+		}
+	} else if parentDesig != "" {
+		if parentAS := airspaceByKey["desig:"+strings.ToLower(parentDesig)]; parentAS != nil && parentAS != as {
+			ownerRSA = parentAS
+			ownerRSALabel = formatAirspaceSummary(parentAS)
+		} else {
+			parentName := strings.TrimSpace(strings.TrimSuffix(strings.TrimSpace(asName), "FBZ"))
+			if parentName != "" && parentName != parentDesig {
+				ownerRSALabel = fmt.Sprintf("%s - %s", parentDesig, parentName)
+			} else {
+				ownerRSALabel = parentDesig
+			}
+		}
+	}
+	if ownerRSALabel != "" {
+		ownerRSA := ownerRSA
+		adrRoleTags = append(adrRoleTags, "FBZ")
+		authNodes = append(authNodes, &tree.Node{
+			Name:            "-> Owner RSA (Parent Zone): " + ownerRSALabel,
+			IsNodeClickable: ownerRSA != nil,
+			OnClick: func(frontNode *tree.Node) {
+				if ownerRSA == nil {
+					return
+				}
+				stager.mu.Lock()
+				defer stager.mu.Unlock()
+				stager.selectAndFocusAirspaceLocked(ownerRSA)
+			},
+		})
+	}
+
+	// Resolve Host Airspaces from ADR extension if present
+	if adrExt != nil {
+		for _, hostHref := range adrExt.HostAirspaceHrefs {
+			hostAS := airspaceByKey[normalizeAirspaceKey(hostHref)]
+			hostLbl := formatXlinkPropertyLabel("", hostHref)
+			if hostAS != nil {
+				hostLbl = formatAirspaceSummary(hostAS)
+			}
+			authNodes = append(authNodes, &tree.Node{
+				Name:            "-> Host Airspace: " + hostLbl,
+				IsNodeClickable: hostAS != nil,
+				OnClick: func(frontNode *tree.Node) {
+					if hostAS == nil {
+						return
+					}
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					stager.selectAndFocusAirspaceLocked(hostAS)
+				},
+			})
+		}
+	}
+
+	// 1d. ICAO State / ANSP / AMC Authority & Enclosing National/FIR Airspaces in the Stage
+	if countryName != "" && icaoAuth != "" {
+		stateSummary := fmt.Sprintf("%s — %s", countryName, icaoAuth)
+		if primaryHeadline == "" {
+			if len(adrRoleTags) > 0 {
+				primaryHeadline = fmt.Sprintf("%s [%s]", stateSummary, strings.Join(adrRoleTags, ", "))
+			} else {
+				primaryHeadline = stateSummary
+			}
+		}
+		authNodes = append(authNodes, &tree.Node{
+			Name:            fmt.Sprintf("State / ANSP Authority [%s]: %s", pfx2, stateSummary),
+			IsNodeClickable: true,
+			OnClick: func(frontNode *tree.Node) {
+				stager.mu.Lock()
+				defer stager.mu.Unlock()
+				if stager.probeForm != nil {
+					stager.probeForm.FillUpFormFromGongstruct(ts, "AirspaceTimeSliceType")
+				}
+			},
+		})
+	}
+
+	if pfx2 != "" && pfx2 != "#" {
+		if nasAS := airspaceByKey["nas:"+strings.ToLower(pfx2)]; nasAS != nil && nasAS != as {
+			nasAS := nasAS
+			nasSummary := formatAirspaceSummary(nasAS)
+			if primaryHeadline == "" {
+				primaryHeadline = nasSummary
+			}
+			authNodes = append(authNodes, &tree.Node{
+				Name:            "-> National Airspace [NAS]: " + nasSummary,
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree.Node) {
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					stager.selectAndFocusAirspaceLocked(nasAS)
+				},
+			})
+		}
+		if firAS := airspaceByKey["fir:"+strings.ToLower(pfx2)]; firAS != nil && firAS != as {
+			firAS := firAS
+			firSummary := formatAirspaceSummary(firAS)
+			if primaryHeadline == "" {
+				primaryHeadline = firSummary
+			}
+			authNodes = append(authNodes, &tree.Node{
+				Name:            "-> Enclosing FIR Airspace: " + firSummary,
+				IsNodeClickable: true,
+				OnClick: func(frontNode *tree.Node) {
+					stager.mu.Lock()
+					defer stager.mu.Unlock()
+					stager.selectAndFocusAirspaceLocked(firAS)
+				},
+			})
+		}
+	}
+
 	if len(authNodes) == 1 {
+		if !strings.HasPrefix(authNodes[0].Name, "Authority") {
+			authNodes[0].Name = "Authority: " + authNodes[0].Name
+		}
 		children = append(children, authNodes[0])
 	} else if len(authNodes) > 1 {
-		firstSummary := authNodes[0].Name
+		if primaryHeadline == "" {
+			primaryHeadline = strings.TrimPrefix(authNodes[0].Name, "Authority: ")
+		}
 		authGroupNode := &tree.Node{
-			Name:       fmt.Sprintf("Authorities (%d) — %s", len(authNodes), strings.TrimPrefix(firstSummary, "Authority: ")),
+			Name:       "Authority: " + primaryHeadline,
 			IsExpanded: true,
 			Children:   authNodes,
 		}
@@ -927,9 +1422,13 @@ func (stager *Stager) buildAirspaceDetailChildren(
 				refLabel := dep.Id
 				var contribAS *aixmfeatures.AirspaceType
 				if dep.TheAirspace != nil {
-					refLabel = formatXlinkPropertyLabel(dep.TheAirspace.Title, dep.TheAirspace.Href)
 					if dep.TheAirspace.Href != "" {
 						contribAS = airspaceByKey[normalizeAirspaceKey(dep.TheAirspace.Href)]
+					}
+					if contribAS != nil && strings.TrimSpace(dep.TheAirspace.Title) == "" {
+						refLabel = formatAirspaceSummary(contribAS)
+					} else {
+						refLabel = formatXlinkPropertyLabel(dep.TheAirspace.Title, dep.TheAirspace.Href)
 					}
 				}
 				contribNode := &tree.Node{
@@ -1108,9 +1607,6 @@ func (stager *Stager) buildAirspaceEntryNode(
 				stager.expandedAirspaces = make(map[*aixmfeatures.AirspaceType]bool)
 			}
 			stager.expandedAirspaces[as] = isExpanded
-			if totalAirspaces > 80 {
-				stager.ux_tree()
-			}
 		},
 		Buttons: []*tree.Button{
 			{
@@ -1147,26 +1643,12 @@ func (stager *Stager) buildAirspaceEntryNode(
 	}
 
 	// Build navigable child nodes under the zone (Authorities, Classifications, Activations, Geometry & Contributors, Notes)
-	if totalAirspaces <= 80 || isASExpanded || (targetTS != nil && stager.selectedAirspace == targetTS) {
-		asNode.Children = stager.buildAirspaceDetailChildren(
-			as,
-			targetTS,
-			authoritiesByAirspace[as],
-			airspaceByKey,
-		)
-	} else {
-		// Lightweight placeholder on huge datasets until the user expands or clicks the zone
-		authCount := len(authoritiesByAirspace[as])
-		if authCount > 0 {
-			asNode.Children = append(asNode.Children, &tree.Node{
-				Name: "Authority: " + formatAuthoritySummary(authoritiesByAirspace[as][0]),
-			})
-		} else {
-			asNode.Children = append(asNode.Children, &tree.Node{
-				Name: "Click or expand to inspect zone details...",
-			})
-		}
-	}
+	asNode.Children = stager.buildAirspaceDetailChildren(
+		as,
+		targetTS,
+		authoritiesByAirspace[as],
+		airspaceByKey,
+	)
 	return asNode
 }
 
@@ -1634,7 +2116,7 @@ func (stager *Stager) ux_tree() {
 							ltrFontStyle = tree.ITALIC
 						}
 
-						defaultLetterExpanded := len(airspaces) <= 10 || (len(letterKeys) == 1 && len(letterEntries) <= 25 && len(airspaces) <= 60)
+						defaultLetterExpanded := len(airspaces) <= 10 || (len(letterEntries) <= 25 && len(airspaces) <= 80)
 						isLetterExp := stager.isCategoryExpanded(letterKey, defaultLetterExpanded) || hasSelectedInLetter
 
 						letterNode := &tree.Node{
@@ -1801,7 +2283,7 @@ func (stager *Stager) ux_tree() {
 							continue
 						}
 
-						if !isLetterExp {
+						if !isLetterExp && len(airspaces) > 200 {
 							letterNode.Children = append(letterNode.Children, &tree.Node{
 								Name: fmt.Sprintf("Expand to view %d zones (%s -> %s)...", len(letterEntries), firstShort, lastShort),
 							})

@@ -10,6 +10,7 @@ import (
 	"log"
 	"path/filepath"
 	"strings"
+	"sync"
 	"unicode/utf16"
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
@@ -17,10 +18,211 @@ import (
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 )
 
+// ADRAirspaceExtensionInfo holds Eurocontrol ADR extension metadata (<adrext:AirspaceExtension>
+// and <adrext:AirspaceActivationExtension>) extracted during XML unmarshalling.
+type ADRAirspaceExtensionInfo struct {
+	FlexibleUse          string
+	Level1               string
+	Level2               string
+	Level3               string
+	Usage                string
+	IsFBZ                string
+	DefaultForActivation string
+	IsAMC                string
+	ResponsibleAMCHref   string
+	ResponsibleAMCTitle  string
+	OwnerRSAHref         string
+	OwnerRSATitle        string
+	RequestorHref        string
+	RequestorTitle       string
+	HostAirspaceHrefs    []string
+	RSAActivationCount   int
+}
+
+var (
+	adrExtensionsMu sync.RWMutex
+	adrExtensions   = make(map[string]*ADRAirspaceExtensionInfo)
+)
+
+// GetADRAirspaceExtension looks up Eurocontrol ADR extension metadata by AirspaceTimeSlice gml:id,
+// Airspace gml:id, UUID identifier, or designator.
+func GetADRAirspaceExtension(keys ...string) *ADRAirspaceExtensionInfo {
+	adrExtensionsMu.RLock()
+	defer adrExtensionsMu.RUnlock()
+	for _, k := range keys {
+		nk := strings.ToLower(strings.TrimSpace(k))
+		nk = strings.TrimPrefix(nk, "urn:uuid:")
+		nk = strings.TrimPrefix(nk, "#")
+		if nk == "" {
+			continue
+		}
+		if info, ok := adrExtensions[nk]; ok && info != nil {
+			return info
+		}
+	}
+	return nil
+}
+
+func extractADRExtensionsFromXML(data []byte) {
+	dec := xml.NewDecoder(bytes.NewReader(data))
+	parsed := make(map[string]*ADRAirspaceExtensionInfo)
+
+	var currentAirspaceID string
+	var currentIdentifier string
+	var currentTSID string
+	var currentDesig string
+	var currentInfo *ADRAirspaceExtensionInfo
+	inAirspaceTS := false
+	inADRAirspaceExt := false
+	inADRActivationExt := false
+	var currentLeafTag string
+
+	getAttr := func(attrs []xml.Attr, localName string) string {
+		for _, a := range attrs {
+			if a.Name.Local == localName {
+				return strings.TrimSpace(a.Value)
+			}
+		}
+		return ""
+	}
+
+	ensureInfo := func() *ADRAirspaceExtensionInfo {
+		if currentInfo == nil {
+			currentInfo = &ADRAirspaceExtensionInfo{}
+		}
+		return currentInfo
+	}
+
+	for {
+		tok, err := dec.Token()
+		if err != nil {
+			break
+		}
+		switch t := tok.(type) {
+		case xml.StartElement:
+			switch t.Name.Local {
+			case "Airspace":
+				currentAirspaceID = getAttr(t.Attr, "id")
+				currentIdentifier = ""
+			case "AirspaceTimeSlice":
+				inAirspaceTS = true
+				currentTSID = getAttr(t.Attr, "id")
+				currentDesig = ""
+				currentInfo = nil
+			case "AirspaceExtension":
+				if inAirspaceTS {
+					inADRAirspaceExt = true
+				}
+			case "AirspaceActivationExtension":
+				if inAirspaceTS {
+					inADRActivationExt = true
+				}
+			case "responsibleAMC":
+				if inADRAirspaceExt {
+					info := ensureInfo()
+					info.ResponsibleAMCHref = getAttr(t.Attr, "href")
+					info.ResponsibleAMCTitle = getAttr(t.Attr, "title")
+				}
+			case "ownerRSA":
+				if inADRAirspaceExt {
+					info := ensureInfo()
+					info.OwnerRSAHref = getAttr(t.Attr, "href")
+					info.OwnerRSATitle = getAttr(t.Attr, "title")
+				}
+			case "requestor":
+				if inADRActivationExt {
+					info := ensureInfo()
+					info.RequestorHref = getAttr(t.Attr, "href")
+					info.RequestorTitle = getAttr(t.Attr, "title")
+				}
+			case "hostAirspace":
+				if inADRActivationExt {
+					if href := getAttr(t.Attr, "href"); href != "" {
+						info := ensureInfo()
+						info.HostAirspaceHrefs = append(info.HostAirspaceHrefs, href)
+					}
+				}
+			case "RSAActivation":
+				if inADRActivationExt {
+					info := ensureInfo()
+					info.RSAActivationCount++
+				}
+			default:
+				currentLeafTag = t.Name.Local
+			}
+		case xml.CharData:
+			txt := strings.TrimSpace(string(t))
+			if txt == "" {
+				continue
+			}
+			if currentLeafTag == "identifier" && !inAirspaceTS && currentAirspaceID != "" {
+				currentIdentifier = txt
+			} else if inAirspaceTS && !inADRAirspaceExt && !inADRActivationExt && currentLeafTag == "designator" && currentDesig == "" {
+				currentDesig = txt
+			} else if inADRAirspaceExt {
+				info := ensureInfo()
+				switch currentLeafTag {
+				case "flexibleUse":
+					info.FlexibleUse = txt
+				case "level1":
+					info.Level1 = txt
+				case "level2":
+					info.Level2 = txt
+				case "level3":
+					info.Level3 = txt
+				case "usage":
+					info.Usage = txt
+				case "isFBZ":
+					info.IsFBZ = txt
+				case "defaultForActivation":
+					info.DefaultForActivation = txt
+				case "isAMC":
+					info.IsAMC = txt
+				}
+			}
+		case xml.EndElement:
+			switch t.Name.Local {
+			case "AirspaceExtension":
+				inADRAirspaceExt = false
+			case "AirspaceActivationExtension":
+				inADRActivationExt = false
+			case "AirspaceTimeSlice":
+				if currentInfo != nil {
+					for _, rawKey := range []string{currentTSID, currentAirspaceID, currentIdentifier, "desig:" + currentDesig} {
+						nk := strings.ToLower(strings.TrimSpace(rawKey))
+						nk = strings.TrimPrefix(nk, "urn:uuid:")
+						nk = strings.TrimPrefix(nk, "#")
+						if nk != "" && nk != "desig:" {
+							parsed[nk] = currentInfo
+						}
+					}
+				}
+				inAirspaceTS = false
+				currentTSID = ""
+				currentDesig = ""
+				currentInfo = nil
+			case "Airspace":
+				currentAirspaceID = ""
+				currentIdentifier = ""
+			}
+			currentLeafTag = ""
+		}
+	}
+
+	if len(parsed) > 0 {
+		adrExtensionsMu.Lock()
+		for k, v := range parsed {
+			adrExtensions[k] = v
+		}
+		adrExtensionsMu.Unlock()
+	}
+}
+
 // UnmarshallXMLToStage unmarshals an XML document into stage (and its sub-stages),
 // staging all reachable instances and assigning deterministic Gong Names.
 func UnmarshallXMLToStage(stage *Stage, xmlBytes []byte) error {
 	utf8Bytes := ensureUTF8XML(xmlBytes)
+	extractADRExtensionsFromXML(utf8Bytes)
 	rootElementName := detectRootXMLElementLocalName(utf8Bytes)
 
 	switch rootElementName {
