@@ -99,6 +99,16 @@ func (rect *Rect) OnAfterUpdate(stage *Stage, _, frontRect *Rect) {
 	diffSize := rect.Width != frontRect.Width || rect.Height != frontRect.Height
 	diffPosition := rect.X != frontRect.X || rect.Y != frontRect.Y
 
+	rect.X = frontRect.X
+	rect.Y = frontRect.Y
+	rect.Width = frontRect.Width
+	rect.Height = frontRect.Height
+	rect.IsSelected = frontRect.IsSelected
+	rect.HasLeftHandle = frontRect.HasLeftHandle
+	rect.HasRightHandle = frontRect.HasRightHandle
+	rect.HasTopHandle = frontRect.HasTopHandle
+	rect.HasBottomHandle = frontRect.HasBottomHandle
+
 	if !diffSize && !diffPosition {
 		if frontRect.IsSelected && rect.OnSelect != nil {
 			rect.OnSelect()

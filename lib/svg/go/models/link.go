@@ -95,6 +95,12 @@ func (link *Link) OnAfterUpdate(stage *Stage, _, frontLink *Link) {
 		link.EndOrientation != frontLink.EndOrientation ||
 		link.CornerOffsetRatio != frontLink.CornerOffsetRatio
 
+	link.StartRatio = frontLink.StartRatio
+	link.EndRatio = frontLink.EndRatio
+	link.StartOrientation = frontLink.StartOrientation
+	link.EndOrientation = frontLink.EndOrientation
+	link.CornerOffsetRatio = frontLink.CornerOffsetRatio
+
 	if !diff {
 		if link.OnSelect != nil {
 			link.OnSelect()

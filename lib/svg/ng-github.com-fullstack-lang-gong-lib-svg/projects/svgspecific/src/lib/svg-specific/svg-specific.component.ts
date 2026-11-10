@@ -578,6 +578,29 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log(getFunctionName(), "distanceMoved below threshold in state", this.State)
 
       console.assert(this.draggedRect != undefined, "no dragged rect")
+      if (this.draggedRect && this.RectAtMouseDown) {
+        let movingRects = new Set<svg.Rect>();
+        movingRects.add(this.draggedRect);
+        for (let peer of this.map_PeerRectAtMouseDown.keys()) movingRects.add(peer);
+        for (let rect_ of this.map_SelectedRectAtMouseDown.keys()) movingRects.add(rect_);
+
+        for (let r of movingRects) {
+          let orig = r === this.draggedRect
+            ? this.RectAtMouseDown
+            : (this.map_PeerRectAtMouseDown.get(r) ?? this.map_SelectedRectAtMouseDown.get(r));
+          if (orig) {
+            r.X = orig.X;
+            r.Y = orig.Y;
+          }
+          let set = this.map_Rect_ConnectedLinks.get(r);
+          if (set != undefined) {
+            for (let link of set) {
+              let segments = drawSegmentsFromLink(link);
+              this.map_Link_Segment.set(link, segments);
+            }
+          }
+        }
+      }
       let wasSelected = this.draggedRect!.IsSelected
 
       // if the shift key is not pressed, unselect all other rects

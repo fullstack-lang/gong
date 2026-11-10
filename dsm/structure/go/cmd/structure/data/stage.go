@@ -298,8 +298,8 @@ func _(stage *models.Stage) {
 	__models__PartShape__00000001_.FontColor = ``
 	__models__PartShape__00000002_.Name = `P1-sdqsdqsd`
 	__models__PartShape__00000002_.IsExpanded = false
-	__models__PartShape__00000002_.X = 167.255894
-	__models__PartShape__00000002_.Y = 406.000000
+	__models__PartShape__00000002_.X = 156.255894
+	__models__PartShape__00000002_.Y = 420.000000
 	__models__PartShape__00000002_.Width = 250.000000
 	__models__PartShape__00000002_.Height = 70.000000
 	__models__PartShape__00000002_.IsHidden = false
@@ -400,8 +400,8 @@ func _(stage *models.Stage) {
 	__models__PortShape__00000002_.FontColor = ``
 	__models__PortShape__00000003_.Name = `Port 1-sdqsdqsd`
 	__models__PortShape__00000003_.IsExpanded = false
-	__models__PortShape__00000003_.X = 202.435381
-	__models__PortShape__00000003_.Y = 456.000000
+	__models__PortShape__00000003_.X = 191.435381
+	__models__PortShape__00000003_.Y = 470.000000
 	__models__PortShape__00000003_.Width = 40.000000
 	__models__PortShape__00000003_.Height = 40.000000
 	__models__PortShape__00000003_.IsHidden = false
@@ -418,8 +418,8 @@ func _(stage *models.Stage) {
 	__models__PortShape__00000003_.FontColor = `#333333`
 	__models__PortShape__00000004_.Name = `Port 3-sdqsdqsd`
 	__models__PortShape__00000004_.IsExpanded = false
-	__models__PortShape__00000004_.X = 337.896920
-	__models__PortShape__00000004_.Y = 456.000000
+	__models__PortShape__00000004_.X = 326.896920
+	__models__PortShape__00000004_.Y = 470.000000
 	__models__PortShape__00000004_.Width = 40.000000
 	__models__PortShape__00000004_.Height = 40.000000
 	__models__PortShape__00000004_.IsHidden = false
