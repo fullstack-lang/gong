@@ -2,7 +2,9 @@ package models
 
 import (
 	"log"
+	"math"
 	"slices"
+	"strings"
 
 	"github.com/fullstack-lang/gong/lib/strutils"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
@@ -509,7 +511,62 @@ func (stager *Stager) drawNotePartShapes(diagramStructure *DiagramStructure, lay
 	}
 }
 
+func rectBorderPointToward(rect *svg.Rect, targetX, targetY float64) (float64, float64) {
+	centerX := rect.X + rect.Width/2.0
+	centerY := rect.Y + rect.Height/2.0
+
+	dx := targetX - centerX
+	dy := targetY - centerY
+	mag := math.Sqrt(dx*dx + dy*dy)
+	if mag == 0 {
+		return centerX, centerY
+	}
+
+	ux := dx / mag
+	uy := dy / mag
+
+	borderX := centerX
+	borderY := centerY
+
+	if uy < 0 {
+		t := (rect.Y - centerY) / uy
+		px := centerX + t*ux
+		if px >= rect.X && px <= rect.X+rect.Width {
+			borderX = px
+			borderY = rect.Y
+		}
+	}
+	if uy > 0 {
+		t := (rect.Y + rect.Height - centerY) / uy
+		px := centerX + t*ux
+		if px >= rect.X && px <= rect.X+rect.Width {
+			borderX = px
+			borderY = rect.Y + rect.Height
+		}
+	}
+	if ux < 0 {
+		t := (rect.X - centerX) / ux
+		py := centerY + t*uy
+		if py >= rect.Y && py <= rect.Y+rect.Height {
+			borderX = rect.X
+			borderY = py
+		}
+	}
+	if ux > 0 {
+		t := (rect.X + rect.Width - centerX) / ux
+		py := centerY + t*uy
+		if py >= rect.Y && py <= rect.Y+rect.Height {
+			borderX = rect.X + rect.Width
+			borderY = py
+		}
+	}
+
+	return borderX, borderY
+}
+
 func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, layer *svg.Layer) {
+	root := stager.GetRootLibrary()
+
 	for _, dataFlowShape := range diagramStructure.DataFlow_Shapes {
 		if dataFlowShape.GetIsHidden() {
 			continue
@@ -553,6 +610,7 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 		link.Presentation.StrokeDashArray = "5,5"
 		link.Stroke = "#4CAF50"
 		link.StrokeWidth = 1.5
+		link.StrokeOpacity = 1.0
 		syncLinkPresentation(dataFlowShape, link)
 
 		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
@@ -570,51 +628,192 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 			link.HasStartArrow = true
 		}
 
-		nbDataShapes := len(dataFlowShape.dataShapes)
-		for idx, dataShape := range dataFlowShape.dataShapes {
+		var visibleDataShapes []*DataShape
+		for _, ds := range dataFlowShape.dataShapes {
+			if ds != nil && !ds.GetIsHidden() && ds.Data != nil {
+				visibleDataShapes = append(visibleDataShapes, ds)
+			}
+		}
+		if len(visibleDataShapes) == 0 {
+			continue
+		}
+
+		startCenterX := startRect.X + startRect.Width/2.0
+		startCenterY := startRect.Y + startRect.Height/2.0
+		endCenterX := endRect.X + endRect.Width/2.0
+		endCenterY := endRect.Y + endRect.Height/2.0
+
+		startBorderX, startBorderY := rectBorderPointToward(startRect, endCenterX, endCenterY)
+		endBorderX, endBorderY := rectBorderPointToward(endRect, startCenterX, startCenterY)
+
+		anchorX := (startBorderX + endBorderX) / 2.0
+		anchorY := (startBorderY + endBorderY) / 2.0
+
+		type preparedDataItem struct {
+			dataShape  *DataShape
+			content    string
+			leftMargin float64
+			width      float64
+			height     float64
+		}
+
+		const lineHeight = 18.0
+		const verticalPadding = 6.0
+		const stackGap = 2.0
+
+		var items []preparedDataItem
+		totalStackHeight := 0.0
+
+		for idx, dataShape := range visibleDataShapes {
 			data := dataShape.Data
 
-			textXOffset := 4.0
+			width := dataShape.GetWidth()
+			if width <= 0 {
+				width = 180.0
+				dataShape.SetWidth(width)
+			}
+
+			leftMargin := 6.0
+			rightMargin := 6.0
 			if data.SVG_Path != "" {
-				textXOffset = 24.0
+				leftMargin = 24.0
 			}
 
-			textAnchoredText := &svg.LinkAnchoredText{
-				Name: func() string {
-					if dataShape.Data.Acronym != "" {
-						return dataShape.Data.Acronym
-					}
-					return dataShape.Data.Name
-				}(),
-				Content:     data.Name,
-				Color:       "#333333",
-				FillOpacity: 1.0,
-				Stroke:      "#FFFFFF",
-				StrokeWidth: 2.0,
-				FontWeight:  "600",
-
-				Y_Offset: float64(-nbDataShapes+idx+1)*18.0 - 4.0,
-				X_Offset: textXOffset,
+			content := data.Name
+			if data.Acronym != "" {
+				content = data.Acronym
 			}
-			link.TextAtCorner = append(link.TextAtCorner, textAnchoredText)
+			if diagramStructure.GetIsShowPrefix() && data.GetComputedPrefix() != "" {
+				content = data.GetComputedPrefix() + " " + content
+			}
+
+			availableWidth := width - (leftMargin + rightMargin)
+			if availableWidth > 0 && root != nil && root.NbPixPerCharacter > 0 {
+				content = strutils.WrapStringPreservingNewlines(content, int(availableWidth/root.NbPixPerCharacter))
+			}
+
+			lines := strings.Split(content, "\n")
+			height := float64(len(lines))*lineHeight + verticalPadding
+			dataShape.SetHeight(height)
+
+			items = append(items, preparedDataItem{
+				dataShape:  dataShape,
+				content:    content,
+				leftMargin: leftMargin,
+				width:      width,
+				height:     height,
+			})
+			totalStackHeight += height
+			if idx > 0 {
+				totalStackHeight += stackGap
+			}
+		}
+
+		currentY := anchorY - 4.0 - totalStackHeight
+		for _, item := range items {
+			dataShape := item.dataShape
+			data := dataShape.Data
+
+			rectX := anchorX + 4.0
+			rectY := currentY
+			currentY += item.height + stackGap
+
+			dataShape.SetX(rectX)
+			dataShape.SetY(rectY)
+
+			dataRect := &svg.Rect{
+				Name:          data.GetName(),
+				X:             rectX,
+				Y:             rectY,
+				Width:         item.width,
+				Height:        item.height,
+				RX:            3.0,
+				Color:         "#FFFFFF",
+				FillOpacity:   0.85,
+				Stroke:        "#A5D6A7",
+				StrokeWidth:   1.0,
+				StrokeOpacity: 1.0,
+				IsSelectable:  true,
+			}
+
+			title := &svg.RectAnchoredText{
+				Name:             data.GetName(),
+				Content:          item.content,
+				Color:            "#333333",
+				FillOpacity:      1.0,
+				Stroke:           "#333333",
+				StrokeWidth:      0,
+				StrokeOpacity:    1.0,
+				FontWeight:       "600",
+				FontSize:         "14px",
+				X_Offset:         item.leftMargin,
+				Y_Offset:         0,
+				RectAnchorType:   svg.RECT_LEFT_MIDDLE,
+				TextAnchorType:   svg.TEXT_ANCHOR_START,
+				DominantBaseline: svg.DominantBaselineCentral,
+			}
+			dataRect.RectAnchoredTexts = append(dataRect.RectAnchoredTexts, title)
 
 			if data.SVG_Path != "" {
 				if data.InverseAppliedScaling == 0 {
 					data.InverseAppliedScaling = 1.0
 				}
-				path := &svg.LinkAnchoredPath{
+				path := &svg.RectAnchoredPath{
 					Name:                data.GetName(),
 					Definition:          data.SVG_Path,
 					StrokeWidth:         0,
+					StrokeOpacity:       1.0,
 					Color:               "#757575",
 					FillOpacity:         1,
 					X_Offset:            4.0,
-					Y_Offset:            float64(-nbDataShapes+idx+1)*18.0 - 4.0,
+					Y_Offset:            -8.0,
+					RectAnchorType:      svg.RECT_LEFT,
 					ScalePropotionnally: true,
 					AppliedScaling:      1.0 / data.InverseAppliedScaling,
 				}
-				link.PathAtCorner = append(link.PathAtCorner, path)
+				dataRect.RectAnchoredPaths = append(dataRect.RectAnchoredPaths, path)
 			}
+
+			syncRectPresentation(dataShape, dataRect)
+
+			dataRect.OnSelect = onSelectRectShape(stager, data, dataShape)
+			if diagramStructure.IsEditable() {
+				dataRect.CanHaveLeftHandle = true
+				dataRect.CanHaveRightHandle = true
+				dataRect.CanHaveTopHandle = false
+				dataRect.CanHaveBottomHandle = false
+
+				dataRect.CanMoveHorizontaly = true
+				dataRect.CanMoveVerticaly = true
+
+				dataShape.SetReceiver(dataShape)
+				dataRect.OnMove = func(x, y float64) {
+					stager.stage.Commit()
+				}
+				dataRect.OnResize = func(x, y, width, height float64) {
+					if width < 30.0 {
+						width = 30.0
+					}
+					dataShape.SetWidth(width)
+					stager.stage.Commit()
+				}
+			}
+
+			// Move with connected rects and any enclosing/peer rects (e.g. parts, ports, system, external parts)
+			appendPeerUnique := func(host *svg.Rect, peer *svg.Rect) {
+				if host != nil && !slices.Contains(host.Peers, peer) {
+					host.Peers = append(host.Peers, peer)
+				}
+			}
+			appendPeerUnique(startRect, dataRect)
+			appendPeerUnique(endRect, dataRect)
+			for _, r := range layer.Rects {
+				if slices.Contains(r.Peers, startRect) || slices.Contains(r.Peers, endRect) {
+					appendPeerUnique(r, dataRect)
+				}
+			}
+
+			layer.Rects = append(layer.Rects, dataRect)
 		}
 	}
 }
