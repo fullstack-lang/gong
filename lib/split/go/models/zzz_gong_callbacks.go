@@ -105,6 +105,32 @@ func (button *Button) GongAfterDeleteFromFront(stage *Stage, front GongstructIF)
 	}
 }
 
+func (cesium *Cesium) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterCesiumCreateCallback != nil {
+		stage.OnAfterCesiumCreateCallback.OnAfterCreate(stage, cesium)
+	}
+}
+
+func (cesium *Cesium) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCesiumUpdateCallback != nil {
+		var frontCesium *Cesium
+		if front != nil {
+			frontCesium, _ = front.(*Cesium)
+		}
+		stage.OnAfterCesiumUpdateCallback.OnAfterUpdate(stage, cesium, frontCesium)
+	}
+}
+
+func (cesium *Cesium) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterCesiumDeleteCallback != nil {
+		var frontCesium *Cesium
+		if front != nil {
+			frontCesium, _ = front.(*Cesium)
+		}
+		stage.OnAfterCesiumDeleteCallback.OnAfterDelete(stage, cesium, frontCesium)
+	}
+}
+
 func (cursor *Cursor) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterCursorCreateCallback != nil {
 		stage.OnAfterCursorCreateCallback.OnAfterCreate(stage, cursor)

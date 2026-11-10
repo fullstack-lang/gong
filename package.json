@@ -15,9 +15,11 @@
         "lib/tree/ng-github.com-fullstack-lang-gong-lib-tree",
         "test/test1/ng-github.com-fullstack-lang-gong-test-test1",
         "lib/threejs/ng-github.com-fullstack-lang-gong-lib-threejs",
-        "lib/maplibre/ng-github.com-fullstack-lang-gong-lib-maplibre"
+        "lib/maplibre/ng-github.com-fullstack-lang-gong-lib-maplibre",
+        "lib/cesium/ng-github.com-fullstack-lang-gong-lib-cesium"
     ],
     "dependencies": {
+        "@cesium/engine": "^26.5.0",
         "@types/katex": "^0.16.8",
         "katex": "^0.16.21",
         "maplibre-gl": "^6.17.0",

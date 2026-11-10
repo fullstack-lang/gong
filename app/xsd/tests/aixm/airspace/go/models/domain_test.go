@@ -18,6 +18,7 @@ import (
 	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models/gml"
 	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models/probe"
 	gong_models "github.com/fullstack-lang/gong/go/models"
+	cesium "github.com/fullstack-lang/gong/lib/cesium/go/models"
 	doc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
 	maplibre "github.com/fullstack-lang/gong/lib/maplibre/go/models"
@@ -144,6 +145,11 @@ func TestUnmarshalAirspaceBaseline(t *testing.T) {
 		{"Maplibre.Polygon", len(*stager.GetMaplibreStage().GetInstancesSet[*maplibre.Polygon]())},
 		{"Maplibre.Polyline", len(*stager.GetMaplibreStage().GetInstancesSet[*maplibre.Polyline]())},
 		{"Maplibre.Marker", len(*stager.GetMaplibreStage().GetInstancesSet[*maplibre.Marker]())},
+		{"Cesium.MapView", len(*stager.GetCesiumStage().GetInstancesSet[*cesium.MapView]())},
+		{"Cesium.Layer", len(*stager.GetCesiumStage().GetInstancesSet[*cesium.Layer]())},
+		{"Cesium.Polygon", len(*stager.GetCesiumStage().GetInstancesSet[*cesium.Polygon]())},
+		{"Cesium.Polyline", len(*stager.GetCesiumStage().GetInstancesSet[*cesium.Polyline]())},
+		{"Cesium.Marker", len(*stager.GetCesiumStage().GetInstancesSet[*cesium.Marker]())},
 	}
 
 	for _, c := range checks {

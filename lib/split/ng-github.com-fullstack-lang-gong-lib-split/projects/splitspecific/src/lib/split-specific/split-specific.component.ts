@@ -13,6 +13,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { GongSplitComponent, GongSplitAreaComponent } from '../native-split/gong-split.component';
 
 import { ButtonSpecificComponent } from '../../../../../../../button/ng-github.com-fullstack-lang-gong-lib-button/projects/buttonspecific/src/lib/button-specific/button-specific.component'
+import { CesiumSpecificComponent } from '../../../../../../../cesium/ng-github.com-fullstack-lang-gong-lib-cesium/projects/cesiumspecific/src/lib/cesium-specific/cesium-specific.component'
 import { CursorSpecificComponent } from '../../../../../../../cursor/ng-github.com-fullstack-lang-gong-lib-cursor/projects/cursorspecific/src/lib/cursor-specific/cursor-specific.component'
 import { FormSpecific } from '../../../../../../../form/ng-github.com-fullstack-lang-gong-lib-form/projects/formspecific/src/lib/form-specific/form-specific'
 import { LoadSpecificComponent } from '../../../../../../../load/ng-github.com-fullstack-lang-gong-lib-load/projects/loadspecific/src/lib/load-specific/load-specific.component'
@@ -40,6 +41,7 @@ import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
     GongSplitAreaComponent,
 
     ButtonSpecificComponent,
+    CesiumSpecificComponent,
     CursorSpecificComponent,
     FormSpecific,
     LoadSpecificComponent,

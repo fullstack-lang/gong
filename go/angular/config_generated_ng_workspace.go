@@ -61,7 +61,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 		if !ok {
 			log.Fatalf("map not found at %s", strings.Join(path, ", "))
 		}
-		m["maximumError"] = "10mb"
+		m["maximumError"] = "30mb"
 
 		// Set allowedCommonJsDependencies
 		vOpt := root

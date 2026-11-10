@@ -403,6 +403,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := assplitarea.Button.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Button = %s", assplitareaIdent, targetIdent))
 			}
+			if assplitarea.Cesium != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := assplitarea.Cesium.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Cesium = %s", assplitareaIdent, targetIdent))
+			}
 			if assplitarea.Cursor != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -553,6 +563,26 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", buttonIdent, __gong__toRawStringLiteral(button.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", buttonIdent, __gong__toRawStringLiteral(button.StackName)))
+		}
+	}
+	if stage != nil {
+		for _, cesium := range __gong__sortStageSetInstances(stage.Cesiums, stage.Cesium_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cesiumIdent := cesium.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Cesium{Name: %s}).Stage(stage)", cesiumIdent, __gong__toRawStringLiteral(cesium.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cesiumIdent, __gong__toRawStringLiteral(cesium.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", cesiumIdent, __gong__toRawStringLiteral(cesium.StackName)))
 		}
 	}
 	if stage != nil {
@@ -1065,6 +1095,12 @@ func (assplitarea *AsSplitArea) GongMarshallField(stage *Stage, fieldName string
 		} else {
 			res = __gong__marshallPointer(ident, "Button", "nil")
 		}
+	case "Cesium":
+		if assplitarea.Cesium != nil {
+			res = __gong__marshallPointer(ident, "Cesium", assplitarea.Cesium.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Cesium", "nil")
+		}
 	case "Cursor":
 		if assplitarea.Cursor != nil {
 			res = __gong__marshallPointer(ident, "Cursor", assplitarea.Cursor.GongGetIdentifier(stage))
@@ -1160,6 +1196,21 @@ func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res str
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Button", fieldName)
+	}
+	return
+}
+
+func (cesium *Cesium) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := cesium.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", cesium.Name)
+	case "StackName":
+		res = __gong__marshallString(ident, "StackName", cesium.StackName)
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Cesium", fieldName)
 	}
 	return
 }
@@ -1490,6 +1541,7 @@ func (assplitarea *AsSplitArea) GongMarshallAllFields(stage *Stage) (initRes str
 		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "IsAny"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "AsSplit"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Button"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Cesium"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Cursor"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Form"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Load"))
@@ -1517,6 +1569,18 @@ func (button *Button) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(button.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(button.GongMarshallField(stage, "StackName"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (cesium *Cesium) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(cesium.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(cesium.GongMarshallField(stage, "StackName"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

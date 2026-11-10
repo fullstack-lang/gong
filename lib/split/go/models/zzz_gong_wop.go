@@ -69,6 +69,19 @@ func (from *Button) GongCopyBasicFields(to *Button) {
 	*to = *from
 }
 
+type Cesium_WOP struct {
+	// insertion point
+
+	Name string
+
+	StackName string
+}
+
+func (from *Cesium) GongCopyBasicFields(to *Cesium) {
+	// insertion point
+	*to = *from
+}
+
 type Cursor_WOP struct {
 	// insertion point
 

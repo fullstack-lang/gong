@@ -11,6 +11,9 @@ import (
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
 	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
 
+	cesium "github.com/fullstack-lang/gong/lib/cesium/go/models"
+	cesium_stack "github.com/fullstack-lang/gong/lib/cesium/go/stack"
+
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 	load_stack "github.com/fullstack-lang/gong/lib/load/go/stack"
 
@@ -34,6 +37,7 @@ type Stager struct {
 	loadStageXML          *load.Stage
 	buttonStage           *button.Stage
 	maplibreStage         *maplibre.Stage
+	cesiumStage           *cesium.Stage
 	extrude3D             bool
 	selectedAirspace      *aixmfeatures.AirspaceTimeSliceType
 	selectedGeoBorder     *aixmfeatures.GeoBorderTimeSliceType
@@ -74,6 +78,7 @@ func NewStager(
 	stager.loadStageXML = load_stack.NewStack(r, "xml", "", "", "", true, true).Stage
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.maplibreStage = maplibre_stack.NewStack(r, "maplibre", "", "", "", true, true).Stage
+	stager.cesiumStage = cesium_stack.NewStack(r, "cesium", "", "", "", true, true).Stage
 
 	stager.createViews()
 	stager.splitStage.Commit()
@@ -158,6 +163,10 @@ func (stager *Stager) GetSemanticErrors() []string {
 
 func (stager *Stager) GetMaplibreStage() *maplibre.Stage {
 	return stager.maplibreStage
+}
+
+func (stager *Stager) GetCesiumStage() *cesium.Stage {
+	return stager.cesiumStage
 }
 
 func (stager *Stager) GetTreeStage() *tree.Stage {

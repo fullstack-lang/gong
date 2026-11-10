@@ -1,0 +1,95 @@
+.gong-cesium-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  overflow: hidden;
+  background: #060d18;
+}
+
+.gong-cesium-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.gong-cesium-container .cesium-widget,
+.gong-cesium-container .cesium-widget canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.gong-cesium-container .cesium-widget-credits {
+  display: none !important;
+}
+
+.gong-cesium-hud {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  display: flex;
+  gap: 6px;
+}
+
+.gong-cesium-hud-btn {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.82);
+  color: #f8fafc;
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.gong-cesium-hud-btn:hover {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(56, 189, 248, 0.65);
+}
+
+.gong-cesium-popup {
+  position: absolute;
+  z-index: 20;
+  transform: translate(-50%, -100%);
+  margin-top: -12px;
+  min-width: 200px;
+  max-width: 340px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #0f172a;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  pointer-events: auto;
+}
+
+.gong-cesium-popup-close {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  line-height: 1;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.gong-cesium-popup-close:hover {
+  color: #0f172a;
+}
+
+.gong-cesium-popup-content {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+}

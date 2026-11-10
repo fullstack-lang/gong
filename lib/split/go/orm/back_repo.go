@@ -30,6 +30,8 @@ type BackRepoStruct struct {
 
 	BackRepoButton BackRepoButtonStruct
 
+	BackRepoCesium BackRepoCesiumStruct
+
 	BackRepoCursor BackRepoCursorStruct
 
 	BackRepoFavIcon BackRepoFavIconStruct
@@ -90,6 +92,7 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		&AsSplitDB{},
 		&AsSplitAreaDB{},
 		&ButtonDB{},
+		&CesiumDB{},
 		&CursorDB{},
 		&FavIconDB{},
 		&FormDB{},
@@ -134,6 +137,14 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		Map_ButtonDBID_ButtonPtr: make(map[uint]*models.Button, 0),
 		Map_ButtonDBID_ButtonDB:  make(map[uint]*ButtonDB, 0),
 		Map_ButtonPtr_ButtonDBID: make(map[*models.Button]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoCesium = BackRepoCesiumStruct{
+		Map_CesiumDBID_CesiumPtr: make(map[uint]*models.Cesium, 0),
+		Map_CesiumDBID_CesiumDB:  make(map[uint]*CesiumDB, 0),
+		Map_CesiumPtr_CesiumDBID: make(map[*models.Cesium]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -331,6 +342,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoAsSplit.CommitPhaseOne(stage)
 	backRepo.BackRepoAsSplitArea.CommitPhaseOne(stage)
 	backRepo.BackRepoButton.CommitPhaseOne(stage)
+	backRepo.BackRepoCesium.CommitPhaseOne(stage)
 	backRepo.BackRepoCursor.CommitPhaseOne(stage)
 	backRepo.BackRepoFavIcon.CommitPhaseOne(stage)
 	backRepo.BackRepoForm.CommitPhaseOne(stage)
@@ -354,6 +366,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoAsSplit.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoAsSplitArea.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoButton.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoCesium.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoCursor.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoFavIcon.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoForm.CommitPhaseTwo(backRepo)
@@ -389,6 +402,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoAsSplit.CheckoutPhaseOne()
 	backRepo.BackRepoAsSplitArea.CheckoutPhaseOne()
 	backRepo.BackRepoButton.CheckoutPhaseOne()
+	backRepo.BackRepoCesium.CheckoutPhaseOne()
 	backRepo.BackRepoCursor.CheckoutPhaseOne()
 	backRepo.BackRepoFavIcon.CheckoutPhaseOne()
 	backRepo.BackRepoForm.CheckoutPhaseOne()
@@ -412,6 +426,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoAsSplit.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoAsSplitArea.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoButton.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoCesium.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoCursor.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoFavIcon.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoForm.CheckoutPhaseTwo(backRepo)
@@ -440,6 +455,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoAsSplit.Backup(dirPath)
 	backRepo.BackRepoAsSplitArea.Backup(dirPath)
 	backRepo.BackRepoButton.Backup(dirPath)
+	backRepo.BackRepoCesium.Backup(dirPath)
 	backRepo.BackRepoCursor.Backup(dirPath)
 	backRepo.BackRepoFavIcon.Backup(dirPath)
 	backRepo.BackRepoForm.Backup(dirPath)
@@ -471,6 +487,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoAsSplit.BackupXL(file)
 	backRepo.BackRepoAsSplitArea.BackupXL(file)
 	backRepo.BackRepoButton.BackupXL(file)
+	backRepo.BackRepoCesium.BackupXL(file)
 	backRepo.BackRepoCursor.BackupXL(file)
 	backRepo.BackRepoFavIcon.BackupXL(file)
 	backRepo.BackRepoForm.BackupXL(file)
@@ -516,6 +533,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoAsSplit.RestorePhaseOne(dirPath)
 	backRepo.BackRepoAsSplitArea.RestorePhaseOne(dirPath)
 	backRepo.BackRepoButton.RestorePhaseOne(dirPath)
+	backRepo.BackRepoCesium.RestorePhaseOne(dirPath)
 	backRepo.BackRepoCursor.RestorePhaseOne(dirPath)
 	backRepo.BackRepoFavIcon.RestorePhaseOne(dirPath)
 	backRepo.BackRepoForm.RestorePhaseOne(dirPath)
@@ -543,6 +561,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoAsSplit.RestorePhaseTwo()
 	backRepo.BackRepoAsSplitArea.RestorePhaseTwo()
 	backRepo.BackRepoButton.RestorePhaseTwo()
+	backRepo.BackRepoCesium.RestorePhaseTwo()
 	backRepo.BackRepoCursor.RestorePhaseTwo()
 	backRepo.BackRepoFavIcon.RestorePhaseTwo()
 	backRepo.BackRepoForm.RestorePhaseTwo()
@@ -591,6 +610,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoAsSplit.RestoreXLPhaseOne(file)
 	backRepo.BackRepoAsSplitArea.RestoreXLPhaseOne(file)
 	backRepo.BackRepoButton.RestoreXLPhaseOne(file)
+	backRepo.BackRepoCesium.RestoreXLPhaseOne(file)
 	backRepo.BackRepoCursor.RestoreXLPhaseOne(file)
 	backRepo.BackRepoFavIcon.RestoreXLPhaseOne(file)
 	backRepo.BackRepoForm.RestoreXLPhaseOne(file)

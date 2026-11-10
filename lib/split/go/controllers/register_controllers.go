@@ -63,6 +63,9 @@ func registerControllers(mux *http.ServeMux) {
 	mux.HandleFunc("PATCH " + base + "/buttons/{id}", GetController().UpdateButton)
 	mux.HandleFunc("PUT " + base + "/buttons/{id}", GetController().UpdateButton)
 
+	mux.HandleFunc("PATCH " + base + "/cesiums/{id}", GetController().UpdateCesium)
+	mux.HandleFunc("PUT " + base + "/cesiums/{id}", GetController().UpdateCesium)
+
 	mux.HandleFunc("PATCH " + base + "/cursors/{id}", GetController().UpdateCursor)
 	mux.HandleFunc("PUT " + base + "/cursors/{id}", GetController().UpdateCursor)
 

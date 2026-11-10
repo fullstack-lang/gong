@@ -47,6 +47,13 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.Cesiums {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Cesium", instances, (*Cesium)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.Cursors {
 				instances = append(instances, instance)
 			}

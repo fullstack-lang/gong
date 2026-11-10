@@ -664,6 +664,7 @@ func (stager *Stager) ux_maplibre() {
 
 	stager.maplibreStage.StageBranch(mapView)
 	stager.maplibreStage.Commit()
+	stager.ux_cesium()
 }
 
 func extractVolumeGeometry(

@@ -164,6 +164,8 @@ func saveAsSplitAreaFields(
 			FormDivSelectFieldToField(&(_instance.AsSplit), probe.stageOfInterest, formDiv)
 		case "Button":
 			FormDivSelectFieldToField(&(_instance.Button), probe.stageOfInterest, formDiv)
+		case "Cesium":
+			FormDivSelectFieldToField(&(_instance.Cesium), probe.stageOfInterest, formDiv)
 		case "Cursor":
 			FormDivSelectFieldToField(&(_instance.Cursor), probe.stageOfInterest, formDiv)
 		case "Form":
@@ -219,6 +221,37 @@ type ButtonFormCallback = FormCallback[*models.Button]
 
 func saveButtonFields(
 	_instance *models.Button,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "StackName":
+			FormDivBasicFieldToField(&(_instance.StackName), formDiv)
+		}
+	}
+}
+
+func __gong__New__CesiumFormCallback(
+	_instance *models.Cesium,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (cesiumFormCallback *FormCallback[*models.Cesium]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveCesiumFields,
+	)
+}
+
+type CesiumFormCallback = FormCallback[*models.Cesium]
+
+func saveCesiumFields(
+	_instance *models.Cesium,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {

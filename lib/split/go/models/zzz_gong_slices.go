@@ -51,6 +51,8 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.Buttons)
 
+	res = __gong__appendInstances(res, stage.Cesiums)
+
 	res = __gong__appendInstances(res, stage.Cursors)
 
 	res = __gong__appendInstances(res, stage.FavIcons)
@@ -106,6 +108,12 @@ func (assplitarea *AsSplitArea) GongCopy() GongstructIF {
 func (button *Button) GongCopy() GongstructIF {
 	newInstance := new(Button)
 	button.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (cesium *Cesium) GongCopy() GongstructIF {
+	newInstance := new(Cesium)
+	cesium.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -228,6 +236,10 @@ func (assplitarea *AsSplitArea) GongGetUUID(stage *Stage) string {
 
 func (button *Button) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, button)
+}
+
+func (cesium *Cesium) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, cesium)
 }
 
 func (cursor *Cursor) GongGetUUID(stage *Stage) string {
@@ -443,6 +455,23 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		stage.Buttons_reference,
 		&stage.Buttons_referenceOrder,
 		stage.Buttons_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.Cesiums,
+		stage.Cesium_stagedOrder,
+		stage.Cesiums_reference,
+		&stage.Cesiums_referenceOrder,
+		stage.Cesiums_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -800,6 +829,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.Buttons, &stage.Buttons_reference, &stage.Buttons_referenceOrder, &stage.Buttons_instance)
 
+	__gong__computeReferencePass1(stage, stage.Cesiums, &stage.Cesiums_reference, &stage.Cesiums_referenceOrder, &stage.Cesiums_instance)
+
 	__gong__computeReferencePass1(stage, stage.Cursors, &stage.Cursors_reference, &stage.Cursors_referenceOrder, &stage.Cursors_instance)
 
 	__gong__computeReferencePass1(stage, stage.FavIcons, &stage.FavIcons_reference, &stage.FavIcons_referenceOrder, &stage.FavIcons_instance)
@@ -842,6 +873,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass2(stage.AsSplitAreas, stage.AsSplitAreas_reference, stage)
 
 	__gong__computeReferencePass2(stage.Buttons, stage.Buttons_reference, stage)
+
+	__gong__computeReferencePass2(stage.Cesiums, stage.Cesiums_reference, stage)
 
 	__gong__computeReferencePass2(stage.Cursors, stage.Cursors_reference, stage)
 
@@ -899,6 +932,10 @@ func (assplitarea *AsSplitArea) GongGetOrder(stage *Stage) uint {
 
 func (button *Button) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Button_stagedOrder, stage.Buttons_referenceOrder, button, "Button")
+}
+
+func (cesium *Cesium) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.Cesium_stagedOrder, stage.Cesiums_referenceOrder, cesium, "Cesium")
 }
 
 func (cursor *Cursor) GongGetOrder(stage *Stage) uint {
@@ -1003,6 +1040,15 @@ func (button *Button) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (button *Button) GongGetReferenceIdentifier(stage *Stage) string {
 	return button.GongGetIdentifier(stage)
+}
+
+func (cesium *Cesium) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(cesium, cesium.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (cesium *Cesium) GongGetReferenceIdentifier(stage *Stage) string {
+	return cesium.GongGetIdentifier(stage)
 }
 
 func (cursor *Cursor) GongGetIdentifier(stage *Stage) string {
@@ -1182,6 +1228,10 @@ func (button *Button) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(button.GongGetIdentifier(stage), "Button", button.Name)
 }
 
+func (cesium *Cesium) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(cesium.GongGetIdentifier(stage), "Cesium", cesium.Name)
+}
+
 func (cursor *Cursor) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(cursor.GongGetIdentifier(stage), "Cursor", cursor.Name)
 }
@@ -1265,6 +1315,10 @@ func (assplitarea *AsSplitArea) GongMarshallUnstaging(stage *Stage) string {
 
 func (button *Button) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(button.GongGetReferenceIdentifier(stage))
+}
+
+func (cesium *Cesium) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(cesium.GongGetReferenceIdentifier(stage))
 }
 
 func (cursor *Cursor) GongMarshallUnstaging(stage *Stage) string {

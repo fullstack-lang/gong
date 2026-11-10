@@ -56,6 +56,7 @@ func (assplitarea *AsSplitArea) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanPointer(&assplitarea.AsSplit) || modified
 	modified = stage.CleanPointer(&assplitarea.Button) || modified
+	modified = stage.CleanPointer(&assplitarea.Cesium) || modified
 	modified = stage.CleanPointer(&assplitarea.Cursor) || modified
 	modified = stage.CleanPointer(&assplitarea.Form) || modified
 	modified = stage.CleanPointer(&assplitarea.Load) || modified

@@ -32,6 +32,10 @@ type DBLite struct {
 
 	nextIDButtonDB uint
 
+	cesiumDBs map[uint]*CesiumDB
+
+	nextIDCesiumDB uint
+
 	cursorDBs map[uint]*CursorDB
 
 	nextIDCursorDB uint
@@ -116,6 +120,8 @@ func NewDBLite() *DBLite {
 
 		buttonDBs: make(map[uint]*ButtonDB),
 
+		cesiumDBs: make(map[uint]*CesiumDB),
+
 		cursorDBs: make(map[uint]*CursorDB),
 
 		faviconDBs: make(map[uint]*FavIconDB),
@@ -177,6 +183,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDButtonDB++
 		v.ID = db.nextIDButtonDB
 		db.buttonDBs[v.ID] = v
+	case *CesiumDB:
+		db.nextIDCesiumDB++
+		v.ID = db.nextIDCesiumDB
+		db.cesiumDBs[v.ID] = v
 	case *CursorDB:
 		db.nextIDCursorDB++
 		v.ID = db.nextIDCursorDB
@@ -283,6 +293,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.assplitareaDBs, v.ID)
 	case *ButtonDB:
 		delete(db.buttonDBs, v.ID)
+	case *CesiumDB:
+		delete(db.cesiumDBs, v.ID)
 	case *CursorDB:
 		delete(db.cursorDBs, v.ID)
 	case *FavIconDB:
@@ -345,6 +357,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *ButtonDB:
 		db.buttonDBs[v.ID] = v
+		return db, nil
+	case *CesiumDB:
+		db.cesiumDBs[v.ID] = v
 		return db, nil
 	case *CursorDB:
 		db.cursorDBs[v.ID] = v
@@ -433,6 +448,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Button github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *CesiumDB:
+		if existing, ok := db.cesiumDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Cesium github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *CursorDB:
 		if existing, ok := db.cursorDBs[v.ID]; ok {
@@ -571,6 +592,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]ButtonDB:
 		*ptr = make([]ButtonDB, 0, len(db.buttonDBs))
 		for _, v := range db.buttonDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]CesiumDB:
+		*ptr = make([]CesiumDB, 0, len(db.cesiumDBs))
+		for _, v := range db.cesiumDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -744,6 +771,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		buttonDB, _ := instanceDB.(*ButtonDB)
 		*buttonDB = *tmp
+
+	case *CesiumDB:
+		tmp, ok := db.cesiumDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Cesium Unkown entry %d", i))
+		}
+
+		cesiumDB, _ := instanceDB.(*CesiumDB)
+		*cesiumDB = *tmp
 
 	case *CursorDB:
 		tmp, ok := db.cursorDBs[uint(i)]

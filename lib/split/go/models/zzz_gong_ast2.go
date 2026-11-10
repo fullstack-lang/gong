@@ -166,6 +166,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(AsSplitArea), stage, ident.Name, instanceName, preserveOrder)
 				case "Button":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Button), stage, ident.Name, instanceName, preserveOrder)
+				case "Cesium":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(Cesium), stage, ident.Name, instanceName, preserveOrder)
 				case "Cursor":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Cursor), stage, ident.Name, instanceName, preserveOrder)
 				case "FavIcon":
@@ -245,6 +247,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.AsSplit, rhs, identifierMap)
 					case "Button":
 						__gong__assignPointer(&inst.Button, rhs, identifierMap)
+					case "Cesium":
+						__gong__assignPointer(&inst.Cesium, rhs, identifierMap)
 					case "Cursor":
 						__gong__assignPointer(&inst.Cursor, rhs, identifierMap)
 					case "Form":
@@ -277,6 +281,13 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.DivStyle = GongExtractString(rhs)
 					}
 				case *Button:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "StackName":
+						inst.StackName = GongExtractString(rhs)
+					}
+				case *Cesium:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
@@ -662,6 +673,8 @@ func (u *AsSplitAreaUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallPointer(&instance.AsSplit, valueExpr, identifierMap)
 	case "Button":
 		GongUnmarshallPointer(&instance.Button, valueExpr, identifierMap)
+	case "Cesium":
+		GongUnmarshallPointer(&instance.Cesium, valueExpr, identifierMap)
 	case "Cursor":
 		GongUnmarshallPointer(&instance.Cursor, valueExpr, identifierMap)
 	case "Form":
@@ -704,6 +717,25 @@ func (u *ButtonUnmarshaller) Initialize(stage *Stage, identifier string, instanc
 
 func (u *ButtonUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
 	instance := i.(*Button)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StackName":
+		instance.StackName = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type CesiumUnmarshaller struct{}
+
+func (u *CesiumUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(Cesium), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *CesiumUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Cesium)
 	_ = instance
 	switch fieldName {
 	// insertion point per field

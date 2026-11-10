@@ -2,6 +2,7 @@
 // insertion point for imports
 import { AsSplitAPI } from './assplit-api'
 import { ButtonAPI } from './button-api'
+import { CesiumAPI } from './cesium-api'
 import { CursorAPI } from './cursor-api'
 import { FormAPI } from './form-api'
 import { LoadAPI } from './load-api'
@@ -46,6 +47,8 @@ export class AsSplitAreaPointersEncoding {
 	AsSplitID: NullInt64 = new NullInt64 // if pointer is null, AsSplit.ID = 0
 
 	ButtonID: NullInt64 = new NullInt64 // if pointer is null, Button.ID = 0
+
+	CesiumID: NullInt64 = new NullInt64 // if pointer is null, Cesium.ID = 0
 
 	CursorID: NullInt64 = new NullInt64 // if pointer is null, Cursor.ID = 0
 

@@ -7,6 +7,8 @@ import { AsSplitAreaAPI } from './assplitarea-api'
 
 import { ButtonAPI } from './button-api'
 
+import { CesiumAPI } from './cesium-api'
+
 import { CursorAPI } from './cursor-api'
 
 import { FavIconAPI } from './favicon-api'
@@ -51,6 +53,8 @@ export class BackRepoData {
 	AsSplitAreaAPIs = new Array<AsSplitAreaAPI>()
 
 	ButtonAPIs = new Array<ButtonAPI>()
+
+	CesiumAPIs = new Array<CesiumAPI>()
 
 	CursorAPIs = new Array<CursorAPI>()
 
@@ -99,6 +103,8 @@ export class BackRepoData {
 		this.AsSplitAreaAPIs = data?.AsSplitAreaAPIs || [];
 
 		this.ButtonAPIs = data?.ButtonAPIs || [];
+
+		this.CesiumAPIs = data?.CesiumAPIs || [];
 
 		this.CursorAPIs = data?.CursorAPIs || [];
 

@@ -15,6 +15,9 @@ import { AsSplitArea, CopyAsSplitAreaAPIToAsSplitArea } from './assplitarea'
 import { ButtonAPI } from './button-api'
 import { Button, CopyButtonAPIToButton } from './button'
 
+import { CesiumAPI } from './cesium-api'
+import { Cesium, CopyCesiumAPIToCesium } from './cesium'
+
 import { CursorAPI } from './cursor-api'
 import { Cursor, CopyCursorAPIToCursor } from './cursor'
 
@@ -85,6 +88,9 @@ export class FrontRepo { // insertion point sub template
 	array_Buttons = new Array<Button>() // array of front instances
 	map_ID_Button = new Map<number, Button>() // map of front instances
 
+	array_Cesiums = new Array<Cesium>() // array of front instances
+	map_ID_Cesium = new Map<number, Cesium>() // map of front instances
+
 	array_Cursors = new Array<Cursor>() // array of front instances
 	map_ID_Cursor = new Map<number, Cursor>() // map of front instances
 
@@ -154,6 +160,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_AsSplitAreas as unknown as Array<Type>
 			case 'Button':
 				return this.array_Buttons as unknown as Array<Type>
+			case 'Cesium':
+				return this.array_Cesiums as unknown as Array<Type>
 			case 'Cursor':
 				return this.array_Cursors as unknown as Array<Type>
 			case 'FavIcon':
@@ -204,6 +212,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_AsSplitArea as unknown as Map<number, Type>
 			case 'Button':
 				return this.map_ID_Button as unknown as Map<number, Type>
+			case 'Cesium':
+				return this.map_ID_Cesium as unknown as Map<number, Type>
 			case 'Cursor':
 				return this.map_ID_Cursor as unknown as Map<number, Type>
 			case 'FavIcon':
@@ -398,6 +408,18 @@ export class FrontRepoService {
 						let button = new Button
 						frontRepo.array_Buttons.push(button)
 						frontRepo.map_ID_Button.set(buttonAPI.ID, button)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_Cesiums = []
+				frontRepo.map_ID_Cesium.clear()
+
+				backRepoData.CesiumAPIs.forEach(
+					cesiumAPI => {
+						let cesium = new Cesium
+						frontRepo.array_Cesiums.push(cesium)
+						frontRepo.map_ID_Cesium.set(cesiumAPI.ID, cesium)
 					}
 				)
 
@@ -646,6 +668,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.CesiumAPIs.forEach(
+					cesiumAPI => {
+						let cesium = frontRepo.map_ID_Cesium.get(cesiumAPI.ID)
+						CopyCesiumAPIToCesium(cesiumAPI, cesium!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.CursorAPIs.forEach(
 					cursorAPI => {
 						let cursor = frontRepo.map_ID_Cursor.get(cursorAPI.ID)
@@ -872,57 +902,60 @@ export function getAsSplitAreaUniqueID(id: number): number {
 export function getButtonUniqueID(id: number): number {
 	return 41 * id
 }
-export function getCursorUniqueID(id: number): number {
+export function getCesiumUniqueID(id: number): number {
 	return 43 * id
 }
-export function getFavIconUniqueID(id: number): number {
+export function getCursorUniqueID(id: number): number {
 	return 47 * id
 }
-export function getFormUniqueID(id: number): number {
+export function getFavIconUniqueID(id: number): number {
 	return 53 * id
 }
-export function getLoadUniqueID(id: number): number {
+export function getFormUniqueID(id: number): number {
 	return 59 * id
 }
-export function getLogoOnTheLeftUniqueID(id: number): number {
+export function getLoadUniqueID(id: number): number {
 	return 61 * id
 }
-export function getLogoOnTheRightUniqueID(id: number): number {
+export function getLogoOnTheLeftUniqueID(id: number): number {
 	return 67 * id
 }
-export function getMaplibreUniqueID(id: number): number {
+export function getLogoOnTheRightUniqueID(id: number): number {
 	return 71 * id
 }
-export function getMarkdownUniqueID(id: number): number {
+export function getMaplibreUniqueID(id: number): number {
 	return 73 * id
 }
-export function getSliderUniqueID(id: number): number {
+export function getMarkdownUniqueID(id: number): number {
 	return 79 * id
 }
-export function getSplitUniqueID(id: number): number {
+export function getSliderUniqueID(id: number): number {
 	return 83 * id
 }
-export function getSvgUniqueID(id: number): number {
+export function getSplitUniqueID(id: number): number {
 	return 89 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getSvgUniqueID(id: number): number {
 	return 97 * id
 }
-export function getThreejsUniqueID(id: number): number {
+export function getTableUniqueID(id: number): number {
 	return 101 * id
 }
-export function getTitleUniqueID(id: number): number {
+export function getThreejsUniqueID(id: number): number {
 	return 103 * id
 }
-export function getToneUniqueID(id: number): number {
+export function getTitleUniqueID(id: number): number {
 	return 107 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getToneUniqueID(id: number): number {
 	return 109 * id
 }
-export function getViewUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
 	return 113 * id
 }
-export function getXlsxUniqueID(id: number): number {
+export function getViewUniqueID(id: number): number {
 	return 127 * id
+}
+export function getXlsxUniqueID(id: number): number {
+	return 131 * id
 }

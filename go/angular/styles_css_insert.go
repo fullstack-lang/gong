@@ -4,6 +4,7 @@ const StylesCssInsert = `
 @import 'material-symbols/outlined.css';
 @import 'katex/dist/katex.min.css';
 @import 'maplibre-gl/dist/maplibre-gl.css';
+@import '@cesium/engine/Source/Widget/CesiumWidget.css';
 
 @import '@angular/material/prebuilt-themes/azure-blue.css';
 

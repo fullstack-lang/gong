@@ -30,6 +30,11 @@ func (button *Button) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
+func (cesium *Cesium) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Cesiums[cesium]
+	return ok
+}
+
 func (cursor *Cursor) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.Cursors[cursor]
 	return ok
@@ -162,6 +167,9 @@ func (assplitarea *AsSplitArea) GongStageBranch(stage *Stage) {
 	if assplitarea.Button != nil {
 		stage.StageBranch(assplitarea.Button)
 	}
+	if assplitarea.Cesium != nil {
+		stage.StageBranch(assplitarea.Cesium)
+	}
 	if assplitarea.Cursor != nil {
 		stage.StageBranch(assplitarea.Cursor)
 	}
@@ -214,6 +222,21 @@ func (button *Button) GongStageBranch(stage *Stage) {
 	}
 
 	button.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (cesium *Cesium) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(cesium) {
+		return
+	}
+
+	cesium.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -517,6 +540,10 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchButton(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Cesium:
+		toT := GongCopyBranchCesium(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Cursor:
 		toT := GongCopyBranchCursor(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -629,6 +656,9 @@ func GongCopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplit
 	if assplitareaFrom.Button != nil {
 		assplitareaTo.Button = GongCopyBranchButton(mapOrigCopy, assplitareaFrom.Button)
 	}
+	if assplitareaFrom.Cesium != nil {
+		assplitareaTo.Cesium = GongCopyBranchCesium(mapOrigCopy, assplitareaFrom.Cesium)
+	}
 	if assplitareaFrom.Cursor != nil {
 		assplitareaTo.Cursor = GongCopyBranchCursor(mapOrigCopy, assplitareaFrom.Cursor)
 	}
@@ -681,6 +711,21 @@ func GongCopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo
 		return
 	}
 	buttonFrom.GongCopyBasicFields(buttonTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchCesium(mapOrigCopy map[any]any, cesiumFrom *Cesium) (cesiumTo *Cesium) {
+	var alreadyCopied bool
+	cesiumTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, cesiumFrom)
+	if alreadyCopied {
+		return
+	}
+	cesiumFrom.GongCopyBasicFields(cesiumTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1008,6 +1053,9 @@ func (assplitarea *AsSplitArea) GongUnstageBranch(stage *Stage) {
 	if assplitarea.Button != nil {
 		stage.UnstageBranch(assplitarea.Button)
 	}
+	if assplitarea.Cesium != nil {
+		stage.UnstageBranch(assplitarea.Cesium)
+	}
 	if assplitarea.Cursor != nil {
 		stage.UnstageBranch(assplitarea.Cursor)
 	}
@@ -1060,6 +1108,21 @@ func (button *Button) GongUnstageBranch(stage *Stage) {
 	}
 
 	button.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (cesium *Cesium) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(cesium) {
+		return
+	}
+
+	cesium.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1351,6 +1414,7 @@ func (reference *AsSplitArea) GongReconstructPointersFromReferences(stage *Stage
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.AsSplit, stage.AsSplits_reference, instance.AsSplit)
 	__gong__reconstructPointer(&reference.Button, stage.Buttons_reference, instance.Button)
+	__gong__reconstructPointer(&reference.Cesium, stage.Cesiums_reference, instance.Cesium)
 	__gong__reconstructPointer(&reference.Cursor, stage.Cursors_reference, instance.Cursor)
 	__gong__reconstructPointer(&reference.Form, stage.Forms_reference, instance.Form)
 	__gong__reconstructPointer(&reference.Load, stage.Loads_reference, instance.Load)
@@ -1368,6 +1432,11 @@ func (reference *AsSplitArea) GongReconstructPointersFromReferences(stage *Stage
 }
 
 func (reference *Button) GongReconstructPointersFromReferences(stage *Stage, instance *Button) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *Cesium) GongReconstructPointersFromReferences(stage *Stage, instance *Cesium) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -1474,6 +1543,7 @@ func (reference *AsSplitArea) GongReconstructPointersFromInstances(stage *Stage)
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.AsSplit, stage.AsSplits_instance)
 	__gong__reconstructPointerFromInstance(&reference.Button, stage.Buttons_instance)
+	__gong__reconstructPointerFromInstance(&reference.Cesium, stage.Cesiums_instance)
 	__gong__reconstructPointerFromInstance(&reference.Cursor, stage.Cursors_instance)
 	__gong__reconstructPointerFromInstance(&reference.Form, stage.Forms_instance)
 	__gong__reconstructPointerFromInstance(&reference.Load, stage.Loads_instance)
@@ -1491,6 +1561,11 @@ func (reference *AsSplitArea) GongReconstructPointersFromInstances(stage *Stage)
 }
 
 func (reference *Button) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *Cesium) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -1635,6 +1710,9 @@ func (assplitarea *AsSplitArea) GongDiff(stage *Stage, assplitareaOther *AsSplit
 	if assplitarea.Button != assplitareaOther.Button {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Button"))
 	}
+	if assplitarea.Cesium != assplitareaOther.Cesium {
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Cesium"))
+	}
 	if assplitarea.Cursor != assplitareaOther.Cursor {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Cursor"))
 	}
@@ -1693,6 +1771,20 @@ func (button *Button) GongDiff(stage *Stage, buttonOther *Button) (diffs []strin
 	}
 	if button.StackName != buttonOther.StackName {
 		diffs = append(diffs, button.GongMarshallField(stage, "StackName"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (cesium *Cesium) GongDiff(stage *Stage, cesiumOther *Cesium) (diffs []string) {
+	// insertion point for field diffs
+	if cesium.Name != cesiumOther.Name {
+		diffs = append(diffs, cesium.GongMarshallField(stage, "Name"))
+	}
+	if cesium.StackName != cesiumOther.StackName {
+		diffs = append(diffs, cesium.GongMarshallField(stage, "StackName"))
 	}
 
 	return

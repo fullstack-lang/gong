@@ -81,6 +81,19 @@ func FillUpFormFromGongstructName(
 		button := new(models.Button)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(button, formGroup, probe)
+	case "Cesium":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Cesium Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__CesiumFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		cesium := new(models.Cesium)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(cesium, formGroup, probe)
 	case "Cursor":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

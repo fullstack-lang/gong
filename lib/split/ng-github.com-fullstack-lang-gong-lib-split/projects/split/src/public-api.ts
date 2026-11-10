@@ -25,6 +25,10 @@ export * from './lib/button-api'
 export * from './lib/button'
 export * from './lib/button.service'
 
+export * from './lib/cesium-api'
+export * from './lib/cesium'
+export * from './lib/cesium.service'
+
 export * from './lib/cursor-api'
 export * from './lib/cursor'
 export * from './lib/cursor.service'

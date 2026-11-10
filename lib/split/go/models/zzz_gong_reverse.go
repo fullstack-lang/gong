@@ -35,6 +35,11 @@ func (inst *Button) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Gon
 	return
 }
 
+func (inst *Cesium) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+	res = ""
+	return
+}
+
 func (inst *Cursor) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return

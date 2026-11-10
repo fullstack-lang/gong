@@ -1,0 +1,58 @@
+<div class="gong-cesium-wrapper">
+  <div #mapContainer class="gong-cesium-container"></div>
+
+  <div class="gong-cesium-hud">
+    <button
+      type="button"
+      class="gong-cesium-hud-btn"
+      title="Reset 3D Camera View"
+      (click)="resetCameraView()"
+    >
+      3D Home
+    </button>
+    <button
+      type="button"
+      class="gong-cesium-hud-btn"
+      title="Tilt 3D Horizon"
+      (click)="tiltCamera()"
+    >
+      Tilt 3D
+    </button>
+    <button
+      type="button"
+      class="gong-cesium-hud-btn"
+      title="Top-Down 2D Globe View"
+      (click)="topDownCamera()"
+    >
+      Top-Down
+    </button>
+    <button
+      type="button"
+      class="gong-cesium-hud-btn"
+      title="Toggle Dark / Light Offline World Map"
+      (click)="toggleBaseTheme()"
+    >
+      {{ isDarkTheme ? 'Light Globe' : 'Dark Globe' }}
+    </button>
+  </div>
+
+  @if (activePopupHtml) {
+    <div
+      class="gong-cesium-popup"
+      [style.left.px]="popupScreenX"
+      [style.top.px]="popupScreenY"
+    >
+      <button
+        type="button"
+        class="gong-cesium-popup-close"
+        (click)="closePopup()"
+      >
+        ×
+      </button>
+      <div
+        class="gong-cesium-popup-content"
+        [innerHTML]="activePopupHtml"
+      ></div>
+    </div>
+  }
+</div>

@@ -4,6 +4,7 @@ package models
 // this allows the front end compilation of the split front end
 import (
 	_ "github.com/fullstack-lang/gong/lib/button/ng-github.com-fullstack-lang-gong-lib-button"
+	_ "github.com/fullstack-lang/gong/lib/cesium/ng-github.com-fullstack-lang-gong-lib-cesium"
 	_ "github.com/fullstack-lang/gong/lib/cursor/ng-github.com-fullstack-lang-gong-lib-cursor"
 	_ "github.com/fullstack-lang/gong/lib/form/ng-github.com-fullstack-lang-gong-lib-form"
 	_ "github.com/fullstack-lang/gong/lib/load/ng-github.com-fullstack-lang-gong-lib-load"
@@ -82,6 +83,7 @@ type AsSplitArea struct {
 	AsSplit *AsSplit
 
 	Button   *Button
+	Cesium   *Cesium
 	Cursor   *Cursor
 	Form     *Form
 	Load     *Load
@@ -101,6 +103,11 @@ type AsSplitArea struct {
 }
 
 type Button struct {
+	Name      string // name of the stack
+	StackName string
+}
+
+type Cesium struct {
 	Name      string // name of the stack
 	StackName string
 }

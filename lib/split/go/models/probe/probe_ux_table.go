@@ -30,6 +30,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.AsSplitArea](probe)
 	case "Button":
 		updateProbeTable[*models.Button](probe)
+	case "Cesium":
+		updateProbeTable[*models.Cesium](probe)
 	case "Cursor":
 		updateProbeTable[*models.Cursor](probe)
 	case "FavIcon":

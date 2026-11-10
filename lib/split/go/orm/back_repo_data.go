@@ -10,6 +10,8 @@ type BackRepoData struct {
 
 	ButtonAPIs []*ButtonAPI
 
+	CesiumAPIs []*CesiumAPI
+
 	CursorAPIs []*CursorAPI
 
 	FavIconAPIs []*FavIconAPI
@@ -85,6 +87,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		buttonDB.CopyBasicFieldsToButton_WOP(&buttonAPI.Button_WOP)
 
 		backRepoData.ButtonAPIs = append(backRepoData.ButtonAPIs, &buttonAPI)
+	}
+
+	for _, cesiumDB := range backRepo.BackRepoCesium.Map_CesiumDBID_CesiumDB {
+
+		var cesiumAPI CesiumAPI
+		cesiumAPI.ID = cesiumDB.ID
+		cesiumAPI.CesiumPointersEncoding = cesiumDB.CesiumPointersEncoding
+		cesiumDB.CopyBasicFieldsToCesium_WOP(&cesiumAPI.Cesium_WOP)
+
+		backRepoData.CesiumAPIs = append(backRepoData.CesiumAPIs, &cesiumAPI)
 	}
 
 	for _, cursorDB := range backRepo.BackRepoCursor.Map_CursorDBID_CursorDB {

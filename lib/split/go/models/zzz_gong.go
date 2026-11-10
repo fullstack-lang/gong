@@ -161,6 +161,20 @@ type Stage struct {
 	OnAfterButtonUpdateCallback GongOnAfterUpdateInterface[Button]
 	OnAfterButtonDeleteCallback GongOnAfterDeleteInterface[Button]
 
+	Cesiums                map[*Cesium]struct{}
+	Cesiums_instance       map[*Cesium]*Cesium
+	Cesiums_mapString      map[string]*Cesium
+	CesiumOrder            uint
+	Cesium_stagedOrder     map[*Cesium]uint
+	Cesium_orderStaged     map[uint]*Cesium
+	Cesiums_reference      map[*Cesium]*Cesium
+	Cesiums_referenceOrder map[*Cesium]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterCesiumCreateCallback GongOnAfterCreateInterface[Cesium]
+	OnAfterCesiumUpdateCallback GongOnAfterUpdateInterface[Cesium]
+	OnAfterCesiumDeleteCallback GongOnAfterDeleteInterface[Cesium]
+
 	Cursors                map[*Cursor]struct{}
 	Cursors_instance       map[*Cursor]*Cursor
 	Cursors_mapString      map[string]*Cursor
@@ -502,6 +516,8 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.Buttons_reference, &stage.Buttons_instance, &stage.Buttons_referenceOrder)
 
+	__gong__clearReferences(&stage.Cesiums_reference, &stage.Cesiums_instance, &stage.Cesiums_referenceOrder)
+
 	__gong__clearReferences(&stage.Cursors_reference, &stage.Cursors_instance, &stage.Cursors_referenceOrder)
 
 	__gong__clearReferences(&stage.FavIcons_reference, &stage.FavIcons_instance, &stage.FavIcons_referenceOrder)
@@ -566,6 +582,8 @@ func (stage *Stage) recomputeOrders() {
 	stage.AsSplitAreaOrder = __gong__recomputeOrder(stage.AsSplitArea_stagedOrder)
 
 	stage.ButtonOrder = __gong__recomputeOrder(stage.Button_stagedOrder)
+
+	stage.CesiumOrder = __gong__recomputeOrder(stage.Cesium_stagedOrder)
 
 	stage.CursorOrder = __gong__recomputeOrder(stage.Cursor_stagedOrder)
 
@@ -677,6 +695,26 @@ func (*Button) GongGetInstancesSet(stage *Stage) any {
 
 func (*Button) GongNewInstance() any {
 	return new(Button)
+}
+
+func (*Cesium) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Cesiums, stage.Cesium_stagedOrder)
+}
+
+func (*Cesium) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Cesium_orderStaged[order]
+}
+
+func (*Cesium) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Cesiums_mapString
+}
+
+func (*Cesium) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Cesiums
+}
+
+func (*Cesium) GongNewInstance() any {
+	return new(Cesium)
 }
 
 func (*Cursor) GongGetInstancesByOrder(stage *Stage) any {
@@ -1229,6 +1267,9 @@ func NewStage(name string) (stage *Stage) {
 		Buttons:           make(map[*Button]struct{}),
 		Buttons_mapString: make(map[string]*Button),
 
+		Cesiums:           make(map[*Cesium]struct{}),
+		Cesiums_mapString: make(map[string]*Cesium),
+
 		Cursors:           make(map[*Cursor]struct{}),
 		Cursors_mapString: make(map[string]*Cursor),
 
@@ -1302,6 +1343,10 @@ func NewStage(name string) (stage *Stage) {
 		Button_stagedOrder: make(map[*Button]uint),
 		Button_orderStaged: make(map[uint]*Button),
 		Buttons_reference:  make(map[*Button]*Button),
+
+		Cesium_stagedOrder: make(map[*Cesium]uint),
+		Cesium_orderStaged: make(map[uint]*Cesium),
+		Cesiums_reference:  make(map[*Cesium]*Cesium),
 
 		Cursor_stagedOrder: make(map[*Cursor]uint),
 		Cursor_orderStaged: make(map[uint]*Cursor),
@@ -1382,6 +1427,8 @@ func NewStage(name string) (stage *Stage) {
 			"AsSplitArea": &AsSplitAreaUnmarshaller{},
 
 			"Button": &ButtonUnmarshaller{},
+
+			"Cesium": &CesiumUnmarshaller{},
 
 			"Cursor": &CursorUnmarshaller{},
 
@@ -1504,6 +1551,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["AsSplit"] = len(stage.AsSplits)
 	stage.Map_GongStructName_InstancesNb["AsSplitArea"] = len(stage.AsSplitAreas)
 	stage.Map_GongStructName_InstancesNb["Button"] = len(stage.Buttons)
+	stage.Map_GongStructName_InstancesNb["Cesium"] = len(stage.Cesiums)
 	stage.Map_GongStructName_InstancesNb["Cursor"] = len(stage.Cursors)
 	stage.Map_GongStructName_InstancesNb["FavIcon"] = len(stage.FavIcons)
 	stage.Map_GongStructName_InstancesNb["Form"] = len(stage.Forms)
@@ -1680,6 +1728,46 @@ func (button *Button) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (button *Button) SetName(name string) {
 	button.Name = name
+}
+
+// Stage puts cesium to the model stage
+func (cesium *Cesium) Stage(stage *Stage) *Cesium {
+	__gong__stage(stage.Cesiums, stage.Cesium_stagedOrder, stage.Cesium_orderStaged, &stage.CesiumOrder, stage.Cesiums_mapString, cesium, cesium.Name)
+	return cesium
+}
+
+// StagePreserveOrder puts cesium to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CesiumOrder
+// - update stage.CesiumOrder accordingly
+func (cesium *Cesium) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.Cesiums, stage.Cesium_stagedOrder, stage.Cesium_orderStaged, &stage.CesiumOrder, stage.Cesiums_mapString, cesium, order, cesium.Name)
+}
+
+// Unstage removes cesium off the model stage
+func (cesium *Cesium) Unstage(stage *Stage) *Cesium {
+	__gong__unstage(stage.Cesiums, stage.Cesiums_mapString, cesium, cesium.Name)
+	return cesium
+}
+
+// UnstageVoid removes cesium off the model stage
+func (cesium *Cesium) UnstageVoid(stage *Stage) {
+	cesium.Unstage(stage)
+}
+
+func (cesium *Cesium) StageVoid(stage *Stage) {
+	cesium.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (cesium *Cesium) GetName() (res string) {
+	return cesium.Name
+}
+
+// for satisfaction of GongStruct interface
+func (cesium *Cesium) SetName(name string) {
+	cesium.Name = name
 }
 
 // Stage puts cursor to the model stage
@@ -2409,6 +2497,8 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.Buttons, &stage.Buttons_mapString, &stage.Button_stagedOrder, &stage.ButtonOrder)
 
+	__gong__resetStageType(&stage.Cesiums, &stage.Cesiums_mapString, &stage.Cesium_stagedOrder, &stage.CesiumOrder)
+
 	__gong__resetStageType(&stage.Cursors, &stage.Cursors_mapString, &stage.Cursor_stagedOrder, &stage.CursorOrder)
 
 	__gong__resetStageType(&stage.FavIcons, &stage.FavIcons_mapString, &stage.FavIcon_stagedOrder, &stage.FavIconOrder)
@@ -2559,6 +2649,7 @@ func (AsSplitArea) GongGetAssociationName() any {
 	return &AsSplitArea{
 			AsSplit: &AsSplit{Name: "AsSplit"},
 			Button: &Button{Name: "Button"},
+			Cesium: &Cesium{Name: "Cesium"},
 			Cursor: &Cursor{Name: "Cursor"},
 			Form: &Form{Name: "Form"},
 			Load: &Load{Name: "Load"},
@@ -2577,6 +2668,11 @@ func (AsSplitArea) GongGetAssociationName() any {
 
 func (Button) GongGetAssociationName() any {
 	return &Button{
+	}
+}
+
+func (Cesium) GongGetAssociationName() any {
+	return &Cesium{
 	}
 }
 
@@ -2734,6 +2830,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					assplitareas = append(assplitareas, assplitarea)
 					res[button_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Cesium":
+			res := make(map[*Cesium][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.Cesium != nil {
+					cesium_ := assplitarea.Cesium
+					var assplitareas []*AsSplitArea
+					_, ok := res[cesium_]
+					if ok {
+						assplitareas = res[cesium_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[cesium_] = assplitareas
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -2964,6 +3077,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Cesium
+	case Cesium:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Cursor
 	case Cursor:
 		switch fieldname {
@@ -3084,6 +3202,11 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		}
 	// reverse maps of direct associations of Button
 	case Button:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Cesium
+	case Cesium:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -3257,6 +3380,11 @@ func (*Button) GongGetReverseFields() []GongReverseField {
 	}
 }
 
+func (*Cesium) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+	}
+}
+
 func (*Cursor) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 	}
@@ -3424,6 +3552,11 @@ func (assplitarea *AsSplitArea) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Button",
 		},
 		{
+			Name:                 "Cesium",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Cesium",
+		},
+		{
 			Name:                 "Cursor",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Cursor",
@@ -3501,6 +3634,21 @@ func (assplitarea *AsSplitArea) GongGetFieldHeaders() (res []GongFieldHeader) {
 }
 
 func (button *Button) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StackName",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (cesium *Cesium) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -3957,6 +4105,12 @@ func (assplitarea *AsSplitArea) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString = assplitarea.Button.Name
 			res.ids = assplitarea.Button.GongGetUUID(stage)
 		}
+	case "Cesium":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if assplitarea.Cesium != nil {
+			res.valueString = assplitarea.Cesium.Name
+			res.ids = assplitarea.Cesium.GongGetUUID(stage)
+		}
 	case "Cursor":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Cursor != nil {
@@ -4052,6 +4206,17 @@ func (button *Button) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.valueString = button.Name
 	case "StackName":
 		res.valueString = button.StackName
+	}
+	return
+}
+
+func (cesium *Cesium) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = cesium.Name
+	case "StackName":
+		res.valueString = cesium.StackName
 	}
 	return
 }
@@ -4329,6 +4494,10 @@ func (button *Button) GongGetGongstructName() string {
 	return "Button"
 }
 
+func (cesium *Cesium) GongGetGongstructName() string {
+	return "Cesium"
+}
+
 func (cursor *Cursor) GongGetGongstructName() string {
 	return "Cursor"
 }
@@ -4417,6 +4586,8 @@ func (stage *Stage) ResetMapStrings() {
 	__gong__rebuildMapString(stage.AsSplitAreas, &stage.AsSplitAreas_mapString)
 
 	__gong__rebuildMapString(stage.Buttons, &stage.Buttons_mapString)
+
+	__gong__rebuildMapString(stage.Cesiums, &stage.Cesiums_mapString)
 
 	__gong__rebuildMapString(stage.Cursors, &stage.Cursors_mapString)
 

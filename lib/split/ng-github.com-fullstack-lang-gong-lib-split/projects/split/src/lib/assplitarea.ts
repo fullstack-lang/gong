@@ -6,6 +6,7 @@ import { FrontRepo } from './front-repo.service';
 // insertion point for imports
 import { AsSplit } from './assplit'
 import { Button } from './button'
+import { Cesium } from './cesium'
 import { Cursor } from './cursor'
 import { Form } from './form'
 import { Load } from './load'
@@ -41,6 +42,8 @@ export class AsSplitArea {
 	AsSplit?: AsSplit
 
 	Button?: Button
+
+	Cesium?: Cesium
 
 	Cursor?: Cursor
 
@@ -100,6 +103,13 @@ export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, asspli
 		assplitareaAPI.AsSplitAreaPointersEncoding.ButtonID.Int64 = assplitarea.Button.ID  
 	} else {
 		assplitareaAPI.AsSplitAreaPointersEncoding.ButtonID.Int64 = 0 		
+	}
+
+	assplitareaAPI.AsSplitAreaPointersEncoding.CesiumID.Valid = true
+	if (assplitarea.Cesium != undefined) {
+		assplitareaAPI.AsSplitAreaPointersEncoding.CesiumID.Int64 = assplitarea.Cesium.ID  
+	} else {
+		assplitareaAPI.AsSplitAreaPointersEncoding.CesiumID.Int64 = 0 		
 	}
 
 	assplitareaAPI.AsSplitAreaPointersEncoding.CursorID.Valid = true
@@ -218,6 +228,7 @@ export function CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI: AsSplitAreaAPI, 
 	// insertion point for pointer fields encoding
 	assplitarea.AsSplit = frontRepo.map_ID_AsSplit.get(assplitareaAPI.AsSplitAreaPointersEncoding.AsSplitID.Int64)
 	assplitarea.Button = frontRepo.map_ID_Button.get(assplitareaAPI.AsSplitAreaPointersEncoding.ButtonID.Int64)
+	assplitarea.Cesium = frontRepo.map_ID_Cesium.get(assplitareaAPI.AsSplitAreaPointersEncoding.CesiumID.Int64)
 	assplitarea.Cursor = frontRepo.map_ID_Cursor.get(assplitareaAPI.AsSplitAreaPointersEncoding.CursorID.Int64)
 	assplitarea.Form = frontRepo.map_ID_Form.get(assplitareaAPI.AsSplitAreaPointersEncoding.FormID.Int64)
 	assplitarea.Load = frontRepo.map_ID_Load.get(assplitareaAPI.AsSplitAreaPointersEncoding.LoadID.Int64)

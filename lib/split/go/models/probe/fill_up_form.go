@@ -47,6 +47,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("AsSplit", instanceWithInferedType.AsSplit, formGroup, probe)
 		AssociationFieldToForm("Button", instanceWithInferedType.Button, formGroup, probe)
+		AssociationFieldToForm("Cesium", instanceWithInferedType.Cesium, formGroup, probe)
 		AssociationFieldToForm("Cursor", instanceWithInferedType.Cursor, formGroup, probe)
 		AssociationFieldToForm("Form", instanceWithInferedType.Form, formGroup, probe)
 		AssociationFieldToForm("Load", instanceWithInferedType.Load, formGroup, probe)
@@ -89,6 +90,18 @@ func FillUpForm(
 			})
 
 	case *models.Button:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.Cesium:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)

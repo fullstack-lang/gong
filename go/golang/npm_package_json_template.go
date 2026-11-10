@@ -22,9 +22,11 @@ const NpmPackageJsonTemplate = `{
         "vendor/github.com/fullstack-lang/gong/lib/xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx",
         "vendor/github.com/fullstack-lang/gong/lib/threejs/ng-github.com-fullstack-lang-gong-lib-threejs",
         "vendor/github.com/fullstack-lang/gong/lib/maplibre/ng-github.com-fullstack-lang-gong-lib-maplibre",
+        "vendor/github.com/fullstack-lang/gong/lib/cesium/ng-github.com-fullstack-lang-gong-lib-cesium",
         "vendor/github.com/fullstack-lang/gong/ng-github.com-fullstack-lang-gong"
     ],
     "dependencies": {
+        "@cesium/engine": "^26.5.0",
         "@types/katex": "^0.16.8",
         "katex": "^0.16.21",
         "maplibre-gl": "^6.17.0",

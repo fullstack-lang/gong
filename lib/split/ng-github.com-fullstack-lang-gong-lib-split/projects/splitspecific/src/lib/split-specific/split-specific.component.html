@@ -102,6 +102,9 @@
     @if (area.Button) {
         <lib-button-specific [Name]="area.Button.StackName"></lib-button-specific>
     }
+    @if (area.Cesium) {
+        <lib-cesium-specific [Name]="area.Cesium.StackName"></lib-cesium-specific>
+    }
     @if (area.Cursor) {
         <lib-cursor-specific [Name]="area.Cursor.StackName" [style]="area.Cursor.Style"></lib-cursor-specific>
     }

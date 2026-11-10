@@ -59,6 +59,10 @@ type AsSplitAreaPointersEncoding struct {
 	// This field is generated into another field to enable AS ONE association
 	ButtonID sql.NullInt64
 
+	// field Cesium is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	CesiumID sql.NullInt64
+
 	// field Cursor is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	CursorID sql.NullInt64
@@ -341,6 +345,18 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 		} else {
 			assplitareaDB.ButtonID.Int64 = 0
 			assplitareaDB.ButtonID.Valid = true
+		}
+
+		// commit pointer value assplitarea.Cesium translates to updating the assplitarea.CesiumID
+		assplitareaDB.CesiumID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Cesium != nil {
+			if CesiumId, ok := backRepo.BackRepoCesium.Map_CesiumPtr_CesiumDBID[assplitarea.Cesium]; ok {
+				assplitareaDB.CesiumID.Int64 = int64(CesiumId)
+				assplitareaDB.CesiumID.Valid = true
+			}
+		} else {
+			assplitareaDB.CesiumID.Int64 = 0
+			assplitareaDB.CesiumID.Valid = true
 		}
 
 		// commit pointer value assplitarea.Cursor translates to updating the assplitarea.CursorID
@@ -650,6 +666,27 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			}
 		} else {
 			assplitarea.Button = nil
+		}
+	}
+
+	// Cesium field
+	{
+		id := assplitareaDB.CesiumID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoCesium.Map_CesiumDBID_CesiumPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Cesium, unknown pointer id", id)
+				assplitarea.Cesium = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Cesium == nil || assplitarea.Cesium != tmp {
+					assplitarea.Cesium = tmp
+				}
+			}
+		} else {
+			assplitarea.Cesium = nil
 		}
 	}
 
@@ -1223,6 +1260,12 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) RestorePhaseTwo() {
 		if assplitareaDB.ButtonID.Int64 != 0 {
 			assplitareaDB.ButtonID.Int64 = int64(BackRepoButtonid_atBckpTime_newID[uint(assplitareaDB.ButtonID.Int64)])
 			assplitareaDB.ButtonID.Valid = true
+		}
+
+		// reindexing Cesium field
+		if assplitareaDB.CesiumID.Int64 != 0 {
+			assplitareaDB.CesiumID.Int64 = int64(BackRepoCesiumid_atBckpTime_newID[uint(assplitareaDB.CesiumID.Int64)])
+			assplitareaDB.CesiumID.Valid = true
 		}
 
 		// reindexing Cursor field
