@@ -175,7 +175,7 @@ func TestUnmarshalAirspaceBaseline(t *testing.T) {
 		if strings.HasPrefix(name, "[TSA] UKT732A ") {
 			ukt732aNode = n
 		}
-		if strings.Contains(name, "LFBB FIR") {
+		if strings.HasPrefix(name, "[PART] ") && strings.Contains(name, "LFBB FIR") {
 			lfbbNode = n
 		}
 	}

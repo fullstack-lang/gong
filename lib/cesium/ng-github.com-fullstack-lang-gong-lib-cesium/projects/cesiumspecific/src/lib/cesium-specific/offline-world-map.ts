@@ -319,6 +319,8 @@ export class OfflineCanvasTileImageryProvider {
   readonly hasAlphaChannel = false;
 
   private readonly canvasSize = 512; // 2x supersampled canvas for crisp borders & coastlines
+  private readonly tileCache = new Map<string, HTMLCanvasElement>();
+  private readonly maxCachedTiles = 256;
 
   constructor(private readonly dark: boolean = false) {}
 
@@ -337,6 +339,14 @@ export class OfflineCanvasTileImageryProvider {
   }
 
   requestImage(x: number, y: number, level: number): Promise<HTMLCanvasElement> {
+    const cacheKey = `${level}:${x}:${y}`;
+    const cached = this.tileCache.get(cacheKey);
+    if (cached) {
+      this.tileCache.delete(cacheKey);
+      this.tileCache.set(cacheKey, cached);
+      return Promise.resolve(cached);
+    }
+
     const rect = this.tilingScheme.tileXYToRectangle(x, y, level);
     const west = CesiumMath.toDegrees(rect.west);
     const south = CesiumMath.toDegrees(rect.south);
@@ -355,17 +365,18 @@ export class OfflineCanvasTileImageryProvider {
     }
 
     const dark = this.dark;
-    const oceanColor = dark ? "#0b192c" : "#cbe0ee";
-    const lakeFillColor = dark ? "#0e223b" : "#bed9ec";
-    const lakeLineColor = dark ? "#1e4976" : "#78a9c9";
-    const riverColor = dark ? "#38bdf8" : "#4a90c2";
-    const graticuleMajorColor = dark ? "rgba(30, 58, 95, 0.65)" : "rgba(147, 184, 209, 0.65)";
-    const graticuleMinorColor = dark ? "rgba(22, 42, 69, 0.45)" : "rgba(176, 207, 227, 0.45)";
-    const borderColor = dark ? "#475569" : "#758ca3";
+    const oceanColor = dark ? "#0b192c" : "#bed8eb";
+    const lakeFillColor = dark ? "#0e223b" : "#b3d2e8";
+    const lakeLineColor = dark ? "#2563eb" : "#5b94ba";
+    const riverColor = dark ? "#38bdf8" : "#2563eb";
+    const graticuleMajorColor = dark ? "rgba(56, 189, 248, 0.22)" : "rgba(100, 145, 175, 0.55)";
+    const graticuleMinorColor = dark ? "rgba(56, 189, 248, 0.12)" : "rgba(125, 168, 196, 0.38)";
+    const borderColor = dark ? "#94a3b8" : "#334155";
+    const borderHaloColor = dark ? "rgba(15, 23, 42, 0.7)" : "rgba(255, 255, 255, 0.65)";
 
     const landPalette = dark
-      ? ["#1e293b", "#1e293b", "#1a2436", "#222e42", "#1c2739", "#243146", "#192231"]
-      : ["#f3f0e8", "#f4f1ea", "#efeadd", "#f7f4ee", "#ece7da", "#f1ede4", "#eae4d7"];
+      ? ["#1e293b", "#223044", "#1b2738", "#253449", "#1e2b3e", "#27364c", "#192434"]
+      : ["#f3f0e8", "#f6f3ec", "#ece6d8", "#f8f6f0", "#e9e2d2", "#f2eee4", "#e6dfd0"];
 
     const toX = (lon: number) => ((lon - west) / spanLon) * size;
     const toY = (lat: number) => ((north - lat) / spanLat) * size;
@@ -414,13 +425,9 @@ export class OfflineCanvasTileImageryProvider {
     }
     ctx.stroke();
 
-    // 3. Countries (land fill + borders)
+    // 3. Countries (land fill pass)
     const countries = getIndexedCountries();
-    ctx.lineJoin = "round";
-    ctx.lineCap = "round";
-    ctx.strokeStyle = borderColor;
-    ctx.lineWidth = level <= 2 ? 1.0 : level <= 5 ? 1.5 : 2.0;
-
+    const overlappingCountries: IndexedPolygon[] = [];
     for (let i = 0; i < countries.length; i++) {
       const poly = countries[i];
       if (
@@ -431,6 +438,7 @@ export class OfflineCanvasTileImageryProvider {
       ) {
         continue;
       }
+      overlappingCountries.push(poly);
       ctx.beginPath();
       for (const ring of poly.rings) {
         for (let j = 0; j < ring.length; j++) {
@@ -446,14 +454,13 @@ export class OfflineCanvasTileImageryProvider {
       }
       ctx.fillStyle = landPalette[poly.colorIndex] || landPalette[0];
       ctx.fill("evenodd");
-      ctx.stroke();
     }
 
     // 4. Lakes
     const lakes = getIndexedLakes();
     ctx.fillStyle = lakeFillColor;
     ctx.strokeStyle = lakeLineColor;
-    ctx.lineWidth = 1.1;
+    ctx.lineWidth = 1.3;
     for (let i = 0; i < lakes.length; i++) {
       const lake = lakes[i];
       if (
@@ -485,6 +492,8 @@ export class OfflineCanvasTileImageryProvider {
     if (level >= 1) {
       const maxScalerank = level <= 2 ? 4 : level <= 4 ? 6 : level <= 5 ? 8 : 10;
       const rivers = getIndexedRivers();
+      ctx.lineJoin = "round";
+      ctx.lineCap = "round";
       ctx.strokeStyle = riverColor;
       for (let i = 0; i < rivers.length; i++) {
         const river = rivers[i];
@@ -500,12 +509,12 @@ export class OfflineCanvasTileImageryProvider {
         ctx.lineWidth =
           river.scalerank <= 3
             ? level >= 5
-              ? 2.6
-              : 1.6
+              ? 2.8
+              : 1.7
             : river.scalerank <= 6
             ? level >= 5
-              ? 1.9
-              : 1.2
+              ? 2.0
+              : 1.3
             : 1.1;
         ctx.beginPath();
         for (const line of river.lines) {
@@ -522,6 +531,44 @@ export class OfflineCanvasTileImageryProvider {
         ctx.stroke();
       }
     }
+
+    // 6. Crisp Country Outlines & Borders drawn on top of land, lakes, and rivers
+    if (overlappingCountries.length > 0) {
+      ctx.lineJoin = "round";
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      for (let i = 0; i < overlappingCountries.length; i++) {
+        const poly = overlappingCountries[i];
+        for (const ring of poly.rings) {
+          for (let j = 0; j < ring.length; j++) {
+            const px = toX(ring[j][0]);
+            const py = toY(ring[j][1]);
+            if (j === 0) {
+              ctx.moveTo(px, py);
+            } else {
+              ctx.lineTo(px, py);
+            }
+          }
+          ctx.closePath();
+        }
+      }
+      const mainWidth = level <= 2 ? 1.6 : level <= 5 ? 2.3 : 3.0;
+      ctx.strokeStyle = borderHaloColor;
+      ctx.lineWidth = mainWidth + 1.4;
+      ctx.stroke();
+
+      ctx.strokeStyle = borderColor;
+      ctx.lineWidth = mainWidth;
+      ctx.stroke();
+    }
+
+    if (this.tileCache.size >= this.maxCachedTiles) {
+      const oldestKey = this.tileCache.keys().next().value;
+      if (oldestKey !== undefined) {
+        this.tileCache.delete(oldestKey);
+      }
+    }
+    this.tileCache.set(cacheKey, canvas);
 
     return Promise.resolve(canvas);
   }

@@ -9,7 +9,7 @@ import {
   ViewEncapsulation,
   ChangeDetectorRef,
 } from '@angular/core';
-  import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import {
   BillboardCollection,
@@ -22,13 +22,13 @@ import {
   Ellipsoid,
   GeometryInstance,
   Globe,
+  HeightmapTerrainData,
   HorizontalOrigin,
   ImageryLayer,
   LabelCollection,
   LabelStyle,
   Material,
   Math as CesiumMath,
-  NearFarScalar,
   PerInstanceColorAppearance,
   PolygonGeometry,
   PolygonHierarchy,
@@ -38,6 +38,7 @@ import {
   ScreenSpaceEventHandler,
   ScreenSpaceEventType,
   SkyAtmosphere,
+  TaskProcessor,
   UrlTemplateImageryProvider,
   VerticalOrigin,
 } from '@cesium/engine';
@@ -48,13 +49,54 @@ import {
   getOfflineCitiesList,
   getOfflineCountryCentroids,
   getOfflineRiverLabelsList,
+  getOfflineWorldCountriesGeoJSON,
 } from './offline-world-map';
+
+let offlineTerrainPatched = false;
+
+/**
+ * Configures CesiumJS so EllipsoidTerrainProvider tessellates its 16x16 heightmap tiles
+ * synchronously on the main thread via Cesium's built-in `_createMeshSync`, eliminating any
+ * runtime dependency on external `Workers/*.js` files in single-bundle offline deployments.
+ */
+function enableSynchronousOfflineTerrain(): void {
+  if (offlineTerrainPatched) {
+    return;
+  }
+  offlineTerrainPatched = true;
+
+  const htdProto = HeightmapTerrainData?.prototype as any;
+  if (htdProto && typeof htdProto._createMeshSync === 'function') {
+    htdProto.createMesh = function (options: any) {
+      return Promise.resolve(this._createMeshSync(options));
+    };
+  }
+
+  const tpProto = TaskProcessor?.prototype as any;
+  if (tpProto) {
+    tpProto.scheduleTask = function () {
+      return undefined;
+    };
+  }
+}
 
 interface PickedFeatureRef {
   kind: 'polygon' | 'polyline' | 'marker';
   item: cesium.Polygon | cesium.Polyline | cesium.Marker;
   cartesian: any;
   popupHtml: string;
+}
+
+interface DeclutterEntry {
+  cartesian: any;
+  unitNormal: any;
+  maxDist: number;
+  minDist: number;
+  boxW: number;
+  boxTop: number;
+  boxBottom: number;
+  label: any;
+  billboard?: any;
 }
 
 @Component({
@@ -82,12 +124,17 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
   private widget?: CesiumWidget;
   private eventHandler?: ScreenSpaceEventHandler;
   private postRenderRemoveCallback?: () => void;
+  private cameraChangedRemoveCallback?: () => void;
+  private moveEndRemoveCallback?: () => void;
+  private declutterTimer: any;
   private currentStyleKey = '';
   private frontRepoSub?: Subscription;
   private resizeObserver?: ResizeObserver;
 
+  private baseCountryOutlineCollection?: PolylineCollection;
   private baseLabelCollection?: LabelCollection;
   private baseBillboardCollection?: BillboardCollection;
+  private declutterEntries: DeclutterEntry[] = [];
 
   private featurePrimitives: any[] = [];
   private popupCartesian?: any;
@@ -111,6 +158,8 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
   ) {}
 
   ngOnInit(): void {
+    enableSynchronousOfflineTerrain();
+
     this.frontRepoSub = this.frontRepoService.connectToWebSocket(this.Name).subscribe({
       next: (frontRepo) => {
         this.frontRepo = frontRepo;
@@ -128,11 +177,13 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngAfterViewInit(): void {
+    enableSynchronousOfflineTerrain();
     this.initGlobeIfNeeded();
 
     if (typeof ResizeObserver !== 'undefined' && this.mapContainer?.nativeElement) {
       this.resizeObserver = new ResizeObserver(() => {
         this.widget?.resize();
+        this.scheduleDeclutterBaseLabels();
       });
       this.resizeObserver.observe(this.mapContainer.nativeElement);
     }
@@ -141,9 +192,20 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnDestroy(): void {
     this.frontRepoSub?.unsubscribe();
     this.resizeObserver?.disconnect();
+    if (this.declutterTimer) {
+      clearTimeout(this.declutterTimer);
+    }
     if (this.postRenderRemoveCallback) {
       this.postRenderRemoveCallback();
       this.postRenderRemoveCallback = undefined;
+    }
+    if (this.cameraChangedRemoveCallback) {
+      this.cameraChangedRemoveCallback();
+      this.cameraChangedRemoveCallback = undefined;
+    }
+    if (this.moveEndRemoveCallback) {
+      this.moveEndRemoveCallback();
+      this.moveEndRemoveCallback = undefined;
     }
     this.eventHandler?.destroy();
     if (this.widget && !this.widget.isDestroyed()) {
@@ -180,7 +242,7 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
   public toggleBaseTheme(): void {
     this.isDarkTheme = !this.isDarkTheme;
     this.applyBaseLayer(this.isDarkTheme ? 'offline-dark' : 'offline-light');
-    this.rebuildBaseWorldLabels();
+    this.rebuildBaseWorldLayers();
   }
 
   public closePopup(): void {
@@ -194,6 +256,8 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
       return;
     }
 
+    enableSynchronousOfflineTerrain();
+
     const styleKey = this.resolveStyleKey(this.mapSingleton?.StyleURL);
     this.isDarkTheme = styleKey === 'offline-dark';
     this.currentStyleKey = styleKey;
@@ -202,7 +266,7 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
     const globe = new Globe(Ellipsoid.WGS84);
     globe.baseColor = this.isDarkTheme
       ? Color.fromCssColorString('#0b192c')
-      : Color.fromCssColorString('#cbe0ee');
+      : Color.fromCssColorString('#bed8eb');
     globe.depthTestAgainstTerrain = false;
     globe.showGroundAtmosphere = true;
 
@@ -211,7 +275,9 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
       skyBox: false,
       skyAtmosphere: new SkyAtmosphere(),
       globe,
+      useBrowserRecommendedResolution: false, // Render at crisp native Retina devicePixelRatio
       requestRenderMode: false,
+      msaaSamples: 4,
       contextOptions: {
         webgl: {
           alpha: false,
@@ -222,7 +288,7 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.widget.scene.backgroundColor = Color.fromCssColorString('#050b14');
 
-    this.rebuildBaseWorldLabels();
+    this.rebuildBaseWorldLayers();
     this.bindInteractions();
 
     const initialLng = this.mapSingleton?.Longitude ?? 2.3522;
@@ -235,6 +301,7 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
     const initialBearing = this.mapSingleton?.Bearing ?? 0;
 
     this.flyToView(initialLng, initialLat, initialZoom, initialPitch, initialBearing, 0);
+    this.scheduleDeclutterBaseLabels();
 
     if (this.frontRepo) {
       this.syncGlobe();
@@ -283,12 +350,21 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
     this.widget.scene.globe.baseColor =
       styleKey === 'offline-dark'
         ? Color.fromCssColorString('#0b192c')
-        : Color.fromCssColorString('#cbe0ee');
+        : Color.fromCssColorString('#bed8eb');
   }
 
-  private rebuildBaseWorldLabels(): void {
+  private isOfflineStyle(): boolean {
+    return this.currentStyleKey === 'offline-light' || this.currentStyleKey === 'offline-dark';
+  }
+
+  private rebuildBaseWorldLayers(): void {
     if (!this.widget) return;
     const primitives = this.widget.scene.primitives;
+
+    if (this.baseCountryOutlineCollection) {
+      primitives.remove(this.baseCountryOutlineCollection);
+      this.baseCountryOutlineCollection = undefined;
+    }
     if (this.baseLabelCollection) {
       primitives.remove(this.baseLabelCollection);
       this.baseLabelCollection = undefined;
@@ -297,111 +373,327 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
       primitives.remove(this.baseBillboardCollection);
       this.baseBillboardCollection = undefined;
     }
+    this.declutterEntries = [];
 
-    const labels = new LabelCollection();
-    const billboards = new BillboardCollection();
-
-    const dark = this.isDarkTheme;
-    const countryFill = dark
-      ? Color.fromCssColorString('#94a3b8')
-      : Color.fromCssColorString('#475569');
-    const countryOutline = dark
-      ? Color.fromCssColorString('#0f172a')
-      : Color.fromCssColorString('#ffffff');
-
-    // 1. Country names on the 3D globe
-    const countries = getOfflineCountryCentroids();
-    for (const c of countries) {
-      if (c.areaDeg2 < 1.5) continue;
-      const maxDist = c.areaDeg2 > 40 ? 14000000 : c.areaDeg2 > 8 ? 7500000 : 3500000;
-      labels.add({
-        position: Cartesian3.fromDegrees(c.lon, c.lat, 50),
-        text: c.name.toUpperCase(),
-        font: c.areaDeg2 > 25 ? '700 12px Roboto, sans-serif' : '600 10px Roboto, sans-serif',
-        fillColor: countryFill,
-        outlineColor: countryOutline,
-        outlineWidth: 3,
-        style: LabelStyle.FILL_AND_OUTLINE,
-        horizontalOrigin: HorizontalOrigin.CENTER,
-        verticalOrigin: VerticalOrigin.CENTER,
-        distanceDisplayCondition: new DistanceDisplayCondition(150000, maxDist),
-        scaleByDistance: new NearFarScalar(300000, 1.0, maxDist, 0.75),
-      });
+    if (!this.isOfflineStyle()) {
+      return;
     }
 
-    // 2. Capitals & Major Cities
-    const cities = getOfflineCitiesList();
+    const dark = this.isDarkTheme;
+
+    // 1. Crisp 3D Vector Country Outlines directly on the WGS84 Ellipsoid
+    const countryOutlines = new PolylineCollection();
+    const outlineColor = dark
+      ? Color.fromCssColorString('#94a3b8').withAlpha(0.88)
+      : Color.fromCssColorString('#334155').withAlpha(0.82);
+    const outlineMaterial = Material.fromType('Color', { color: outlineColor });
+
+    const countriesFC = getOfflineWorldCountriesGeoJSON();
+    for (const feat of countriesFC?.features || []) {
+      const geom = feat?.geometry;
+      if (!geom) continue;
+      const polys: number[][][][] =
+        geom.type === 'Polygon'
+          ? [geom.coordinates]
+          : geom.type === 'MultiPolygon'
+          ? geom.coordinates
+          : [];
+      for (const rings of polys) {
+        for (const ring of rings) {
+          if (!ring || ring.length < 3) continue;
+          const degsWithHeights: number[] = [];
+          for (let i = 0; i < ring.length; i++) {
+            degsWithHeights.push(ring[i][0], ring[i][1], 35);
+          }
+          countryOutlines.add({
+            positions: Cartesian3.fromDegreesArrayHeights(degsWithHeights),
+            width: 1.4,
+            material: outlineMaterial,
+          });
+        }
+      }
+    }
+    this.baseCountryOutlineCollection = primitives.add(countryOutlines);
+
+    // 2. High-DPI (2x font @ 0.5 scale) Decluttered Town, Capital, Country & River Labels
+    const labels = new LabelCollection({ scene: this.widget.scene });
+    const billboards = new BillboardCollection({ scene: this.widget.scene });
+
+    const entries: DeclutterEntry[] = [];
+
+    // Sort cities so capitals and major metropolises win screen space first
+    const cities = [...getOfflineCitiesList()].sort((a, b) => {
+      if (a.c !== b.c) return b.c - a.c;
+      if (a.s !== b.s) return a.s - b.s;
+      return (b.p || 0) - (a.p || 0);
+    });
+
     const capDotUrl = this.getCapitalDotDataUrl(dark);
     const cityDotUrl = this.getCityDotDataUrl(dark);
+
     const capTextColor = dark
-      ? Color.fromCssColorString('#f8fafc')
+      ? Color.fromCssColorString('#ffffff')
       : Color.fromCssColorString('#0f172a');
     const cityTextColor = dark
-      ? Color.fromCssColorString('#cbd5e1')
-      : Color.fromCssColorString('#334155');
+      ? Color.fromCssColorString('#f1f5f9')
+      : Color.fromCssColorString('#1e293b');
+    const capBgColor = dark
+      ? Color.fromCssColorString('#0f172a').withAlpha(0.86)
+      : Color.fromCssColorString('#ffffff').withAlpha(0.88);
+    const cityBgColor = dark
+      ? Color.fromCssColorString('#0f172a').withAlpha(0.76)
+      : Color.fromCssColorString('#ffffff').withAlpha(0.82);
 
     for (const city of cities) {
       const isCap = city.c === 1;
       const maxDist = isCap
-        ? 5500000
+        ? 4500000
+        : city.s <= 1
+        ? 2500000
         : city.s <= 2
-        ? 3500000
-        : city.s <= 5
-        ? 1800000
-        : 900000;
-      const pos = Cartesian3.fromDegrees(city.lon, city.lat, 30);
+        ? 1600000
+        : city.s <= 4
+        ? 1000000
+        : city.s <= 6
+        ? 580000
+        : 300000;
 
-      billboards.add({
+      const pos = Cartesian3.fromDegrees(city.lon, city.lat, 80);
+      const unitNormal = Cartesian3.normalize(pos, new Cartesian3());
+
+      const bb = billboards.add({
         position: pos,
         image: isCap ? capDotUrl : cityDotUrl,
-        width: isCap ? 10 : 6,
-        height: isCap ? 10 : 6,
-        distanceDisplayCondition: new DistanceDisplayCondition(1000, maxDist),
+        width: isCap ? 11 : 7,
+        height: isCap ? 11 : 7,
+        show: false,
       });
 
-      labels.add({
+      const lbl = labels.add({
         position: pos,
         text: city.n,
-        font: isCap ? '700 11px Roboto, sans-serif' : '500 10px Roboto, sans-serif',
+        // 2x font size + 0.5 scale produces 4x higher SDF glyph atlas resolution for razor-sharp text
+        font: isCap
+          ? '700 26px "Helvetica Neue", Roboto, Arial, sans-serif'
+          : city.s <= 3
+          ? '600 23px "Helvetica Neue", Roboto, Arial, sans-serif'
+          : '600 21px "Helvetica Neue", Roboto, Arial, sans-serif',
+        scale: 0.5,
         fillColor: isCap ? capTextColor : cityTextColor,
-        outlineColor: countryOutline,
-        outlineWidth: 3,
-        style: LabelStyle.FILL_AND_OUTLINE,
-        pixelOffset: new Cartesian2(0, -10),
+        style: LabelStyle.FILL,
+        showBackground: true,
+        backgroundColor: isCap ? capBgColor : cityBgColor,
+        backgroundPadding: isCap ? new Cartesian2(10, 5) : new Cartesian2(8, 4),
+        pixelOffset: new Cartesian2(0, isCap ? -9 : -7),
         horizontalOrigin: HorizontalOrigin.CENTER,
         verticalOrigin: VerticalOrigin.BOTTOM,
-        distanceDisplayCondition: new DistanceDisplayCondition(1000, maxDist),
+        show: false,
+      });
+
+      const approxWidth = Math.max(46, city.n.length * (isCap ? 7.6 : 6.6) + 16);
+      entries.push({
+        cartesian: pos,
+        unitNormal,
+        maxDist,
+        minDist: 0,
+        boxW: approxWidth,
+        boxTop: isCap ? 31 : 26,
+        boxBottom: isCap ? 7 : 5,
+        label: lbl,
+        billboard: bb,
       });
     }
 
-    // 3. Major River labels
-    const riverLabels = getOfflineRiverLabelsList();
-    const riverColor = dark
-      ? Color.fromCssColorString('#38bdf8')
-      : Color.fromCssColorString('#2563eb');
-    for (const riv of riverLabels) {
-      const maxDist = riv.s <= 3 ? 2800000 : riv.s <= 6 ? 1500000 : 800000;
-      labels.add({
-        position: Cartesian3.fromDegrees(riv.lon, riv.lat, 20),
-        text: riv.n,
-        font: 'italic 600 10px Georgia, serif',
-        fillColor: riverColor,
+    // Country labels (uppercase, distinct slate badge)
+    const countryFill = dark
+      ? Color.fromCssColorString('#cbd5e1')
+      : Color.fromCssColorString('#334155');
+    const countryOutline = dark
+      ? Color.fromCssColorString('#0f172a')
+      : Color.fromCssColorString('#f8fafc');
+
+    const countries = [...getOfflineCountryCentroids()].sort((a, b) => b.areaDeg2 - a.areaDeg2);
+    for (const c of countries) {
+      if (c.areaDeg2 < 1.2) continue;
+      const maxDist = c.areaDeg2 > 40 ? 12000000 : c.areaDeg2 > 8 ? 6500000 : 3200000;
+      const minDist = 320000;
+      const pos = Cartesian3.fromDegrees(c.lon, c.lat, 60);
+      const unitNormal = Cartesian3.normalize(pos, new Cartesian3());
+      const text = c.name.toUpperCase();
+
+      const lbl = labels.add({
+        position: pos,
+        text,
+        font:
+          c.areaDeg2 > 25
+            ? '700 24px "Helvetica Neue", Roboto, Arial, sans-serif'
+            : '700 21px "Helvetica Neue", Roboto, Arial, sans-serif',
+        scale: 0.5,
+        fillColor: countryFill,
         outlineColor: countryOutline,
-        outlineWidth: 2,
+        outlineWidth: 4,
         style: LabelStyle.FILL_AND_OUTLINE,
         horizontalOrigin: HorizontalOrigin.CENTER,
         verticalOrigin: VerticalOrigin.CENTER,
-        distanceDisplayCondition: new DistanceDisplayCondition(10000, maxDist),
+        show: false,
+      });
+
+      entries.push({
+        cartesian: pos,
+        unitNormal,
+        maxDist,
+        minDist,
+        boxW: Math.max(54, text.length * 7.5 + 12),
+        boxTop: 11,
+        boxBottom: 11,
+        label: lbl,
+      });
+    }
+
+    // Major River labels (italic blue, visible at regional/local zoom when not colliding with towns)
+    const riverLabels = getOfflineRiverLabelsList();
+    const riverColor = dark
+      ? Color.fromCssColorString('#7dd3fc')
+      : Color.fromCssColorString('#1d4ed8');
+    for (const riv of riverLabels) {
+      const maxDist = riv.s <= 3 ? 1200000 : riv.s <= 6 ? 650000 : 350000;
+      const pos = Cartesian3.fromDegrees(riv.lon, riv.lat, 40);
+      const unitNormal = Cartesian3.normalize(pos, new Cartesian3());
+
+      const lbl = labels.add({
+        position: pos,
+        text: riv.n,
+        font: 'italic 600 22px Georgia, "Times New Roman", serif',
+        scale: 0.5,
+        fillColor: riverColor,
+        outlineColor: countryOutline,
+        outlineWidth: 4,
+        style: LabelStyle.FILL_AND_OUTLINE,
+        horizontalOrigin: HorizontalOrigin.CENTER,
+        verticalOrigin: VerticalOrigin.CENTER,
+        show: false,
+      });
+
+      entries.push({
+        cartesian: pos,
+        unitNormal,
+        maxDist,
+        minDist: 5000,
+        boxW: Math.max(40, riv.n.length * 6.5 + 10),
+        boxTop: 10,
+        boxBottom: 10,
+        label: lbl,
       });
     }
 
     this.baseBillboardCollection = primitives.add(billboards);
     this.baseLabelCollection = primitives.add(labels);
+    this.declutterEntries = entries;
+
+    this.declutterBaseLabels();
+  }
+
+  private scheduleDeclutterBaseLabels(): void {
+    if (this.declutterTimer) {
+      return;
+    }
+    this.declutterTimer = setTimeout(() => {
+      this.declutterTimer = undefined;
+      this.declutterBaseLabels();
+    }, 40);
+  }
+
+  /**
+   * Performs fast screen-space AABB collision rejection and front-hemisphere horizon culling
+   * so town, country, and river names never overlap each other or bleed through the back of the globe.
+   */
+  private declutterBaseLabels(): void {
+    if (!this.widget || this.widget.isDestroyed() || this.declutterEntries.length === 0) {
+      return;
+    }
+
+    const scene = this.widget.scene;
+    const camera = scene.camera;
+    const camPos = camera.positionWC;
+    const canvasW = scene.canvas.clientWidth || 800;
+    const canvasH = scene.canvas.clientHeight || 600;
+
+    const placedBoxes: [number, number, number, number][] = [];
+    const scratchVec = new Cartesian3();
+
+    for (let i = 0; i < this.declutterEntries.length; i++) {
+      const entry = this.declutterEntries[i];
+      const dist = Cartesian3.distance(camPos, entry.cartesian);
+      if (dist > entry.maxDist || dist < entry.minDist) {
+        entry.label.show = false;
+        if (entry.billboard) entry.billboard.show = false;
+        continue;
+      }
+
+      // Front-hemisphere horizon check: vector from surface point to camera must point outward
+      Cartesian3.subtract(camPos, entry.cartesian, scratchVec);
+      Cartesian3.normalize(scratchVec, scratchVec);
+      if (Cartesian3.dot(entry.unitNormal, scratchVec) < 0.08) {
+        entry.label.show = false;
+        if (entry.billboard) entry.billboard.show = false;
+        continue;
+      }
+
+      const win = scene.cartesianToCanvasCoordinates(entry.cartesian);
+      if (
+        !win ||
+        win.x < 16 ||
+        win.x > canvasW - 16 ||
+        win.y < 16 ||
+        win.y > canvasH - 16
+      ) {
+        entry.label.show = false;
+        if (entry.billboard) entry.billboard.show = false;
+        continue;
+      }
+
+      const halfW = entry.boxW * 0.5;
+      const x0 = win.x - halfW;
+      const x1 = win.x + halfW;
+      const y0 = win.y - entry.boxTop;
+      const y1 = win.y + entry.boxBottom;
+
+      let collides = false;
+      for (let j = 0; j < placedBoxes.length; j++) {
+        const b = placedBoxes[j];
+        if (x0 < b[2] && x1 > b[0] && y0 < b[3] && y1 > b[1]) {
+          collides = true;
+          break;
+        }
+      }
+
+      if (collides) {
+        entry.label.show = false;
+        if (entry.billboard) entry.billboard.show = false;
+      } else {
+        placedBoxes.push([x0, y0, x1, y1]);
+        entry.label.show = true;
+        if (entry.billboard) entry.billboard.show = true;
+      }
+    }
   }
 
   private bindInteractions(): void {
     if (!this.widget) return;
     const scene = this.widget.scene;
+
+    scene.camera.percentageChanged = 0.015;
+    const onCameraChanged = () => this.scheduleDeclutterBaseLabels();
+    scene.camera.changed.addEventListener(onCameraChanged);
+    this.cameraChangedRemoveCallback = () => {
+      scene.camera.changed.removeEventListener(onCameraChanged);
+    };
+
+    const onMoveEnd = () => this.declutterBaseLabels();
+    scene.camera.moveEnd.addEventListener(onMoveEnd);
+    this.moveEndRemoveCallback = () => {
+      scene.camera.moveEnd.removeEventListener(onMoveEnd);
+    };
 
     this.eventHandler = new ScreenSpaceEventHandler(scene.canvas);
     this.eventHandler.setInputAction((movement: { position: any }) => {
@@ -463,7 +755,7 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
       if (targetStyleKey !== this.currentStyleKey) {
         this.isDarkTheme = targetStyleKey === 'offline-dark';
         this.applyBaseLayer(targetStyleKey);
-        this.rebuildBaseWorldLabels();
+        this.rebuildBaseWorldLayers();
       }
 
       const targetLng = this.mapSingleton.Longitude || 0;
@@ -488,10 +780,11 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
           bearing: targetBearing,
         };
         const pitchDeg = targetPitch > 0 ? -Math.max(18, 90 - targetPitch) : -50;
-        // Offset latitude slightly south when tilted so the target airspace is centered in the 3D viewport
         const altitudeMeters = this.zoomToAltitudeMeters(targetZoom);
         const latOffsetDeg =
-          pitchDeg > -80 ? -(altitudeMeters / 111320) * Math.cos(CesiumMath.toRadians(-pitchDeg)) * 0.42 : 0;
+          pitchDeg > -80
+            ? -(altitudeMeters / 111320) * Math.cos(CesiumMath.toRadians(-pitchDeg)) * 0.42
+            : 0;
 
         this.flyToView(
           targetLng,
@@ -505,6 +798,7 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
     }
 
     this.renderLayers();
+    this.scheduleDeclutterBaseLabels();
   }
 
   private zoomToAltitudeMeters(zoom: number): number {
@@ -530,6 +824,7 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
         roll: 0,
       },
       duration: durationSeconds,
+      complete: () => this.declutterBaseLabels(),
     });
   }
 
@@ -555,11 +850,21 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
         : this.frontRepo.getFrontArray<cesium.Layer>(cesium.Layer.GONGSTRUCT_NAME);
     const visibleLayers = layers.filter((layer) => layer.IsVisible);
 
+    // Collect custom marker labels so we don't duplicate polygon centroid text under an SVG badge
+    const customBadgeLabels = new Set<string>();
+    for (const layer of visibleLayers) {
+      for (const marker of layer.Markers || []) {
+        if (marker.SVG && marker.SVG.trim().length > 0 && marker.Label) {
+          customBadgeLabels.add(marker.Label);
+        }
+      }
+    }
+
     const volumeInstances: any[] = [];
     const outlineInstances: any[] = [];
     const polylines = new PolylineCollection();
-    const billboards = new BillboardCollection();
-    const labels = new LabelCollection();
+    const billboards = new BillboardCollection({ scene: this.widget.scene });
+    const labels = new LabelCollection({ scene: this.widget.scene });
 
     for (const layer of visibleLayers) {
       // 1. Polygons (3D Extruded Airspace Volumes + Wireframe Outlines + Roof/Floor Contours)
@@ -677,15 +982,17 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
           });
         }
 
-        if (poly.Label) {
+        if (poly.Label && !customBadgeLabels.has(poly.Label)) {
           labels.add({
             position: Cartesian3.fromDegrees(centroidLon, centroidLat, topAlt + 150),
             text: poly.Label,
-            font: '600 11px Roboto, sans-serif',
+            font: '700 22px "Helvetica Neue", Roboto, Arial, sans-serif',
+            scale: 0.5,
             fillColor: Color.fromCssColorString('#f8fafc'),
-            outlineColor: Color.fromCssColorString('#0f172a'),
-            outlineWidth: 3,
-            style: LabelStyle.FILL_AND_OUTLINE,
+            showBackground: true,
+            backgroundColor: Color.fromCssColorString('#0f172a').withAlpha(0.84),
+            backgroundPadding: new Cartesian2(8, 4),
+            style: LabelStyle.FILL,
             horizontalOrigin: HorizontalOrigin.CENTER,
             verticalOrigin: VerticalOrigin.BOTTOM,
             distanceDisplayCondition: new DistanceDisplayCondition(0, 3500000),
@@ -729,15 +1036,17 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
           id: pickRef,
         });
 
-        if (line.Label) {
+        if (line.Label && !customBadgeLabels.has(line.Label)) {
           labels.add({
             position: midCartesian,
             text: line.Label,
-            font: '600 11px Roboto, sans-serif',
+            font: '700 22px "Helvetica Neue", Roboto, Arial, sans-serif',
+            scale: 0.5,
             fillColor: Color.fromCssColorString('#f8fafc'),
-            outlineColor: Color.fromCssColorString('#0f172a'),
-            outlineWidth: 3,
-            style: LabelStyle.FILL_AND_OUTLINE,
+            showBackground: true,
+            backgroundColor: Color.fromCssColorString('#0f172a').withAlpha(0.82),
+            backgroundPadding: new Cartesian2(8, 4),
+            style: LabelStyle.FILL,
             horizontalOrigin: HorizontalOrigin.CENTER,
             verticalOrigin: VerticalOrigin.BOTTOM,
             distanceDisplayCondition: new DistanceDisplayCondition(0, 3000000),
@@ -757,6 +1066,7 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
           popupHtml: marker.PopupHTML || `<strong>${this.escapeHtml(marker.Name)}</strong>`,
         };
 
+        const hasCustomSvg = !!(marker.SVG && marker.SVG.trim().length > 0);
         const iconUrl = this.getMarkerSvgDataUrl(marker.SVG, marker.Color || '#ef4444');
         const scale = marker.Scale && marker.Scale > 0 ? marker.Scale : 1.0;
 
@@ -770,15 +1080,17 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
           id: pickRef,
         });
 
-        if (marker.Label) {
+        if (!hasCustomSvg && marker.Label) {
           labels.add({
             position: pos,
             text: marker.Label,
-            font: '600 11px Roboto, sans-serif',
+            font: '600 22px "Helvetica Neue", Roboto, Arial, sans-serif',
+            scale: 0.5,
             fillColor: Color.fromCssColorString('#0f172a'),
-            outlineColor: Color.fromCssColorString('#ffffff'),
-            outlineWidth: 3,
-            style: LabelStyle.FILL_AND_OUTLINE,
+            showBackground: true,
+            backgroundColor: Color.fromCssColorString('#ffffff').withAlpha(0.88),
+            backgroundPadding: new Cartesian2(8, 4),
+            style: LabelStyle.FILL,
             pixelOffset: new Cartesian2(0, 18),
             horizontalOrigin: HorizontalOrigin.CENTER,
             verticalOrigin: VerticalOrigin.TOP,
@@ -851,7 +1163,7 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
     const key = `cap-dot-${dark}`;
     const cached = this.svgDataUrlCache.get(key);
     if (cached) return cached;
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="#ffffff" stroke="#dc2626" stroke-width="1.8"/><circle cx="6" cy="6" r="2.2" fill="#dc2626"/></svg>`;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.6" fill="#ffffff" stroke="#dc2626" stroke-width="2"/><circle cx="7" cy="7" r="2.4" fill="#dc2626"/></svg>`;
     const url = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
     this.svgDataUrlCache.set(key, url);
     return url;
@@ -861,9 +1173,9 @@ export class CesiumSpecificComponent implements OnInit, AfterViewInit, OnDestroy
     const key = `city-dot-${dark}`;
     const cached = this.svgDataUrlCache.get(key);
     if (cached) return cached;
-    const fill = dark ? '#cbd5e1' : '#334155';
+    const fill = dark ? '#e2e8f0' : '#334155';
     const stroke = dark ? '#0f172a' : '#ffffff';
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" fill="${fill}" stroke="${stroke}" stroke-width="1.2"/></svg>`;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="3.6" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/></svg>`;
     const url = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
     this.svgDataUrlCache.set(key, url);
     return url;
