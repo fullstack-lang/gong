@@ -2,8 +2,13 @@
 package aixmdatatypes
 
 import (
+	"archive/zip"
+	"bytes"
 	"cmp"
+	"encoding/csv"
 	"fmt"
+	"io"
+	"os"
 	"slices"
 
 	"github.com/xuri/excelize/v2"
@@ -18,6 +23,1324 @@ func (stage *Stage) SerializeStage2(filename string, addIDs bool) {
 	if err := f.SaveAs(filename); err != nil {
 		fmt.Println("cannot write xl file : ", err)
 	}
+}
+
+func (stage *Stage) SerializeStageCSV(filename string) {
+	stage.SerializeStageCSV2(filename, false)
+}
+
+func (stage *Stage) SerializeStageCSV2(filename string, addIDs bool) {
+	csvZipBytes, err := stage.SerializeStageCSVAsBytes(addIDs)
+	if err != nil {
+		fmt.Println("cannot build csv zip : ", err)
+		return
+	}
+	if err := os.WriteFile(filename, csvZipBytes, 0644); err != nil {
+		fmt.Println("cannot write csv zip file : ", err)
+	}
+}
+
+// SerializeStageCSVAsBytes serializes the stage to an in-memory ZIP archive of CSV files and returns the bytes.
+func (stage *Stage) SerializeStageCSVAsBytes(addIDs bool) ([]byte, error) {
+	var buf bytes.Buffer
+	zw := zip.NewWriter(&buf)
+	{
+		// insertion point
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeAircraftCategoryTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeAircraftCategoryType", instances, (*CodeAircraftCategoryType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeAircraftEngineNumberTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeAircraftEngineNumberType", instances, (*CodeAircraftEngineNumberType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeAircraftEngineTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeAircraftEngineType", instances, (*CodeAircraftEngineType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeAircraftICAOTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeAircraftICAOType", instances, (*CodeAircraftICAOType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeAircraftStandTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeAircraftStandType", instances, (*CodeAircraftStandType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeAircraftTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeAircraftType", instances, (*CodeAircraftType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeAircraftWingspanClassTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeAircraftWingspanClassType", instances, (*CodeAircraftWingspanClassType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeAirportHeliportCollocationTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeAirportHeliportCollocationType", instances, (*CodeAirportHeliportCollocationType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeAirportHeliportDesignatorTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeAirportHeliportDesignatorType", instances, (*CodeAirportHeliportDesignatorType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeAirportHeliportTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeAirportHeliportType", instances, (*CodeAirportHeliportType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeAirportWarningTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeAirportWarningType", instances, (*CodeAirportWarningType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeApproachGuidanceTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeApproachGuidanceType", instances, (*CodeApproachGuidanceType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeApproachLightingICAOTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeApproachLightingICAOType", instances, (*CodeApproachLightingICAOType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeApproachLightingTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeApproachLightingType", instances, (*CodeApproachLightingType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeApronElementTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeApronElementType", instances, (*CodeApronElementType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeApronSectionTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeApronSectionType", instances, (*CodeApronSectionType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeArrestingGearEnergyAbsorbTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeArrestingGearEnergyAbsorbType", instances, (*CodeArrestingGearEnergyAbsorbType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeArrestingGearEngageDeviceTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeArrestingGearEngageDeviceType", instances, (*CodeArrestingGearEngageDeviceType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeAuthorityRoleTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeAuthorityRoleType", instances, (*CodeAuthorityRoleType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeBuoyDesignatorTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeBuoyDesignatorType", instances, (*CodeBuoyDesignatorType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeBuoyTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeBuoyType", instances, (*CodeBuoyType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeColourTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeColourType", instances, (*CodeColourType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeCommunicationModeTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeCommunicationModeType", instances, (*CodeCommunicationModeType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeContaminationTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeContaminationType", instances, (*CodeContaminationType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeDayTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeDayType", instances, (*CodeDayType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeDeclaredDistanceTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeDeclaredDistanceType", instances, (*CodeDeclaredDistanceType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeDirectionTurnTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeDirectionTurnType", instances, (*CodeDirectionTurnType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeDirectionTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeDirectionType", instances, (*CodeDirectionType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeEquipmentAntiCollisionTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeEquipmentAntiCollisionType", instances, (*CodeEquipmentAntiCollisionType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeFlightOriginTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeFlightOriginType", instances, (*CodeFlightOriginType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeFlightPurposeTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeFlightPurposeType", instances, (*CodeFlightPurposeType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeFlightRuleTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeFlightRuleType", instances, (*CodeFlightRuleType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeFlightStatusTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeFlightStatusType", instances, (*CodeFlightStatusType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeFlightTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeFlightType", instances, (*CodeFlightType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeFrictionDeviceTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeFrictionDeviceType", instances, (*CodeFrictionDeviceType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeFrictionEstimateTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeFrictionEstimateType", instances, (*CodeFrictionEstimateType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeGradeSeparationTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeGradeSeparationType", instances, (*CodeGradeSeparationType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeGuidanceLineTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeGuidanceLineType", instances, (*CodeGuidanceLineType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeHelicopterPerformanceTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeHelicopterPerformanceType", instances, (*CodeHelicopterPerformanceType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeHoldingCategoryTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeHoldingCategoryType", instances, (*CodeHoldingCategoryType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeIATATypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeIATAType", instances, (*CodeIATAType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeICAOTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeICAOType", instances, (*CodeICAOType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeLightHoldingPositionTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeLightHoldingPositionType", instances, (*CodeLightHoldingPositionType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeLightIntensityTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeLightIntensityType", instances, (*CodeLightIntensityType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeLightSourceTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeLightSourceType", instances, (*CodeLightSourceType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeLightingJARTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeLightingJARType", instances, (*CodeLightingJARType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeLoadingBridgeTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeLoadingBridgeType", instances, (*CodeLoadingBridgeType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeLogicalOperatorTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeLogicalOperatorType", instances, (*CodeLogicalOperatorType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeMarkingConditionTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeMarkingConditionType", instances, (*CodeMarkingConditionType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeMarkingStyleTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeMarkingStyleType", instances, (*CodeMarkingStyleType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeMeteoConditionsTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeMeteoConditionsType", instances, (*CodeMeteoConditionsType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeMilitaryOperationsTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeMilitaryOperationsType", instances, (*CodeMilitaryOperationsType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeMilitaryStatusTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeMilitaryStatusType", instances, (*CodeMilitaryStatusType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeNavigationEquipmentTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeNavigationEquipmentType", instances, (*CodeNavigationEquipmentType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeNavigationSpecificationTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeNavigationSpecificationType", instances, (*CodeNavigationSpecificationType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeNotePurposeTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeNotePurposeType", instances, (*CodeNotePurposeType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeOperationAirportHeliportTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeOperationAirportHeliportType", instances, (*CodeOperationAirportHeliportType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeOperationManoeuvringAreaTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeOperationManoeuvringAreaType", instances, (*CodeOperationManoeuvringAreaType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodePCNMethodTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodePCNMethodType", instances, (*CodePCNMethodType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodePCNPavementTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodePCNPavementType", instances, (*CodePCNPavementType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodePCNSubgradeTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodePCNSubgradeType", instances, (*CodePCNSubgradeType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodePCNTyrePressureTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodePCNTyrePressureType", instances, (*CodePCNTyrePressureType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeProtectAreaSectionTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeProtectAreaSectionType", instances, (*CodeProtectAreaSectionType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeRVRReadingTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeRVRReadingType", instances, (*CodeRVRReadingType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeRVSMTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeRVSMType", instances, (*CodeRVSMType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeRoadTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeRoadType", instances, (*CodeRoadType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeRunwayElementTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeRunwayElementType", instances, (*CodeRunwayElementType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeRunwayMarkingTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeRunwayMarkingType", instances, (*CodeRunwayMarkingType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeRunwayPointRoleTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeRunwayPointRoleType", instances, (*CodeRunwayPointRoleType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeRunwayProtectionAreaTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeRunwayProtectionAreaType", instances, (*CodeRunwayProtectionAreaType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeRunwaySectionTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeRunwaySectionType", instances, (*CodeRunwaySectionType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeRunwayTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeRunwayType", instances, (*CodeRunwayType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeSideTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeSideType", instances, (*CodeSideType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeStatusAirportTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeStatusAirportType", instances, (*CodeStatusAirportType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeStatusOperationsTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeStatusOperationsType", instances, (*CodeStatusOperationsType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeSurfaceCompositionTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeSurfaceCompositionType", instances, (*CodeSurfaceCompositionType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeSurfaceConditionTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeSurfaceConditionType", instances, (*CodeSurfaceConditionType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeSurfacePreparationTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeSurfacePreparationType", instances, (*CodeSurfacePreparationType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeTLOFSectionTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeTLOFSectionType", instances, (*CodeTLOFSectionType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeTaxiwayElementTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeTaxiwayElementType", instances, (*CodeTaxiwayElementType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeTaxiwaySectionTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeTaxiwaySectionType", instances, (*CodeTaxiwaySectionType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeTaxiwayTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeTaxiwayType", instances, (*CodeTaxiwayType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeTelecomNetworkTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeTelecomNetworkType", instances, (*CodeTelecomNetworkType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeTimeEventCombinationTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeTimeEventCombinationType", instances, (*CodeTimeEventCombinationType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeTimeEventTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeTimeEventType", instances, (*CodeTimeEventType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeTimeReferenceTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeTimeReferenceType", instances, (*CodeTimeReferenceType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeTransponderTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeTransponderType", instances, (*CodeTransponderType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeUsageLimitationTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeUsageLimitationType", instances, (*CodeUsageLimitationType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeVASISTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeVASISType", instances, (*CodeVASISType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeValueInterpretationTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeValueInterpretationType", instances, (*CodeValueInterpretationType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeVerticalDatumTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeVerticalDatumType", instances, (*CodeVerticalDatumType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeVisualDockingGuidanceTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeVisualDockingGuidanceType", instances, (*CodeVisualDockingGuidanceType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeWakeTurbulenceTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeWakeTurbulenceType", instances, (*CodeWakeTurbulenceType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeWorkAreaTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeWorkAreaType", instances, (*CodeWorkAreaType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CodeYesNoTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CodeYesNoType", instances, (*CodeYesNoType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DateMonthDayTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "DateMonthDayType", instances, (*DateMonthDayType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DateTimeTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "DateTimeType", instances, (*DateTimeType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DateTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "DateType", instances, (*DateType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DateYearTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "DateYearType", instances, (*DateYearType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.NoNumberTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "NoNumberType", instances, (*NoNumberType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.NoSequenceTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "NoSequenceType", instances, (*NoSequenceType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TextAddressTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TextAddressType", instances, (*TextAddressType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TextDesignatorTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TextDesignatorType", instances, (*TextDesignatorType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TextInstructionTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TextInstructionType", instances, (*TextInstructionType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TextNameTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TextNameType", instances, (*TextNameType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TextNoteTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TextNoteType", instances, (*TextNoteType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TextPhoneTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TextPhoneType", instances, (*TextPhoneType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TextPropertyNameTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TextPropertyNameType", instances, (*TextPropertyNameType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TimeTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TimeType", instances, (*TimeType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValAngleTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValAngleType", instances, (*ValAngleType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValBearingTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValBearingType", instances, (*ValBearingType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValDepthTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValDepthType", instances, (*ValDepthType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValDistanceSignedTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValDistanceSignedType", instances, (*ValDistanceSignedType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValDistanceTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValDistanceType", instances, (*ValDistanceType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValDistanceVerticalTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValDistanceVerticalType", instances, (*ValDistanceVerticalType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValDurationTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValDurationType", instances, (*ValDurationType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValFLTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValFLType", instances, (*ValFLType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValFrictionTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValFrictionType", instances, (*ValFrictionType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValLCNTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValLCNType", instances, (*ValLCNType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValLightIntensityTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValLightIntensityType", instances, (*ValLightIntensityType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValMagneticVariationChangeTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValMagneticVariationChangeType", instances, (*ValMagneticVariationChangeType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValMagneticVariationTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValMagneticVariationType", instances, (*ValMagneticVariationType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValPCNTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValPCNType", instances, (*ValPCNType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValPercentTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValPercentType", instances, (*ValPercentType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValPressureTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValPressureType", instances, (*ValPressureType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValSlopeTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValSlopeType", instances, (*ValSlopeType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValSpeedTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValSpeedType", instances, (*ValSpeedType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValTemperatureTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValTemperatureType", instances, (*ValTemperatureType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ValWeightTypes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ValWeightType", instances, (*ValWeightType)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+	}
+	if err := zw.Close(); err != nil {
+		return nil, err
+	}
+	return buf.Bytes(), nil
 }
 
 func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
@@ -1211,4 +2534,139 @@ func (stage *Stage) SerializeExcelizePointer2[Type GongstructPtr](f *excelize.Fi
 		instances = append(instances, key)
 	}
 	stage.SerializeExcelize(f, ret.GongGetGongstructName(), instances, ret.GongGetFieldHeaders(), addIDs)
+}
+
+// SerializeCSVZip writes a CSV entry named "<name>.csv" into zw with optional IDs.
+func (stage *Stage) SerializeCSVZip(zw *zip.Writer, name string, instances []GongstructIF, fields []GongFieldHeader, addIDs bool) error {
+	w, err := zw.Create(name + ".csv")
+	if err != nil {
+		return err
+	}
+	return stage.SerializeCSV(w, instances, fields, addIDs)
+}
+
+// SerializeCSV is the Stage method for CSV serialization with optional IDs.
+func (stage *Stage) SerializeCSV(w io.Writer, instances []GongstructIF, fields []GongFieldHeader, addIDs bool) error {
+	cw := csv.NewWriter(w)
+
+	sortedSlice := make([]GongstructIF, len(instances))
+	copy(sortedSlice, instances)
+	slices.SortFunc(sortedSlice, func(a, b GongstructIF) int {
+		return cmp.Compare(a.GetName(), b.GetName())
+	})
+
+	if !addIDs {
+		headers := make([]string, len(fields))
+		for index, fieldHeader := range fields {
+			headers[index] = fieldHeader.Name
+		}
+		if err := cw.Write(headers); err != nil {
+			return err
+		}
+	} else {
+		headers := make([]string, 2*len(fields))
+		for index, fieldHeader := range fields {
+			headers[2*index] = fieldHeader.Name
+			switch fieldHeader.GongFieldValueType {
+			case GongFieldValueTypePointer:
+				headers[2*index+1] = fieldHeader.Name + ":" + fieldHeader.TargetGongstructName + ":ID"
+			case GongFieldValueTypeSliceOfPointers:
+				headers[2*index+1] = fieldHeader.Name + ":" + fieldHeader.TargetGongstructName + ":IDs"
+			default:
+				// if index is 0, this is the ID of the instance
+				if index == 0 {
+					headers[2*index+1] = "ID"
+				} else {
+					// one have to put the type of the cell
+					header := fieldHeader.Name
+					switch fieldHeader.GongFieldValueType {
+					case GongFieldValueTypeInt:
+						header += ":int"
+					case GongFieldValueTypeIntDuration:
+						header += ":duration"
+					case GongFieldValueTypeFloat:
+						header += ":float"
+					case GongFieldValueTypeBool:
+						header += ":bool"
+					case GongFieldValueTypeString:
+						header += ":string"
+					case GongFieldValueTypeDate:
+						header += ":date"
+					default:
+						header += ":basicType"
+					}
+					header += ":noID"
+					headers[2*index+1] = header
+				}
+			}
+		}
+		if err := cw.Write(headers); err != nil {
+			return err
+		}
+	}
+
+	for _, instance := range sortedSlice {
+		if !addIDs {
+			row := make([]string, len(fields))
+			for index, fieldName := range fields {
+				fieldStringValue := stage.GetFieldStringValueFromPointer(instance, fieldName.Name)
+				row[index] = fieldStringValue.GetValueString()
+			}
+			if err := cw.Write(row); err != nil {
+				return err
+			}
+		} else {
+			row := make([]string, 2*len(fields))
+			for index, fieldName := range fields {
+				fieldStringValue := stage.GetFieldStringValueFromPointer(instance, fieldName.Name)
+				row[2*index] = fieldStringValue.GetValueString()
+				if index == 0 {
+					row[2*index+1] = instance.GongGetUUID(stage)
+				} else {
+					switch fieldStringValue.GongFieldValueType {
+					case GongFieldValueTypePointer, GongFieldValueTypeSliceOfPointers:
+						row[2*index+1] = fieldStringValue.ids
+					}
+				}
+			}
+			if err := cw.Write(row); err != nil {
+				return err
+			}
+		}
+	}
+
+	cw.Flush()
+	return cw.Error()
+}
+
+// SerializeCSVPointer is the Stage method for CSV serialization.
+func (stage *Stage) SerializeCSVPointer[Type GongstructPtr](w io.Writer) error {
+	return stage.SerializeCSVPointer2[Type](w, false)
+}
+
+// SerializeCSVPointer2 is the Stage method for CSV serialization with optional IDs.
+func (stage *Stage) SerializeCSVPointer2[Type GongstructPtr](w io.Writer, addIDs bool) error {
+	var ret Type
+	set := *stage.GetInstancesSet[Type]()
+	var instances []GongstructIF
+	for key := range set {
+		instances = append(instances, key)
+	}
+	return stage.SerializeCSV(w, instances, ret.GongGetFieldHeaders(), addIDs)
+}
+
+// SerializeCSVZipPointer is the Stage method for ZIP CSV serialization of a Gongstruct type.
+func (stage *Stage) SerializeCSVZipPointer[Type GongstructPtr](zw *zip.Writer) error {
+	return stage.SerializeCSVZipPointer2[Type](zw, false)
+}
+
+// SerializeCSVZipPointer2 is the Stage method for ZIP CSV serialization of a Gongstruct type with optional IDs.
+func (stage *Stage) SerializeCSVZipPointer2[Type GongstructPtr](zw *zip.Writer, addIDs bool) error {
+	var ret Type
+	set := *stage.GetInstancesSet[Type]()
+	var instances []GongstructIF
+	for key := range set {
+		instances = append(instances, key)
+	}
+	return stage.SerializeCSVZip(zw, ret.GongGetGongstructName(), instances, ret.GongGetFieldHeaders(), addIDs)
 }

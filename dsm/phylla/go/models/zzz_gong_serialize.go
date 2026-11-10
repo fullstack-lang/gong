@@ -2,8 +2,13 @@
 package models
 
 import (
+	"archive/zip"
+	"bytes"
 	"cmp"
+	"encoding/csv"
 	"fmt"
+	"io"
+	"os"
 	"slices"
 
 	"github.com/xuri/excelize/v2"
@@ -18,6 +23,1564 @@ func (stage *Stage) SerializeStage2(filename string, addIDs bool) {
 	if err := f.SaveAs(filename); err != nil {
 		fmt.Println("cannot write xl file : ", err)
 	}
+}
+
+func (stage *Stage) SerializeStageCSV(filename string) {
+	stage.SerializeStageCSV2(filename, false)
+}
+
+func (stage *Stage) SerializeStageCSV2(filename string, addIDs bool) {
+	csvZipBytes, err := stage.SerializeStageCSVAsBytes(addIDs)
+	if err != nil {
+		fmt.Println("cannot build csv zip : ", err)
+		return
+	}
+	if err := os.WriteFile(filename, csvZipBytes, 0644); err != nil {
+		fmt.Println("cannot write csv zip file : ", err)
+	}
+}
+
+// SerializeStageCSVAsBytes serializes the stage to an in-memory ZIP archive of CSV files and returns the bytes.
+func (stage *Stage) SerializeStageCSVAsBytes(addIDs bool) ([]byte, error) {
+	var buf bytes.Buffer
+	zw := zip.NewWriter(&buf)
+	{
+		// insertion point
+		{
+			var instances []GongstructIF
+			for instance := range stage.Angle0Shapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Angle0Shape", instances, (*Angle0Shape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ArcNormalVectorShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ArcNormalVectorShape", instances, (*ArcNormalVectorShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ArcNormalVectorShapeGrids {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ArcNormalVectorShapeGrid", instances, (*ArcNormalVectorShapeGrid)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.AxesShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "AxesShape", instances, (*AxesShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.BaseVectorShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "BaseVectorShape", instances, (*BaseVectorShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.BaseVectorShapeGrids {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "BaseVectorShapeGrid", instances, (*BaseVectorShapeGrid)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.BottomCurvePlane1Shapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "BottomCurvePlane1Shape", instances, (*BottomCurvePlane1Shape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.BottomCurvePlane2Shapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "BottomCurvePlane2Shape", instances, (*BottomCurvePlane2Shape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CarvedOutBottomCurvePlane1Shapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CarvedOutBottomCurvePlane1Shape", instances, (*CarvedOutBottomCurvePlane1Shape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CarvedOutTopCurvePlane1Shapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CarvedOutTopCurvePlane1Shape", instances, (*CarvedOutTopCurvePlane1Shape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CarvedOutVaseTrapezeRingShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CarvedOutVaseTrapezeRingShape", instances, (*CarvedOutVaseTrapezeRingShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ChosenP1P2PairShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ChosenP1P2PairShape", instances, (*ChosenP1P2PairShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CircleGridShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CircleGridShape", instances, (*CircleGridShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Circumference3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Circumference3DShape", instances, (*Circumference3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Clock2DDiagrams {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Clock2DDiagram", instances, (*Clock2DDiagram)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Clock3DDiagrams {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Clock3DDiagram", instances, (*Clock3DDiagram)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ClockTopCurveShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ClockTopCurveShape", instances, (*ClockTopCurveShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.CutLine3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "CutLine3DShape", instances, (*CutLine3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EndArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "EndArcShape", instances, (*EndArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EndArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "EndArcShapeGrid", instances, (*EndArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EndHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "EndHalfwayArcShape", instances, (*EndHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EndHalfwayArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "EndHalfwayArcShapeGrid", instances, (*EndHalfwayArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ExplanationTextShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ExplanationTextShape", instances, (*ExplanationTextShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Eye3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Eye3DShape", instances, (*Eye3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EyeCornersSampledPoints3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "EyeCornersSampledPoints3DShape", instances, (*EyeCornersSampledPoints3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EyeSampledPoints3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "EyeSampledPoints3DShape", instances, (*EyeSampledPoints3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EyeSeatBottomCurveShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "EyeSeatBottomCurveShape", instances, (*EyeSeatBottomCurveShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EyeStoolBottomCurveShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "EyeStoolBottomCurveShape", instances, (*EyeStoolBottomCurveShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.EyeVolume3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "EyeVolume3DShape", instances, (*EyeVolume3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GridPathShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "GridPathShape", instances, (*GridPathShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GrowthCurve2Ds {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "GrowthCurve2D", instances, (*GrowthCurve2D)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GrowthCurve2DRibbons {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "GrowthCurve2DRibbon", instances, (*GrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GrowthCurve2DRibbonEndShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "GrowthCurve2DRibbonEndShape", instances, (*GrowthCurve2DRibbonEndShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GrowthCurve2DRibbonStartShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "GrowthCurve2DRibbonStartShape", instances, (*GrowthCurve2DRibbonStartShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GrowthCurveRhombusGridShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "GrowthCurveRhombusGridShape", instances, (*GrowthCurveRhombusGridShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GrowthCurveRhombusShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "GrowthCurveRhombusShape", instances, (*GrowthCurveRhombusShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.GrowthVectorShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "GrowthVectorShape", instances, (*GrowthVectorShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.InitialRhombusGridShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "InitialRhombusGridShape", instances, (*InitialRhombusGridShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.InitialRhombusShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "InitialRhombusShape", instances, (*InitialRhombusShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Key3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Key3DShape", instances, (*Key3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.KeyHole3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "KeyHole3DShape", instances, (*KeyHole3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.KeyHoleShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "KeyHoleShape", instances, (*KeyHoleShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Leaves3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Leaves3DShape", instances, (*Leaves3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Librarys {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Library", instances, (*Library)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.MidArcVectorShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "MidArcVectorShape", instances, (*MidArcVectorShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.MidArcVectorShapeGrids {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "MidArcVectorShapeGrid", instances, (*MidArcVectorShapeGrid)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.OriginalPoints3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "OriginalPoints3DShape", instances, (*OriginalPoints3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ParastichyMCurves3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ParastichyMCurves3DShape", instances, (*ParastichyMCurves3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ParastichyNCurves3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ParastichyNCurves3DShape", instances, (*ParastichyNCurves3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DRibbons {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PartiallyGrowthCurve2DRibbon", instances, (*PartiallyGrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DRibbonEndShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PartiallyGrowthCurve2DRibbonEndShape", instances, (*PartiallyGrowthCurve2DRibbonEndShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DRibbonStartShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PartiallyGrowthCurve2DRibbonStartShape", instances, (*PartiallyGrowthCurve2DRibbonStartShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectorys {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PartiallyGrowthCurve2DTrajectory", instances, (*PartiallyGrowthCurve2DTrajectory)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PartiallyGrowthCurve2DTrajectoryP1CurveShape", instances, (*PartiallyGrowthCurve2DTrajectoryP1CurveShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PartiallyGrowthCurve2DTrajectoryP1P2", instances, (*PartiallyGrowthCurve2DTrajectoryP1P2)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape", instances, (*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PartiallyGrowthCurve2DTrajectoryP1PointShape", instances, (*PartiallyGrowthCurve2DTrajectoryP1PointShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PartiallyGrowthCurve2DTrajectoryP2CurveShape", instances, (*PartiallyGrowthCurve2DTrajectoryP2CurveShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PartiallyGrowthCurve2DTrajectoryP2PointShape", instances, (*PartiallyGrowthCurve2DTrajectoryP2PointShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyGrowthCurve2DTrajectoryShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PartiallyGrowthCurve2DTrajectoryShape", instances, (*PartiallyGrowthCurve2DTrajectoryShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyRotatedSeatBottomCurveShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PartiallyRotatedSeatBottomCurveShape", instances, (*PartiallyRotatedSeatBottomCurveShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyRotatedSeatTopCurveShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PartiallyRotatedSeatTopCurveShape", instances, (*PartiallyRotatedSeatTopCurveShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PartiallyRotatedTorusShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PartiallyRotatedTorusShape", instances, (*PartiallyRotatedTorusShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PerpendicularVectors {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PerpendicularVector", instances, (*PerpendicularVector)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PerpendicularVectorGrids {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PerpendicularVectorGrid", instances, (*PerpendicularVectorGrid)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PerpendicularVectorGridHalfways {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PerpendicularVectorGridHalfway", instances, (*PerpendicularVectorGridHalfway)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PerpendicularVectorHalfways {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PerpendicularVectorHalfway", instances, (*PerpendicularVectorHalfway)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Plant2DDiagrams {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Plant2DDiagram", instances, (*Plant2DDiagram)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Plant3DDiagrams {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Plant3DDiagram", instances, (*Plant3DDiagram)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PlantAbstracts {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PlantAbstract", instances, (*PlantAbstract)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PlantCircumferenceShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PlantCircumferenceShape", instances, (*PlantCircumferenceShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PointsAndLines3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PointsAndLines3DShape", instances, (*PointsAndLines3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.PxShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "PxShape", instances, (*PxShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Rendered3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Rendered3DShape", instances, (*Rendered3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RhombusShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "RhombusShape", instances, (*RhombusShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RhombusStuffs {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "RhombusStuff", instances, (*RhombusStuff)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RotatedRhombusGridShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "RotatedRhombusGridShape", instances, (*RotatedRhombusGridShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RotatedRhombusShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "RotatedRhombusShape", instances, (*RotatedRhombusShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RotatedSampledPoints3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "RotatedSampledPoints3DShape", instances, (*RotatedSampledPoints3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.RotatedSeatAndLegs3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "RotatedSeatAndLegs3DShape", instances, (*RotatedSeatAndLegs3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SampledPoints3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "SampledPoints3DShape", instances, (*SampledPoints3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Seat3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Seat3DShape", instances, (*Seat3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SeatAndLegs3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "SeatAndLegs3DShape", instances, (*SeatAndLegs3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SeatBottomCurveShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "SeatBottomCurveShape", instances, (*SeatBottomCurveShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.SeatTopCurveShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "SeatTopCurveShape", instances, (*SeatTopCurveShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedBottomTopStartArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedBottomTopStartArcShape", instances, (*ShiftedBottomTopStartArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedBottomTopStartArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedBottomTopStartArcShapeGrid", instances, (*ShiftedBottomTopStartArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftGrowthCurve2DRibbons {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedLeftGrowthCurve2DRibbon", instances, (*ShiftedLeftGrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftGrowthCurve2DRibbonEndShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedLeftGrowthCurve2DRibbonEndShape", instances, (*ShiftedLeftGrowthCurve2DRibbonEndShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftGrowthCurve2DRibbonStartShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedLeftGrowthCurve2DRibbonStartShape", instances, (*ShiftedLeftGrowthCurve2DRibbonStartShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbons {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedLeftPartiallyGrowthCurve2DRibbon", instances, (*ShiftedLeftPartiallyGrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape", instances, (*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape", instances, (*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftStackGrowthCurveEndArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedLeftStackGrowthCurveEndArcShape", instances, (*ShiftedLeftStackGrowthCurveEndArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftStackGrowthCurveStartArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedLeftStackGrowthCurveStartArcShape", instances, (*ShiftedLeftStackGrowthCurveStartArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftStackNormalVectors {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedLeftStackNormalVector", instances, (*ShiftedLeftStackNormalVector)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftStackOfGrowthCurves {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedLeftStackOfGrowthCurve", instances, (*ShiftedLeftStackOfGrowthCurve)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedLeftStackOfNormalVectors {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedLeftStackOfNormalVector", instances, (*ShiftedLeftStackOfNormalVector)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedRightGrowthCurve2DRibbons {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedRightGrowthCurve2DRibbon", instances, (*ShiftedRightGrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedRightGrowthCurve2DRibbonEndShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedRightGrowthCurve2DRibbonEndShape", instances, (*ShiftedRightGrowthCurve2DRibbonEndShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ShiftedRightGrowthCurve2DRibbonStartShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ShiftedRightGrowthCurve2DRibbonStartShape", instances, (*ShiftedRightGrowthCurve2DRibbonStartShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackGrowthCurve2DEndHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackGrowthCurve2DEndHalfwayArcShape", instances, (*StackGrowthCurve2DEndHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackGrowthCurve2DRibbonEndShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackGrowthCurve2DRibbonEndShape", instances, (*StackGrowthCurve2DRibbonEndShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackGrowthCurve2DRibbonStartShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackGrowthCurve2DRibbonStartShape", instances, (*StackGrowthCurve2DRibbonStartShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackGrowthCurve2DStartHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackGrowthCurve2DStartHalfwayArcShape", instances, (*StackGrowthCurve2DStartHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackOfGrowthCurve2Ds {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackOfGrowthCurve2D", instances, (*StackOfGrowthCurve2D)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackOfGrowthCurve2DByGrowthVectors {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackOfGrowthCurve2DByGrowthVector", instances, (*StackOfGrowthCurve2DByGrowthVector)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackOfGrowthCurve2DRibbons {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackOfGrowthCurve2DRibbon", instances, (*StackOfGrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackOfPartiallyRotatedTorusShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackOfPartiallyRotatedTorusShape", instances, (*StackOfPartiallyRotatedTorusShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackOfRotatedCarvedOutVaseTrapezeRingsShape", instances, (*StackOfRotatedCarvedOutVaseTrapezeRingsShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackOfRotatedGrowthCurve2Ds {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackOfRotatedGrowthCurve2D", instances, (*StackOfRotatedGrowthCurve2D)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackOfRotatedGrowthCurve2DRibbons {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackOfRotatedGrowthCurve2DRibbon", instances, (*StackOfRotatedGrowthCurve2DRibbon)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackRotatedGrowthCurve2DEndArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackRotatedGrowthCurve2DEndArcShape", instances, (*StackRotatedGrowthCurve2DEndArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackRotatedGrowthCurve2DRibbonEndShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackRotatedGrowthCurve2DRibbonEndShape", instances, (*StackRotatedGrowthCurve2DRibbonEndShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackRotatedGrowthCurve2DRibbonStartShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackRotatedGrowthCurve2DRibbonStartShape", instances, (*StackRotatedGrowthCurve2DRibbonStartShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StackRotatedGrowthCurve2DStartArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StackRotatedGrowthCurve2DStartArcShape", instances, (*StackRotatedGrowthCurve2DStartArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StartArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StartArcShape", instances, (*StartArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StartArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StartArcShapeGrid", instances, (*StartArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StartHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StartHalfwayArcShape", instances, (*StartHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StartHalfwayArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StartHalfwayArcShapeGrid", instances, (*StartHalfwayArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.StemCylinder3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "StemCylinder3DShape", instances, (*StemCylinder3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Stool2DDiagrams {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Stool2DDiagram", instances, (*Stool2DDiagram)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Stool3DDiagrams {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Stool3DDiagram", instances, (*Stool3DDiagram)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TiledFloor3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TiledFloor3DShape", instances, (*TiledFloor3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopCurvePlane1Shapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopCurvePlane1Shape", instances, (*TopCurvePlane1Shape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopCurvePlane2Shapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopCurvePlane2Shape", instances, (*TopCurvePlane2Shape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopEndArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopEndArcShape", instances, (*TopEndArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopEndArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopEndArcShapeGrid", instances, (*TopEndArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopEndHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopEndHalfwayArcShape", instances, (*TopEndHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopEndHalfwayArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopEndHalfwayArcShapeGrid", instances, (*TopEndHalfwayArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopGrowthCurve2Ds {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopGrowthCurve2D", instances, (*TopGrowthCurve2D)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopMidArcVectorShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopMidArcVectorShape", instances, (*TopMidArcVectorShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopMidArcVectorShapeGrids {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopMidArcVectorShapeGrid", instances, (*TopMidArcVectorShapeGrid)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStackGrowthCurve2DEndHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopStackGrowthCurve2DEndHalfwayArcShape", instances, (*TopStackGrowthCurve2DEndHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStackGrowthCurve2DStartHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopStackGrowthCurve2DStartHalfwayArcShape", instances, (*TopStackGrowthCurve2DStartHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStackOfGrowthCurve2Ds {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopStackOfGrowthCurve2D", instances, (*TopStackOfGrowthCurve2D)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStackOfRotatedGrowthCurve2Ds {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopStackOfRotatedGrowthCurve2D", instances, (*TopStackOfRotatedGrowthCurve2D)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStackOfRotatedGrowthCurve2DEndArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopStackOfRotatedGrowthCurve2DEndArcShape", instances, (*TopStackOfRotatedGrowthCurve2DEndArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStackOfRotatedGrowthCurve2DStartArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopStackOfRotatedGrowthCurve2DStartArcShape", instances, (*TopStackOfRotatedGrowthCurve2DStartArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStartArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopStartArcShape", instances, (*TopStartArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStartArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopStartArcShapeGrid", instances, (*TopStartArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStartHalfwayArcShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopStartHalfwayArcShape", instances, (*TopStartHalfwayArcShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TopStartHalfwayArcShapeGrids {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TopStartHalfwayArcShapeGrid", instances, (*TopStartHalfwayArcShapeGrid)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Torus3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Torus3DShape", instances, (*Torus3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TorusEdge3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TorusEdge3DShape", instances, (*TorusEdge3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TorusStackShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TorusStackShape", instances, (*TorusStackShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TubeVase3DDiagrams {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TubeVase3DDiagram", instances, (*TubeVase3DDiagram)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.TubeVaseAbstracts {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "TubeVaseAbstract", instances, (*TubeVaseAbstract)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Vase2DDiagrams {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Vase2DDiagram", instances, (*Vase2DDiagram)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.VaseTrapezeBasePlateShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "VaseTrapezeBasePlateShape", instances, (*VaseTrapezeBasePlateShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.VaseTrapezeRingShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "VaseTrapezeRingShape", instances, (*VaseTrapezeRingShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.VerticalTorusStackShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "VerticalTorusStackShape", instances, (*VerticalTorusStackShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.VolumeKey3DShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "VolumeKey3DShape", instances, (*VolumeKey3DShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+	}
+	if err := zw.Close(); err != nil {
+		return nil, err
+	}
+	return buf.Bytes(), nil
 }
 
 func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
@@ -1379,4 +2942,139 @@ func (stage *Stage) SerializeExcelizePointer2[Type GongstructPtr](f *excelize.Fi
 		instances = append(instances, key)
 	}
 	stage.SerializeExcelize(f, ret.GongGetGongstructName(), instances, ret.GongGetFieldHeaders(), addIDs)
+}
+
+// SerializeCSVZip writes a CSV entry named "<name>.csv" into zw with optional IDs.
+func (stage *Stage) SerializeCSVZip(zw *zip.Writer, name string, instances []GongstructIF, fields []GongFieldHeader, addIDs bool) error {
+	w, err := zw.Create(name + ".csv")
+	if err != nil {
+		return err
+	}
+	return stage.SerializeCSV(w, instances, fields, addIDs)
+}
+
+// SerializeCSV is the Stage method for CSV serialization with optional IDs.
+func (stage *Stage) SerializeCSV(w io.Writer, instances []GongstructIF, fields []GongFieldHeader, addIDs bool) error {
+	cw := csv.NewWriter(w)
+
+	sortedSlice := make([]GongstructIF, len(instances))
+	copy(sortedSlice, instances)
+	slices.SortFunc(sortedSlice, func(a, b GongstructIF) int {
+		return cmp.Compare(a.GetName(), b.GetName())
+	})
+
+	if !addIDs {
+		headers := make([]string, len(fields))
+		for index, fieldHeader := range fields {
+			headers[index] = fieldHeader.Name
+		}
+		if err := cw.Write(headers); err != nil {
+			return err
+		}
+	} else {
+		headers := make([]string, 2*len(fields))
+		for index, fieldHeader := range fields {
+			headers[2*index] = fieldHeader.Name
+			switch fieldHeader.GongFieldValueType {
+			case GongFieldValueTypePointer:
+				headers[2*index+1] = fieldHeader.Name + ":" + fieldHeader.TargetGongstructName + ":ID"
+			case GongFieldValueTypeSliceOfPointers:
+				headers[2*index+1] = fieldHeader.Name + ":" + fieldHeader.TargetGongstructName + ":IDs"
+			default:
+				// if index is 0, this is the ID of the instance
+				if index == 0 {
+					headers[2*index+1] = "ID"
+				} else {
+					// one have to put the type of the cell
+					header := fieldHeader.Name
+					switch fieldHeader.GongFieldValueType {
+					case GongFieldValueTypeInt:
+						header += ":int"
+					case GongFieldValueTypeIntDuration:
+						header += ":duration"
+					case GongFieldValueTypeFloat:
+						header += ":float"
+					case GongFieldValueTypeBool:
+						header += ":bool"
+					case GongFieldValueTypeString:
+						header += ":string"
+					case GongFieldValueTypeDate:
+						header += ":date"
+					default:
+						header += ":basicType"
+					}
+					header += ":noID"
+					headers[2*index+1] = header
+				}
+			}
+		}
+		if err := cw.Write(headers); err != nil {
+			return err
+		}
+	}
+
+	for _, instance := range sortedSlice {
+		if !addIDs {
+			row := make([]string, len(fields))
+			for index, fieldName := range fields {
+				fieldStringValue := stage.GetFieldStringValueFromPointer(instance, fieldName.Name)
+				row[index] = fieldStringValue.GetValueString()
+			}
+			if err := cw.Write(row); err != nil {
+				return err
+			}
+		} else {
+			row := make([]string, 2*len(fields))
+			for index, fieldName := range fields {
+				fieldStringValue := stage.GetFieldStringValueFromPointer(instance, fieldName.Name)
+				row[2*index] = fieldStringValue.GetValueString()
+				if index == 0 {
+					row[2*index+1] = instance.GongGetUUID(stage)
+				} else {
+					switch fieldStringValue.GongFieldValueType {
+					case GongFieldValueTypePointer, GongFieldValueTypeSliceOfPointers:
+						row[2*index+1] = fieldStringValue.ids
+					}
+				}
+			}
+			if err := cw.Write(row); err != nil {
+				return err
+			}
+		}
+	}
+
+	cw.Flush()
+	return cw.Error()
+}
+
+// SerializeCSVPointer is the Stage method for CSV serialization.
+func (stage *Stage) SerializeCSVPointer[Type GongstructPtr](w io.Writer) error {
+	return stage.SerializeCSVPointer2[Type](w, false)
+}
+
+// SerializeCSVPointer2 is the Stage method for CSV serialization with optional IDs.
+func (stage *Stage) SerializeCSVPointer2[Type GongstructPtr](w io.Writer, addIDs bool) error {
+	var ret Type
+	set := *stage.GetInstancesSet[Type]()
+	var instances []GongstructIF
+	for key := range set {
+		instances = append(instances, key)
+	}
+	return stage.SerializeCSV(w, instances, ret.GongGetFieldHeaders(), addIDs)
+}
+
+// SerializeCSVZipPointer is the Stage method for ZIP CSV serialization of a Gongstruct type.
+func (stage *Stage) SerializeCSVZipPointer[Type GongstructPtr](zw *zip.Writer) error {
+	return stage.SerializeCSVZipPointer2[Type](zw, false)
+}
+
+// SerializeCSVZipPointer2 is the Stage method for ZIP CSV serialization of a Gongstruct type with optional IDs.
+func (stage *Stage) SerializeCSVZipPointer2[Type GongstructPtr](zw *zip.Writer, addIDs bool) error {
+	var ret Type
+	set := *stage.GetInstancesSet[Type]()
+	var instances []GongstructIF
+	for key := range set {
+		instances = append(instances, key)
+	}
+	return stage.SerializeCSVZip(zw, ret.GongGetGongstructName(), instances, ret.GongGetFieldHeaders(), addIDs)
 }

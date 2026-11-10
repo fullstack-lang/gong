@@ -298,6 +298,21 @@ func (probe *Probe) ExportStageExcel() {
 	)
 }
 
+func (probe *Probe) ExportStageCSV() {
+	csvZipBytes, err := probe.stageOfInterest.SerializeStageCSVAsBytes(false)
+	gongprobe.ExportStageCSV(
+		csvZipBytes,
+		err,
+		probe.fileName,
+		"musicxml",
+		probe.stageOfInterest.GetName(),
+		probe.loadStage,
+		probe.initLoadStage,
+		probe.AddNotification,
+		probe.CommitNotificationTable,
+	)
+}
+
 func (probe *Probe) ExportStage() {
 	probe.loadStage.Reset()
 

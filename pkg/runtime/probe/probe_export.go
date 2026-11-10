@@ -93,6 +93,45 @@ func ExportStageExcel(
 	initLoadStage()
 }
 
+func ExportStageCSV(
+	csvZipBytes []byte,
+	err error,
+	fileName string,
+	defaultPkgName string,
+	stageName string,
+	loadStage *load.Stage,
+	initLoadStage func(),
+	addNotification func(time.Time, string),
+	commitNotificationTable func(),
+) {
+	if err != nil {
+		addNotification(time.Now(), "Error serializing stage to CSV: "+err.Error())
+		commitNotificationTable()
+		return
+	}
+
+	loadStage.Reset()
+
+	fileToDownload := new(load.FileToDownload)
+
+	if fileName == "" {
+		fileName = defaultPkgName + "-" + stageName + ".go"
+	}
+
+	prefixRegex := regexp.MustCompile(`^\d{8} \d{4} `)
+	cleanFileName := prefixRegex.ReplaceAllString(fileName, "")
+	cleanFileName = strings.TrimSuffix(cleanFileName, ".go") + "-csv.zip"
+
+	fileToDownload.Name = time.Now().Format("20060102 1504 ") + cleanFileName
+	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString(csvZipBytes)
+
+	loadStage.StageBranch(fileToDownload)
+	loadStage.Commit()
+
+	time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we reset the stage.
+	initLoadStage()
+}
+
 func ExportStage(
 	stageString string,
 	err error,

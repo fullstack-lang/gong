@@ -80,6 +80,18 @@ func (probe *Probe) ux_tree() {
 	}
 	topNode.Buttons = append(topNode.Buttons, exportExcelButton)
 
+	exportCSVButton := &tree_models.Button{
+		Name:            "ExportCSVButton " + string(tree_buttons.BUTTON_folder_zip),
+		Icon:            string(tree_buttons.BUTTON_folder_zip),
+		HasToolTip:      true,
+		ToolTipText:     "Export CSV",
+		ToolTipPosition: tree_models.Below,
+		OnClick: func() {
+			probe.ExportStageCSV()
+		},
+	}
+	topNode.Buttons = append(topNode.Buttons, exportCSVButton)
+
 	resetButton := &tree_models.Button{
 		Name:            "ResetButton " + string(tree_buttons.BUTTON_reset_tv),
 		Icon:            string(tree_buttons.BUTTON_reset_tv),

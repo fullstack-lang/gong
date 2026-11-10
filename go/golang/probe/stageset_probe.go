@@ -810,6 +810,21 @@ func (probe *Probe) ExportStageExcel() {
 	)
 }
 
+func (probe *Probe) ExportStageCSV() {
+	csvZipBytes, err := probe.stageOfInterest.SerializeStageCSVAsBytes(false)
+	gongprobe.ExportStageCSV(
+		csvZipBytes,
+		err,
+		probe.fileName,
+		"{{ModelPkgLower}}",
+		probe.stageOfInterest.GetName(),
+		probe.loadStage,
+		probe.initLoadStage,
+		probe.AddNotification,
+		probe.CommitNotificationTable,
+	)
+}
+
 func (probe *Probe) ExportStage() {
 	probe.loadStage.Reset()
 
@@ -1139,6 +1154,18 @@ func (probe *Probe) ux_tree() {
 		},
 	}
 	topNode.Buttons = append(topNode.Buttons, exportExcelButton)
+
+	exportCSVButton := &tree_models.Button{
+		Name:            "ExportCSVButton " + string(tree_buttons.BUTTON_folder_zip),
+		Icon:            string(tree_buttons.BUTTON_folder_zip),
+		HasToolTip:      true,
+		ToolTipText:     "Export CSV",
+		ToolTipPosition: tree_models.Below,
+		OnClick: func() {
+			probe.ExportStageCSV()
+		},
+	}
+	topNode.Buttons = append(topNode.Buttons, exportCSVButton)
 
 	resetButton := &tree_models.Button{
 		Name:            "ResetButton " + string(tree_buttons.BUTTON_reset_tv),

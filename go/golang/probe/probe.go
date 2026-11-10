@@ -369,5 +369,20 @@ func (probe *Probe) ExportStageExcel() {
 		probe.CommitNotificationTable,
 	)
 }
+
+func (probe *Probe) ExportStageCSV() {
+	csvZipBytes, err := probe.stageOfInterest.SerializeStageCSVAsBytes(false)
+	gongprobe.ExportStageCSV(
+		csvZipBytes,
+		err,
+		probe.fileName,
+		"{{pkgname}}",
+		probe.stageOfInterest.GetName(),
+		probe.loadStage,
+		probe.initLoadStage,
+		probe.AddNotification,
+		probe.CommitNotificationTable,
+	)
+}
 `
 
