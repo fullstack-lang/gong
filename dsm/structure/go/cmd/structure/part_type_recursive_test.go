@@ -34,12 +34,12 @@ func TestPartTypeRecursiveDisplayMultiInstanceAndSemantics(t *testing.T) {
 
 	// Build 3-level System hierarchy:
 	// SysRoot
-	//  |- inst1 (Part, IsPartNameNotSystemName=true, Type=SysSub)
-	//  |- inst2 (Part, IsPartNameNotSystemName=true, Type=SysSub)
-	//  |- autoNamedPart (Part, IsPartNameNotSystemName=false, Type=SysLeaf) -> name becomes "SysLeaf"
+	//  |- inst1 (Part, Name="Inst1", Type=SysSub) -> displays as "Inst1 : SysSub"
+	//  |- inst2 (Part, Name="Inst2", Type=SysSub) -> displays as "Inst2 : SysSub"
+	//  |- inst3 (Part, Name="Part 1", Type=SysLeaf) -> keeps Name="Part 1", displays as "Part 1 : SysLeaf"
 	//
 	// SysSub:
-	//  |- subB1 (Part, IsPartNameNotSystemName=true, Type=SysLeaf)
+	//  |- subB1 (Part, Name="SubB1", Type=SysLeaf) -> displays as "SubB1 : SysLeaf"
 	//  |    |- Ports: b1p1, b1p2
 	//  |    |- ControlFlows: cfB1 (b1p1 -> b1p2)
 	//  |- subB2 (Part, Name="SubB2")
@@ -55,9 +55,8 @@ func TestPartTypeRecursiveDisplayMultiInstanceAndSemantics(t *testing.T) {
 
 	sysSub := (&models.System{Name: "SysSub"}).Stage(stage)
 	subB1 := (&models.Part{
-		Name:                    "SubB1",
-		Type:                    sysLeaf,
-		IsPartNameNotSystemName: true,
+		Name: "SubB1",
+		Type: sysLeaf,
 	}).Stage(stage)
 	b1p1 := (&models.Port{Name: "b1p1"}).Stage(stage)
 	b1p2 := (&models.Port{Name: "b1p2"}).Stage(stage)
@@ -92,21 +91,18 @@ func TestPartTypeRecursiveDisplayMultiInstanceAndSemantics(t *testing.T) {
 
 	sysRoot := (&models.System{Name: "SysRoot"}).Stage(stage)
 	inst1 := (&models.Part{
-		Name:                    "Inst1",
-		Type:                    sysSub,
-		IsPartNameNotSystemName: true,
+		Name: "Inst1",
+		Type: sysSub,
 	}).Stage(stage)
 	inst2 := (&models.Part{
-		Name:                    "Inst2",
-		Type:                    sysSub,
-		IsPartNameNotSystemName: true,
+		Name: "Inst2",
+		Type: sysSub,
 	}).Stage(stage)
-	autoNamedPart := (&models.Part{
-		Name:                    "InitialPartName",
-		Type:                    sysLeaf,
-		IsPartNameNotSystemName: false,
+	inst3 := (&models.Part{
+		Name: "Part 1",
+		Type: sysLeaf,
 	}).Stage(stage)
-	sysRoot.Parts = append(sysRoot.Parts, inst1, inst2, autoNamedPart)
+	sysRoot.Parts = append(sysRoot.Parts, inst1, inst2, inst3)
 
 	rootLib.RootSystemes = append(rootLib.RootSystemes, sysRoot, sysSub, sysLeaf)
 
@@ -130,16 +126,14 @@ func TestPartTypeRecursiveDisplayMultiInstanceAndSemantics(t *testing.T) {
 
 	stage.Commit()
 
-	// 1. Verify Part.Type auto-naming vs IsPartNameNotSystemName
-	if autoNamedPart.Name != "SysLeaf" {
-		t.Fatalf("expected autoNamedPart name to follow Type %q, got %q", "SysLeaf", autoNamedPart.Name)
-	}
-	if inst1.Name != "Inst1" || inst2.Name != "Inst2" {
-		t.Fatalf("expected custom part names Inst1/Inst2 preserved, got %q / %q", inst1.Name, inst2.Name)
+	// 1. Verify Part.Name is NEVER overwritten by Part.Type.Name
+	if inst1.Name != "Inst1" || inst2.Name != "Inst2" || inst3.Name != "Part 1" || subB1.Name != "SubB1" {
+		t.Fatalf("expected Part names preserved (not overwritten by Type), got %q / %q / %q / %q",
+			inst1.Name, inst2.Name, inst3.Name, subB1.Name)
 	}
 
-	// Helper to locate RootDiag -> Parts -> <partName> in current UX tree
-	getInstNode := func(instName string) *tree.Node {
+	// Helper to locate RootDiag -> Parts -> "<partName> : <typeName>" in current UX tree
+	getInstNode := func(partLabel string) *tree.Node {
 		t.Helper()
 		trees := stager.GetTreeStage().GetInstancesSorted[*tree.Tree]()
 		if len(trees) == 0 {
@@ -153,25 +147,34 @@ func TestPartTypeRecursiveDisplayMultiInstanceAndSemantics(t *testing.T) {
 		if partsFolder == nil {
 			t.Fatalf("expected Parts folder under RootDiag")
 		}
-		n := findDirectChildByName(partsFolder, instName)
+		n := findDirectChildByName(partsFolder, partLabel)
 		if n == nil {
-			t.Fatalf("expected part node %q under RootDiag/Parts", instName)
+			t.Fatalf("expected part node %q under RootDiag/Parts", partLabel)
 		}
 		return n
 	}
 
+	// Verify "Part 1 : SysLeaf" formatting in UX tree (and raw "Part 1" when in rename mode)
+	_ = getInstNode("Part 1 : SysLeaf")
+	inst3.SetIsInRenameMode(true)
+	stage.Commit()
+	_ = getInstNode("Part 1")
+	inst3.SetIsInRenameMode(false)
+	stage.Commit()
+	_ = getInstNode("Part 1 : SysLeaf")
+
 	// 2. Before Inst1 is checked, nested SubB1 checkbox must be disabled
-	inst1Node := getInstNode("Inst1")
+	inst1Node := getInstNode("Inst1 : SysSub")
 	inst1TypeParts := findDirectChildByName(inst1Node, "Parts")
 	if inst1TypeParts == nil {
 		t.Fatalf("expected recursive 'Parts' folder under typed Part Inst1")
 	}
-	subB1NodeUncheckedParent := findDirectChildByName(inst1TypeParts, "SubB1")
+	subB1NodeUncheckedParent := findDirectChildByName(inst1TypeParts, "SubB1 : SysLeaf")
 	if subB1NodeUncheckedParent == nil || !subB1NodeUncheckedParent.IsCheckboxDisabled {
 		t.Fatalf("expected SubB1 node under unchecked Inst1 to have disabled checkbox, got %+v", subB1NodeUncheckedParent)
 	}
 
-	// 3. Check Inst1 in diagram -> leaf-style title centered initially
+	// 3. Check Inst1 in diagram -> leaf-style title "Inst1 : SysSub" centered initially
 	inst1Node.OnIsCheckedChanged(true)
 
 	svgObj := stager.GetSvgObject()
@@ -188,9 +191,12 @@ func TestPartTypeRecursiveDisplayMultiInstanceAndSemantics(t *testing.T) {
 	if len(inst1Rect.RectAnchoredTexts) == 0 || inst1Rect.RectAnchoredTexts[0].RectAnchorType != svg.RECT_CENTER_MIDDLE {
 		t.Fatalf("expected Inst1 title anchored at RECT_CENTER_MIDDLE before nested parts are checked, got %+v", inst1Rect.RectAnchoredTexts)
 	}
+	if inst1Rect.RectAnchoredTexts[0].Content != "Inst1 : SysSub" {
+		t.Fatalf("expected SVG title %q on Inst1, got %q", "Inst1 : SysSub", inst1Rect.RectAnchoredTexts[0].Content)
+	}
 
 	// 4. Expand & check nested SubB1, SubB2, LeafC1 (3rd level!), ports, control flow, and internal data flow under Inst1
-	checkSubHierarchy := func(instName string, xOffset float64) {
+	checkSubHierarchy := func(instName string, instLabel string, xOffset float64) {
 		t.Helper()
 		// Position top-level instance so Inst1 and Inst2 sit side-by-side cleanly
 		for _, ps := range diag.Part_Shapes {
@@ -201,22 +207,22 @@ func TestPartTypeRecursiveDisplayMultiInstanceAndSemantics(t *testing.T) {
 		}
 		stage.Commit()
 
-		instNode := getInstNode(instName)
+		instNode := getInstNode(instLabel)
 		subPartsFolder := findDirectChildByName(instNode, "Parts")
-		subB1Node := findDirectChildByName(subPartsFolder, "SubB1")
+		subB1Node := findDirectChildByName(subPartsFolder, "SubB1 : SysLeaf")
 		if subB1Node == nil || subB1Node.IsCheckboxDisabled {
 			t.Fatalf("expected enabled SubB1 checkbox under checked %s", instName)
 		}
 		subB1Node.OnIsCheckedChanged(true)
 
-		instNode = getInstNode(instName)
+		instNode = getInstNode(instLabel)
 		subPartsFolder = findDirectChildByName(instNode, "Parts")
 		subB2Node := findDirectChildByName(subPartsFolder, "SubB2")
 		subB2Node.OnIsCheckedChanged(true)
 
 		// Check 3rd-level LeafC1 inside SubB1
-		instNode = getInstNode(instName)
-		subB1Node = findDirectChildByName(findDirectChildByName(instNode, "Parts"), "SubB1")
+		instNode = getInstNode(instLabel)
+		subB1Node = findDirectChildByName(findDirectChildByName(instNode, "Parts"), "SubB1 : SysLeaf")
 		leafPartsFolder := findDirectChildByName(subB1Node, "Parts")
 		if leafPartsFolder == nil {
 			t.Fatalf("expected 3rd-level 'Parts' folder under SubB1")
@@ -228,32 +234,32 @@ func TestPartTypeRecursiveDisplayMultiInstanceAndSemantics(t *testing.T) {
 		leafC1Node.OnIsCheckedChanged(true)
 
 		// Check Ports on SubB1 and SubB2
-		instNode = getInstNode(instName)
-		subB1Node = findDirectChildByName(findDirectChildByName(instNode, "Parts"), "SubB1")
+		instNode = getInstNode(instLabel)
+		subB1Node = findDirectChildByName(findDirectChildByName(instNode, "Parts"), "SubB1 : SysLeaf")
 		b1p1Node := findDirectChildByName(findDirectChildByName(subB1Node, "Ports"), "b1p1")
 		b1p1Node.OnIsCheckedChanged(true)
 
-		instNode = getInstNode(instName)
-		subB1Node = findDirectChildByName(findDirectChildByName(instNode, "Parts"), "SubB1")
+		instNode = getInstNode(instLabel)
+		subB1Node = findDirectChildByName(findDirectChildByName(instNode, "Parts"), "SubB1 : SysLeaf")
 		b1p2Node := findDirectChildByName(findDirectChildByName(subB1Node, "Ports"), "b1p2")
 		b1p2Node.OnIsCheckedChanged(true)
 
-		instNode = getInstNode(instName)
+		instNode = getInstNode(instLabel)
 		subB2Node = findDirectChildByName(findDirectChildByName(instNode, "Parts"), "SubB2")
 		b2p1Node := findDirectChildByName(findDirectChildByName(subB2Node, "Ports"), "b2p1")
 		b2p1Node.OnIsCheckedChanged(true)
 
 		// Check ControlFlow cfB1 inside SubB1
-		instNode = getInstNode(instName)
-		subB1Node = findDirectChildByName(findDirectChildByName(instNode, "Parts"), "SubB1")
+		instNode = getInstNode(instLabel)
+		subB1Node = findDirectChildByName(findDirectChildByName(instNode, "Parts"), "SubB1 : SysLeaf")
 		cfNode := findDirectChildByName(findDirectChildByName(subB1Node, "ControlFlows"), cfB1.GetName())
 		if cfNode == nil || cfNode.IsCheckboxDisabled {
 			t.Fatalf("expected enabled ControlFlow %q checkbox under %s/SubB1, got %+v", cfB1.GetName(), instName, cfNode)
 		}
 		cfNode.OnIsCheckedChanged(true)
 
-		// Check internal DataFlow dfInternal + Data Payload + Protocol TCP under <instName>/Data Flows
-		instNode = getInstNode(instName)
+		// Check internal DataFlow dfInternal + Data Payload + Protocol TCP under <instLabel>/Data Flows
+		instNode = getInstNode(instLabel)
 		dfFolder := findDirectChildByName(instNode, "Data Flows")
 		if dfFolder == nil {
 			t.Fatalf("expected 'Data Flows' folder under typed Part %s", instName)
@@ -264,23 +270,23 @@ func TestPartTypeRecursiveDisplayMultiInstanceAndSemantics(t *testing.T) {
 		}
 		dfNode.OnIsCheckedChanged(true)
 
-		instNode = getInstNode(instName)
+		instNode = getInstNode(instLabel)
 		dfNode = findDirectChildByName(findDirectChildByName(instNode, "Data Flows"), dfInternal.GetName())
 		payloadNode := findDirectChildByName(dfNode, "Payload")
 		payloadNode.OnIsCheckedChanged(true)
 
-		instNode = getInstNode(instName)
+		instNode = getInstNode(instLabel)
 		dfNode = findDirectChildByName(findDirectChildByName(instNode, "Data Flows"), dfInternal.GetName())
 		tcpNode := findDirectChildByName(dfNode, "TCP")
 		tcpNode.OnIsCheckedChanged(true)
 	}
 
-	checkSubHierarchy("Inst1", 80)
+	checkSubHierarchy("Inst1", "Inst1 : SysSub", 80)
 
 	// 5. Check Inst2 (second instance of the exact same SysSub in the same diagram!) and expand its full hierarchy too
-	inst2Node := getInstNode("Inst2")
+	inst2Node := getInstNode("Inst2 : SysSub")
 	inst2Node.OnIsCheckedChanged(true)
-	checkSubHierarchy("Inst2", 620)
+	checkSubHierarchy("Inst2", "Inst2 : SysSub", 620)
 
 	// Verify multi-instance counts in RootDiag:
 	// Part_Shapes: 2 * (Inst + SubB1 + SubB2 + LeafC1) = 8
@@ -332,12 +338,20 @@ func TestPartTypeRecursiveDisplayMultiInstanceAndSemantics(t *testing.T) {
 		t.Fatalf("expected parent rects before child rects in layer.Rects Z-order: idx=%v", rectIndex)
 	}
 
-	// Title anchor: composite containers at RECT_TOP, leaf parts at RECT_CENTER_MIDDLE
+	// Title anchor & "Part : Type" formatting: composite containers at RECT_TOP, leaf parts at RECT_CENTER_MIDDLE
 	if rInst1.RectAnchoredTexts[0].RectAnchorType != svg.RECT_TOP || rSubB1_1.RectAnchoredTexts[0].RectAnchorType != svg.RECT_TOP {
 		t.Fatalf("expected Inst1 and SubB1 titles anchored at RECT_TOP when displaying nested parts")
 	}
+	if rInst1.RectAnchoredTexts[0].Content != "Inst1 : SysSub" || rSubB1_1.RectAnchoredTexts[0].Content != "SubB1 : SysLeaf" {
+		t.Fatalf("expected 'Part : Type' titles on Inst1/SubB1, got %q / %q",
+			rInst1.RectAnchoredTexts[0].Content, rSubB1_1.RectAnchoredTexts[0].Content)
+	}
 	if rSubB2_1.RectAnchoredTexts[0].RectAnchorType != svg.RECT_CENTER_MIDDLE || rLeafC1_1.RectAnchoredTexts[0].RectAnchorType != svg.RECT_CENTER_MIDDLE {
 		t.Fatalf("expected leaf parts SubB2 and LeafC1 titles anchored at RECT_CENTER_MIDDLE")
+	}
+	if rSubB2_1.RectAnchoredTexts[0].Content != "SubB2" || rLeafC1_1.RectAnchoredTexts[0].Content != "LeafC1" {
+		t.Fatalf("expected untyped part titles 'SubB2'/'LeafC1', got %q / %q",
+			rSubB2_1.RectAnchoredTexts[0].Content, rLeafC1_1.RectAnchoredTexts[0].Content)
 	}
 
 	// EnclosingRect & Peers
@@ -389,7 +403,7 @@ func TestPartTypeRecursiveDisplayMultiInstanceAndSemantics(t *testing.T) {
 	}
 
 	// 7. Uncheck Inst1 -> cascade unstages all of Inst1's nested shapes while keeping Inst2 100% intact!
-	inst1Node = getInstNode("Inst1")
+	inst1Node = getInstNode("Inst1 : SysSub")
 	inst1Node.OnIsCheckedChanged(false)
 
 	if len(diag.Part_Shapes) != 4 {
@@ -429,7 +443,7 @@ func TestPartTypeRecursiveDisplayMultiInstanceAndSemantics(t *testing.T) {
 	stage.Commit()
 
 	// Check b2p2 under Inst2 -> Parts -> SubB2 -> Ports
-	inst2SubB2Node := findDirectChildByName(findDirectChildByName(getInstNode("Inst2"), "Parts"), "SubB2")
+	inst2SubB2Node := findDirectChildByName(findDirectChildByName(getInstNode("Inst2 : SysSub"), "Parts"), "SubB2")
 	inst2B2P2Node := findDirectChildByName(findDirectChildByName(inst2SubB2Node, "Ports"), b2p2.GetName())
 	if inst2B2P2Node == nil {
 		t.Fatalf("expected b2p2 node under Inst2/SubB2/Ports")

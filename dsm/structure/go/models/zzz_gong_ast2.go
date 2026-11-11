@@ -838,8 +838,6 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignSliceOfPointers(&inst.Ports, rhs, identifierMap)
 					case "Type":
 						__gong__assignPointer(&inst.Type, rhs, identifierMap)
-					case "IsPartNameNotSystemName":
-						inst.IsPartNameNotSystemName = GongExtractBool(rhs)
 					case "IsControlFlowsNodeExpanded":
 						inst.IsControlFlowsNodeExpanded = GongExtractBool(rhs)
 					case "ControlFlows":
@@ -2237,8 +2235,6 @@ func (u *PartUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		GongUnmarshallSliceOfPointers(&instance.Ports, valueExpr, identifierMap)
 	case "Type":
 		GongUnmarshallPointer(&instance.Type, valueExpr, identifierMap)
-	case "IsPartNameNotSystemName":
-		instance.IsPartNameNotSystemName = GongExtractBool(valueExpr)
 	case "IsControlFlowsNodeExpanded":
 		instance.IsControlFlowsNodeExpanded = GongExtractBool(valueExpr)
 	case "ControlFlows":

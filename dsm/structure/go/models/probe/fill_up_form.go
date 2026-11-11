@@ -902,8 +902,6 @@ func FillUpForm(
 			true, false, 0, false, 0, false)
 		AssociationSliceToForm("Ports", instanceWithInferedType, &instanceWithInferedType.Ports, formGroup, probe)
 		AssociationFieldToForm("Type", instanceWithInferedType.Type, formGroup, probe)
-		BasicFieldtoForm("IsPartNameNotSystemName", instanceWithInferedType.IsPartNameNotSystemName, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsControlFlowsNodeExpanded", instanceWithInferedType.IsControlFlowsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("ControlFlows", instanceWithInferedType, &instanceWithInferedType.ControlFlows, formGroup, probe)

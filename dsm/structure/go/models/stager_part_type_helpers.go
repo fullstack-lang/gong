@@ -2,6 +2,18 @@ package models
 
 import "slices"
 
+// partDisplayLabel formats a Part label as "<Part.Name> : <Part.Type.Name>" when part.Type is set,
+// or "<Part.Name>" otherwise.
+func partDisplayLabel(part *Part) string {
+	if part == nil {
+		return ""
+	}
+	if part.Type != nil && part.Type.GetName() != "" {
+		return part.GetName() + " : " + part.Type.GetName()
+	}
+	return part.GetName()
+}
+
 // reachesSystemViaPartTypes returns true if start == target or if following
 // System -> Parts -> Type edges from start reaches target.
 // Uses a visited map to remain safe even if a cycle currently exists.

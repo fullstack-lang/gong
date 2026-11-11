@@ -107,18 +107,6 @@ func (stager *Stager) portEndpointBaseName(port *Port) string {
 func (stager *Stager) enforcePortSemanticRules() (needCommit bool) {
 	_, partToLibrary := stager.buildSystemAndPartLibraryMaps()
 
-	for _, part := range stager.stage.GetInstancesSorted[*Part]() {
-		if part.Type != nil && !part.IsPartNameNotSystemName && part.GetName() != part.Type.GetName() {
-			oldName := part.GetName()
-			part.SetName(part.Type.GetName())
-			needCommit = true
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Part \"%s\" name overridden to \"%s\"",
-					oldName, part.GetName()))
-			}
-		}
-	}
-
 	autoNamedPorts := make(map[*Port]bool)
 	for _, part := range stager.stage.GetInstancesSorted[*Part]() {
 		lib := partToLibrary[part]

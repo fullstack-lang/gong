@@ -716,8 +716,6 @@ type Part_WOP struct {
 
 	Description string
 
-	IsPartNameNotSystemName bool
-
 	IsControlFlowsNodeExpanded bool
 
 	IsDataFlowsNodeExpanded bool
@@ -737,7 +735,6 @@ func (from *Part) GongCopyBasicFields(to *Part) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
-	to.IsPartNameNotSystemName = from.IsPartNameNotSystemName
 	to.IsControlFlowsNodeExpanded = from.IsControlFlowsNodeExpanded
 	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 	to.ComputedPrefix = from.ComputedPrefix

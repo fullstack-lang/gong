@@ -204,7 +204,7 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 			title := new(svg.RectAnchoredText)
 			title.Name = partShape.GetAbstractElement().GetName()
 
-			content := partShape.GetAbstractElement().GetName()
+			content := partDisplayLabel(partShape.Part)
 			if diagramStructure.GetIsShowPrefix() {
 				content = partShape.GetAbstractElement().GetComputedPrefix() + " " + content
 			}

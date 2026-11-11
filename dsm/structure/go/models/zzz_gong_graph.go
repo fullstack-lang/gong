@@ -4272,9 +4272,6 @@ func (part *Part) GongDiff(stage *Stage, partOther *Part) (diffs []string) {
 	if part.Type != partOther.Type {
 		diffs = append(diffs, part.GongMarshallField(stage, "Type"))
 	}
-	if part.IsPartNameNotSystemName != partOther.IsPartNameNotSystemName {
-		diffs = append(diffs, part.GongMarshallField(stage, "IsPartNameNotSystemName"))
-	}
 	if part.IsControlFlowsNodeExpanded != partOther.IsControlFlowsNodeExpanded {
 		diffs = append(diffs, part.GongMarshallField(stage, "IsControlFlowsNodeExpanded"))
 	}

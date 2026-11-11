@@ -7332,10 +7332,6 @@ func (part *Part) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "System",
 		},
 		{
-			Name:               "IsPartNameNotSystemName",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "IsControlFlowsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -9660,10 +9656,6 @@ func (part *Part) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString = part.Type.Name
 			res.ids = part.Type.GongGetUUID(stage)
 		}
-	case "IsPartNameNotSystemName":
-		res.valueString = fmt.Sprintf("%t", part.IsPartNameNotSystemName)
-		res.valueBool = part.IsPartNameNotSystemName
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsControlFlowsNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", part.IsControlFlowsNodeExpanded)
 		res.valueBool = part.IsControlFlowsNodeExpanded

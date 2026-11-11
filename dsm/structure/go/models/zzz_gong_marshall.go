@@ -1712,7 +1712,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", partIdent, __gong__toRawStringLiteral(part.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", partIdent, __gong__toRawStringLiteral(part.Description)))
-			values.WriteString(fmt.Sprintf("\n\t%s.IsPartNameNotSystemName = %t", partIdent, part.IsPartNameNotSystemName))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsControlFlowsNodeExpanded = %t", partIdent, part.IsControlFlowsNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsDataFlowsNodeExpanded = %t", partIdent, part.IsDataFlowsNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", partIdent, __gong__toRawStringLiteral(part.ComputedPrefix)))
@@ -3557,8 +3556,6 @@ func (part *Part) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = __gong__marshallString(ident, "Name", part.Name)
 	case "Description":
 		res = __gong__marshallString(ident, "Description", part.Description)
-	case "IsPartNameNotSystemName":
-		res = __gong__marshallBool(ident, "IsPartNameNotSystemName", part.IsPartNameNotSystemName)
 	case "IsControlFlowsNodeExpanded":
 		res = __gong__marshallBool(ident, "IsControlFlowsNodeExpanded", part.IsControlFlowsNodeExpanded)
 	case "IsDataFlowsNodeExpanded":
@@ -4651,7 +4648,6 @@ func (part *Part) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(part.GongMarshallField(stage, "Description"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "Ports"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "Type"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "IsPartNameNotSystemName"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsControlFlowsNodeExpanded"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "ControlFlows"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PortWhoseOutControlFlowsNodeIsExpanded"))

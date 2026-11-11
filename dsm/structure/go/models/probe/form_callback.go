@@ -1209,8 +1209,6 @@ func savePartFields(
 			FormDivSliceOfPointersToField(_instance, "Ports", &(_instance.Ports), formDiv, probe)
 		case "Type":
 			FormDivSelectFieldToField(&(_instance.Type), probe.stageOfInterest, formDiv)
-		case "IsPartNameNotSystemName":
-			FormDivBasicFieldToField(&(_instance.IsPartNameNotSystemName), formDiv)
 		case "IsControlFlowsNodeExpanded":
 			FormDivBasicFieldToField(&(_instance.IsControlFlowsNodeExpanded), formDiv)
 		case "ControlFlows":

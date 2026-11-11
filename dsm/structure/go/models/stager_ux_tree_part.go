@@ -15,8 +15,12 @@ func (stager *Stager) treePartWithinLibrary(
 	part *Part,
 	parentNode *tree.Node,
 ) {
+	nodeName := partDisplayLabel(part)
+	if part.GetIsInRenameMode() {
+		nodeName = part.GetName()
+	}
 	partNode := &tree.Node{
-		Name:            part.GetName(),
+		Name:            nodeName,
 		IsExpanded:      slices.Contains(library.PartsWhoseNodeIsExpanded, part),
 		IsNodeClickable: true,
 		IsInEditMode:    part.GetIsInRenameMode(),
@@ -93,14 +97,13 @@ func (stager *Stager) treePartsWithEnclosing(
 		}]
 	}
 
-	displayName := part.Name
-	if part.Type != nil && part.IsPartNameNotSystemName && part.Type.GetName() != "" {
-		displayName = fmt.Sprintf("%s : %s", part.Name, part.Type.GetName())
+	nodeName := partDisplayLabel(part)
+	if part.isInRenameMode {
+		nodeName = part.Name
 	}
-	_ = displayName // Keep node.Name equal to part.Name so rename & existing lookups match seamlessly
 
 	node := &tree.Node{
-		Name:                    part.Name,
+		Name:                    nodeName,
 		IsExpanded:              slices.Contains(*partsWhoseNodeIsExpanded, part),
 		IsNodeClickable:         true,
 		IsInEditMode:            part.isInRenameMode,

@@ -17,8 +17,12 @@ func (stager *Stager) treeExternalParts(
 
 	// find the shape (if any)
 	shape, ok := diagramStructure.map_Part_ExternalPartShape[externalPart]
+	nodeName := partDisplayLabel(externalPart)
+	if externalPart.isInRenameMode {
+		nodeName = externalPart.GetName()
+	}
 	node := &tree.Node{
-		Name:                    externalPart.Name,
+		Name:                    nodeName,
 		IsExpanded:              slices.Contains(diagramStructure.ExternalPartWhoseNodeIsExpanded, externalPart),
 		IsNodeClickable:         true,
 		IsInEditMode:            externalPart.isInRenameMode,
