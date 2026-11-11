@@ -27,6 +27,24 @@ func (stager *Stager) enforceStagerMaps() {
 			diagramStructure.map_DataShapeKey_DataShape[key] = dataShape
 		}
 
+		diagramStructure.map_ProtocolShapeKey_ProtocolShape = make(map[protocolShapeKey]*ProtocolShape)
+		for _, protocolShape := range diagramStructure.Protocol_Shapes {
+			key := protocolShapeKey{
+				dataFlow: protocolShape.DataFlow,
+				protocol: protocolShape.Protocol,
+			}
+			diagramStructure.map_ProtocolShapeKey_ProtocolShape[key] = protocolShape
+		}
+
+		diagramStructure.map_ProtocolLayerShapeKey_ProtocolLayerShape = make(map[protocolLayerShapeKey]*ProtocolLayerShape)
+		for _, protocolLayerShape := range diagramStructure.ProtocolLayer_Shapes {
+			key := protocolLayerShapeKey{
+				dataFlow:      protocolLayerShape.DataFlow,
+				protocolLayer: protocolLayerShape.ProtocolLayer,
+			}
+			diagramStructure.map_ProtocolLayerShapeKey_ProtocolLayerShape[key] = protocolLayerShape
+		}
+
 		diagramStructure.map_AllocatedResourceShapeKey_AllocatedResourceShape = make(map[allocatedResourceShapeKey]*AllocatedResourceShape)
 		for _, allocatedResourceShape := range diagramStructure.AllocatedResourceShapes {
 			key := allocatedResourceShapeKey{
@@ -83,6 +101,20 @@ func (stager *Stager) enforceStagerMaps() {
 	}
 
 	stager.rm_Data_DataFlows = stager.stage.GetSliceOfPointersReverseMap[DataFlow, Data](GongGetAssociationName[DataFlow]().Datas[0].Name)
+	stager.rm_ProtocolLayer_Protocols = stager.stage.GetSliceOfPointersReverseMap[Protocol, ProtocolLayer](GongGetAssociationName[Protocol]().ProtocolLayers[0].Name)
+
+	stager.rm_Protocol_DataFlows = make(map[*Protocol][]*DataFlow)
+	for _, df := range stager.stage.GetInstancesSorted[*DataFlow]() {
+		if df.Protocol != nil {
+			stager.rm_Protocol_DataFlows[df.Protocol] = append(stager.rm_Protocol_DataFlows[df.Protocol], df)
+		}
+	}
+	stager.rm_Protocol_Ports = make(map[*Protocol][]*Port)
+	for _, port := range stager.stage.GetInstancesSorted[*Port]() {
+		if port.Protocol != nil {
+			stager.rm_Protocol_Ports[port.Protocol] = append(stager.rm_Protocol_Ports[port.Protocol], port)
+		}
+	}
 }
 
 // updateMapElementDiagrams is a helper function to update the map of abstract elements to their shapes for a given diagram

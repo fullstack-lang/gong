@@ -625,6 +625,110 @@ func (portshape *PortShape) GongAfterDeleteFromFront(stage *Stage, front Gongstr
 	}
 }
 
+func (protocol *Protocol) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterProtocolCreateCallback != nil {
+		stage.OnAfterProtocolCreateCallback.OnAfterCreate(stage, protocol)
+	}
+}
+
+func (protocol *Protocol) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterProtocolUpdateCallback != nil {
+		var frontProtocol *Protocol
+		if front != nil {
+			frontProtocol, _ = front.(*Protocol)
+		}
+		stage.OnAfterProtocolUpdateCallback.OnAfterUpdate(stage, protocol, frontProtocol)
+	}
+}
+
+func (protocol *Protocol) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterProtocolDeleteCallback != nil {
+		var frontProtocol *Protocol
+		if front != nil {
+			frontProtocol, _ = front.(*Protocol)
+		}
+		stage.OnAfterProtocolDeleteCallback.OnAfterDelete(stage, protocol, frontProtocol)
+	}
+}
+
+func (protocollayer *ProtocolLayer) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterProtocolLayerCreateCallback != nil {
+		stage.OnAfterProtocolLayerCreateCallback.OnAfterCreate(stage, protocollayer)
+	}
+}
+
+func (protocollayer *ProtocolLayer) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterProtocolLayerUpdateCallback != nil {
+		var frontProtocolLayer *ProtocolLayer
+		if front != nil {
+			frontProtocolLayer, _ = front.(*ProtocolLayer)
+		}
+		stage.OnAfterProtocolLayerUpdateCallback.OnAfterUpdate(stage, protocollayer, frontProtocolLayer)
+	}
+}
+
+func (protocollayer *ProtocolLayer) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterProtocolLayerDeleteCallback != nil {
+		var frontProtocolLayer *ProtocolLayer
+		if front != nil {
+			frontProtocolLayer, _ = front.(*ProtocolLayer)
+		}
+		stage.OnAfterProtocolLayerDeleteCallback.OnAfterDelete(stage, protocollayer, frontProtocolLayer)
+	}
+}
+
+func (protocollayershape *ProtocolLayerShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterProtocolLayerShapeCreateCallback != nil {
+		stage.OnAfterProtocolLayerShapeCreateCallback.OnAfterCreate(stage, protocollayershape)
+	}
+}
+
+func (protocollayershape *ProtocolLayerShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterProtocolLayerShapeUpdateCallback != nil {
+		var frontProtocolLayerShape *ProtocolLayerShape
+		if front != nil {
+			frontProtocolLayerShape, _ = front.(*ProtocolLayerShape)
+		}
+		stage.OnAfterProtocolLayerShapeUpdateCallback.OnAfterUpdate(stage, protocollayershape, frontProtocolLayerShape)
+	}
+}
+
+func (protocollayershape *ProtocolLayerShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterProtocolLayerShapeDeleteCallback != nil {
+		var frontProtocolLayerShape *ProtocolLayerShape
+		if front != nil {
+			frontProtocolLayerShape, _ = front.(*ProtocolLayerShape)
+		}
+		stage.OnAfterProtocolLayerShapeDeleteCallback.OnAfterDelete(stage, protocollayershape, frontProtocolLayerShape)
+	}
+}
+
+func (protocolshape *ProtocolShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterProtocolShapeCreateCallback != nil {
+		stage.OnAfterProtocolShapeCreateCallback.OnAfterCreate(stage, protocolshape)
+	}
+}
+
+func (protocolshape *ProtocolShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterProtocolShapeUpdateCallback != nil {
+		var frontProtocolShape *ProtocolShape
+		if front != nil {
+			frontProtocolShape, _ = front.(*ProtocolShape)
+		}
+		stage.OnAfterProtocolShapeUpdateCallback.OnAfterUpdate(stage, protocolshape, frontProtocolShape)
+	}
+}
+
+func (protocolshape *ProtocolShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterProtocolShapeDeleteCallback != nil {
+		var frontProtocolShape *ProtocolShape
+		if front != nil {
+			frontProtocolShape, _ = front.(*ProtocolShape)
+		}
+		stage.OnAfterProtocolShapeDeleteCallback.OnAfterDelete(stage, protocolshape, frontProtocolShape)
+	}
+}
+
 func (resource *Resource) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterResourceCreateCallback != nil {
 		stage.OnAfterResourceCreateCallback.OnAfterCreate(stage, resource)

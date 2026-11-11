@@ -289,6 +289,12 @@ type Stage struct {
 
 	DiagramStructure_DataFlowsWhoseDataNodeIsExpanded_reverseMap map[*DataFlow]*DiagramStructure
 
+	DiagramStructure_Protocol_Shapes_reverseMap map[*ProtocolShape]*DiagramStructure
+
+	DiagramStructure_ProtocolLayer_Shapes_reverseMap map[*ProtocolLayerShape]*DiagramStructure
+
+	DiagramStructure_DataFlowsWhoseProtocolNodeIsExpanded_reverseMap map[*DataFlow]*DiagramStructure
+
 	DiagramStructure_AllocatedResourcesWhoseNodeIsExpanded_reverseMap map[*Resource]*DiagramStructure
 
 	DiagramStructure_AllocatedResourceShapes_reverseMap map[*AllocatedResourceShape]*DiagramStructure
@@ -366,6 +372,14 @@ type Stage struct {
 	Library_RootDatas_reverseMap map[*Data]*Library
 
 	Library_DatasWhoseNodeIsExpanded_reverseMap map[*Data]*Library
+
+	Library_RootProtocols_reverseMap map[*Protocol]*Library
+
+	Library_ProtocolsWhoseNodeIsExpanded_reverseMap map[*Protocol]*Library
+
+	Library_RootProtocolLayers_reverseMap map[*ProtocolLayer]*Library
+
+	Library_ProtocolLayersWhoseNodeIsExpanded_reverseMap map[*ProtocolLayer]*Library
 
 	Library_RootResources_reverseMap map[*Resource]*Library
 
@@ -540,6 +554,64 @@ type Stage struct {
 	OnAfterPortShapeCreateCallback GongOnAfterCreateInterface[PortShape]
 	OnAfterPortShapeUpdateCallback GongOnAfterUpdateInterface[PortShape]
 	OnAfterPortShapeDeleteCallback GongOnAfterDeleteInterface[PortShape]
+
+	Protocols                map[*Protocol]struct{}
+	Protocols_instance       map[*Protocol]*Protocol
+	Protocols_mapString      map[string]*Protocol
+	ProtocolOrder            uint
+	Protocol_stagedOrder     map[*Protocol]uint
+	Protocol_orderStaged     map[uint]*Protocol
+	Protocols_reference      map[*Protocol]*Protocol
+	Protocols_referenceOrder map[*Protocol]uint
+
+	// insertion point for slice of pointers maps
+	Protocol_ProtocolLayers_reverseMap map[*ProtocolLayer]*Protocol
+
+	OnAfterProtocolCreateCallback GongOnAfterCreateInterface[Protocol]
+	OnAfterProtocolUpdateCallback GongOnAfterUpdateInterface[Protocol]
+	OnAfterProtocolDeleteCallback GongOnAfterDeleteInterface[Protocol]
+
+	ProtocolLayers                map[*ProtocolLayer]struct{}
+	ProtocolLayers_instance       map[*ProtocolLayer]*ProtocolLayer
+	ProtocolLayers_mapString      map[string]*ProtocolLayer
+	ProtocolLayerOrder            uint
+	ProtocolLayer_stagedOrder     map[*ProtocolLayer]uint
+	ProtocolLayer_orderStaged     map[uint]*ProtocolLayer
+	ProtocolLayers_reference      map[*ProtocolLayer]*ProtocolLayer
+	ProtocolLayers_referenceOrder map[*ProtocolLayer]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterProtocolLayerCreateCallback GongOnAfterCreateInterface[ProtocolLayer]
+	OnAfterProtocolLayerUpdateCallback GongOnAfterUpdateInterface[ProtocolLayer]
+	OnAfterProtocolLayerDeleteCallback GongOnAfterDeleteInterface[ProtocolLayer]
+
+	ProtocolLayerShapes                map[*ProtocolLayerShape]struct{}
+	ProtocolLayerShapes_instance       map[*ProtocolLayerShape]*ProtocolLayerShape
+	ProtocolLayerShapes_mapString      map[string]*ProtocolLayerShape
+	ProtocolLayerShapeOrder            uint
+	ProtocolLayerShape_stagedOrder     map[*ProtocolLayerShape]uint
+	ProtocolLayerShape_orderStaged     map[uint]*ProtocolLayerShape
+	ProtocolLayerShapes_reference      map[*ProtocolLayerShape]*ProtocolLayerShape
+	ProtocolLayerShapes_referenceOrder map[*ProtocolLayerShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterProtocolLayerShapeCreateCallback GongOnAfterCreateInterface[ProtocolLayerShape]
+	OnAfterProtocolLayerShapeUpdateCallback GongOnAfterUpdateInterface[ProtocolLayerShape]
+	OnAfterProtocolLayerShapeDeleteCallback GongOnAfterDeleteInterface[ProtocolLayerShape]
+
+	ProtocolShapes                map[*ProtocolShape]struct{}
+	ProtocolShapes_instance       map[*ProtocolShape]*ProtocolShape
+	ProtocolShapes_mapString      map[string]*ProtocolShape
+	ProtocolShapeOrder            uint
+	ProtocolShape_stagedOrder     map[*ProtocolShape]uint
+	ProtocolShape_orderStaged     map[uint]*ProtocolShape
+	ProtocolShapes_reference      map[*ProtocolShape]*ProtocolShape
+	ProtocolShapes_referenceOrder map[*ProtocolShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterProtocolShapeCreateCallback GongOnAfterCreateInterface[ProtocolShape]
+	OnAfterProtocolShapeUpdateCallback GongOnAfterUpdateInterface[ProtocolShape]
+	OnAfterProtocolShapeDeleteCallback GongOnAfterDeleteInterface[ProtocolShape]
 
 	Resources                map[*Resource]struct{}
 	Resources_instance       map[*Resource]*Resource
@@ -742,6 +814,14 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.PortShapes_reference, &stage.PortShapes_instance, &stage.PortShapes_referenceOrder)
 
+	__gong__clearReferences(&stage.Protocols_reference, &stage.Protocols_instance, &stage.Protocols_referenceOrder)
+
+	__gong__clearReferences(&stage.ProtocolLayers_reference, &stage.ProtocolLayers_instance, &stage.ProtocolLayers_referenceOrder)
+
+	__gong__clearReferences(&stage.ProtocolLayerShapes_reference, &stage.ProtocolLayerShapes_instance, &stage.ProtocolLayerShapes_referenceOrder)
+
+	__gong__clearReferences(&stage.ProtocolShapes_reference, &stage.ProtocolShapes_instance, &stage.ProtocolShapes_referenceOrder)
+
 	__gong__clearReferences(&stage.Resources_reference, &stage.Resources_instance, &stage.Resources_referenceOrder)
 
 	__gong__clearReferences(&stage.SemanticTags_reference, &stage.SemanticTags_instance, &stage.SemanticTags_referenceOrder)
@@ -818,6 +898,14 @@ func (stage *Stage) recomputeOrders() {
 	stage.PortOrder = __gong__recomputeOrder(stage.Port_stagedOrder)
 
 	stage.PortShapeOrder = __gong__recomputeOrder(stage.PortShape_stagedOrder)
+
+	stage.ProtocolOrder = __gong__recomputeOrder(stage.Protocol_stagedOrder)
+
+	stage.ProtocolLayerOrder = __gong__recomputeOrder(stage.ProtocolLayer_stagedOrder)
+
+	stage.ProtocolLayerShapeOrder = __gong__recomputeOrder(stage.ProtocolLayerShape_stagedOrder)
+
+	stage.ProtocolShapeOrder = __gong__recomputeOrder(stage.ProtocolShape_stagedOrder)
 
 	stage.ResourceOrder = __gong__recomputeOrder(stage.Resource_stagedOrder)
 
@@ -1303,6 +1391,86 @@ func (*PortShape) GongNewInstance() any {
 	return new(PortShape)
 }
 
+func (*Protocol) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.Protocols, stage.Protocol_stagedOrder)
+}
+
+func (*Protocol) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.Protocol_orderStaged[order]
+}
+
+func (*Protocol) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.Protocols_mapString
+}
+
+func (*Protocol) GongGetInstancesSet(stage *Stage) any {
+	return &stage.Protocols
+}
+
+func (*Protocol) GongNewInstance() any {
+	return new(Protocol)
+}
+
+func (*ProtocolLayer) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ProtocolLayers, stage.ProtocolLayer_stagedOrder)
+}
+
+func (*ProtocolLayer) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ProtocolLayer_orderStaged[order]
+}
+
+func (*ProtocolLayer) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ProtocolLayers_mapString
+}
+
+func (*ProtocolLayer) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ProtocolLayers
+}
+
+func (*ProtocolLayer) GongNewInstance() any {
+	return new(ProtocolLayer)
+}
+
+func (*ProtocolLayerShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ProtocolLayerShapes, stage.ProtocolLayerShape_stagedOrder)
+}
+
+func (*ProtocolLayerShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ProtocolLayerShape_orderStaged[order]
+}
+
+func (*ProtocolLayerShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ProtocolLayerShapes_mapString
+}
+
+func (*ProtocolLayerShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ProtocolLayerShapes
+}
+
+func (*ProtocolLayerShape) GongNewInstance() any {
+	return new(ProtocolLayerShape)
+}
+
+func (*ProtocolShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ProtocolShapes, stage.ProtocolShape_stagedOrder)
+}
+
+func (*ProtocolShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ProtocolShape_orderStaged[order]
+}
+
+func (*ProtocolShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ProtocolShapes_mapString
+}
+
+func (*ProtocolShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ProtocolShapes
+}
+
+func (*ProtocolShape) GongNewInstance() any {
+	return new(ProtocolShape)
+}
+
 func (*Resource) GongGetInstancesByOrder(stage *Stage) any {
 	return __gong__getStructInstancesByOrder(stage.Resources, stage.Resource_stagedOrder)
 }
@@ -1633,6 +1801,18 @@ func NewStage(name string) (stage *Stage) {
 		PortShapes:           make(map[*PortShape]struct{}),
 		PortShapes_mapString: make(map[string]*PortShape),
 
+		Protocols:           make(map[*Protocol]struct{}),
+		Protocols_mapString: make(map[string]*Protocol),
+
+		ProtocolLayers:           make(map[*ProtocolLayer]struct{}),
+		ProtocolLayers_mapString: make(map[string]*ProtocolLayer),
+
+		ProtocolLayerShapes:           make(map[*ProtocolLayerShape]struct{}),
+		ProtocolLayerShapes_mapString: make(map[string]*ProtocolLayerShape),
+
+		ProtocolShapes:           make(map[*ProtocolShape]struct{}),
+		ProtocolShapes_mapString: make(map[string]*ProtocolShape),
+
 		Resources:           make(map[*Resource]struct{}),
 		Resources_mapString: make(map[string]*Resource),
 
@@ -1745,6 +1925,22 @@ func NewStage(name string) (stage *Stage) {
 		PortShape_orderStaged: make(map[uint]*PortShape),
 		PortShapes_reference:  make(map[*PortShape]*PortShape),
 
+		Protocol_stagedOrder: make(map[*Protocol]uint),
+		Protocol_orderStaged: make(map[uint]*Protocol),
+		Protocols_reference:  make(map[*Protocol]*Protocol),
+
+		ProtocolLayer_stagedOrder: make(map[*ProtocolLayer]uint),
+		ProtocolLayer_orderStaged: make(map[uint]*ProtocolLayer),
+		ProtocolLayers_reference:  make(map[*ProtocolLayer]*ProtocolLayer),
+
+		ProtocolLayerShape_stagedOrder: make(map[*ProtocolLayerShape]uint),
+		ProtocolLayerShape_orderStaged: make(map[uint]*ProtocolLayerShape),
+		ProtocolLayerShapes_reference:  make(map[*ProtocolLayerShape]*ProtocolLayerShape),
+
+		ProtocolShape_stagedOrder: make(map[*ProtocolShape]uint),
+		ProtocolShape_orderStaged: make(map[uint]*ProtocolShape),
+		ProtocolShapes_reference:  make(map[*ProtocolShape]*ProtocolShape),
+
 		Resource_stagedOrder: make(map[*Resource]uint),
 		Resource_orderStaged: make(map[uint]*Resource),
 		Resources_reference:  make(map[*Resource]*Resource),
@@ -1808,6 +2004,14 @@ func NewStage(name string) (stage *Stage) {
 			"Port": &PortUnmarshaller{},
 
 			"PortShape": &PortShapeUnmarshaller{},
+
+			"Protocol": &ProtocolUnmarshaller{},
+
+			"ProtocolLayer": &ProtocolLayerUnmarshaller{},
+
+			"ProtocolLayerShape": &ProtocolLayerShapeUnmarshaller{},
+
+			"ProtocolShape": &ProtocolShapeUnmarshaller{},
 
 			"Resource": &ResourceUnmarshaller{},
 
@@ -1922,6 +2126,10 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["PartShape"] = len(stage.PartShapes)
 	stage.Map_GongStructName_InstancesNb["Port"] = len(stage.Ports)
 	stage.Map_GongStructName_InstancesNb["PortShape"] = len(stage.PortShapes)
+	stage.Map_GongStructName_InstancesNb["Protocol"] = len(stage.Protocols)
+	stage.Map_GongStructName_InstancesNb["ProtocolLayer"] = len(stage.ProtocolLayers)
+	stage.Map_GongStructName_InstancesNb["ProtocolLayerShape"] = len(stage.ProtocolLayerShapes)
+	stage.Map_GongStructName_InstancesNb["ProtocolShape"] = len(stage.ProtocolShapes)
 	stage.Map_GongStructName_InstancesNb["Resource"] = len(stage.Resources)
 	stage.Map_GongStructName_InstancesNb["SemanticTag"] = len(stage.SemanticTags)
 	stage.Map_GongStructName_InstancesNb["System"] = len(stage.Systems)
@@ -2886,6 +3094,166 @@ func (portshape *PortShape) SetName(name string) {
 	portshape.Name = name
 }
 
+// Stage puts protocol to the model stage
+func (protocol *Protocol) Stage(stage *Stage) *Protocol {
+	__gong__stage(stage.Protocols, stage.Protocol_stagedOrder, stage.Protocol_orderStaged, &stage.ProtocolOrder, stage.Protocols_mapString, protocol, protocol.Name)
+	return protocol
+}
+
+// StagePreserveOrder puts protocol to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ProtocolOrder
+// - update stage.ProtocolOrder accordingly
+func (protocol *Protocol) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.Protocols, stage.Protocol_stagedOrder, stage.Protocol_orderStaged, &stage.ProtocolOrder, stage.Protocols_mapString, protocol, order, protocol.Name)
+}
+
+// Unstage removes protocol off the model stage
+func (protocol *Protocol) Unstage(stage *Stage) *Protocol {
+	__gong__unstage(stage.Protocols, stage.Protocols_mapString, protocol, protocol.Name)
+	return protocol
+}
+
+// UnstageVoid removes protocol off the model stage
+func (protocol *Protocol) UnstageVoid(stage *Stage) {
+	protocol.Unstage(stage)
+}
+
+func (protocol *Protocol) StageVoid(stage *Stage) {
+	protocol.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (protocol *Protocol) GetName() (res string) {
+	return protocol.Name
+}
+
+// for satisfaction of GongStruct interface
+func (protocol *Protocol) SetName(name string) {
+	protocol.Name = name
+}
+
+// Stage puts protocollayer to the model stage
+func (protocollayer *ProtocolLayer) Stage(stage *Stage) *ProtocolLayer {
+	__gong__stage(stage.ProtocolLayers, stage.ProtocolLayer_stagedOrder, stage.ProtocolLayer_orderStaged, &stage.ProtocolLayerOrder, stage.ProtocolLayers_mapString, protocollayer, protocollayer.Name)
+	return protocollayer
+}
+
+// StagePreserveOrder puts protocollayer to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ProtocolLayerOrder
+// - update stage.ProtocolLayerOrder accordingly
+func (protocollayer *ProtocolLayer) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.ProtocolLayers, stage.ProtocolLayer_stagedOrder, stage.ProtocolLayer_orderStaged, &stage.ProtocolLayerOrder, stage.ProtocolLayers_mapString, protocollayer, order, protocollayer.Name)
+}
+
+// Unstage removes protocollayer off the model stage
+func (protocollayer *ProtocolLayer) Unstage(stage *Stage) *ProtocolLayer {
+	__gong__unstage(stage.ProtocolLayers, stage.ProtocolLayers_mapString, protocollayer, protocollayer.Name)
+	return protocollayer
+}
+
+// UnstageVoid removes protocollayer off the model stage
+func (protocollayer *ProtocolLayer) UnstageVoid(stage *Stage) {
+	protocollayer.Unstage(stage)
+}
+
+func (protocollayer *ProtocolLayer) StageVoid(stage *Stage) {
+	protocollayer.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (protocollayer *ProtocolLayer) GetName() (res string) {
+	return protocollayer.Name
+}
+
+// for satisfaction of GongStruct interface
+func (protocollayer *ProtocolLayer) SetName(name string) {
+	protocollayer.Name = name
+}
+
+// Stage puts protocollayershape to the model stage
+func (protocollayershape *ProtocolLayerShape) Stage(stage *Stage) *ProtocolLayerShape {
+	__gong__stage(stage.ProtocolLayerShapes, stage.ProtocolLayerShape_stagedOrder, stage.ProtocolLayerShape_orderStaged, &stage.ProtocolLayerShapeOrder, stage.ProtocolLayerShapes_mapString, protocollayershape, protocollayershape.Name)
+	return protocollayershape
+}
+
+// StagePreserveOrder puts protocollayershape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ProtocolLayerShapeOrder
+// - update stage.ProtocolLayerShapeOrder accordingly
+func (protocollayershape *ProtocolLayerShape) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.ProtocolLayerShapes, stage.ProtocolLayerShape_stagedOrder, stage.ProtocolLayerShape_orderStaged, &stage.ProtocolLayerShapeOrder, stage.ProtocolLayerShapes_mapString, protocollayershape, order, protocollayershape.Name)
+}
+
+// Unstage removes protocollayershape off the model stage
+func (protocollayershape *ProtocolLayerShape) Unstage(stage *Stage) *ProtocolLayerShape {
+	__gong__unstage(stage.ProtocolLayerShapes, stage.ProtocolLayerShapes_mapString, protocollayershape, protocollayershape.Name)
+	return protocollayershape
+}
+
+// UnstageVoid removes protocollayershape off the model stage
+func (protocollayershape *ProtocolLayerShape) UnstageVoid(stage *Stage) {
+	protocollayershape.Unstage(stage)
+}
+
+func (protocollayershape *ProtocolLayerShape) StageVoid(stage *Stage) {
+	protocollayershape.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (protocollayershape *ProtocolLayerShape) GetName() (res string) {
+	return protocollayershape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (protocollayershape *ProtocolLayerShape) SetName(name string) {
+	protocollayershape.Name = name
+}
+
+// Stage puts protocolshape to the model stage
+func (protocolshape *ProtocolShape) Stage(stage *Stage) *ProtocolShape {
+	__gong__stage(stage.ProtocolShapes, stage.ProtocolShape_stagedOrder, stage.ProtocolShape_orderStaged, &stage.ProtocolShapeOrder, stage.ProtocolShapes_mapString, protocolshape, protocolshape.Name)
+	return protocolshape
+}
+
+// StagePreserveOrder puts protocolshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ProtocolShapeOrder
+// - update stage.ProtocolShapeOrder accordingly
+func (protocolshape *ProtocolShape) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.ProtocolShapes, stage.ProtocolShape_stagedOrder, stage.ProtocolShape_orderStaged, &stage.ProtocolShapeOrder, stage.ProtocolShapes_mapString, protocolshape, order, protocolshape.Name)
+}
+
+// Unstage removes protocolshape off the model stage
+func (protocolshape *ProtocolShape) Unstage(stage *Stage) *ProtocolShape {
+	__gong__unstage(stage.ProtocolShapes, stage.ProtocolShapes_mapString, protocolshape, protocolshape.Name)
+	return protocolshape
+}
+
+// UnstageVoid removes protocolshape off the model stage
+func (protocolshape *ProtocolShape) UnstageVoid(stage *Stage) {
+	protocolshape.Unstage(stage)
+}
+
+func (protocolshape *ProtocolShape) StageVoid(stage *Stage) {
+	protocolshape.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (protocolshape *ProtocolShape) GetName() (res string) {
+	return protocolshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (protocolshape *ProtocolShape) SetName(name string) {
+	protocolshape.Name = name
+}
+
 // Stage puts resource to the model stage
 func (resource *Resource) Stage(stage *Stage) *Resource {
 	__gong__stage(stage.Resources, stage.Resource_stagedOrder, stage.Resource_orderStaged, &stage.ResourceOrder, stage.Resources_mapString, resource, resource.Name)
@@ -3093,6 +3461,14 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.PortShapes, &stage.PortShapes_mapString, &stage.PortShape_stagedOrder, &stage.PortShapeOrder)
 
+	__gong__resetStageType(&stage.Protocols, &stage.Protocols_mapString, &stage.Protocol_stagedOrder, &stage.ProtocolOrder)
+
+	__gong__resetStageType(&stage.ProtocolLayers, &stage.ProtocolLayers_mapString, &stage.ProtocolLayer_stagedOrder, &stage.ProtocolLayerOrder)
+
+	__gong__resetStageType(&stage.ProtocolLayerShapes, &stage.ProtocolLayerShapes_mapString, &stage.ProtocolLayerShape_stagedOrder, &stage.ProtocolLayerShapeOrder)
+
+	__gong__resetStageType(&stage.ProtocolShapes, &stage.ProtocolShapes_mapString, &stage.ProtocolShape_stagedOrder, &stage.ProtocolShapeOrder)
+
 	__gong__resetStageType(&stage.Resources, &stage.Resources_mapString, &stage.Resource_stagedOrder, &stage.ResourceOrder)
 
 	__gong__resetStageType(&stage.SemanticTags, &stage.SemanticTags_mapString, &stage.SemanticTag_stagedOrder, &stage.SemanticTagOrder)
@@ -3244,6 +3620,7 @@ func (DataFlow) GongGetAssociationName() any {
 			StartExternalPart: &Part{Name: "StartExternalPart"},
 			EndExternalPart: &Part{Name: "EndExternalPart"},
 			Datas: []*Data{{Name: "Datas"}},
+			Protocol: &Protocol{Name: "Protocol"},
 	}
 }
 
@@ -3286,6 +3663,9 @@ func (DiagramStructure) GongGetAssociationName() any {
 			DatasWhoseNodeIsExpanded: []*Data{{Name: "DatasWhoseNodeIsExpanded"}},
 			Data_Shapes: []*DataShape{{Name: "Data_Shapes"}},
 			DataFlowsWhoseDataNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseDataNodeIsExpanded"}},
+			Protocol_Shapes: []*ProtocolShape{{Name: "Protocol_Shapes"}},
+			ProtocolLayer_Shapes: []*ProtocolLayerShape{{Name: "ProtocolLayer_Shapes"}},
+			DataFlowsWhoseProtocolNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseProtocolNodeIsExpanded"}},
 			AllocatedResourcesWhoseNodeIsExpanded: []*Resource{{Name: "AllocatedResourcesWhoseNodeIsExpanded"}},
 			AllocatedResourceShapes: []*AllocatedResourceShape{{Name: "AllocatedResourceShapes"}},
 			AllocatedSystemesWhoseNodeIsExpanded: []*System{{Name: "AllocatedSystemesWhoseNodeIsExpanded"}},
@@ -3320,6 +3700,10 @@ func (Library) GongGetAssociationName() any {
 			DataFlowsWhoseNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseNodeIsExpanded"}},
 			RootDatas: []*Data{{Name: "RootDatas"}},
 			DatasWhoseNodeIsExpanded: []*Data{{Name: "DatasWhoseNodeIsExpanded"}},
+			RootProtocols: []*Protocol{{Name: "RootProtocols"}},
+			ProtocolsWhoseNodeIsExpanded: []*Protocol{{Name: "ProtocolsWhoseNodeIsExpanded"}},
+			RootProtocolLayers: []*ProtocolLayer{{Name: "RootProtocolLayers"}},
+			ProtocolLayersWhoseNodeIsExpanded: []*ProtocolLayer{{Name: "ProtocolLayersWhoseNodeIsExpanded"}},
 			RootResources: []*Resource{{Name: "RootResources"}},
 			ResourcesWhoseNodeIsExpanded: []*Resource{{Name: "ResourcesWhoseNodeIsExpanded"}},
 			PartsWhoseNodeIsExpanded: []*Part{{Name: "PartsWhoseNodeIsExpanded"}},
@@ -3389,12 +3773,38 @@ func (PartShape) GongGetAssociationName() any {
 
 func (Port) GongGetAssociationName() any {
 	return &Port{
+			Protocol: &Protocol{Name: "Protocol"},
 	}
 }
 
 func (PortShape) GongGetAssociationName() any {
 	return &PortShape{
 			Port: &Port{Name: "Port"},
+	}
+}
+
+func (Protocol) GongGetAssociationName() any {
+	return &Protocol{
+			ProtocolLayers: []*ProtocolLayer{{Name: "ProtocolLayers"}},
+	}
+}
+
+func (ProtocolLayer) GongGetAssociationName() any {
+	return &ProtocolLayer{
+	}
+}
+
+func (ProtocolLayerShape) GongGetAssociationName() any {
+	return &ProtocolLayerShape{
+			ProtocolLayer: &ProtocolLayer{Name: "ProtocolLayer"},
+			DataFlow: &DataFlow{Name: "DataFlow"},
+	}
+}
+
+func (ProtocolShape) GongGetAssociationName() any {
+	return &ProtocolShape{
+			Protocol: &Protocol{Name: "Protocol"},
+			DataFlow: &DataFlow{Name: "DataFlow"},
 	}
 }
 
@@ -3664,6 +4074,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					dataflows = append(dataflows, dataflow)
 					res[part_] = dataflows
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Protocol":
+			res := make(map[*Protocol][]*DataFlow)
+			for dataflow := range stage.DataFlows {
+				if dataflow.Protocol != nil {
+					protocol_ := dataflow.Protocol
+					var dataflows []*DataFlow
+					_, ok := res[protocol_]
+					if ok {
+						dataflows = res[protocol_]
+					} else {
+						dataflows = make([]*DataFlow, 0)
+					}
+					dataflows = append(dataflows, dataflow)
+					res[protocol_] = dataflows
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4002,6 +4429,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 	case Port:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Protocol":
+			res := make(map[*Protocol][]*Port)
+			for port := range stage.Ports {
+				if port.Protocol != nil {
+					protocol_ := port.Protocol
+					var ports []*Port
+					_, ok := res[protocol_]
+					if ok {
+						ports = res[protocol_]
+					} else {
+						ports = make([]*Port, 0)
+					}
+					ports = append(ports, port)
+					res[protocol_] = ports
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PortShape
 	case PortShape:
@@ -4021,6 +4465,94 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					portshapes = append(portshapes, portshape)
 					res[port_] = portshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Protocol
+	case Protocol:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ProtocolLayer
+	case ProtocolLayer:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ProtocolLayerShape
+	case ProtocolLayerShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "ProtocolLayer":
+			res := make(map[*ProtocolLayer][]*ProtocolLayerShape)
+			for protocollayershape := range stage.ProtocolLayerShapes {
+				if protocollayershape.ProtocolLayer != nil {
+					protocollayer_ := protocollayershape.ProtocolLayer
+					var protocollayershapes []*ProtocolLayerShape
+					_, ok := res[protocollayer_]
+					if ok {
+						protocollayershapes = res[protocollayer_]
+					} else {
+						protocollayershapes = make([]*ProtocolLayerShape, 0)
+					}
+					protocollayershapes = append(protocollayershapes, protocollayershape)
+					res[protocollayer_] = protocollayershapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DataFlow":
+			res := make(map[*DataFlow][]*ProtocolLayerShape)
+			for protocollayershape := range stage.ProtocolLayerShapes {
+				if protocollayershape.DataFlow != nil {
+					dataflow_ := protocollayershape.DataFlow
+					var protocollayershapes []*ProtocolLayerShape
+					_, ok := res[dataflow_]
+					if ok {
+						protocollayershapes = res[dataflow_]
+					} else {
+						protocollayershapes = make([]*ProtocolLayerShape, 0)
+					}
+					protocollayershapes = append(protocollayershapes, protocollayershape)
+					res[dataflow_] = protocollayershapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ProtocolShape
+	case ProtocolShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Protocol":
+			res := make(map[*Protocol][]*ProtocolShape)
+			for protocolshape := range stage.ProtocolShapes {
+				if protocolshape.Protocol != nil {
+					protocol_ := protocolshape.Protocol
+					var protocolshapes []*ProtocolShape
+					_, ok := res[protocol_]
+					if ok {
+						protocolshapes = res[protocol_]
+					} else {
+						protocolshapes = make([]*ProtocolShape, 0)
+					}
+					protocolshapes = append(protocolshapes, protocolshape)
+					res[protocol_] = protocolshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DataFlow":
+			res := make(map[*DataFlow][]*ProtocolShape)
+			for protocolshape := range stage.ProtocolShapes {
+				if protocolshape.DataFlow != nil {
+					dataflow_ := protocolshape.DataFlow
+					var protocolshapes []*ProtocolShape
+					_, ok := res[dataflow_]
+					if ok {
+						protocolshapes = res[dataflow_]
+					} else {
+						protocolshapes = make([]*ProtocolShape, 0)
+					}
+					protocolshapes = append(protocolshapes, protocolshape)
+					res[dataflow_] = protocolshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4265,6 +4797,30 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Protocol_Shapes":
+			res := make(map[*ProtocolShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, protocolshape_ := range diagramstructure.Protocol_Shapes {
+					res[protocolshape_] = append(res[protocolshape_], diagramstructure)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ProtocolLayer_Shapes":
+			res := make(map[*ProtocolLayerShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, protocollayershape_ := range diagramstructure.ProtocolLayer_Shapes {
+					res[protocollayershape_] = append(res[protocollayershape_], diagramstructure)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DataFlowsWhoseProtocolNodeIsExpanded":
+			res := make(map[*DataFlow][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, dataflow_ := range diagramstructure.DataFlowsWhoseProtocolNodeIsExpanded {
+					res[dataflow_] = append(res[dataflow_], diagramstructure)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "AllocatedResourcesWhoseNodeIsExpanded":
 			res := make(map[*Resource][]*DiagramStructure)
 			for diagramstructure := range stage.DiagramStructures {
@@ -4421,6 +4977,38 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 			for library := range stage.Librarys {
 				for _, data_ := range library.DatasWhoseNodeIsExpanded {
 					res[data_] = append(res[data_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RootProtocols":
+			res := make(map[*Protocol][]*Library)
+			for library := range stage.Librarys {
+				for _, protocol_ := range library.RootProtocols {
+					res[protocol_] = append(res[protocol_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ProtocolsWhoseNodeIsExpanded":
+			res := make(map[*Protocol][]*Library)
+			for library := range stage.Librarys {
+				for _, protocol_ := range library.ProtocolsWhoseNodeIsExpanded {
+					res[protocol_] = append(res[protocol_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RootProtocolLayers":
+			res := make(map[*ProtocolLayer][]*Library)
+			for library := range stage.Librarys {
+				for _, protocollayer_ := range library.RootProtocolLayers {
+					res[protocollayer_] = append(res[protocollayer_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ProtocolLayersWhoseNodeIsExpanded":
+			res := make(map[*ProtocolLayer][]*Library)
+			for library := range stage.Librarys {
+				for _, protocollayer_ := range library.ProtocolLayersWhoseNodeIsExpanded {
+					res[protocollayer_] = append(res[protocollayer_], library)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4592,6 +5180,34 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		}
 	// reverse maps of direct associations of PortShape
 	case PortShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Protocol
+	case Protocol:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "ProtocolLayers":
+			res := make(map[*ProtocolLayer][]*Protocol)
+			for protocol := range stage.Protocols {
+				for _, protocollayer_ := range protocol.ProtocolLayers {
+					res[protocollayer_] = append(res[protocollayer_], protocol)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ProtocolLayer
+	case ProtocolLayer:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ProtocolLayerShape
+	case ProtocolLayerShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ProtocolShape
+	case ProtocolShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -4806,6 +5422,10 @@ func (*DataFlow) GongGetReverseFields() []GongReverseField {
 		{
 			GongstructName: "DiagramStructure",
 			Fieldname: "DataFlowsWhoseDataNodeIsExpanded",
+		},
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "DataFlowsWhoseProtocolNodeIsExpanded",
 		},
 		{
 			GongstructName: "Library",
@@ -5047,6 +5667,54 @@ func (*PortShape) GongGetReverseFields() []GongReverseField {
 		{
 			GongstructName: "DiagramStructure",
 			Fieldname: "Port_Shapes",
+		},
+	}
+}
+
+func (*Protocol) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "RootProtocols",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "ProtocolsWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*ProtocolLayer) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Library",
+			Fieldname: "RootProtocolLayers",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "ProtocolLayersWhoseNodeIsExpanded",
+		},
+		{
+			GongstructName: "Protocol",
+			Fieldname: "ProtocolLayers",
+		},
+	}
+}
+
+func (*ProtocolLayerShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "ProtocolLayer_Shapes",
+		},
+	}
+}
+
+func (*ProtocolShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "Protocol_Shapes",
 		},
 	}
 }
@@ -5338,6 +6006,11 @@ func (dataflow *DataFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Data",
 		},
 		{
+			Name:                 "Protocol",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Protocol",
+		},
+		{
 			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -5348,6 +6021,10 @@ func (dataflow *DataFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsDatasNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsProtocolNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -5692,6 +6369,21 @@ func (diagramstructure *DiagramStructure) GongGetFieldHeaders() (res []GongField
 			TargetGongstructName: "DataFlow",
 		},
 		{
+			Name:                 "Protocol_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ProtocolShape",
+		},
+		{
+			Name:                 "ProtocolLayer_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ProtocolLayerShape",
+		},
+		{
+			Name:                 "DataFlowsWhoseProtocolNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DataFlow",
+		},
+		{
 			Name:                 "AllocatedResourcesWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Resource",
@@ -5876,6 +6568,10 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsPortAndDataFlowProtocolConsistencyRelaxed",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "SubLibraries",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Library",
@@ -5938,6 +6634,34 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "DatasWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Data",
+		},
+		{
+			Name:                 "RootProtocols",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Protocol",
+		},
+		{
+			Name:               "IsProtocolsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ProtocolsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Protocol",
+		},
+		{
+			Name:                 "RootProtocolLayers",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ProtocolLayer",
+		},
+		{
+			Name:               "IsProtocolLayersNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ProtocolLayersWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ProtocolLayer",
 		},
 		{
 			Name:                 "RootResources",
@@ -6578,6 +7302,11 @@ func (port *Port) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:                 "Protocol",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Protocol",
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -6604,6 +7333,239 @@ func (portshape *PortShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FillOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "RX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontWeight",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (protocol *Protocol) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Acronym",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "ProtocolLayers",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ProtocolLayer",
+		},
+		{
+			Name:               "IsProtocolLayersNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (protocollayer *ProtocolLayer) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Acronym",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (protocollayershape *ProtocolLayerShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "ProtocolLayer",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ProtocolLayer",
+		},
+		{
+			Name:                 "DataFlow",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "DataFlow",
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FillOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "RX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontWeight",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (protocolshape *ProtocolShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Protocol",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Protocol",
+		},
+		{
+			Name:                 "DataFlow",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "DataFlow",
 		},
 		{
 			Name:               "X",
@@ -7138,6 +8100,12 @@ func (dataflow *DataFlow) GongGetFieldValue(fieldName string, stage *Stage) (res
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "Protocol":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if dataflow.Protocol != nil {
+			res.valueString = dataflow.Protocol.Name
+			res.ids = dataflow.Protocol.GongGetUUID(stage)
+		}
 	case "Description":
 		res.valueString = dataflow.Description
 	case "Direction":
@@ -7146,6 +8114,10 @@ func (dataflow *DataFlow) GongGetFieldValue(fieldName string, stage *Stage) (res
 	case "IsDatasNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", dataflow.IsDatasNodeExpanded)
 		res.valueBool = dataflow.IsDatasNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsProtocolNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", dataflow.IsProtocolNodeExpanded)
+		res.valueBool = dataflow.IsProtocolNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ComputedPrefix":
 		res.valueString = dataflow.ComputedPrefix
@@ -7538,6 +8510,36 @@ func (diagramstructure *DiagramStructure) GongGetFieldValue(fieldName string, st
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "Protocol_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramstructure.Protocol_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ProtocolLayer_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramstructure.ProtocolLayer_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "DataFlowsWhoseProtocolNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramstructure.DataFlowsWhoseProtocolNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "AllocatedResourcesWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagramstructure.AllocatedResourcesWhoseNodeIsExpanded {
@@ -7751,6 +8753,10 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", library.IsPortAndDataFlowNamesAutoGenerated)
 		res.valueBool = library.IsPortAndDataFlowNamesAutoGenerated
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPortAndDataFlowProtocolConsistencyRelaxed":
+		res.valueString = fmt.Sprintf("%t", library.IsPortAndDataFlowProtocolConsistencyRelaxed)
+		res.valueBool = library.IsPortAndDataFlowProtocolConsistencyRelaxed
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "SubLibraries":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.SubLibraries {
@@ -7846,6 +8852,54 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "DatasWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.DatasWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RootProtocols":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootProtocols {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsProtocolsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsProtocolsNodeExpanded)
+		res.valueBool = library.IsProtocolsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ProtocolsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.ProtocolsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RootProtocolLayers":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootProtocolLayers {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsProtocolLayersNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsProtocolLayersNodeExpanded)
+		res.valueBool = library.IsProtocolLayersNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ProtocolLayersWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.ProtocolLayersWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8473,6 +9527,12 @@ func (port *Port) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = port.Name
 	case "Description":
 		res.valueString = port.Description
+	case "Protocol":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if port.Protocol != nil {
+			res.valueString = port.Protocol.Name
+			res.ids = port.Protocol.GongGetUUID(stage)
+		}
 	case "ComputedPrefix":
 		res.valueString = port.ComputedPrefix
 	case "IsExpanded":
@@ -8550,6 +9610,204 @@ func (portshape *PortShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = portshape.FontWeight
 	case "FontColor":
 		res.valueString = portshape.FontColor
+	}
+	return
+}
+
+func (protocol *Protocol) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = protocol.Name
+	case "Acronym":
+		res.valueString = protocol.Acronym
+	case "Description":
+		res.valueString = protocol.Description
+	case "ProtocolLayers":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range protocol.ProtocolLayers {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsProtocolLayersNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", protocol.IsProtocolLayersNodeExpanded)
+		res.valueBool = protocol.IsProtocolLayersNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = protocol.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", protocol.IsExpanded)
+		res.valueBool = protocol.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (protocollayer *ProtocolLayer) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = protocollayer.Name
+	case "Acronym":
+		res.valueString = protocollayer.Acronym
+	case "Description":
+		res.valueString = protocollayer.Description
+	case "ComputedPrefix":
+		res.valueString = protocollayer.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", protocollayer.IsExpanded)
+		res.valueBool = protocollayer.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (protocollayershape *ProtocolLayerShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = protocollayershape.Name
+	case "ProtocolLayer":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if protocollayershape.ProtocolLayer != nil {
+			res.valueString = protocollayershape.ProtocolLayer.Name
+			res.ids = protocollayershape.ProtocolLayer.GongGetUUID(stage)
+		}
+	case "DataFlow":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if protocollayershape.DataFlow != nil {
+			res.valueString = protocollayershape.DataFlow.Name
+			res.ids = protocollayershape.DataFlow.GongGetUUID(stage)
+		}
+	case "X":
+		res.valueString = fmt.Sprintf("%f", protocollayershape.X)
+		res.valueFloat = protocollayershape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", protocollayershape.Y)
+		res.valueFloat = protocollayershape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", protocollayershape.Width)
+		res.valueFloat = protocollayershape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", protocollayershape.Height)
+		res.valueFloat = protocollayershape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", protocollayershape.IsHidden)
+		res.valueBool = protocollayershape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", protocollayershape.IsPresentationOverridden)
+		res.valueBool = protocollayershape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Color":
+		res.valueString = protocollayershape.Color
+	case "FillOpacity":
+		res.valueString = fmt.Sprintf("%f", protocollayershape.FillOpacity)
+		res.valueFloat = protocollayershape.FillOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Stroke":
+		res.valueString = protocollayershape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", protocollayershape.StrokeWidth)
+		res.valueFloat = protocollayershape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", protocollayershape.StrokeOpacity)
+		res.valueFloat = protocollayershape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = protocollayershape.StrokeDashArray
+	case "RX":
+		res.valueString = fmt.Sprintf("%f", protocollayershape.RX)
+		res.valueFloat = protocollayershape.RX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "FontSize":
+		res.valueString = protocollayershape.FontSize
+	case "FontWeight":
+		res.valueString = protocollayershape.FontWeight
+	case "FontColor":
+		res.valueString = protocollayershape.FontColor
+	}
+	return
+}
+
+func (protocolshape *ProtocolShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = protocolshape.Name
+	case "Protocol":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if protocolshape.Protocol != nil {
+			res.valueString = protocolshape.Protocol.Name
+			res.ids = protocolshape.Protocol.GongGetUUID(stage)
+		}
+	case "DataFlow":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if protocolshape.DataFlow != nil {
+			res.valueString = protocolshape.DataFlow.Name
+			res.ids = protocolshape.DataFlow.GongGetUUID(stage)
+		}
+	case "X":
+		res.valueString = fmt.Sprintf("%f", protocolshape.X)
+		res.valueFloat = protocolshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", protocolshape.Y)
+		res.valueFloat = protocolshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", protocolshape.Width)
+		res.valueFloat = protocolshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", protocolshape.Height)
+		res.valueFloat = protocolshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", protocolshape.IsHidden)
+		res.valueBool = protocolshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", protocolshape.IsPresentationOverridden)
+		res.valueBool = protocolshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Color":
+		res.valueString = protocolshape.Color
+	case "FillOpacity":
+		res.valueString = fmt.Sprintf("%f", protocolshape.FillOpacity)
+		res.valueFloat = protocolshape.FillOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Stroke":
+		res.valueString = protocolshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", protocolshape.StrokeWidth)
+		res.valueFloat = protocolshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", protocolshape.StrokeOpacity)
+		res.valueFloat = protocolshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = protocolshape.StrokeDashArray
+	case "RX":
+		res.valueString = fmt.Sprintf("%f", protocolshape.RX)
+		res.valueFloat = protocolshape.RX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "FontSize":
+		res.valueString = protocolshape.FontSize
+	case "FontWeight":
+		res.valueString = protocolshape.FontWeight
+	case "FontColor":
+		res.valueString = protocolshape.FontColor
 	}
 	return
 }
@@ -8882,6 +10140,22 @@ func (portshape *PortShape) GongGetGongstructName() string {
 	return "PortShape"
 }
 
+func (protocol *Protocol) GongGetGongstructName() string {
+	return "Protocol"
+}
+
+func (protocollayer *ProtocolLayer) GongGetGongstructName() string {
+	return "ProtocolLayer"
+}
+
+func (protocollayershape *ProtocolLayerShape) GongGetGongstructName() string {
+	return "ProtocolLayerShape"
+}
+
+func (protocolshape *ProtocolShape) GongGetGongstructName() string {
+	return "ProtocolShape"
+}
+
 func (resource *Resource) GongGetGongstructName() string {
 	return "Resource"
 }
@@ -8954,6 +10228,14 @@ func (stage *Stage) ResetMapStrings() {
 	__gong__rebuildMapString(stage.Ports, &stage.Ports_mapString)
 
 	__gong__rebuildMapString(stage.PortShapes, &stage.PortShapes_mapString)
+
+	__gong__rebuildMapString(stage.Protocols, &stage.Protocols_mapString)
+
+	__gong__rebuildMapString(stage.ProtocolLayers, &stage.ProtocolLayers_mapString)
+
+	__gong__rebuildMapString(stage.ProtocolLayerShapes, &stage.ProtocolLayerShapes_mapString)
+
+	__gong__rebuildMapString(stage.ProtocolShapes, &stage.ProtocolShapes_mapString)
 
 	__gong__rebuildMapString(stage.Resources, &stage.Resources_mapString)
 

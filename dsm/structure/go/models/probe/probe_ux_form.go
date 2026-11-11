@@ -341,6 +341,58 @@ func FillUpFormFromGongstructName(
 		portshape := new(models.PortShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(portshape, formGroup, probe)
+	case "Protocol":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Protocol Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ProtocolFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		protocol := new(models.Protocol)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(protocol, formGroup, probe)
+	case "ProtocolLayer":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ProtocolLayer Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ProtocolLayerFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		protocollayer := new(models.ProtocolLayer)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(protocollayer, formGroup, probe)
+	case "ProtocolLayerShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ProtocolLayerShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ProtocolLayerShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		protocollayershape := new(models.ProtocolLayerShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(protocollayershape, formGroup, probe)
+	case "ProtocolShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ProtocolShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ProtocolShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		protocolshape := new(models.ProtocolShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(protocolshape, formGroup, probe)
 	case "Resource":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

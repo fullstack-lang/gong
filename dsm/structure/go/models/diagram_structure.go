@@ -8,6 +8,16 @@ type dataShapeKey struct {
 	data     *Data
 }
 
+type protocolShapeKey struct {
+	dataFlow *DataFlow
+	protocol *Protocol
+}
+
+type protocolLayerShapeKey struct {
+	dataFlow      *DataFlow
+	protocolLayer *ProtocolLayer
+}
+
 type allocatedResourceShapeKey struct {
 	part     *Part
 	resource *Resource
@@ -100,6 +110,13 @@ type DiagramStructure struct {
 	Data_Shapes                      []*DataShape
 	map_DataShapeKey_DataShape       map[dataShapeKey]*DataShape
 	DataFlowsWhoseDataNodeIsExpanded []*DataFlow // within a diagram, at the data flow level, some some can be expanded or not
+
+	// Protocol & ProtocolLayer
+	Protocol_Shapes                              []*ProtocolShape
+	map_ProtocolShapeKey_ProtocolShape           map[protocolShapeKey]*ProtocolShape
+	ProtocolLayer_Shapes                         []*ProtocolLayerShape
+	map_ProtocolLayerShapeKey_ProtocolLayerShape map[protocolLayerShapeKey]*ProtocolLayerShape
+	DataFlowsWhoseProtocolNodeIsExpanded         []*DataFlow
 
 	// allocated resources
 	AllocatedResourcesWhoseNodeIsExpanded                []*Resource

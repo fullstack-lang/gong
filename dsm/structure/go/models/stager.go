@@ -51,8 +51,17 @@ type Stager struct {
 	map_Element_Diagrams map[AbstractType][]*DiagramStructure
 
 	// reverse map to navigate
-	rm_Data_DataFlows map[*Data][]*DataFlow
-	rm_Resource_Parts map[*Resource][]*Part
+	rm_Data_DataFlows          map[*Data][]*DataFlow
+	rm_Resource_Parts          map[*Resource][]*Part
+	rm_Protocol_DataFlows      map[*Protocol][]*DataFlow
+	rm_Protocol_Ports          map[*Protocol][]*Port
+	rm_ProtocolLayer_Protocols map[*ProtocolLayer][]*Protocol
+
+	// previous protocol state on DataFlow and Port to detect interactive changes
+	map_DataFlow_PrevProtocol    map[*DataFlow]*Protocol
+	map_Port_PrevProtocol        map[*Port]*Protocol
+	map_DataFlow_ProtocolTracked map[*DataFlow]bool
+	map_Port_ProtocolTracked     map[*Port]bool
 
 	// previous slices on Note to detect newly added links in probe callbacks
 	map_Note_PrevParts     map[*Note][]*Part
@@ -117,6 +126,10 @@ func (stager *Stager) GetSvgObject() *svg.SVG {
 
 func (stager *Stager) GetShapeFormStage() *form.Stage {
 	return stager.shapeFormStage
+}
+
+func (stager *Stager) GetTreeStage() *tree.Stage {
+	return stager.treeStage
 }
 
 func (stager *Stager) getCurrentDiagram() *DiagramStructure {

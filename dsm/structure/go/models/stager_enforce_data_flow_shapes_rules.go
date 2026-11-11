@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"slices"
 	"time"
 )
 
@@ -26,6 +27,7 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 
 		// Check DataFlow_Shapes
 		var validDataFlowShapes []*DataFlowShape
+		dataFlowsInDiagram := make(map[*DataFlow]bool)
 		for _, dataFlowShape := range diagram.DataFlow_Shapes {
 			isValid := true
 			if dataFlowShape.DataFlow != nil {
@@ -53,6 +55,7 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 
 			if isValid {
 				validDataFlowShapes = append(validDataFlowShapes, dataFlowShape)
+				dataFlowsInDiagram[dataFlowShape.DataFlow] = true
 				if dataFlowShape.Name != dataFlowShape.DataFlow.Name {
 					dataFlowShape.Name = dataFlowShape.DataFlow.Name
 					needCommit = true
@@ -67,6 +70,43 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 		}
 		if len(validDataFlowShapes) != len(diagram.DataFlow_Shapes) {
 			diagram.DataFlow_Shapes = validDataFlowShapes
+			needCommit = true
+		}
+
+		// Ensure Protocol_Shapes match an active DataFlowShape and its current Protocol
+		var validProtocolShapes []*ProtocolShape
+		for _, protocolShape := range diagram.Protocol_Shapes {
+			if protocolShape.DataFlow != nil &&
+				protocolShape.Protocol != nil &&
+				dataFlowsInDiagram[protocolShape.DataFlow] &&
+				protocolShape.DataFlow.Protocol == protocolShape.Protocol {
+				validProtocolShapes = append(validProtocolShapes, protocolShape)
+			} else {
+				protocolShape.UnstageVoid(stager.stage)
+				needCommit = true
+			}
+		}
+		if len(validProtocolShapes) != len(diagram.Protocol_Shapes) {
+			diagram.Protocol_Shapes = validProtocolShapes
+			needCommit = true
+		}
+
+		// Ensure ProtocolLayer_Shapes match an active DataFlowShape and its current Protocol's ProtocolLayers
+		var validProtocolLayerShapes []*ProtocolLayerShape
+		for _, layerShape := range diagram.ProtocolLayer_Shapes {
+			if layerShape.DataFlow != nil &&
+				layerShape.ProtocolLayer != nil &&
+				dataFlowsInDiagram[layerShape.DataFlow] &&
+				layerShape.DataFlow.Protocol != nil &&
+				slices.Contains(layerShape.DataFlow.Protocol.ProtocolLayers, layerShape.ProtocolLayer) {
+				validProtocolLayerShapes = append(validProtocolLayerShapes, layerShape)
+			} else {
+				layerShape.UnstageVoid(stager.stage)
+				needCommit = true
+			}
+		}
+		if len(validProtocolLayerShapes) != len(diagram.ProtocolLayer_Shapes) {
+			diagram.ProtocolLayer_Shapes = validProtocolLayerShapes
 			needCommit = true
 		}
 	}

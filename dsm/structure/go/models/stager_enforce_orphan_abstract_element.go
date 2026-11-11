@@ -39,6 +39,44 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 
 	if reattachToLibraryRoots(
 		stager,
+		func() []*Protocol {
+			roots := make([]*Protocol, 0)
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
+				roots = append(roots, library.RootProtocols...)
+			}
+			return roots
+		},
+		func(protocol *Protocol) {
+			protocol.GetOwningLibrary().RootProtocols = append(protocol.GetOwningLibrary().RootProtocols, protocol)
+		},
+		func(protocol *Protocol) []*Protocol {
+			return []*Protocol{}
+		},
+	) {
+		needCommit = true
+	}
+
+	if reattachToLibraryRoots(
+		stager,
+		func() []*ProtocolLayer {
+			roots := make([]*ProtocolLayer, 0)
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
+				roots = append(roots, library.RootProtocolLayers...)
+			}
+			return roots
+		},
+		func(protocolLayer *ProtocolLayer) {
+			protocolLayer.GetOwningLibrary().RootProtocolLayers = append(protocolLayer.GetOwningLibrary().RootProtocolLayers, protocolLayer)
+		},
+		func(protocolLayer *ProtocolLayer) []*ProtocolLayer {
+			return []*ProtocolLayer{}
+		},
+	) {
+		needCommit = true
+	}
+
+	if reattachToLibraryRoots(
+		stager,
 		func() []*Library {
 			return stager.getRootLibrary().SubLibraries
 		},

@@ -28,12 +28,15 @@ type DataFlow struct {
 
 	Datas []*Data
 
+	Protocol *Protocol
+
 	//gong:text width:300 height:300
 	Description string
 
 	Direction DataFlowDirection
 
-	IsDatasNodeExpanded bool
+	IsDatasNodeExpanded    bool
+	IsProtocolNodeExpanded bool
 
 	LibraryAbstractFields
 	AbstractTypeFields

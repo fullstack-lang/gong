@@ -39,6 +39,8 @@ func (stager *Stager) exportWebsite() {
 	appendWebExportableChapter(stager, refChapter, "Control Flows", stager.stage.GetInstancesSorted[*ControlFlow]())
 	appendWebExportableChapter(stager, refChapter, "Data Flows", stager.stage.GetInstancesSorted[*DataFlow]())
 	appendWebExportableChapter(stager, refChapter, "Datas", stager.stage.GetInstancesSorted[*Data]())
+	appendWebExportableChapter(stager, refChapter, "Protocols", stager.stage.GetInstancesSorted[*Protocol]())
+	appendWebExportableChapter(stager, refChapter, "Protocol Layers", stager.stage.GetInstancesSorted[*ProtocolLayer]())
 	appendWebExportableChapter(stager, refChapter, "Resources", stager.stage.GetInstancesSorted[*Resource]())
 	appendWebExportableChapter(stager, refChapter, "Notes", stager.stage.GetInstancesSorted[*Note]())
 	appendWebExportableChapter(stager, refChapter, "Libraries", stager.stage.GetInstancesSorted[*Library]())
@@ -219,6 +221,33 @@ func (inst *Data) GetReferencePath() string {
 }
 
 func (inst *Data) GeneratePage(stager *Stager) *ssg.Page {
+	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
+}
+
+func (inst *Protocol) GetDescription() string { return inst.Description }
+func (inst *Protocol) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
+}
+
+func (inst *Protocol) GeneratePage(stager *Stager) *ssg.Page {
+	content := fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)
+	if len(inst.ProtocolLayers) > 0 {
+		content += "\n\n##### Protocol Layers\n\n| Layer |\n|---|\n"
+		for _, layer := range inst.ProtocolLayers {
+			if layer != nil {
+				content += fmt.Sprintf("| %s |\n", layer.Name)
+			}
+		}
+	}
+	return &ssg.Page{Name: inst.Name, MardownContent: content}
+}
+
+func (inst *ProtocolLayer) GetDescription() string { return inst.Description }
+func (inst *ProtocolLayer) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
+}
+
+func (inst *ProtocolLayer) GeneratePage(stager *Stager) *ssg.Page {
 	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
 }
 

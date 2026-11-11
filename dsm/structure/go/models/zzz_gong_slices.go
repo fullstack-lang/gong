@@ -151,6 +151,27 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramStructure_DataFlowsWhoseDataNodeIsExpanded_reverseMap[_dataflow] = diagramstructure
 		}
 	}
+	stage.DiagramStructure_Protocol_Shapes_reverseMap = make(map[*ProtocolShape]*DiagramStructure)
+	for diagramstructure := range stage.DiagramStructures {
+		_ = diagramstructure
+		for _, _protocolshape := range diagramstructure.Protocol_Shapes {
+			stage.DiagramStructure_Protocol_Shapes_reverseMap[_protocolshape] = diagramstructure
+		}
+	}
+	stage.DiagramStructure_ProtocolLayer_Shapes_reverseMap = make(map[*ProtocolLayerShape]*DiagramStructure)
+	for diagramstructure := range stage.DiagramStructures {
+		_ = diagramstructure
+		for _, _protocollayershape := range diagramstructure.ProtocolLayer_Shapes {
+			stage.DiagramStructure_ProtocolLayer_Shapes_reverseMap[_protocollayershape] = diagramstructure
+		}
+	}
+	stage.DiagramStructure_DataFlowsWhoseProtocolNodeIsExpanded_reverseMap = make(map[*DataFlow]*DiagramStructure)
+	for diagramstructure := range stage.DiagramStructures {
+		_ = diagramstructure
+		for _, _dataflow := range diagramstructure.DataFlowsWhoseProtocolNodeIsExpanded {
+			stage.DiagramStructure_DataFlowsWhoseProtocolNodeIsExpanded_reverseMap[_dataflow] = diagramstructure
+		}
+	}
 	stage.DiagramStructure_AllocatedResourcesWhoseNodeIsExpanded_reverseMap = make(map[*Resource]*DiagramStructure)
 	for diagramstructure := range stage.DiagramStructures {
 		_ = diagramstructure
@@ -283,6 +304,34 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_DatasWhoseNodeIsExpanded_reverseMap[_data] = library
 		}
 	}
+	stage.Library_RootProtocols_reverseMap = make(map[*Protocol]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _protocol := range library.RootProtocols {
+			stage.Library_RootProtocols_reverseMap[_protocol] = library
+		}
+	}
+	stage.Library_ProtocolsWhoseNodeIsExpanded_reverseMap = make(map[*Protocol]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _protocol := range library.ProtocolsWhoseNodeIsExpanded {
+			stage.Library_ProtocolsWhoseNodeIsExpanded_reverseMap[_protocol] = library
+		}
+	}
+	stage.Library_RootProtocolLayers_reverseMap = make(map[*ProtocolLayer]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _protocollayer := range library.RootProtocolLayers {
+			stage.Library_RootProtocolLayers_reverseMap[_protocollayer] = library
+		}
+	}
+	stage.Library_ProtocolLayersWhoseNodeIsExpanded_reverseMap = make(map[*ProtocolLayer]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _protocollayer := range library.ProtocolLayersWhoseNodeIsExpanded {
+			stage.Library_ProtocolLayersWhoseNodeIsExpanded_reverseMap[_protocollayer] = library
+		}
+	}
 	stage.Library_RootResources_reverseMap = make(map[*Resource]*Library)
 	for library := range stage.Librarys {
 		_ = library
@@ -392,6 +441,16 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = part
 		for _, _partanchoredpath := range part.PartAnchoredPath {
 			stage.Part_PartAnchoredPath_reverseMap[_partanchoredpath] = part
+		}
+	}
+
+	// Compute reverse map for named struct Protocol
+	// insertion point per field
+	stage.Protocol_ProtocolLayers_reverseMap = make(map[*ProtocolLayer]*Protocol)
+	for protocol := range stage.Protocols {
+		_ = protocol
+		for _, _protocollayer := range protocol.ProtocolLayers {
+			stage.Protocol_ProtocolLayers_reverseMap[_protocollayer] = protocol
 		}
 	}
 
@@ -514,6 +573,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	res = __gong__appendInstances(res, stage.Ports)
 
 	res = __gong__appendInstances(res, stage.PortShapes)
+
+	res = __gong__appendInstances(res, stage.Protocols)
+
+	res = __gong__appendInstances(res, stage.ProtocolLayers)
+
+	res = __gong__appendInstances(res, stage.ProtocolLayerShapes)
+
+	res = __gong__appendInstances(res, stage.ProtocolShapes)
 
 	res = __gong__appendInstances(res, stage.Resources)
 
@@ -665,6 +732,30 @@ func (portshape *PortShape) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (protocol *Protocol) GongCopy() GongstructIF {
+	newInstance := new(Protocol)
+	protocol.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (protocollayer *ProtocolLayer) GongCopy() GongstructIF {
+	newInstance := new(ProtocolLayer)
+	protocollayer.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (protocollayershape *ProtocolLayerShape) GongCopy() GongstructIF {
+	newInstance := new(ProtocolLayerShape)
+	protocollayershape.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (protocolshape *ProtocolShape) GongCopy() GongstructIF {
+	newInstance := new(ProtocolShape)
+	protocolshape.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (resource *Resource) GongCopy() GongstructIF {
 	newInstance := new(Resource)
 	resource.GongCopyBasicFields(newInstance)
@@ -780,6 +871,22 @@ func (port *Port) GongGetUUID(stage *Stage) string {
 
 func (portshape *PortShape) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, portshape)
+}
+
+func (protocol *Protocol) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, protocol)
+}
+
+func (protocollayer *ProtocolLayer) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, protocollayer)
+}
+
+func (protocollayershape *ProtocolLayerShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, protocollayershape)
+}
+
+func (protocolshape *ProtocolShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, protocolshape)
 }
 
 func (resource *Resource) GongGetUUID(stage *Stage) string {
@@ -1291,6 +1398,74 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
+		stage.Protocols,
+		stage.Protocol_stagedOrder,
+		stage.Protocols_reference,
+		&stage.Protocols_referenceOrder,
+		stage.Protocols_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ProtocolLayers,
+		stage.ProtocolLayer_stagedOrder,
+		stage.ProtocolLayers_reference,
+		&stage.ProtocolLayers_referenceOrder,
+		stage.ProtocolLayers_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ProtocolLayerShapes,
+		stage.ProtocolLayerShape_stagedOrder,
+		stage.ProtocolLayerShapes_reference,
+		&stage.ProtocolLayerShapes_referenceOrder,
+		stage.ProtocolLayerShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ProtocolShapes,
+		stage.ProtocolShape_stagedOrder,
+		stage.ProtocolShapes_reference,
+		&stage.ProtocolShapes_referenceOrder,
+		stage.ProtocolShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
 		stage.Resources,
 		stage.Resource_stagedOrder,
 		stage.Resources_reference,
@@ -1438,6 +1613,14 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.PortShapes, &stage.PortShapes_reference, &stage.PortShapes_referenceOrder, &stage.PortShapes_instance)
 
+	__gong__computeReferencePass1(stage, stage.Protocols, &stage.Protocols_reference, &stage.Protocols_referenceOrder, &stage.Protocols_instance)
+
+	__gong__computeReferencePass1(stage, stage.ProtocolLayers, &stage.ProtocolLayers_reference, &stage.ProtocolLayers_referenceOrder, &stage.ProtocolLayers_instance)
+
+	__gong__computeReferencePass1(stage, stage.ProtocolLayerShapes, &stage.ProtocolLayerShapes_reference, &stage.ProtocolLayerShapes_referenceOrder, &stage.ProtocolLayerShapes_instance)
+
+	__gong__computeReferencePass1(stage, stage.ProtocolShapes, &stage.ProtocolShapes_reference, &stage.ProtocolShapes_referenceOrder, &stage.ProtocolShapes_instance)
+
 	__gong__computeReferencePass1(stage, stage.Resources, &stage.Resources_reference, &stage.Resources_referenceOrder, &stage.Resources_instance)
 
 	__gong__computeReferencePass1(stage, stage.SemanticTags, &stage.SemanticTags_reference, &stage.SemanticTags_referenceOrder, &stage.SemanticTags_instance)
@@ -1492,6 +1675,14 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass2(stage.Ports, stage.Ports_reference, stage)
 
 	__gong__computeReferencePass2(stage.PortShapes, stage.PortShapes_reference, stage)
+
+	__gong__computeReferencePass2(stage.Protocols, stage.Protocols_reference, stage)
+
+	__gong__computeReferencePass2(stage.ProtocolLayers, stage.ProtocolLayers_reference, stage)
+
+	__gong__computeReferencePass2(stage.ProtocolLayerShapes, stage.ProtocolLayerShapes_reference, stage)
+
+	__gong__computeReferencePass2(stage.ProtocolShapes, stage.ProtocolShapes_reference, stage)
 
 	__gong__computeReferencePass2(stage.Resources, stage.Resources_reference, stage)
 
@@ -1601,6 +1792,22 @@ func (port *Port) GongGetOrder(stage *Stage) uint {
 
 func (portshape *PortShape) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.PortShape_stagedOrder, stage.PortShapes_referenceOrder, portshape, "PortShape")
+}
+
+func (protocol *Protocol) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.Protocol_stagedOrder, stage.Protocols_referenceOrder, protocol, "Protocol")
+}
+
+func (protocollayer *ProtocolLayer) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.ProtocolLayer_stagedOrder, stage.ProtocolLayers_referenceOrder, protocollayer, "ProtocolLayer")
+}
+
+func (protocollayershape *ProtocolLayerShape) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.ProtocolLayerShape_stagedOrder, stage.ProtocolLayerShapes_referenceOrder, protocollayershape, "ProtocolLayerShape")
+}
+
+func (protocolshape *ProtocolShape) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.ProtocolShape_stagedOrder, stage.ProtocolShapes_referenceOrder, protocolshape, "ProtocolShape")
 }
 
 func (resource *Resource) GongGetOrder(stage *Stage) uint {
@@ -1831,6 +2038,42 @@ func (portshape *PortShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return portshape.GongGetIdentifier(stage)
 }
 
+func (protocol *Protocol) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(protocol, protocol.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (protocol *Protocol) GongGetReferenceIdentifier(stage *Stage) string {
+	return protocol.GongGetIdentifier(stage)
+}
+
+func (protocollayer *ProtocolLayer) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(protocollayer, protocollayer.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (protocollayer *ProtocolLayer) GongGetReferenceIdentifier(stage *Stage) string {
+	return protocollayer.GongGetIdentifier(stage)
+}
+
+func (protocollayershape *ProtocolLayerShape) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(protocollayershape, protocollayershape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (protocollayershape *ProtocolLayerShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return protocollayershape.GongGetIdentifier(stage)
+}
+
+func (protocolshape *ProtocolShape) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(protocolshape, protocolshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (protocolshape *ProtocolShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return protocolshape.GongGetIdentifier(stage)
+}
+
 func (resource *Resource) GongGetIdentifier(stage *Stage) string {
 	return __gong__formatIdentifier(resource, resource.GongGetOrder(stage))
 }
@@ -1962,6 +2205,22 @@ func (portshape *PortShape) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(portshape.GongGetIdentifier(stage), "PortShape", portshape.Name)
 }
 
+func (protocol *Protocol) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(protocol.GongGetIdentifier(stage), "Protocol", protocol.Name)
+}
+
+func (protocollayer *ProtocolLayer) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(protocollayer.GongGetIdentifier(stage), "ProtocolLayer", protocollayer.Name)
+}
+
+func (protocollayershape *ProtocolLayerShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(protocollayershape.GongGetIdentifier(stage), "ProtocolLayerShape", protocollayershape.Name)
+}
+
+func (protocolshape *ProtocolShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(protocolshape.GongGetIdentifier(stage), "ProtocolShape", protocolshape.Name)
+}
+
 func (resource *Resource) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(resource.GongGetIdentifier(stage), "Resource", resource.Name)
 }
@@ -2069,6 +2328,22 @@ func (port *Port) GongMarshallUnstaging(stage *Stage) string {
 
 func (portshape *PortShape) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(portshape.GongGetReferenceIdentifier(stage))
+}
+
+func (protocol *Protocol) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(protocol.GongGetReferenceIdentifier(stage))
+}
+
+func (protocollayer *ProtocolLayer) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(protocollayer.GongGetReferenceIdentifier(stage))
+}
+
+func (protocollayershape *ProtocolLayerShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(protocollayershape.GongGetReferenceIdentifier(stage))
+}
+
+func (protocolshape *ProtocolShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(protocolshape.GongGetReferenceIdentifier(stage))
 }
 
 func (resource *Resource) GongMarshallUnstaging(stage *Stage) string {

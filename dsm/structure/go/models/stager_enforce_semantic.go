@@ -70,6 +70,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce default values", stager.enforceDefaultValues},
 		{"Enforce orphans abstract element", stager.enforceOrphansAbstractElement},
 		{"Enforce port part consistency", stager.enforcePortPartConsistency},
+		{"Enforce protocol semantic rules", stager.enforceProtocolSemanticRules},
 		{"Enforce port semantic rules", stager.enforcePortSemanticRules},
 		{"Enforce part semantic rules", stager.enforcePartSemanticRules},
 		{"Enforce control flow semantic rules", stager.enforceControlFlowRules},

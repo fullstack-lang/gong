@@ -40,4 +40,16 @@ func (stager *Stager) treeDataFlowWithinLibrary(
 	for _, data := range dataFlow.Datas {
 		stager.treeData(library, data, datasNode)
 	}
+
+	if dataFlow.Protocol != nil {
+		protocolFolderNode := &tree.Node{
+			Name:            "Protocol",
+			FontStyle:       tree.ITALIC,
+			IsExpanded:      dataFlow.IsProtocolNodeExpanded,
+			IsNodeClickable: true,
+		}
+		dataFlowNode.Children = append(dataFlowNode.Children, protocolFolderNode)
+		protocolFolderNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&dataFlow.IsProtocolNodeExpanded)
+		stager.treeProtocol(library, dataFlow.Protocol, protocolFolderNode)
+	}
 }

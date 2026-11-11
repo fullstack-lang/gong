@@ -157,4 +157,7 @@ func (stager *Stager) treeDataFlowsWithinDiagramStructureWithinPort(
 	for _, data := range dataFlow.Datas {
 		stager.treeDataWithinDiagramStructureWithinDataFlow(dataFlowNode, diagramStructure, dataFlow, dataFlowShape, shapePresent, data)
 	}
+	if dataFlow.Protocol != nil {
+		stager.treeProtocolWithinDiagramStructureWithinDataFlow(dataFlowNode, diagramStructure, dataFlow, dataFlowShape, shapePresent, dataFlow.Protocol)
+	}
 }

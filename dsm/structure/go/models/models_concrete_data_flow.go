@@ -7,7 +7,9 @@ type DataFlowShape struct {
 
 	LinkShape
 
-	dataShapes []*DataShape
+	dataShapes          []*DataShape
+	protocolShape       *ProtocolShape
+	protocolLayerShapes []*ProtocolLayerShape
 }
 
 func (s *DataFlowShape) GetAbstractElement() AbstractType {

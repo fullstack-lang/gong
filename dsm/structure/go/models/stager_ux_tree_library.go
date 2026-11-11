@@ -97,6 +97,64 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	addCreateItemButton(stager, confData)
 
 	//
+	// Protocols
+	//
+	protocolsNode := &tree.Node{
+		Name:            "Protocols",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      library.IsProtocolsNodeExpanded,
+		IsNodeClickable: true,
+	}
+	libraryNode.Children = append(libraryNode.Children, protocolsNode)
+	protocolsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsProtocolsNodeExpanded)
+	protocolsNode.OnClick = onNodeClicked(stager, library)
+
+	for _, protocol := range library.RootProtocols {
+		stager.treeProtocolWithinLibrary(library, protocol, protocolsNode)
+	}
+
+	confProtocol := ItemButtonConfiguration[
+		Protocol, *Protocol,
+		Library, *Library,
+	]{
+		parentNode:                         protocolsNode,
+		sliceForNewAddedItem:               &library.RootProtocols,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsProtocolsNodeExpanded,
+	}
+	addCreateItemButton(stager, confProtocol)
+
+	//
+	// Protocol Layers
+	//
+	protocolLayersNode := &tree.Node{
+		Name:            "Protocol Layers",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      library.IsProtocolLayersNodeExpanded,
+		IsNodeClickable: true,
+	}
+	libraryNode.Children = append(libraryNode.Children, protocolLayersNode)
+	protocolLayersNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsProtocolLayersNodeExpanded)
+	protocolLayersNode.OnClick = onNodeClicked(stager, library)
+
+	for _, protocolLayer := range library.RootProtocolLayers {
+		stager.treeProtocolLayerWithinLibrary(library, protocolLayer, protocolLayersNode)
+	}
+
+	confProtocolLayer := ItemButtonConfiguration[
+		ProtocolLayer, *ProtocolLayer,
+		Library, *Library,
+	]{
+		parentNode:                         protocolLayersNode,
+		sliceForNewAddedItem:               &library.RootProtocolLayers,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsProtocolLayersNodeExpanded,
+	}
+	addCreateItemButton(stager, confProtocolLayer)
+
+	//
 	// Resources
 	//
 	resourcesNode := &tree.Node{

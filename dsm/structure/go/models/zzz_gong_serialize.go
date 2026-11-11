@@ -278,6 +278,46 @@ func (stage *Stage) SerializeStageCSVAsBytes(addIDs bool) ([]byte, error) {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.Protocols {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "Protocol", instances, (*Protocol)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ProtocolLayers {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ProtocolLayer", instances, (*ProtocolLayer)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ProtocolLayerShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ProtocolLayerShape", instances, (*ProtocolLayerShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ProtocolShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ProtocolShape", instances, (*ProtocolShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.Resources {
 				instances = append(instances, instance)
 			}
@@ -487,6 +527,34 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 				instances = append(instances, instance)
 			}
 			stage.SerializeExcelize(f, "PortShape", instances, (*PortShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.Protocols {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "Protocol", instances, (*Protocol)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ProtocolLayers {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ProtocolLayer", instances, (*ProtocolLayer)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ProtocolLayerShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ProtocolLayerShape", instances, (*ProtocolLayerShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ProtocolShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ProtocolShape", instances, (*ProtocolShape)(nil).GongGetFieldHeaders(), addIDs)
 		}
 		{
 			var instances []GongstructIF

@@ -1,0 +1,21 @@
+{
+  "audio-alerts": {
+    "Stop": [
+      {
+        "type": "command",
+        "command": "input=$(cat); case \"$input\" in *'\"terminationReason\":\"USER_CANCELED\"'*|*'\"terminationReason\": \"USER_CANCELED\"'*) ;; *) afplay /System/Library/Sounds/Glass.aiff </dev/null >/dev/null 2>&1 & ;; esac; printf '{\"decision\":\"stop\"}\\n'"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "ask_question|ask_user",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat >/dev/null; afplay /System/Library/Sounds/Ping.aiff </dev/null >/dev/null 2>&1 & printf '{\"decision\":\"allow\"}\\n'"
+          }
+        ]
+      }
+    ]
+  }
+}

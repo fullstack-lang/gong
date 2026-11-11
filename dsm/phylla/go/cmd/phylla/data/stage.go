@@ -431,7 +431,7 @@ func _(stage *models.Stage) {
 	__models__Plant2DDiagram__00000007_.IsHiddenStackOfGrowthCurve2DByGrowthVector = false
 	__models__Plant2DDiagram__00000007_.IsChecked = false
 	__models__Plant2DDiagram__00000007_.ComputedPrefix = ``
-	__models__Plant2DDiagram__00000007_.IsExpanded = false
+	__models__Plant2DDiagram__00000007_.IsExpanded = true
 	__models__Plant2DDiagram__00000008_.Name = `Vase Trapeze`
 	__models__Plant2DDiagram__00000008_.OriginX = 419.000000
 	__models__Plant2DDiagram__00000008_.OriginY = 348.000000
@@ -534,9 +534,9 @@ func _(stage *models.Stage) {
 	__models__PlantAbstract__00000000_.RhombusInsideAngle = 108.000000
 	__models__PlantAbstract__00000000_.RhombusSideLength = 195.000000
 	__models__PlantAbstract__00000000_.PlantType = models.TubeVase
-	__models__PlantAbstract__00000000_.CurrentView = models.VIEW_TUBE_VASE_3D
+	__models__PlantAbstract__00000000_.CurrentView = models.VIEW_TUBE_VASE_2D
 	__models__PlantAbstract__00000000_.ComputedPrefix = ``
-	__models__PlantAbstract__00000000_.IsExpanded = false
+	__models__PlantAbstract__00000000_.IsExpanded = true
 	__models__PlantAbstract__00000000_.IsSelected = false
 	__models__PlantAbstract__00000000_.IsPlant2DDiagramsNodeExpanded = false
 	__models__PlantAbstract__00000000_.IsPlant3DDiagramsNodeExpanded = true
@@ -593,7 +593,7 @@ func _(stage *models.Stage) {
 	__models__PlantAbstract__00000003_.PlantType = models.Clock
 	__models__PlantAbstract__00000003_.CurrentView = models.VIEW_CLOCK_3D
 	__models__PlantAbstract__00000003_.ComputedPrefix = ``
-	__models__PlantAbstract__00000003_.IsExpanded = false
+	__models__PlantAbstract__00000003_.IsExpanded = true
 	__models__PlantAbstract__00000003_.IsSelected = false
 	__models__PlantAbstract__00000003_.IsPlant2DDiagramsNodeExpanded = false
 	__models__PlantAbstract__00000003_.IsPlant3DDiagramsNodeExpanded = true
@@ -714,9 +714,9 @@ func _(stage *models.Stage) {
 	__models__Rendered3DShape__00000009_.TargetZ = 0.000000
 	__models__Rendered3DShape__00000009_.Fov = 50.000000
 	__models__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__models__Rendered3DShape__00000010_.ViewX = 751.565999
-	__models__Rendered3DShape__00000010_.ViewY = 1515.265034
-	__models__Rendered3DShape__00000010_.ViewZ = 730.235779
+	__models__Rendered3DShape__00000010_.ViewX = 36.060745
+	__models__Rendered3DShape__00000010_.ViewY = 2372.784939
+	__models__Rendered3DShape__00000010_.ViewZ = -6.932473
 	__models__Rendered3DShape__00000010_.TargetX = 36.059731
 	__models__Rendered3DShape__00000010_.TargetY = 1328.665151
 	__models__Rendered3DShape__00000010_.TargetZ = -6.932720
@@ -766,7 +766,7 @@ func _(stage *models.Stage) {
 	__models__Stool3DDiagram__00000000_.IsHiddenTiledFloor3DShape = false
 	__models__Stool3DDiagram__00000000_.IsChecked = false
 	__models__Stool3DDiagram__00000000_.ComputedPrefix = ``
-	__models__Stool3DDiagram__00000000_.IsExpanded = true
+	__models__Stool3DDiagram__00000000_.IsExpanded = false
 	__models__TopCurvePlane1Shape__00000000_.Name = `Plant 1-TubeVase3DDiagram-TopCurvePlane1Shape`
 	__models__TopCurvePlane1Shape__00000001_.Name = `Vase Trapeze-TubeVase3DDiagram-TopCurvePlane1Shape`
 	__models__TopCurvePlane2Shape__00000000_.Name = `Plant 1-TubeVase3DDiagram-TopCurvePlane2Shape`
@@ -798,7 +798,7 @@ func _(stage *models.Stage) {
 	__models__TubeVase3DDiagram__00000000_.IsHiddenVaseTrapezeBasePlateShape = true
 	__models__TubeVase3DDiagram__00000000_.IsChecked = false
 	__models__TubeVase3DDiagram__00000000_.ComputedPrefix = ``
-	__models__TubeVase3DDiagram__00000000_.IsExpanded = true
+	__models__TubeVase3DDiagram__00000000_.IsExpanded = false
 	__models__TubeVase3DDiagram__00000001_.Name = `Vase Trapeze-TubeVase3DDiagram`
 	__models__TubeVase3DDiagram__00000001_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = false
 	__models__TubeVase3DDiagram__00000001_.IsHiddenTorusStackShape = true
@@ -877,9 +877,9 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000001_.RelativeCuttedStackFloorHeight = 0.000000
 	__models__TubeVaseAbstract__00000001_.RelativeRotatedTorusSeparation = 0.000000
 	__models__TubeVaseAbstract__00000001_.RotationRatio = 1.000000
-	__models__TubeVaseAbstract__00000001_.RadialRepetitions = 2
+	__models__TubeVaseAbstract__00000001_.RadialRepetitions = 3
 	__models__TubeVaseAbstract__00000001_.Transparency = 0.000000
-	__models__TubeVaseAbstract__00000001_.ColorCombination = 6
+	__models__TubeVaseAbstract__00000001_.ColorCombination = 5
 	__models__TubeVaseAbstract__00000001_.RelativeTrajectoryOffsetX = 0.000000
 	__models__TubeVaseAbstract__00000001_.RelativeTrajectoryOffsetY = 0.000000
 	__models__TubeVaseAbstract__00000001_.NbStepP1P2 = 10
@@ -934,7 +934,7 @@ func _(stage *models.Stage) {
 	__models__Vase2DDiagram__00000001_.Zoom = 0.450000
 	__models__Vase2DDiagram__00000001_.IsVaseArcNodesExpanded = false
 	__models__Vase2DDiagram__00000001_.IsVaseClampingNodesExpanded = false
-	__models__Vase2DDiagram__00000001_.IsHiddenAxesShape = false
+	__models__Vase2DDiagram__00000001_.IsHiddenAxesShape = true
 	__models__Vase2DDiagram__00000001_.IsHiddenBottomStartArcShapeGrid = false
 	__models__Vase2DDiagram__00000001_.IsHiddenBottomEndArcShapeGrid = false
 	__models__Vase2DDiagram__00000001_.IsHiddenBottomStackOfGrowthCurve = false

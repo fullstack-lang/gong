@@ -86,6 +86,7 @@ func (dataflow *DataFlow) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanPointer(&dataflow.EndPort) || modified
 	modified = stage.CleanPointer(&dataflow.StartExternalPart) || modified
 	modified = stage.CleanPointer(&dataflow.EndExternalPart) || modified
+	modified = stage.CleanPointer(&dataflow.Protocol) || modified
 	return
 }
 
@@ -135,6 +136,9 @@ func (diagramstructure *DiagramStructure) GongClean(stage *Stage) (modified bool
 	modified = stage.CleanSlice(&diagramstructure.DatasWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagramstructure.Data_Shapes) || modified
 	modified = stage.CleanSlice(&diagramstructure.DataFlowsWhoseDataNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagramstructure.Protocol_Shapes) || modified
+	modified = stage.CleanSlice(&diagramstructure.ProtocolLayer_Shapes) || modified
+	modified = stage.CleanSlice(&diagramstructure.DataFlowsWhoseProtocolNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagramstructure.AllocatedResourcesWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagramstructure.AllocatedResourceShapes) || modified
 	modified = stage.CleanSlice(&diagramstructure.AllocatedSystemesWhoseNodeIsExpanded) || modified
@@ -175,6 +179,10 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&library.DataFlowsWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&library.RootDatas) || modified
 	modified = stage.CleanSlice(&library.DatasWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&library.RootProtocols) || modified
+	modified = stage.CleanSlice(&library.ProtocolsWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&library.RootProtocolLayers) || modified
+	modified = stage.CleanSlice(&library.ProtocolLayersWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&library.RootResources) || modified
 	modified = stage.CleanSlice(&library.ResourcesWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&library.PartsWhoseNodeIsExpanded) || modified
@@ -252,11 +260,45 @@ func (partshape *PartShape) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Port
+func (port *Port) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&port.Protocol) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by PortShape
 func (portshape *PortShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&portshape.Port) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Protocol
+func (protocol *Protocol) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = stage.CleanSlice(&protocol.ProtocolLayers) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ProtocolLayerShape
+func (protocollayershape *ProtocolLayerShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&protocollayershape.ProtocolLayer) || modified
+	modified = stage.CleanPointer(&protocollayershape.DataFlow) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ProtocolShape
+func (protocolshape *ProtocolShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&protocolshape.Protocol) || modified
+	modified = stage.CleanPointer(&protocolshape.DataFlow) || modified
 	return
 }
 

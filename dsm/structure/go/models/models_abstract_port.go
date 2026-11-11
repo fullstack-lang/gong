@@ -6,6 +6,8 @@ type Port struct {
 	//gong:text width:300 height:300
 	Description string
 
+	Protocol *Protocol
+
 	outControlFlows []*ControlFlow
 	inControlFlows  []*ControlFlow
 

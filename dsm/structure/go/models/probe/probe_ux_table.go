@@ -70,6 +70,14 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Port](probe)
 	case "PortShape":
 		updateProbeTable[*models.PortShape](probe)
+	case "Protocol":
+		updateProbeTable[*models.Protocol](probe)
+	case "ProtocolLayer":
+		updateProbeTable[*models.ProtocolLayer](probe)
+	case "ProtocolLayerShape":
+		updateProbeTable[*models.ProtocolLayerShape](probe)
+	case "ProtocolShape":
+		updateProbeTable[*models.ProtocolShape](probe)
 	case "Resource":
 		updateProbeTable[*models.Resource](probe)
 	case "SemanticTag":

@@ -130,6 +130,26 @@ func (portshape *PortShape) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
+func (protocol *Protocol) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.Protocols[protocol]
+	return ok
+}
+
+func (protocollayer *ProtocolLayer) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ProtocolLayers[protocollayer]
+	return ok
+}
+
+func (protocollayershape *ProtocolLayerShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ProtocolLayerShapes[protocollayershape]
+	return ok
+}
+
+func (protocolshape *ProtocolShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ProtocolShapes[protocolshape]
+	return ok
+}
+
 func (resource *Resource) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.Resources[resource]
 	return ok
@@ -276,6 +296,9 @@ func (dataflow *DataFlow) GongStageBranch(stage *Stage) {
 	if dataflow.EndExternalPart != nil {
 		stage.StageBranch(dataflow.EndExternalPart)
 	}
+	if dataflow.Protocol != nil {
+		stage.StageBranch(dataflow.Protocol)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _data := range dataflow.Datas {
@@ -407,6 +430,15 @@ func (diagramstructure *DiagramStructure) GongStageBranch(stage *Stage) {
 	for _, _dataflow := range diagramstructure.DataFlowsWhoseDataNodeIsExpanded {
 		stage.StageBranch(_dataflow)
 	}
+	for _, _protocolshape := range diagramstructure.Protocol_Shapes {
+		stage.StageBranch(_protocolshape)
+	}
+	for _, _protocollayershape := range diagramstructure.ProtocolLayer_Shapes {
+		stage.StageBranch(_protocollayershape)
+	}
+	for _, _dataflow := range diagramstructure.DataFlowsWhoseProtocolNodeIsExpanded {
+		stage.StageBranch(_dataflow)
+	}
 	for _, _resource := range diagramstructure.AllocatedResourcesWhoseNodeIsExpanded {
 		stage.StageBranch(_resource)
 	}
@@ -508,6 +540,18 @@ func (library *Library) GongStageBranch(stage *Stage) {
 	}
 	for _, _data := range library.DatasWhoseNodeIsExpanded {
 		stage.StageBranch(_data)
+	}
+	for _, _protocol := range library.RootProtocols {
+		stage.StageBranch(_protocol)
+	}
+	for _, _protocol := range library.ProtocolsWhoseNodeIsExpanded {
+		stage.StageBranch(_protocol)
+	}
+	for _, _protocollayer := range library.RootProtocolLayers {
+		stage.StageBranch(_protocollayer)
+	}
+	for _, _protocollayer := range library.ProtocolLayersWhoseNodeIsExpanded {
+		stage.StageBranch(_protocollayer)
 	}
 	for _, _resource := range library.RootResources {
 		stage.StageBranch(_resource)
@@ -714,6 +758,9 @@ func (port *Port) GongStageBranch(stage *Stage) {
 	port.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if port.Protocol != nil {
+		stage.StageBranch(port.Protocol)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -731,6 +778,81 @@ func (portshape *PortShape) GongStageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by pointers
 	if portshape.Port != nil {
 		stage.StageBranch(portshape.Port)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (protocol *Protocol) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(protocol) {
+		return
+	}
+
+	protocol.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _protocollayer := range protocol.ProtocolLayers {
+		stage.StageBranch(_protocollayer)
+	}
+
+}
+
+func (protocollayer *ProtocolLayer) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(protocollayer) {
+		return
+	}
+
+	protocollayer.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (protocollayershape *ProtocolLayerShape) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(protocollayershape) {
+		return
+	}
+
+	protocollayershape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if protocollayershape.ProtocolLayer != nil {
+		stage.StageBranch(protocollayershape.ProtocolLayer)
+	}
+	if protocollayershape.DataFlow != nil {
+		stage.StageBranch(protocollayershape.DataFlow)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (protocolshape *ProtocolShape) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(protocolshape) {
+		return
+	}
+
+	protocolshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if protocolshape.Protocol != nil {
+		stage.StageBranch(protocolshape.Protocol)
+	}
+	if protocolshape.DataFlow != nil {
+		stage.StageBranch(protocolshape.DataFlow)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -930,6 +1052,22 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchPortShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Protocol:
+		toT := GongCopyBranchProtocol(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ProtocolLayer:
+		toT := GongCopyBranchProtocolLayer(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ProtocolLayerShape:
+		toT := GongCopyBranchProtocolLayerShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ProtocolShape:
+		toT := GongCopyBranchProtocolShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Resource:
 		toT := GongCopyBranchResource(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -1070,6 +1208,9 @@ func GongCopyBranchDataFlow(mapOrigCopy map[any]any, dataflowFrom *DataFlow) (da
 	if dataflowFrom.EndExternalPart != nil {
 		dataflowTo.EndExternalPart = GongCopyBranchPart(mapOrigCopy, dataflowFrom.EndExternalPart)
 	}
+	if dataflowFrom.Protocol != nil {
+		dataflowTo.Protocol = GongCopyBranchProtocol(mapOrigCopy, dataflowFrom.Protocol)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _data := range dataflowFrom.Datas {
@@ -1201,6 +1342,15 @@ func GongCopyBranchDiagramStructure(mapOrigCopy map[any]any, diagramstructureFro
 	for _, _dataflow := range diagramstructureFrom.DataFlowsWhoseDataNodeIsExpanded {
 		diagramstructureTo.DataFlowsWhoseDataNodeIsExpanded = append(diagramstructureTo.DataFlowsWhoseDataNodeIsExpanded, GongCopyBranchDataFlow(mapOrigCopy, _dataflow))
 	}
+	for _, _protocolshape := range diagramstructureFrom.Protocol_Shapes {
+		diagramstructureTo.Protocol_Shapes = append(diagramstructureTo.Protocol_Shapes, GongCopyBranchProtocolShape(mapOrigCopy, _protocolshape))
+	}
+	for _, _protocollayershape := range diagramstructureFrom.ProtocolLayer_Shapes {
+		diagramstructureTo.ProtocolLayer_Shapes = append(diagramstructureTo.ProtocolLayer_Shapes, GongCopyBranchProtocolLayerShape(mapOrigCopy, _protocollayershape))
+	}
+	for _, _dataflow := range diagramstructureFrom.DataFlowsWhoseProtocolNodeIsExpanded {
+		diagramstructureTo.DataFlowsWhoseProtocolNodeIsExpanded = append(diagramstructureTo.DataFlowsWhoseProtocolNodeIsExpanded, GongCopyBranchDataFlow(mapOrigCopy, _dataflow))
+	}
 	for _, _resource := range diagramstructureFrom.AllocatedResourcesWhoseNodeIsExpanded {
 		diagramstructureTo.AllocatedResourcesWhoseNodeIsExpanded = append(diagramstructureTo.AllocatedResourcesWhoseNodeIsExpanded, GongCopyBranchResource(mapOrigCopy, _resource))
 	}
@@ -1302,6 +1452,18 @@ func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libra
 	}
 	for _, _data := range libraryFrom.DatasWhoseNodeIsExpanded {
 		libraryTo.DatasWhoseNodeIsExpanded = append(libraryTo.DatasWhoseNodeIsExpanded, GongCopyBranchData(mapOrigCopy, _data))
+	}
+	for _, _protocol := range libraryFrom.RootProtocols {
+		libraryTo.RootProtocols = append(libraryTo.RootProtocols, GongCopyBranchProtocol(mapOrigCopy, _protocol))
+	}
+	for _, _protocol := range libraryFrom.ProtocolsWhoseNodeIsExpanded {
+		libraryTo.ProtocolsWhoseNodeIsExpanded = append(libraryTo.ProtocolsWhoseNodeIsExpanded, GongCopyBranchProtocol(mapOrigCopy, _protocol))
+	}
+	for _, _protocollayer := range libraryFrom.RootProtocolLayers {
+		libraryTo.RootProtocolLayers = append(libraryTo.RootProtocolLayers, GongCopyBranchProtocolLayer(mapOrigCopy, _protocollayer))
+	}
+	for _, _protocollayer := range libraryFrom.ProtocolLayersWhoseNodeIsExpanded {
+		libraryTo.ProtocolLayersWhoseNodeIsExpanded = append(libraryTo.ProtocolLayersWhoseNodeIsExpanded, GongCopyBranchProtocolLayer(mapOrigCopy, _protocollayer))
 	}
 	for _, _resource := range libraryFrom.RootResources {
 		libraryTo.RootResources = append(libraryTo.RootResources, GongCopyBranchResource(mapOrigCopy, _resource))
@@ -1508,6 +1670,9 @@ func GongCopyBranchPort(mapOrigCopy map[any]any, portFrom *Port) (portTo *Port) 
 	portFrom.GongCopyBasicFields(portTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if portFrom.Protocol != nil {
+		portTo.Protocol = GongCopyBranchProtocol(mapOrigCopy, portFrom.Protocol)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1525,6 +1690,81 @@ func GongCopyBranchPortShape(mapOrigCopy map[any]any, portshapeFrom *PortShape) 
 	//insertion point for the staging of instances referenced by pointers
 	if portshapeFrom.Port != nil {
 		portshapeTo.Port = GongCopyBranchPort(mapOrigCopy, portshapeFrom.Port)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchProtocol(mapOrigCopy map[any]any, protocolFrom *Protocol) (protocolTo *Protocol) {
+	var alreadyCopied bool
+	protocolTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, protocolFrom)
+	if alreadyCopied {
+		return
+	}
+	protocolFrom.GongCopyBasicFields(protocolTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _protocollayer := range protocolFrom.ProtocolLayers {
+		protocolTo.ProtocolLayers = append(protocolTo.ProtocolLayers, GongCopyBranchProtocolLayer(mapOrigCopy, _protocollayer))
+	}
+
+	return
+}
+
+func GongCopyBranchProtocolLayer(mapOrigCopy map[any]any, protocollayerFrom *ProtocolLayer) (protocollayerTo *ProtocolLayer) {
+	var alreadyCopied bool
+	protocollayerTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, protocollayerFrom)
+	if alreadyCopied {
+		return
+	}
+	protocollayerFrom.GongCopyBasicFields(protocollayerTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchProtocolLayerShape(mapOrigCopy map[any]any, protocollayershapeFrom *ProtocolLayerShape) (protocollayershapeTo *ProtocolLayerShape) {
+	var alreadyCopied bool
+	protocollayershapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, protocollayershapeFrom)
+	if alreadyCopied {
+		return
+	}
+	protocollayershapeFrom.GongCopyBasicFields(protocollayershapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if protocollayershapeFrom.ProtocolLayer != nil {
+		protocollayershapeTo.ProtocolLayer = GongCopyBranchProtocolLayer(mapOrigCopy, protocollayershapeFrom.ProtocolLayer)
+	}
+	if protocollayershapeFrom.DataFlow != nil {
+		protocollayershapeTo.DataFlow = GongCopyBranchDataFlow(mapOrigCopy, protocollayershapeFrom.DataFlow)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchProtocolShape(mapOrigCopy map[any]any, protocolshapeFrom *ProtocolShape) (protocolshapeTo *ProtocolShape) {
+	var alreadyCopied bool
+	protocolshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, protocolshapeFrom)
+	if alreadyCopied {
+		return
+	}
+	protocolshapeFrom.GongCopyBasicFields(protocolshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if protocolshapeFrom.Protocol != nil {
+		protocolshapeTo.Protocol = GongCopyBranchProtocol(mapOrigCopy, protocolshapeFrom.Protocol)
+	}
+	if protocolshapeFrom.DataFlow != nil {
+		protocolshapeTo.DataFlow = GongCopyBranchDataFlow(mapOrigCopy, protocolshapeFrom.DataFlow)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1752,6 +1992,9 @@ func (dataflow *DataFlow) GongUnstageBranch(stage *Stage) {
 	if dataflow.EndExternalPart != nil {
 		stage.UnstageBranch(dataflow.EndExternalPart)
 	}
+	if dataflow.Protocol != nil {
+		stage.UnstageBranch(dataflow.Protocol)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _data := range dataflow.Datas {
@@ -1883,6 +2126,15 @@ func (diagramstructure *DiagramStructure) GongUnstageBranch(stage *Stage) {
 	for _, _dataflow := range diagramstructure.DataFlowsWhoseDataNodeIsExpanded {
 		stage.UnstageBranch(_dataflow)
 	}
+	for _, _protocolshape := range diagramstructure.Protocol_Shapes {
+		stage.UnstageBranch(_protocolshape)
+	}
+	for _, _protocollayershape := range diagramstructure.ProtocolLayer_Shapes {
+		stage.UnstageBranch(_protocollayershape)
+	}
+	for _, _dataflow := range diagramstructure.DataFlowsWhoseProtocolNodeIsExpanded {
+		stage.UnstageBranch(_dataflow)
+	}
 	for _, _resource := range diagramstructure.AllocatedResourcesWhoseNodeIsExpanded {
 		stage.UnstageBranch(_resource)
 	}
@@ -1984,6 +2236,18 @@ func (library *Library) GongUnstageBranch(stage *Stage) {
 	}
 	for _, _data := range library.DatasWhoseNodeIsExpanded {
 		stage.UnstageBranch(_data)
+	}
+	for _, _protocol := range library.RootProtocols {
+		stage.UnstageBranch(_protocol)
+	}
+	for _, _protocol := range library.ProtocolsWhoseNodeIsExpanded {
+		stage.UnstageBranch(_protocol)
+	}
+	for _, _protocollayer := range library.RootProtocolLayers {
+		stage.UnstageBranch(_protocollayer)
+	}
+	for _, _protocollayer := range library.ProtocolLayersWhoseNodeIsExpanded {
+		stage.UnstageBranch(_protocollayer)
 	}
 	for _, _resource := range library.RootResources {
 		stage.UnstageBranch(_resource)
@@ -2190,6 +2454,9 @@ func (port *Port) GongUnstageBranch(stage *Stage) {
 	port.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if port.Protocol != nil {
+		stage.UnstageBranch(port.Protocol)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -2207,6 +2474,81 @@ func (portshape *PortShape) GongUnstageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by pointers
 	if portshape.Port != nil {
 		stage.UnstageBranch(portshape.Port)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (protocol *Protocol) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(protocol) {
+		return
+	}
+
+	protocol.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _protocollayer := range protocol.ProtocolLayers {
+		stage.UnstageBranch(_protocollayer)
+	}
+
+}
+
+func (protocollayer *ProtocolLayer) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(protocollayer) {
+		return
+	}
+
+	protocollayer.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (protocollayershape *ProtocolLayerShape) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(protocollayershape) {
+		return
+	}
+
+	protocollayershape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if protocollayershape.ProtocolLayer != nil {
+		stage.UnstageBranch(protocollayershape.ProtocolLayer)
+	}
+	if protocollayershape.DataFlow != nil {
+		stage.UnstageBranch(protocollayershape.DataFlow)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (protocolshape *ProtocolShape) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(protocolshape) {
+		return
+	}
+
+	protocolshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if protocolshape.Protocol != nil {
+		stage.UnstageBranch(protocolshape.Protocol)
+	}
+	if protocolshape.DataFlow != nil {
+		stage.UnstageBranch(protocolshape.DataFlow)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2342,6 +2684,7 @@ func (reference *DataFlow) GongReconstructPointersFromReferences(stage *Stage, i
 	__gong__reconstructPointer(&reference.EndPort, stage.Ports_reference, instance.EndPort)
 	__gong__reconstructPointer(&reference.StartExternalPart, stage.Parts_reference, instance.StartExternalPart)
 	__gong__reconstructPointer(&reference.EndExternalPart, stage.Parts_reference, instance.EndExternalPart)
+	__gong__reconstructPointer(&reference.Protocol, stage.Protocols_reference, instance.Protocol)
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Datas, stage.Datas_reference, instance.Datas)
 }
@@ -2386,6 +2729,9 @@ func (reference *DiagramStructure) GongReconstructPointersFromReferences(stage *
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DatasWhoseNodeIsExpanded, stage.Datas_reference, instance.DatasWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Data_Shapes, stage.DataShapes_reference, instance.Data_Shapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DataFlowsWhoseDataNodeIsExpanded, stage.DataFlows_reference, instance.DataFlowsWhoseDataNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Protocol_Shapes, stage.ProtocolShapes_reference, instance.Protocol_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ProtocolLayer_Shapes, stage.ProtocolLayerShapes_reference, instance.ProtocolLayer_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DataFlowsWhoseProtocolNodeIsExpanded, stage.DataFlows_reference, instance.DataFlowsWhoseProtocolNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.AllocatedResourcesWhoseNodeIsExpanded, stage.Resources_reference, instance.AllocatedResourcesWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.AllocatedResourceShapes, stage.AllocatedResourceShapes_reference, instance.AllocatedResourceShapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.AllocatedSystemesWhoseNodeIsExpanded, stage.Systems_reference, instance.AllocatedSystemesWhoseNodeIsExpanded)
@@ -2420,6 +2766,10 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DataFlowsWhoseNodeIsExpanded, stage.DataFlows_reference, instance.DataFlowsWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.RootDatas, stage.Datas_reference, instance.RootDatas)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DatasWhoseNodeIsExpanded, stage.Datas_reference, instance.DatasWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RootProtocols, stage.Protocols_reference, instance.RootProtocols)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ProtocolsWhoseNodeIsExpanded, stage.Protocols_reference, instance.ProtocolsWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RootProtocolLayers, stage.ProtocolLayers_reference, instance.RootProtocolLayers)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ProtocolLayersWhoseNodeIsExpanded, stage.ProtocolLayers_reference, instance.ProtocolLayersWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.RootResources, stage.Resources_reference, instance.RootResources)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ResourcesWhoseNodeIsExpanded, stage.Resources_reference, instance.ResourcesWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.PartsWhoseNodeIsExpanded, stage.Parts_reference, instance.PartsWhoseNodeIsExpanded)
@@ -2488,12 +2838,38 @@ func (reference *PartShape) GongReconstructPointersFromReferences(stage *Stage, 
 
 func (reference *Port) GongReconstructPointersFromReferences(stage *Stage, instance *Port) {
 	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Protocol, stage.Protocols_reference, instance.Protocol)
 	// insertion point for slice of pointers field
 }
 
 func (reference *PortShape) GongReconstructPointersFromReferences(stage *Stage, instance *PortShape) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Port, stage.Ports_reference, instance.Port)
+	// insertion point for slice of pointers field
+}
+
+func (reference *Protocol) GongReconstructPointersFromReferences(stage *Stage, instance *Protocol) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ProtocolLayers, stage.ProtocolLayers_reference, instance.ProtocolLayers)
+}
+
+func (reference *ProtocolLayer) GongReconstructPointersFromReferences(stage *Stage, instance *ProtocolLayer) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *ProtocolLayerShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProtocolLayerShape) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.ProtocolLayer, stage.ProtocolLayers_reference, instance.ProtocolLayer)
+	__gong__reconstructPointer(&reference.DataFlow, stage.DataFlows_reference, instance.DataFlow)
+	// insertion point for slice of pointers field
+}
+
+func (reference *ProtocolShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProtocolShape) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Protocol, stage.Protocols_reference, instance.Protocol)
+	__gong__reconstructPointer(&reference.DataFlow, stage.DataFlows_reference, instance.DataFlow)
 	// insertion point for slice of pointers field
 }
 
@@ -2566,6 +2942,7 @@ func (reference *DataFlow) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructPointerFromInstance(&reference.EndPort, stage.Ports_instance)
 	__gong__reconstructPointerFromInstance(&reference.StartExternalPart, stage.Parts_instance)
 	__gong__reconstructPointerFromInstance(&reference.EndExternalPart, stage.Parts_instance)
+	__gong__reconstructPointerFromInstance(&reference.Protocol, stage.Protocols_instance)
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Datas, stage.Datas_instance)
 }
@@ -2610,6 +2987,9 @@ func (reference *DiagramStructure) GongReconstructPointersFromInstances(stage *S
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DatasWhoseNodeIsExpanded, stage.Datas_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Data_Shapes, stage.DataShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DataFlowsWhoseDataNodeIsExpanded, stage.DataFlows_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Protocol_Shapes, stage.ProtocolShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ProtocolLayer_Shapes, stage.ProtocolLayerShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DataFlowsWhoseProtocolNodeIsExpanded, stage.DataFlows_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.AllocatedResourcesWhoseNodeIsExpanded, stage.Resources_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.AllocatedResourceShapes, stage.AllocatedResourceShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.AllocatedSystemesWhoseNodeIsExpanded, stage.Systems_instance)
@@ -2644,6 +3024,10 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DataFlowsWhoseNodeIsExpanded, stage.DataFlows_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.RootDatas, stage.Datas_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DatasWhoseNodeIsExpanded, stage.Datas_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RootProtocols, stage.Protocols_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ProtocolsWhoseNodeIsExpanded, stage.Protocols_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RootProtocolLayers, stage.ProtocolLayers_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ProtocolLayersWhoseNodeIsExpanded, stage.ProtocolLayers_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.RootResources, stage.Resources_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ResourcesWhoseNodeIsExpanded, stage.Resources_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.PartsWhoseNodeIsExpanded, stage.Parts_instance)
@@ -2712,12 +3096,38 @@ func (reference *PartShape) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *Port) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Protocol, stage.Protocols_instance)
 	// insertion point for slice of pointers fields
 }
 
 func (reference *PortShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Port, stage.Ports_instance)
+	// insertion point for slice of pointers fields
+}
+
+func (reference *Protocol) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ProtocolLayers, stage.ProtocolLayers_instance)
+}
+
+func (reference *ProtocolLayer) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *ProtocolLayerShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.ProtocolLayer, stage.ProtocolLayers_instance)
+	__gong__reconstructPointerFromInstance(&reference.DataFlow, stage.DataFlows_instance)
+	// insertion point for slice of pointers fields
+}
+
+func (reference *ProtocolShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Protocol, stage.Protocols_instance)
+	__gong__reconstructPointerFromInstance(&reference.DataFlow, stage.DataFlows_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -2916,6 +3326,9 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 	if ops := __gong__diffSliceOfPointers(stage, dataflow, "Datas", dataflowOther.Datas, dataflow.Datas); ops != "" {
 		diffs = append(diffs, ops)
 	}
+	if dataflow.Protocol != dataflowOther.Protocol {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "Protocol"))
+	}
 	if dataflow.Description != dataflowOther.Description {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "Description"))
 	}
@@ -2924,6 +3337,9 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 	}
 	if dataflow.IsDatasNodeExpanded != dataflowOther.IsDatasNodeExpanded {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
+	}
+	if dataflow.IsProtocolNodeExpanded != dataflowOther.IsProtocolNodeExpanded {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "IsProtocolNodeExpanded"))
 	}
 	if dataflow.ComputedPrefix != dataflowOther.ComputedPrefix {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "ComputedPrefix"))
@@ -3173,6 +3589,15 @@ func (diagramstructure *DiagramStructure) GongDiff(stage *Stage, diagramstructur
 	if ops := __gong__diffSliceOfPointers(stage, diagramstructure, "DataFlowsWhoseDataNodeIsExpanded", diagramstructureOther.DataFlowsWhoseDataNodeIsExpanded, diagramstructure.DataFlowsWhoseDataNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
+	if ops := __gong__diffSliceOfPointers(stage, diagramstructure, "Protocol_Shapes", diagramstructureOther.Protocol_Shapes, diagramstructure.Protocol_Shapes); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagramstructure, "ProtocolLayer_Shapes", diagramstructureOther.ProtocolLayer_Shapes, diagramstructure.ProtocolLayer_Shapes); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagramstructure, "DataFlowsWhoseProtocolNodeIsExpanded", diagramstructureOther.DataFlowsWhoseProtocolNodeIsExpanded, diagramstructure.DataFlowsWhoseProtocolNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
 	if ops := __gong__diffSliceOfPointers(stage, diagramstructure, "AllocatedResourcesWhoseNodeIsExpanded", diagramstructureOther.AllocatedResourcesWhoseNodeIsExpanded, diagramstructure.AllocatedResourcesWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
@@ -3311,6 +3736,9 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.IsPortAndDataFlowNamesAutoGenerated != libraryOther.IsPortAndDataFlowNamesAutoGenerated {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsPortAndDataFlowNamesAutoGenerated"))
 	}
+	if library.IsPortAndDataFlowProtocolConsistencyRelaxed != libraryOther.IsPortAndDataFlowProtocolConsistencyRelaxed {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsPortAndDataFlowProtocolConsistencyRelaxed"))
+	}
 	if ops := __gong__diffSliceOfPointers(stage, library, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries); ops != "" {
 		diffs = append(diffs, ops)
 	}
@@ -3351,6 +3779,24 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		diffs = append(diffs, library.GongMarshallField(stage, "IsDatasNodeExpanded"))
 	}
 	if ops := __gong__diffSliceOfPointers(stage, library, "DatasWhoseNodeIsExpanded", libraryOther.DatasWhoseNodeIsExpanded, library.DatasWhoseNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, library, "RootProtocols", libraryOther.RootProtocols, library.RootProtocols); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if library.IsProtocolsNodeExpanded != libraryOther.IsProtocolsNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsProtocolsNodeExpanded"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, library, "ProtocolsWhoseNodeIsExpanded", libraryOther.ProtocolsWhoseNodeIsExpanded, library.ProtocolsWhoseNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, library, "RootProtocolLayers", libraryOther.RootProtocolLayers, library.RootProtocolLayers); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if library.IsProtocolLayersNodeExpanded != libraryOther.IsProtocolLayersNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsProtocolLayersNodeExpanded"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, library, "ProtocolLayersWhoseNodeIsExpanded", libraryOther.ProtocolLayersWhoseNodeIsExpanded, library.ProtocolLayersWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, library, "RootResources", libraryOther.RootResources, library.RootResources); ops != "" {
@@ -3833,6 +4279,9 @@ func (port *Port) GongDiff(stage *Stage, portOther *Port) (diffs []string) {
 	if port.Description != portOther.Description {
 		diffs = append(diffs, port.GongMarshallField(stage, "Description"))
 	}
+	if port.Protocol != portOther.Protocol {
+		diffs = append(diffs, port.GongMarshallField(stage, "Protocol"))
+	}
 	if port.ComputedPrefix != portOther.ComputedPrefix {
 		diffs = append(diffs, port.GongMarshallField(stage, "ComputedPrefix"))
 	}
@@ -3903,6 +4352,188 @@ func (portshape *PortShape) GongDiff(stage *Stage, portshapeOther *PortShape) (d
 	}
 	if portshape.FontColor != portshapeOther.FontColor {
 		diffs = append(diffs, portshape.GongMarshallField(stage, "FontColor"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (protocol *Protocol) GongDiff(stage *Stage, protocolOther *Protocol) (diffs []string) {
+	// insertion point for field diffs
+	if protocol.Name != protocolOther.Name {
+		diffs = append(diffs, protocol.GongMarshallField(stage, "Name"))
+	}
+	if protocol.Acronym != protocolOther.Acronym {
+		diffs = append(diffs, protocol.GongMarshallField(stage, "Acronym"))
+	}
+	if protocol.Description != protocolOther.Description {
+		diffs = append(diffs, protocol.GongMarshallField(stage, "Description"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, protocol, "ProtocolLayers", protocolOther.ProtocolLayers, protocol.ProtocolLayers); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if protocol.IsProtocolLayersNodeExpanded != protocolOther.IsProtocolLayersNodeExpanded {
+		diffs = append(diffs, protocol.GongMarshallField(stage, "IsProtocolLayersNodeExpanded"))
+	}
+	if protocol.ComputedPrefix != protocolOther.ComputedPrefix {
+		diffs = append(diffs, protocol.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if protocol.IsExpanded != protocolOther.IsExpanded {
+		diffs = append(diffs, protocol.GongMarshallField(stage, "IsExpanded"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (protocollayer *ProtocolLayer) GongDiff(stage *Stage, protocollayerOther *ProtocolLayer) (diffs []string) {
+	// insertion point for field diffs
+	if protocollayer.Name != protocollayerOther.Name {
+		diffs = append(diffs, protocollayer.GongMarshallField(stage, "Name"))
+	}
+	if protocollayer.Acronym != protocollayerOther.Acronym {
+		diffs = append(diffs, protocollayer.GongMarshallField(stage, "Acronym"))
+	}
+	if protocollayer.Description != protocollayerOther.Description {
+		diffs = append(diffs, protocollayer.GongMarshallField(stage, "Description"))
+	}
+	if protocollayer.ComputedPrefix != protocollayerOther.ComputedPrefix {
+		diffs = append(diffs, protocollayer.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if protocollayer.IsExpanded != protocollayerOther.IsExpanded {
+		diffs = append(diffs, protocollayer.GongMarshallField(stage, "IsExpanded"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (protocollayershape *ProtocolLayerShape) GongDiff(stage *Stage, protocollayershapeOther *ProtocolLayerShape) (diffs []string) {
+	// insertion point for field diffs
+	if protocollayershape.Name != protocollayershapeOther.Name {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "Name"))
+	}
+	if protocollayershape.ProtocolLayer != protocollayershapeOther.ProtocolLayer {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "ProtocolLayer"))
+	}
+	if protocollayershape.DataFlow != protocollayershapeOther.DataFlow {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "DataFlow"))
+	}
+	if protocollayershape.X != protocollayershapeOther.X {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "X"))
+	}
+	if protocollayershape.Y != protocollayershapeOther.Y {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "Y"))
+	}
+	if protocollayershape.Width != protocollayershapeOther.Width {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "Width"))
+	}
+	if protocollayershape.Height != protocollayershapeOther.Height {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "Height"))
+	}
+	if protocollayershape.IsHidden != protocollayershapeOther.IsHidden {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "IsHidden"))
+	}
+	if protocollayershape.IsPresentationOverridden != protocollayershapeOther.IsPresentationOverridden {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if protocollayershape.Color != protocollayershapeOther.Color {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "Color"))
+	}
+	if protocollayershape.FillOpacity != protocollayershapeOther.FillOpacity {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "FillOpacity"))
+	}
+	if protocollayershape.Stroke != protocollayershapeOther.Stroke {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "Stroke"))
+	}
+	if protocollayershape.StrokeWidth != protocollayershapeOther.StrokeWidth {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if protocollayershape.StrokeOpacity != protocollayershapeOther.StrokeOpacity {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if protocollayershape.StrokeDashArray != protocollayershapeOther.StrokeDashArray {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if protocollayershape.RX != protocollayershapeOther.RX {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "RX"))
+	}
+	if protocollayershape.FontSize != protocollayershapeOther.FontSize {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "FontSize"))
+	}
+	if protocollayershape.FontWeight != protocollayershapeOther.FontWeight {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "FontWeight"))
+	}
+	if protocollayershape.FontColor != protocollayershapeOther.FontColor {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "FontColor"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (protocolshape *ProtocolShape) GongDiff(stage *Stage, protocolshapeOther *ProtocolShape) (diffs []string) {
+	// insertion point for field diffs
+	if protocolshape.Name != protocolshapeOther.Name {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "Name"))
+	}
+	if protocolshape.Protocol != protocolshapeOther.Protocol {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "Protocol"))
+	}
+	if protocolshape.DataFlow != protocolshapeOther.DataFlow {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "DataFlow"))
+	}
+	if protocolshape.X != protocolshapeOther.X {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "X"))
+	}
+	if protocolshape.Y != protocolshapeOther.Y {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "Y"))
+	}
+	if protocolshape.Width != protocolshapeOther.Width {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "Width"))
+	}
+	if protocolshape.Height != protocolshapeOther.Height {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "Height"))
+	}
+	if protocolshape.IsHidden != protocolshapeOther.IsHidden {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if protocolshape.IsPresentationOverridden != protocolshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if protocolshape.Color != protocolshapeOther.Color {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "Color"))
+	}
+	if protocolshape.FillOpacity != protocolshapeOther.FillOpacity {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "FillOpacity"))
+	}
+	if protocolshape.Stroke != protocolshapeOther.Stroke {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "Stroke"))
+	}
+	if protocolshape.StrokeWidth != protocolshapeOther.StrokeWidth {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if protocolshape.StrokeOpacity != protocolshapeOther.StrokeOpacity {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if protocolshape.StrokeDashArray != protocolshapeOther.StrokeDashArray {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if protocolshape.RX != protocolshapeOther.RX {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "RX"))
+	}
+	if protocolshape.FontSize != protocolshapeOther.FontSize {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "FontSize"))
+	}
+	if protocolshape.FontWeight != protocolshapeOther.FontWeight {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "FontWeight"))
+	}
+	if protocolshape.FontColor != protocolshapeOther.FontColor {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "FontColor"))
 	}
 
 	return

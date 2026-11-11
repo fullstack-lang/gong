@@ -122,6 +122,10 @@ func (inst *DataFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *G
 			if _diagramstructure, ok := stage.DiagramStructure_DataFlowsWhoseDataNodeIsExpanded_reverseMap[inst]; ok {
 				res = _diagramstructure.Name
 			}
+		case "DataFlowsWhoseProtocolNodeIsExpanded":
+			if _diagramstructure, ok := stage.DiagramStructure_DataFlowsWhoseProtocolNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramstructure.Name
+			}
 		}
 	case "Library":
 		switch reverseField.Fieldname {
@@ -496,6 +500,85 @@ func (inst *PortShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 		switch reverseField.Fieldname {
 		case "Port_Shapes":
 			if _diagramstructure, ok := stage.DiagramStructure_Port_Shapes_reverseMap[inst]; ok {
+				res = _diagramstructure.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *Protocol) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootProtocols":
+			if _library, ok := stage.Library_RootProtocols_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		case "ProtocolsWhoseNodeIsExpanded":
+			if _library, ok := stage.Library_ProtocolsWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *ProtocolLayer) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootProtocolLayers":
+			if _library, ok := stage.Library_RootProtocolLayers_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		case "ProtocolLayersWhoseNodeIsExpanded":
+			if _library, ok := stage.Library_ProtocolLayersWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
+	case "Protocol":
+		switch reverseField.Fieldname {
+		case "ProtocolLayers":
+			if _protocol, ok := stage.Protocol_ProtocolLayers_reverseMap[inst]; ok {
+				res = _protocol.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *ProtocolLayerShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramStructure":
+		switch reverseField.Fieldname {
+		case "ProtocolLayer_Shapes":
+			if _diagramstructure, ok := stage.DiagramStructure_ProtocolLayer_Shapes_reverseMap[inst]; ok {
+				res = _diagramstructure.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *ProtocolShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramStructure":
+		switch reverseField.Fieldname {
+		case "Protocol_Shapes":
+			if _diagramstructure, ok := stage.DiagramStructure_Protocol_Shapes_reverseMap[inst]; ok {
 				res = _diagramstructure.Name
 			}
 		}

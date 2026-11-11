@@ -123,11 +123,14 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 			var expectedName string
 			switch dataFlow.Type {
 			case DataFlow_Port2Port:
-				expectedName = dataFlow.StartPort.GetName() + "-" + dataFlow.EndPort.GetName()
+				expectedName = stager.portEndpointBaseName(dataFlow.StartPort) + "-" + stager.portEndpointBaseName(dataFlow.EndPort)
 			case DataFlow_ExternalPart2Port:
-				expectedName = dataFlow.StartExternalPart.GetName() + "-" + dataFlow.EndPort.GetName()
+				expectedName = dataFlow.StartExternalPart.GetName() + "-" + stager.portEndpointBaseName(dataFlow.EndPort)
 			case DataFlow_Port2ExternalPart:
-				expectedName = dataFlow.StartPort.GetName() + "-" + dataFlow.EndExternalPart.GetName()
+				expectedName = stager.portEndpointBaseName(dataFlow.StartPort) + "-" + dataFlow.EndExternalPart.GetName()
+			}
+			if expectedName != "" && dataFlow.Protocol != nil && dataFlow.Protocol.GetName() != "" {
+				expectedName += "-" + dataFlow.Protocol.GetName()
 			}
 			if expectedName != "" && dataFlow.Name != expectedName {
 				oldName := dataFlow.Name
