@@ -837,6 +837,8 @@ func saveStageSet_TubeVaseAbstract_Stage(
 			FormDivBasicFieldToField(&inst.BulbousEndTangentMagnitude, formDiv)
 		case "HasConstantThickness":
 			FormDivBasicFieldToField(&inst.HasConstantThickness, formDiv)
+		case "HasRingBottom":
+			FormDivBasicFieldToField(&inst.HasRingBottom, formDiv)
 		case "RelativeVerticalThickness":
 			FormDivBasicFieldToField(&inst.RelativeVerticalThickness, formDiv)
 		case "RelativeRadialThickness":

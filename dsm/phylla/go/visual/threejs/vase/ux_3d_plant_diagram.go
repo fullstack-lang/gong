@@ -176,7 +176,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 	}
 
 	if plant.PlantType == models.VaseTrapeze && plant.TubeVaseAbstract != nil {
-		zStart := plant.TubeVaseAbstract.Z_Ribbon
+		zStart := plant.TubeVaseAbstract.Z_Ribbon * sideLength
 		scaleY := plant.TubeVaseAbstract.RibbonVerticalScale
 		if scaleY == 0 {
 			scaleY = 1.0
@@ -281,9 +281,10 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			scaleY = 1.0
 		}
 
-		p1H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.TopPlaneHeight*scaleY
-		p2H := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.BottomPlaneHeight*scaleY
-		p2H_base := plant.TubeVaseAbstract.Z_Ribbon + plant.TubeVaseAbstract.BaseRingBottomPlaneHeight*scaleY
+		zStart := plant.TubeVaseAbstract.Z_Ribbon * sideLength
+		p1H := zStart + plant.TubeVaseAbstract.TopPlaneHeight*sideLength*scaleY
+		p2H := zStart + plant.TubeVaseAbstract.BottomPlaneHeight*sideLength*scaleY
+		p2H_base := zStart + plant.TubeVaseAbstract.BaseRingBottomPlaneHeight*sideLength*scaleY
 		projAngleRad := -plant.TubeVaseAbstract.ProjectionAngle * math.Pi / 180.0
 
 		projectCurve := func(srcCurve *threejs.Curve, planeHeight float64, dy float64, curveName string) *threejs.Curve {
@@ -366,8 +367,50 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			addProjectedMesh(cBottomP2, plant.Name+" Bottom Curve Plane 2", "darkorange")
 		}
 
-		buildRingMesh := func(cTopA, cBottomA, cTopB, cBottomB *threejs.Curve, ringName string, h int) {
+		ringHeight := p1H - p2H
+		basePlateHeight := plant.TubeVaseAbstract.BasePlateHeight * sideLength
+		hasRingBottom := plant.TubeVaseAbstract.HasRingBottom && basePlateHeight > 0 && ringHeight > 0
+		hRingBottom := 0.0
+		if hasRingBottom {
+			hRingBottom = min(basePlateHeight, ringHeight)
+		}
+
+		interpolatePlancherCurve := func(cP2, cUncarvedP1 *threejs.Curve, u float64, curveName string) *threejs.Curve {
+			plancherCurve := (&threejs.Curve{Name: curveName}).Stage(threejsStage)
+			M := min(len(cP2.Points), len(cUncarvedP1.Points))
+			for i := 0; i < M; i++ {
+				p2 := cP2.Points[i]
+				p1 := cUncarvedP1.Points[i]
+				newPt := (&threejs.Vector3{
+					Name: fmt.Sprintf("%s Point %d", curveName, i),
+					X:    (1.0-u)*p2.X + u*p1.X,
+					Y:    (1.0-u)*p2.Y + u*p1.Y,
+					Z:    (1.0-u)*p2.Z + u*p1.Z,
+				}).Stage(threejsStage)
+				plancherCurve.Points = append(plancherCurve.Points, newPt)
+			}
+			return plancherCurve
+		}
+
+		var cTopPlancher0, cBottomPlancher0 *threejs.Curve
+		getPlancherCurves0 := func() (*threejs.Curve, *threejs.Curve) {
+			if !hasRingBottom {
+				return nil, nil
+			}
+			if cTopPlancher0 == nil {
+				u := hRingBottom / ringHeight
+				cTopPlancher0 = interpolatePlancherCurve(cTopP2, cTopP1, u, plant.Name+" Top Curve Plancher")
+				cBottomPlancher0 = interpolatePlancherCurve(cBottomP2, cBottomP1, u, plant.Name+" Bottom Curve Plancher")
+			}
+			return cTopPlancher0, cBottomPlancher0
+		}
+
+		buildRingMesh := func(cTopA, cBottomA, cTopB, cBottomB, cTopPlancher, cBottomPlancher *threejs.Curve, ringName string, h int) {
+			withBottom := cTopPlancher != nil && cBottomPlancher != nil
 			M := min(len(cTopA.Points), len(cBottomA.Points), len(cTopB.Points), len(cBottomB.Points))
+			if withBottom {
+				M = min(M, len(cTopPlancher.Points), len(cBottomPlancher.Points))
+			}
 			if M < 3 {
 				return
 			}
@@ -417,18 +460,98 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				}
 			}
 
-			// The 4 boundary surfaces of the 3D ring:
-			// 1. Plane 1 annular face: between BottomCurvePlane1 and TopCurvePlane1
-			addQuadStrip(cBottomA, cTopA, "Plane 1 Face", false)
+			var sumRTop, sumRBottom float64
+			for i := 0; i < M; i++ {
+				ptTop := cTopB.Points[i]
+				ptBot := cBottomB.Points[i]
+				sumRTop += math.Hypot(ptTop.X, ptTop.Z)
+				sumRBottom += math.Hypot(ptBot.X, ptBot.Z)
+			}
+			cOuterA := cTopA
+			cInnerA := cBottomA
+			cOuterB := cTopB
+			cInnerB := cBottomB
+			cInnerPlancher := cBottomPlancher
+			if sumRBottom > sumRTop {
+				cOuterA = cBottomA
+				cInnerA = cTopA
+				cOuterB = cBottomB
+				cInnerB = cTopB
+				cInnerPlancher = cTopPlancher
+			}
 
-			// 2. Plane 2 annular face: between TopCurvePlane2 and BottomCurvePlane2
-			addQuadStrip(cTopB, cBottomB, "Plane 2 Face", false)
+			// 1. Plane 1 annular face (top of ring, normal +Y)
+			addQuadStrip(cOuterA, cInnerA, "Plane 1 Face", false)
 
-			// 3. Top ruled surface (side wall): between TopCurvePlane1 and TopCurvePlane2
-			addQuadStrip(cTopA, cTopB, "Top Wall Face", true)
+			// 2. Outer wall from Plane 2 to Plane 1 (normal +r)
+			addQuadStrip(cOuterB, cOuterA, "Outer Wall Face", false)
 
-			// 4. Bottom ruled surface (side wall): between BottomCurvePlane2 and BottomCurvePlane1
-			addQuadStrip(cBottomB, cBottomA, "Bottom Wall Face", false)
+			if withBottom {
+				// 3. Inner wall from Plane 1 down to plancher (normal -r)
+				addQuadStrip(cInnerA, cInnerPlancher, "Inner Wall Face", false)
+
+				var sumOuterX, sumOuterY, sumOuterZ float64
+				var sumInnerX, sumInnerY, sumInnerZ float64
+				idxCapInnerPlancher := make([]int, M)
+				idxCapOuterFloor := make([]int, M)
+				for i := 0; i < M; i++ {
+					ptIn := cInnerPlancher.Points[i]
+					sumInnerX += ptIn.X
+					sumInnerY += ptIn.Y
+					sumInnerZ += ptIn.Z
+					idxCapInnerPlancher[i] = len(volGeom.Vertices)
+					volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
+						Name: fmt.Sprintf("%s %s Cap Inner Plancher %d", plant.Name, ringName, i),
+						X:    ptIn.X, Y: ptIn.Y, Z: ptIn.Z,
+					}).Stage(threejsStage))
+
+					ptOut := cOuterB.Points[i]
+					sumOuterX += ptOut.X
+					sumOuterY += ptOut.Y
+					sumOuterZ += ptOut.Z
+					idxCapOuterFloor[i] = len(volGeom.Vertices)
+					volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
+						Name: fmt.Sprintf("%s %s Cap Outer Floor %d", plant.Name, ringName, i),
+						X:    ptOut.X, Y: ptOut.Y, Z: ptOut.Z,
+					}).Stage(threejsStage))
+				}
+
+				idxPlancherCenter := len(volGeom.Vertices)
+				volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
+					Name: fmt.Sprintf("%s %s Plancher Center", plant.Name, ringName),
+					X:    sumInnerX / float64(M), Y: sumInnerY / float64(M), Z: sumInnerZ / float64(M),
+				}).Stage(threejsStage))
+
+				idxFloorCenter := len(volGeom.Vertices)
+				volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
+					Name: fmt.Sprintf("%s %s Floor Center", plant.Name, ringName),
+					X:    sumOuterX / float64(M), Y: sumOuterY / float64(M), Z: sumOuterZ / float64(M),
+				}).Stage(threejsStage))
+
+				for i := 0; i < M; i++ {
+					nextI := (i + 1) % M
+					// 4. Interior plancher top disk (normal +Y)
+					volGeom.Faces = append(volGeom.Faces,
+						(&threejs.Triangle{
+							Name: fmt.Sprintf("%s %s Plancher Face %d", plant.Name, ringName, i),
+							V1:   idxPlancherCenter, V2: idxCapInnerPlancher[nextI], V3: idxCapInnerPlancher[i],
+						}).Stage(threejsStage),
+					)
+					// 5. Exterior bottom floor disk (normal -Y)
+					volGeom.Faces = append(volGeom.Faces,
+						(&threejs.Triangle{
+							Name: fmt.Sprintf("%s %s Floor Face %d", plant.Name, ringName, i),
+							V1:   idxFloorCenter, V2: idxCapOuterFloor[i], V3: idxCapOuterFloor[nextI],
+						}).Stage(threejsStage),
+					)
+				}
+			} else {
+				// 3. Plane 2 annular face (bottom of ring, normal -Y)
+				addQuadStrip(cInnerB, cOuterB, "Plane 2 Face", false)
+
+				// 4. Inner wall from Plane 1 down to Plane 2 (normal -r)
+				addQuadStrip(cInnerA, cInnerB, "Inner Wall Face", false)
+			}
 
 			colorComb := 1
 			if plant.TubeVaseAbstract != nil {
@@ -464,7 +587,8 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 
 		if !checkedDiagram.IsHiddenVaseTrapezeRingShape {
-			buildRingMesh(cTopP1, cBottomP1, cTopP2, cBottomP2, "Vase Trapeze Ring", 0)
+			cTopPl, cBottomPl := getPlancherCurves0()
+			buildRingMesh(cTopP1, cBottomP1, cTopP2, cBottomP2, cTopPl, cBottomPl, "Vase Trapeze Ring", 0)
 		}
 
 		carvedParam := 0.0
@@ -524,8 +648,12 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		var cCarvedTopP1, cCarvedBottomP1 *threejs.Curve
 		getCarvedCurves := func() (*threejs.Curve, *threejs.Curve) {
 			if cCarvedTopP1 == nil {
-				cCarvedTopP1 = computeCarvedOutCurve(cTopP1, cTopP2, carvedParam, plant.Name+" Carved Out Top Curve Plane 1")
-				cCarvedBottomP1 = computeCarvedOutCurve(cBottomP1, cBottomP2, carvedParam, plant.Name+" Carved Out Bottom Curve Plane 1")
+				cTopFloor, cBottomFloor := cTopP2, cBottomP2
+				if hasRingBottom {
+					cTopFloor, cBottomFloor = getPlancherCurves0()
+				}
+				cCarvedTopP1 = computeCarvedOutCurve(cTopP1, cTopFloor, carvedParam, plant.Name+" Carved Out Top Curve Plane 1")
+				cCarvedBottomP1 = computeCarvedOutCurve(cBottomP1, cBottomFloor, carvedParam, plant.Name+" Carved Out Bottom Curve Plane 1")
 			}
 			return cCarvedTopP1, cCarvedBottomP1
 		}
@@ -540,7 +668,8 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 		if !checkedDiagram.IsHiddenCarvedOutVaseTrapezeRingShape {
 			cTop, cBottom := getCarvedCurves()
-			buildRingMesh(cTop, cBottom, cTopP2, cBottomP2, "Carved Out Vase Trapeze Ring", 0)
+			cTopPl, cBottomPl := getPlancherCurves0()
+			buildRingMesh(cTop, cBottom, cTopP2, cBottomP2, cTopPl, cBottomPl, "Carved Out Vase Trapeze Ring", 0)
 		}
 
 		if !checkedDiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape && stackHeight > 0 {
@@ -611,9 +740,19 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				ringTopP2 := projectCurve(curTopCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Top P2 h%d", plant.Name, h))
 				ringBottomP2 := projectCurve(curBottomCurve, p2H+dy, dy, fmt.Sprintf("%s Rotated Carved Stack Bottom P2 h%d", plant.Name, h))
 
-				ringCarvedTopP1 := computeCarvedOutCurve(ringTopP1, ringTopP2, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Top P1 h%d", plant.Name, h))
-				ringCarvedBottomP1 := computeCarvedOutCurve(ringBottomP1, ringBottomP2, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Bottom P1 h%d", plant.Name, h))
-				buildRingMesh(ringCarvedTopP1, ringCarvedBottomP1, ringTopP2, ringBottomP2, fmt.Sprintf("Stack Of Rotated Carved Out Vase Trapeze Rings h%d", h), h)
+				var ringTopPlancher, ringBottomPlancher *threejs.Curve
+				ringTopFloor, ringBottomFloor := ringTopP2, ringBottomP2
+				if hasRingBottom {
+					u := hRingBottom / ringHeight
+					ringTopPlancher = interpolatePlancherCurve(ringTopP2, ringTopP1, u, fmt.Sprintf("%s Rotated Carved Stack Top Plancher h%d", plant.Name, h))
+					ringBottomPlancher = interpolatePlancherCurve(ringBottomP2, ringBottomP1, u, fmt.Sprintf("%s Rotated Carved Stack Bottom Plancher h%d", plant.Name, h))
+					ringTopFloor = ringTopPlancher
+					ringBottomFloor = ringBottomPlancher
+				}
+
+				ringCarvedTopP1 := computeCarvedOutCurve(ringTopP1, ringTopFloor, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Top P1 h%d", plant.Name, h))
+				ringCarvedBottomP1 := computeCarvedOutCurve(ringBottomP1, ringBottomFloor, carvedParam, fmt.Sprintf("%s Rotated Stack Carved Bottom P1 h%d", plant.Name, h))
+				buildRingMesh(ringCarvedTopP1, ringCarvedBottomP1, ringTopP2, ringBottomP2, ringTopPlancher, ringBottomPlancher, fmt.Sprintf("Stack Of Rotated Carved Out Vase Trapeze Rings h%d", h), h)
 			}
 		}
 
@@ -632,7 +771,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 
 			hPlancher := 0.0
 			if plant.TubeVaseAbstract != nil {
-				hPlancher = plant.TubeVaseAbstract.BasePlateHeight
+				hPlancher = plant.TubeVaseAbstract.BasePlateHeight * sideLength
 			}
 			if hPlancher < 0 {
 				hPlancher = 0
@@ -665,11 +804,11 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			endAngleDeg := 30.0
 			endMag := 0.0
 			if plant.TubeVaseAbstract != nil {
-				startMag = plant.TubeVaseAbstract.BulbousStartTangentMagnitude
+				startMag = plant.TubeVaseAbstract.BulbousStartTangentMagnitude * sideLength
 				if plant.TubeVaseAbstract.BulbousEndAngle != 0.0 {
 					endAngleDeg = plant.TubeVaseAbstract.BulbousEndAngle
 				}
-				endMag = plant.TubeVaseAbstract.BulbousEndTangentMagnitude
+				endMag = plant.TubeVaseAbstract.BulbousEndTangentMagnitude * sideLength
 			}
 
 			S := 24

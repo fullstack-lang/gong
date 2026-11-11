@@ -3011,6 +3011,8 @@ type TubeVaseAbstract_WOP struct {
 
 	HasConstantThickness bool
 
+	HasRingBottom bool
+
 	RelativeVerticalThickness float64
 
 	RelativeRadialThickness float64
@@ -3065,6 +3067,7 @@ func (from *TubeVaseAbstract) GongCopyBasicFields(to *TubeVaseAbstract) {
 	to.BulbousEndAngle = from.BulbousEndAngle
 	to.BulbousEndTangentMagnitude = from.BulbousEndTangentMagnitude
 	to.HasConstantThickness = from.HasConstantThickness
+	to.HasRingBottom = from.HasRingBottom
 	to.RelativeVerticalThickness = from.RelativeVerticalThickness
 	to.RelativeRadialThickness = from.RelativeRadialThickness
 	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight

@@ -82,8 +82,8 @@ func ComputeVaseTrapezeConstant3DThickness(
 	rotStepDYContact := growthVectorY*scaleY + deltaYV
 	rotStepTheta := growthVectorX / globalR
 
-	p1H := vase.Z_Ribbon + vase.TopPlaneHeight*scaleY
-	p2H := vase.Z_Ribbon + vase.BottomPlaneHeight*scaleY
+	p1H := (vase.Z_Ribbon + vase.TopPlaneHeight*scaleY) * sideLength
+	p2H := (vase.Z_Ribbon + vase.BottomPlaneHeight*scaleY) * sideLength
 	yRef := 0.5 * (p1H + p2H)
 
 	minY := math.MaxFloat64
@@ -646,17 +646,19 @@ func ComputeVaseTrapezeUnoccupiedInteriorSurfaceProportion(
 		}
 	}
 
+	sideLength := plant.RhombusSideLength
 	scaleY := vase.RibbonVerticalScale
 	if scaleY == 0 {
 		scaleY = 1.0
 	}
+	zStart := vase.Z_Ribbon * sideLength
 	if len(curvePoints) > 0 {
 		y0 := curvePoints[0].Y
 		for i := range curvePoints {
-			curvePoints[i].Y = vase.Z_Ribbon + scaleY*(curvePoints[i].Y-y0)
+			curvePoints[i].Y = zStart + scaleY*(curvePoints[i].Y-y0)
 		}
 		for i := range topCurvePoints {
-			topCurvePoints[i].Y = vase.Z_Ribbon + scaleY*(topCurvePoints[i].Y-y0)
+			topCurvePoints[i].Y = zStart + scaleY*(topCurvePoints[i].Y-y0)
 		}
 	}
 
@@ -732,7 +734,7 @@ func ComputeVaseTrapezeUnoccupiedInteriorSurfaceProportion(
 	}
 
 	// Flat ring top height (as if CarvedOutTopRingsParameter == 0)
-	p1H := vase.Z_Ribbon + vase.TopPlaneHeight*scaleY
+	p1H := (vase.Z_Ribbon + vase.TopPlaneHeight*scaleY) * sideLength
 	projAngleRad := -vase.ProjectionAngle * math.Pi / 180.0
 	tanAlpha := math.Tan(projAngleRad)
 	rotStepTheta := rotatedStepDX / globalR

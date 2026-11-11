@@ -1498,6 +1498,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.BulbousEndAngle = %f", tubevaseabstractIdent, tubevaseabstract.BulbousEndAngle))
 			values.WriteString(fmt.Sprintf("\n\t%s.BulbousEndTangentMagnitude = %f", tubevaseabstractIdent, tubevaseabstract.BulbousEndTangentMagnitude))
 			values.WriteString(fmt.Sprintf("\n\t%s.HasConstantThickness = %t", tubevaseabstractIdent, tubevaseabstract.HasConstantThickness))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasRingBottom = %t", tubevaseabstractIdent, tubevaseabstract.HasRingBottom))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeVerticalThickness = %f", tubevaseabstractIdent, tubevaseabstract.RelativeVerticalThickness))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeRadialThickness = %f", tubevaseabstractIdent, tubevaseabstract.RelativeRadialThickness))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeCuttedStackFloorHeight = %f", tubevaseabstractIdent, tubevaseabstract.RelativeCuttedStackFloorHeight))
@@ -5116,6 +5117,8 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallField(stage *Stage, fieldN
 		res = __gong__marshallFloat(ident, "BulbousEndTangentMagnitude", tubevaseabstract.BulbousEndTangentMagnitude)
 	case "HasConstantThickness":
 		res = __gong__marshallBool(ident, "HasConstantThickness", tubevaseabstract.HasConstantThickness)
+	case "HasRingBottom":
+		res = __gong__marshallBool(ident, "HasRingBottom", tubevaseabstract.HasRingBottom)
 	case "RelativeVerticalThickness":
 		res = __gong__marshallFloat(ident, "RelativeVerticalThickness", tubevaseabstract.RelativeVerticalThickness)
 	case "RelativeRadialThickness":
@@ -7609,6 +7612,7 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "BulbousEndAngle"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "BulbousEndTangentMagnitude"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "HasConstantThickness"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "HasRingBottom"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))

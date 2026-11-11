@@ -214,13 +214,14 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 	if scaleY == 0 {
 		scaleY = 1.0
 	}
+	zStart := vase.Z_Ribbon * sideLength
 	if len(curvePoints) > 0 {
 		y0 := curvePoints[0].Y
 		for i := range curvePoints {
-			curvePoints[i].Y = vase.Z_Ribbon + scaleY*(curvePoints[i].Y-y0)
+			curvePoints[i].Y = zStart + scaleY*(curvePoints[i].Y-y0)
 		}
 		for i := range topCurvePoints {
-			topCurvePoints[i].Y = vase.Z_Ribbon + scaleY*(topCurvePoints[i].Y-y0)
+			topCurvePoints[i].Y = zStart + scaleY*(topCurvePoints[i].Y-y0)
 		}
 	}
 
@@ -251,9 +252,9 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		}
 	}
 
-	p1H := vase.Z_Ribbon + vase.TopPlaneHeight*scaleY
-	p2H := vase.Z_Ribbon + vase.BottomPlaneHeight*scaleY
-	p2HBase := vase.Z_Ribbon + vase.BaseRingBottomPlaneHeight*scaleY
+	p1H := zStart + vase.TopPlaneHeight*sideLength*scaleY
+	p2H := zStart + vase.BottomPlaneHeight*sideLength*scaleY
+	p2HBase := zStart + vase.BaseRingBottomPlaneHeight*sideLength*scaleY
 	projAngleRad := -vase.ProjectionAngle * math.Pi / 180.0
 	carvedParam := math.Max(0.0, math.Min(1.0, vase.CarvedOutTopRingsParameter))
 
@@ -402,13 +403,13 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		}
 
 		pBottomH := p2HBase
-		hPlancher := math.Max(0.0, math.Min(pBottomH-floorY, vase.BasePlateHeight))
-		startMag := vase.BulbousStartTangentMagnitude
+		hPlancher := math.Max(0.0, math.Min(pBottomH-floorY, vase.BasePlateHeight*sideLength))
+		startMag := vase.BulbousStartTangentMagnitude * sideLength
 		endAngleDeg := 30.0
 		if vase.BulbousEndAngle != 0.0 {
 			endAngleDeg = vase.BulbousEndAngle
 		}
-		endMag := vase.BulbousEndTangentMagnitude
+		endMag := vase.BulbousEndTangentMagnitude * sideLength
 
 		S := 24
 		if startMag == 0 && endMag == 0 {
@@ -593,6 +594,29 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 	}
 
 	// 2. Build Ring_1 .. Ring_{stackHeight-1}
+	ringHeight := p1H - p2H
+	basePlateHeight := vase.BasePlateHeight * sideLength
+	hasRingBottom := vase.HasRingBottom && basePlateHeight > 0 && ringHeight > 0
+	hRingBottom := 0.0
+	if hasRingBottom {
+		hRingBottom = math.Min(basePlateHeight, ringHeight)
+	}
+
+	interpolatePlancherCurve := func(cP2, cUncarvedP1 []vector3, u float64) []vector3 {
+		M := min(len(cP2), len(cUncarvedP1))
+		plancher := make([]vector3, 0, M)
+		for i := range M {
+			p2 := cP2[i]
+			p1 := cUncarvedP1[i]
+			plancher = append(plancher, vector3{
+				X: (1.0-u)*p2.X + u*p1.X,
+				Y: (1.0-u)*p2.Y + u*p1.Y,
+				Z: (1.0-u)*p2.Z + u*p1.Z,
+			})
+		}
+		return plancher
+	}
+
 	for h := 1; h < stackHeight; h++ {
 		dx := dxs[h]
 		dy := dys[h]
@@ -605,10 +629,23 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		ringTopP2 := projectCurve(curTop, p2H+dy, dy)
 		ringBottomP2 := projectCurve(curBottom, p2H+dy, dy)
 
-		ringCarvedTopP1 := computeCarvedOutCurve(ringTopP1, ringTopP2, carvedParam)
-		ringCarvedBottomP1 := computeCarvedOutCurve(ringBottomP1, ringBottomP2, carvedParam)
+		var ringTopPlancher, ringBottomPlancher []vector3
+		ringTopFloor, ringBottomFloor := ringTopP2, ringBottomP2
+		if hasRingBottom {
+			u := hRingBottom / ringHeight
+			ringTopPlancher = interpolatePlancherCurve(ringTopP2, ringTopP1, u)
+			ringBottomPlancher = interpolatePlancherCurve(ringBottomP2, ringBottomP1, u)
+			ringTopFloor = ringTopPlancher
+			ringBottomFloor = ringBottomPlancher
+		}
+
+		ringCarvedTopP1 := computeCarvedOutCurve(ringTopP1, ringTopFloor, carvedParam)
+		ringCarvedBottomP1 := computeCarvedOutCurve(ringBottomP1, ringBottomFloor, carvedParam)
 
 		M := min(len(ringCarvedTopP1), len(ringCarvedBottomP1), len(ringTopP2), len(ringBottomP2))
+		if hasRingBottom {
+			M = min(M, len(ringTopPlancher), len(ringBottomPlancher))
+		}
 		if M < 3 {
 			continue
 		}
@@ -616,6 +653,10 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		ringCarvedBottomP1 = ringCarvedBottomP1[:M]
 		ringTopP2 = ringTopP2[:M]
 		ringBottomP2 = ringBottomP2[:M]
+		if hasRingBottom {
+			ringTopPlancher = ringTopPlancher[:M]
+			ringBottomPlancher = ringBottomPlancher[:M]
+		}
 
 		var sumRTop, sumRBottom float64
 		for i := range M {
@@ -627,11 +668,13 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		cInnerP1 := ringCarvedBottomP1
 		cOuterP2 := ringTopP2
 		cInnerP2 := ringBottomP2
+		cInnerPlancher := ringBottomPlancher
 		if sumRBottom > sumRTop {
 			cOuterP1 = ringCarvedBottomP1
 			cInnerP1 = ringCarvedTopP1
 			cOuterP2 = ringBottomP2
 			cInnerP2 = ringTopP2
+			cInnerPlancher = ringTopPlancher
 		}
 
 		ringMesh := &glbMeshData{
@@ -640,12 +683,52 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		}
 		// 1. Top carved rim face (normal +Y)
 		ringMesh.addQuadStrip(cOuterP1, cInnerP1)
-		// 2. Bottom annular face (normal -Y)
-		ringMesh.addQuadStrip(cInnerP2, cOuterP2)
-		// 3. Outer wall (normal +r)
+		// 2. Outer wall (normal +r)
 		ringMesh.addQuadStrip(cOuterP2, cOuterP1)
-		// 4. Inner wall (normal -r)
-		ringMesh.addQuadStrip(cInnerP1, cInnerP2)
+		if hasRingBottom {
+			// 3. Inner wall down to plancher (normal -r)
+			ringMesh.addQuadStrip(cInnerP1, cInnerPlancher)
+
+			var sumOuterX, sumOuterY, sumOuterZ float64
+			var sumInnerX, sumInnerY, sumInnerZ float64
+			idxCapInnerPlancher := make([]uint32, M)
+			idxCapOuterFloor := make([]uint32, M)
+			for i := range M {
+				sumInnerX += cInnerPlancher[i].X
+				sumInnerY += cInnerPlancher[i].Y
+				sumInnerZ += cInnerPlancher[i].Z
+				idxCapInnerPlancher[i] = uint32(len(ringMesh.positions))
+				ringMesh.positions = append(ringMesh.positions, cInnerPlancher[i])
+
+				sumOuterX += cOuterP2[i].X
+				sumOuterY += cOuterP2[i].Y
+				sumOuterZ += cOuterP2[i].Z
+				idxCapOuterFloor[i] = uint32(len(ringMesh.positions))
+				ringMesh.positions = append(ringMesh.positions, cOuterP2[i])
+			}
+			idxPlancherCenter := uint32(len(ringMesh.positions))
+			ringMesh.positions = append(ringMesh.positions, vector3{
+				X: sumInnerX / float64(M), Y: sumInnerY / float64(M), Z: sumInnerZ / float64(M),
+			})
+			idxFloorCenter := uint32(len(ringMesh.positions))
+			ringMesh.positions = append(ringMesh.positions, vector3{
+				X: sumOuterX / float64(M), Y: sumOuterY / float64(M), Z: sumOuterZ / float64(M),
+			})
+			for i := range M {
+				nextI := (i + 1) % M
+				ringMesh.indices = append(ringMesh.indices,
+					// 4. Interior plancher top disk (normal +Y)
+					[3]uint32{idxPlancherCenter, idxCapInnerPlancher[nextI], idxCapInnerPlancher[i]},
+					// 5. Exterior bottom floor disk (normal -Y)
+					[3]uint32{idxFloorCenter, idxCapOuterFloor[i], idxCapOuterFloor[nextI]},
+				)
+			}
+		} else {
+			// 3. Bottom annular face (normal -Y)
+			ringMesh.addQuadStrip(cInnerP2, cOuterP2)
+			// 4. Inner wall (normal -r)
+			ringMesh.addQuadStrip(cInnerP1, cInnerP2)
+		}
 
 		ringMesh.computeNormals()
 		meshes = append(meshes, ringMesh)
@@ -895,4 +978,3 @@ func packGLB(meshes []*glbMeshData, transparency float64) []byte {
 
 	return out
 }
-

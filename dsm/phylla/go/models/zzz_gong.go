@@ -25387,6 +25387,10 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "HasRingBottom",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "RelativeVerticalThickness",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -30837,6 +30841,10 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldValue(fieldName string, st
 	case "HasConstantThickness":
 		res.valueString = fmt.Sprintf("%t", tubevaseabstract.HasConstantThickness)
 		res.valueBool = tubevaseabstract.HasConstantThickness
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "HasRingBottom":
+		res.valueString = fmt.Sprintf("%t", tubevaseabstract.HasRingBottom)
+		res.valueBool = tubevaseabstract.HasRingBottom
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "RelativeVerticalThickness":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeVerticalThickness)

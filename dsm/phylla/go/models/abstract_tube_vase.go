@@ -3,26 +3,26 @@ package models
 type TubeVaseAbstract struct {
 	Name string
 
-	// Z_Ribbon is the Z coordinate for the start of the 3D Ribbon (for Vase Trapeze).
+	// Z_Ribbon x RhombusSideLength is the Z coordinate for the start of the 3D Ribbon (for Vase Trapeze).
 	// The tiled floor will be on Z=0.
 	Z_Ribbon float64
 
 	// RibbonVerticalScale is the vertical scale applied to the 3D ribbon with origin at Z_Ribbon (for Vase Trapeze).
 	RibbonVerticalScale float64
 
-	// TopPlaneHeight is the height of the first projection plane relative to Z_Ribbon (for Vase Trapeze).
+	// TopPlaneHeight x RhombusSideLength is the height of the first projection plane relative to Z_Ribbon (for Vase Trapeze).
 	TopPlaneHeight float64
 
-	// BottomPlaneHeight is the height of the second projection plane relative to Z_Ribbon (for Vase Trapeze).
+	// BottomPlaneHeight x RhombusSideLength is the height of the second projection plane relative to Z_Ribbon (for Vase Trapeze).
 	BottomPlaneHeight float64
 
-	// BaseRingBottomPlaneHeight is the height of the bottom projection plane for the base ring (h == 0) relative to Z_Ribbon (for Vase Trapeze).
+	// BaseRingBottomPlaneHeight x RhombusSideLength is the height of the bottom projection plane for the base ring (h == 0) relative to Z_Ribbon (for Vase Trapeze).
 	BaseRingBottomPlaneHeight float64
 
 	// ProjectionAngle is the constant projection angle in degrees (for Vase Trapeze).
 	ProjectionAngle float64
 
-	// BasePlateHeight is the height of the plancher (base plate) for the vase wall (for Vase Trapeze).
+	// BasePlateHeight x RhombusSideLength is the height of the plancher (base plate) for the vase wall (for Vase Trapeze).
 	BasePlateHeight float64
 
 	// CarvedOutTopRingsParameter is the depth ratio [0.0, 1.0] for the carved out top curves (for Vase Trapeze).
@@ -30,20 +30,24 @@ type TubeVaseAbstract struct {
 	// If 1.0, the carved out top curve reaches the bottom curve at the minimum radius.
 	CarvedOutTopRingsParameter float64
 
-	// BulbousStartTangentMagnitude is the magnitude of the tangent vector to the bulbous base curve at the start (extending from the ring).
+	// BulbousStartTangentMagnitude x RhombusSideLength is the magnitude of the tangent vector to the bulbous base curve at the start (extending from the ring).
 	BulbousStartTangentMagnitude float64
 
 	// BulbousEndAngle is the angle in degrees relative to the vertical of the tangent vector at the bottom of the bulbous base curve.
 	// Default value: 30 degrees.
 	BulbousEndAngle float64
 
-	// BulbousEndTangentMagnitude is the magnitude of the tangent vector to the bulbous base curve at the end (at the floor).
+	// BulbousEndTangentMagnitude x RhombusSideLength is the magnitude of the tangent vector to the bulbous base curve at the end (at the floor).
 	BulbousEndTangentMagnitude float64
 
 	// HasConstantThickness when true adjusts the 3D ribbon curves (for Vase Trapeze) so that
 	// the projected 3D rings have constant 3D wall thickness and surface-to-surface rotated contact.
 	// When false, the original variable thickness from the 2D growth curves is used.
 	HasConstantThickness bool
+
+	// HasRingBottom when true adds a closed bottom (plancher) to Vase Trapeze rings,
+	// with the same thickness as the bottom of the vase (BasePlateHeight).
+	HasRingBottom bool
 
 	// RelativeVerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next
 	// the vertical thickness is RelativeVerticalThickness x RhombusSideLength

@@ -114,7 +114,7 @@ func TestInspectBasePlateAndRing(t *testing.T) {
 			maxBaseY = v.Y
 		}
 	}
-	expectedP1H := targetPlant.TubeVaseAbstract.Z_Ribbon + targetPlant.TubeVaseAbstract.TopPlaneHeight*targetPlant.TubeVaseAbstract.RibbonVerticalScale
+	expectedP1H := (targetPlant.TubeVaseAbstract.Z_Ribbon + targetPlant.TubeVaseAbstract.TopPlaneHeight*targetPlant.TubeVaseAbstract.RibbonVerticalScale) * targetPlant.RhombusSideLength
 	if math.Abs(minBaseY) > 1e-4 || math.Abs(maxBaseY-expectedP1H) > 1e-2 {
 		t.Errorf("expected BasePlateMesh Y range [0.00, %.2f] (including bottom ring), got [%.2f, %.2f]", expectedP1H, minBaseY, maxBaseY)
 	}
@@ -208,8 +208,8 @@ func TestVaseTrapezeConstant3DThickness(t *testing.T) {
 	tanAlpha := math.Tan(projAngleRad)
 	cosAlpha := math.Cos(projAngleRad)
 	globalR := updater.computeGlobalRadius(targetPlant)
-	p1H := vase.Z_Ribbon + vase.TopPlaneHeight*scaleY
-	p2H := vase.Z_Ribbon + vase.BottomPlaneHeight*scaleY
+	p1H := (vase.Z_Ribbon + vase.TopPlaneHeight*scaleY) * targetPlant.RhombusSideLength
+	p2H := (vase.Z_Ribbon + vase.BottomPlaneHeight*scaleY) * targetPlant.RhombusSideLength
 	yRef := 0.5 * (p1H + p2H)
 
 	minY, maxY := math.MaxFloat64, -math.MaxFloat64
@@ -447,3 +447,193 @@ func TestVaseTrapezeUnoccupiedInteriorSurfaceProportion(t *testing.T) {
 	}
 }
 
+func TestVaseTrapezeRingBottom(t *testing.T) {
+	stagePath := filepath.Join("..", "..", "..", "cmd", "phylla", "data", "stage.go")
+	stage := models.NewStage("test_ring_bottom")
+	if err := stage.ParseAstFile(stagePath, true); err != nil {
+		t.Fatalf("failed to parse stage.go: %v", err)
+	}
+	stage.ComputeReverseMaps()
+	stage.ComputeInstancesNb()
+	stage.ComputeReferenceAndOrders()
+
+	var targetPlant *models.PlantAbstract
+	for plant := range stage.PlantAbstracts {
+		if plant.Name == "Vase Trapeze" {
+			plant.IsSelected = true
+			targetPlant = plant
+		} else {
+			plant.IsSelected = false
+		}
+	}
+	if targetPlant == nil {
+		t.Fatalf("Vase Trapeze not found")
+	}
+
+	stager := models.NewStagerForTest(stage)
+	stager.EnforceSemanticForTest()
+	stager.SetCurrentPlant(targetPlant)
+	for d := range stage.TubeVase3DDiagrams {
+		if d.Name == "Vase Trapeze-TubeVase3DDiagram" {
+			d.IsChecked = true
+			d.IsHiddenTiledFloor3DShape = true
+			d.IsHiddenVaseTrapezeRingShape = false
+			d.IsHiddenCarvedOutVaseTrapezeRingShape = false
+			d.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = false
+		}
+	}
+
+	targetPlant.TubeVaseAbstract.HasRingBottom = false
+	threejsStageNoBot := threejs.NewStage("threejs_no_bot")
+	stager.SetThreejsStage(threejsStageNoBot)
+	updater := NewThreeJSStageUpdater()
+	updater.UpdateThreeJSStage(stager)
+
+	var ringNoBotFaces int
+	for mesh := range threejsStageNoBot.Meshs {
+		if mesh.Name == "Vase Trapeze Vase Trapeze Ring Mesh" && mesh.BufferGeometry != nil {
+			ringNoBotFaces = len(mesh.BufferGeometry.Faces)
+		}
+	}
+	stlNoBot := models.GenerateVaseTrapezeOneRingSTL(targetPlant)
+	glbNoBot := models.GenerateVaseTrapezeGLB(targetPlant)
+
+	targetPlant.TubeVaseAbstract.HasRingBottom = true
+	threejsStageBot := threejs.NewStage("threejs_bot")
+	stager.SetThreejsStage(threejsStageBot)
+	updater.UpdateThreeJSStage(stager)
+
+	var ringBotMesh *threejs.Mesh
+	for mesh := range threejsStageBot.Meshs {
+		if mesh.Name == "Vase Trapeze Vase Trapeze Ring Mesh" {
+			ringBotMesh = mesh
+		}
+	}
+	if ringBotMesh == nil || ringBotMesh.BufferGeometry == nil {
+		t.Fatalf("expected Vase Trapeze Ring Mesh with HasRingBottom=true")
+	}
+	if len(ringBotMesh.BufferGeometry.Faces) != ringNoBotFaces {
+		t.Errorf("expected same face count (inner+outer walls + 2 disk fans vs 2 annular quad strips = 8M triangles), got %d vs %d",
+			len(ringBotMesh.BufferGeometry.Faces), ringNoBotFaces)
+	}
+
+	// Verify Plancher Center and Floor Center vertices exist at expected heights
+	vase := targetPlant.TubeVaseAbstract
+	scaleY := vase.RibbonVerticalScale
+	sideLength := targetPlant.RhombusSideLength
+	p2H := (vase.Z_Ribbon + vase.BottomPlaneHeight*scaleY) * sideLength
+	expectedPlancherY := p2H + vase.BasePlateHeight*sideLength
+
+	var foundPlancherCenter, foundFloorCenter bool
+	for _, v := range ringBotMesh.BufferGeometry.Vertices {
+		if v.Name == "Vase Trapeze Vase Trapeze Ring Plancher Center" {
+			foundPlancherCenter = true
+			if math.Abs(v.Y-expectedPlancherY) > 1e-3 {
+				t.Errorf("expected Plancher Center Y=%.2f, got %.2f", expectedPlancherY, v.Y)
+			}
+		}
+		if v.Name == "Vase Trapeze Vase Trapeze Ring Floor Center" {
+			foundFloorCenter = true
+			if math.Abs(v.Y-p2H) > 1e-3 {
+				t.Errorf("expected Floor Center Y=%.2f, got %.2f", p2H, v.Y)
+			}
+		}
+	}
+	if !foundPlancherCenter || !foundFloorCenter {
+		t.Errorf("expected Plancher Center (%v) and Floor Center (%v) vertices in ring mesh", foundPlancherCenter, foundFloorCenter)
+	}
+
+	stlBot := models.GenerateVaseTrapezeOneRingSTL(targetPlant)
+	glbBot := models.GenerateVaseTrapezeGLB(targetPlant)
+	if stlBot == stlNoBot {
+		t.Errorf("expected OneRing STL with HasRingBottom=true to differ from HasRingBottom=false")
+	}
+	if len(glbBot) <= len(glbNoBot) {
+		t.Errorf("expected GLB with HasRingBottom=true (%d bytes) to have dedicated cap vertices and be larger than HasRingBottom=false (%d bytes)",
+			len(glbBot), len(glbNoBot))
+	}
+}
+
+func TestVaseTrapezeSideLengthProportionalScaling(t *testing.T) {
+	stagePath := filepath.Join("..", "..", "..", "cmd", "phylla", "data", "stage.go")
+	stage := models.NewStage("test_proportional_scaling")
+	if err := stage.ParseAstFile(stagePath, true); err != nil {
+		t.Fatalf("failed to parse stage.go: %v", err)
+	}
+	stage.ComputeReverseMaps()
+	stage.ComputeInstancesNb()
+	stage.ComputeReferenceAndOrders()
+
+	var targetPlant *models.PlantAbstract
+	for plant := range stage.PlantAbstracts {
+		if plant.Name == "Vase Trapeze" {
+			plant.IsSelected = true
+			targetPlant = plant
+		} else {
+			plant.IsSelected = false
+		}
+	}
+	if targetPlant == nil {
+		t.Fatalf("Vase Trapeze not found")
+	}
+
+	for d := range stage.TubeVase3DDiagrams {
+		if d.Name == "Vase Trapeze-TubeVase3DDiagram" {
+			d.IsChecked = true
+			d.IsHiddenTiledFloor3DShape = true
+			d.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = false
+			d.IsHiddenVaseTrapezeBasePlateShape = false
+		}
+	}
+
+	measureBounds := func(sideLen float64) (minY, maxY, minR, maxR, prop float64) {
+		targetPlant.RhombusSideLength = sideLen
+		stager := models.NewStagerForTest(stage)
+		stager.EnforceSemanticForTest()
+		stager.SetCurrentPlant(targetPlant)
+		threejsStage := threejs.NewStage("threejs_scale")
+		stager.SetThreejsStage(threejsStage)
+		updater := NewThreeJSStageUpdater()
+		updater.UpdateThreeJSStage(stager)
+
+		minY, maxY = math.MaxFloat64, -math.MaxFloat64
+		minR, maxR = math.MaxFloat64, -math.MaxFloat64
+		for mesh := range threejsStage.Meshs {
+			if mesh.BufferGeometry == nil {
+				continue
+			}
+			for _, v := range mesh.BufferGeometry.Vertices {
+				if v.Y < minY {
+					minY = v.Y
+				}
+				if v.Y > maxY {
+					maxY = v.Y
+				}
+				r := math.Hypot(v.X, v.Z)
+				if r < minR {
+					minR = r
+				}
+				if r > maxR {
+					maxR = r
+				}
+			}
+		}
+		_, _, prop, _ = models.ComputeVaseTrapezeUnoccupiedInteriorSurfaceProportion(targetPlant)
+		return
+	}
+
+	_, maxY100, _, maxR100, prop100 := measureBounds(100.0)
+	_, maxY200, _, maxR200, prop200 := measureBounds(200.0)
+
+	if math.Abs(maxY200/maxY100-2.0) > 1e-4 {
+		t.Errorf("expected maxY to scale by 2.0 when SideLength doubles (100->200), got %.2f -> %.2f (ratio %.6f)",
+			maxY100, maxY200, maxY200/maxY100)
+	}
+	if math.Abs(maxR200/maxR100-2.0) > 1e-4 {
+		t.Errorf("expected maxR to scale by 2.0 when SideLength doubles (100->200), got %.2f -> %.2f (ratio %.6f)",
+			maxR100, maxR200, maxR200/maxR100)
+	}
+	if math.Abs(prop200-prop100) > 1e-6 {
+		t.Errorf("expected unoccupied interior surface proportion to be scale-invariant, got %.6f vs %.6f", prop100, prop200)
+	}
+}

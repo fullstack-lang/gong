@@ -688,6 +688,7 @@ func FillUpForm(
 		StageSetBasicFieldtoForm("BulbousEndAngle", inst.BulbousEndAngle, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("BulbousEndTangentMagnitude", inst.BulbousEndTangentMagnitude, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("HasConstantThickness", inst.HasConstantThickness, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("HasRingBottom", inst.HasRingBottom, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("RelativeVerticalThickness", inst.RelativeVerticalThickness, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("RelativeRadialThickness", inst.RelativeRadialThickness, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("RelativeCuttedStackFloorHeight", inst.RelativeCuttedStackFloorHeight, probe.formStage, formGroup)
