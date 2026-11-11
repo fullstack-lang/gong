@@ -47,50 +47,110 @@ func setFormAssocSelection[T models.PointerToGongstruct](
 }
 
 func TestNoteLinksToPortPartAndDataFlowAutoAddConcreteToCurrentDiagram(t *testing.T) {
-	stack := level1stack.NewLevel1StackDelta("test_note_dataflow", "data/stage.go", "", true, true, false)
+	stack := level1stack.NewLevel1StackDelta("test_note_dataflow", "", "", true, true, false)
 	stager := models.NewStager(
 		stack.R,
 		stack.Stage,
 		stack.Probe,
 	)
+	stage := stack.Stage
+	rootLib := stager.GetRootLibrary()
 
-	// Locate current checked diagram ("sdqsdqsd") and unchecked diagrams
-	var currentDiagram *models.DiagramStructure
-	var uncheckedDiagrams []*models.DiagramStructure
-	for _, d := range stack.Stage.GetInstancesSorted[*models.DiagramStructure]() {
-		if d.IsChecked {
-			currentDiagram = d
-		} else {
-			uncheckedDiagrams = append(uncheckedDiagrams, d)
-		}
-	}
-	if currentDiagram == nil {
-		t.Fatalf("expected a checked DiagramStructure in data/stage.go")
-	}
-	if len(currentDiagram.NotePortShapes) != 0 || len(currentDiagram.NotePartShapes) != 0 || len(currentDiagram.NoteDataFlowShapes) != 0 {
-		t.Fatalf("expected checked diagram %q to start with 0 Note link shapes, got port=%d part=%d df=%d",
-			currentDiagram.Name, len(currentDiagram.NotePortShapes), len(currentDiagram.NotePartShapes), len(currentDiagram.NoteDataFlowShapes))
-	}
+	sys := (&models.System{Name: "Sys"}).Stage(stage)
+	rootLib.RootSystemes = append(rootLib.RootSystemes, sys)
 
-	notes := stack.Stage.GetInstancesSorted[*models.Note]()
-	if len(notes) == 0 {
-		t.Fatalf("expected at least 1 Note in data/stage.go")
-	}
-	note := notes[0]
+	part1 := (&models.Part{Name: "P1"}).Stage(stage)
+	targetPart := (&models.Part{Name: "P2"}).Stage(stage)
+	sys.Parts = append(sys.Parts, part1, targetPart)
 
-	// Place NoteShape on currentDiagram so SVG renders Note and its links
+	port1 := (&models.Port{Name: "Port 1"}).Stage(stage)
+	targetPort := (&models.Port{Name: "Port 2"}).Stage(stage)
+	part1.Ports = append(part1.Ports, port1)
+	targetPart.Ports = append(targetPart.Ports, targetPort)
+
+	targetDataFlow := (&models.DataFlow{
+		Name:      "Flow 1",
+		Type:      models.DataFlow_Port2Port,
+		StartPort: port1,
+		EndPort:   targetPort,
+	}).Stage(stage)
+	rootLib.RootDataFlows = append(rootLib.RootDataFlows, targetDataFlow)
+	sys.DataFlows = append(sys.DataFlows, targetDataFlow)
+
+	// Pre-existing Note already linked to part1 and port1 before currentDiagram shapes are edited
+	note := (&models.Note{
+		Name:  "First Note",
+		Parts: []*models.Part{part1},
+		Ports: []*models.Port{port1},
+	}).Stage(stage)
+	rootLib.RootNotes = append(rootLib.RootNotes, note)
+
+	currentDiagram := (&models.DiagramStructure{
+		Name:        "ActiveDiagram",
+		IsChecked:   true,
+		IsEditable_: true,
+		Width:       1000,
+		Height:      800,
+	}).Stage(stage)
+	otherDiagram := (&models.DiagramStructure{
+		Name:        "UncheckedDiagram",
+		IsChecked:   false,
+		IsEditable_: true,
+		Width:       1000,
+		Height:      800,
+	}).Stage(stage)
+	sys.DiagramStructures = append(sys.DiagramStructures, currentDiagram, otherDiagram)
+
+	sysShape := (&models.SystemShape{
+		Name:      "Sys-ActiveDiagram",
+		System:    sys,
+		RectShape: models.RectShape{X: 50, Y: 50, Width: 800, Height: 600},
+	}).Stage(stage)
+	otherSysShape := (&models.SystemShape{
+		Name:      "Sys-UncheckedDiagram",
+		System:    sys,
+		RectShape: models.RectShape{X: 50, Y: 50, Width: 800, Height: 600},
+	}).Stage(stage)
+	currentDiagram.System_Shapes = append(currentDiagram.System_Shapes, sysShape)
+	otherDiagram.System_Shapes = append(otherDiagram.System_Shapes, otherSysShape)
+
+	p1Shape := (&models.PartShape{
+		Name:      "P1-ActiveDiagram",
+		Part:      part1,
+		RectShape: models.RectShape{X: 100, Y: 250, Width: 200, Height: 100},
+	}).Stage(stage)
+	p2Shape := (&models.PartShape{
+		Name:      "P2-ActiveDiagram",
+		Part:      targetPart,
+		RectShape: models.RectShape{X: 450, Y: 250, Width: 200, Height: 100},
+	}).Stage(stage)
+	currentDiagram.Part_Shapes = append(currentDiagram.Part_Shapes, p1Shape, p2Shape)
+
+	port1Shape := (&models.PortShape{
+		Name:      "Port 1-ActiveDiagram",
+		Port:      port1,
+		RectShape: models.RectShape{X: 280, Y: 280, Width: 40, Height: 40},
+	}).Stage(stage)
+	port2Shape := (&models.PortShape{
+		Name:      "Port 2-ActiveDiagram",
+		Port:      targetPort,
+		RectShape: models.RectShape{X: 430, Y: 280, Width: 40, Height: 40},
+	}).Stage(stage)
+	currentDiagram.Port_Shapes = append(currentDiagram.Port_Shapes, port1Shape, port2Shape)
+
+	dfShape := (&models.DataFlowShape{
+		Name:     "Flow 1",
+		DataFlow: targetDataFlow,
+	}).Stage(stage)
+	currentDiagram.DataFlow_Shapes = append(currentDiagram.DataFlow_Shapes, dfShape)
+
 	noteShape := (&models.NoteShape{
-		Name:   note.Name + " shape",
-		Note:   note,
-		RectShape: models.RectShape{
-			X:      120,
-			Y:      120,
-			Width:  250,
-			Height: 70,
-		},
-	}).Stage(stack.Stage)
+		Name:      "First Note shape",
+		Note:      note,
+		RectShape: models.RectShape{X: 120, Y: 100, Width: 250, Height: 70},
+	}).Stage(stage)
 	currentDiagram.Note_Shapes = append(currentDiagram.Note_Shapes, noteShape)
-	stack.Stage.Commit()
+	stage.Commit()
 
 	// 1. Saving an unrelated field on Note must NOT auto-add pre-existing Note.Parts / Note.Ports to currentDiagram
 	stack.Probe.FillUpFormFromGongstruct(note, "Note")
@@ -109,35 +169,12 @@ func TestNoteLinksToPortPartAndDataFlowAutoAddConcreteToCurrentDiagram(t *testin
 			len(currentDiagram.NotePortShapes), len(currentDiagram.NotePartShapes), len(currentDiagram.NoteDataFlowShapes))
 	}
 
-	// Find target Part ("P2"), Port ("Port 2" or any port on currentDiagram not yet in note.Ports), and DataFlow on currentDiagram
-	var targetPart *models.Part
-	for _, ps := range currentDiagram.Part_Shapes {
-		if ps.Part != nil && !slices.Contains(note.Parts, ps.Part) {
-			targetPart = ps.Part
-			break
-		}
-	}
-	var targetPort *models.Port
-	for _, ps := range currentDiagram.Port_Shapes {
-		if ps.Port != nil && !slices.Contains(note.Ports, ps.Port) {
-			targetPort = ps.Port
-			break
-		}
-	}
-	if len(currentDiagram.DataFlow_Shapes) == 0 || currentDiagram.DataFlow_Shapes[0].DataFlow == nil {
-		t.Fatalf("expected at least 1 DataFlowShape on currentDiagram")
-	}
-	targetDataFlow := currentDiagram.DataFlow_Shapes[0].DataFlow
-	if targetPart == nil || targetPort == nil {
-		t.Fatalf("expected unlinked Part and Port on currentDiagram, got part=%v port=%v", targetPart, targetPort)
-	}
-
 	// 2. Add links from Note to targetPart, targetPort, and targetDataFlow via Note's Probe Form (forward slices)
 	stack.Probe.FillUpFormFromGongstruct(note, "Note")
 	fg = formStage.GetInstancesSorted[*form.FormGroup]()[0]
-	setFormAssocSelection(t, stack.Stage, fg, "Parts", append(slices.Clone(note.Parts), targetPart))
-	setFormAssocSelection(t, stack.Stage, fg, "Ports", append(slices.Clone(note.Ports), targetPort))
-	setFormAssocSelection(t, stack.Stage, fg, "DataFlows", []*models.DataFlow{targetDataFlow})
+	setFormAssocSelection(t, stage, fg, "Parts", append(slices.Clone(note.Parts), targetPart))
+	setFormAssocSelection(t, stage, fg, "Ports", append(slices.Clone(note.Ports), targetPort))
+	setFormAssocSelection(t, stage, fg, "DataFlows", []*models.DataFlow{targetDataFlow})
 	formStage.Commit()
 	fg.OnSave.OnSave()
 
@@ -153,10 +190,8 @@ func TestNoteLinksToPortPartAndDataFlowAutoAddConcreteToCurrentDiagram(t *testin
 	if len(currentDiagram.NoteDataFlowShapes) != 1 || currentDiagram.NoteDataFlowShapes[0].DataFlow != targetDataFlow {
 		t.Fatalf("expected currentDiagram.NoteDataFlowShapes to auto-add targetDataFlow, got %+v", currentDiagram.NoteDataFlowShapes)
 	}
-	for _, ud := range uncheckedDiagrams {
-		if len(ud.NoteDataFlowShapes) != 0 {
-			t.Fatalf("expected unchecked diagram %q not to receive NoteDataFlowShapes, got %d", ud.Name, len(ud.NoteDataFlowShapes))
-		}
+	if len(otherDiagram.NoteDataFlowShapes) != 0 {
+		t.Fatalf("expected unchecked diagram not to receive NoteDataFlowShapes, got %d", len(otherDiagram.NoteDataFlowShapes))
 	}
 
 	// Verify SVG rendering of Note -> DataFlow via svg.RectLinkLink (including StrokeOpacity = 1.0!)
@@ -183,25 +218,19 @@ func TestNoteLinksToPortPartAndDataFlowAutoAddConcreteToCurrentDiagram(t *testin
 	}
 
 	// 3. Test Reverse Association in Probe Form (editing DataFlow -> Note:DataFlows)
-	rootLib := stager.GetRootLibrary()
-	note2 := (&models.Note{Name: "Second Note"}).Stage(stack.Stage)
+	note2 := (&models.Note{Name: "Second Note"}).Stage(stage)
 	rootLib.RootNotes = append(rootLib.RootNotes, note2)
 	note2Shape := (&models.NoteShape{
-		Name: "Second Note shape",
-		Note: note2,
-		RectShape: models.RectShape{
-			X:      300,
-			Y:      120,
-			Width:  250,
-			Height: 70,
-		},
-	}).Stage(stack.Stage)
+		Name:      "Second Note shape",
+		Note:      note2,
+		RectShape: models.RectShape{X: 400, Y: 100, Width: 250, Height: 70},
+	}).Stage(stage)
 	currentDiagram.Note_Shapes = append(currentDiagram.Note_Shapes, note2Shape)
-	stack.Stage.Commit()
+	stage.Commit()
 
 	stack.Probe.FillUpFormFromGongstruct(targetDataFlow, "DataFlow")
 	fgDF := formStage.GetInstancesSorted[*form.FormGroup]()[0]
-	setFormAssocSelection(t, stack.Stage, fgDF, "Note:DataFlows", []*models.Note{note, note2})
+	setFormAssocSelection(t, stage, fgDF, "Note:DataFlows", []*models.Note{note, note2})
 	formStage.Commit()
 	fgDF.OnSave.OnSave()
 
@@ -222,7 +251,7 @@ func TestNoteLinksToPortPartAndDataFlowAutoAddConcreteToCurrentDiagram(t *testin
 	ndfs.SetStrokeWidth(3.0)
 	ndfs.SetStrokeOpacity(0.75)
 	ndfs.SetStrokeDashArray("2,2")
-	stack.Stage.Commit()
+	stage.Commit()
 
 	rllOverridden := stager.GetSvgObject().Layers[0].RectLinkLinks[0]
 	if rllOverridden.Stroke != "#FF0000" || rllOverridden.StrokeWidth != 3.0 || rllOverridden.StrokeOpacity != 0.75 || rllOverridden.StrokeDashArray != "2,2" {
@@ -231,31 +260,31 @@ func TestNoteLinksToPortPartAndDataFlowAutoAddConcreteToCurrentDiagram(t *testin
 	}
 
 	ndfs.SetIsHidden(true)
-	stack.Stage.Commit()
+	stage.Commit()
 	if len(stager.GetSvgObject().Layers[0].RectLinkLinks) != 1 {
 		t.Fatalf("expected 1 visible RectLinkLink when first NoteDataFlowShape is hidden, got %d", len(stager.GetSvgObject().Layers[0].RectLinkLinks))
 	}
 	ndfs.SetIsHidden(false)
-	stack.Stage.Commit()
+	stage.Commit()
 
 	// 5. Removing link from Note2.DataFlows cleans up NoteDataFlowShape without leaving orphans
 	stack.Probe.FillUpFormFromGongstruct(note2, "Note")
 	fgNote2 := formStage.GetInstancesSorted[*form.FormGroup]()[0]
-	setFormAssocSelection(t, stack.Stage, fgNote2, "DataFlows", []*models.DataFlow{})
+	setFormAssocSelection(t, stage, fgNote2, "DataFlows", []*models.DataFlow{})
 	formStage.Commit()
 	fgNote2.OnSave.OnSave()
 
 	if len(currentDiagram.NoteDataFlowShapes) != 1 {
 		t.Fatalf("expected 1 NoteDataFlowShape left in currentDiagram after unlinking note2, got %d", len(currentDiagram.NoteDataFlowShapes))
 	}
-	if len(stack.Stage.GetInstancesSorted[*models.NoteDataFlowShape]()) != 1 {
-		t.Fatalf("expected 1 staged NoteDataFlowShape total (no orphans), got %d", len(stack.Stage.GetInstancesSorted[*models.NoteDataFlowShape]()))
+	if len(stage.GetInstancesSorted[*models.NoteDataFlowShape]()) != 1 {
+		t.Fatalf("expected 1 staged NoteDataFlowShape total (no orphans), got %d", len(stage.GetInstancesSorted[*models.NoteDataFlowShape]()))
 	}
 
 	// 6. Reverse association save on Port (Note:Ports) and Part (Note:Parts) also auto-adds concrete shapes
 	stack.Probe.FillUpFormFromGongstruct(targetPort, "Port")
 	fgPort := formStage.GetInstancesSorted[*form.FormGroup]()[0]
-	setFormAssocSelection(t, stack.Stage, fgPort, "Note:Ports", []*models.Note{note, note2})
+	setFormAssocSelection(t, stage, fgPort, "Note:Ports", []*models.Note{note, note2})
 	formStage.Commit()
 	fgPort.OnSave.OnSave()
 	if len(currentDiagram.NotePortShapes) != 2 {
@@ -264,7 +293,7 @@ func TestNoteLinksToPortPartAndDataFlowAutoAddConcreteToCurrentDiagram(t *testin
 
 	stack.Probe.FillUpFormFromGongstruct(targetPart, "Part")
 	fgPart := formStage.GetInstancesSorted[*form.FormGroup]()[0]
-	setFormAssocSelection(t, stack.Stage, fgPart, "Note:Parts", []*models.Note{note, note2})
+	setFormAssocSelection(t, stage, fgPart, "Note:Parts", []*models.Note{note, note2})
 	formStage.Commit()
 	fgPart.OnSave.OnSave()
 	if len(currentDiagram.NotePartShapes) != 2 {
@@ -276,10 +305,10 @@ func TestNoteLinksToPortPartAndDataFlowAutoAddConcreteToCurrentDiagram(t *testin
 		Name:     "orphan",
 		Note:     note,
 		DataFlow: targetDataFlow,
-	}).Stage(stack.Stage)
+	}).Stage(stage)
 	_ = orphanShape
-	stack.Stage.Commit()
-	if len(stack.Stage.GetInstancesSorted[*models.NoteDataFlowShape]()) != 1 {
-		t.Fatalf("expected orphan NoteDataFlowShape to be unstaged, got %d staged instances", len(stack.Stage.GetInstancesSorted[*models.NoteDataFlowShape]()))
+	stage.Commit()
+	if len(stage.GetInstancesSorted[*models.NoteDataFlowShape]()) != 1 {
+		t.Fatalf("expected orphan NoteDataFlowShape to be unstaged, got %d staged instances", len(stage.GetInstancesSorted[*models.NoteDataFlowShape]()))
 	}
 }

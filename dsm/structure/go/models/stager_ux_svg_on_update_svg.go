@@ -110,7 +110,9 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 				StartPort: startPort,
 				EndPort:   endPort,
 			})
-			dataFlow.StartPort.owningPart.owningSystem.DataFlows = append(dataFlow.StartPort.owningPart.owningSystem.DataFlows, dataFlow)
+			owningSystem := dataFlow.StartPort.owningPart.owningSystem
+			owningSystem.DataFlows = append(owningSystem.DataFlows, dataFlow)
+			dataFlow.SetOwningLibrary(stager.findSystemLibrary(owningSystem))
 			dataFlow.Name = dataFlow.StartPort.GetName() + " to " + dataFlow.EndPort.GetName()
 			dataFlow.Stage(stage)
 
@@ -138,7 +140,9 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			StartExternalPart: startPart,
 			EndPort:           endPort,
 		})
-		dataFlow.StartExternalPart.owningSystem.DataFlows = append(dataFlow.StartExternalPart.owningSystem.DataFlows, dataFlow)
+		owningSystem := dataFlow.StartExternalPart.owningSystem
+		owningSystem.DataFlows = append(owningSystem.DataFlows, dataFlow)
+		dataFlow.SetOwningLibrary(stager.findSystemLibrary(owningSystem))
 		dataFlow.Name = dataFlow.StartExternalPart.GetName() + " to " + dataFlow.EndPort.GetName()
 		dataFlow.Stage(stage)
 
@@ -161,11 +165,13 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		endPart := targetAbstractElement.(*Part)
 
 		dataFlow := (&DataFlow{
-			Type:            DataFlow_ExternalPart2Port,
+			Type:            DataFlow_Port2ExternalPart,
 			StartPort:       startPort,
 			EndExternalPart: endPart,
 		})
-		dataFlow.StartPort.owningPart.owningSystem.DataFlows = append(dataFlow.StartPort.owningPart.owningSystem.DataFlows, dataFlow)
+		owningSystem := dataFlow.StartPort.owningPart.owningSystem
+		owningSystem.DataFlows = append(owningSystem.DataFlows, dataFlow)
+		dataFlow.SetOwningLibrary(stager.findSystemLibrary(owningSystem))
 		dataFlow.Name = dataFlow.StartPort.GetName() + " to " + dataFlow.EndExternalPart.GetName()
 		dataFlow.Stage(stage)
 
