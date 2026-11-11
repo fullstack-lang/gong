@@ -15,6 +15,9 @@ type Note struct {
 
 	IsPortsNodeExpanded bool
 	Ports               []*Port
+
+	IsDataFlowsNodeExpanded bool
+	DataFlows               []*DataFlow
 }
 
 var _ AbstractType = (*Note)(nil)

@@ -134,6 +134,13 @@ func (inst *DataFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *G
 				res = _library.Name
 			}
 		}
+	case "Note":
+		switch reverseField.Fieldname {
+		case "DataFlows":
+			if _note, ok := stage.Note_DataFlows_reverseMap[inst]; ok {
+				res = _note.Name
+			}
+		}
 	case "System":
 		switch reverseField.Fieldname {
 		case "DataFlows":
@@ -264,6 +271,22 @@ func (inst *Note) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongR
 		case "NotesWhoseNodeIsExpanded":
 			if _library, ok := stage.Library_NotesWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _library.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *NoteDataFlowShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramStructure":
+		switch reverseField.Fieldname {
+		case "NoteDataFlowShapes":
+			if _diagramstructure, ok := stage.DiagramStructure_NoteDataFlowShapes_reverseMap[inst]; ok {
+				res = _diagramstructure.Name
 			}
 		}
 	}

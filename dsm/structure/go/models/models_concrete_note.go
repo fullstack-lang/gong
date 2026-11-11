@@ -98,3 +98,42 @@ func (s *NotePartShape) SetAbstractStartElement(abstractElement AbstractType) {
 }
 
 var _ AssociationConcreteType = (*NotePartShape)(nil)
+
+type noteDataFlowKey struct {
+	Note     *Note
+	DataFlow *DataFlow
+}
+
+type NoteDataFlowShape struct {
+	Name string
+
+	Note *Note
+
+	DataFlow *DataFlow
+
+	LinkShape
+}
+
+func (s *NoteDataFlowShape) GetAbstractEndElement() AbstractType {
+	if s.DataFlow == nil {
+		return nil
+	}
+	return s.DataFlow
+}
+
+func (s *NoteDataFlowShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.DataFlow = abstractElement.(*DataFlow)
+}
+
+func (s *NoteDataFlowShape) GetAbstractStartElement() AbstractType {
+	if s.Note == nil {
+		return nil
+	}
+	return s.Note
+}
+
+func (s *NoteDataFlowShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.Note = abstractElement.(*Note)
+}
+
+var _ AssociationConcreteType = (*NoteDataFlowShape)(nil)

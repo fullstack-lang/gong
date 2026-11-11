@@ -122,6 +122,9 @@ type DiagramStructure struct {
 
 	NotePartShapes         []*NotePartShape
 	map_Note_NotePartShape map[notePartKey]*NotePartShape
+
+	NoteDataFlowShapes         []*NoteDataFlowShape
+	map_Note_NoteDataFlowShape map[noteDataFlowKey]*NoteDataFlowShape
 }
 
 func (d *DiagramStructure) IsEditable() bool {

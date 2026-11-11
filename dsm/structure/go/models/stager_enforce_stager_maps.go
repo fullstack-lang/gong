@@ -62,6 +62,24 @@ func (stager *Stager) enforceStagerMaps() {
 			}
 			diagramStructure.map_Note_NotePartShape[key] = notePartShape
 		}
+
+		diagramStructure.map_Note_NoteDataFlowShape = make(map[noteDataFlowKey]*NoteDataFlowShape)
+		for _, noteDataFlowShape := range diagramStructure.NoteDataFlowShapes {
+			key := noteDataFlowKey{
+				Note:     noteDataFlowShape.Note,
+				DataFlow: noteDataFlowShape.DataFlow,
+			}
+			diagramStructure.map_Note_NoteDataFlowShape[key] = noteDataFlowShape
+		}
+	}
+
+	stager.map_Note_PrevParts = make(map[*Note][]*Part)
+	stager.map_Note_PrevPorts = make(map[*Note][]*Port)
+	stager.map_Note_PrevDataFlows = make(map[*Note][]*DataFlow)
+	for _, note := range stager.stage.GetInstancesSorted[*Note]() {
+		stager.map_Note_PrevParts[note] = slices.Clone(note.Parts)
+		stager.map_Note_PrevPorts[note] = slices.Clone(note.Ports)
+		stager.map_Note_PrevDataFlows[note] = slices.Clone(note.DataFlows)
 	}
 
 	stager.rm_Data_DataFlows = stager.stage.GetSliceOfPointersReverseMap[DataFlow, Data](GongGetAssociationName[DataFlow]().Datas[0].Name)

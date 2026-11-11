@@ -53,6 +53,11 @@ type Stager struct {
 	// reverse map to navigate
 	rm_Data_DataFlows map[*Data][]*DataFlow
 	rm_Resource_Parts map[*Resource][]*Part
+
+	// previous slices on Note to detect newly added links in probe callbacks
+	map_Note_PrevParts     map[*Note][]*Part
+	map_Note_PrevPorts     map[*Note][]*Port
+	map_Note_PrevDataFlows map[*Note][]*DataFlow
 }
 
 func NewStager(
@@ -112,4 +117,13 @@ func (stager *Stager) GetSvgObject() *svg.SVG {
 
 func (stager *Stager) GetShapeFormStage() *form.Stage {
 	return stager.shapeFormStage
+}
+
+func (stager *Stager) getCurrentDiagram() *DiagramStructure {
+	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramStructure]() {
+		if diagram.IsChecked {
+			return diagram
+		}
+	}
+	return nil
 }

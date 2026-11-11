@@ -79,10 +79,11 @@ func (stager *Stager) generateSvgObject(diagramStructure *DiagramStructure) *svg
 	stager.drawExternalPartShapes(diagramStructure, layer)
 
 	stager.drawControlFlowShapes(diagramStructure, layer)
-	stager.drawDataFlowShapes(diagramStructure, layer)
+	map_DataFlow_Link := stager.drawDataFlowShapes(diagramStructure, layer)
 	map_Note_Rect := stager.drawNoteShapes(diagramStructure, layer)
 	stager.drawNotePortShapes(diagramStructure, layer, map_Note_Rect)
 	stager.drawNotePartShapes(diagramStructure, layer, map_Note_Rect)
+	stager.drawNoteDataFlowShapes(diagramStructure, layer, map_Note_Rect, map_DataFlow_Link)
 
 	return svgObject
 }
@@ -484,6 +485,9 @@ func (stager *Stager) drawNotePartShapes(diagramStructure *DiagramStructure, lay
 
 		startRect := map_Note_Rect[startNote]
 		endRect := diagramStructure.map_Part_Rect[endPart]
+		if endRect == nil {
+			endRect = diagramStructure.map_ExternalPart_Rect[endPart]
+		}
 
 		if startRect == nil || endRect == nil {
 			continue
@@ -564,8 +568,9 @@ func rectBorderPointToward(rect *svg.Rect, targetX, targetY float64) (float64, f
 	return borderX, borderY
 }
 
-func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, layer *svg.Layer) {
+func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, layer *svg.Layer) map[*DataFlow]*svg.Link {
 	root := stager.GetRootLibrary()
+	map_DataFlow_Link := make(map[*DataFlow]*svg.Link)
 
 	for _, dataFlowShape := range diagramStructure.DataFlow_Shapes {
 		if dataFlowShape.GetIsHidden() {
@@ -627,6 +632,8 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 			link.HasEndArrow = false
 			link.HasStartArrow = true
 		}
+
+		map_DataFlow_Link[df] = link
 
 		var visibleDataShapes []*DataShape
 		for _, ds := range dataFlowShape.dataShapes {
@@ -816,6 +823,8 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 			layer.Rects = append(layer.Rects, dataRect)
 		}
 	}
+
+	return map_DataFlow_Link
 }
 
 func (stager *Stager) drawNoteShapes(diagramStructure *DiagramStructure, layer *svg.Layer) map[*Note]*svg.Rect {
@@ -876,5 +885,65 @@ func (stager *Stager) drawNotePortShapes(diagramStructure *DiagramStructure, lay
 		link.Stroke = "#9E9E9E"
 		link.StrokeWidth = 1.5
 		syncLinkPresentation(notePortShape, link)
+	}
+}
+
+func (stager *Stager) drawNoteDataFlowShapes(
+	diagramStructure *DiagramStructure,
+	layer *svg.Layer,
+	map_Note_Rect map[*Note]*svg.Rect,
+	map_DataFlow_Link map[*DataFlow]*svg.Link,
+) {
+	for _, noteDataFlowShape := range diagramStructure.NoteDataFlowShapes {
+		if noteDataFlowShape.GetIsHidden() {
+			continue
+		}
+
+		startNote := noteDataFlowShape.Note
+		endDataFlow := noteDataFlowShape.DataFlow
+
+		if startNote == nil || endDataFlow == nil {
+			continue
+		}
+
+		startRect := map_Note_Rect[startNote]
+		endLink := map_DataFlow_Link[endDataFlow]
+
+		if startRect == nil || endLink == nil {
+			continue
+		}
+
+		rectLinkLink := new(svg.RectLinkLink)
+		rectLinkLink.Name = startRect.Name + " to " + endLink.Name
+		rectLinkLink.Start = startRect
+		rectLinkLink.End = endLink
+		rectLinkLink.TargetAnchorPosition = 0.5
+
+		rectLinkLink.Stroke = "#9E9E9E"
+		rectLinkLink.StrokeWidth = 1.5
+		rectLinkLink.StrokeOpacity = 1.0
+		rectLinkLink.StrokeDashArray = "5,5"
+
+		if noteDataFlowShape.GetIsPresentationOverridden() {
+			if noteDataFlowShape.GetStroke() != "" {
+				rectLinkLink.Stroke = noteDataFlowShape.GetStroke()
+			}
+			if noteDataFlowShape.GetStrokeWidth() != 0 {
+				rectLinkLink.StrokeWidth = noteDataFlowShape.GetStrokeWidth()
+			}
+			if noteDataFlowShape.GetStrokeOpacity() != 0 {
+				rectLinkLink.StrokeOpacity = noteDataFlowShape.GetStrokeOpacity()
+			}
+			if noteDataFlowShape.GetStrokeDashArray() != "" {
+				rectLinkLink.StrokeDashArray = noteDataFlowShape.GetStrokeDashArray()
+			}
+		} else {
+			noteDataFlowShape.SetStroke(rectLinkLink.Stroke)
+			noteDataFlowShape.SetStrokeWidth(rectLinkLink.StrokeWidth)
+			noteDataFlowShape.SetStrokeOpacity(rectLinkLink.StrokeOpacity)
+			noteDataFlowShape.SetStrokeDashArray(rectLinkLink.StrokeDashArray)
+		}
+
+		layer.RectLinkLinks = append(layer.RectLinkLinks, rectLinkLink)
 	}
 }

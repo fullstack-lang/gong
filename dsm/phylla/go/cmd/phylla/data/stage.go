@@ -625,7 +625,7 @@ func _(stage *models.Stage) {
 	__models__PlantAbstract__00000005_.Name = `Vase Trapeze`
 	__models__PlantAbstract__00000005_.N = 1
 	__models__PlantAbstract__00000005_.M = 3
-	__models__PlantAbstract__00000005_.StackHeight = 5
+	__models__PlantAbstract__00000005_.StackHeight = 2
 	__models__PlantAbstract__00000005_.RhombusInsideAngle = 130.000000
 	__models__PlantAbstract__00000005_.RhombusSideLength = 100.000000
 	__models__PlantAbstract__00000005_.PlantType = models.VaseTrapeze
@@ -714,12 +714,12 @@ func _(stage *models.Stage) {
 	__models__Rendered3DShape__00000009_.TargetZ = 0.000000
 	__models__Rendered3DShape__00000009_.Fov = 50.000000
 	__models__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__models__Rendered3DShape__00000010_.ViewX = 791.904047
-	__models__Rendered3DShape__00000010_.ViewY = 3130.911082
-	__models__Rendered3DShape__00000010_.ViewZ = -339.526095
-	__models__Rendered3DShape__00000010_.TargetX = -26.534718
-	__models__Rendered3DShape__00000010_.TargetY = 1412.453538
-	__models__Rendered3DShape__00000010_.TargetZ = -6.785737
+	__models__Rendered3DShape__00000010_.ViewX = 751.565999
+	__models__Rendered3DShape__00000010_.ViewY = 1515.265034
+	__models__Rendered3DShape__00000010_.ViewZ = 730.235779
+	__models__Rendered3DShape__00000010_.TargetX = 36.059731
+	__models__Rendered3DShape__00000010_.TargetY = 1328.665151
+	__models__Rendered3DShape__00000010_.TargetZ = -6.932720
 	__models__Rendered3DShape__00000010_.Fov = 50.000000
 	__models__SampledPoints3DShape__00000000_.Name = `New Plant - Diagram-SampledPoints3DShape`
 	__models__SampledPoints3DShape__00000001_.Name = `New Plant - Diagram-SampledPoints3DShape`
@@ -863,7 +863,7 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000001_.Z_Ribbon = 757.000000
 	__models__TubeVaseAbstract__00000001_.RibbonVerticalScale = 6.330000
 	__models__TubeVaseAbstract__00000001_.TopPlaneHeight = 65.000000
-	__models__TubeVaseAbstract__00000001_.BottomPlaneHeight = 15.000000
+	__models__TubeVaseAbstract__00000001_.BottomPlaneHeight = 17.000000
 	__models__TubeVaseAbstract__00000001_.BaseRingBottomPlaneHeight = 25.000000
 	__models__TubeVaseAbstract__00000001_.ProjectionAngle = -14.900000
 	__models__TubeVaseAbstract__00000001_.BasePlateHeight = 26.000000
@@ -877,7 +877,7 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000001_.RelativeCuttedStackFloorHeight = 0.000000
 	__models__TubeVaseAbstract__00000001_.RelativeRotatedTorusSeparation = 0.000000
 	__models__TubeVaseAbstract__00000001_.RotationRatio = 1.000000
-	__models__TubeVaseAbstract__00000001_.RadialRepetitions = 3
+	__models__TubeVaseAbstract__00000001_.RadialRepetitions = 2
 	__models__TubeVaseAbstract__00000001_.Transparency = 0.000000
 	__models__TubeVaseAbstract__00000001_.ColorCombination = 6
 	__models__TubeVaseAbstract__00000001_.RelativeTrajectoryOffsetX = 0.000000

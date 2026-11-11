@@ -258,6 +258,15 @@ func FillUpForm(
 				return owner.DataFlowsWhoseNodeIsExpanded
 			})
 		AssociationReverseSliceToForm(
+			"Note",
+			"DataFlows",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Note) []*models.DataFlow {
+				return owner.DataFlows
+			})
+		AssociationReverseSliceToForm(
 			"System",
 			"DataFlows",
 			instanceWithInferedType,
@@ -435,6 +444,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("NotePortShapes", instanceWithInferedType, &instanceWithInferedType.NotePortShapes, formGroup, probe)
 		AssociationSliceToForm("NotePartShapes", instanceWithInferedType, &instanceWithInferedType.NotePartShapes, formGroup, probe)
+		AssociationSliceToForm("NoteDataFlowShapes", instanceWithInferedType, &instanceWithInferedType.NoteDataFlowShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -609,6 +619,9 @@ func FillUpForm(
 		BasicFieldtoForm("IsPortsNodeExpanded", instanceWithInferedType.IsPortsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Ports", instanceWithInferedType, &instanceWithInferedType.Ports, formGroup, probe)
+		BasicFieldtoForm("IsDataFlowsNodeExpanded", instanceWithInferedType.IsDataFlowsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("DataFlows", instanceWithInferedType, &instanceWithInferedType.DataFlows, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -640,6 +653,51 @@ func FillUpForm(
 			probe,
 			func(owner *models.Library) []*models.Note {
 				return owner.NotesWhoseNodeIsExpanded
+			})
+
+	case *models.NoteDataFlowShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Note", instanceWithInferedType.Note, formGroup, probe)
+		AssociationFieldToForm("DataFlow", instanceWithInferedType.DataFlow, formGroup, probe)
+		BasicFieldtoForm("StartRatio", instanceWithInferedType.StartRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndRatio", instanceWithInferedType.EndRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		EnumTypeStringToForm("StartOrientation", instanceWithInferedType.StartOrientation, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("EndOrientation", instanceWithInferedType.EndOrientation, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("CornerOffsetRatio", instanceWithInferedType.CornerOffsetRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsPresentationOverridden", instanceWithInferedType.IsPresentationOverridden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Stroke", instanceWithInferedType.Stroke, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeWidth", instanceWithInferedType.StrokeWidth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeOpacity", instanceWithInferedType.StrokeOpacity, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeDashArray", instanceWithInferedType.StrokeDashArray, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FontSize", instanceWithInferedType.FontSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FontColor", instanceWithInferedType.FontColor, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"DiagramStructure",
+			"NoteDataFlowShapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramStructure) []*models.NoteDataFlowShape {
+				return owner.NoteDataFlowShapes
 			})
 
 	case *models.NotePartShape:

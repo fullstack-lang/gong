@@ -143,6 +143,7 @@ func (diagramstructure *DiagramStructure) GongClean(stage *Stage) (modified bool
 	modified = stage.CleanSlice(&diagramstructure.NotesWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagramstructure.NotePortShapes) || modified
 	modified = stage.CleanSlice(&diagramstructure.NotePartShapes) || modified
+	modified = stage.CleanSlice(&diagramstructure.NoteDataFlowShapes) || modified
 	// insertion point per field
 	return
 }
@@ -188,7 +189,17 @@ func (note *Note) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&note.Parts) || modified
 	modified = stage.CleanSlice(&note.Ports) || modified
+	modified = stage.CleanSlice(&note.DataFlows) || modified
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by NoteDataFlowShape
+func (notedataflowshape *NoteDataFlowShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&notedataflowshape.Note) || modified
+	modified = stage.CleanPointer(&notedataflowshape.DataFlow) || modified
 	return
 }
 

@@ -366,6 +366,8 @@ func saveDataFlowFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "RootDataFlows", func(owner *models.Library) *[]*models.DataFlow { return &owner.RootDataFlows })
 		case "Library:DataFlowsWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DataFlowsWhoseNodeIsExpanded", func(owner *models.Library) *[]*models.DataFlow { return &owner.DataFlowsWhoseNodeIsExpanded })
+		case "Note:DataFlows":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DataFlows", func(owner *models.Note) *[]*models.DataFlow { return &owner.DataFlows })
 		case "System:DataFlows":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DataFlows", func(owner *models.System) *[]*models.DataFlow { return &owner.DataFlows })
 		}
@@ -636,6 +638,8 @@ func saveDiagramStructureFields(
 			FormDivSliceOfPointersToField(_instance, "NotePortShapes", &(_instance.NotePortShapes), formDiv, probe)
 		case "NotePartShapes":
 			FormDivSliceOfPointersToField(_instance, "NotePartShapes", &(_instance.NotePartShapes), formDiv, probe)
+		case "NoteDataFlowShapes":
+			FormDivSliceOfPointersToField(_instance, "NoteDataFlowShapes", &(_instance.NoteDataFlowShapes), formDiv, probe)
 		case "System:DiagramStructures":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DiagramStructures", func(owner *models.System) *[]*models.DiagramStructure { return &owner.DiagramStructures })
 		case "System:DiagramStructureWhoseNodeIsExpanded":
@@ -868,12 +872,77 @@ func saveNoteFields(
 			FormDivBasicFieldToField(&(_instance.IsPortsNodeExpanded), formDiv)
 		case "Ports":
 			FormDivSliceOfPointersToField(_instance, "Ports", &(_instance.Ports), formDiv, probe)
+		case "IsDataFlowsNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsDataFlowsNodeExpanded), formDiv)
+		case "DataFlows":
+			FormDivSliceOfPointersToField(_instance, "DataFlows", &(_instance.DataFlows), formDiv, probe)
 		case "DiagramStructure:NotesWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "NotesWhoseNodeIsExpanded", func(owner *models.DiagramStructure) *[]*models.Note { return &owner.NotesWhoseNodeIsExpanded })
 		case "Library:RootNotes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "RootNotes", func(owner *models.Library) *[]*models.Note { return &owner.RootNotes })
 		case "Library:NotesWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "NotesWhoseNodeIsExpanded", func(owner *models.Library) *[]*models.Note { return &owner.NotesWhoseNodeIsExpanded })
+		}
+	}
+}
+
+func __gong__New__NoteDataFlowShapeFormCallback(
+	_instance *models.NoteDataFlowShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (notedataflowshapeFormCallback *FormCallback[*models.NoteDataFlowShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveNoteDataFlowShapeFields,
+	)
+}
+
+type NoteDataFlowShapeFormCallback = FormCallback[*models.NoteDataFlowShape]
+
+func saveNoteDataFlowShapeFields(
+	_instance *models.NoteDataFlowShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Note":
+			FormDivSelectFieldToField(&(_instance.Note), probe.stageOfInterest, formDiv)
+		case "DataFlow":
+			FormDivSelectFieldToField(&(_instance.DataFlow), probe.stageOfInterest, formDiv)
+		case "StartRatio":
+			FormDivBasicFieldToField(&(_instance.StartRatio), formDiv)
+		case "EndRatio":
+			FormDivBasicFieldToField(&(_instance.EndRatio), formDiv)
+		case "StartOrientation":
+			FormDivEnumStringFieldToField(&(_instance.StartOrientation), formDiv)
+		case "EndOrientation":
+			FormDivEnumStringFieldToField(&(_instance.EndOrientation), formDiv)
+		case "CornerOffsetRatio":
+			FormDivBasicFieldToField(&(_instance.CornerOffsetRatio), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
+		case "DiagramStructure:NoteDataFlowShapes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "NoteDataFlowShapes", func(owner *models.DiagramStructure) *[]*models.NoteDataFlowShape { return &owner.NoteDataFlowShapes })
 		}
 	}
 }

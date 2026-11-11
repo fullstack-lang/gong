@@ -1,6 +1,8 @@
 package models
 
 import (
+	"slices"
+
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
@@ -185,14 +187,22 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		note := sourceAbstratctElement.(*Note)
 		part := targetAbstractElement.(*Part)
 
-		note.Parts = append(note.Parts, part)
-		addAssociationShapeToDiagram(stager, note, part, &diagramStructure.NotePartShapes)
+		if !slices.Contains(note.Parts, part) {
+			note.Parts = append(note.Parts, part)
+		}
+		if _, exists := diagramStructure.map_Note_NotePartShape[notePartKey{Note: note, Part: part}]; !exists {
+			addAssociationShapeToDiagram(stager, note, part, &diagramStructure.NotePartShapes)
+		}
 	case ASSOCIATION_TYPE_NOTE_PORT:
 		note := sourceAbstratctElement.(*Note)
 		port := targetAbstractElement.(*Port)
 
-		note.Ports = append(note.Ports, port)
-		addAssociationShapeToDiagram(stager, note, port, &diagramStructure.NotePortShapes)
+		if !slices.Contains(note.Ports, port) {
+			note.Ports = append(note.Ports, port)
+		}
+		if _, exists := diagramStructure.map_Note_NotePortShape[notePortKey{Note: note, Port: port}]; !exists {
+			addAssociationShapeToDiagram(stager, note, port, &diagramStructure.NotePortShapes)
+		}
 	}
 
 	// commit to encode the result, this will generate a new SVG generation

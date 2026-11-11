@@ -207,6 +207,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramStructure_NotePartShapes_reverseMap[_notepartshape] = diagramstructure
 		}
 	}
+	stage.DiagramStructure_NoteDataFlowShapes_reverseMap = make(map[*NoteDataFlowShape]*DiagramStructure)
+	for diagramstructure := range stage.DiagramStructures {
+		_ = diagramstructure
+		for _, _notedataflowshape := range diagramstructure.NoteDataFlowShapes {
+			stage.DiagramStructure_NoteDataFlowShapes_reverseMap[_notedataflowshape] = diagramstructure
+		}
+	}
 
 	// Compute reverse map for named struct LayerDefinition
 	// insertion point per field
@@ -326,6 +333,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = note
 		for _, _port := range note.Ports {
 			stage.Note_Ports_reverseMap[_port] = note
+		}
+	}
+	stage.Note_DataFlows_reverseMap = make(map[*DataFlow]*Note)
+	for note := range stage.Notes {
+		_ = note
+		for _, _dataflow := range note.DataFlows {
+			stage.Note_DataFlows_reverseMap[_dataflow] = note
 		}
 	}
 
@@ -483,6 +497,8 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.Notes)
 
+	res = __gong__appendInstances(res, stage.NoteDataFlowShapes)
+
 	res = __gong__appendInstances(res, stage.NotePartShapes)
 
 	res = __gong__appendInstances(res, stage.NotePortShapes)
@@ -592,6 +608,12 @@ func (library *Library) GongCopy() GongstructIF {
 func (note *Note) GongCopy() GongstructIF {
 	newInstance := new(Note)
 	note.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (notedataflowshape *NoteDataFlowShape) GongCopy() GongstructIF {
+	newInstance := new(NoteDataFlowShape)
+	notedataflowshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -722,6 +744,10 @@ func (library *Library) GongGetUUID(stage *Stage) string {
 
 func (note *Note) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, note)
+}
+
+func (notedataflowshape *NoteDataFlowShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, notedataflowshape)
 }
 
 func (notepartshape *NotePartShape) GongGetUUID(stage *Stage) string {
@@ -1112,6 +1138,23 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
+		stage.NoteDataFlowShapes,
+		stage.NoteDataFlowShape_stagedOrder,
+		stage.NoteDataFlowShapes_reference,
+		&stage.NoteDataFlowShapes_referenceOrder,
+		stage.NoteDataFlowShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
 		stage.NotePartShapes,
 		stage.NotePartShape_stagedOrder,
 		stage.NotePartShapes_reference,
@@ -1377,6 +1420,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.Notes, &stage.Notes_reference, &stage.Notes_referenceOrder, &stage.Notes_instance)
 
+	__gong__computeReferencePass1(stage, stage.NoteDataFlowShapes, &stage.NoteDataFlowShapes_reference, &stage.NoteDataFlowShapes_referenceOrder, &stage.NoteDataFlowShapes_instance)
+
 	__gong__computeReferencePass1(stage, stage.NotePartShapes, &stage.NotePartShapes_reference, &stage.NotePartShapes_referenceOrder, &stage.NotePartShapes_instance)
 
 	__gong__computeReferencePass1(stage, stage.NotePortShapes, &stage.NotePortShapes_reference, &stage.NotePortShapes_referenceOrder, &stage.NotePortShapes_instance)
@@ -1429,6 +1474,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass2(stage.Librarys, stage.Librarys_reference, stage)
 
 	__gong__computeReferencePass2(stage.Notes, stage.Notes_reference, stage)
+
+	__gong__computeReferencePass2(stage.NoteDataFlowShapes, stage.NoteDataFlowShapes_reference, stage)
 
 	__gong__computeReferencePass2(stage.NotePartShapes, stage.NotePartShapes_reference, stage)
 
@@ -1518,6 +1565,10 @@ func (library *Library) GongGetOrder(stage *Stage) uint {
 
 func (note *Note) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Note_stagedOrder, stage.Notes_referenceOrder, note, "Note")
+}
+
+func (notedataflowshape *NoteDataFlowShape) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.NoteDataFlowShape_stagedOrder, stage.NoteDataFlowShapes_referenceOrder, notedataflowshape, "NoteDataFlowShape")
 }
 
 func (notepartshape *NotePartShape) GongGetOrder(stage *Stage) uint {
@@ -1699,6 +1750,15 @@ func (note *Note) GongGetReferenceIdentifier(stage *Stage) string {
 	return note.GongGetIdentifier(stage)
 }
 
+func (notedataflowshape *NoteDataFlowShape) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(notedataflowshape, notedataflowshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (notedataflowshape *NoteDataFlowShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return notedataflowshape.GongGetIdentifier(stage)
+}
+
 func (notepartshape *NotePartShape) GongGetIdentifier(stage *Stage) string {
 	return __gong__formatIdentifier(notepartshape, notepartshape.GongGetOrder(stage))
 }
@@ -1866,6 +1926,10 @@ func (note *Note) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(note.GongGetIdentifier(stage), "Note", note.Name)
 }
 
+func (notedataflowshape *NoteDataFlowShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(notedataflowshape.GongGetIdentifier(stage), "NoteDataFlowShape", notedataflowshape.Name)
+}
+
 func (notepartshape *NotePartShape) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(notepartshape.GongGetIdentifier(stage), "NotePartShape", notepartshape.Name)
 }
@@ -1969,6 +2033,10 @@ func (library *Library) GongMarshallUnstaging(stage *Stage) string {
 
 func (note *Note) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(note.GongGetReferenceIdentifier(stage))
+}
+
+func (notedataflowshape *NoteDataFlowShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(notedataflowshape.GongGetReferenceIdentifier(stage))
 }
 
 func (notepartshape *NotePartShape) GongMarshallUnstaging(stage *Stage) string {

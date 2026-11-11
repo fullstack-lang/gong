@@ -222,4 +222,85 @@ func (stager *Stager) treeNoteWithinDiagramStructure(
 		}
 		partsNode.Children = append(partsNode.Children, nodePart)
 	}
+
+	// data flows related to the note
+	dataFlowsNode := &tree.Node{
+		Name:            "Data Flows",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      note.IsDataFlowsNodeExpanded,
+		IsNodeClickable: true,
+	}
+	noteNode.Children = append(noteNode.Children, dataFlowsNode)
+	dataFlowsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&note.IsDataFlowsNodeExpanded)
+
+	for _, dataFlow := range note.DataFlows {
+		noteDataFlowKey := noteDataFlowKey{
+			Note:     note,
+			DataFlow: dataFlow,
+		}
+		noteDataFlowShape, ok := diagramStructure.map_Note_NoteDataFlowShape[noteDataFlowKey]
+		nodeDataFlow := &tree.Node{
+			Name:                    dataFlow.GetName(),
+			HasCheckboxButton:       true,
+			IsChecked:               ok,
+			IsInEditMode:            dataFlow.GetIsInRenameMode(),
+			CheckboxHasToolTip:      true,
+			CheckboxToolTipPosition: tree.Left,
+			CheckboxToolTipText: func() string {
+				if ok {
+					return "Click to remove the note data flow shape"
+				}
+				return "Click to create a note data flow shape for this data flow within this diagram"
+			}(),
+			IsNodeClickable: true,
+		}
+		addRenameButton(dataFlow, nodeDataFlow, stager)
+		nodeDataFlow.OnNameChange = stager.onNameChange(dataFlow)
+		nodeDataFlow.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(dataFlow, "DataFlow")
+			if ok && noteDataFlowShape != nil {
+				fillUpShapeAppearanceForm(stager, noteDataFlowShape)
+			} else {
+				clearShapeAppearanceForm(stager)
+			}
+			stager.stage.CommitWithSuspendedCallbacks()
+		}
+		nodeDataFlow.OnIsCheckedChanged = func(isChecked bool) {
+			if isChecked && !ok {
+				noteDataFlowShape := (&NoteDataFlowShape{
+					Name:      note.GetName() + " to " + dataFlow.GetName(),
+					DataFlow:  dataFlow,
+					Note:      note,
+					LinkShape: LinkShape{},
+				}).Stage(stager.stage)
+				diagramStructure.NoteDataFlowShapes = append(diagramStructure.NoteDataFlowShapes, noteDataFlowShape)
+				stage.Commit()
+				return
+			}
+			if !isChecked && ok {
+				noteDataFlowShape.UnstageVoid(stage)
+				stage.Commit()
+				return
+			}
+		}
+		if ok {
+			visibilityButton := &tree.Button{
+				Name:            diagramStructure.GetName(),
+				Icon:            string(buttons.BUTTON_visibility_off),
+				ToolTipText:     "Hide from diagram",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					noteDataFlowShape.SetIsHidden(!noteDataFlowShape.GetIsHidden())
+					stage.Commit()
+				},
+			}
+			if noteDataFlowShape.GetIsHidden() {
+				visibilityButton.Icon = string(buttons.BUTTON_visibility)
+				visibilityButton.ToolTipText = "Show on diagram"
+			}
+			nodeDataFlow.Buttons = append(nodeDataFlow.Buttons, visibilityButton)
+		}
+		dataFlowsNode.Children = append(dataFlowsNode.Children, nodeDataFlow)
+	}
 }

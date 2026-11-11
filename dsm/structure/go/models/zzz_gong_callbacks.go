@@ -391,6 +391,32 @@ func (note *Note) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
 	}
 }
 
+func (notedataflowshape *NoteDataFlowShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterNoteDataFlowShapeCreateCallback != nil {
+		stage.OnAfterNoteDataFlowShapeCreateCallback.OnAfterCreate(stage, notedataflowshape)
+	}
+}
+
+func (notedataflowshape *NoteDataFlowShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterNoteDataFlowShapeUpdateCallback != nil {
+		var frontNoteDataFlowShape *NoteDataFlowShape
+		if front != nil {
+			frontNoteDataFlowShape, _ = front.(*NoteDataFlowShape)
+		}
+		stage.OnAfterNoteDataFlowShapeUpdateCallback.OnAfterUpdate(stage, notedataflowshape, frontNoteDataFlowShape)
+	}
+}
+
+func (notedataflowshape *NoteDataFlowShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterNoteDataFlowShapeDeleteCallback != nil {
+		var frontNoteDataFlowShape *NoteDataFlowShape
+		if front != nil {
+			frontNoteDataFlowShape, _ = front.(*NoteDataFlowShape)
+		}
+		stage.OnAfterNoteDataFlowShapeDeleteCallback.OnAfterDelete(stage, notedataflowshape, frontNoteDataFlowShape)
+	}
+}
+
 func (notepartshape *NotePartShape) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterNotePartShapeCreateCallback != nil {
 		stage.OnAfterNotePartShapeCreateCallback.OnAfterCreate(stage, notepartshape)

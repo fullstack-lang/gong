@@ -467,6 +467,8 @@ type Note_WOP struct {
 	IsPartsNodeExpanded bool
 
 	IsPortsNodeExpanded bool
+
+	IsDataFlowsNodeExpanded bool
 }
 
 func (from *Note) GongCopyBasicFields(to *Note) {
@@ -477,6 +479,57 @@ func (from *Note) GongCopyBasicFields(to *Note) {
 	to.IsExpanded = from.IsExpanded
 	to.IsPartsNodeExpanded = from.IsPartsNodeExpanded
 	to.IsPortsNodeExpanded = from.IsPortsNodeExpanded
+	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
+}
+
+type NoteDataFlowShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	FontSize string
+
+	FontColor string
+}
+
+func (from *NoteDataFlowShape) GongCopyBasicFields(to *NoteDataFlowShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.FontSize = from.FontSize
+	to.FontColor = from.FontColor
 }
 
 type NotePartShape_WOP struct {

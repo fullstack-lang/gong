@@ -85,6 +85,11 @@ func (note *Note) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
+func (notedataflowshape *NoteDataFlowShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.NoteDataFlowShapes[notedataflowshape]
+	return ok
+}
+
 func (notepartshape *NotePartShape) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.NotePartShapes[notepartshape]
 	return ok
@@ -426,6 +431,9 @@ func (diagramstructure *DiagramStructure) GongStageBranch(stage *Stage) {
 	for _, _notepartshape := range diagramstructure.NotePartShapes {
 		stage.StageBranch(_notepartshape)
 	}
+	for _, _notedataflowshape := range diagramstructure.NoteDataFlowShapes {
+		stage.StageBranch(_notedataflowshape)
+	}
 
 }
 
@@ -537,6 +545,30 @@ func (note *Note) GongStageBranch(stage *Stage) {
 	for _, _port := range note.Ports {
 		stage.StageBranch(_port)
 	}
+	for _, _dataflow := range note.DataFlows {
+		stage.StageBranch(_dataflow)
+	}
+
+}
+
+func (notedataflowshape *NoteDataFlowShape) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(notedataflowshape) {
+		return
+	}
+
+	notedataflowshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notedataflowshape.Note != nil {
+		stage.StageBranch(notedataflowshape.Note)
+	}
+	if notedataflowshape.DataFlow != nil {
+		stage.StageBranch(notedataflowshape.DataFlow)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -860,6 +892,10 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Note:
 		toT := GongCopyBranchNote(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *NoteDataFlowShape:
+		toT := GongCopyBranchNoteDataFlowShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NotePartShape:
@@ -1189,6 +1225,9 @@ func GongCopyBranchDiagramStructure(mapOrigCopy map[any]any, diagramstructureFro
 	for _, _notepartshape := range diagramstructureFrom.NotePartShapes {
 		diagramstructureTo.NotePartShapes = append(diagramstructureTo.NotePartShapes, GongCopyBranchNotePartShape(mapOrigCopy, _notepartshape))
 	}
+	for _, _notedataflowshape := range diagramstructureFrom.NoteDataFlowShapes {
+		diagramstructureTo.NoteDataFlowShapes = append(diagramstructureTo.NoteDataFlowShapes, GongCopyBranchNoteDataFlowShape(mapOrigCopy, _notedataflowshape))
+	}
 
 	return
 }
@@ -1300,6 +1339,30 @@ func GongCopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) 
 	for _, _port := range noteFrom.Ports {
 		noteTo.Ports = append(noteTo.Ports, GongCopyBranchPort(mapOrigCopy, _port))
 	}
+	for _, _dataflow := range noteFrom.DataFlows {
+		noteTo.DataFlows = append(noteTo.DataFlows, GongCopyBranchDataFlow(mapOrigCopy, _dataflow))
+	}
+
+	return
+}
+
+func GongCopyBranchNoteDataFlowShape(mapOrigCopy map[any]any, notedataflowshapeFrom *NoteDataFlowShape) (notedataflowshapeTo *NoteDataFlowShape) {
+	var alreadyCopied bool
+	notedataflowshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, notedataflowshapeFrom)
+	if alreadyCopied {
+		return
+	}
+	notedataflowshapeFrom.GongCopyBasicFields(notedataflowshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notedataflowshapeFrom.Note != nil {
+		notedataflowshapeTo.Note = GongCopyBranchNote(mapOrigCopy, notedataflowshapeFrom.Note)
+	}
+	if notedataflowshapeFrom.DataFlow != nil {
+		notedataflowshapeTo.DataFlow = GongCopyBranchDataFlow(mapOrigCopy, notedataflowshapeFrom.DataFlow)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -1844,6 +1907,9 @@ func (diagramstructure *DiagramStructure) GongUnstageBranch(stage *Stage) {
 	for _, _notepartshape := range diagramstructure.NotePartShapes {
 		stage.UnstageBranch(_notepartshape)
 	}
+	for _, _notedataflowshape := range diagramstructure.NoteDataFlowShapes {
+		stage.UnstageBranch(_notedataflowshape)
+	}
 
 }
 
@@ -1955,6 +2021,30 @@ func (note *Note) GongUnstageBranch(stage *Stage) {
 	for _, _port := range note.Ports {
 		stage.UnstageBranch(_port)
 	}
+	for _, _dataflow := range note.DataFlows {
+		stage.UnstageBranch(_dataflow)
+	}
+
+}
+
+func (notedataflowshape *NoteDataFlowShape) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(notedataflowshape) {
+		return
+	}
+
+	notedataflowshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notedataflowshape.Note != nil {
+		stage.UnstageBranch(notedataflowshape.Note)
+	}
+	if notedataflowshape.DataFlow != nil {
+		stage.UnstageBranch(notedataflowshape.DataFlow)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -2304,6 +2394,7 @@ func (reference *DiagramStructure) GongReconstructPointersFromReferences(stage *
 	__gong__reconstructSliceOfPointersFromReferences(&reference.NotesWhoseNodeIsExpanded, stage.Notes_reference, instance.NotesWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.NotePortShapes, stage.NotePortShapes_reference, instance.NotePortShapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.NotePartShapes, stage.NotePartShapes_reference, instance.NotePartShapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.NoteDataFlowShapes, stage.NoteDataFlowShapes_reference, instance.NoteDataFlowShapes)
 }
 
 func (reference *ExternalPartShape) GongReconstructPointersFromReferences(stage *Stage, instance *ExternalPartShape) {
@@ -2341,6 +2432,14 @@ func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, insta
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Parts, stage.Parts_reference, instance.Parts)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Ports, stage.Ports_reference, instance.Ports)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DataFlows, stage.DataFlows_reference, instance.DataFlows)
+}
+
+func (reference *NoteDataFlowShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteDataFlowShape) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.Note, stage.Notes_reference, instance.Note)
+	__gong__reconstructPointer(&reference.DataFlow, stage.DataFlows_reference, instance.DataFlow)
+	// insertion point for slice of pointers field
 }
 
 func (reference *NotePartShape) GongReconstructPointersFromReferences(stage *Stage, instance *NotePartShape) {
@@ -2519,6 +2618,7 @@ func (reference *DiagramStructure) GongReconstructPointersFromInstances(stage *S
 	__gong__reconstructSliceOfPointersFromInstances(&reference.NotesWhoseNodeIsExpanded, stage.Notes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.NotePortShapes, stage.NotePortShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.NotePartShapes, stage.NotePartShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.NoteDataFlowShapes, stage.NoteDataFlowShapes_instance)
 }
 
 func (reference *ExternalPartShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2556,6 +2656,14 @@ func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Parts, stage.Parts_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Ports, stage.Ports_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DataFlows, stage.DataFlows_instance)
+}
+
+func (reference *NoteDataFlowShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.Note, stage.Notes_instance)
+	__gong__reconstructPointerFromInstance(&reference.DataFlow, stage.DataFlows_instance)
+	// insertion point for slice of pointers fields
 }
 
 func (reference *NotePartShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3092,6 +3200,9 @@ func (diagramstructure *DiagramStructure) GongDiff(stage *Stage, diagramstructur
 	if ops := __gong__diffSliceOfPointers(stage, diagramstructure, "NotePartShapes", diagramstructureOther.NotePartShapes, diagramstructure.NotePartShapes); ops != "" {
 		diffs = append(diffs, ops)
 	}
+	if ops := __gong__diffSliceOfPointers(stage, diagramstructure, "NoteDataFlowShapes", diagramstructureOther.NoteDataFlowShapes, diagramstructure.NoteDataFlowShapes); ops != "" {
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -3294,6 +3405,68 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	}
 	if ops := __gong__diffSliceOfPointers(stage, note, "Ports", noteOther.Ports, note.Ports); ops != "" {
 		diffs = append(diffs, ops)
+	}
+	if note.IsDataFlowsNodeExpanded != noteOther.IsDataFlowsNodeExpanded {
+		diffs = append(diffs, note.GongMarshallField(stage, "IsDataFlowsNodeExpanded"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, note, "DataFlows", noteOther.DataFlows, note.DataFlows); ops != "" {
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (notedataflowshape *NoteDataFlowShape) GongDiff(stage *Stage, notedataflowshapeOther *NoteDataFlowShape) (diffs []string) {
+	// insertion point for field diffs
+	if notedataflowshape.Name != notedataflowshapeOther.Name {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "Name"))
+	}
+	if notedataflowshape.Note != notedataflowshapeOther.Note {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "Note"))
+	}
+	if notedataflowshape.DataFlow != notedataflowshapeOther.DataFlow {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "DataFlow"))
+	}
+	if notedataflowshape.StartRatio != notedataflowshapeOther.StartRatio {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "StartRatio"))
+	}
+	if notedataflowshape.EndRatio != notedataflowshapeOther.EndRatio {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "EndRatio"))
+	}
+	if notedataflowshape.StartOrientation != notedataflowshapeOther.StartOrientation {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "StartOrientation"))
+	}
+	if notedataflowshape.EndOrientation != notedataflowshapeOther.EndOrientation {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "EndOrientation"))
+	}
+	if notedataflowshape.CornerOffsetRatio != notedataflowshapeOther.CornerOffsetRatio {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if notedataflowshape.IsHidden != notedataflowshapeOther.IsHidden {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if notedataflowshape.IsPresentationOverridden != notedataflowshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if notedataflowshape.Stroke != notedataflowshapeOther.Stroke {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "Stroke"))
+	}
+	if notedataflowshape.StrokeWidth != notedataflowshapeOther.StrokeWidth {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if notedataflowshape.StrokeOpacity != notedataflowshapeOther.StrokeOpacity {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if notedataflowshape.StrokeDashArray != notedataflowshapeOther.StrokeDashArray {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if notedataflowshape.FontSize != notedataflowshapeOther.FontSize {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "FontSize"))
+	}
+	if notedataflowshape.FontColor != notedataflowshapeOther.FontColor {
+		diffs = append(diffs, notedataflowshape.GongMarshallField(stage, "FontColor"))
 	}
 
 	return

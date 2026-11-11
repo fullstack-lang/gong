@@ -1028,6 +1028,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.NotePartShapes = append(%s.NotePartShapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
 			}
+			for _, elem := range diagramstructure.NoteDataFlowShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.NoteDataFlowShapes = append(%s.NoteDataFlowShapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -1290,6 +1300,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", noteIdent, note.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsPartsNodeExpanded = %t", noteIdent, note.IsPartsNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsPortsNodeExpanded = %t", noteIdent, note.IsPortsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDataFlowsNodeExpanded = %t", noteIdent, note.IsDataFlowsNodeExpanded))
 			for _, elem := range note.Parts {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1309,6 +1320,76 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Ports = append(%s.Ports, %s)", noteIdent, noteIdent, targetIdent))
+			}
+			for _, elem := range note.DataFlows {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlows = append(%s.DataFlows, %s)", noteIdent, noteIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, notedataflowshape := range __gong__sortStageSetInstances(stage.NoteDataFlowShapes, stage.NoteDataFlowShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			notedataflowshapeIdent := notedataflowshape.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.NoteDataFlowShape{Name: %s}).Stage(stage)", notedataflowshapeIdent, __gong__toRawStringLiteral(notedataflowshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", notedataflowshapeIdent, __gong__toRawStringLiteral(notedataflowshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", notedataflowshapeIdent, notedataflowshape.StartRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", notedataflowshapeIdent, notedataflowshape.EndRatio))
+			if notedataflowshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = models.%s", notedataflowshapeIdent, notedataflowshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", notedataflowshapeIdent))
+			}
+			if notedataflowshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = models.%s", notedataflowshapeIdent, notedataflowshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", notedataflowshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", notedataflowshapeIdent, notedataflowshape.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", notedataflowshapeIdent, notedataflowshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", notedataflowshapeIdent, notedataflowshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", notedataflowshapeIdent, __gong__toRawStringLiteral(notedataflowshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", notedataflowshapeIdent, notedataflowshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", notedataflowshapeIdent, notedataflowshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", notedataflowshapeIdent, __gong__toRawStringLiteral(notedataflowshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", notedataflowshapeIdent, __gong__toRawStringLiteral(notedataflowshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", notedataflowshapeIdent, __gong__toRawStringLiteral(notedataflowshape.FontColor)))
+			if notedataflowshape.Note != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := notedataflowshape.Note.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", notedataflowshapeIdent, targetIdent))
+			}
+			if notedataflowshape.DataFlow != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := notedataflowshape.DataFlow.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", notedataflowshapeIdent, targetIdent))
 			}
 		}
 	}
@@ -2529,6 +2610,12 @@ func (diagramstructure *DiagramStructure) GongMarshallField(stage *Stage, fieldN
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "NotePartShapes", _notepartshape.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
+	case "NoteDataFlowShapes":
+		var sb strings.Builder
+		for _, _notedataflowshape := range diagramstructure.NoteDataFlowShapes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "NoteDataFlowShapes", _notedataflowshape.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DiagramStructure", fieldName)
 	}
@@ -2742,6 +2829,8 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = __gong__marshallBool(ident, "IsPartsNodeExpanded", note.IsPartsNodeExpanded)
 	case "IsPortsNodeExpanded":
 		res = __gong__marshallBool(ident, "IsPortsNodeExpanded", note.IsPortsNodeExpanded)
+	case "IsDataFlowsNodeExpanded":
+		res = __gong__marshallBool(ident, "IsDataFlowsNodeExpanded", note.IsDataFlowsNodeExpanded)
 
 	case "Parts":
 		var sb strings.Builder
@@ -2755,8 +2844,65 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Ports", _port.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
+	case "DataFlows":
+		var sb strings.Builder
+		for _, _dataflow := range note.DataFlows {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "DataFlows", _dataflow.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Note", fieldName)
+	}
+	return
+}
+
+func (notedataflowshape *NoteDataFlowShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := notedataflowshape.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", notedataflowshape.Name)
+	case "StartRatio":
+		res = __gong__marshallFloat(ident, "StartRatio", notedataflowshape.StartRatio)
+	case "EndRatio":
+		res = __gong__marshallFloat(ident, "EndRatio", notedataflowshape.EndRatio)
+	case "StartOrientation":
+		res = __gong__marshallEnumString(ident, "StartOrientation", notedataflowshape.StartOrientation.ToCodeString())
+	case "EndOrientation":
+		res = __gong__marshallEnumString(ident, "EndOrientation", notedataflowshape.EndOrientation.ToCodeString())
+	case "CornerOffsetRatio":
+		res = __gong__marshallFloat(ident, "CornerOffsetRatio", notedataflowshape.CornerOffsetRatio)
+	case "IsHidden":
+		res = __gong__marshallBool(ident, "IsHidden", notedataflowshape.IsHidden)
+	case "IsPresentationOverridden":
+		res = __gong__marshallBool(ident, "IsPresentationOverridden", notedataflowshape.IsPresentationOverridden)
+	case "Stroke":
+		res = __gong__marshallString(ident, "Stroke", notedataflowshape.Stroke)
+	case "StrokeWidth":
+		res = __gong__marshallFloat(ident, "StrokeWidth", notedataflowshape.StrokeWidth)
+	case "StrokeOpacity":
+		res = __gong__marshallFloat(ident, "StrokeOpacity", notedataflowshape.StrokeOpacity)
+	case "StrokeDashArray":
+		res = __gong__marshallString(ident, "StrokeDashArray", notedataflowshape.StrokeDashArray)
+	case "FontSize":
+		res = __gong__marshallString(ident, "FontSize", notedataflowshape.FontSize)
+	case "FontColor":
+		res = __gong__marshallString(ident, "FontColor", notedataflowshape.FontColor)
+
+	case "Note":
+		if notedataflowshape.Note != nil {
+			res = __gong__marshallPointer(ident, "Note", notedataflowshape.Note.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "Note", "nil")
+		}
+	case "DataFlow":
+		if notedataflowshape.DataFlow != nil {
+			res = __gong__marshallPointer(ident, "DataFlow", notedataflowshape.DataFlow.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "DataFlow", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct NoteDataFlowShape", fieldName)
 	}
 	return
 }
@@ -3547,6 +3693,7 @@ func (diagramstructure *DiagramStructure) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsNotesNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "NotePortShapes"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "NotePartShapes"))
+		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "NoteDataFlowShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3644,6 +3791,34 @@ func (note *Note) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Parts"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsPortsNodeExpanded"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Ports"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsDataFlowsNodeExpanded"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "DataFlows"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (notedataflowshape *NoteDataFlowShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(notedataflowshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(notedataflowshape.GongMarshallField(stage, "Note"))
+		pointersInitializesStatements.WriteString(notedataflowshape.GongMarshallField(stage, "DataFlow"))
+		initializerStatements.WriteString(notedataflowshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(notedataflowshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(notedataflowshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(notedataflowshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(notedataflowshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(notedataflowshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(notedataflowshape.GongMarshallField(stage, "IsPresentationOverridden"))
+		initializerStatements.WriteString(notedataflowshape.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(notedataflowshape.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(notedataflowshape.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(notedataflowshape.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(notedataflowshape.GongMarshallField(stage, "FontSize"))
+		initializerStatements.WriteString(notedataflowshape.GongMarshallField(stage, "FontColor"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

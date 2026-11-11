@@ -305,6 +305,8 @@ type Stage struct {
 
 	DiagramStructure_NotePartShapes_reverseMap map[*NotePartShape]*DiagramStructure
 
+	DiagramStructure_NoteDataFlowShapes_reverseMap map[*NoteDataFlowShape]*DiagramStructure
+
 	OnAfterDiagramStructureCreateCallback GongOnAfterCreateInterface[DiagramStructure]
 	OnAfterDiagramStructureUpdateCallback GongOnAfterUpdateInterface[DiagramStructure]
 	OnAfterDiagramStructureDeleteCallback GongOnAfterDeleteInterface[DiagramStructure]
@@ -393,9 +395,25 @@ type Stage struct {
 
 	Note_Ports_reverseMap map[*Port]*Note
 
+	Note_DataFlows_reverseMap map[*DataFlow]*Note
+
 	OnAfterNoteCreateCallback GongOnAfterCreateInterface[Note]
 	OnAfterNoteUpdateCallback GongOnAfterUpdateInterface[Note]
 	OnAfterNoteDeleteCallback GongOnAfterDeleteInterface[Note]
+
+	NoteDataFlowShapes                map[*NoteDataFlowShape]struct{}
+	NoteDataFlowShapes_instance       map[*NoteDataFlowShape]*NoteDataFlowShape
+	NoteDataFlowShapes_mapString      map[string]*NoteDataFlowShape
+	NoteDataFlowShapeOrder            uint
+	NoteDataFlowShape_stagedOrder     map[*NoteDataFlowShape]uint
+	NoteDataFlowShape_orderStaged     map[uint]*NoteDataFlowShape
+	NoteDataFlowShapes_reference      map[*NoteDataFlowShape]*NoteDataFlowShape
+	NoteDataFlowShapes_referenceOrder map[*NoteDataFlowShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterNoteDataFlowShapeCreateCallback GongOnAfterCreateInterface[NoteDataFlowShape]
+	OnAfterNoteDataFlowShapeUpdateCallback GongOnAfterUpdateInterface[NoteDataFlowShape]
+	OnAfterNoteDataFlowShapeDeleteCallback GongOnAfterDeleteInterface[NoteDataFlowShape]
 
 	NotePartShapes                map[*NotePartShape]struct{}
 	NotePartShapes_instance       map[*NotePartShape]*NotePartShape
@@ -706,6 +724,8 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.Notes_reference, &stage.Notes_instance, &stage.Notes_referenceOrder)
 
+	__gong__clearReferences(&stage.NoteDataFlowShapes_reference, &stage.NoteDataFlowShapes_instance, &stage.NoteDataFlowShapes_referenceOrder)
+
 	__gong__clearReferences(&stage.NotePartShapes_reference, &stage.NotePartShapes_instance, &stage.NotePartShapes_referenceOrder)
 
 	__gong__clearReferences(&stage.NotePortShapes_reference, &stage.NotePortShapes_instance, &stage.NotePortShapes_referenceOrder)
@@ -780,6 +800,8 @@ func (stage *Stage) recomputeOrders() {
 	stage.LibraryOrder = __gong__recomputeOrder(stage.Library_stagedOrder)
 
 	stage.NoteOrder = __gong__recomputeOrder(stage.Note_stagedOrder)
+
+	stage.NoteDataFlowShapeOrder = __gong__recomputeOrder(stage.NoteDataFlowShape_stagedOrder)
 
 	stage.NotePartShapeOrder = __gong__recomputeOrder(stage.NotePartShape_stagedOrder)
 
@@ -1099,6 +1121,26 @@ func (*Note) GongGetInstancesSet(stage *Stage) any {
 
 func (*Note) GongNewInstance() any {
 	return new(Note)
+}
+
+func (*NoteDataFlowShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.NoteDataFlowShapes, stage.NoteDataFlowShape_stagedOrder)
+}
+
+func (*NoteDataFlowShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.NoteDataFlowShape_orderStaged[order]
+}
+
+func (*NoteDataFlowShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.NoteDataFlowShapes_mapString
+}
+
+func (*NoteDataFlowShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.NoteDataFlowShapes
+}
+
+func (*NoteDataFlowShape) GongNewInstance() any {
+	return new(NoteDataFlowShape)
 }
 
 func (*NotePartShape) GongGetInstancesByOrder(stage *Stage) any {
@@ -1564,6 +1606,9 @@ func NewStage(name string) (stage *Stage) {
 		Notes:           make(map[*Note]struct{}),
 		Notes_mapString: make(map[string]*Note),
 
+		NoteDataFlowShapes:           make(map[*NoteDataFlowShape]struct{}),
+		NoteDataFlowShapes_mapString: make(map[string]*NoteDataFlowShape),
+
 		NotePartShapes:           make(map[*NotePartShape]struct{}),
 		NotePartShapes_mapString: make(map[string]*NotePartShape),
 
@@ -1664,6 +1709,10 @@ func NewStage(name string) (stage *Stage) {
 		Note_orderStaged: make(map[uint]*Note),
 		Notes_reference:  make(map[*Note]*Note),
 
+		NoteDataFlowShape_stagedOrder: make(map[*NoteDataFlowShape]uint),
+		NoteDataFlowShape_orderStaged: make(map[uint]*NoteDataFlowShape),
+		NoteDataFlowShapes_reference:  make(map[*NoteDataFlowShape]*NoteDataFlowShape),
+
 		NotePartShape_stagedOrder: make(map[*NotePartShape]uint),
 		NotePartShape_orderStaged: make(map[uint]*NotePartShape),
 		NotePartShapes_reference:  make(map[*NotePartShape]*NotePartShape),
@@ -1741,6 +1790,8 @@ func NewStage(name string) (stage *Stage) {
 			"Library": &LibraryUnmarshaller{},
 
 			"Note": &NoteUnmarshaller{},
+
+			"NoteDataFlowShape": &NoteDataFlowShapeUnmarshaller{},
 
 			"NotePartShape": &NotePartShapeUnmarshaller{},
 
@@ -1862,6 +1913,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["LayerDefinition"] = len(stage.LayerDefinitions)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Note"] = len(stage.Notes)
+	stage.Map_GongStructName_InstancesNb["NoteDataFlowShape"] = len(stage.NoteDataFlowShapes)
 	stage.Map_GongStructName_InstancesNb["NotePartShape"] = len(stage.NotePartShapes)
 	stage.Map_GongStructName_InstancesNb["NotePortShape"] = len(stage.NotePortShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
@@ -2474,6 +2526,46 @@ func (note *Note) SetName(name string) {
 	note.Name = name
 }
 
+// Stage puts notedataflowshape to the model stage
+func (notedataflowshape *NoteDataFlowShape) Stage(stage *Stage) *NoteDataFlowShape {
+	__gong__stage(stage.NoteDataFlowShapes, stage.NoteDataFlowShape_stagedOrder, stage.NoteDataFlowShape_orderStaged, &stage.NoteDataFlowShapeOrder, stage.NoteDataFlowShapes_mapString, notedataflowshape, notedataflowshape.Name)
+	return notedataflowshape
+}
+
+// StagePreserveOrder puts notedataflowshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.NoteDataFlowShapeOrder
+// - update stage.NoteDataFlowShapeOrder accordingly
+func (notedataflowshape *NoteDataFlowShape) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.NoteDataFlowShapes, stage.NoteDataFlowShape_stagedOrder, stage.NoteDataFlowShape_orderStaged, &stage.NoteDataFlowShapeOrder, stage.NoteDataFlowShapes_mapString, notedataflowshape, order, notedataflowshape.Name)
+}
+
+// Unstage removes notedataflowshape off the model stage
+func (notedataflowshape *NoteDataFlowShape) Unstage(stage *Stage) *NoteDataFlowShape {
+	__gong__unstage(stage.NoteDataFlowShapes, stage.NoteDataFlowShapes_mapString, notedataflowshape, notedataflowshape.Name)
+	return notedataflowshape
+}
+
+// UnstageVoid removes notedataflowshape off the model stage
+func (notedataflowshape *NoteDataFlowShape) UnstageVoid(stage *Stage) {
+	notedataflowshape.Unstage(stage)
+}
+
+func (notedataflowshape *NoteDataFlowShape) StageVoid(stage *Stage) {
+	notedataflowshape.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (notedataflowshape *NoteDataFlowShape) GetName() (res string) {
+	return notedataflowshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (notedataflowshape *NoteDataFlowShape) SetName(name string) {
+	notedataflowshape.Name = name
+}
+
 // Stage puts notepartshape to the model stage
 func (notepartshape *NotePartShape) Stage(stage *Stage) *NotePartShape {
 	__gong__stage(stage.NotePartShapes, stage.NotePartShape_stagedOrder, stage.NotePartShape_orderStaged, &stage.NotePartShapeOrder, stage.NotePartShapes_mapString, notepartshape, notepartshape.Name)
@@ -2983,6 +3075,8 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.Notes, &stage.Notes_mapString, &stage.Note_stagedOrder, &stage.NoteOrder)
 
+	__gong__resetStageType(&stage.NoteDataFlowShapes, &stage.NoteDataFlowShapes_mapString, &stage.NoteDataFlowShape_stagedOrder, &stage.NoteDataFlowShapeOrder)
+
 	__gong__resetStageType(&stage.NotePartShapes, &stage.NotePartShapes_mapString, &stage.NotePartShape_stagedOrder, &stage.NotePartShapeOrder)
 
 	__gong__resetStageType(&stage.NotePortShapes, &stage.NotePortShapes_mapString, &stage.NotePortShape_stagedOrder, &stage.NotePortShapeOrder)
@@ -3200,6 +3294,7 @@ func (DiagramStructure) GongGetAssociationName() any {
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
 			NotePortShapes: []*NotePortShape{{Name: "NotePortShapes"}},
 			NotePartShapes: []*NotePartShape{{Name: "NotePartShapes"}},
+			NoteDataFlowShapes: []*NoteDataFlowShape{{Name: "NoteDataFlowShapes"}},
 	}
 }
 
@@ -3237,6 +3332,14 @@ func (Note) GongGetAssociationName() any {
 	return &Note{
 			Parts: []*Part{{Name: "Parts"}},
 			Ports: []*Port{{Name: "Ports"}},
+			DataFlows: []*DataFlow{{Name: "DataFlows"}},
+	}
+}
+
+func (NoteDataFlowShape) GongGetAssociationName() any {
+	return &NoteDataFlowShape{
+			Note: &Note{Name: "Note"},
+			DataFlow: &DataFlow{Name: "DataFlow"},
 	}
 }
 
@@ -3706,6 +3809,45 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 	case Note:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of NoteDataFlowShape
+	case NoteDataFlowShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Note":
+			res := make(map[*Note][]*NoteDataFlowShape)
+			for notedataflowshape := range stage.NoteDataFlowShapes {
+				if notedataflowshape.Note != nil {
+					note_ := notedataflowshape.Note
+					var notedataflowshapes []*NoteDataFlowShape
+					_, ok := res[note_]
+					if ok {
+						notedataflowshapes = res[note_]
+					} else {
+						notedataflowshapes = make([]*NoteDataFlowShape, 0)
+					}
+					notedataflowshapes = append(notedataflowshapes, notedataflowshape)
+					res[note_] = notedataflowshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DataFlow":
+			res := make(map[*DataFlow][]*NoteDataFlowShape)
+			for notedataflowshape := range stage.NoteDataFlowShapes {
+				if notedataflowshape.DataFlow != nil {
+					dataflow_ := notedataflowshape.DataFlow
+					var notedataflowshapes []*NoteDataFlowShape
+					_, ok := res[dataflow_]
+					if ok {
+						notedataflowshapes = res[dataflow_]
+					} else {
+						notedataflowshapes = make([]*NoteDataFlowShape, 0)
+					}
+					notedataflowshapes = append(notedataflowshapes, notedataflowshape)
+					res[dataflow_] = notedataflowshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of NotePartShape
 	case NotePartShape:
@@ -4187,6 +4329,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "NoteDataFlowShapes":
+			res := make(map[*NoteDataFlowShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, notedataflowshape_ := range diagramstructure.NoteDataFlowShapes {
+					res[notedataflowshape_] = append(res[notedataflowshape_], diagramstructure)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ExternalPartShape
 	case ExternalPartShape:
@@ -4335,6 +4485,19 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "DataFlows":
+			res := make(map[*DataFlow][]*Note)
+			for note := range stage.Notes {
+				for _, dataflow_ := range note.DataFlows {
+					res[dataflow_] = append(res[dataflow_], note)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of NoteDataFlowShape
+	case NoteDataFlowShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of NotePartShape
 	case NotePartShape:
@@ -4653,6 +4816,10 @@ func (*DataFlow) GongGetReverseFields() []GongReverseField {
 			Fieldname: "DataFlowsWhoseNodeIsExpanded",
 		},
 		{
+			GongstructName: "Note",
+			Fieldname: "DataFlows",
+		},
+		{
 			GongstructName: "System",
 			Fieldname: "DataFlows",
 		},
@@ -4735,6 +4902,15 @@ func (*Note) GongGetReverseFields() []GongReverseField {
 		{
 			GongstructName: "Library",
 			Fieldname: "NotesWhoseNodeIsExpanded",
+		},
+	}
+}
+
+func (*NoteDataFlowShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DiagramStructure",
+			Fieldname: "NoteDataFlowShapes",
 		},
 	}
 }
@@ -5559,6 +5735,11 @@ func (diagramstructure *DiagramStructure) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "NotePartShape",
 		},
+		{
+			Name:                 "NoteDataFlowShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "NoteDataFlowShape",
+		},
 	}
 	return
 }
@@ -5831,6 +6012,90 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Ports",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Port",
+		},
+		{
+			Name:               "IsDataFlowsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "DataFlows",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DataFlow",
+		},
+	}
+	return
+}
+
+func (notedataflowshape *NoteDataFlowShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Note",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Note",
+		},
+		{
+			Name:                 "DataFlow",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "DataFlow",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "StartOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:                 "EndOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:               "CornerOffsetRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPresentationOverridden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FontColor",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -7353,6 +7618,16 @@ func (diagramstructure *DiagramStructure) GongGetFieldValue(fieldName string, st
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "NoteDataFlowShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramstructure.NoteDataFlowShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -7677,6 +7952,83 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsDataFlowsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", note.IsDataFlowsNodeExpanded)
+		res.valueBool = note.IsDataFlowsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "DataFlows":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range note.DataFlows {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (notedataflowshape *NoteDataFlowShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = notedataflowshape.Name
+	case "Note":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if notedataflowshape.Note != nil {
+			res.valueString = notedataflowshape.Note.Name
+			res.ids = notedataflowshape.Note.GongGetUUID(stage)
+		}
+	case "DataFlow":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if notedataflowshape.DataFlow != nil {
+			res.valueString = notedataflowshape.DataFlow.Name
+			res.ids = notedataflowshape.DataFlow.GongGetUUID(stage)
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", notedataflowshape.StartRatio)
+		res.valueFloat = notedataflowshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", notedataflowshape.EndRatio)
+		res.valueFloat = notedataflowshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := notedataflowshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := notedataflowshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", notedataflowshape.CornerOffsetRatio)
+		res.valueFloat = notedataflowshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", notedataflowshape.IsHidden)
+		res.valueBool = notedataflowshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPresentationOverridden":
+		res.valueString = fmt.Sprintf("%t", notedataflowshape.IsPresentationOverridden)
+		res.valueBool = notedataflowshape.IsPresentationOverridden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Stroke":
+		res.valueString = notedataflowshape.Stroke
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", notedataflowshape.StrokeWidth)
+		res.valueFloat = notedataflowshape.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", notedataflowshape.StrokeOpacity)
+		res.valueFloat = notedataflowshape.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = notedataflowshape.StrokeDashArray
+	case "FontSize":
+		res.valueString = notedataflowshape.FontSize
+	case "FontColor":
+		res.valueString = notedataflowshape.FontColor
 	}
 	return
 }
@@ -8486,6 +8838,10 @@ func (note *Note) GongGetGongstructName() string {
 	return "Note"
 }
 
+func (notedataflowshape *NoteDataFlowShape) GongGetGongstructName() string {
+	return "NoteDataFlowShape"
+}
+
 func (notepartshape *NotePartShape) GongGetGongstructName() string {
 	return "NotePartShape"
 }
@@ -8572,6 +8928,8 @@ func (stage *Stage) ResetMapStrings() {
 	__gong__rebuildMapString(stage.Librarys, &stage.Librarys_mapString)
 
 	__gong__rebuildMapString(stage.Notes, &stage.Notes_mapString)
+
+	__gong__rebuildMapString(stage.NoteDataFlowShapes, &stage.NoteDataFlowShapes_mapString)
 
 	__gong__rebuildMapString(stage.NotePartShapes, &stage.NotePartShapes_mapString)
 
