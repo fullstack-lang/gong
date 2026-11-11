@@ -7,6 +7,10 @@ type PortShape struct {
 
 	IsExpanded bool
 
+	// ParentPartShape scopes this PortShape to the specific PartShape instance
+	// in the diagram (enabling independent expansion of multiple Parts sharing the same System Type).
+	ParentPartShape *PartShape
+
 	// when a port shape is display the part shape is always
 	// present
 	owningPartShape *PartShape

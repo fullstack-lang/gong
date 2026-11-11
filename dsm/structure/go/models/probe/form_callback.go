@@ -199,6 +199,8 @@ func saveControlFlowFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlFlowsWhoseNodeIsExpanded", func(owner *models.DiagramStructure) *[]*models.ControlFlow { return &owner.ControlFlowsWhoseNodeIsExpanded })
 		case "Part:ControlFlows":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlFlows", func(owner *models.Part) *[]*models.ControlFlow { return &owner.ControlFlows })
+		case "PartShape:ControlFlowsWhoseNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlFlowsWhoseNodeIsExpanded", func(owner *models.PartShape) *[]*models.ControlFlow { return &owner.ControlFlowsWhoseNodeIsExpanded })
 		}
 	}
 }
@@ -230,6 +232,8 @@ func saveControlFlowShapeFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "ControlFlow":
 			FormDivSelectFieldToField(&(_instance.ControlFlow), probe.stageOfInterest, formDiv)
+		case "ParentPartShape":
+			FormDivSelectFieldToField(&(_instance.ParentPartShape), probe.stageOfInterest, formDiv)
 		case "StartRatio":
 			FormDivBasicFieldToField(&(_instance.StartRatio), formDiv)
 		case "EndRatio":
@@ -374,6 +378,8 @@ func saveDataFlowFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DataFlowsWhoseNodeIsExpanded", func(owner *models.Library) *[]*models.DataFlow { return &owner.DataFlowsWhoseNodeIsExpanded })
 		case "Note:DataFlows":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DataFlows", func(owner *models.Note) *[]*models.DataFlow { return &owner.DataFlows })
+		case "PartShape:DataFlowsWhoseNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DataFlowsWhoseNodeIsExpanded", func(owner *models.PartShape) *[]*models.DataFlow { return &owner.DataFlowsWhoseNodeIsExpanded })
 		case "System:DataFlows":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DataFlows", func(owner *models.System) *[]*models.DataFlow { return &owner.DataFlows })
 		}
@@ -407,6 +413,14 @@ func saveDataFlowShapeFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "DataFlow":
 			FormDivSelectFieldToField(&(_instance.DataFlow), probe.stageOfInterest, formDiv)
+		case "ParentPartShape":
+			FormDivSelectFieldToField(&(_instance.ParentPartShape), probe.stageOfInterest, formDiv)
+		case "StartPortShape":
+			FormDivSelectFieldToField(&(_instance.StartPortShape), probe.stageOfInterest, formDiv)
+		case "EndPortShape":
+			FormDivSelectFieldToField(&(_instance.EndPortShape), probe.stageOfInterest, formDiv)
+		case "IsProtocolNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsProtocolNodeExpanded), formDiv)
 		case "StartRatio":
 			FormDivBasicFieldToField(&(_instance.StartRatio), formDiv)
 		case "EndRatio":
@@ -468,6 +482,8 @@ func saveDataShapeFields(
 			FormDivSelectFieldToField(&(_instance.Data), probe.stageOfInterest, formDiv)
 		case "DataFlow":
 			FormDivSelectFieldToField(&(_instance.DataFlow), probe.stageOfInterest, formDiv)
+		case "DataFlowShape":
+			FormDivSelectFieldToField(&(_instance.DataFlowShape), probe.stageOfInterest, formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
@@ -1191,8 +1207,8 @@ func savePartFields(
 			FormDivBasicFieldToField(&(_instance.Description), formDiv)
 		case "Ports":
 			FormDivSliceOfPointersToField(_instance, "Ports", &(_instance.Ports), formDiv, probe)
-		case "TypeOfPart":
-			FormDivSelectFieldToField(&(_instance.TypeOfPart), probe.stageOfInterest, formDiv)
+		case "Type":
+			FormDivSelectFieldToField(&(_instance.Type), probe.stageOfInterest, formDiv)
 		case "IsPartNameNotSystemName":
 			FormDivBasicFieldToField(&(_instance.IsPartNameNotSystemName), formDiv)
 		case "IsControlFlowsNodeExpanded":
@@ -1217,6 +1233,10 @@ func savePartFields(
 			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		case "IsPortsNodeExpanded":
 			FormDivBasicFieldToField(&(_instance.IsPortsNodeExpanded), formDiv)
+		case "IsTypePartsNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsTypePartsNodeExpanded), formDiv)
+		case "IsTypeDataFlowsNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsTypeDataFlowsNodeExpanded), formDiv)
 		case "DiagramStructure:PartWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "PartWhoseNodeIsExpanded", func(owner *models.DiagramStructure) *[]*models.Part { return &owner.PartWhoseNodeIsExpanded })
 		case "DiagramStructure:ExternalPartWhoseNodeIsExpanded":
@@ -1229,6 +1249,8 @@ func savePartFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "PartsWhoseNodeIsExpanded", func(owner *models.Library) *[]*models.Part { return &owner.PartsWhoseNodeIsExpanded })
 		case "Note:Parts":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Parts", func(owner *models.Note) *[]*models.Part { return &owner.Parts })
+		case "PartShape:SubPartsWhoseNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SubPartsWhoseNodeIsExpanded", func(owner *models.PartShape) *[]*models.Part { return &owner.SubPartsWhoseNodeIsExpanded })
 		case "SemanticTag:Parts":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Parts", func(owner *models.SemanticTag) *[]*models.Part { return &owner.Parts })
 		case "System:Parts":
@@ -1329,8 +1351,26 @@ func savePartShapeFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Part":
 			FormDivSelectFieldToField(&(_instance.Part), probe.stageOfInterest, formDiv)
+		case "ParentPartShape":
+			FormDivSelectFieldToField(&(_instance.ParentPartShape), probe.stageOfInterest, formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
+		case "IsPortsNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsPortsNodeExpanded), formDiv)
+		case "IsControlFlowsNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsControlFlowsNodeExpanded), formDiv)
+		case "IsTypePartsNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsTypePartsNodeExpanded), formDiv)
+		case "IsTypeDataFlowsNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsTypeDataFlowsNodeExpanded), formDiv)
+		case "SubPartsWhoseNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "SubPartsWhoseNodeIsExpanded", &(_instance.SubPartsWhoseNodeIsExpanded), formDiv, probe)
+		case "PortsWhoseNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "PortsWhoseNodeIsExpanded", &(_instance.PortsWhoseNodeIsExpanded), formDiv, probe)
+		case "ControlFlowsWhoseNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "ControlFlowsWhoseNodeIsExpanded", &(_instance.ControlFlowsWhoseNodeIsExpanded), formDiv, probe)
+		case "DataFlowsWhoseNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "DataFlowsWhoseNodeIsExpanded", &(_instance.DataFlowsWhoseNodeIsExpanded), formDiv, probe)
 		case "X":
 			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
@@ -1416,6 +1456,8 @@ func savePortFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "PortWhoseOutDataFlowsNodeIsExpanded", func(owner *models.Part) *[]*models.Port { return &owner.PortWhoseOutDataFlowsNodeIsExpanded })
 		case "Part:PortWhoseInDataFlowsNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "PortWhoseInDataFlowsNodeIsExpanded", func(owner *models.Part) *[]*models.Port { return &owner.PortWhoseInDataFlowsNodeIsExpanded })
+		case "PartShape:PortsWhoseNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "PortsWhoseNodeIsExpanded", func(owner *models.PartShape) *[]*models.Port { return &owner.PortsWhoseNodeIsExpanded })
 		}
 	}
 }
@@ -1449,6 +1491,8 @@ func savePortShapeFields(
 			FormDivSelectFieldToField(&(_instance.Port), probe.stageOfInterest, formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
+		case "ParentPartShape":
+			FormDivSelectFieldToField(&(_instance.ParentPartShape), probe.stageOfInterest, formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
@@ -1604,6 +1648,8 @@ func saveProtocolLayerShapeFields(
 			FormDivSelectFieldToField(&(_instance.ProtocolLayer), probe.stageOfInterest, formDiv)
 		case "DataFlow":
 			FormDivSelectFieldToField(&(_instance.DataFlow), probe.stageOfInterest, formDiv)
+		case "DataFlowShape":
+			FormDivSelectFieldToField(&(_instance.DataFlowShape), probe.stageOfInterest, formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
@@ -1671,6 +1717,8 @@ func saveProtocolShapeFields(
 			FormDivSelectFieldToField(&(_instance.Protocol), probe.stageOfInterest, formDiv)
 		case "DataFlow":
 			FormDivSelectFieldToField(&(_instance.DataFlow), probe.stageOfInterest, formDiv)
+		case "DataFlowShape":
+			FormDivSelectFieldToField(&(_instance.DataFlowShape), probe.stageOfInterest, formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":

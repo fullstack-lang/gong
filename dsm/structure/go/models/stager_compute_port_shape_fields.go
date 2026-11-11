@@ -1,5 +1,7 @@
 package models
 
+import "slices"
+
 func (stager *Stager) computePortShapeFields() {
 	stage := stager.stage
 
@@ -11,8 +13,9 @@ func (stager *Stager) computePortShapeFields() {
 	for _, diagramStructure := range stage.GetInstancesSorted[*DiagramStructure]() {
 		for _, portShape := range diagramStructure.Port_Shapes {
 			if portShape.Port != nil && portShape.Port.owningPart != nil {
-				if partShape, ok := diagramStructure.map_Part_PartShape[portShape.Port.owningPart]; ok {
-					portShape.owningPartShape = partShape
+				parentPS := effectivePortParentPartShape(diagramStructure, portShape)
+				if parentPS != nil && parentPS.Part == portShape.Port.owningPart && slices.Contains(diagramStructure.Part_Shapes, parentPS) {
+					portShape.owningPartShape = parentPS
 				}
 			}
 		}

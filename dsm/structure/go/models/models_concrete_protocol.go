@@ -9,8 +9,9 @@ import (
 type ProtocolShape struct {
 	Name string
 
-	Protocol *Protocol
-	DataFlow *DataFlow
+	Protocol      *Protocol
+	DataFlow      *DataFlow
+	DataFlowShape *DataFlowShape
 
 	RectShape
 }
@@ -46,6 +47,7 @@ type ProtocolLayerShape struct {
 
 	ProtocolLayer *ProtocolLayer
 	DataFlow      *DataFlow
+	DataFlowShape *DataFlowShape
 
 	RectShape
 }

@@ -74,6 +74,7 @@ func (controlflowshape *ControlFlowShape) GongClean(stage *Stage) (modified bool
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&controlflowshape.ControlFlow) || modified
+	modified = stage.CleanPointer(&controlflowshape.ParentPartShape) || modified
 	return
 }
 
@@ -95,6 +96,9 @@ func (dataflowshape *DataFlowShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&dataflowshape.DataFlow) || modified
+	modified = stage.CleanPointer(&dataflowshape.ParentPartShape) || modified
+	modified = stage.CleanPointer(&dataflowshape.StartPortShape) || modified
+	modified = stage.CleanPointer(&dataflowshape.EndPortShape) || modified
 	return
 }
 
@@ -104,6 +108,7 @@ func (datashape *DataShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanPointer(&datashape.Data) || modified
 	modified = stage.CleanPointer(&datashape.DataFlow) || modified
+	modified = stage.CleanPointer(&datashape.DataFlowShape) || modified
 	return
 }
 
@@ -248,15 +253,20 @@ func (part *Part) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&part.PortWhoseInDataFlowsNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&part.PartAnchoredPath) || modified
 	// insertion point per field
-	modified = stage.CleanPointer(&part.TypeOfPart) || modified
+	modified = stage.CleanPointer(&part.Type) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by PartShape
 func (partshape *PartShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = stage.CleanSlice(&partshape.SubPartsWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&partshape.PortsWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&partshape.ControlFlowsWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&partshape.DataFlowsWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	modified = stage.CleanPointer(&partshape.Part) || modified
+	modified = stage.CleanPointer(&partshape.ParentPartShape) || modified
 	return
 }
 
@@ -273,6 +283,7 @@ func (portshape *PortShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&portshape.Port) || modified
+	modified = stage.CleanPointer(&portshape.ParentPartShape) || modified
 	return
 }
 
@@ -290,6 +301,7 @@ func (protocollayershape *ProtocolLayerShape) GongClean(stage *Stage) (modified 
 	// insertion point per field
 	modified = stage.CleanPointer(&protocollayershape.ProtocolLayer) || modified
 	modified = stage.CleanPointer(&protocollayershape.DataFlow) || modified
+	modified = stage.CleanPointer(&protocollayershape.DataFlowShape) || modified
 	return
 }
 
@@ -299,6 +311,7 @@ func (protocolshape *ProtocolShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanPointer(&protocolshape.Protocol) || modified
 	modified = stage.CleanPointer(&protocolshape.DataFlow) || modified
+	modified = stage.CleanPointer(&protocolshape.DataFlowShape) || modified
 	return
 }
 

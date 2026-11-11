@@ -43,6 +43,19 @@ func (stager *Stager) buildSystemAndPartLibraryMaps() (
 		}
 	}
 
+	// Fallback: also propagate library along Part.Type for any System not yet visited
+	for _, sys := range stager.stage.GetInstancesSorted[*System]() {
+		lib := systemToLibrary[sys]
+		if lib == nil {
+			continue
+		}
+		for _, part := range sys.Parts {
+			if part != nil && part.Type != nil {
+				visitSystem(lib, part.Type)
+			}
+		}
+	}
+
 	return
 }
 
@@ -95,9 +108,9 @@ func (stager *Stager) enforcePortSemanticRules() (needCommit bool) {
 	_, partToLibrary := stager.buildSystemAndPartLibraryMaps()
 
 	for _, part := range stager.stage.GetInstancesSorted[*Part]() {
-		if part.TypeOfPart != nil && !part.IsPartNameNotSystemName && part.GetName() != part.TypeOfPart.GetName() {
+		if part.Type != nil && !part.IsPartNameNotSystemName && part.GetName() != part.Type.GetName() {
 			oldName := part.GetName()
-			part.SetName(part.TypeOfPart.GetName())
+			part.SetName(part.Type.GetName())
 			needCommit = true
 			if stager.probeForm != nil {
 				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Part \"%s\" name overridden to \"%s\"",
@@ -147,6 +160,17 @@ func (stager *Stager) enforcePortSemanticRules() (needCommit bool) {
 			for _, portShape := range diagram.Port_Shapes {
 				if portShape.Port != nil && autoNamedPorts[portShape.Port] {
 					expectedShapeName := portShape.Port.GetName() + "-" + diagram.GetName()
+					if portShape.ParentPartShape != nil && portShape.ParentPartShape.ParentPartShape != nil {
+						var ancNames []string
+						for _, anc := range partShapeAncestors(portShape.ParentPartShape) {
+							if anc.Part != nil {
+								ancNames = append([]string{anc.Part.GetName()}, ancNames...)
+							}
+						}
+						if len(ancNames) > 0 {
+							expectedShapeName = strings.Join(ancNames, "-") + "-" + expectedShapeName
+						}
+					}
 					if portShape.Name != expectedShapeName {
 						portShape.Name = expectedShapeName
 						needCommit = true

@@ -275,6 +275,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Name = GongExtractString(rhs)
 					case "ControlFlow":
 						__gong__assignPointer(&inst.ControlFlow, rhs, identifierMap)
+					case "ParentPartShape":
+						__gong__assignPointer(&inst.ParentPartShape, rhs, identifierMap)
 					case "StartRatio":
 						inst.StartRatio = GongExtractFloat(rhs)
 					case "EndRatio":
@@ -356,6 +358,14 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Name = GongExtractString(rhs)
 					case "DataFlow":
 						__gong__assignPointer(&inst.DataFlow, rhs, identifierMap)
+					case "ParentPartShape":
+						__gong__assignPointer(&inst.ParentPartShape, rhs, identifierMap)
+					case "StartPortShape":
+						__gong__assignPointer(&inst.StartPortShape, rhs, identifierMap)
+					case "EndPortShape":
+						__gong__assignPointer(&inst.EndPortShape, rhs, identifierMap)
+					case "IsProtocolNodeExpanded":
+						inst.IsProtocolNodeExpanded = GongExtractBool(rhs)
 					case "StartRatio":
 						inst.StartRatio = GongExtractFloat(rhs)
 					case "EndRatio":
@@ -391,6 +401,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Data, rhs, identifierMap)
 					case "DataFlow":
 						__gong__assignPointer(&inst.DataFlow, rhs, identifierMap)
+					case "DataFlowShape":
+						__gong__assignPointer(&inst.DataFlowShape, rhs, identifierMap)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -824,8 +836,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Description = GongExtractString(rhs)
 					case "Ports":
 						__gong__assignSliceOfPointers(&inst.Ports, rhs, identifierMap)
-					case "TypeOfPart":
-						__gong__assignPointer(&inst.TypeOfPart, rhs, identifierMap)
+					case "Type":
+						__gong__assignPointer(&inst.Type, rhs, identifierMap)
 					case "IsPartNameNotSystemName":
 						inst.IsPartNameNotSystemName = GongExtractBool(rhs)
 					case "IsControlFlowsNodeExpanded":
@@ -850,6 +862,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.IsExpanded = GongExtractBool(rhs)
 					case "IsPortsNodeExpanded":
 						inst.IsPortsNodeExpanded = GongExtractBool(rhs)
+					case "IsTypePartsNodeExpanded":
+						inst.IsTypePartsNodeExpanded = GongExtractBool(rhs)
+					case "IsTypeDataFlowsNodeExpanded":
+						inst.IsTypeDataFlowsNodeExpanded = GongExtractBool(rhs)
 					}
 				case *PartAnchoredPath:
 					switch fieldName {
@@ -890,8 +906,26 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Name = GongExtractString(rhs)
 					case "Part":
 						__gong__assignPointer(&inst.Part, rhs, identifierMap)
+					case "ParentPartShape":
+						__gong__assignPointer(&inst.ParentPartShape, rhs, identifierMap)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
+					case "IsPortsNodeExpanded":
+						inst.IsPortsNodeExpanded = GongExtractBool(rhs)
+					case "IsControlFlowsNodeExpanded":
+						inst.IsControlFlowsNodeExpanded = GongExtractBool(rhs)
+					case "IsTypePartsNodeExpanded":
+						inst.IsTypePartsNodeExpanded = GongExtractBool(rhs)
+					case "IsTypeDataFlowsNodeExpanded":
+						inst.IsTypeDataFlowsNodeExpanded = GongExtractBool(rhs)
+					case "SubPartsWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.SubPartsWhoseNodeIsExpanded, rhs, identifierMap)
+					case "PortsWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.PortsWhoseNodeIsExpanded, rhs, identifierMap)
+					case "ControlFlowsWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.ControlFlowsWhoseNodeIsExpanded, rhs, identifierMap)
+					case "DataFlowsWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.DataFlowsWhoseNodeIsExpanded, rhs, identifierMap)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -946,6 +980,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Port, rhs, identifierMap)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
+					case "ParentPartShape":
+						__gong__assignPointer(&inst.ParentPartShape, rhs, identifierMap)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -1017,6 +1053,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.ProtocolLayer, rhs, identifierMap)
 					case "DataFlow":
 						__gong__assignPointer(&inst.DataFlow, rhs, identifierMap)
+					case "DataFlowShape":
+						__gong__assignPointer(&inst.DataFlowShape, rhs, identifierMap)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -1058,6 +1096,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Protocol, rhs, identifierMap)
 					case "DataFlow":
 						__gong__assignPointer(&inst.DataFlow, rhs, identifierMap)
+					case "DataFlowShape":
+						__gong__assignPointer(&inst.DataFlowShape, rhs, identifierMap)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -1454,6 +1494,8 @@ func (u *ControlFlowShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.Name = GongExtractString(valueExpr)
 	case "ControlFlow":
 		GongUnmarshallPointer(&instance.ControlFlow, valueExpr, identifierMap)
+	case "ParentPartShape":
+		GongUnmarshallPointer(&instance.ParentPartShape, valueExpr, identifierMap)
 	case "StartRatio":
 		instance.StartRatio = GongExtractFloat(valueExpr)
 	case "EndRatio":
@@ -1571,6 +1613,14 @@ func (u *DataFlowShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.Name = GongExtractString(valueExpr)
 	case "DataFlow":
 		GongUnmarshallPointer(&instance.DataFlow, valueExpr, identifierMap)
+	case "ParentPartShape":
+		GongUnmarshallPointer(&instance.ParentPartShape, valueExpr, identifierMap)
+	case "StartPortShape":
+		GongUnmarshallPointer(&instance.StartPortShape, valueExpr, identifierMap)
+	case "EndPortShape":
+		GongUnmarshallPointer(&instance.EndPortShape, valueExpr, identifierMap)
+	case "IsProtocolNodeExpanded":
+		instance.IsProtocolNodeExpanded = GongExtractBool(valueExpr)
 	case "StartRatio":
 		instance.StartRatio = GongExtractFloat(valueExpr)
 	case "EndRatio":
@@ -1618,6 +1668,8 @@ func (u *DataShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		GongUnmarshallPointer(&instance.Data, valueExpr, identifierMap)
 	case "DataFlow":
 		GongUnmarshallPointer(&instance.DataFlow, valueExpr, identifierMap)
+	case "DataFlowShape":
+		GongUnmarshallPointer(&instance.DataFlowShape, valueExpr, identifierMap)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -2183,8 +2235,8 @@ func (u *PartUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Description = GongExtractString(valueExpr)
 	case "Ports":
 		GongUnmarshallSliceOfPointers(&instance.Ports, valueExpr, identifierMap)
-	case "TypeOfPart":
-		GongUnmarshallPointer(&instance.TypeOfPart, valueExpr, identifierMap)
+	case "Type":
+		GongUnmarshallPointer(&instance.Type, valueExpr, identifierMap)
 	case "IsPartNameNotSystemName":
 		instance.IsPartNameNotSystemName = GongExtractBool(valueExpr)
 	case "IsControlFlowsNodeExpanded":
@@ -2209,6 +2261,10 @@ func (u *PartUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "IsPortsNodeExpanded":
 		instance.IsPortsNodeExpanded = GongExtractBool(valueExpr)
+	case "IsTypePartsNodeExpanded":
+		instance.IsTypePartsNodeExpanded = GongExtractBool(valueExpr)
+	case "IsTypeDataFlowsNodeExpanded":
+		instance.IsTypeDataFlowsNodeExpanded = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -2273,8 +2329,26 @@ func (u *PartShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Name = GongExtractString(valueExpr)
 	case "Part":
 		GongUnmarshallPointer(&instance.Part, valueExpr, identifierMap)
+	case "ParentPartShape":
+		GongUnmarshallPointer(&instance.ParentPartShape, valueExpr, identifierMap)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "IsPortsNodeExpanded":
+		instance.IsPortsNodeExpanded = GongExtractBool(valueExpr)
+	case "IsControlFlowsNodeExpanded":
+		instance.IsControlFlowsNodeExpanded = GongExtractBool(valueExpr)
+	case "IsTypePartsNodeExpanded":
+		instance.IsTypePartsNodeExpanded = GongExtractBool(valueExpr)
+	case "IsTypeDataFlowsNodeExpanded":
+		instance.IsTypeDataFlowsNodeExpanded = GongExtractBool(valueExpr)
+	case "SubPartsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.SubPartsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "PortsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.PortsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ControlFlowsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ControlFlowsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "DataFlowsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DataFlowsWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -2353,6 +2427,8 @@ func (u *PortShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		GongUnmarshallPointer(&instance.Port, valueExpr, identifierMap)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "ParentPartShape":
+		GongUnmarshallPointer(&instance.ParentPartShape, valueExpr, identifierMap)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -2460,6 +2536,8 @@ func (u *ProtocolLayerShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstr
 		GongUnmarshallPointer(&instance.ProtocolLayer, valueExpr, identifierMap)
 	case "DataFlow":
 		GongUnmarshallPointer(&instance.DataFlow, valueExpr, identifierMap)
+	case "DataFlowShape":
+		GongUnmarshallPointer(&instance.DataFlowShape, valueExpr, identifierMap)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -2513,6 +2591,8 @@ func (u *ProtocolShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		GongUnmarshallPointer(&instance.Protocol, valueExpr, identifierMap)
 	case "DataFlow":
 		GongUnmarshallPointer(&instance.DataFlow, valueExpr, identifierMap)
+	case "DataFlowShape":
+		GongUnmarshallPointer(&instance.DataFlowShape, valueExpr, identifierMap)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":

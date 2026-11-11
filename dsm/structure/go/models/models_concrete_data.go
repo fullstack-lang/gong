@@ -9,8 +9,9 @@ import (
 type DataShape struct {
 	Name string
 
-	Data     *Data
-	DataFlow *DataFlow
+	Data          *Data
+	DataFlow      *DataFlow
+	DataFlowShape *DataFlowShape
 
 	RectShape
 }

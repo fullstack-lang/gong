@@ -159,6 +159,8 @@ type DataFlowShape_WOP struct {
 
 	Name string
 
+	IsProtocolNodeExpanded bool
+
 	StartRatio float64
 
 	EndRatio float64
@@ -189,6 +191,7 @@ type DataFlowShape_WOP struct {
 func (from *DataFlowShape) GongCopyBasicFields(to *DataFlowShape) {
 	// insertion point
 	to.Name = from.Name
+	to.IsProtocolNodeExpanded = from.IsProtocolNodeExpanded
 	to.StartRatio = from.StartRatio
 	to.EndRatio = from.EndRatio
 	to.StartOrientation = from.StartOrientation
@@ -724,6 +727,10 @@ type Part_WOP struct {
 	IsExpanded bool
 
 	IsPortsNodeExpanded bool
+
+	IsTypePartsNodeExpanded bool
+
+	IsTypeDataFlowsNodeExpanded bool
 }
 
 func (from *Part) GongCopyBasicFields(to *Part) {
@@ -736,6 +743,8 @@ func (from *Part) GongCopyBasicFields(to *Part) {
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsPortsNodeExpanded = from.IsPortsNodeExpanded
+	to.IsTypePartsNodeExpanded = from.IsTypePartsNodeExpanded
+	to.IsTypeDataFlowsNodeExpanded = from.IsTypeDataFlowsNodeExpanded
 }
 
 type PartAnchoredPath_WOP struct {
@@ -784,6 +793,14 @@ type PartShape_WOP struct {
 
 	IsExpanded bool
 
+	IsPortsNodeExpanded bool
+
+	IsControlFlowsNodeExpanded bool
+
+	IsTypePartsNodeExpanded bool
+
+	IsTypeDataFlowsNodeExpanded bool
+
 	X float64
 
 	Y float64
@@ -821,6 +838,10 @@ func (from *PartShape) GongCopyBasicFields(to *PartShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
+	to.IsPortsNodeExpanded = from.IsPortsNodeExpanded
+	to.IsControlFlowsNodeExpanded = from.IsControlFlowsNodeExpanded
+	to.IsTypePartsNodeExpanded = from.IsTypePartsNodeExpanded
+	to.IsTypeDataFlowsNodeExpanded = from.IsTypeDataFlowsNodeExpanded
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width

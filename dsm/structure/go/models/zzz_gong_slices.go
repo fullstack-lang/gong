@@ -444,6 +444,37 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct PartShape
+	// insertion point per field
+	stage.PartShape_SubPartsWhoseNodeIsExpanded_reverseMap = make(map[*Part]*PartShape)
+	for partshape := range stage.PartShapes {
+		_ = partshape
+		for _, _part := range partshape.SubPartsWhoseNodeIsExpanded {
+			stage.PartShape_SubPartsWhoseNodeIsExpanded_reverseMap[_part] = partshape
+		}
+	}
+	stage.PartShape_PortsWhoseNodeIsExpanded_reverseMap = make(map[*Port]*PartShape)
+	for partshape := range stage.PartShapes {
+		_ = partshape
+		for _, _port := range partshape.PortsWhoseNodeIsExpanded {
+			stage.PartShape_PortsWhoseNodeIsExpanded_reverseMap[_port] = partshape
+		}
+	}
+	stage.PartShape_ControlFlowsWhoseNodeIsExpanded_reverseMap = make(map[*ControlFlow]*PartShape)
+	for partshape := range stage.PartShapes {
+		_ = partshape
+		for _, _controlflow := range partshape.ControlFlowsWhoseNodeIsExpanded {
+			stage.PartShape_ControlFlowsWhoseNodeIsExpanded_reverseMap[_controlflow] = partshape
+		}
+	}
+	stage.PartShape_DataFlowsWhoseNodeIsExpanded_reverseMap = make(map[*DataFlow]*PartShape)
+	for partshape := range stage.PartShapes {
+		_ = partshape
+		for _, _dataflow := range partshape.DataFlowsWhoseNodeIsExpanded {
+			stage.PartShape_DataFlowsWhoseNodeIsExpanded_reverseMap[_dataflow] = partshape
+		}
+	}
+
 	// Compute reverse map for named struct Protocol
 	// insertion point per field
 	stage.Protocol_ProtocolLayers_reverseMap = make(map[*ProtocolLayer]*Protocol)

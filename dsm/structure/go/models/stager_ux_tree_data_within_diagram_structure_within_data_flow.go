@@ -15,12 +15,16 @@ func (stager *Stager) treeDataWithinDiagramStructureWithinDataFlow(
 ) {
 	stage := stager.stage
 
-	// find the dataShape (if any)
-	dataShapeKey := dataShapeKey{
-		dataFlow: dataFlow,
-		data:     data,
+	key := dataShapeKey{
+		dataFlow:      dataFlow,
+		dataFlowShape: dataFlowShape,
+		data:          data,
 	}
-	dataShape, isDataShapePresent := diagramStructure.map_DataShapeKey_DataShape[dataShapeKey]
+	var dataShape *DataShape
+	var isDataShapePresent bool
+	if isDataFlowShapePresent && dataFlowShape != nil && diagramStructure.map_DataShapeKey_DataShape != nil {
+		dataShape, isDataShapePresent = diagramStructure.map_DataShapeKey_DataShape[key]
+	}
 
 	dataNode := &tree.Node{
 		Name:                    data.GetName(),
@@ -67,13 +71,14 @@ func (stager *Stager) treeDataWithinDiagramStructureWithinDataFlow(
 
 	dataNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !isDataShapePresent {
-			dataShape := (&DataShape{
-				Name:     dataFlow.Name + "-" + dataFlowShape.GetName() + "-" + diagramStructure.GetName(),
-				Data:     data,
-				DataFlow: dataFlow,
+			newDataShape := (&DataShape{
+				Name:          dataFlow.Name + "-" + dataFlowShape.GetName() + "-" + diagramStructure.GetName(),
+				Data:          data,
+				DataFlow:      dataFlow,
+				DataFlowShape: dataFlowShape,
 			}).Stage(stager.stage)
-			dataShape.SetWidth(180.0)
-			diagramStructure.Data_Shapes = append(diagramStructure.Data_Shapes, dataShape)
+			newDataShape.SetWidth(180.0)
+			diagramStructure.Data_Shapes = append(diagramStructure.Data_Shapes, newDataShape)
 			stage.Commit()
 			return
 		}
@@ -93,4 +98,3 @@ func (stager *Stager) treeDataWithinDiagramStructureWithinDataFlow(
 		stager.stage.CommitWithSuspendedCallbacks()
 	}
 }
-

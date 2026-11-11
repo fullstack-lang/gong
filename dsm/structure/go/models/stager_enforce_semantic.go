@@ -6,17 +6,21 @@ import (
 	"time"
 )
 
+func (stager *Stager) refreshComputedState() {
+	stager.enforceOwningLibraryAndObjects()
+	stager.computePartFields()
+	stager.computePortFields()
+	stager.enforceStagerMaps()
+	stager.computePortShapeFields()
+	stager.computeDataFlowShapeFields()
+}
+
 func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stage := stager.stage
 	needCommit = stager.enforceThereIsARootLibrary() || needCommit
 
 	// computes fields that are not persisted
-	stager.enforceOwningLibraryAndObjects()
-	stager.enforceStagerMaps()
-	stager.computePortFields()
-	stager.computePartFields()
-	stager.computeDataFlowShapeFields()
-	stager.computePortShapeFields()
+	stager.refreshComputedState()
 
 	pass := 0
 	for {
@@ -39,12 +43,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	}
 
 	// computes fields that are not persisted
-	stager.enforceOwningLibraryAndObjects()
-	stager.enforceStagerMaps()
-	stager.computePortFields()
-	stager.computePartFields()
-	stager.computeDataFlowShapeFields()
-	stager.computePortShapeFields()
+	stager.refreshComputedState()
 
 	if needCommit {
 		stager.probeForm.CommitNotificationTable()
@@ -66,13 +65,17 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		// this is the Clean that delete them from slices and pointers that reference
 		// them. If the checkout is not performed, the stage might be dirty
 		// with slices of pointer or pointer to unstaged instance
-		{"Clean stage", func() bool { return stage.Clean() }},
+		{"Clean stage", func() bool {
+			cleaned := stage.Clean()
+			stager.refreshComputedState()
+			return cleaned
+		}},
 		{"Enforce default values", stager.enforceDefaultValues},
 		{"Enforce orphans abstract element", stager.enforceOrphansAbstractElement},
 		{"Enforce port part consistency", stager.enforcePortPartConsistency},
 		{"Enforce protocol semantic rules", stager.enforceProtocolSemanticRules},
-		{"Enforce port semantic rules", stager.enforcePortSemanticRules},
 		{"Enforce part semantic rules", stager.enforcePartSemanticRules},
+		{"Enforce port semantic rules", stager.enforcePortSemanticRules},
 		{"Enforce control flow semantic rules", stager.enforceControlFlowRules},
 		{"Enforce data flow semantic rules", stager.enforceDataFlowRules},
 

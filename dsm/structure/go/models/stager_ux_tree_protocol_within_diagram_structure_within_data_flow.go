@@ -18,14 +18,24 @@ func (stager *Stager) treeProtocolWithinDiagramStructureWithinDataFlow(
 	stage := stager.stage
 
 	protoKey := protocolShapeKey{
-		dataFlow: dataFlow,
-		protocol: protocol,
+		dataFlow:      dataFlow,
+		dataFlowShape: dataFlowShape,
+		protocol:      protocol,
 	}
-	protocolShape, isProtocolShapePresent := diagramStructure.map_ProtocolShapeKey_ProtocolShape[protoKey]
+	var protocolShape *ProtocolShape
+	var isProtocolShapePresent bool
+	if isDataFlowShapePresent && dataFlowShape != nil && diagramStructure.map_ProtocolShapeKey_ProtocolShape != nil {
+		protocolShape, isProtocolShapePresent = diagramStructure.map_ProtocolShapeKey_ProtocolShape[protoKey]
+	}
+
+	isExpanded := slices.Contains(diagramStructure.DataFlowsWhoseProtocolNodeIsExpanded, dataFlow)
+	if dataFlowShape != nil && dataFlowShape.ParentPartShape != nil {
+		isExpanded = dataFlowShape.IsProtocolNodeExpanded
+	}
 
 	protocolNode := &tree.Node{
 		Name:                    protocol.GetName(),
-		IsExpanded:              slices.Contains(diagramStructure.DataFlowsWhoseProtocolNodeIsExpanded, dataFlow),
+		IsExpanded:              isExpanded,
 		IsNodeClickable:         true,
 		IsInEditMode:            protocol.GetIsInRenameMode(),
 		HasCheckboxButton:       true,
@@ -66,7 +76,11 @@ func (stager *Stager) treeProtocolWithinDiagramStructureWithinDataFlow(
 	}
 
 	protocolNode.OnNameChange = stager.onNameChange(protocol)
-	protocolNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, dataFlow, &diagramStructure.DataFlowsWhoseProtocolNodeIsExpanded)
+	if dataFlowShape != nil && dataFlowShape.ParentPartShape != nil {
+		protocolNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&dataFlowShape.IsProtocolNodeExpanded)
+	} else {
+		protocolNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, dataFlow, &diagramStructure.DataFlowsWhoseProtocolNodeIsExpanded)
+	}
 
 	protocolNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !isProtocolShapePresent {
@@ -75,9 +89,10 @@ func (stager *Stager) treeProtocolWithinDiagramStructureWithinDataFlow(
 				shapeName = protocol.GetName() + "-" + dataFlowShape.GetName() + "-" + diagramStructure.GetName()
 			}
 			newProtocolShape := (&ProtocolShape{
-				Name:     shapeName,
-				Protocol: protocol,
-				DataFlow: dataFlow,
+				Name:          shapeName,
+				Protocol:      protocol,
+				DataFlow:      dataFlow,
+				DataFlowShape: dataFlowShape,
 			}).Stage(stage)
 			newProtocolShape.SetWidth(140.0)
 			diagramStructure.Protocol_Shapes = append(diagramStructure.Protocol_Shapes, newProtocolShape)
@@ -107,9 +122,14 @@ func (stager *Stager) treeProtocolWithinDiagramStructureWithinDataFlow(
 		layer := protocolLayer
 		layerKey := protocolLayerShapeKey{
 			dataFlow:      dataFlow,
+			dataFlowShape: dataFlowShape,
 			protocolLayer: layer,
 		}
-		layerShape, isLayerShapePresent := diagramStructure.map_ProtocolLayerShapeKey_ProtocolLayerShape[layerKey]
+		var layerShape *ProtocolLayerShape
+		var isLayerShapePresent bool
+		if isDataFlowShapePresent && dataFlowShape != nil && diagramStructure.map_ProtocolLayerShapeKey_ProtocolLayerShape != nil {
+			layerShape, isLayerShapePresent = diagramStructure.map_ProtocolLayerShapeKey_ProtocolLayerShape[layerKey]
+		}
 
 		layerNode := &tree.Node{
 			Name:                    layer.GetName(),
@@ -163,6 +183,7 @@ func (stager *Stager) treeProtocolWithinDiagramStructureWithinDataFlow(
 					Name:          shapeName,
 					ProtocolLayer: layer,
 					DataFlow:      dataFlow,
+					DataFlowShape: dataFlowShape,
 				}).Stage(stage)
 				newLayerShape.SetWidth(140.0)
 				diagramStructure.ProtocolLayer_Shapes = append(diagramStructure.ProtocolLayer_Shapes, newLayerShape)

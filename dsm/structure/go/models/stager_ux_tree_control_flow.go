@@ -14,18 +14,49 @@ func (stager *Stager) treeControlFlows(
 	parentNode *tree.Node,
 	controlflowWhoseNodeIsExpanded *[]*ControlFlow,
 ) {
+	var partShape *PartShape
+	if controlFlow.Start != nil && controlFlow.Start.owningPart != nil && diagramStructure.map_PartShapeKey_PartShape != nil {
+		partShape = diagramStructure.map_PartShapeKey_PartShape[partShapeKey{
+			part:            controlFlow.Start.owningPart,
+			parentPartShape: nil,
+		}]
+	}
+	stager.treeControlFlowsScoped(diagramStructure, partShape, controlFlow, parentNode, controlflowWhoseNodeIsExpanded)
+}
+
+func (stager *Stager) treeControlFlowsScoped(
+	diagramStructure *DiagramStructure,
+	partShape *PartShape,
+	controlFlow *ControlFlow,
+	parentNode *tree.Node,
+	controlflowWhoseNodeIsExpanded *[]*ControlFlow,
+) {
 	stage := stager.stage
 
-	// find the shape (if any)
-	shape, isShapePresent := diagramStructure.map_ControlFlow_ControlFlowShape[controlFlow]
+	var shape *ControlFlowShape
+	var isShapePresent bool
+	if partShape != nil && diagramStructure.map_ControlFlowShapeKey_ControlFlowShape != nil {
+		shape, isShapePresent = diagramStructure.map_ControlFlowShapeKey_ControlFlowShape[controlFlowShapeKey{
+			controlFlow:     controlFlow,
+			parentPartShape: partShape,
+		}]
+	}
 
 	isStartShapePresent := false
 	isEndShapePresent := false
-	if controlFlow.Start != nil {
-		_, isStartShapePresent = diagramStructure.map_Port_PortShape[controlFlow.Start]
-	}
-	if controlFlow.End != nil {
-		_, isEndShapePresent = diagramStructure.map_Port_PortShape[controlFlow.End]
+	if partShape != nil && diagramStructure.map_PortShapeKey_PortShape != nil {
+		if controlFlow.Start != nil {
+			_, isStartShapePresent = diagramStructure.map_PortShapeKey_PortShape[portShapeKey{
+				port:            controlFlow.Start,
+				parentPartShape: partShape,
+			}]
+		}
+		if controlFlow.End != nil {
+			_, isEndShapePresent = diagramStructure.map_PortShapeKey_PortShape[portShapeKey{
+				port:            controlFlow.End,
+				parentPartShape: partShape,
+			}]
+		}
 	}
 	isCheckboxDisabled := !(isStartShapePresent && isEndShapePresent)
 
@@ -47,7 +78,7 @@ func (stager *Stager) treeControlFlows(
 
 	addRenameButton(controlFlow, node, stager)
 
-	if shape, ok := diagramStructure.map_ControlFlow_ControlFlowShape[controlFlow]; ok {
+	if isShapePresent && shape != nil {
 		node.IsChecked = true
 		visibilityButton := &tree.Button{
 			Name:            diagramStructure.GetName(),
@@ -75,10 +106,9 @@ func (stager *Stager) treeControlFlows(
 			if shape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
-			// shape = newShapeToDiagram(controlflow, diagramStructure, &diagramStructure.ControlFlowShapes, stager, node.ClientOnY)
-			// addAssociationShapeToDiagram(stager, controlflow.Start, controlflow.End, &diagramStructure.ControlFlowShapes)
 			controlFlowShape := (&ControlFlowShape{
-				ControlFlow: controlFlow,
+				ControlFlow:     controlFlow,
+				ParentPartShape: partShape,
 			}).Stage(stage)
 			controlFlowShape.SetName(controlFlow.Start.GetName() + " to " + controlFlow.End.GetName())
 			controlFlowShape.SetAbstractStartElement(controlFlow.Start)
@@ -100,10 +130,10 @@ func (stager *Stager) treeControlFlows(
 				log.Panic("remove a non existing shape to product")
 			}
 			shape.UnstageVoid(stage)
-
-			// not necessary since there is a semantic rule (gong clean) that remove the shape from the slice when it is unstaged
 			idx := slices.Index(diagramStructure.ControlFlow_Shapes, shape)
-			diagramStructure.ControlFlow_Shapes = slices.Delete(diagramStructure.ControlFlow_Shapes, idx, idx+1)
+			if idx >= 0 {
+				diagramStructure.ControlFlow_Shapes = slices.Delete(diagramStructure.ControlFlow_Shapes, idx, idx+1)
+			}
 			stage.Commit()
 			return
 		}

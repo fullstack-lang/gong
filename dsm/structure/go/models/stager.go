@@ -63,6 +63,10 @@ type Stager struct {
 	map_DataFlow_ProtocolTracked map[*DataFlow]bool
 	map_Port_ProtocolTracked     map[*Port]bool
 
+	// previous Type state on Part to revert newly introduced Part.Type cycles first
+	map_Part_PrevType    map[*Part]*System
+	map_Part_TypeTracked map[*Part]bool
+
 	// previous slices on Note to detect newly added links in probe callbacks
 	map_Note_PrevParts     map[*Note][]*Part
 	map_Note_PrevPorts     map[*Note][]*Port

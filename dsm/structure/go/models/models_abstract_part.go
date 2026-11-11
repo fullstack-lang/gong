@@ -11,7 +11,7 @@ type Part struct {
 	// A part is an instance of a system within another system.
 	// This is an instance of the whole/part meta model pattern.
 	// by default, the part name is the system type name, but it can be overridden by the user.
-	TypeOfPart              *System
+	Type              *System
 	IsPartNameNotSystemName bool
 
 	IsControlFlowsNodeExpanded bool
@@ -34,7 +34,9 @@ type Part struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
-	IsPortsNodeExpanded bool
+	IsPortsNodeExpanded         bool
+	IsTypePartsNodeExpanded     bool
+	IsTypeDataFlowsNodeExpanded bool
 }
 
 var _ AbstractType = (*Part)(nil)

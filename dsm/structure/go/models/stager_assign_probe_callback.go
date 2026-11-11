@@ -36,26 +36,29 @@ func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
 	// when a Data is added/removed to/from a DataFlow
 	// update all diagrams accordingly
 	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramStructure]() {
-		// check if this diagram has a DataFlowShape for this dataFlow
-		var hasDataFlowShape bool
+		var matchingDFShapes []*DataFlowShape
 		for _, dataFlowShape := range diagram.DataFlow_Shapes {
 			if dataFlowShape.DataFlow == dataFlow {
-				hasDataFlowShape = true
-				break
+				matchingDFShapes = append(matchingDFShapes, dataFlowShape)
 			}
 		}
 
-		if hasDataFlowShape {
-			existingDataShapes := make(map[*Data]*DataShape)
+		if len(matchingDFShapes) > 0 {
+			type dfDataPair struct {
+				dfShape *DataFlowShape
+				data    *Data
+			}
+			existingDataShapes := make(map[dfDataPair]*DataShape)
 			var validDataShapes []*DataShape
 
 			for _, dataShape := range diagram.Data_Shapes {
 				if dataShape.DataFlow == dataFlow {
 					if dataShape.Data != nil {
-						existingDataShapes[dataShape.Data] = dataShape
-
-						stillExists := slices.Contains(dataFlow.Datas, dataShape.Data)
+						effDFS := effectiveDataFlowShape(diagram, dataFlow, dataShape.DataFlowShape)
+						stillExists := slices.Contains(dataFlow.Datas, dataShape.Data) &&
+							(effDFS != nil && slices.Contains(matchingDFShapes, effDFS))
 						if stillExists {
+							existingDataShapes[dfDataPair{dfShape: effDFS, data: dataShape.Data}] = dataShape
 							validDataShapes = append(validDataShapes, dataShape)
 						} else {
 							dataShape.Unstage(stager.stage)
@@ -70,24 +73,23 @@ func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
 
 			diagram.Data_Shapes = validDataShapes
 
-			// add missing DataShapes
-			for _, data := range dataFlow.Datas {
-				if _, ok := existingDataShapes[data]; !ok {
-					// create a new DataShape
-					newDataShape := new(DataShape).Stage(stager.stage)
-					newDataShape.Name = data.Name
-					newDataShape.Data = data
-					newDataShape.DataFlow = dataFlow
-					diagram.Data_Shapes = append(diagram.Data_Shapes, newDataShape)
+			// add missing DataShapes for each active DataFlowShape of this dataFlow
+			for _, dfShape := range matchingDFShapes {
+				for _, data := range dataFlow.Datas {
+					pair := dfDataPair{dfShape: dfShape, data: data}
+					if _, ok := existingDataShapes[pair]; !ok {
+						newDataShape := new(DataShape).Stage(stager.stage)
+						newDataShape.Name = data.Name
+						newDataShape.Data = data
+						newDataShape.DataFlow = dataFlow
+						newDataShape.DataFlowShape = dfShape
+						diagram.Data_Shapes = append(diagram.Data_Shapes, newDataShape)
+					}
 				}
 			}
 		}
 	}
 
-	// The callback is invoked synchronously inside OnSave of the form,
-	// and OnSave calls commit *after* the callback. But in case it doesn't,
-	// we do not need to call commit explicitly if the form is saving.
-	// However, if we modified diagram.Data_Shapes, we might want to log it.
 	log.Printf("Updated Data_Shapes for DataFlow %s", dataFlow.Name)
 }
 

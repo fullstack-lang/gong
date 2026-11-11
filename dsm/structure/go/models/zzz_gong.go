@@ -523,6 +523,14 @@ type Stage struct {
 	PartShapes_referenceOrder map[*PartShape]uint
 
 	// insertion point for slice of pointers maps
+	PartShape_SubPartsWhoseNodeIsExpanded_reverseMap map[*Part]*PartShape
+
+	PartShape_PortsWhoseNodeIsExpanded_reverseMap map[*Port]*PartShape
+
+	PartShape_ControlFlowsWhoseNodeIsExpanded_reverseMap map[*ControlFlow]*PartShape
+
+	PartShape_DataFlowsWhoseNodeIsExpanded_reverseMap map[*DataFlow]*PartShape
+
 	OnAfterPartShapeCreateCallback GongOnAfterCreateInterface[PartShape]
 	OnAfterPartShapeUpdateCallback GongOnAfterUpdateInterface[PartShape]
 	OnAfterPartShapeDeleteCallback GongOnAfterDeleteInterface[PartShape]
@@ -3605,6 +3613,7 @@ func (ControlFlow) GongGetAssociationName() any {
 func (ControlFlowShape) GongGetAssociationName() any {
 	return &ControlFlowShape{
 			ControlFlow: &ControlFlow{Name: "ControlFlow"},
+			ParentPartShape: &PartShape{Name: "ParentPartShape"},
 	}
 }
 
@@ -3627,6 +3636,9 @@ func (DataFlow) GongGetAssociationName() any {
 func (DataFlowShape) GongGetAssociationName() any {
 	return &DataFlowShape{
 			DataFlow: &DataFlow{Name: "DataFlow"},
+			ParentPartShape: &PartShape{Name: "ParentPartShape"},
+			StartPortShape: &PortShape{Name: "StartPortShape"},
+			EndPortShape: &PortShape{Name: "EndPortShape"},
 	}
 }
 
@@ -3634,6 +3646,7 @@ func (DataShape) GongGetAssociationName() any {
 	return &DataShape{
 			Data: &Data{Name: "Data"},
 			DataFlow: &DataFlow{Name: "DataFlow"},
+			DataFlowShape: &DataFlowShape{Name: "DataFlowShape"},
 	}
 }
 
@@ -3750,7 +3763,7 @@ func (NoteShape) GongGetAssociationName() any {
 func (Part) GongGetAssociationName() any {
 	return &Part{
 			Ports: []*Port{{Name: "Ports"}},
-			TypeOfPart: &System{Name: "TypeOfPart"},
+			Type: &System{Name: "Type"},
 			ControlFlows: []*ControlFlow{{Name: "ControlFlows"}},
 			PortWhoseOutControlFlowsNodeIsExpanded: []*Port{{Name: "PortWhoseOutControlFlowsNodeIsExpanded"}},
 			PortWhoseInControlFlowsNodeIsExpanded: []*Port{{Name: "PortWhoseInControlFlowsNodeIsExpanded"}},
@@ -3768,6 +3781,11 @@ func (PartAnchoredPath) GongGetAssociationName() any {
 func (PartShape) GongGetAssociationName() any {
 	return &PartShape{
 			Part: &Part{Name: "Part"},
+			ParentPartShape: &PartShape{Name: "ParentPartShape"},
+			SubPartsWhoseNodeIsExpanded: []*Part{{Name: "SubPartsWhoseNodeIsExpanded"}},
+			PortsWhoseNodeIsExpanded: []*Port{{Name: "PortsWhoseNodeIsExpanded"}},
+			ControlFlowsWhoseNodeIsExpanded: []*ControlFlow{{Name: "ControlFlowsWhoseNodeIsExpanded"}},
+			DataFlowsWhoseNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseNodeIsExpanded"}},
 	}
 }
 
@@ -3780,6 +3798,7 @@ func (Port) GongGetAssociationName() any {
 func (PortShape) GongGetAssociationName() any {
 	return &PortShape{
 			Port: &Port{Name: "Port"},
+			ParentPartShape: &PartShape{Name: "ParentPartShape"},
 	}
 }
 
@@ -3798,6 +3817,7 @@ func (ProtocolLayerShape) GongGetAssociationName() any {
 	return &ProtocolLayerShape{
 			ProtocolLayer: &ProtocolLayer{Name: "ProtocolLayer"},
 			DataFlow: &DataFlow{Name: "DataFlow"},
+			DataFlowShape: &DataFlowShape{Name: "DataFlowShape"},
 	}
 }
 
@@ -3805,6 +3825,7 @@ func (ProtocolShape) GongGetAssociationName() any {
 	return &ProtocolShape{
 			Protocol: &Protocol{Name: "Protocol"},
 			DataFlow: &DataFlow{Name: "DataFlow"},
+			DataFlowShape: &DataFlowShape{Name: "DataFlowShape"},
 	}
 }
 
@@ -3999,6 +4020,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ParentPartShape":
+			res := make(map[*PartShape][]*ControlFlowShape)
+			for controlflowshape := range stage.ControlFlowShapes {
+				if controlflowshape.ParentPartShape != nil {
+					partshape_ := controlflowshape.ParentPartShape
+					var controlflowshapes []*ControlFlowShape
+					_, ok := res[partshape_]
+					if ok {
+						controlflowshapes = res[partshape_]
+					} else {
+						controlflowshapes = make([]*ControlFlowShape, 0)
+					}
+					controlflowshapes = append(controlflowshapes, controlflowshape)
+					res[partshape_] = controlflowshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Data
 	case Data:
@@ -4116,6 +4154,57 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ParentPartShape":
+			res := make(map[*PartShape][]*DataFlowShape)
+			for dataflowshape := range stage.DataFlowShapes {
+				if dataflowshape.ParentPartShape != nil {
+					partshape_ := dataflowshape.ParentPartShape
+					var dataflowshapes []*DataFlowShape
+					_, ok := res[partshape_]
+					if ok {
+						dataflowshapes = res[partshape_]
+					} else {
+						dataflowshapes = make([]*DataFlowShape, 0)
+					}
+					dataflowshapes = append(dataflowshapes, dataflowshape)
+					res[partshape_] = dataflowshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StartPortShape":
+			res := make(map[*PortShape][]*DataFlowShape)
+			for dataflowshape := range stage.DataFlowShapes {
+				if dataflowshape.StartPortShape != nil {
+					portshape_ := dataflowshape.StartPortShape
+					var dataflowshapes []*DataFlowShape
+					_, ok := res[portshape_]
+					if ok {
+						dataflowshapes = res[portshape_]
+					} else {
+						dataflowshapes = make([]*DataFlowShape, 0)
+					}
+					dataflowshapes = append(dataflowshapes, dataflowshape)
+					res[portshape_] = dataflowshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "EndPortShape":
+			res := make(map[*PortShape][]*DataFlowShape)
+			for dataflowshape := range stage.DataFlowShapes {
+				if dataflowshape.EndPortShape != nil {
+					portshape_ := dataflowshape.EndPortShape
+					var dataflowshapes []*DataFlowShape
+					_, ok := res[portshape_]
+					if ok {
+						dataflowshapes = res[portshape_]
+					} else {
+						dataflowshapes = make([]*DataFlowShape, 0)
+					}
+					dataflowshapes = append(dataflowshapes, dataflowshape)
+					res[portshape_] = dataflowshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of DataShape
 	case DataShape:
@@ -4152,6 +4241,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					datashapes = append(datashapes, datashape)
 					res[dataflow_] = datashapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DataFlowShape":
+			res := make(map[*DataFlowShape][]*DataShape)
+			for datashape := range stage.DataShapes {
+				if datashape.DataFlowShape != nil {
+					dataflowshape_ := datashape.DataFlowShape
+					var datashapes []*DataShape
+					_, ok := res[dataflowshape_]
+					if ok {
+						datashapes = res[dataflowshape_]
+					} else {
+						datashapes = make([]*DataShape, 0)
+					}
+					datashapes = append(datashapes, datashape)
+					res[dataflowshape_] = datashapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4380,11 +4486,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 	case Part:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "TypeOfPart":
+		case "Type":
 			res := make(map[*System][]*Part)
 			for part := range stage.Parts {
-				if part.TypeOfPart != nil {
-					system_ := part.TypeOfPart
+				if part.Type != nil {
+					system_ := part.Type
 					var parts []*Part
 					_, ok := res[system_]
 					if ok {
@@ -4421,6 +4527,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					partshapes = append(partshapes, partshape)
 					res[part_] = partshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ParentPartShape":
+			res := make(map[*PartShape][]*PartShape)
+			for partshape := range stage.PartShapes {
+				if partshape.ParentPartShape != nil {
+					partshape_ := partshape.ParentPartShape
+					var partshapes []*PartShape
+					_, ok := res[partshape_]
+					if ok {
+						partshapes = res[partshape_]
+					} else {
+						partshapes = make([]*PartShape, 0)
+					}
+					partshapes = append(partshapes, partshape)
+					res[partshape_] = partshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4465,6 +4588,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					portshapes = append(portshapes, portshape)
 					res[port_] = portshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ParentPartShape":
+			res := make(map[*PartShape][]*PortShape)
+			for portshape := range stage.PortShapes {
+				if portshape.ParentPartShape != nil {
+					partshape_ := portshape.ParentPartShape
+					var portshapes []*PortShape
+					_, ok := res[partshape_]
+					if ok {
+						portshapes = res[partshape_]
+					} else {
+						portshapes = make([]*PortShape, 0)
+					}
+					portshapes = append(portshapes, portshape)
+					res[partshape_] = portshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4517,6 +4657,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "DataFlowShape":
+			res := make(map[*DataFlowShape][]*ProtocolLayerShape)
+			for protocollayershape := range stage.ProtocolLayerShapes {
+				if protocollayershape.DataFlowShape != nil {
+					dataflowshape_ := protocollayershape.DataFlowShape
+					var protocollayershapes []*ProtocolLayerShape
+					_, ok := res[dataflowshape_]
+					if ok {
+						protocollayershapes = res[dataflowshape_]
+					} else {
+						protocollayershapes = make([]*ProtocolLayerShape, 0)
+					}
+					protocollayershapes = append(protocollayershapes, protocollayershape)
+					res[dataflowshape_] = protocollayershapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ProtocolShape
 	case ProtocolShape:
@@ -4553,6 +4710,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 					}
 					protocolshapes = append(protocolshapes, protocolshape)
 					res[dataflow_] = protocolshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DataFlowShape":
+			res := make(map[*DataFlowShape][]*ProtocolShape)
+			for protocolshape := range stage.ProtocolShapes {
+				if protocolshape.DataFlowShape != nil {
+					dataflowshape_ := protocolshape.DataFlowShape
+					var protocolshapes []*ProtocolShape
+					_, ok := res[dataflowshape_]
+					if ok {
+						protocolshapes = res[dataflowshape_]
+					} else {
+						protocolshapes = make([]*ProtocolShape, 0)
+					}
+					protocolshapes = append(protocolshapes, protocolshape)
+					res[dataflowshape_] = protocolshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -5172,6 +5346,38 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	case PartShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "SubPartsWhoseNodeIsExpanded":
+			res := make(map[*Part][]*PartShape)
+			for partshape := range stage.PartShapes {
+				for _, part_ := range partshape.SubPartsWhoseNodeIsExpanded {
+					res[part_] = append(res[part_], partshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PortsWhoseNodeIsExpanded":
+			res := make(map[*Port][]*PartShape)
+			for partshape := range stage.PartShapes {
+				for _, port_ := range partshape.PortsWhoseNodeIsExpanded {
+					res[port_] = append(res[port_], partshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ControlFlowsWhoseNodeIsExpanded":
+			res := make(map[*ControlFlow][]*PartShape)
+			for partshape := range stage.PartShapes {
+				for _, controlflow_ := range partshape.ControlFlowsWhoseNodeIsExpanded {
+					res[controlflow_] = append(res[controlflow_], partshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DataFlowsWhoseNodeIsExpanded":
+			res := make(map[*DataFlow][]*PartShape)
+			for partshape := range stage.PartShapes {
+				for _, dataflow_ := range partshape.DataFlowsWhoseNodeIsExpanded {
+					res[dataflow_] = append(res[dataflow_], partshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Port
 	case Port:
@@ -5380,6 +5586,10 @@ func (*ControlFlow) GongGetReverseFields() []GongReverseField {
 			GongstructName: "Part",
 			Fieldname: "ControlFlows",
 		},
+		{
+			GongstructName: "PartShape",
+			Fieldname: "ControlFlowsWhoseNodeIsExpanded",
+		},
 	}
 }
 
@@ -5438,6 +5648,10 @@ func (*DataFlow) GongGetReverseFields() []GongReverseField {
 		{
 			GongstructName: "Note",
 			Fieldname: "DataFlows",
+		},
+		{
+			GongstructName: "PartShape",
+			Fieldname: "DataFlowsWhoseNodeIsExpanded",
 		},
 		{
 			GongstructName: "System",
@@ -5589,6 +5803,10 @@ func (*Part) GongGetReverseFields() []GongReverseField {
 			Fieldname: "Parts",
 		},
 		{
+			GongstructName: "PartShape",
+			Fieldname: "SubPartsWhoseNodeIsExpanded",
+		},
+		{
 			GongstructName: "SemanticTag",
 			Fieldname: "Parts",
 		},
@@ -5658,6 +5876,10 @@ func (*Port) GongGetReverseFields() []GongReverseField {
 		{
 			GongstructName: "Part",
 			Fieldname: "PortWhoseInDataFlowsNodeIsExpanded",
+		},
+		{
+			GongstructName: "PartShape",
+			Fieldname: "PortsWhoseNodeIsExpanded",
 		},
 	}
 }
@@ -5881,6 +6103,11 @@ func (controlflowshape *ControlFlowShape) GongGetFieldHeaders() (res []GongField
 			TargetGongstructName: "ControlFlow",
 		},
 		{
+			Name:                 "ParentPartShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartShape",
+		},
+		{
 			Name:               "StartRatio",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -6057,6 +6284,25 @@ func (dataflowshape *DataFlowShape) GongGetFieldHeaders() (res []GongFieldHeader
 			TargetGongstructName: "DataFlow",
 		},
 		{
+			Name:                 "ParentPartShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartShape",
+		},
+		{
+			Name:                 "StartPortShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PortShape",
+		},
+		{
+			Name:                 "EndPortShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PortShape",
+		},
+		{
+			Name:               "IsProtocolNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "StartRatio",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -6130,6 +6376,11 @@ func (datashape *DataShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "DataFlow",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "DataFlow",
+		},
+		{
+			Name:                 "DataFlowShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "DataFlowShape",
 		},
 		{
 			Name:               "X",
@@ -7076,7 +7327,7 @@ func (part *Part) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Port",
 		},
 		{
-			Name:                 "TypeOfPart",
+			Name:                 "Type",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "System",
 		},
@@ -7132,6 +7383,14 @@ func (part *Part) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsPortsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsTypePartsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsTypeDataFlowsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
@@ -7219,8 +7478,49 @@ func (partshape *PartShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Part",
 		},
 		{
+			Name:                 "ParentPartShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartShape",
+		},
+		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPortsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsControlFlowsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsTypePartsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsTypeDataFlowsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "SubPartsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Part",
+		},
+		{
+			Name:                 "PortsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Port",
+		},
+		{
+			Name:                 "ControlFlowsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlFlow",
+		},
+		{
+			Name:                 "DataFlowsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DataFlow",
 		},
 		{
 			Name:               "X",
@@ -7333,6 +7633,11 @@ func (portshape *PortShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ParentPartShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartShape",
 		},
 		{
 			Name:               "X",
@@ -7483,6 +7788,11 @@ func (protocollayershape *ProtocolLayerShape) GongGetFieldHeaders() (res []GongF
 			TargetGongstructName: "DataFlow",
 		},
 		{
+			Name:                 "DataFlowShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "DataFlowShape",
+		},
+		{
 			Name:               "X",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -7566,6 +7876,11 @@ func (protocolshape *ProtocolShape) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:                 "DataFlow",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "DataFlow",
+		},
+		{
+			Name:                 "DataFlowShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "DataFlowShape",
 		},
 		{
 			Name:               "X",
@@ -7990,6 +8305,12 @@ func (controlflowshape *ControlFlowShape) GongGetFieldValue(fieldName string, st
 			res.valueString = controlflowshape.ControlFlow.Name
 			res.ids = controlflowshape.ControlFlow.GongGetUUID(stage)
 		}
+	case "ParentPartShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if controlflowshape.ParentPartShape != nil {
+			res.valueString = controlflowshape.ParentPartShape.Name
+			res.ids = controlflowshape.ParentPartShape.GongGetUUID(stage)
+		}
 	case "StartRatio":
 		res.valueString = fmt.Sprintf("%f", controlflowshape.StartRatio)
 		res.valueFloat = controlflowshape.StartRatio
@@ -8143,6 +8464,28 @@ func (dataflowshape *DataFlowShape) GongGetFieldValue(fieldName string, stage *S
 			res.valueString = dataflowshape.DataFlow.Name
 			res.ids = dataflowshape.DataFlow.GongGetUUID(stage)
 		}
+	case "ParentPartShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if dataflowshape.ParentPartShape != nil {
+			res.valueString = dataflowshape.ParentPartShape.Name
+			res.ids = dataflowshape.ParentPartShape.GongGetUUID(stage)
+		}
+	case "StartPortShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if dataflowshape.StartPortShape != nil {
+			res.valueString = dataflowshape.StartPortShape.Name
+			res.ids = dataflowshape.StartPortShape.GongGetUUID(stage)
+		}
+	case "EndPortShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if dataflowshape.EndPortShape != nil {
+			res.valueString = dataflowshape.EndPortShape.Name
+			res.ids = dataflowshape.EndPortShape.GongGetUUID(stage)
+		}
+	case "IsProtocolNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", dataflowshape.IsProtocolNodeExpanded)
+		res.valueBool = dataflowshape.IsProtocolNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "StartRatio":
 		res.valueString = fmt.Sprintf("%f", dataflowshape.StartRatio)
 		res.valueFloat = dataflowshape.StartRatio
@@ -8205,6 +8548,12 @@ func (datashape *DataShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		if datashape.DataFlow != nil {
 			res.valueString = datashape.DataFlow.Name
 			res.ids = datashape.DataFlow.GongGetUUID(stage)
+		}
+	case "DataFlowShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if datashape.DataFlowShape != nil {
+			res.valueString = datashape.DataFlowShape.Name
+			res.ids = datashape.DataFlowShape.GongGetUUID(stage)
 		}
 	case "X":
 		res.valueString = fmt.Sprintf("%f", datashape.X)
@@ -9305,11 +9654,11 @@ func (part *Part) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "TypeOfPart":
+	case "Type":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if part.TypeOfPart != nil {
-			res.valueString = part.TypeOfPart.Name
-			res.ids = part.TypeOfPart.GongGetUUID(stage)
+		if part.Type != nil {
+			res.valueString = part.Type.Name
+			res.ids = part.Type.GongGetUUID(stage)
 		}
 	case "IsPartNameNotSystemName":
 		res.valueString = fmt.Sprintf("%t", part.IsPartNameNotSystemName)
@@ -9393,6 +9742,14 @@ func (part *Part) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", part.IsPortsNodeExpanded)
 		res.valueBool = part.IsPortsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsTypePartsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", part.IsTypePartsNodeExpanded)
+		res.valueBool = part.IsTypePartsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsTypeDataFlowsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", part.IsTypeDataFlowsNodeExpanded)
+		res.valueBool = part.IsTypeDataFlowsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -9460,10 +9817,72 @@ func (partshape *PartShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 			res.valueString = partshape.Part.Name
 			res.ids = partshape.Part.GongGetUUID(stage)
 		}
+	case "ParentPartShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if partshape.ParentPartShape != nil {
+			res.valueString = partshape.ParentPartShape.Name
+			res.ids = partshape.ParentPartShape.GongGetUUID(stage)
+		}
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", partshape.IsExpanded)
 		res.valueBool = partshape.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPortsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", partshape.IsPortsNodeExpanded)
+		res.valueBool = partshape.IsPortsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsControlFlowsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", partshape.IsControlFlowsNodeExpanded)
+		res.valueBool = partshape.IsControlFlowsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsTypePartsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", partshape.IsTypePartsNodeExpanded)
+		res.valueBool = partshape.IsTypePartsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsTypeDataFlowsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", partshape.IsTypeDataFlowsNodeExpanded)
+		res.valueBool = partshape.IsTypeDataFlowsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SubPartsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range partshape.SubPartsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "PortsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range partshape.PortsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ControlFlowsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range partshape.ControlFlowsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "DataFlowsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range partshape.DataFlowsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "X":
 		res.valueString = fmt.Sprintf("%f", partshape.X)
 		res.valueFloat = partshape.X
@@ -9558,6 +9977,12 @@ func (portshape *PortShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", portshape.IsExpanded)
 		res.valueBool = portshape.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ParentPartShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if portshape.ParentPartShape != nil {
+			res.valueString = portshape.ParentPartShape.Name
+			res.ids = portshape.ParentPartShape.GongGetUUID(stage)
+		}
 	case "X":
 		res.valueString = fmt.Sprintf("%f", portshape.X)
 		res.valueFloat = portshape.X
@@ -9683,6 +10108,12 @@ func (protocollayershape *ProtocolLayerShape) GongGetFieldValue(fieldName string
 			res.valueString = protocollayershape.DataFlow.Name
 			res.ids = protocollayershape.DataFlow.GongGetUUID(stage)
 		}
+	case "DataFlowShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if protocollayershape.DataFlowShape != nil {
+			res.valueString = protocollayershape.DataFlowShape.Name
+			res.ids = protocollayershape.DataFlowShape.GongGetUUID(stage)
+		}
 	case "X":
 		res.valueString = fmt.Sprintf("%f", protocollayershape.X)
 		res.valueFloat = protocollayershape.X
@@ -9755,6 +10186,12 @@ func (protocolshape *ProtocolShape) GongGetFieldValue(fieldName string, stage *S
 		if protocolshape.DataFlow != nil {
 			res.valueString = protocolshape.DataFlow.Name
 			res.ids = protocolshape.DataFlow.GongGetUUID(stage)
+		}
+	case "DataFlowShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if protocolshape.DataFlowShape != nil {
+			res.valueString = protocolshape.DataFlowShape.Name
+			res.ids = protocolshape.DataFlowShape.GongGetUUID(stage)
 		}
 	case "X":
 		res.valueString = fmt.Sprintf("%f", protocolshape.X)

@@ -53,6 +53,13 @@ func (inst *ControlFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 				res = _part.Name
 			}
 		}
+	case "PartShape":
+		switch reverseField.Fieldname {
+		case "ControlFlowsWhoseNodeIsExpanded":
+			if _partshape, ok := stage.PartShape_ControlFlowsWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _partshape.Name
+			}
+		}
 	}
 	return
 }
@@ -143,6 +150,13 @@ func (inst *DataFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *G
 		case "DataFlows":
 			if _note, ok := stage.Note_DataFlows_reverseMap[inst]; ok {
 				res = _note.Name
+			}
+		}
+	case "PartShape":
+		switch reverseField.Fieldname {
+		case "DataFlowsWhoseNodeIsExpanded":
+			if _partshape, ok := stage.PartShape_DataFlowsWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _partshape.Name
 			}
 		}
 	case "System":
@@ -383,6 +397,13 @@ func (inst *Part) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongR
 				res = _note.Name
 			}
 		}
+	case "PartShape":
+		switch reverseField.Fieldname {
+		case "SubPartsWhoseNodeIsExpanded":
+			if _partshape, ok := stage.PartShape_SubPartsWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _partshape.Name
+			}
+		}
 	case "SemanticTag":
 		switch reverseField.Fieldname {
 		case "Parts":
@@ -485,6 +506,13 @@ func (inst *Port) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongR
 		case "PortWhoseInDataFlowsNodeIsExpanded":
 			if _part, ok := stage.Part_PortWhoseInDataFlowsNodeIsExpanded_reverseMap[inst]; ok {
 				res = _part.Name
+			}
+		}
+	case "PartShape":
+		switch reverseField.Fieldname {
+		case "PortsWhoseNodeIsExpanded":
+			if _partshape, ok := stage.PartShape_PortsWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _partshape.Name
 			}
 		}
 	}

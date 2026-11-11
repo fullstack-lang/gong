@@ -54,6 +54,7 @@ func (stager *Stager) generateSvgObject(diagramStructure *DiagramStructure) *svg
 	diagramStructure.map_SvgRect_PortShape = make(map[*svg.Rect]*PortShape)
 	diagramStructure.map_SvgRect_ExternalPartShape = map[*svg.Rect]*ExternalPartShape{}
 	diagramStructure.map_SvgRect_Part = map[*svg.Rect]*Part{}
+	diagramStructure.map_SvgRect_PartShape = map[*svg.Rect]*PartShape{}
 	diagramStructure.map_SvgRect_NoteShape = map[*svg.Rect]*NoteShape{}
 
 	// // to implement association between abstract elements by mouse drag
@@ -132,28 +133,46 @@ func (stager *Stager) drawSystemShapes(diagramStructure *DiagramStructure, layer
 func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *svg.Layer, rectOfOwningSystem *svg.Rect) {
 	root := stager.getRootLibrary()
 	diagramStructure.map_Part_Rect = make(map[*Part]*svg.Rect)
+	diagramStructure.map_PartShape_Rect = make(map[*PartShape]*svg.Rect)
 
-	verticalTopMarginForTitle := 60.0
+	ordered := sortedPartShapesTopDown(diagramStructure.Part_Shapes)
 
-	for _, partShape := range diagramStructure.Part_Shapes {
+	for _, partShape := range ordered {
 
-		if partShape.IsHidden {
+		if isPartShapeOrAncestorHidden(diagramStructure, partShape) {
 			continue
+		}
+
+		enclosingRect := rectOfOwningSystem
+		if partShape.ParentPartShape != nil {
+			enclosingRect = diagramStructure.map_PartShape_Rect[partShape.ParentPartShape]
+			if enclosingRect == nil {
+				continue
+			}
 		}
 
 		partRect := new(svg.Rect)
 		layer.Rects = append(layer.Rects, partRect)
 		diagramStructure.map_SvgRect_Part[partRect] = partShape.Part
-		diagramStructure.map_Part_Rect[partShape.Part] = partRect
+		diagramStructure.map_SvgRect_PartShape[partRect] = partShape
+		diagramStructure.map_PartShape_Rect[partShape] = partRect
+		if partShape.ParentPartShape == nil || diagramStructure.map_Part_Rect[partShape.Part] == nil {
+			diagramStructure.map_Part_Rect[partShape.Part] = partRect
+		}
 
-		// part rect cannot espace owning system shape
-		partRect.EnclosingRect = rectOfOwningSystem
+		// part rect cannot escape its enclosing rect (owning system shape or parent part shape)
+		partRect.EnclosingRect = enclosingRect
 		rectOfOwningSystem.Peers = append(rectOfOwningSystem.Peers, partRect)
+		for _, anc := range partShapeAncestors(partShape) {
+			if ancRect := diagramStructure.map_PartShape_Rect[anc]; ancRect != nil {
+				ancRect.Peers = append(ancRect.Peers, partRect)
+			}
+		}
 
 		partRect.Name = partShape.GetName()
 		partRect.Stroke = "#E0E0E0"
-		partRect.StrokeWidth = 1
-		partRect.StrokeOpacity = 1
+		partRect.StrokeWidth = 1.0
+		partRect.StrokeOpacity = 1.0
 
 		partRect.X = partShape.GetX()
 		partRect.Y = partShape.GetY()
@@ -163,7 +182,6 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 		partRect.Color = "#FFFFFF"
 		partRect.FillOpacity = 1.0
 
-		// rect cannot move
 		partRect.CanMoveHorizontaly = true
 		partRect.CanMoveVerticaly = true
 
@@ -174,7 +192,8 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 
 		// visuals
 		partRect.RX = 0
-		partRect.StrokeWidth = 1
+		partRect.StrokeWidth = 1.0
+		partRect.StrokeOpacity = 1.0
 
 		// override default behavior, we need to commit when the rect is moved
 		partRect.OnSelect = onSelectRectShape(stager, partShape.Part, partShape)
@@ -195,17 +214,20 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 			}
 			title.Content = content
 			title.StrokeWidth = 0
-			title.StrokeOpacity = 1
+			title.StrokeOpacity = 1.0
 			title.Color = "#333333"
-			title.FillOpacity = 1
+			title.FillOpacity = 1.0
 
 			title.FontSize = "16px"
 			title.FontWeight = "500"
 			title.X_Offset = 0
-			title.Y_Offset = verticalTopMarginForTitle / 2.0
-			title.Y_Offset = 0
-			title.RectAnchorType = svg.RECT_TOP
-			title.RectAnchorType = svg.RECT_CENTER_MIDDLE
+			if hasVisibleChildPartShape(diagramStructure, partShape) {
+				title.RectAnchorType = svg.RECT_TOP
+				title.Y_Offset = 24.0
+			} else {
+				title.RectAnchorType = svg.RECT_CENTER_MIDDLE
+				title.Y_Offset = 0
+			}
 			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 
 			partRect.RectAnchoredTexts = append(partRect.RectAnchoredTexts, title)
@@ -234,22 +256,24 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 		}
 	}
 
-	// make every part shape an obstable for the others
-	for _, partShape1 := range diagramStructure.Part_Shapes {
-		rect1 := diagramStructure.map_Part_Rect[partShape1.Part]
+	// Make sibling PartShapes (sharing the exact same ParentPartShape) obstacles to each other.
+	// Ancestor and descendant PartShapes intentionally enclose one another and must not be obstacles.
+	for _, partShape1 := range ordered {
+		rect1 := diagramStructure.map_PartShape_Rect[partShape1]
 		if rect1 == nil {
 			continue
 		}
 
-		for _, partShape2 := range diagramStructure.Part_Shapes {
-			rect2 := diagramStructure.map_Part_Rect[partShape2.Part]
+		for _, partShape2 := range ordered {
+			if partShape1 == partShape2 || partShape1.ParentPartShape != partShape2.ParentPartShape {
+				continue
+			}
+			rect2 := diagramStructure.map_PartShape_Rect[partShape2]
 			if rect2 == nil {
 				continue
 			}
 
-			if partShape1 != partShape2 {
-				rect1.Obstacles = append(rect1.Obstacles, rect2)
-			}
+			rect1.Obstacles = append(rect1.Obstacles, rect2)
 		}
 	}
 
@@ -352,16 +376,19 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 	rm := stager.stage.GetSliceOfPointersReverseMap[Part, Port](GongGetAssociationName[Part]().Ports[0].Name)
 
 	diagramStructure.map_Port_Rect = make(map[*Port]*svg.Rect)
+	diagramStructure.map_PortShape_Rect = make(map[*PortShape]*svg.Rect)
 	for _, portShape := range diagramStructure.Port_Shapes {
-
-		part := portShape.Port.owningPart
-		partShape := diagramStructure.map_Part_PartShape[part]
-		partRect := diagramStructure.map_Part_Rect[part]
-		if partShape.IsHidden {
+		if portShape == nil || portShape.Port == nil || portShape.IsHidden {
 			continue
 		}
 
-		if portShape.IsHidden {
+		partShape := effectivePortParentPartShape(diagramStructure, portShape)
+		if partShape == nil || isPartShapeOrAncestorHidden(diagramStructure, partShape) {
+			continue
+		}
+		part := partShape.Part
+		partRect := diagramStructure.map_PartShape_Rect[partShape]
+		if partRect == nil {
 			continue
 		}
 
@@ -386,12 +413,18 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 		// make the port be anchored to the border of the part shape
 		portRect.AnchoredTo = partRect
 		partRect.Peers = append(partRect.Peers, portRect)
+		for _, anc := range partShapeAncestors(partShape) {
+			if ancRect := diagramStructure.map_PartShape_Rect[anc]; ancRect != nil {
+				ancRect.Peers = append(ancRect.Peers, portRect)
+			}
+		}
 		rectOfOwningSystem.Peers = append(rectOfOwningSystem.Peers, portRect)
 
 		portRect.Color = "#E3F2FD"
 		portRect.FillOpacity = 1.0
 		portRect.Stroke = "#90CAF9"
 		portRect.StrokeWidth = 1.5
+		portRect.StrokeOpacity = 1.0
 		portRect.RX = 5.0
 
 		// if the diagram has discrete port, we remove the port title
@@ -460,16 +493,18 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 			syncRectPresentation(portShape, portRect)
 		}
 
-		diagramStructure.map_Port_Rect[portShape.Port] = portRect
+		diagramStructure.map_PortShape_Rect[portShape] = portRect
+		if partShape.ParentPartShape == nil || diagramStructure.map_Port_Rect[portShape.Port] == nil {
+			diagramStructure.map_Port_Rect[portShape.Port] = portRect
+		}
 	}
 }
 
 func (stager *Stager) drawControlFlowShapes(diagramStructure *DiagramStructure, layer *svg.Layer) {
 	for _, controlFlowShape := range diagramStructure.ControlFlow_Shapes {
-		if controlFlowShape.GetIsHidden() {
+		if controlFlowShape.GetIsHidden() || controlFlowShape.ControlFlow == nil {
 			continue
 		}
-		_ = controlFlowShape
 		startPort := controlFlowShape.ControlFlow.Start
 		endPort := controlFlowShape.ControlFlow.End
 
@@ -477,8 +512,16 @@ func (stager *Stager) drawControlFlowShapes(diagramStructure *DiagramStructure, 
 			log.Panic("There should be a start port and a end port")
 		}
 
-		startRect := diagramStructure.map_Port_Rect[startPort]
-		endRect := diagramStructure.map_Port_Rect[endPort]
+		var startRect, endRect *svg.Rect
+		parentPS := effectiveControlFlowParentPartShape(diagramStructure, controlFlowShape)
+		if parentPS != nil && diagramStructure.map_PortShapeKey_PortShape != nil && diagramStructure.map_PortShape_Rect != nil {
+			if sps, ok := diagramStructure.map_PortShapeKey_PortShape[portShapeKey{port: startPort, parentPartShape: parentPS}]; ok {
+				startRect = diagramStructure.map_PortShape_Rect[sps]
+			}
+			if eps, ok := diagramStructure.map_PortShapeKey_PortShape[portShapeKey{port: endPort, parentPartShape: parentPS}]; ok {
+				endRect = diagramStructure.map_PortShape_Rect[eps]
+			}
+		}
 
 		if startRect == nil || endRect == nil {
 			continue
@@ -493,6 +536,7 @@ func (stager *Stager) drawControlFlowShapes(diagramStructure *DiagramStructure, 
 
 		link.Stroke = "#333333"
 		link.StrokeWidth = 1.5
+		link.StrokeOpacity = 1.0
 		syncLinkPresentation(controlFlowShape, link)
 		_ = link
 	}
@@ -607,25 +651,37 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 
 		var startRect, endRect *svg.Rect
 		df := dataFlowShape.DataFlow
+		if df == nil {
+			continue
+		}
+		startPortShape, _, endPortShape, _ := resolveDataFlowEndpointPortShapes(diagramStructure, dataFlowShape)
 
 		switch df.Type {
 		case DataFlow_Port2Port:
 			if df.StartPort == nil || df.EndPort == nil {
 				log.Panic("There should be a start port and an end port")
 			}
-			startRect = diagramStructure.map_Port_Rect[df.StartPort]
-			endRect = diagramStructure.map_Port_Rect[df.EndPort]
+			if startPortShape != nil && diagramStructure.map_PortShape_Rect != nil {
+				startRect = diagramStructure.map_PortShape_Rect[startPortShape]
+			}
+			if endPortShape != nil && diagramStructure.map_PortShape_Rect != nil {
+				endRect = diagramStructure.map_PortShape_Rect[endPortShape]
+			}
 		case DataFlow_ExternalPart2Port:
 			if df.StartExternalPart == nil || df.EndPort == nil {
 				log.Panic("There should be a start external part and an end port")
 			}
 			startRect = diagramStructure.map_ExternalPart_Rect[df.StartExternalPart]
-			endRect = diagramStructure.map_Port_Rect[df.EndPort]
+			if endPortShape != nil && diagramStructure.map_PortShape_Rect != nil {
+				endRect = diagramStructure.map_PortShape_Rect[endPortShape]
+			}
 		case DataFlow_Port2ExternalPart:
 			if df.StartPort == nil || df.EndExternalPart == nil {
 				log.Panic("There should be a start port and an end external part")
 			}
-			startRect = diagramStructure.map_Port_Rect[df.StartPort]
+			if startPortShape != nil && diagramStructure.map_PortShape_Rect != nil {
+				startRect = diagramStructure.map_PortShape_Rect[startPortShape]
+			}
 			endRect = diagramStructure.map_ExternalPart_Rect[df.EndExternalPart]
 		}
 

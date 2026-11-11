@@ -82,8 +82,20 @@ func (stager *Stager) treeDiagramStructure(
 		diagramNode.Children = append(diagramNode.Children, partsNode)
 		partsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagramStructure.IsPartsNodeExpanded)
 
+		visitedSystems := make(map[*System]bool)
+		if system != nil {
+			visitedSystems[system] = true
+		}
 		for _, part := range system.Parts {
-			stager.treeParts(diagramStructure, part, partsNode)
+			stager.treePartsWithEnclosing(
+				diagramStructure,
+				part,
+				nil,
+				false,
+				&diagramStructure.PartWhoseNodeIsExpanded,
+				visitedSystems,
+				partsNode,
+			)
 		}
 		confParts := ItemButtonConfiguration[
 			Part, *Part,

@@ -94,12 +94,22 @@ func FillUpForm(
 			func(owner *models.Part) []*models.ControlFlow {
 				return owner.ControlFlows
 			})
+		AssociationReverseSliceToForm(
+			"PartShape",
+			"ControlFlowsWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PartShape) []*models.ControlFlow {
+				return owner.ControlFlowsWhoseNodeIsExpanded
+			})
 
 	case *models.ControlFlowShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("ControlFlow", instanceWithInferedType.ControlFlow, formGroup, probe)
+		AssociationFieldToForm("ParentPartShape", instanceWithInferedType.ParentPartShape, formGroup, probe)
 		BasicFieldtoForm("StartRatio", instanceWithInferedType.StartRatio, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("EndRatio", instanceWithInferedType.EndRatio, instanceWithInferedType, probe.formStage, formGroup,
@@ -279,6 +289,15 @@ func FillUpForm(
 				return owner.DataFlows
 			})
 		AssociationReverseSliceToForm(
+			"PartShape",
+			"DataFlowsWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PartShape) []*models.DataFlow {
+				return owner.DataFlowsWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
 			"System",
 			"DataFlows",
 			instanceWithInferedType,
@@ -293,6 +312,11 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("DataFlow", instanceWithInferedType.DataFlow, formGroup, probe)
+		AssociationFieldToForm("ParentPartShape", instanceWithInferedType.ParentPartShape, formGroup, probe)
+		AssociationFieldToForm("StartPortShape", instanceWithInferedType.StartPortShape, formGroup, probe)
+		AssociationFieldToForm("EndPortShape", instanceWithInferedType.EndPortShape, formGroup, probe)
+		BasicFieldtoForm("IsProtocolNodeExpanded", instanceWithInferedType.IsProtocolNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("StartRatio", instanceWithInferedType.StartRatio, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("EndRatio", instanceWithInferedType.EndRatio, instanceWithInferedType, probe.formStage, formGroup,
@@ -338,6 +362,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Data", instanceWithInferedType.Data, formGroup, probe)
 		AssociationFieldToForm("DataFlow", instanceWithInferedType.DataFlow, formGroup, probe)
+		AssociationFieldToForm("DataFlowShape", instanceWithInferedType.DataFlowShape, formGroup, probe)
 		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
@@ -876,7 +901,7 @@ func FillUpForm(
 		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
 			true, false, 0, false, 0, false)
 		AssociationSliceToForm("Ports", instanceWithInferedType, &instanceWithInferedType.Ports, formGroup, probe)
-		AssociationFieldToForm("TypeOfPart", instanceWithInferedType.TypeOfPart, formGroup, probe)
+		AssociationFieldToForm("Type", instanceWithInferedType.Type, formGroup, probe)
 		BasicFieldtoForm("IsPartNameNotSystemName", instanceWithInferedType.IsPartNameNotSystemName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsControlFlowsNodeExpanded", instanceWithInferedType.IsControlFlowsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
@@ -894,6 +919,10 @@ func FillUpForm(
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsPortsNodeExpanded", instanceWithInferedType.IsPortsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsTypePartsNodeExpanded", instanceWithInferedType.IsTypePartsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsTypeDataFlowsNodeExpanded", instanceWithInferedType.IsTypeDataFlowsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -953,6 +982,15 @@ func FillUpForm(
 			probe,
 			func(owner *models.Note) []*models.Part {
 				return owner.Parts
+			})
+		AssociationReverseSliceToForm(
+			"PartShape",
+			"SubPartsWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PartShape) []*models.Part {
+				return owner.SubPartsWhoseNodeIsExpanded
 			})
 		AssociationReverseSliceToForm(
 			"SemanticTag",
@@ -1051,8 +1089,21 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Part", instanceWithInferedType.Part, formGroup, probe)
+		AssociationFieldToForm("ParentPartShape", instanceWithInferedType.ParentPartShape, formGroup, probe)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsPortsNodeExpanded", instanceWithInferedType.IsPortsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsControlFlowsNodeExpanded", instanceWithInferedType.IsControlFlowsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsTypePartsNodeExpanded", instanceWithInferedType.IsTypePartsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsTypeDataFlowsNodeExpanded", instanceWithInferedType.IsTypeDataFlowsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("SubPartsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.SubPartsWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("PortsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.PortsWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("ControlFlowsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ControlFlowsWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("DataFlowsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DataFlowsWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
@@ -1179,6 +1230,15 @@ func FillUpForm(
 			func(owner *models.Part) []*models.Port {
 				return owner.PortWhoseInDataFlowsNodeIsExpanded
 			})
+		AssociationReverseSliceToForm(
+			"PartShape",
+			"PortsWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.PartShape) []*models.Port {
+				return owner.PortsWhoseNodeIsExpanded
+			})
 
 	case *models.PortShape:
 		// insertion point
@@ -1187,6 +1247,7 @@ func FillUpForm(
 		AssociationFieldToForm("Port", instanceWithInferedType.Port, formGroup, probe)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		AssociationFieldToForm("ParentPartShape", instanceWithInferedType.ParentPartShape, formGroup, probe)
 		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
@@ -1324,6 +1385,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("ProtocolLayer", instanceWithInferedType.ProtocolLayer, formGroup, probe)
 		AssociationFieldToForm("DataFlow", instanceWithInferedType.DataFlow, formGroup, probe)
+		AssociationFieldToForm("DataFlowShape", instanceWithInferedType.DataFlowShape, formGroup, probe)
 		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
@@ -1377,6 +1439,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Protocol", instanceWithInferedType.Protocol, formGroup, probe)
 		AssociationFieldToForm("DataFlow", instanceWithInferedType.DataFlow, formGroup, probe)
+		AssociationFieldToForm("DataFlowShape", instanceWithInferedType.DataFlowShape, formGroup, probe)
 		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,

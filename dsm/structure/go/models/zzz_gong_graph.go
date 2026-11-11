@@ -254,6 +254,9 @@ func (controlflowshape *ControlFlowShape) GongStageBranch(stage *Stage) {
 	if controlflowshape.ControlFlow != nil {
 		stage.StageBranch(controlflowshape.ControlFlow)
 	}
+	if controlflowshape.ParentPartShape != nil {
+		stage.StageBranch(controlflowshape.ParentPartShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -320,6 +323,15 @@ func (dataflowshape *DataFlowShape) GongStageBranch(stage *Stage) {
 	if dataflowshape.DataFlow != nil {
 		stage.StageBranch(dataflowshape.DataFlow)
 	}
+	if dataflowshape.ParentPartShape != nil {
+		stage.StageBranch(dataflowshape.ParentPartShape)
+	}
+	if dataflowshape.StartPortShape != nil {
+		stage.StageBranch(dataflowshape.StartPortShape)
+	}
+	if dataflowshape.EndPortShape != nil {
+		stage.StageBranch(dataflowshape.EndPortShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -340,6 +352,9 @@ func (datashape *DataShape) GongStageBranch(stage *Stage) {
 	}
 	if datashape.DataFlow != nil {
 		stage.StageBranch(datashape.DataFlow)
+	}
+	if datashape.DataFlowShape != nil {
+		stage.StageBranch(datashape.DataFlowShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -686,8 +701,8 @@ func (part *Part) GongStageBranch(stage *Stage) {
 	part.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if part.TypeOfPart != nil {
-		stage.StageBranch(part.TypeOfPart)
+	if part.Type != nil {
+		stage.StageBranch(part.Type)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -743,8 +758,23 @@ func (partshape *PartShape) GongStageBranch(stage *Stage) {
 	if partshape.Part != nil {
 		stage.StageBranch(partshape.Part)
 	}
+	if partshape.ParentPartShape != nil {
+		stage.StageBranch(partshape.ParentPartShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _part := range partshape.SubPartsWhoseNodeIsExpanded {
+		stage.StageBranch(_part)
+	}
+	for _, _port := range partshape.PortsWhoseNodeIsExpanded {
+		stage.StageBranch(_port)
+	}
+	for _, _controlflow := range partshape.ControlFlowsWhoseNodeIsExpanded {
+		stage.StageBranch(_controlflow)
+	}
+	for _, _dataflow := range partshape.DataFlowsWhoseNodeIsExpanded {
+		stage.StageBranch(_dataflow)
+	}
 
 }
 
@@ -778,6 +808,9 @@ func (portshape *PortShape) GongStageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by pointers
 	if portshape.Port != nil {
 		stage.StageBranch(portshape.Port)
+	}
+	if portshape.ParentPartShape != nil {
+		stage.StageBranch(portshape.ParentPartShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -833,6 +866,9 @@ func (protocollayershape *ProtocolLayerShape) GongStageBranch(stage *Stage) {
 	if protocollayershape.DataFlow != nil {
 		stage.StageBranch(protocollayershape.DataFlow)
 	}
+	if protocollayershape.DataFlowShape != nil {
+		stage.StageBranch(protocollayershape.DataFlowShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -853,6 +889,9 @@ func (protocolshape *ProtocolShape) GongStageBranch(stage *Stage) {
 	}
 	if protocolshape.DataFlow != nil {
 		stage.StageBranch(protocolshape.DataFlow)
+	}
+	if protocolshape.DataFlowShape != nil {
+		stage.StageBranch(protocolshape.DataFlowShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1166,6 +1205,9 @@ func GongCopyBranchControlFlowShape(mapOrigCopy map[any]any, controlflowshapeFro
 	if controlflowshapeFrom.ControlFlow != nil {
 		controlflowshapeTo.ControlFlow = GongCopyBranchControlFlow(mapOrigCopy, controlflowshapeFrom.ControlFlow)
 	}
+	if controlflowshapeFrom.ParentPartShape != nil {
+		controlflowshapeTo.ParentPartShape = GongCopyBranchPartShape(mapOrigCopy, controlflowshapeFrom.ParentPartShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1232,6 +1274,15 @@ func GongCopyBranchDataFlowShape(mapOrigCopy map[any]any, dataflowshapeFrom *Dat
 	if dataflowshapeFrom.DataFlow != nil {
 		dataflowshapeTo.DataFlow = GongCopyBranchDataFlow(mapOrigCopy, dataflowshapeFrom.DataFlow)
 	}
+	if dataflowshapeFrom.ParentPartShape != nil {
+		dataflowshapeTo.ParentPartShape = GongCopyBranchPartShape(mapOrigCopy, dataflowshapeFrom.ParentPartShape)
+	}
+	if dataflowshapeFrom.StartPortShape != nil {
+		dataflowshapeTo.StartPortShape = GongCopyBranchPortShape(mapOrigCopy, dataflowshapeFrom.StartPortShape)
+	}
+	if dataflowshapeFrom.EndPortShape != nil {
+		dataflowshapeTo.EndPortShape = GongCopyBranchPortShape(mapOrigCopy, dataflowshapeFrom.EndPortShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1252,6 +1303,9 @@ func GongCopyBranchDataShape(mapOrigCopy map[any]any, datashapeFrom *DataShape) 
 	}
 	if datashapeFrom.DataFlow != nil {
 		datashapeTo.DataFlow = GongCopyBranchDataFlow(mapOrigCopy, datashapeFrom.DataFlow)
+	}
+	if datashapeFrom.DataFlowShape != nil {
+		datashapeTo.DataFlowShape = GongCopyBranchDataFlowShape(mapOrigCopy, datashapeFrom.DataFlowShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1598,8 +1652,8 @@ func GongCopyBranchPart(mapOrigCopy map[any]any, partFrom *Part) (partTo *Part) 
 	partFrom.GongCopyBasicFields(partTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if partFrom.TypeOfPart != nil {
-		partTo.TypeOfPart = GongCopyBranchSystem(mapOrigCopy, partFrom.TypeOfPart)
+	if partFrom.Type != nil {
+		partTo.Type = GongCopyBranchSystem(mapOrigCopy, partFrom.Type)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1655,8 +1709,23 @@ func GongCopyBranchPartShape(mapOrigCopy map[any]any, partshapeFrom *PartShape) 
 	if partshapeFrom.Part != nil {
 		partshapeTo.Part = GongCopyBranchPart(mapOrigCopy, partshapeFrom.Part)
 	}
+	if partshapeFrom.ParentPartShape != nil {
+		partshapeTo.ParentPartShape = GongCopyBranchPartShape(mapOrigCopy, partshapeFrom.ParentPartShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _part := range partshapeFrom.SubPartsWhoseNodeIsExpanded {
+		partshapeTo.SubPartsWhoseNodeIsExpanded = append(partshapeTo.SubPartsWhoseNodeIsExpanded, GongCopyBranchPart(mapOrigCopy, _part))
+	}
+	for _, _port := range partshapeFrom.PortsWhoseNodeIsExpanded {
+		partshapeTo.PortsWhoseNodeIsExpanded = append(partshapeTo.PortsWhoseNodeIsExpanded, GongCopyBranchPort(mapOrigCopy, _port))
+	}
+	for _, _controlflow := range partshapeFrom.ControlFlowsWhoseNodeIsExpanded {
+		partshapeTo.ControlFlowsWhoseNodeIsExpanded = append(partshapeTo.ControlFlowsWhoseNodeIsExpanded, GongCopyBranchControlFlow(mapOrigCopy, _controlflow))
+	}
+	for _, _dataflow := range partshapeFrom.DataFlowsWhoseNodeIsExpanded {
+		partshapeTo.DataFlowsWhoseNodeIsExpanded = append(partshapeTo.DataFlowsWhoseNodeIsExpanded, GongCopyBranchDataFlow(mapOrigCopy, _dataflow))
+	}
 
 	return
 }
@@ -1690,6 +1759,9 @@ func GongCopyBranchPortShape(mapOrigCopy map[any]any, portshapeFrom *PortShape) 
 	//insertion point for the staging of instances referenced by pointers
 	if portshapeFrom.Port != nil {
 		portshapeTo.Port = GongCopyBranchPort(mapOrigCopy, portshapeFrom.Port)
+	}
+	if portshapeFrom.ParentPartShape != nil {
+		portshapeTo.ParentPartShape = GongCopyBranchPartShape(mapOrigCopy, portshapeFrom.ParentPartShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1745,6 +1817,9 @@ func GongCopyBranchProtocolLayerShape(mapOrigCopy map[any]any, protocollayershap
 	if protocollayershapeFrom.DataFlow != nil {
 		protocollayershapeTo.DataFlow = GongCopyBranchDataFlow(mapOrigCopy, protocollayershapeFrom.DataFlow)
 	}
+	if protocollayershapeFrom.DataFlowShape != nil {
+		protocollayershapeTo.DataFlowShape = GongCopyBranchDataFlowShape(mapOrigCopy, protocollayershapeFrom.DataFlowShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1765,6 +1840,9 @@ func GongCopyBranchProtocolShape(mapOrigCopy map[any]any, protocolshapeFrom *Pro
 	}
 	if protocolshapeFrom.DataFlow != nil {
 		protocolshapeTo.DataFlow = GongCopyBranchDataFlow(mapOrigCopy, protocolshapeFrom.DataFlow)
+	}
+	if protocolshapeFrom.DataFlowShape != nil {
+		protocolshapeTo.DataFlowShape = GongCopyBranchDataFlowShape(mapOrigCopy, protocolshapeFrom.DataFlowShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1950,6 +2028,9 @@ func (controlflowshape *ControlFlowShape) GongUnstageBranch(stage *Stage) {
 	if controlflowshape.ControlFlow != nil {
 		stage.UnstageBranch(controlflowshape.ControlFlow)
 	}
+	if controlflowshape.ParentPartShape != nil {
+		stage.UnstageBranch(controlflowshape.ParentPartShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -2016,6 +2097,15 @@ func (dataflowshape *DataFlowShape) GongUnstageBranch(stage *Stage) {
 	if dataflowshape.DataFlow != nil {
 		stage.UnstageBranch(dataflowshape.DataFlow)
 	}
+	if dataflowshape.ParentPartShape != nil {
+		stage.UnstageBranch(dataflowshape.ParentPartShape)
+	}
+	if dataflowshape.StartPortShape != nil {
+		stage.UnstageBranch(dataflowshape.StartPortShape)
+	}
+	if dataflowshape.EndPortShape != nil {
+		stage.UnstageBranch(dataflowshape.EndPortShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -2036,6 +2126,9 @@ func (datashape *DataShape) GongUnstageBranch(stage *Stage) {
 	}
 	if datashape.DataFlow != nil {
 		stage.UnstageBranch(datashape.DataFlow)
+	}
+	if datashape.DataFlowShape != nil {
+		stage.UnstageBranch(datashape.DataFlowShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2382,8 +2475,8 @@ func (part *Part) GongUnstageBranch(stage *Stage) {
 	part.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if part.TypeOfPart != nil {
-		stage.UnstageBranch(part.TypeOfPart)
+	if part.Type != nil {
+		stage.UnstageBranch(part.Type)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2439,8 +2532,23 @@ func (partshape *PartShape) GongUnstageBranch(stage *Stage) {
 	if partshape.Part != nil {
 		stage.UnstageBranch(partshape.Part)
 	}
+	if partshape.ParentPartShape != nil {
+		stage.UnstageBranch(partshape.ParentPartShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _part := range partshape.SubPartsWhoseNodeIsExpanded {
+		stage.UnstageBranch(_part)
+	}
+	for _, _port := range partshape.PortsWhoseNodeIsExpanded {
+		stage.UnstageBranch(_port)
+	}
+	for _, _controlflow := range partshape.ControlFlowsWhoseNodeIsExpanded {
+		stage.UnstageBranch(_controlflow)
+	}
+	for _, _dataflow := range partshape.DataFlowsWhoseNodeIsExpanded {
+		stage.UnstageBranch(_dataflow)
+	}
 
 }
 
@@ -2474,6 +2582,9 @@ func (portshape *PortShape) GongUnstageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by pointers
 	if portshape.Port != nil {
 		stage.UnstageBranch(portshape.Port)
+	}
+	if portshape.ParentPartShape != nil {
+		stage.UnstageBranch(portshape.ParentPartShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2529,6 +2640,9 @@ func (protocollayershape *ProtocolLayerShape) GongUnstageBranch(stage *Stage) {
 	if protocollayershape.DataFlow != nil {
 		stage.UnstageBranch(protocollayershape.DataFlow)
 	}
+	if protocollayershape.DataFlowShape != nil {
+		stage.UnstageBranch(protocollayershape.DataFlowShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -2549,6 +2663,9 @@ func (protocolshape *ProtocolShape) GongUnstageBranch(stage *Stage) {
 	}
 	if protocolshape.DataFlow != nil {
 		stage.UnstageBranch(protocolshape.DataFlow)
+	}
+	if protocolshape.DataFlowShape != nil {
+		stage.UnstageBranch(protocolshape.DataFlowShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2670,6 +2787,7 @@ func (reference *ControlFlow) GongReconstructPointersFromReferences(stage *Stage
 func (reference *ControlFlowShape) GongReconstructPointersFromReferences(stage *Stage, instance *ControlFlowShape) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.ControlFlow, stage.ControlFlows_reference, instance.ControlFlow)
+	__gong__reconstructPointer(&reference.ParentPartShape, stage.PartShapes_reference, instance.ParentPartShape)
 	// insertion point for slice of pointers field
 }
 
@@ -2692,6 +2810,9 @@ func (reference *DataFlow) GongReconstructPointersFromReferences(stage *Stage, i
 func (reference *DataFlowShape) GongReconstructPointersFromReferences(stage *Stage, instance *DataFlowShape) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.DataFlow, stage.DataFlows_reference, instance.DataFlow)
+	__gong__reconstructPointer(&reference.ParentPartShape, stage.PartShapes_reference, instance.ParentPartShape)
+	__gong__reconstructPointer(&reference.StartPortShape, stage.PortShapes_reference, instance.StartPortShape)
+	__gong__reconstructPointer(&reference.EndPortShape, stage.PortShapes_reference, instance.EndPortShape)
 	// insertion point for slice of pointers field
 }
 
@@ -2699,6 +2820,7 @@ func (reference *DataShape) GongReconstructPointersFromReferences(stage *Stage, 
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Data, stage.Datas_reference, instance.Data)
 	__gong__reconstructPointer(&reference.DataFlow, stage.DataFlows_reference, instance.DataFlow)
+	__gong__reconstructPointer(&reference.DataFlowShape, stage.DataFlowShapes_reference, instance.DataFlowShape)
 	// insertion point for slice of pointers field
 }
 
@@ -2814,7 +2936,7 @@ func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, 
 
 func (reference *Part) GongReconstructPointersFromReferences(stage *Stage, instance *Part) {
 	// insertion point for pointers field
-	__gong__reconstructPointer(&reference.TypeOfPart, stage.Systems_reference, instance.TypeOfPart)
+	__gong__reconstructPointer(&reference.Type, stage.Systems_reference, instance.Type)
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Ports, stage.Ports_reference, instance.Ports)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlFlows, stage.ControlFlows_reference, instance.ControlFlows)
@@ -2833,7 +2955,12 @@ func (reference *PartAnchoredPath) GongReconstructPointersFromReferences(stage *
 func (reference *PartShape) GongReconstructPointersFromReferences(stage *Stage, instance *PartShape) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Part, stage.Parts_reference, instance.Part)
+	__gong__reconstructPointer(&reference.ParentPartShape, stage.PartShapes_reference, instance.ParentPartShape)
 	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SubPartsWhoseNodeIsExpanded, stage.Parts_reference, instance.SubPartsWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.PortsWhoseNodeIsExpanded, stage.Ports_reference, instance.PortsWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlFlowsWhoseNodeIsExpanded, stage.ControlFlows_reference, instance.ControlFlowsWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DataFlowsWhoseNodeIsExpanded, stage.DataFlows_reference, instance.DataFlowsWhoseNodeIsExpanded)
 }
 
 func (reference *Port) GongReconstructPointersFromReferences(stage *Stage, instance *Port) {
@@ -2845,6 +2972,7 @@ func (reference *Port) GongReconstructPointersFromReferences(stage *Stage, insta
 func (reference *PortShape) GongReconstructPointersFromReferences(stage *Stage, instance *PortShape) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Port, stage.Ports_reference, instance.Port)
+	__gong__reconstructPointer(&reference.ParentPartShape, stage.PartShapes_reference, instance.ParentPartShape)
 	// insertion point for slice of pointers field
 }
 
@@ -2863,6 +2991,7 @@ func (reference *ProtocolLayerShape) GongReconstructPointersFromReferences(stage
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.ProtocolLayer, stage.ProtocolLayers_reference, instance.ProtocolLayer)
 	__gong__reconstructPointer(&reference.DataFlow, stage.DataFlows_reference, instance.DataFlow)
+	__gong__reconstructPointer(&reference.DataFlowShape, stage.DataFlowShapes_reference, instance.DataFlowShape)
 	// insertion point for slice of pointers field
 }
 
@@ -2870,6 +2999,7 @@ func (reference *ProtocolShape) GongReconstructPointersFromReferences(stage *Sta
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Protocol, stage.Protocols_reference, instance.Protocol)
 	__gong__reconstructPointer(&reference.DataFlow, stage.DataFlows_reference, instance.DataFlow)
+	__gong__reconstructPointer(&reference.DataFlowShape, stage.DataFlowShapes_reference, instance.DataFlowShape)
 	// insertion point for slice of pointers field
 }
 
@@ -2928,6 +3058,7 @@ func (reference *ControlFlow) GongReconstructPointersFromInstances(stage *Stage)
 func (reference *ControlFlowShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.ControlFlow, stage.ControlFlows_instance)
+	__gong__reconstructPointerFromInstance(&reference.ParentPartShape, stage.PartShapes_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -2950,6 +3081,9 @@ func (reference *DataFlow) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *DataFlowShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.DataFlow, stage.DataFlows_instance)
+	__gong__reconstructPointerFromInstance(&reference.ParentPartShape, stage.PartShapes_instance)
+	__gong__reconstructPointerFromInstance(&reference.StartPortShape, stage.PortShapes_instance)
+	__gong__reconstructPointerFromInstance(&reference.EndPortShape, stage.PortShapes_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -2957,6 +3091,7 @@ func (reference *DataShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Data, stage.Datas_instance)
 	__gong__reconstructPointerFromInstance(&reference.DataFlow, stage.DataFlows_instance)
+	__gong__reconstructPointerFromInstance(&reference.DataFlowShape, stage.DataFlowShapes_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -3072,7 +3207,7 @@ func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *Part) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	__gong__reconstructPointerFromInstance(&reference.TypeOfPart, stage.Systems_instance)
+	__gong__reconstructPointerFromInstance(&reference.Type, stage.Systems_instance)
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Ports, stage.Ports_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlFlows, stage.ControlFlows_instance)
@@ -3091,7 +3226,12 @@ func (reference *PartAnchoredPath) GongReconstructPointersFromInstances(stage *S
 func (reference *PartShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Part, stage.Parts_instance)
+	__gong__reconstructPointerFromInstance(&reference.ParentPartShape, stage.PartShapes_instance)
 	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SubPartsWhoseNodeIsExpanded, stage.Parts_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.PortsWhoseNodeIsExpanded, stage.Ports_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlFlowsWhoseNodeIsExpanded, stage.ControlFlows_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DataFlowsWhoseNodeIsExpanded, stage.DataFlows_instance)
 }
 
 func (reference *Port) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3103,6 +3243,7 @@ func (reference *Port) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *PortShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Port, stage.Ports_instance)
+	__gong__reconstructPointerFromInstance(&reference.ParentPartShape, stage.PartShapes_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -3121,6 +3262,7 @@ func (reference *ProtocolLayerShape) GongReconstructPointersFromInstances(stage 
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.ProtocolLayer, stage.ProtocolLayers_instance)
 	__gong__reconstructPointerFromInstance(&reference.DataFlow, stage.DataFlows_instance)
+	__gong__reconstructPointerFromInstance(&reference.DataFlowShape, stage.DataFlowShapes_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -3128,6 +3270,7 @@ func (reference *ProtocolShape) GongReconstructPointersFromInstances(stage *Stag
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Protocol, stage.Protocols_instance)
 	__gong__reconstructPointerFromInstance(&reference.DataFlow, stage.DataFlows_instance)
+	__gong__reconstructPointerFromInstance(&reference.DataFlowShape, stage.DataFlowShapes_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -3231,6 +3374,9 @@ func (controlflowshape *ControlFlowShape) GongDiff(stage *Stage, controlflowshap
 	}
 	if controlflowshape.ControlFlow != controlflowshapeOther.ControlFlow {
 		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "ControlFlow"))
+	}
+	if controlflowshape.ParentPartShape != controlflowshapeOther.ParentPartShape {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "ParentPartShape"))
 	}
 	if controlflowshape.StartRatio != controlflowshapeOther.StartRatio {
 		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "StartRatio"))
@@ -3364,6 +3510,18 @@ func (dataflowshape *DataFlowShape) GongDiff(stage *Stage, dataflowshapeOther *D
 	if dataflowshape.DataFlow != dataflowshapeOther.DataFlow {
 		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "DataFlow"))
 	}
+	if dataflowshape.ParentPartShape != dataflowshapeOther.ParentPartShape {
+		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "ParentPartShape"))
+	}
+	if dataflowshape.StartPortShape != dataflowshapeOther.StartPortShape {
+		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "StartPortShape"))
+	}
+	if dataflowshape.EndPortShape != dataflowshapeOther.EndPortShape {
+		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "EndPortShape"))
+	}
+	if dataflowshape.IsProtocolNodeExpanded != dataflowshapeOther.IsProtocolNodeExpanded {
+		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "IsProtocolNodeExpanded"))
+	}
 	if dataflowshape.StartRatio != dataflowshapeOther.StartRatio {
 		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "StartRatio"))
 	}
@@ -3419,6 +3577,9 @@ func (datashape *DataShape) GongDiff(stage *Stage, datashapeOther *DataShape) (d
 	}
 	if datashape.DataFlow != datashapeOther.DataFlow {
 		diffs = append(diffs, datashape.GongMarshallField(stage, "DataFlow"))
+	}
+	if datashape.DataFlowShape != datashapeOther.DataFlowShape {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "DataFlowShape"))
 	}
 	if datashape.X != datashapeOther.X {
 		diffs = append(diffs, datashape.GongMarshallField(stage, "X"))
@@ -4108,8 +4269,8 @@ func (part *Part) GongDiff(stage *Stage, partOther *Part) (diffs []string) {
 	if ops := __gong__diffSliceOfPointers(stage, part, "Ports", partOther.Ports, part.Ports); ops != "" {
 		diffs = append(diffs, ops)
 	}
-	if part.TypeOfPart != partOther.TypeOfPart {
-		diffs = append(diffs, part.GongMarshallField(stage, "TypeOfPart"))
+	if part.Type != partOther.Type {
+		diffs = append(diffs, part.GongMarshallField(stage, "Type"))
 	}
 	if part.IsPartNameNotSystemName != partOther.IsPartNameNotSystemName {
 		diffs = append(diffs, part.GongMarshallField(stage, "IsPartNameNotSystemName"))
@@ -4146,6 +4307,12 @@ func (part *Part) GongDiff(stage *Stage, partOther *Part) (diffs []string) {
 	}
 	if part.IsPortsNodeExpanded != partOther.IsPortsNodeExpanded {
 		diffs = append(diffs, part.GongMarshallField(stage, "IsPortsNodeExpanded"))
+	}
+	if part.IsTypePartsNodeExpanded != partOther.IsTypePartsNodeExpanded {
+		diffs = append(diffs, part.GongMarshallField(stage, "IsTypePartsNodeExpanded"))
+	}
+	if part.IsTypeDataFlowsNodeExpanded != partOther.IsTypeDataFlowsNodeExpanded {
+		diffs = append(diffs, part.GongMarshallField(stage, "IsTypeDataFlowsNodeExpanded"))
 	}
 
 	return
@@ -4214,8 +4381,35 @@ func (partshape *PartShape) GongDiff(stage *Stage, partshapeOther *PartShape) (d
 	if partshape.Part != partshapeOther.Part {
 		diffs = append(diffs, partshape.GongMarshallField(stage, "Part"))
 	}
+	if partshape.ParentPartShape != partshapeOther.ParentPartShape {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "ParentPartShape"))
+	}
 	if partshape.IsExpanded != partshapeOther.IsExpanded {
 		diffs = append(diffs, partshape.GongMarshallField(stage, "IsExpanded"))
+	}
+	if partshape.IsPortsNodeExpanded != partshapeOther.IsPortsNodeExpanded {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "IsPortsNodeExpanded"))
+	}
+	if partshape.IsControlFlowsNodeExpanded != partshapeOther.IsControlFlowsNodeExpanded {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "IsControlFlowsNodeExpanded"))
+	}
+	if partshape.IsTypePartsNodeExpanded != partshapeOther.IsTypePartsNodeExpanded {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "IsTypePartsNodeExpanded"))
+	}
+	if partshape.IsTypeDataFlowsNodeExpanded != partshapeOther.IsTypeDataFlowsNodeExpanded {
+		diffs = append(diffs, partshape.GongMarshallField(stage, "IsTypeDataFlowsNodeExpanded"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, partshape, "SubPartsWhoseNodeIsExpanded", partshapeOther.SubPartsWhoseNodeIsExpanded, partshape.SubPartsWhoseNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, partshape, "PortsWhoseNodeIsExpanded", partshapeOther.PortsWhoseNodeIsExpanded, partshape.PortsWhoseNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, partshape, "ControlFlowsWhoseNodeIsExpanded", partshapeOther.ControlFlowsWhoseNodeIsExpanded, partshape.ControlFlowsWhoseNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, partshape, "DataFlowsWhoseNodeIsExpanded", partshapeOther.DataFlowsWhoseNodeIsExpanded, partshape.DataFlowsWhoseNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
 	}
 	if partshape.X != partshapeOther.X {
 		diffs = append(diffs, partshape.GongMarshallField(stage, "X"))
@@ -4304,6 +4498,9 @@ func (portshape *PortShape) GongDiff(stage *Stage, portshapeOther *PortShape) (d
 	}
 	if portshape.IsExpanded != portshapeOther.IsExpanded {
 		diffs = append(diffs, portshape.GongMarshallField(stage, "IsExpanded"))
+	}
+	if portshape.ParentPartShape != portshapeOther.ParentPartShape {
+		diffs = append(diffs, portshape.GongMarshallField(stage, "ParentPartShape"))
 	}
 	if portshape.X != portshapeOther.X {
 		diffs = append(diffs, portshape.GongMarshallField(stage, "X"))
@@ -4422,6 +4619,9 @@ func (protocollayershape *ProtocolLayerShape) GongDiff(stage *Stage, protocollay
 	if protocollayershape.DataFlow != protocollayershapeOther.DataFlow {
 		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "DataFlow"))
 	}
+	if protocollayershape.DataFlowShape != protocollayershapeOther.DataFlowShape {
+		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "DataFlowShape"))
+	}
 	if protocollayershape.X != protocollayershapeOther.X {
 		diffs = append(diffs, protocollayershape.GongMarshallField(stage, "X"))
 	}
@@ -4486,6 +4686,9 @@ func (protocolshape *ProtocolShape) GongDiff(stage *Stage, protocolshapeOther *P
 	}
 	if protocolshape.DataFlow != protocolshapeOther.DataFlow {
 		diffs = append(diffs, protocolshape.GongMarshallField(stage, "DataFlow"))
+	}
+	if protocolshape.DataFlowShape != protocolshapeOther.DataFlowShape {
+		diffs = append(diffs, protocolshape.GongMarshallField(stage, "DataFlowShape"))
 	}
 	if protocolshape.X != protocolshapeOther.X {
 		diffs = append(diffs, protocolshape.GongMarshallField(stage, "X"))

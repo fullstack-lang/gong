@@ -492,6 +492,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := controlflowshape.ControlFlow.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlow = %s", controlflowshapeIdent, targetIdent))
 			}
+			if controlflowshape.ParentPartShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := controlflowshape.ParentPartShape.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParentPartShape = %s", controlflowshapeIdent, targetIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -630,6 +640,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dataflowshapeIdent, __gong__toRawStringLiteral(dataflowshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsProtocolNodeExpanded = %t", dataflowshapeIdent, dataflowshape.IsProtocolNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", dataflowshapeIdent, dataflowshape.StartRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", dataflowshapeIdent, dataflowshape.EndRatio))
 			if dataflowshape.StartOrientation.ToCodeString() != "" {
@@ -660,6 +671,36 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := dataflowshape.DataFlow.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", dataflowshapeIdent, targetIdent))
+			}
+			if dataflowshape.ParentPartShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := dataflowshape.ParentPartShape.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParentPartShape = %s", dataflowshapeIdent, targetIdent))
+			}
+			if dataflowshape.StartPortShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := dataflowshape.StartPortShape.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartPortShape = %s", dataflowshapeIdent, targetIdent))
+			}
+			if dataflowshape.EndPortShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := dataflowshape.EndPortShape.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndPortShape = %s", dataflowshapeIdent, targetIdent))
 			}
 		}
 	}
@@ -715,6 +756,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := datashape.DataFlow.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", datashapeIdent, targetIdent))
+			}
+			if datashape.DataFlowShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := datashape.DataFlowShape.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowShape = %s", datashapeIdent, targetIdent))
 			}
 		}
 	}
@@ -1667,6 +1718,8 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", partIdent, __gong__toRawStringLiteral(part.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", partIdent, part.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsPortsNodeExpanded = %t", partIdent, part.IsPortsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsTypePartsNodeExpanded = %t", partIdent, part.IsTypePartsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsTypeDataFlowsNodeExpanded = %t", partIdent, part.IsTypeDataFlowsNodeExpanded))
 			for _, elem := range part.Ports {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1677,15 +1730,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Ports = append(%s.Ports, %s)", partIdent, partIdent, targetIdent))
 			}
-			if part.TypeOfPart != nil {
+			if part.Type != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := part.TypeOfPart.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.TypeOfPart = %s", partIdent, targetIdent))
+				targetIdent := part.Type.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Type = %s", partIdent, targetIdent))
 			}
 			for _, elem := range part.ControlFlows {
 				if lastStagePtr != "Stage" {
@@ -1804,6 +1857,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", partshapeIdent, __gong__toRawStringLiteral(partshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", partshapeIdent, partshape.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPortsNodeExpanded = %t", partshapeIdent, partshape.IsPortsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsControlFlowsNodeExpanded = %t", partshapeIdent, partshape.IsControlFlowsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsTypePartsNodeExpanded = %t", partshapeIdent, partshape.IsTypePartsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsTypeDataFlowsNodeExpanded = %t", partshapeIdent, partshape.IsTypeDataFlowsNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", partshapeIdent, partshape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", partshapeIdent, partshape.Y))
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", partshapeIdent, partshape.Width))
@@ -1829,6 +1886,56 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := partshape.Part.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Part = %s", partshapeIdent, targetIdent))
+			}
+			if partshape.ParentPartShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := partshape.ParentPartShape.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParentPartShape = %s", partshapeIdent, targetIdent))
+			}
+			for _, elem := range partshape.SubPartsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubPartsWhoseNodeIsExpanded = append(%s.SubPartsWhoseNodeIsExpanded, %s)", partshapeIdent, partshapeIdent, targetIdent))
+			}
+			for _, elem := range partshape.PortsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PortsWhoseNodeIsExpanded = append(%s.PortsWhoseNodeIsExpanded, %s)", partshapeIdent, partshapeIdent, targetIdent))
+			}
+			for _, elem := range partshape.ControlFlowsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlowsWhoseNodeIsExpanded = append(%s.ControlFlowsWhoseNodeIsExpanded, %s)", partshapeIdent, partshapeIdent, targetIdent))
+			}
+			for _, elem := range partshape.DataFlowsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseNodeIsExpanded = append(%s.DataFlowsWhoseNodeIsExpanded, %s)", partshapeIdent, partshapeIdent, targetIdent))
 			}
 		}
 	}
@@ -1907,6 +2014,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := portshape.Port.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Port = %s", portshapeIdent, targetIdent))
+			}
+			if portshape.ParentPartShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := portshape.ParentPartShape.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParentPartShape = %s", portshapeIdent, targetIdent))
 			}
 		}
 	}
@@ -2020,6 +2137,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := protocollayershape.DataFlow.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", protocollayershapeIdent, targetIdent))
 			}
+			if protocollayershape.DataFlowShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := protocollayershape.DataFlowShape.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowShape = %s", protocollayershapeIdent, targetIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -2074,6 +2201,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := protocolshape.DataFlow.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", protocolshapeIdent, targetIdent))
+			}
+			if protocolshape.DataFlowShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := protocolshape.DataFlowShape.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowShape = %s", protocolshapeIdent, targetIdent))
 			}
 		}
 	}
@@ -2472,6 +2609,12 @@ func (controlflowshape *ControlFlowShape) GongMarshallField(stage *Stage, fieldN
 		} else {
 			res = __gong__marshallPointer(ident, "ControlFlow", "nil")
 		}
+	case "ParentPartShape":
+		if controlflowshape.ParentPartShape != nil {
+			res = __gong__marshallPointer(ident, "ParentPartShape", controlflowshape.ParentPartShape.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "ParentPartShape", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ControlFlowShape", fieldName)
 	}
@@ -2572,6 +2715,8 @@ func (dataflowshape *DataFlowShape) GongMarshallField(stage *Stage, fieldName st
 	switch fieldName {
 	case "Name":
 		res = __gong__marshallString(ident, "Name", dataflowshape.Name)
+	case "IsProtocolNodeExpanded":
+		res = __gong__marshallBool(ident, "IsProtocolNodeExpanded", dataflowshape.IsProtocolNodeExpanded)
 	case "StartRatio":
 		res = __gong__marshallFloat(ident, "StartRatio", dataflowshape.StartRatio)
 	case "EndRatio":
@@ -2604,6 +2749,24 @@ func (dataflowshape *DataFlowShape) GongMarshallField(stage *Stage, fieldName st
 			res = __gong__marshallPointer(ident, "DataFlow", dataflowshape.DataFlow.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "DataFlow", "nil")
+		}
+	case "ParentPartShape":
+		if dataflowshape.ParentPartShape != nil {
+			res = __gong__marshallPointer(ident, "ParentPartShape", dataflowshape.ParentPartShape.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "ParentPartShape", "nil")
+		}
+	case "StartPortShape":
+		if dataflowshape.StartPortShape != nil {
+			res = __gong__marshallPointer(ident, "StartPortShape", dataflowshape.StartPortShape.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "StartPortShape", "nil")
+		}
+	case "EndPortShape":
+		if dataflowshape.EndPortShape != nil {
+			res = __gong__marshallPointer(ident, "EndPortShape", dataflowshape.EndPortShape.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "EndPortShape", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DataFlowShape", fieldName)
@@ -2661,6 +2824,12 @@ func (datashape *DataShape) GongMarshallField(stage *Stage, fieldName string) (r
 			res = __gong__marshallPointer(ident, "DataFlow", datashape.DataFlow.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "DataFlow", "nil")
+		}
+	case "DataFlowShape":
+		if datashape.DataFlowShape != nil {
+			res = __gong__marshallPointer(ident, "DataFlowShape", datashape.DataFlowShape.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "DataFlowShape", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DataShape", fieldName)
@@ -3400,6 +3569,10 @@ func (part *Part) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = __gong__marshallBool(ident, "IsExpanded", part.IsExpanded)
 	case "IsPortsNodeExpanded":
 		res = __gong__marshallBool(ident, "IsPortsNodeExpanded", part.IsPortsNodeExpanded)
+	case "IsTypePartsNodeExpanded":
+		res = __gong__marshallBool(ident, "IsTypePartsNodeExpanded", part.IsTypePartsNodeExpanded)
+	case "IsTypeDataFlowsNodeExpanded":
+		res = __gong__marshallBool(ident, "IsTypeDataFlowsNodeExpanded", part.IsTypeDataFlowsNodeExpanded)
 
 	case "Ports":
 		var sb strings.Builder
@@ -3407,11 +3580,11 @@ func (part *Part) GongMarshallField(stage *Stage, fieldName string) (res string)
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Ports", _port.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
-	case "TypeOfPart":
-		if part.TypeOfPart != nil {
-			res = __gong__marshallPointer(ident, "TypeOfPart", part.TypeOfPart.GongGetIdentifier(stage))
+	case "Type":
+		if part.Type != nil {
+			res = __gong__marshallPointer(ident, "Type", part.Type.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "TypeOfPart", "nil")
+			res = __gong__marshallPointer(ident, "Type", "nil")
 		}
 	case "ControlFlows":
 		var sb strings.Builder
@@ -3504,6 +3677,14 @@ func (partshape *PartShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = __gong__marshallString(ident, "Name", partshape.Name)
 	case "IsExpanded":
 		res = __gong__marshallBool(ident, "IsExpanded", partshape.IsExpanded)
+	case "IsPortsNodeExpanded":
+		res = __gong__marshallBool(ident, "IsPortsNodeExpanded", partshape.IsPortsNodeExpanded)
+	case "IsControlFlowsNodeExpanded":
+		res = __gong__marshallBool(ident, "IsControlFlowsNodeExpanded", partshape.IsControlFlowsNodeExpanded)
+	case "IsTypePartsNodeExpanded":
+		res = __gong__marshallBool(ident, "IsTypePartsNodeExpanded", partshape.IsTypePartsNodeExpanded)
+	case "IsTypeDataFlowsNodeExpanded":
+		res = __gong__marshallBool(ident, "IsTypeDataFlowsNodeExpanded", partshape.IsTypeDataFlowsNodeExpanded)
 	case "X":
 		res = __gong__marshallFloat(ident, "X", partshape.X)
 	case "Y":
@@ -3543,6 +3724,36 @@ func (partshape *PartShape) GongMarshallField(stage *Stage, fieldName string) (r
 		} else {
 			res = __gong__marshallPointer(ident, "Part", "nil")
 		}
+	case "ParentPartShape":
+		if partshape.ParentPartShape != nil {
+			res = __gong__marshallPointer(ident, "ParentPartShape", partshape.ParentPartShape.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "ParentPartShape", "nil")
+		}
+	case "SubPartsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _part := range partshape.SubPartsWhoseNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "SubPartsWhoseNodeIsExpanded", _part.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "PortsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _port := range partshape.PortsWhoseNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "PortsWhoseNodeIsExpanded", _port.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "ControlFlowsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _controlflow := range partshape.ControlFlowsWhoseNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ControlFlowsWhoseNodeIsExpanded", _controlflow.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "DataFlowsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _dataflow := range partshape.DataFlowsWhoseNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "DataFlowsWhoseNodeIsExpanded", _dataflow.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PartShape", fieldName)
 	}
@@ -3620,6 +3831,12 @@ func (portshape *PortShape) GongMarshallField(stage *Stage, fieldName string) (r
 			res = __gong__marshallPointer(ident, "Port", portshape.Port.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "Port", "nil")
+		}
+	case "ParentPartShape":
+		if portshape.ParentPartShape != nil {
+			res = __gong__marshallPointer(ident, "ParentPartShape", portshape.ParentPartShape.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "ParentPartShape", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PortShape", fieldName)
@@ -3728,6 +3945,12 @@ func (protocollayershape *ProtocolLayerShape) GongMarshallField(stage *Stage, fi
 		} else {
 			res = __gong__marshallPointer(ident, "DataFlow", "nil")
 		}
+	case "DataFlowShape":
+		if protocollayershape.DataFlowShape != nil {
+			res = __gong__marshallPointer(ident, "DataFlowShape", protocollayershape.DataFlowShape.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "DataFlowShape", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ProtocolLayerShape", fieldName)
 	}
@@ -3784,6 +4007,12 @@ func (protocolshape *ProtocolShape) GongMarshallField(stage *Stage, fieldName st
 			res = __gong__marshallPointer(ident, "DataFlow", protocolshape.DataFlow.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "DataFlow", "nil")
+		}
+	case "DataFlowShape":
+		if protocolshape.DataFlowShape != nil {
+			res = __gong__marshallPointer(ident, "DataFlowShape", protocolshape.DataFlowShape.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "DataFlowShape", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ProtocolShape", fieldName)
@@ -4013,6 +4242,7 @@ func (controlflowshape *ControlFlowShape) GongMarshallAllFields(stage *Stage) (i
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(controlflowshape.GongMarshallField(stage, "ControlFlow"))
+		pointersInitializesStatements.WriteString(controlflowshape.GongMarshallField(stage, "ParentPartShape"))
 		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "StartRatio"))
 		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "EndRatio"))
 		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "StartOrientation"))
@@ -4079,6 +4309,10 @@ func (dataflowshape *DataFlowShape) GongMarshallAllFields(stage *Stage) (initRes
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(dataflowshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(dataflowshape.GongMarshallField(stage, "DataFlow"))
+		pointersInitializesStatements.WriteString(dataflowshape.GongMarshallField(stage, "ParentPartShape"))
+		pointersInitializesStatements.WriteString(dataflowshape.GongMarshallField(stage, "StartPortShape"))
+		pointersInitializesStatements.WriteString(dataflowshape.GongMarshallField(stage, "EndPortShape"))
+		initializerStatements.WriteString(dataflowshape.GongMarshallField(stage, "IsProtocolNodeExpanded"))
 		initializerStatements.WriteString(dataflowshape.GongMarshallField(stage, "StartRatio"))
 		initializerStatements.WriteString(dataflowshape.GongMarshallField(stage, "EndRatio"))
 		initializerStatements.WriteString(dataflowshape.GongMarshallField(stage, "StartOrientation"))
@@ -4105,6 +4339,7 @@ func (datashape *DataShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(datashape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(datashape.GongMarshallField(stage, "Data"))
 		pointersInitializesStatements.WriteString(datashape.GongMarshallField(stage, "DataFlow"))
+		pointersInitializesStatements.WriteString(datashape.GongMarshallField(stage, "DataFlowShape"))
 		initializerStatements.WriteString(datashape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(datashape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(datashape.GongMarshallField(stage, "Width"))
@@ -4415,7 +4650,7 @@ func (part *Part) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(part.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "Description"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "Ports"))
-		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "TypeOfPart"))
+		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "Type"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsPartNameNotSystemName"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsControlFlowsNodeExpanded"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "ControlFlows"))
@@ -4428,6 +4663,8 @@ func (part *Part) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(part.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsPortsNodeExpanded"))
+		initializerStatements.WriteString(part.GongMarshallField(stage, "IsTypePartsNodeExpanded"))
+		initializerStatements.WriteString(part.GongMarshallField(stage, "IsTypeDataFlowsNodeExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -4465,7 +4702,16 @@ func (partshape *PartShape) GongMarshallAllFields(stage *Stage) (initRes string,
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(partshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(partshape.GongMarshallField(stage, "Part"))
+		pointersInitializesStatements.WriteString(partshape.GongMarshallField(stage, "ParentPartShape"))
 		initializerStatements.WriteString(partshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(partshape.GongMarshallField(stage, "IsPortsNodeExpanded"))
+		initializerStatements.WriteString(partshape.GongMarshallField(stage, "IsControlFlowsNodeExpanded"))
+		initializerStatements.WriteString(partshape.GongMarshallField(stage, "IsTypePartsNodeExpanded"))
+		initializerStatements.WriteString(partshape.GongMarshallField(stage, "IsTypeDataFlowsNodeExpanded"))
+		pointersInitializesStatements.WriteString(partshape.GongMarshallField(stage, "SubPartsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(partshape.GongMarshallField(stage, "PortsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(partshape.GongMarshallField(stage, "ControlFlowsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(partshape.GongMarshallField(stage, "DataFlowsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(partshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(partshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(partshape.GongMarshallField(stage, "Width"))
@@ -4510,6 +4756,7 @@ func (portshape *PortShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(portshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(portshape.GongMarshallField(stage, "Port"))
 		initializerStatements.WriteString(portshape.GongMarshallField(stage, "IsExpanded"))
+		pointersInitializesStatements.WriteString(portshape.GongMarshallField(stage, "ParentPartShape"))
 		initializerStatements.WriteString(portshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(portshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(portshape.GongMarshallField(stage, "Width"))
@@ -4571,6 +4818,7 @@ func (protocollayershape *ProtocolLayerShape) GongMarshallAllFields(stage *Stage
 		initializerStatements.WriteString(protocollayershape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(protocollayershape.GongMarshallField(stage, "ProtocolLayer"))
 		pointersInitializesStatements.WriteString(protocollayershape.GongMarshallField(stage, "DataFlow"))
+		pointersInitializesStatements.WriteString(protocollayershape.GongMarshallField(stage, "DataFlowShape"))
 		initializerStatements.WriteString(protocollayershape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(protocollayershape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(protocollayershape.GongMarshallField(stage, "Width"))
@@ -4600,6 +4848,7 @@ func (protocolshape *ProtocolShape) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(protocolshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(protocolshape.GongMarshallField(stage, "Protocol"))
 		pointersInitializesStatements.WriteString(protocolshape.GongMarshallField(stage, "DataFlow"))
+		pointersInitializesStatements.WriteString(protocolshape.GongMarshallField(stage, "DataFlowShape"))
 		initializerStatements.WriteString(protocolshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(protocolshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(protocolshape.GongMarshallField(stage, "Width"))

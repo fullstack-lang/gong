@@ -35,6 +35,7 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 
 	var assocType associationType
 	var sourceAbstratctElement, targetAbstractElement AbstractType
+	var matchedStartPortShape, matchedEndPortShape *PortShape
 	startRect := frontSVG.StartRect
 	endRect := frontSVG.EndRect
 
@@ -43,6 +44,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			assocType = ASSOCIATION_TYPE_PORT_PORT
 			sourceAbstratctElement = startPortShape.Port
 			targetAbstractElement = endPortShape.Port
+			matchedStartPortShape = startPortShape
+			matchedEndPortShape = endPortShape
 		}
 	}
 	if startPortShape, ok := diagramStructure.map_SvgRect_PortShape[startRect]; ok {
@@ -50,6 +53,7 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			assocType = ASSOCIATION_TYPE_PORT_EXTERNAL_PART
 			sourceAbstratctElement = startPortShape.Port
 			targetAbstractElement = endExternalPartShape.Part
+			matchedStartPortShape = startPortShape
 		}
 	}
 	if startExternalPartShape, ok := diagramStructure.map_SvgRect_ExternalPartShape[startRect]; ok {
@@ -57,6 +61,7 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			assocType = ASSOCIATION_TYPE_EXTERNAL_PART_PORT
 			sourceAbstratctElement = startExternalPartShape.Part
 			targetAbstractElement = endPortShape.Port
+			matchedEndPortShape = endPortShape
 		}
 	}
 	if startNoteShape, ok := diagramStructure.map_SvgRect_NoteShape[startRect]; ok {
@@ -80,7 +85,10 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		endPort := targetAbstractElement.(*Port)
 		startPort := sourceAbstratctElement.(*Port)
 
-		if startPort.owningPart == endPort.owningPart {
+		startParentPS := effectivePortParentPartShape(diagramStructure, matchedStartPortShape)
+		endParentPS := effectivePortParentPartShape(diagramStructure, matchedEndPortShape)
+
+		if startPort.owningPart == endPort.owningPart && startParentPS != nil && startParentPS == endParentPS {
 			controlFlow := (&ControlFlow{
 				Start: startPort,
 				End:   endPort,
@@ -91,7 +99,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			controlFlow.Stage(stage)
 
 			controlFlowShape := (&ControlFlowShape{
-				ControlFlow: controlFlow,
+				ControlFlow:     controlFlow,
+				ParentPartShape: startParentPS,
 			}).Stage(stager.stage)
 
 			controlFlowShape.SetName(controlFlow.Start.GetName() + " to " + controlFlow.End.GetName())
@@ -110,14 +119,34 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 				StartPort: startPort,
 				EndPort:   endPort,
 			})
-			owningSystem := dataFlow.StartPort.owningPart.owningSystem
-			owningSystem.DataFlows = append(owningSystem.DataFlows, dataFlow)
-			dataFlow.SetOwningLibrary(stager.findSystemLibrary(owningSystem))
+			owningSystem := diagramStructure.owningSystem
+			var enclosingPartShape *PartShape
+			if startParentPS != nil && endParentPS != nil && startParentPS.ParentPartShape == endParentPS.ParentPartShape {
+				if startParentPS.ParentPartShape != nil &&
+					startParentPS.ParentPartShape.Part != nil &&
+					startParentPS.ParentPartShape.Part.Type != nil {
+					owningSystem = startParentPS.ParentPartShape.Part.Type
+					enclosingPartShape = startParentPS.ParentPartShape
+				} else if startPort.owningPart != nil && startPort.owningPart.owningSystem != nil {
+					owningSystem = startPort.owningPart.owningSystem
+				}
+			}
+			if owningSystem != nil {
+				owningSystem.DataFlows = append(owningSystem.DataFlows, dataFlow)
+			}
+			lib := stager.findSystemLibrary(owningSystem)
+			dataFlow.SetOwningLibrary(lib)
+			if lib != nil && !slices.Contains(lib.RootDataFlows, dataFlow) {
+				lib.RootDataFlows = append(lib.RootDataFlows, dataFlow)
+			}
 			dataFlow.Name = dataFlow.StartPort.GetName() + " to " + dataFlow.EndPort.GetName()
 			dataFlow.Stage(stage)
 
 			dataFlowShape := (&DataFlowShape{
-				DataFlow: dataFlow,
+				DataFlow:        dataFlow,
+				ParentPartShape: enclosingPartShape,
+				StartPortShape:  matchedStartPortShape,
+				EndPortShape:    matchedEndPortShape,
 			}).Stage(stager.stage)
 
 			dataFlowShape.SetName(dataFlow.StartPort.GetName() + " to " + dataFlow.EndPort.GetName())
@@ -142,12 +171,17 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		})
 		owningSystem := dataFlow.StartExternalPart.owningSystem
 		owningSystem.DataFlows = append(owningSystem.DataFlows, dataFlow)
-		dataFlow.SetOwningLibrary(stager.findSystemLibrary(owningSystem))
+		lib := stager.findSystemLibrary(owningSystem)
+		dataFlow.SetOwningLibrary(lib)
+		if lib != nil && !slices.Contains(lib.RootDataFlows, dataFlow) {
+			lib.RootDataFlows = append(lib.RootDataFlows, dataFlow)
+		}
 		dataFlow.Name = dataFlow.StartExternalPart.GetName() + " to " + dataFlow.EndPort.GetName()
 		dataFlow.Stage(stage)
 
 		dataFlowShape := (&DataFlowShape{
-			DataFlow: dataFlow,
+			DataFlow:     dataFlow,
+			EndPortShape: matchedEndPortShape,
 		}).Stage(stager.stage)
 
 		dataFlowShape.SetName(dataFlow.StartExternalPart.GetName() + " to " + dataFlow.EndPort.GetName())
@@ -169,14 +203,24 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			StartPort:       startPort,
 			EndExternalPart: endPart,
 		})
-		owningSystem := dataFlow.StartPort.owningPart.owningSystem
-		owningSystem.DataFlows = append(owningSystem.DataFlows, dataFlow)
-		dataFlow.SetOwningLibrary(stager.findSystemLibrary(owningSystem))
+		owningSystem := diagramStructure.owningSystem
+		if owningSystem == nil && dataFlow.EndExternalPart != nil {
+			owningSystem = dataFlow.EndExternalPart.owningSystem
+		}
+		if owningSystem != nil {
+			owningSystem.DataFlows = append(owningSystem.DataFlows, dataFlow)
+		}
+		lib := stager.findSystemLibrary(owningSystem)
+		dataFlow.SetOwningLibrary(lib)
+		if lib != nil && !slices.Contains(lib.RootDataFlows, dataFlow) {
+			lib.RootDataFlows = append(lib.RootDataFlows, dataFlow)
+		}
 		dataFlow.Name = dataFlow.StartPort.GetName() + " to " + dataFlow.EndExternalPart.GetName()
 		dataFlow.Stage(stage)
 
 		dataFlowShape := (&DataFlowShape{
-			DataFlow: dataFlow,
+			DataFlow:       dataFlow,
+			StartPortShape: matchedStartPortShape,
 		}).Stage(stager.stage)
 
 		dataFlowShape.SetName(dataFlow.StartPort.GetName() + " to " + dataFlow.EndExternalPart.GetName())

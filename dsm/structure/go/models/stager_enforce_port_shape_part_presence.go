@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"slices"
 	"time"
 )
 
@@ -10,8 +11,9 @@ func (stager *Stager) enforcePortShapePartPresence() (needCommit bool) {
 		for _, portShape := range diagramStructure.Port_Shapes {
 			if portShape.Port != nil && portShape.Port.owningPart != nil {
 				owningPart := portShape.Port.owningPart
+				parentPS := effectivePortParentPartShape(diagramStructure, portShape)
 
-				if _, ok := diagramStructure.map_Part_PartShape[owningPart]; !ok {
+				if parentPS == nil || parentPS.Part != owningPart || !slices.Contains(diagramStructure.Part_Shapes, parentPS) {
 					portShape.UnstageVoid(stager.stage)
 					needCommit = true
 					if stager.probeForm != nil {

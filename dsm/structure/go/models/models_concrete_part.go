@@ -4,7 +4,20 @@ type PartShape struct {
 	Name string
 	Part *Part
 
+	// ParentPartShape is non-nil when this PartShape represents a nested Part
+	// inside ParentPartShape.Part.Type.Parts.
+	ParentPartShape *PartShape
+
 	IsExpanded bool
+
+	IsPortsNodeExpanded             bool
+	IsControlFlowsNodeExpanded      bool
+	IsTypePartsNodeExpanded         bool
+	IsTypeDataFlowsNodeExpanded     bool
+	SubPartsWhoseNodeIsExpanded     []*Part
+	PortsWhoseNodeIsExpanded        []*Port
+	ControlFlowsWhoseNodeIsExpanded []*ControlFlow
+	DataFlowsWhoseNodeIsExpanded    []*DataFlow
 
 	RectShape
 }

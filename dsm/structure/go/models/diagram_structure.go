@@ -2,19 +2,42 @@ package models
 
 import svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 
-// dataShapeKey is used to track the presence of a data shape for a given data flow and data.
+type partShapeKey struct {
+	part            *Part
+	parentPartShape *PartShape
+}
+
+type portShapeKey struct {
+	port            *Port
+	parentPartShape *PartShape
+}
+
+type controlFlowShapeKey struct {
+	controlFlow     *ControlFlow
+	parentPartShape *PartShape
+}
+
+type dataFlowShapeKey struct {
+	dataFlow        *DataFlow
+	parentPartShape *PartShape
+}
+
+// dataShapeKey is used to track the presence of a data shape for a given data flow shape and data.
 type dataShapeKey struct {
-	dataFlow *DataFlow
-	data     *Data
+	dataFlow      *DataFlow
+	dataFlowShape *DataFlowShape
+	data          *Data
 }
 
 type protocolShapeKey struct {
-	dataFlow *DataFlow
-	protocol *Protocol
+	dataFlow      *DataFlow
+	dataFlowShape *DataFlowShape
+	protocol      *Protocol
 }
 
 type protocolLayerShapeKey struct {
 	dataFlow      *DataFlow
+	dataFlowShape *DataFlowShape
 	protocolLayer *ProtocolLayer
 }
 
@@ -70,11 +93,13 @@ type DiagramStructure struct {
 	owningSystem *System
 
 	// Part
-	Part_Shapes             []*PartShape
-	map_Part_PartShape      map[*Part]*PartShape
-	map_Part_Rect           map[*Part]*svg.Rect
-	IsPartsNodeExpanded     bool
-	PartWhoseNodeIsExpanded []*Part
+	Part_Shapes                 []*PartShape
+	map_Part_PartShape          map[*Part]*PartShape
+	map_PartShapeKey_PartShape  map[partShapeKey]*PartShape
+	map_Part_Rect               map[*Part]*svg.Rect
+	map_PartShape_Rect          map[*PartShape]*svg.Rect
+	IsPartsNodeExpanded         bool
+	PartWhoseNodeIsExpanded     []*Part
 
 	// ExternalPart
 	ExternalPart_Shapes             []*ExternalPartShape
@@ -84,26 +109,31 @@ type DiagramStructure struct {
 	ExternalPartWhoseNodeIsExpanded []*Part
 	map_SvgRect_ExternalPartShape   map[*svg.Rect]*ExternalPartShape
 	map_SvgRect_Part                map[*svg.Rect]*Part
+	map_SvgRect_PartShape           map[*svg.Rect]*PartShape
 
 	ExternalPartsWhoseOutDataFlowsNodeIsExpanded []*Part
 	ExternalPartsWhoseInDataFlowsNodeIsExpanded  []*Part
 
 	// Port
-	PortsWhoseNodeIsExpanded []*Port
-	Port_Shapes              []*PortShape
-	map_Port_PortShape       map[*Port]*PortShape
-	map_Port_Rect            map[*Port]*svg.Rect
-	map_SvgRect_PortShape    map[*svg.Rect]*PortShape // for drawing links between port
+	PortsWhoseNodeIsExpanded   []*Port
+	Port_Shapes                []*PortShape
+	map_Port_PortShape         map[*Port]*PortShape
+	map_PortShapeKey_PortShape map[portShapeKey]*PortShape
+	map_Port_Rect              map[*Port]*svg.Rect
+	map_PortShape_Rect         map[*PortShape]*svg.Rect
+	map_SvgRect_PortShape      map[*svg.Rect]*PortShape // for drawing links between port
 
 	// ControlFlow
-	ControlFlowsWhoseNodeIsExpanded  []*ControlFlow
-	ControlFlow_Shapes               []*ControlFlowShape
-	map_ControlFlow_ControlFlowShape map[*ControlFlow]*ControlFlowShape
+	ControlFlowsWhoseNodeIsExpanded         []*ControlFlow
+	ControlFlow_Shapes                      []*ControlFlowShape
+	map_ControlFlow_ControlFlowShape        map[*ControlFlow]*ControlFlowShape
+	map_ControlFlowShapeKey_ControlFlowShape map[controlFlowShapeKey]*ControlFlowShape
 
 	// DataFlow
-	DataFlowsWhoseNodeIsExpanded []*DataFlow
-	DataFlow_Shapes              []*DataFlowShape
-	map_DataFlow_DataFlowShape   map[*DataFlow]*DataFlowShape
+	DataFlowsWhoseNodeIsExpanded       []*DataFlow
+	DataFlow_Shapes                    []*DataFlowShape
+	map_DataFlow_DataFlowShape         map[*DataFlow]*DataFlowShape
+	map_DataFlowShapeKey_DataFlowShape map[dataFlowShapeKey]*DataFlowShape
 
 	// Data
 	DatasWhoseNodeIsExpanded         []*Data

@@ -2,30 +2,31 @@ package models
 
 import (
 	"fmt"
+	"slices"
 	"time"
 )
 
 func (stager *Stager) enforceControlFlowShapesRules() (needCommit bool) {
 	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramStructure]() {
 
-		// Build a set of ports that have a shape in this diagram
-		portsInDiagram := make(map[*Port]bool)
-		for _, portShape := range diagram.Port_Shapes {
-			if portShape.Port != nil {
-				portsInDiagram[portShape.Port] = true
-			}
-		}
-
-		// 1. Check ControlFlow_Shapes
 		var validControlFlowShapes []*ControlFlowShape
 		for _, controlFlowShape := range diagram.ControlFlow_Shapes {
-			isValid := true
-			if controlFlowShape.ControlFlow != nil {
-				if !portsInDiagram[controlFlowShape.ControlFlow.Start] || !portsInDiagram[controlFlowShape.ControlFlow.End] {
-					isValid = false
+			isValid := false
+			if controlFlowShape.ControlFlow != nil &&
+				controlFlowShape.ControlFlow.Start != nil &&
+				controlFlowShape.ControlFlow.End != nil {
+				parentPS := effectiveControlFlowParentPartShape(diagram, controlFlowShape)
+				if parentPS != nil && slices.Contains(diagram.Part_Shapes, parentPS) && diagram.map_PortShapeKey_PortShape != nil {
+					_, hasStart := diagram.map_PortShapeKey_PortShape[portShapeKey{
+						port:            controlFlowShape.ControlFlow.Start,
+						parentPartShape: parentPS,
+					}]
+					_, hasEnd := diagram.map_PortShapeKey_PortShape[portShapeKey{
+						port:            controlFlowShape.ControlFlow.End,
+						parentPartShape: parentPS,
+					}]
+					isValid = hasStart && hasEnd
 				}
-			} else {
-				isValid = false
 			}
 
 			if isValid {

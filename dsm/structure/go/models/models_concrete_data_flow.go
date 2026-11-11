@@ -5,6 +5,14 @@ type DataFlowShape struct {
 
 	DataFlow *DataFlow
 
+	// ParentPartShape is non-nil when this DataFlowShape represents an internal DataFlow
+	// of ParentPartShape.Part.Type.DataFlows.
+	ParentPartShape *PartShape
+	StartPortShape  *PortShape
+	EndPortShape    *PortShape
+
+	IsProtocolNodeExpanded bool
+
 	LinkShape
 
 	dataShapes          []*DataShape

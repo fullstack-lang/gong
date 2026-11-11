@@ -3,7 +3,8 @@ package models
 type ControlFlowShape struct {
 	Name string
 
-	ControlFlow *ControlFlow
+	ControlFlow     *ControlFlow
+	ParentPartShape *PartShape
 
 	LinkShape
 }

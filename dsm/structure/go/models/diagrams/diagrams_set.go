@@ -58,7 +58,7 @@ func _(stage *models.Stage) {
 	__models__LinkShape__00000003_ := (&models.LinkShape{Name: `SubSystemes`}).Stage(stage)
 	__models__LinkShape__00000004_ := (&models.LinkShape{Name: `Ports`}).Stage(stage)
 	__models__LinkShape__00000005_ := (&models.LinkShape{Name: `Ports`}).Stage(stage)
-	__models__LinkShape__00000006_ := (&models.LinkShape{Name: `TypeOfPart`}).Stage(stage)
+	__models__LinkShape__00000006_ := (&models.LinkShape{Name: `Type`}).Stage(stage)
 	__models__LinkShape__00000007_ := (&models.LinkShape{Name: `StartPort`}).Stage(stage)
 	__models__LinkShape__00000008_ := (&models.LinkShape{Name: `EndPort`}).Stage(stage)
 	__models__LinkShape__00000010_ := (&models.LinkShape{Name: `Datas`}).Stage(stage)
@@ -396,8 +396,8 @@ func _(stage *models.Stage) {
 	__models__LinkShape__00000005_.EndRatio = 0.380295
 	__models__LinkShape__00000005_.CornerOffsetRatio = 1.650794
 	__models__LinkShape__00000005_.IsHidden = false
-	__models__LinkShape__00000006_.Name = `TypeOfPart`
-	__models__LinkShape__00000006_.IdentifierMeta = ref_models.Part{}.TypeOfPart
+	__models__LinkShape__00000006_.Name = `Type`
+	__models__LinkShape__00000006_.IdentifierMeta = ref_models.Part{}.Type
 	__models__LinkShape__00000006_.FieldTypeIdentifierMeta = ref_models.System{}
 	__models__LinkShape__00000006_.FieldOffsetX = 0.000000
 	__models__LinkShape__00000006_.FieldOffsetY = 0.000000
