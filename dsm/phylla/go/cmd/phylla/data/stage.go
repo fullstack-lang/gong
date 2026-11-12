@@ -625,7 +625,7 @@ func _(stage *models.Stage) {
 	__models__PlantAbstract__00000005_.Name = `Vase Trapeze`
 	__models__PlantAbstract__00000005_.N = 1
 	__models__PlantAbstract__00000005_.M = 3
-	__models__PlantAbstract__00000005_.StackHeight = 3
+	__models__PlantAbstract__00000005_.StackHeight = 2
 	__models__PlantAbstract__00000005_.RhombusInsideAngle = 130.000000
 	__models__PlantAbstract__00000005_.RhombusSideLength = 120.000000
 	__models__PlantAbstract__00000005_.PlantType = models.VaseTrapeze
@@ -714,9 +714,9 @@ func _(stage *models.Stage) {
 	__models__Rendered3DShape__00000009_.TargetZ = 0.000000
 	__models__Rendered3DShape__00000009_.Fov = 50.000000
 	__models__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__models__Rendered3DShape__00000010_.ViewX = 1355.991915
-	__models__Rendered3DShape__00000010_.ViewY = 2649.574283
-	__models__Rendered3DShape__00000010_.ViewZ = 214.179335
+	__models__Rendered3DShape__00000010_.ViewX = 1230.905496
+	__models__Rendered3DShape__00000010_.ViewY = 2254.082296
+	__models__Rendered3DShape__00000010_.ViewZ = 183.366386
 	__models__Rendered3DShape__00000010_.TargetX = -8.367735
 	__models__Rendered3DShape__00000010_.TargetY = 1448.459860
 	__models__Rendered3DShape__00000010_.TargetZ = -41.691858
@@ -873,7 +873,7 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000001_.BulbousEndAngle = 50.000000
 	__models__TubeVaseAbstract__00000001_.BulbousEndTangentMagnitude = 3.950000
 	__models__TubeVaseAbstract__00000001_.HasConstantThickness = true
-	__models__TubeVaseAbstract__00000001_.HasRingBottom = false
+	__models__TubeVaseAbstract__00000001_.HasRingBottom = true
 	__models__TubeVaseAbstract__00000001_.RelativeVerticalThickness = 0.080000
 	__models__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000
 	__models__TubeVaseAbstract__00000001_.RelativeCuttedStackFloorHeight = 0.000000
@@ -881,7 +881,7 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000001_.RotationRatio = 1.000000
 	__models__TubeVaseAbstract__00000001_.RadialRepetitions = 3
 	__models__TubeVaseAbstract__00000001_.Transparency = 0.000000
-	__models__TubeVaseAbstract__00000001_.ColorCombination = 5
+	__models__TubeVaseAbstract__00000001_.ColorCombination = 4
 	__models__TubeVaseAbstract__00000001_.RelativeTrajectoryOffsetX = 0.000000
 	__models__TubeVaseAbstract__00000001_.RelativeTrajectoryOffsetY = 0.000000
 	__models__TubeVaseAbstract__00000001_.NbStepP1P2 = 10
