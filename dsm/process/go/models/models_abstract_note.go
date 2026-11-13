@@ -12,6 +12,12 @@ type Note struct {
 
 	IsTasksNodeExpanded bool
 	Tasks               []*Task
+
+	IsDataFlowsNodeExpanded bool
+	DataFlows               []*DataFlow
+
+	IsControlFlowsNodeExpanded bool
+	ControlFlows               []*ControlFlow
 }
 
 var _ AbstractType = (*Note)(nil)

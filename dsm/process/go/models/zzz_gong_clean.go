@@ -133,6 +133,8 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&diagramprocess.Note_Shapes) || modified
 	modified = stage.CleanSlice(&diagramprocess.NotesWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagramprocess.NoteTaskShapes) || modified
+	modified = stage.CleanSlice(&diagramprocess.NoteDataFlowShapes) || modified
+	modified = stage.CleanSlice(&diagramprocess.NoteControlFlowShapes) || modified
 	// insertion point per field
 	return
 }
@@ -169,7 +171,27 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 func (note *Note) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&note.Tasks) || modified
+	modified = stage.CleanSlice(&note.DataFlows) || modified
+	modified = stage.CleanSlice(&note.ControlFlows) || modified
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by NoteControlFlowShape
+func (notecontrolflowshape *NoteControlFlowShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&notecontrolflowshape.Note) || modified
+	modified = stage.CleanPointer(&notecontrolflowshape.ControlFlow) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by NoteDataFlowShape
+func (notedataflowshape *NoteDataFlowShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&notedataflowshape.Note) || modified
+	modified = stage.CleanPointer(&notedataflowshape.DataFlow) || modified
 	return
 }
 

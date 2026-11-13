@@ -77,10 +77,12 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	}
 	stager.drawExternalParticipantShapes(diagramProcess, layer)
 	stager.drawTaskShapes(diagramProcess, layer)
-	stager.drawControlFlowShapes(diagramProcess, layer)
-	stager.drawDataFlowShapes(diagramProcess, layer)
+	map_ControlFlow_Link := stager.drawControlFlowShapes(diagramProcess, layer)
+	map_DataFlow_Link := stager.drawDataFlowShapes(diagramProcess, layer)
 	map_Note_Rect := stager.drawNoteShapes(diagramProcess, layer)
 	stager.drawNoteTaskShapes(diagramProcess, layer, map_Note_Rect)
+	stager.drawNoteControlFlowShapes(diagramProcess, layer, map_Note_Rect, map_ControlFlow_Link)
+	stager.drawNoteDataFlowShapes(diagramProcess, layer, map_Note_Rect, map_DataFlow_Link)
 
 	return svgObject
 }
@@ -631,14 +633,18 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 	}
 }
 
-func (stager *Stager) drawControlFlowShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
+func (stager *Stager) drawControlFlowShapes(diagramProcess *DiagramProcess, layer *svg.Layer) map[*ControlFlow]*svg.Link {
+	map_ControlFlow_Link := make(map[*ControlFlow]*svg.Link)
 	for _, controlFlowShape := range diagramProcess.ControlFlow_Shapes {
 		if controlFlowShape.GetIsHidden() {
 			continue
 		}
-		_ = controlFlowShape
-		startTask := controlFlowShape.ControlFlow.Start
-		endTask := controlFlowShape.ControlFlow.End
+		cf := controlFlowShape.ControlFlow
+		if cf == nil {
+			continue
+		}
+		startTask := cf.Start
+		endTask := cf.End
 
 		if startTask == nil || endTask == nil {
 			log.Panic("There should be a start task and a end task")
@@ -661,12 +667,14 @@ func (stager *Stager) drawControlFlowShapes(diagramProcess *DiagramProcess, laye
 		link.Stroke = "#333333"
 		link.StrokeWidth = 1.5
 		syncLinkPresentation(controlFlowShape, link)
-		_ = link
+		map_ControlFlow_Link[cf] = link
 	}
+	return map_ControlFlow_Link
 }
 
-func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
+func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *svg.Layer) map[*DataFlow]*svg.Link {
 	root := stager.GetRootLibrary()
+	map_DataFlow_Link := make(map[*DataFlow]*svg.Link)
 
 	for _, dataFlowShape := range diagramProcess.DataFlow_Shapes {
 		if dataFlowShape.GetIsHidden() {
@@ -712,6 +720,7 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 		link.Stroke = "#4CAF50"
 		link.StrokeWidth = 1.5
 		syncLinkPresentation(dataFlowShape, link)
+		map_DataFlow_Link[df] = link
 
 		var visibleDataShapes []*DataShape
 		for _, ds := range dataFlowShape.dataShapes {
@@ -904,6 +913,8 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 			layer.Rects = append(layer.Rects, dataRect)
 		}
 	}
+
+	return map_DataFlow_Link
 }
 
 func (stager *Stager) drawNoteShapes(diagramProcess *DiagramProcess, layer *svg.Layer) map[*Note]*svg.Rect {
@@ -965,6 +976,104 @@ func (stager *Stager) drawNoteTaskShapes(diagramProcess *DiagramProcess, layer *
 		link.StrokeWidth = 1.5
 		link.StrokeOpacity = 1.0
 		syncLinkPresentation(noteTaskShape, link)
+	}
+}
+
+func drawNoteFlowRectLinkLink(
+	shape LinkShapeInterface,
+	startRect *svg.Rect,
+	endLink *svg.Link,
+	layer *svg.Layer,
+) {
+	rectLinkLink := new(svg.RectLinkLink)
+	rectLinkLink.Name = startRect.Name + " to " + endLink.Name
+	rectLinkLink.Start = startRect
+	rectLinkLink.End = endLink
+	rectLinkLink.TargetAnchorPosition = 0.5
+
+	rectLinkLink.Stroke = "#9E9E9E"
+	rectLinkLink.StrokeWidth = 1.5
+	rectLinkLink.StrokeOpacity = 1.0
+	rectLinkLink.StrokeDashArray = "5,5"
+
+	if shape.GetIsPresentationOverridden() {
+		if shape.GetStroke() != "" {
+			rectLinkLink.Stroke = shape.GetStroke()
+		}
+		if shape.GetStrokeWidth() != 0 {
+			rectLinkLink.StrokeWidth = shape.GetStrokeWidth()
+		}
+		if shape.GetStrokeOpacity() != 0 {
+			rectLinkLink.StrokeOpacity = shape.GetStrokeOpacity()
+		}
+		if shape.GetStrokeDashArray() != "" {
+			rectLinkLink.StrokeDashArray = shape.GetStrokeDashArray()
+		}
+	} else {
+		shape.SetStroke(rectLinkLink.Stroke)
+		shape.SetStrokeWidth(rectLinkLink.StrokeWidth)
+		shape.SetStrokeOpacity(rectLinkLink.StrokeOpacity)
+		shape.SetStrokeDashArray(rectLinkLink.StrokeDashArray)
+	}
+
+	layer.RectLinkLinks = append(layer.RectLinkLinks, rectLinkLink)
+}
+
+func (stager *Stager) drawNoteControlFlowShapes(
+	diagramProcess *DiagramProcess,
+	layer *svg.Layer,
+	map_Note_Rect map[*Note]*svg.Rect,
+	map_ControlFlow_Link map[*ControlFlow]*svg.Link,
+) {
+	for _, noteControlFlowShape := range diagramProcess.NoteControlFlowShapes {
+		if noteControlFlowShape.GetIsHidden() {
+			continue
+		}
+
+		startNote := noteControlFlowShape.Note
+		endControlFlow := noteControlFlowShape.ControlFlow
+
+		if startNote == nil || endControlFlow == nil {
+			continue
+		}
+
+		startRect := map_Note_Rect[startNote]
+		endLink := map_ControlFlow_Link[endControlFlow]
+
+		if startRect == nil || endLink == nil {
+			continue
+		}
+
+		drawNoteFlowRectLinkLink(noteControlFlowShape, startRect, endLink, layer)
+	}
+}
+
+func (stager *Stager) drawNoteDataFlowShapes(
+	diagramProcess *DiagramProcess,
+	layer *svg.Layer,
+	map_Note_Rect map[*Note]*svg.Rect,
+	map_DataFlow_Link map[*DataFlow]*svg.Link,
+) {
+	for _, noteDataFlowShape := range diagramProcess.NoteDataFlowShapes {
+		if noteDataFlowShape.GetIsHidden() {
+			continue
+		}
+
+		startNote := noteDataFlowShape.Note
+		endDataFlow := noteDataFlowShape.DataFlow
+
+		if startNote == nil || endDataFlow == nil {
+			continue
+		}
+
+		startRect := map_Note_Rect[startNote]
+		endLink := map_DataFlow_Link[endDataFlow]
+
+		if startRect == nil || endLink == nil {
+			continue
+		}
+
+		drawNoteFlowRectLinkLink(noteDataFlowShape, startRect, endLink, layer)
 	}
 }
 

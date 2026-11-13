@@ -339,6 +339,58 @@ func (note *Note) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
 	}
 }
 
+func (notecontrolflowshape *NoteControlFlowShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterNoteControlFlowShapeCreateCallback != nil {
+		stage.OnAfterNoteControlFlowShapeCreateCallback.OnAfterCreate(stage, notecontrolflowshape)
+	}
+}
+
+func (notecontrolflowshape *NoteControlFlowShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterNoteControlFlowShapeUpdateCallback != nil {
+		var frontNoteControlFlowShape *NoteControlFlowShape
+		if front != nil {
+			frontNoteControlFlowShape, _ = front.(*NoteControlFlowShape)
+		}
+		stage.OnAfterNoteControlFlowShapeUpdateCallback.OnAfterUpdate(stage, notecontrolflowshape, frontNoteControlFlowShape)
+	}
+}
+
+func (notecontrolflowshape *NoteControlFlowShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterNoteControlFlowShapeDeleteCallback != nil {
+		var frontNoteControlFlowShape *NoteControlFlowShape
+		if front != nil {
+			frontNoteControlFlowShape, _ = front.(*NoteControlFlowShape)
+		}
+		stage.OnAfterNoteControlFlowShapeDeleteCallback.OnAfterDelete(stage, notecontrolflowshape, frontNoteControlFlowShape)
+	}
+}
+
+func (notedataflowshape *NoteDataFlowShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterNoteDataFlowShapeCreateCallback != nil {
+		stage.OnAfterNoteDataFlowShapeCreateCallback.OnAfterCreate(stage, notedataflowshape)
+	}
+}
+
+func (notedataflowshape *NoteDataFlowShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterNoteDataFlowShapeUpdateCallback != nil {
+		var frontNoteDataFlowShape *NoteDataFlowShape
+		if front != nil {
+			frontNoteDataFlowShape, _ = front.(*NoteDataFlowShape)
+		}
+		stage.OnAfterNoteDataFlowShapeUpdateCallback.OnAfterUpdate(stage, notedataflowshape, frontNoteDataFlowShape)
+	}
+}
+
+func (notedataflowshape *NoteDataFlowShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterNoteDataFlowShapeDeleteCallback != nil {
+		var frontNoteDataFlowShape *NoteDataFlowShape
+		if front != nil {
+			frontNoteDataFlowShape, _ = front.(*NoteDataFlowShape)
+		}
+		stage.OnAfterNoteDataFlowShapeDeleteCallback.OnAfterDelete(stage, notedataflowshape, frontNoteDataFlowShape)
+	}
+}
+
 func (noteshape *NoteShape) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterNoteShapeCreateCallback != nil {
 		stage.OnAfterNoteShapeCreateCallback.OnAfterCreate(stage, noteshape)

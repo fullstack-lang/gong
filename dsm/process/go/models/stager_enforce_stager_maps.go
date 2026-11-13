@@ -53,6 +53,33 @@ func (stager *Stager) enforceStagerMaps() {
 			}
 			diagramProcess.map_Note_NoteTaskShape[key] = noteTaskShape
 		}
+
+		diagramProcess.map_Note_NoteDataFlowShape = make(map[noteDataFlowKey]*NoteDataFlowShape)
+		for _, noteDataFlowShape := range diagramProcess.NoteDataFlowShapes {
+			key := noteDataFlowKey{
+				Note:     noteDataFlowShape.Note,
+				DataFlow: noteDataFlowShape.DataFlow,
+			}
+			diagramProcess.map_Note_NoteDataFlowShape[key] = noteDataFlowShape
+		}
+
+		diagramProcess.map_Note_NoteControlFlowShape = make(map[noteControlFlowKey]*NoteControlFlowShape)
+		for _, noteControlFlowShape := range diagramProcess.NoteControlFlowShapes {
+			key := noteControlFlowKey{
+				Note:        noteControlFlowShape.Note,
+				ControlFlow: noteControlFlowShape.ControlFlow,
+			}
+			diagramProcess.map_Note_NoteControlFlowShape[key] = noteControlFlowShape
+		}
+	}
+
+	stager.map_Note_PrevTasks = make(map[*Note][]*Task)
+	stager.map_Note_PrevDataFlows = make(map[*Note][]*DataFlow)
+	stager.map_Note_PrevControlFlows = make(map[*Note][]*ControlFlow)
+	for _, note := range stager.stage.GetInstancesSorted[*Note]() {
+		stager.map_Note_PrevTasks[note] = slices.Clone(note.Tasks)
+		stager.map_Note_PrevDataFlows[note] = slices.Clone(note.DataFlows)
+		stager.map_Note_PrevControlFlows[note] = slices.Clone(note.ControlFlows)
 	}
 
 	stager.rm_Data_DataFlows = stager.stage.GetSliceOfPointersReverseMap[DataFlow, Data](GongGetAssociationName[DataFlow]().Datas[0].Name)

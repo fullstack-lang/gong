@@ -8,6 +8,8 @@ func (stager *Stager) enforceRelationDuplicates() (needCommit bool) {
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ControlFlow_Shapes)
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.DataFlow_Shapes)
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteTaskShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteDataFlowShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteControlFlowShapes)
 	}
 	return
 }

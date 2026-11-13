@@ -198,6 +198,32 @@ func FillUpFormFromGongstructName(
 		note := new(models.Note)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(note, formGroup, probe)
+	case "NoteControlFlowShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "NoteControlFlowShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NoteControlFlowShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		notecontrolflowshape := new(models.NoteControlFlowShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(notecontrolflowshape, formGroup, probe)
+	case "NoteDataFlowShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "NoteDataFlowShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NoteDataFlowShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		notedataflowshape := new(models.NoteDataFlowShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(notedataflowshape, formGroup, probe)
 	case "NoteShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

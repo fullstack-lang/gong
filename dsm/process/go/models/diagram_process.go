@@ -116,6 +116,12 @@ type DiagramProcess struct {
 
 	NoteTaskShapes         []*NoteTaskShape
 	map_Note_NoteTaskShape map[noteTaskKey]*NoteTaskShape
+
+	NoteDataFlowShapes         []*NoteDataFlowShape
+	map_Note_NoteDataFlowShape map[noteDataFlowKey]*NoteDataFlowShape
+
+	NoteControlFlowShapes         []*NoteControlFlowShape
+	map_Note_NoteControlFlowShape map[noteControlFlowKey]*NoteControlFlowShape
 }
 
 func (d *DiagramProcess) IsEditable() bool {

@@ -184,6 +184,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Library), stage, ident.Name, instanceName, preserveOrder)
 				case "Note":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Note), stage, ident.Name, instanceName, preserveOrder)
+				case "NoteControlFlowShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(NoteControlFlowShape), stage, ident.Name, instanceName, preserveOrder)
+				case "NoteDataFlowShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(NoteDataFlowShape), stage, ident.Name, instanceName, preserveOrder)
 				case "NoteShape":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(NoteShape), stage, ident.Name, instanceName, preserveOrder)
 				case "NoteTaskShape":
@@ -478,6 +482,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.IsNotesNodeExpanded = GongExtractBool(rhs)
 					case "NoteTaskShapes":
 						__gong__assignSliceOfPointers(&inst.NoteTaskShapes, rhs, identifierMap)
+					case "NoteDataFlowShapes":
+						__gong__assignSliceOfPointers(&inst.NoteDataFlowShapes, rhs, identifierMap)
+					case "NoteControlFlowShapes":
+						__gong__assignSliceOfPointers(&inst.NoteControlFlowShapes, rhs, identifierMap)
 					}
 				case *ExternalParticipantShape:
 					switch fieldName {
@@ -593,6 +601,84 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.IsTasksNodeExpanded = GongExtractBool(rhs)
 					case "Tasks":
 						__gong__assignSliceOfPointers(&inst.Tasks, rhs, identifierMap)
+					case "IsDataFlowsNodeExpanded":
+						inst.IsDataFlowsNodeExpanded = GongExtractBool(rhs)
+					case "DataFlows":
+						__gong__assignSliceOfPointers(&inst.DataFlows, rhs, identifierMap)
+					case "IsControlFlowsNodeExpanded":
+						inst.IsControlFlowsNodeExpanded = GongExtractBool(rhs)
+					case "ControlFlows":
+						__gong__assignSliceOfPointers(&inst.ControlFlows, rhs, identifierMap)
+					}
+				case *NoteControlFlowShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Note":
+						__gong__assignPointer(&inst.Note, rhs, identifierMap)
+					case "ControlFlow":
+						__gong__assignPointer(&inst.ControlFlow, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *NoteDataFlowShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Note":
+						__gong__assignPointer(&inst.Note, rhs, identifierMap)
+					case "DataFlow":
+						__gong__assignPointer(&inst.DataFlow, rhs, identifierMap)
+					case "StartRatio":
+						inst.StartRatio = GongExtractFloat(rhs)
+					case "EndRatio":
+						inst.EndRatio = GongExtractFloat(rhs)
+					case "StartOrientation":
+						GongUnmarshallEnum(&inst.StartOrientation, rhs)
+					case "EndOrientation":
+						GongUnmarshallEnum(&inst.EndOrientation, rhs)
+					case "CornerOffsetRatio":
+						inst.CornerOffsetRatio = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
 					}
 				case *NoteShape:
 					switch fieldName {
@@ -1449,6 +1535,10 @@ func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		instance.IsNotesNodeExpanded = GongExtractBool(valueExpr)
 	case "NoteTaskShapes":
 		GongUnmarshallSliceOfPointers(&instance.NoteTaskShapes, valueExpr, identifierMap)
+	case "NoteDataFlowShapes":
+		GongUnmarshallSliceOfPointers(&instance.NoteDataFlowShapes, valueExpr, identifierMap)
+	case "NoteControlFlowShapes":
+		GongUnmarshallSliceOfPointers(&instance.NoteControlFlowShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1600,6 +1690,108 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsTasksNodeExpanded = GongExtractBool(valueExpr)
 	case "Tasks":
 		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
+	case "IsDataFlowsNodeExpanded":
+		instance.IsDataFlowsNodeExpanded = GongExtractBool(valueExpr)
+	case "DataFlows":
+		GongUnmarshallSliceOfPointers(&instance.DataFlows, valueExpr, identifierMap)
+	case "IsControlFlowsNodeExpanded":
+		instance.IsControlFlowsNodeExpanded = GongExtractBool(valueExpr)
+	case "ControlFlows":
+		GongUnmarshallSliceOfPointers(&instance.ControlFlows, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type NoteControlFlowShapeUnmarshaller struct{}
+
+func (u *NoteControlFlowShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(NoteControlFlowShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *NoteControlFlowShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*NoteControlFlowShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Note":
+		GongUnmarshallPointer(&instance.Note, valueExpr, identifierMap)
+	case "ControlFlow":
+		GongUnmarshallPointer(&instance.ControlFlow, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type NoteDataFlowShapeUnmarshaller struct{}
+
+func (u *NoteDataFlowShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(NoteDataFlowShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *NoteDataFlowShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*NoteDataFlowShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Note":
+		GongUnmarshallPointer(&instance.Note, valueExpr, identifierMap)
+	case "DataFlow":
+		GongUnmarshallPointer(&instance.DataFlow, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
 	}
 	return nil
 }

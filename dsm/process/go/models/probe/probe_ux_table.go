@@ -48,6 +48,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Library](probe)
 	case "Note":
 		updateProbeTable[*models.Note](probe)
+	case "NoteControlFlowShape":
+		updateProbeTable[*models.NoteControlFlowShape](probe)
+	case "NoteDataFlowShape":
+		updateProbeTable[*models.NoteDataFlowShape](probe)
 	case "NoteShape":
 		updateProbeTable[*models.NoteShape](probe)
 	case "NoteTaskShape":
