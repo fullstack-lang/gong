@@ -30,6 +30,16 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct DataFlowShape
+	// insertion point per field
+	stage.DataFlowShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*DataFlowShape)
+	for dataflowshape := range stage.DataFlowShapes {
+		_ = dataflowshape
+		for _, _controlpointshape := range dataflowshape.ControlPointShapes {
+			stage.DataFlowShape_ControlPointShapes_reverseMap[_controlpointshape] = dataflowshape
+		}
+	}
+
 	// Compute reverse map for named struct DiagramStructure
 	// insertion point per field
 	stage.DiagramStructure_System_Shapes_reverseMap = make(map[*SystemShape]*DiagramStructure)
@@ -567,6 +577,8 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.ControlFlowShapes)
 
+	res = __gong__appendInstances(res, stage.ControlPointShapes)
+
 	res = __gong__appendInstances(res, stage.Datas)
 
 	res = __gong__appendInstances(res, stage.DataFlows)
@@ -646,6 +658,12 @@ func (controlflow *ControlFlow) GongCopy() GongstructIF {
 func (controlflowshape *ControlFlowShape) GongCopy() GongstructIF {
 	newInstance := new(ControlFlowShape)
 	controlflowshape.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (controlpointshape *ControlPointShape) GongCopy() GongstructIF {
+	newInstance := new(ControlPointShape)
+	controlpointshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -826,6 +844,10 @@ func (controlflow *ControlFlow) GongGetUUID(stage *Stage) string {
 
 func (controlflowshape *ControlFlowShape) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, controlflowshape)
+}
+
+func (controlpointshape *ControlPointShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, controlpointshape)
 }
 
 func (data *Data) GongGetUUID(stage *Stage) string {
@@ -1094,6 +1116,23 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		stage.ControlFlowShapes_reference,
 		&stage.ControlFlowShapes_referenceOrder,
 		stage.ControlFlowShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ControlPointShapes,
+		stage.ControlPointShape_stagedOrder,
+		stage.ControlPointShapes_reference,
+		&stage.ControlPointShapes_referenceOrder,
+		stage.ControlPointShapes_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -1606,6 +1645,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.ControlFlowShapes, &stage.ControlFlowShapes_reference, &stage.ControlFlowShapes_referenceOrder, &stage.ControlFlowShapes_instance)
 
+	__gong__computeReferencePass1(stage, stage.ControlPointShapes, &stage.ControlPointShapes_reference, &stage.ControlPointShapes_referenceOrder, &stage.ControlPointShapes_instance)
+
 	__gong__computeReferencePass1(stage, stage.Datas, &stage.Datas_reference, &stage.Datas_referenceOrder, &stage.Datas_instance)
 
 	__gong__computeReferencePass1(stage, stage.DataFlows, &stage.DataFlows_reference, &stage.DataFlows_referenceOrder, &stage.DataFlows_instance)
@@ -1668,6 +1709,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass2(stage.ControlFlows, stage.ControlFlows_reference, stage)
 
 	__gong__computeReferencePass2(stage.ControlFlowShapes, stage.ControlFlowShapes_reference, stage)
+
+	__gong__computeReferencePass2(stage.ControlPointShapes, stage.ControlPointShapes_reference, stage)
 
 	__gong__computeReferencePass2(stage.Datas, stage.Datas_reference, stage)
 
@@ -1747,6 +1790,10 @@ func (controlflow *ControlFlow) GongGetOrder(stage *Stage) uint {
 
 func (controlflowshape *ControlFlowShape) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.ControlFlowShape_stagedOrder, stage.ControlFlowShapes_referenceOrder, controlflowshape, "ControlFlowShape")
+}
+
+func (controlpointshape *ControlPointShape) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.ControlPointShape_stagedOrder, stage.ControlPointShapes_referenceOrder, controlpointshape, "ControlPointShape")
 }
 
 func (data *Data) GongGetOrder(stage *Stage) uint {
@@ -1896,6 +1943,15 @@ func (controlflowshape *ControlFlowShape) GongGetIdentifier(stage *Stage) string
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (controlflowshape *ControlFlowShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return controlflowshape.GongGetIdentifier(stage)
+}
+
+func (controlpointshape *ControlPointShape) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(controlpointshape, controlpointshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (controlpointshape *ControlPointShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return controlpointshape.GongGetIdentifier(stage)
 }
 
 func (data *Data) GongGetIdentifier(stage *Stage) string {
@@ -2160,6 +2216,10 @@ func (controlflowshape *ControlFlowShape) GongMarshallIdentifier(stage *Stage) s
 	return __gong__marshallIdentifier(controlflowshape.GongGetIdentifier(stage), "ControlFlowShape", controlflowshape.Name)
 }
 
+func (controlpointshape *ControlPointShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(controlpointshape.GongGetIdentifier(stage), "ControlPointShape", controlpointshape.Name)
+}
+
 func (data *Data) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(data.GongGetIdentifier(stage), "Data", data.Name)
 }
@@ -2283,6 +2343,10 @@ func (controlflow *ControlFlow) GongMarshallUnstaging(stage *Stage) string {
 
 func (controlflowshape *ControlFlowShape) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(controlflowshape.GongGetReferenceIdentifier(stage))
+}
+
+func (controlpointshape *ControlPointShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(controlpointshape.GongGetReferenceIdentifier(stage))
 }
 
 func (data *Data) GongMarshallUnstaging(stage *Stage) string {

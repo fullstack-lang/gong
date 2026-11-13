@@ -170,6 +170,11 @@ func (stager *Stager) treeDataFlowsScoped(
 			if dataFlowShape == nil {
 				log.Panic("remove a non existing shape to product")
 			}
+			for _, cp := range dataFlowShape.ControlPointShapes {
+				if cp != nil {
+					cp.UnstageVoid(stage)
+				}
+			}
 			dataFlowShape.UnstageVoid(stage)
 			idx := slices.Index(diagramStructure.DataFlow_Shapes, dataFlowShape)
 			if idx >= 0 {

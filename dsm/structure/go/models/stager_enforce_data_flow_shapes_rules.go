@@ -83,6 +83,11 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 						ls.UnstageVoid(stager.stage)
 					}
 				}
+				for _, cp := range dataFlowShape.ControlPointShapes {
+					if cp != nil {
+						cp.UnstageVoid(stager.stage)
+					}
+				}
 
 				dataFlowShape.UnstageVoid(stager.stage)
 				needCommit = true

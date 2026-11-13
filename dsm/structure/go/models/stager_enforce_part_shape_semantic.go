@@ -97,6 +97,11 @@ func (stager *Stager) enforcePartShapeSemantic() (needCommit bool) {
 		}
 		for _, dfShape := range diagramStructure.DataFlow_Shapes {
 			if dfShape != nil && dfShape.ParentPartShape != nil && !validSet[dfShape.ParentPartShape] {
+				for _, cp := range dfShape.ControlPointShapes {
+					if cp != nil {
+						cp.UnstageVoid(stager.stage)
+					}
+				}
 				dfShape.UnstageVoid(stager.stage)
 				needCommit = true
 			}

@@ -99,6 +99,23 @@ func (from *ControlFlowShape) GongCopyBasicFields(to *ControlFlowShape) {
 	to.FontColor = from.FontColor
 }
 
+type ControlPointShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	X_Relative float64
+
+	Y_Relative float64
+
+	IsStartShapeTheClosestShape bool
+}
+
+func (from *ControlPointShape) GongCopyBasicFields(to *ControlPointShape) {
+	// insertion point
+	*to = *from
+}
+
 type Data_WOP struct {
 	// insertion point
 

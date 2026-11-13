@@ -168,6 +168,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(ControlFlow), stage, ident.Name, instanceName, preserveOrder)
 				case "ControlFlowShape":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(ControlFlowShape), stage, ident.Name, instanceName, preserveOrder)
+				case "ControlPointShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ControlPointShape), stage, ident.Name, instanceName, preserveOrder)
 				case "Data":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Data), stage, ident.Name, instanceName, preserveOrder)
 				case "DataFlow":
@@ -304,6 +306,17 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "FontColor":
 						inst.FontColor = GongExtractString(rhs)
 					}
+				case *ControlPointShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "X_Relative":
+						inst.X_Relative = GongExtractFloat(rhs)
+					case "Y_Relative":
+						inst.Y_Relative = GongExtractFloat(rhs)
+					case "IsStartShapeTheClosestShape":
+						inst.IsStartShapeTheClosestShape = GongExtractBool(rhs)
+					}
 				case *Data:
 					switch fieldName {
 					case "Name":
@@ -392,6 +405,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.FontSize = GongExtractString(rhs)
 					case "FontColor":
 						inst.FontColor = GongExtractString(rhs)
+					case "ControlPointShapes":
+						__gong__assignSliceOfPointers(&inst.ControlPointShapes, rhs, identifierMap)
 					}
 				case *DataShape:
 					switch fieldName {
@@ -1524,6 +1539,29 @@ func (u *ControlFlowShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	return nil
 }
 
+type ControlPointShapeUnmarshaller struct{}
+
+func (u *ControlPointShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(ControlPointShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *ControlPointShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ControlPointShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "X_Relative":
+		instance.X_Relative = GongExtractFloat(valueExpr)
+	case "Y_Relative":
+		instance.Y_Relative = GongExtractFloat(valueExpr)
+	case "IsStartShapeTheClosestShape":
+		instance.IsStartShapeTheClosestShape = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
 type DataUnmarshaller struct{}
 
 func (u *DataUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1645,6 +1683,8 @@ func (u *DataFlowShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.FontSize = GongExtractString(valueExpr)
 	case "FontColor":
 		instance.FontColor = GongExtractString(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
 	return nil
 }

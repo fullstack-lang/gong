@@ -266,6 +266,43 @@ func saveControlFlowShapeFields(
 	}
 }
 
+func __gong__New__ControlPointShapeFormCallback(
+	_instance *models.ControlPointShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (controlpointshapeFormCallback *FormCallback[*models.ControlPointShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveControlPointShapeFields,
+	)
+}
+
+type ControlPointShapeFormCallback = FormCallback[*models.ControlPointShape]
+
+func saveControlPointShapeFields(
+	_instance *models.ControlPointShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "X_Relative":
+			FormDivBasicFieldToField(&(_instance.X_Relative), formDiv)
+		case "Y_Relative":
+			FormDivBasicFieldToField(&(_instance.Y_Relative), formDiv)
+		case "IsStartShapeTheClosestShape":
+			FormDivBasicFieldToField(&(_instance.IsStartShapeTheClosestShape), formDiv)
+		case "DataFlowShape:ControlPointShapes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlPointShapes", func(owner *models.DataFlowShape) *[]*models.ControlPointShape { return &owner.ControlPointShapes })
+		}
+	}
+}
+
 func __gong__New__DataFormCallback(
 	_instance *models.Data,
 	probe *Probe,
@@ -447,6 +484,8 @@ func saveDataFlowShapeFields(
 			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
 		case "FontColor":
 			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
+		case "ControlPointShapes":
+			FormDivSliceOfPointersToField(_instance, "ControlPointShapes", &(_instance.ControlPointShapes), formDiv, probe)
 		case "DiagramStructure:DataFlow_Shapes":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DataFlow_Shapes", func(owner *models.DiagramStructure) *[]*models.DataFlowShape { return &owner.DataFlow_Shapes })
 		}

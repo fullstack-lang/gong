@@ -80,6 +80,22 @@ func (inst *ControlFlowShape) GongGetReverseFieldOwnerName(stage *Stage, reverse
 	return
 }
 
+func (inst *ControlPointShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DataFlowShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			if _dataflowshape, ok := stage.DataFlowShape_ControlPointShapes_reverseMap[inst]; ok {
+				res = _dataflowshape.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *Data) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""

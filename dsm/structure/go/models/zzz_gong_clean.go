@@ -94,6 +94,7 @@ func (dataflow *DataFlow) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by DataFlowShape
 func (dataflowshape *DataFlowShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = stage.CleanSlice(&dataflowshape.ControlPointShapes) || modified
 	// insertion point per field
 	modified = stage.CleanPointer(&dataflowshape.DataFlow) || modified
 	modified = stage.CleanPointer(&dataflowshape.ParentPartShape) || modified

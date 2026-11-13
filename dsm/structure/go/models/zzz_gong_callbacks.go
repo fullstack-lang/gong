@@ -131,6 +131,32 @@ func (controlflowshape *ControlFlowShape) GongAfterDeleteFromFront(stage *Stage,
 	}
 }
 
+func (controlpointshape *ControlPointShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterControlPointShapeCreateCallback != nil {
+		stage.OnAfterControlPointShapeCreateCallback.OnAfterCreate(stage, controlpointshape)
+	}
+}
+
+func (controlpointshape *ControlPointShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterControlPointShapeUpdateCallback != nil {
+		var frontControlPointShape *ControlPointShape
+		if front != nil {
+			frontControlPointShape, _ = front.(*ControlPointShape)
+		}
+		stage.OnAfterControlPointShapeUpdateCallback.OnAfterUpdate(stage, controlpointshape, frontControlPointShape)
+	}
+}
+
+func (controlpointshape *ControlPointShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterControlPointShapeDeleteCallback != nil {
+		var frontControlPointShape *ControlPointShape
+		if front != nil {
+			frontControlPointShape, _ = front.(*ControlPointShape)
+		}
+		stage.OnAfterControlPointShapeDeleteCallback.OnAfterDelete(stage, controlpointshape, frontControlPointShape)
+	}
+}
+
 func (data *Data) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterDataCreateCallback != nil {
 		stage.OnAfterDataCreateCallback.OnAfterCreate(stage, data)

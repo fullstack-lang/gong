@@ -173,6 +173,20 @@ type Stage struct {
 	OnAfterControlFlowShapeUpdateCallback GongOnAfterUpdateInterface[ControlFlowShape]
 	OnAfterControlFlowShapeDeleteCallback GongOnAfterDeleteInterface[ControlFlowShape]
 
+	ControlPointShapes                map[*ControlPointShape]struct{}
+	ControlPointShapes_instance       map[*ControlPointShape]*ControlPointShape
+	ControlPointShapes_mapString      map[string]*ControlPointShape
+	ControlPointShapeOrder            uint
+	ControlPointShape_stagedOrder     map[*ControlPointShape]uint
+	ControlPointShape_orderStaged     map[uint]*ControlPointShape
+	ControlPointShapes_reference      map[*ControlPointShape]*ControlPointShape
+	ControlPointShapes_referenceOrder map[*ControlPointShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterControlPointShapeCreateCallback GongOnAfterCreateInterface[ControlPointShape]
+	OnAfterControlPointShapeUpdateCallback GongOnAfterUpdateInterface[ControlPointShape]
+	OnAfterControlPointShapeDeleteCallback GongOnAfterDeleteInterface[ControlPointShape]
+
 	Datas                map[*Data]struct{}
 	Datas_instance       map[*Data]*Data
 	Datas_mapString      map[string]*Data
@@ -213,6 +227,8 @@ type Stage struct {
 	DataFlowShapes_referenceOrder map[*DataFlowShape]uint
 
 	// insertion point for slice of pointers maps
+	DataFlowShape_ControlPointShapes_reverseMap map[*ControlPointShape]*DataFlowShape
+
 	OnAfterDataFlowShapeCreateCallback GongOnAfterCreateInterface[DataFlowShape]
 	OnAfterDataFlowShapeUpdateCallback GongOnAfterUpdateInterface[DataFlowShape]
 	OnAfterDataFlowShapeDeleteCallback GongOnAfterDeleteInterface[DataFlowShape]
@@ -784,6 +800,8 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.ControlFlowShapes_reference, &stage.ControlFlowShapes_instance, &stage.ControlFlowShapes_referenceOrder)
 
+	__gong__clearReferences(&stage.ControlPointShapes_reference, &stage.ControlPointShapes_instance, &stage.ControlPointShapes_referenceOrder)
+
 	__gong__clearReferences(&stage.Datas_reference, &stage.Datas_instance, &stage.Datas_referenceOrder)
 
 	__gong__clearReferences(&stage.DataFlows_reference, &stage.DataFlows_instance, &stage.DataFlows_referenceOrder)
@@ -868,6 +886,8 @@ func (stage *Stage) recomputeOrders() {
 	stage.ControlFlowOrder = __gong__recomputeOrder(stage.ControlFlow_stagedOrder)
 
 	stage.ControlFlowShapeOrder = __gong__recomputeOrder(stage.ControlFlowShape_stagedOrder)
+
+	stage.ControlPointShapeOrder = __gong__recomputeOrder(stage.ControlPointShape_stagedOrder)
 
 	stage.DataOrder = __gong__recomputeOrder(stage.Data_stagedOrder)
 
@@ -1017,6 +1037,26 @@ func (*ControlFlowShape) GongGetInstancesSet(stage *Stage) any {
 
 func (*ControlFlowShape) GongNewInstance() any {
 	return new(ControlFlowShape)
+}
+
+func (*ControlPointShape) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder)
+}
+
+func (*ControlPointShape) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ControlPointShape_orderStaged[order]
+}
+
+func (*ControlPointShape) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ControlPointShapes_mapString
+}
+
+func (*ControlPointShape) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ControlPointShapes
+}
+
+func (*ControlPointShape) GongNewInstance() any {
+	return new(ControlPointShape)
 }
 
 func (*Data) GongGetInstancesByOrder(stage *Stage) any {
@@ -1752,6 +1792,9 @@ func NewStage(name string) (stage *Stage) {
 		ControlFlowShapes:           make(map[*ControlFlowShape]struct{}),
 		ControlFlowShapes_mapString: make(map[string]*ControlFlowShape),
 
+		ControlPointShapes:           make(map[*ControlPointShape]struct{}),
+		ControlPointShapes_mapString: make(map[string]*ControlPointShape),
+
 		Datas:           make(map[*Data]struct{}),
 		Datas_mapString: make(map[string]*Data),
 
@@ -1856,6 +1899,10 @@ func NewStage(name string) (stage *Stage) {
 		ControlFlowShape_stagedOrder: make(map[*ControlFlowShape]uint),
 		ControlFlowShape_orderStaged: make(map[uint]*ControlFlowShape),
 		ControlFlowShapes_reference:  make(map[*ControlFlowShape]*ControlFlowShape),
+
+		ControlPointShape_stagedOrder: make(map[*ControlPointShape]uint),
+		ControlPointShape_orderStaged: make(map[uint]*ControlPointShape),
+		ControlPointShapes_reference:  make(map[*ControlPointShape]*ControlPointShape),
 
 		Data_stagedOrder: make(map[*Data]uint),
 		Data_orderStaged: make(map[uint]*Data),
@@ -1974,6 +2021,8 @@ func NewStage(name string) (stage *Stage) {
 			"ControlFlow": &ControlFlowUnmarshaller{},
 
 			"ControlFlowShape": &ControlFlowShapeUnmarshaller{},
+
+			"ControlPointShape": &ControlPointShapeUnmarshaller{},
 
 			"Data": &DataUnmarshaller{},
 
@@ -2115,6 +2164,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["AllocatedSystemShape"] = len(stage.AllocatedSystemShapes)
 	stage.Map_GongStructName_InstancesNb["ControlFlow"] = len(stage.ControlFlows)
 	stage.Map_GongStructName_InstancesNb["ControlFlowShape"] = len(stage.ControlFlowShapes)
+	stage.Map_GongStructName_InstancesNb["ControlPointShape"] = len(stage.ControlPointShapes)
 	stage.Map_GongStructName_InstancesNb["Data"] = len(stage.Datas)
 	stage.Map_GongStructName_InstancesNb["DataFlow"] = len(stage.DataFlows)
 	stage.Map_GongStructName_InstancesNb["DataFlowShape"] = len(stage.DataFlowShapes)
@@ -2340,6 +2390,46 @@ func (controlflowshape *ControlFlowShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (controlflowshape *ControlFlowShape) SetName(name string) {
 	controlflowshape.Name = name
+}
+
+// Stage puts controlpointshape to the model stage
+func (controlpointshape *ControlPointShape) Stage(stage *Stage) *ControlPointShape {
+	__gong__stage(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder, stage.ControlPointShape_orderStaged, &stage.ControlPointShapeOrder, stage.ControlPointShapes_mapString, controlpointshape, controlpointshape.Name)
+	return controlpointshape
+}
+
+// StagePreserveOrder puts controlpointshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ControlPointShapeOrder
+// - update stage.ControlPointShapeOrder accordingly
+func (controlpointshape *ControlPointShape) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder, stage.ControlPointShape_orderStaged, &stage.ControlPointShapeOrder, stage.ControlPointShapes_mapString, controlpointshape, order, controlpointshape.Name)
+}
+
+// Unstage removes controlpointshape off the model stage
+func (controlpointshape *ControlPointShape) Unstage(stage *Stage) *ControlPointShape {
+	__gong__unstage(stage.ControlPointShapes, stage.ControlPointShapes_mapString, controlpointshape, controlpointshape.Name)
+	return controlpointshape
+}
+
+// UnstageVoid removes controlpointshape off the model stage
+func (controlpointshape *ControlPointShape) UnstageVoid(stage *Stage) {
+	controlpointshape.Unstage(stage)
+}
+
+func (controlpointshape *ControlPointShape) StageVoid(stage *Stage) {
+	controlpointshape.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (controlpointshape *ControlPointShape) GetName() (res string) {
+	return controlpointshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (controlpointshape *ControlPointShape) SetName(name string) {
+	controlpointshape.Name = name
 }
 
 // Stage puts data to the model stage
@@ -3431,6 +3521,8 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.ControlFlowShapes, &stage.ControlFlowShapes_mapString, &stage.ControlFlowShape_stagedOrder, &stage.ControlFlowShapeOrder)
 
+	__gong__resetStageType(&stage.ControlPointShapes, &stage.ControlPointShapes_mapString, &stage.ControlPointShape_stagedOrder, &stage.ControlPointShapeOrder)
+
 	__gong__resetStageType(&stage.Datas, &stage.Datas_mapString, &stage.Data_stagedOrder, &stage.DataOrder)
 
 	__gong__resetStageType(&stage.DataFlows, &stage.DataFlows_mapString, &stage.DataFlow_stagedOrder, &stage.DataFlowOrder)
@@ -3617,6 +3709,11 @@ func (ControlFlowShape) GongGetAssociationName() any {
 	}
 }
 
+func (ControlPointShape) GongGetAssociationName() any {
+	return &ControlPointShape{
+	}
+}
+
 func (Data) GongGetAssociationName() any {
 	return &Data{
 	}
@@ -3639,6 +3736,7 @@ func (DataFlowShape) GongGetAssociationName() any {
 			ParentPartShape: &PartShape{Name: "ParentPartShape"},
 			StartPortShape: &PortShape{Name: "StartPortShape"},
 			EndPortShape: &PortShape{Name: "EndPortShape"},
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 	}
 }
 
@@ -4037,6 +4135,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ControlPointShape
+	case ControlPointShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Data
 	case Data:
@@ -4798,6 +4901,11 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of ControlPointShape
+	case ControlPointShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Data
 	case Data:
 		switch fieldname {
@@ -4820,6 +4928,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	case DataFlowShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*DataFlowShape)
+			for dataflowshape := range stage.DataFlowShapes {
+				for _, controlpointshape_ := range dataflowshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], dataflowshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of DataShape
 	case DataShape:
@@ -5602,6 +5718,15 @@ func (*ControlFlowShape) GongGetReverseFields() []GongReverseField {
 	}
 }
 
+func (*ControlPointShape) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "DataFlowShape",
+			Fieldname: "ControlPointShapes",
+		},
+	}
+}
+
 func (*Data) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 		{
@@ -6165,6 +6290,29 @@ func (controlflowshape *ControlFlowShape) GongGetFieldHeaders() (res []GongField
 	return
 }
 
+func (controlpointshape *ControlPointShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "X_Relative",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y_Relative",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsStartShapeTheClosestShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
 func (data *Data) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -6355,6 +6503,11 @@ func (dataflowshape *DataFlowShape) GongGetFieldHeaders() (res []GongFieldHeader
 		{
 			Name:               "FontColor",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
 		},
 	}
 	return
@@ -8353,6 +8506,27 @@ func (controlflowshape *ControlFlowShape) GongGetFieldValue(fieldName string, st
 	return
 }
 
+func (controlpointshape *ControlPointShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = controlpointshape.Name
+	case "X_Relative":
+		res.valueString = fmt.Sprintf("%f", controlpointshape.X_Relative)
+		res.valueFloat = controlpointshape.X_Relative
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y_Relative":
+		res.valueString = fmt.Sprintf("%f", controlpointshape.Y_Relative)
+		res.valueFloat = controlpointshape.Y_Relative
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsStartShapeTheClosestShape":
+		res.valueString = fmt.Sprintf("%t", controlpointshape.IsStartShapeTheClosestShape)
+		res.valueBool = controlpointshape.IsStartShapeTheClosestShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func (data *Data) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -8524,6 +8698,16 @@ func (dataflowshape *DataFlowShape) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = dataflowshape.FontSize
 	case "FontColor":
 		res.valueString = dataflowshape.FontColor
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range dataflowshape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -10493,6 +10677,10 @@ func (controlflowshape *ControlFlowShape) GongGetGongstructName() string {
 	return "ControlFlowShape"
 }
 
+func (controlpointshape *ControlPointShape) GongGetGongstructName() string {
+	return "ControlPointShape"
+}
+
 func (data *Data) GongGetGongstructName() string {
 	return "Data"
 }
@@ -10619,6 +10807,8 @@ func (stage *Stage) ResetMapStrings() {
 	__gong__rebuildMapString(stage.ControlFlows, &stage.ControlFlows_mapString)
 
 	__gong__rebuildMapString(stage.ControlFlowShapes, &stage.ControlFlowShapes_mapString)
+
+	__gong__rebuildMapString(stage.ControlPointShapes, &stage.ControlPointShapes_mapString)
 
 	__gong__rebuildMapString(stage.Datas, &stage.Datas_mapString)
 

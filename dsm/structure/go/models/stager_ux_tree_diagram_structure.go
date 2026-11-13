@@ -48,6 +48,26 @@ func (stager *Stager) treeDiagramStructure(
 	node.OnNameChange = stager.onNameChange(diagramStructure)
 	node.OnIsExpandedChange = onIsExpandedChangeSlice(stager, diagramStructure, &system.DiagramStructureWhoseNodeIsExpanded)
 
+	// editability button (toggles edit / non-edit mode, hiding control-point dots when off)
+	{
+		editButton := &tree.Button{
+			Name:            "Diagram Editability",
+			Icon:            string(buttons.BUTTON_edit),
+			HasToolTip:      true,
+			ToolTipPosition: tree.Above,
+			ToolTipText:     "Edit diagram",
+			OnClick: func() {
+				diagramStructure.IsEditable_ = !diagramStructure.IsEditable_
+				stager.stage.Commit()
+			},
+		}
+		if diagramStructure.IsEditable_ {
+			editButton.Icon = string(buttons.BUTTON_edit_off)
+			editButton.ToolTipText = "Stop editing diagram"
+		}
+		diagramNode.Buttons = append(diagramNode.Buttons, editButton)
+	}
+
 	// prefix button
 	{
 		showPrefixButton := &tree.Button{

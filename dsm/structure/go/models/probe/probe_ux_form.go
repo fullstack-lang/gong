@@ -94,6 +94,19 @@ func FillUpFormFromGongstructName(
 		controlflowshape := new(models.ControlFlowShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(controlflowshape, formGroup, probe)
+	case "ControlPointShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ControlPointShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ControlPointShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		controlpointshape := new(models.ControlPointShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(controlpointshape, formGroup, probe)
 	case "Data":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

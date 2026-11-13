@@ -35,6 +35,11 @@ func (controlflowshape *ControlFlowShape) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
+func (controlpointshape *ControlPointShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ControlPointShapes[controlpointshape]
+	return ok
+}
+
 func (data *Data) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.Datas[data]
 	return ok
@@ -262,6 +267,21 @@ func (controlflowshape *ControlFlowShape) GongStageBranch(stage *Stage) {
 
 }
 
+func (controlpointshape *ControlPointShape) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(controlpointshape) {
+		return
+	}
+
+	controlpointshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (data *Data) GongStageBranch(stage *Stage) {
 
 	// check if instance is already staged
@@ -334,6 +354,9 @@ func (dataflowshape *DataFlowShape) GongStageBranch(stage *Stage) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range dataflowshape.ControlPointShapes {
+		stage.StageBranch(_controlpointshape)
+	}
 
 }
 
@@ -1015,6 +1038,10 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchControlFlowShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *ControlPointShape:
+		toT := GongCopyBranchControlPointShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Data:
 		toT := GongCopyBranchData(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -1214,6 +1241,21 @@ func GongCopyBranchControlFlowShape(mapOrigCopy map[any]any, controlflowshapeFro
 	return
 }
 
+func GongCopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeFrom *ControlPointShape) (controlpointshapeTo *ControlPointShape) {
+	var alreadyCopied bool
+	controlpointshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, controlpointshapeFrom)
+	if alreadyCopied {
+		return
+	}
+	controlpointshapeFrom.GongCopyBasicFields(controlpointshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func GongCopyBranchData(mapOrigCopy map[any]any, dataFrom *Data) (dataTo *Data) {
 	var alreadyCopied bool
 	dataTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, dataFrom)
@@ -1285,6 +1327,9 @@ func GongCopyBranchDataFlowShape(mapOrigCopy map[any]any, dataflowshapeFrom *Dat
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range dataflowshapeFrom.ControlPointShapes {
+		dataflowshapeTo.ControlPointShapes = append(dataflowshapeTo.ControlPointShapes, GongCopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
 
 	return
 }
@@ -2036,6 +2081,21 @@ func (controlflowshape *ControlFlowShape) GongUnstageBranch(stage *Stage) {
 
 }
 
+func (controlpointshape *ControlPointShape) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(controlpointshape) {
+		return
+	}
+
+	controlpointshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (data *Data) GongUnstageBranch(stage *Stage) {
 
 	// check if instance is already staged
@@ -2108,6 +2168,9 @@ func (dataflowshape *DataFlowShape) GongUnstageBranch(stage *Stage) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range dataflowshape.ControlPointShapes {
+		stage.UnstageBranch(_controlpointshape)
+	}
 
 }
 
@@ -2791,6 +2854,11 @@ func (reference *ControlFlowShape) GongReconstructPointersFromReferences(stage *
 	// insertion point for slice of pointers field
 }
 
+func (reference *ControlPointShape) GongReconstructPointersFromReferences(stage *Stage, instance *ControlPointShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *Data) GongReconstructPointersFromReferences(stage *Stage, instance *Data) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -2814,6 +2882,7 @@ func (reference *DataFlowShape) GongReconstructPointersFromReferences(stage *Sta
 	__gong__reconstructPointer(&reference.StartPortShape, stage.PortShapes_reference, instance.StartPortShape)
 	__gong__reconstructPointer(&reference.EndPortShape, stage.PortShapes_reference, instance.EndPortShape)
 	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlPointShapes, stage.ControlPointShapes_reference, instance.ControlPointShapes)
 }
 
 func (reference *DataShape) GongReconstructPointersFromReferences(stage *Stage, instance *DataShape) {
@@ -3062,6 +3131,11 @@ func (reference *ControlFlowShape) GongReconstructPointersFromInstances(stage *S
 	// insertion point for slice of pointers fields
 }
 
+func (reference *ControlPointShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *Data) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -3085,6 +3159,7 @@ func (reference *DataFlowShape) GongReconstructPointersFromInstances(stage *Stag
 	__gong__reconstructPointerFromInstance(&reference.StartPortShape, stage.PortShapes_instance)
 	__gong__reconstructPointerFromInstance(&reference.EndPortShape, stage.PortShapes_instance)
 	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlPointShapes, stage.ControlPointShapes_instance)
 }
 
 func (reference *DataShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3423,6 +3498,26 @@ func (controlflowshape *ControlFlowShape) GongDiff(stage *Stage, controlflowshap
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (controlpointshape *ControlPointShape) GongDiff(stage *Stage, controlpointshapeOther *ControlPointShape) (diffs []string) {
+	// insertion point for field diffs
+	if controlpointshape.Name != controlpointshapeOther.Name {
+		diffs = append(diffs, controlpointshape.GongMarshallField(stage, "Name"))
+	}
+	if controlpointshape.X_Relative != controlpointshapeOther.X_Relative {
+		diffs = append(diffs, controlpointshape.GongMarshallField(stage, "X_Relative"))
+	}
+	if controlpointshape.Y_Relative != controlpointshapeOther.Y_Relative {
+		diffs = append(diffs, controlpointshape.GongMarshallField(stage, "Y_Relative"))
+	}
+	if controlpointshape.IsStartShapeTheClosestShape != controlpointshapeOther.IsStartShapeTheClosestShape {
+		diffs = append(diffs, controlpointshape.GongMarshallField(stage, "IsStartShapeTheClosestShape"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (data *Data) GongDiff(stage *Stage, dataOther *Data) (diffs []string) {
 	// insertion point for field diffs
 	if data.Name != dataOther.Name {
@@ -3560,6 +3655,9 @@ func (dataflowshape *DataFlowShape) GongDiff(stage *Stage, dataflowshapeOther *D
 	}
 	if dataflowshape.FontColor != dataflowshapeOther.FontColor {
 		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "FontColor"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, dataflowshape, "ControlPointShapes", dataflowshapeOther.ControlPointShapes, dataflowshape.ControlPointShapes); ops != "" {
+		diffs = append(diffs, ops)
 	}
 
 	return

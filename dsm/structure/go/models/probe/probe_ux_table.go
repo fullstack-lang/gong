@@ -32,6 +32,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ControlFlow](probe)
 	case "ControlFlowShape":
 		updateProbeTable[*models.ControlFlowShape](probe)
+	case "ControlPointShape":
+		updateProbeTable[*models.ControlPointShape](probe)
 	case "Data":
 		updateProbeTable[*models.Data](probe)
 	case "DataFlow":

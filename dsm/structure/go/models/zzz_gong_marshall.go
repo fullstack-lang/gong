@@ -505,6 +505,28 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 		}
 	}
 	if stage != nil {
+		for _, controlpointshape := range __gong__sortStageSetInstances(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			controlpointshapeIdent := controlpointshape.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ControlPointShape{Name: %s}).Stage(stage)", controlpointshapeIdent, __gong__toRawStringLiteral(controlpointshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", controlpointshapeIdent, __gong__toRawStringLiteral(controlpointshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X_Relative = %f", controlpointshapeIdent, controlpointshape.X_Relative))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y_Relative = %f", controlpointshapeIdent, controlpointshape.Y_Relative))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsStartShapeTheClosestShape = %t", controlpointshapeIdent, controlpointshape.IsStartShapeTheClosestShape))
+		}
+	}
+	if stage != nil {
 		for _, data := range __gong__sortStageSetInstances(stage.Datas, stage.Data_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
@@ -701,6 +723,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := dataflowshape.EndPortShape.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EndPortShape = %s", dataflowshapeIdent, targetIdent))
+			}
+			for _, elem := range dataflowshape.ControlPointShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlPointShapes = append(%s.ControlPointShapes, %s)", dataflowshapeIdent, dataflowshapeIdent, targetIdent))
 			}
 		}
 	}
@@ -2620,6 +2652,25 @@ func (controlflowshape *ControlFlowShape) GongMarshallField(stage *Stage, fieldN
 	return
 }
 
+func (controlpointshape *ControlPointShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := controlpointshape.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", controlpointshape.Name)
+	case "X_Relative":
+		res = __gong__marshallFloat(ident, "X_Relative", controlpointshape.X_Relative)
+	case "Y_Relative":
+		res = __gong__marshallFloat(ident, "Y_Relative", controlpointshape.Y_Relative)
+	case "IsStartShapeTheClosestShape":
+		res = __gong__marshallBool(ident, "IsStartShapeTheClosestShape", controlpointshape.IsStartShapeTheClosestShape)
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ControlPointShape", fieldName)
+	}
+	return
+}
+
 func (data *Data) GongMarshallField(stage *Stage, fieldName string) (res string) {
 	ident := data.GongGetIdentifier(stage)
 	_ = ident
@@ -2767,6 +2818,12 @@ func (dataflowshape *DataFlowShape) GongMarshallField(stage *Stage, fieldName st
 		} else {
 			res = __gong__marshallPointer(ident, "EndPortShape", "nil")
 		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range dataflowshape.ControlPointShapes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ControlPointShapes", _controlpointshape.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DataFlowShape", fieldName)
 	}
@@ -4258,6 +4315,20 @@ func (controlflowshape *ControlFlowShape) GongMarshallAllFields(stage *Stage) (i
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (controlpointshape *ControlPointShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "X_Relative"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "Y_Relative"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "IsStartShapeTheClosestShape"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (data *Data) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -4323,6 +4394,7 @@ func (dataflowshape *DataFlowShape) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(dataflowshape.GongMarshallField(stage, "StrokeDashArray"))
 		initializerStatements.WriteString(dataflowshape.GongMarshallField(stage, "FontSize"))
 		initializerStatements.WriteString(dataflowshape.GongMarshallField(stage, "FontColor"))
+		pointersInitializesStatements.WriteString(dataflowshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

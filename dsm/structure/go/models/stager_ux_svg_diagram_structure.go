@@ -124,8 +124,10 @@ func (stager *Stager) drawSystemShapes(diagramStructure *DiagramStructure, layer
 		// override default behavior, we need to commit when the rect is moved
 		// we need to update the position of the parts shapes and port shapes that are within the system
 		rect.OnSelect = onSelectRectShape(stager, systemShape.System, systemShape)
-		rect.OnMove = onMoveRectElement(stager, systemShape, false)
-		rect.OnResize = onResizeRectElement(stager, systemShape)
+		if diagramStructure.IsEditable() {
+			rect.OnMove = onMoveRectElement(stager, systemShape, false)
+			rect.OnResize = onResizeRectElement(stager, systemShape)
+		}
 		diagramStructure.map_System_Rect[systemShape.System] = rect
 	}
 }
@@ -182,14 +184,6 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 		partRect.Color = "#FFFFFF"
 		partRect.FillOpacity = 1.0
 
-		partRect.CanMoveHorizontaly = true
-		partRect.CanMoveVerticaly = true
-
-		partRect.CanHaveBottomHandle = true
-		partRect.CanHaveLeftHandle = true
-		partRect.CanHaveRightHandle = true
-		partRect.CanHaveTopHandle = true
-
 		// visuals
 		partRect.RX = 0
 		partRect.StrokeWidth = 1.0
@@ -197,8 +191,18 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 
 		// override default behavior, we need to commit when the rect is moved
 		partRect.OnSelect = onSelectRectShape(stager, partShape.Part, partShape)
-		partRect.OnMove = onMoveRectElement(stager, partShape, true)
-		partRect.OnResize = onResizeRectElement(stager, partShape)
+		if diagramStructure.IsEditable() {
+			partRect.CanMoveHorizontaly = true
+			partRect.CanMoveVerticaly = true
+
+			partRect.CanHaveBottomHandle = true
+			partRect.CanHaveLeftHandle = true
+			partRect.CanHaveRightHandle = true
+			partRect.CanHaveTopHandle = true
+
+			partRect.OnMove = onMoveRectElement(stager, partShape, true)
+			partRect.OnResize = onResizeRectElement(stager, partShape)
+		}
 
 		{
 			title := new(svg.RectAnchoredText)
@@ -296,30 +300,28 @@ func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure,
 		rect.Width = externalPartShape.GetWidth()
 		rect.Height = externalPartShape.GetHeight()
 
-		rect.CanMoveHorizontaly = true
-		rect.CanMoveVerticaly = true
-		rect.CanHaveBottomHandle = true
-		rect.CanHaveLeftHandle = true
-		rect.CanHaveRightHandle = true
-		rect.CanHaveTopHandle = true
-
 		rect.RX = 0
 		rect.StrokeWidth = 1.0
 		rect.StrokeOpacity = 1.0
 
-		rect.StrokeWidth = 1
-		rect.StrokeOpacity = 1
-
 		rect.FillOpacity = 1.0
 
 		rect.Color = "#F8F9FA"
-		rect.FillOpacity = 1.0
 		rect.Stroke = "#E0E0E0"
 		syncRectPresentation(externalPartShape, rect)
 
 		rect.OnSelect = onSelectRectShape(stager, externalPartShape.Part, externalPartShape)
-		rect.OnMove = onMoveRectElement(stager, externalPartShape, false)
-		rect.OnResize = onResizeRectElement(stager, externalPartShape)
+		if diagramStructure.IsEditable() {
+			rect.CanMoveHorizontaly = true
+			rect.CanMoveVerticaly = true
+			rect.CanHaveBottomHandle = true
+			rect.CanHaveLeftHandle = true
+			rect.CanHaveRightHandle = true
+			rect.CanHaveTopHandle = true
+
+			rect.OnMove = onMoveRectElement(stager, externalPartShape, false)
+			rect.OnResize = onResizeRectElement(stager, externalPartShape)
+		}
 
 		externalPartWidth := 5.0
 		if externalPartShape.TailHeigth == 0 {
@@ -332,20 +334,17 @@ func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure,
 		systemRect.Obstacles = append(systemRect.Obstacles, rect)
 
 		tailRect := &svg.Rect{
-			Name:                "Tail" + rect.GetName(),
-			CanMoveHorizontaly:  true,
-			CanMoveVerticaly:    true,
-			Stroke:              "#9E9E9E",
-			StrokeWidth:         1.5,
-			StrokeOpacity:       1,
-			StrokeDashArray:     "5 5",
-			Color:               "transparent",
-			FillOpacity:         0.0,
-			Width:               externalPartWidth,
-			Height:              externalPartShape.TailHeigth,
-			X:                   rect.X + (rect.Width-externalPartWidth)/2.0,
-			Y:                   rect.Y + rect.Height,
-			CanHaveBottomHandle: true,
+			Name:            "Tail" + rect.GetName(),
+			Stroke:          "#9E9E9E",
+			StrokeWidth:     1.5,
+			StrokeOpacity:   1,
+			StrokeDashArray: "5 5",
+			Color:           "transparent",
+			FillOpacity:     0.0,
+			Width:           externalPartWidth,
+			Height:          externalPartShape.TailHeigth,
+			X:               rect.X + (rect.Width-externalPartWidth)/2.0,
+			Y:               rect.Y + rect.Height,
 		}
 		diagramStructure.map_ExternalPart_Rect[externalPartShape.Part] = tailRect
 
@@ -357,13 +356,18 @@ func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure,
 		diagramStructure.map_SvgRect_ExternalPartShape[tailRect] = externalPartShape
 		// if the tailRect bottom handle is used, the heigth is updated
 		tailRect.OnSelect = func() {}
-		tailRect.OnMove = func(x, y float64) {}
-		tailRect.OnResize = func(x, y, width, height float64) {
-			diffSize := externalPartShape.TailHeigth != height
+		if diagramStructure.IsEditable() {
+			tailRect.CanMoveHorizontaly = true
+			tailRect.CanMoveVerticaly = true
+			tailRect.CanHaveBottomHandle = true
+			tailRect.OnMove = func(x, y float64) {}
+			tailRect.OnResize = func(x, y, width, height float64) {
+				diffSize := externalPartShape.TailHeigth != height
 
-			if diffSize {
-				externalPartShape.TailHeigth = height
-				stager.stage.CommitWithSuspendedCallbacks()
+				if diffSize {
+					externalPartShape.TailHeigth = height
+					stager.stage.CommitWithSuspendedCallbacks()
+				}
 			}
 		}
 		layer.Rects = append(layer.Rects, tailRect)
@@ -717,6 +721,8 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 			link.HasStartArrow = true
 		}
 
+		configureDataFlowLinkWithControlPoints(stager, diagramStructure, dataFlowShape, link, startRect, endRect)
+
 		map_DataFlow_Link[df] = link
 
 		var visibleDataShapes []*DataShape
@@ -742,16 +748,7 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 			continue
 		}
 
-		startCenterX := startRect.X + startRect.Width/2.0
-		startCenterY := startRect.Y + startRect.Height/2.0
-		endCenterX := endRect.X + endRect.Width/2.0
-		endCenterY := endRect.Y + endRect.Height/2.0
-
-		startBorderX, startBorderY := rectBorderPointToward(startRect, endCenterX, endCenterY)
-		endBorderX, endBorderY := rectBorderPointToward(endRect, startCenterX, startCenterY)
-
-		anchorX := (startBorderX + endBorderX) / 2.0
-		anchorY := (startBorderY + endBorderY) / 2.0
+		anchorX, anchorY := dataFlowPolylineMidpoint(startRect, endRect, dataFlowShape.ControlPointShapes)
 
 		appendPeerUnique := func(host *svg.Rect, peer *svg.Rect) {
 			if host != nil && !slices.Contains(host.Peers, peer) {
@@ -1188,4 +1185,117 @@ func (stager *Stager) drawNoteDataFlowShapes(
 
 		layer.RectLinkLinks = append(layer.RectLinkLinks, rectLinkLink)
 	}
+}
+
+func configureDataFlowLinkWithControlPoints(
+	stager *Stager,
+	diagramStructure *DiagramStructure,
+	dataFlowShape *DataFlowShape,
+	link *svg.Link,
+	startRect *svg.Rect,
+	endRect *svg.Rect,
+) {
+	isEditable := diagramStructure != nil && diagramStructure.IsEditable()
+
+	for _, controlPointShape := range dataFlowShape.ControlPointShapes {
+		if controlPointShape == nil {
+			continue
+		}
+		closestRect := startRect
+		if !controlPointShape.IsStartShapeTheClosestShape {
+			closestRect = endRect
+		}
+
+		cp := &svg.ControlPoint{
+			Name:        controlPointShape.Name,
+			X_Relative:  controlPointShape.X_Relative,
+			Y_Relative:  controlPointShape.Y_Relative,
+			ClosestRect: closestRect,
+		}
+		if isEditable {
+			cp.Impl = &ControlPointShapeProxy{
+				stager:            stager,
+				dataFlowShape:     dataFlowShape,
+				controlPointShape: controlPointShape,
+				startRect:         startRect,
+				endRect:           endRect,
+			}
+		}
+		link.ControlPoints = append(link.ControlPoints, cp)
+	}
+
+	if isEditable {
+		// Clear OnSelect and OnChange so Link.OnAfterUpdate does not trigger a second stage.Commit()
+		// after LinkShapeProxy.LinkUpdated commits and updates the forms.
+		link.OnSelect = nil
+		link.OnChange = nil
+		link.Impl = &LinkShapeProxy{
+			stager:        stager,
+			dataFlowShape: dataFlowShape,
+			startRect:     startRect,
+			endRect:       endRect,
+		}
+	}
+}
+
+func isPointInsideRect(x, y float64, rect *svg.Rect) bool {
+	if rect == nil {
+		return false
+	}
+	return x >= rect.X && x <= rect.X+rect.Width && y >= rect.Y && y <= rect.Y+rect.Height
+}
+
+func dataFlowPolylineMidpoint(startRect, endRect *svg.Rect, controlPointShapes []*ControlPointShape) (float64, float64) {
+	startCenterX := startRect.X + startRect.Width/2.0
+	startCenterY := startRect.Y + startRect.Height/2.0
+	endCenterX := endRect.X + endRect.Width/2.0
+	endCenterY := endRect.Y + endRect.Height/2.0
+
+	var exteriorBends []svg.Point
+	for _, cp := range controlPointShapes {
+		if cp == nil {
+			continue
+		}
+		pt := ControlPointShapeToPoint(cp, startRect, endRect)
+		if !isPointInsideRect(pt.X, pt.Y, startRect) && !isPointInsideRect(pt.X, pt.Y, endRect) {
+			exteriorBends = append(exteriorBends, pt)
+		}
+	}
+
+	if len(exteriorBends) == 0 {
+		startBorderX, startBorderY := rectBorderPointToward(startRect, endCenterX, endCenterY)
+		endBorderX, endBorderY := rectBorderPointToward(endRect, startCenterX, startCenterY)
+		return (startBorderX + endBorderX) / 2.0, (startBorderY + endBorderY) / 2.0
+	}
+
+	firstBend := exteriorBends[0]
+	lastBend := exteriorBends[len(exteriorBends)-1]
+	startBorderX, startBorderY := rectBorderPointToward(startRect, firstBend.X, firstBend.Y)
+	endBorderX, endBorderY := rectBorderPointToward(endRect, lastBend.X, lastBend.Y)
+
+	pts := make([]svg.Point, 0, len(exteriorBends)+2)
+	pts = append(pts, svg.Point{X: startBorderX, Y: startBorderY})
+	pts = append(pts, exteriorBends...)
+	pts = append(pts, svg.Point{X: endBorderX, Y: endBorderY})
+
+	totalLen := 0.0
+	for i := 0; i < len(pts)-1; i++ {
+		totalLen += math.Hypot(pts[i+1].X-pts[i].X, pts[i+1].Y-pts[i].Y)
+	}
+	if totalLen == 0 {
+		return startBorderX, startBorderY
+	}
+
+	halfLen := totalLen / 2.0
+	accum := 0.0
+	for i := 0; i < len(pts)-1; i++ {
+		segLen := math.Hypot(pts[i+1].X-pts[i].X, pts[i+1].Y-pts[i].Y)
+		if accum+segLen >= halfLen && segLen > 0 {
+			ratio := (halfLen - accum) / segLen
+			return pts[i].X + ratio*(pts[i+1].X-pts[i].X), pts[i].Y + ratio*(pts[i+1].Y-pts[i].Y)
+		}
+		accum += segLen
+	}
+
+	return (startBorderX + endBorderX) / 2.0, (startBorderY + endBorderY) / 2.0
 }

@@ -20,6 +20,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	reachableNotePortShapes := make(map[*NotePortShape]struct{})
 	reachableNotePartShapes := make(map[*NotePartShape]struct{})
 	reachableNoteDataFlowShapes := make(map[*NoteDataFlowShape]struct{})
+	reachableControlPointShapes := make(map[*ControlPointShape]struct{})
 
 	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramStructure]() {
 		collectShapes(diagram.System_Shapes, reachableSystemShapes)
@@ -28,6 +29,11 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 		collectShapes(diagram.Port_Shapes, reachablePortShapes)
 		collectShapes(diagram.ControlFlow_Shapes, reachableControlFlowShapes)
 		collectShapes(diagram.DataFlow_Shapes, reachableDataFlowShapes)
+		for _, dfs := range diagram.DataFlow_Shapes {
+			if dfs != nil {
+				collectShapes(dfs.ControlPointShapes, reachableControlPointShapes)
+			}
+		}
 		collectShapes(diagram.Data_Shapes, reachableDataShapes)
 		collectShapes(diagram.Protocol_Shapes, reachableProtocolShapes)
 		collectShapes(diagram.ProtocolLayer_Shapes, reachableProtocolLayerShapes)
@@ -44,6 +50,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	needCommit = unstageUnreachableOrphans(stager, reachablePortShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableControlFlowShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableDataFlowShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableControlPointShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableDataShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableProtocolShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableProtocolLayerShapes) || needCommit
