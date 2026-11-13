@@ -4,7 +4,7 @@
         {
             "label": "Create and Run Helloworld --stack-height=4 Gong Example in /tmp",
             "type": "shell",
-            "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gong generate --stack-height=4 go/models && cd go/cmd/helloworld && ./helloworld edit data/stage",
+            "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gong generate --stack-height=4 go/models && cd go/cmd/helloworld && ./helloworld edit data/stage.go",
             "options": {
                 "cwd": "/tmp"
             },

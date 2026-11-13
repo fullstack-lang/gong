@@ -112,8 +112,8 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			// generate library project
 			start := time.Now()
 			cmd := exec.Command("ng", "generate", "library", modelPkg.Name, "--defaults=true", "--skip-install=true")
-			ConfigureNodeEnv(cmd)
 			cmd.Dir = modelPkg.NgWorkspacePath
+			ConfigureNodeEnv(cmd)
 			log.Printf("Creating a library %s in the angular workspace\n", modelPkg.Name)
 
 			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -132,9 +132,11 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			}
 			log.Printf("ng generate library is over and took %s", time.Since(start))
 			{
-				// patch tsconfig file in order to have the @vendored_components
+				// patch tsconfig file in order to have rootDir (required by TypeScript 6+ for @vendored_components)
+				// and the @vendored_components paths
 				filename := filepath.Join(modelPkg.NgWorkspacePath, "tsconfig.json")
 
+				gong_models.InsertStringToFile(filename, `    "rootDir": "../../../../../..",`, `"compilerOptions": {`)
 				gong_models.InsertStringToFile(filename, TsConfigInsertForPaths, "\"paths\": {")
 			}
 			{
@@ -152,8 +154,8 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			// generate library project
 			start := time.Now()
 			cmd := exec.Command("ng", "generate", "library", modelPkg.Name+"specific", "--defaults=true", "--skip-install=true")
-			ConfigureNodeEnv(cmd)
 			cmd.Dir = modelPkg.NgWorkspacePath
+			ConfigureNodeEnv(cmd)
 			log.Printf("Creating a specific library %s in the angular workspace\n", modelPkg.Name+"specific")
 
 			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -179,8 +181,8 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 				start := time.Now()
 				cmd := exec.Command("ng", "generate", "component", componentName,
 					"--inline-template=false", "--inline-style=false", "--project="+modelPkg.Name+"specific")
-				ConfigureNodeEnv(cmd)
 				cmd.Dir = modelPkg.NgWorkspacePath
+				ConfigureNodeEnv(cmd)
 				log.Printf("Creating a component %s in the angular workspace\n", componentName)
 
 				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -205,8 +207,8 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 		if true {
 			start := time.Now()
 			cmd := exec.Command("npm", "i", "--legacy-peer-deps")
-			ConfigureNodeEnv(cmd)
 			cmd.Dir = modelPkg.NgWorkspacePath
+			ConfigureNodeEnv(cmd)
 			log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go

@@ -217,3 +217,5 @@ When proposing a fix to a problem, provide a confidence level, based on the foll
 
 - `/Users/thomaspeugeot/go/bin` and `GOCACHE` are writable inside the standard terminal sandbox. 
 Always run `go install`, `go build`, and `gong` inside the sandbox (`BypassSandbox: false`).
+
+- `/private/tmp`, are always allowed for access

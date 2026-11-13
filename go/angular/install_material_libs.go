@@ -24,9 +24,9 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 		// otherwise, one meet the error
 		// "No terminal detected. '--skip-confirmation' can be used to bypass installation confirmation.
 		// Ensure package name is correct prior to '--skip-confirmation' option usage."
-		cmd := exec.Command("ng", "add", "@angular/material@22", "--skip-confirmation")
-		ConfigureNodeEnv(cmd)
+		cmd := exec.Command("ng", "add", "@angular/material@"+AngularMajorVersion, "--skip-confirmation")
 		cmd.Dir = modelPkg.NgWorkspacePath
+		ConfigureNodeEnv(cmd)
 		log.Printf("Adding angular material\n")
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -51,9 +51,9 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 		// otherwise, one meet the error
 		// "No terminal detected. '--skip-confirmation' can be used to bypass installation confirmation.
 		// Ensure package name is correct prior to '--skip-confirmation' option usage."
-		cmd := exec.Command("npm", "install", "@angular/animations@22", "--legacy-peer-deps")
-		ConfigureNodeEnv(cmd)
+		cmd := exec.Command("npm", "install", "@angular/animations@"+AngularMajorVersion, "--legacy-peer-deps")
 		cmd.Dir = modelPkg.NgWorkspacePath
+		ConfigureNodeEnv(cmd)
 		log.Printf("Adding angular animation\n")
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -77,7 +77,7 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 		start := time.Now()
 		cmd := exec.Command("npm", "install",
 			"tone@^15.0.4",
-			"ngx-markdown@22",
+			"ngx-markdown@"+AngularMajorVersion,
 			"marked@^18.0.0",
 			"marked-katex-extension@^5.1.12",
 			"katex@^0.16.21",
@@ -92,8 +92,8 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 			"maplibre-gl@^6.17.0",
 			"@cesium/engine@^26.5.0",
 			"--legacy-peer-deps")
-		ConfigureNodeEnv(cmd)
 		cmd.Dir = modelPkg.NgWorkspacePath
+		ConfigureNodeEnv(cmd)
 		log.Printf("Installing some packages\n")
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -118,8 +118,8 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 			"--save-dev",
 			"@types/three@^0.182.0",
 			"--legacy-peer-deps")
-		ConfigureNodeEnv(cmd)
 		cmd.Dir = modelPkg.NgWorkspacePath
+		ConfigureNodeEnv(cmd)
 		log.Printf("Installing dev packages\n")
 
 		var stdBuffer bytes.Buffer

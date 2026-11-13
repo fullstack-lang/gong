@@ -41,14 +41,7 @@ func GeneratesAngularCode(modelPkg *gong_models.ModelPkg,
 			log.Printf("ng directory %s does not exist, hence gong is generating it with ng new ng command", modelPkg.NgWorkspacePath)
 
 			// generate ng workspace
-			var cmd *exec.Cmd
-			if !skipNpmInstall {
-				cmd = exec.Command("ng", "new", modelPkg.NgWorkspaceName, "--defaults=true", "--minimal=true")
-			} else {
-				cmd = exec.Command("ng", "new", modelPkg.NgWorkspaceName, "--defaults=true", "--minimal=true", "--skip-install")
-			}
-			ConfigureNodeEnv(cmd)
-			cmd.Dir = filepath.Dir(modelPkg.NgWorkspacePath)
+			cmd := NewNgNewCommand(filepath.Dir(modelPkg.NgWorkspacePath), modelPkg.NgWorkspaceName, skipNpmInstall)
 			log.Printf("Creating angular workspace\n")
 
 			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -77,8 +70,8 @@ func GeneratesAngularCode(modelPkg *gong_models.ModelPkg,
 			if !skipNpmInstall {
 				start := time.Now()
 				cmd := exec.Command("npm", "--no-audit", "install", "--legacy-peer-deps")
-				ConfigureNodeEnv(cmd)
 				cmd.Dir = modelPkg.NgWorkspacePath
+				ConfigureNodeEnv(cmd)
 				log.Printf("Performing default npm install\n")
 
 				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -235,8 +228,8 @@ func GeneratesAngularCode(modelPkg *gong_models.ModelPkg,
 	{
 		start := time.Now()
 		cmd := exec.Command("npm", "run", "build")
-		ConfigureNodeEnv(cmd)
 		cmd.Dir = modelPkg.NgWorkspacePath
+		ConfigureNodeEnv(cmd)
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
