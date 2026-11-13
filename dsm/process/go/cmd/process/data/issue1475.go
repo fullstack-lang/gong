@@ -77,8 +77,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Data__00000000_.Description = ``
 	__stage_0__Data__00000000_.ComputedPrefix = ``
 	__stage_0__Data__00000000_.IsExpanded = false
-	__stage_0__Data__00000000_.SVG_Path = ``
-	__stage_0__Data__00000000_.InverseAppliedScaling = 0.000000
 	__stage_0__DataFlow__00000000_.Name = `"ihedafe GED" to "Uropale GED"`
 	__stage_0__DataFlow__00000000_.Description = ``
 	__stage_0__DataFlow__00000000_.ComputedPrefix = ``
@@ -237,8 +235,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Process__00000000_.Description = ``
 	__stage_0__Process__00000000_.ComputedPrefix = ``
 	__stage_0__Process__00000000_.IsExpanded = false
-	__stage_0__Process__00000000_.SVG_Path = ``
-	__stage_0__Process__00000000_.InverseAppliedScaling = 0.000000
 	__stage_0__Process__00000000_.IsSubProcessNodeExpanded = false
 	__stage_0__Process__00000000_.IsDataFlowsNodeExpanded = true
 	__stage_0__ProcessShape__00000000_.Name = `UlibikoRadov`

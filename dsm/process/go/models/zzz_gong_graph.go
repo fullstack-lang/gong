@@ -2595,11 +2595,8 @@ func (data *Data) GongDiff(stage *Stage, dataOther *Data) (diffs []string) {
 	if data.IsExpanded != dataOther.IsExpanded {
 		diffs = append(diffs, data.GongMarshallField(stage, "IsExpanded"))
 	}
-	if data.SVG_Path != dataOther.SVG_Path {
-		diffs = append(diffs, data.GongMarshallField(stage, "SVG_Path"))
-	}
-	if data.InverseAppliedScaling != dataOther.InverseAppliedScaling {
-		diffs = append(diffs, data.GongMarshallField(stage, "InverseAppliedScaling"))
+	if data.SVG != dataOther.SVG {
+		diffs = append(diffs, data.GongMarshallField(stage, "SVG"))
 	}
 
 	return
@@ -3333,6 +3330,9 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 	if participant.Description != participantOther.Description {
 		diffs = append(diffs, participant.GongMarshallField(stage, "Description"))
 	}
+	if participant.SVG != participantOther.SVG {
+		diffs = append(diffs, participant.GongMarshallField(stage, "SVG"))
+	}
 	if ops := __gong__diffSliceOfPointers(stage, participant, "Resources", participantOther.Resources, participant.Resources); ops != "" {
 		diffs = append(diffs, ops)
 	}
@@ -3466,11 +3466,8 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 	if process.IsExpanded != processOther.IsExpanded {
 		diffs = append(diffs, process.GongMarshallField(stage, "IsExpanded"))
 	}
-	if process.SVG_Path != processOther.SVG_Path {
-		diffs = append(diffs, process.GongMarshallField(stage, "SVG_Path"))
-	}
-	if process.InverseAppliedScaling != processOther.InverseAppliedScaling {
-		diffs = append(diffs, process.GongMarshallField(stage, "InverseAppliedScaling"))
+	if process.SVG != processOther.SVG {
+		diffs = append(diffs, process.GongMarshallField(stage, "SVG"))
 	}
 	if ops := __gong__diffSliceOfPointers(stage, process, "DiagramProcesss", processOther.DiagramProcesss, process.DiagramProcesss); ops != "" {
 		diffs = append(diffs, ops)
@@ -3590,11 +3587,8 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	if resource.IsExpanded != resourceOther.IsExpanded {
 		diffs = append(diffs, resource.GongMarshallField(stage, "IsExpanded"))
 	}
-	if resource.SVG_Path != resourceOther.SVG_Path {
-		diffs = append(diffs, resource.GongMarshallField(stage, "SVG_Path"))
-	}
-	if resource.InverseAppliedScaling != resourceOther.InverseAppliedScaling {
-		diffs = append(diffs, resource.GongMarshallField(stage, "InverseAppliedScaling"))
+	if resource.SVG != resourceOther.SVG {
+		diffs = append(diffs, resource.GongMarshallField(stage, "SVG"))
 	}
 
 	return

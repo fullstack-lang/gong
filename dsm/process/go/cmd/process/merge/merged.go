@@ -324,92 +324,66 @@ func _(stage *models.Stage) {
 	__Data__00000000_.Acronym = ``
 	__Data__00000000_.Description = `Filed Flight Plan Message`
 	__Data__00000000_.ComputedPrefix = ``
-	__Data__00000000_.SVG_Path = ``
-	__Data__00000000_.InverseAppliedScaling = 0.000000
 
 	__Data__00000001_.Name = `CHG`
 	__Data__00000001_.Acronym = ``
 	__Data__00000001_.Description = `Modification Message`
 	__Data__00000001_.ComputedPrefix = ``
-	__Data__00000001_.SVG_Path = ``
-	__Data__00000001_.InverseAppliedScaling = 0.000000
 
 	__Data__00000002_.Name = `CNL`
 	__Data__00000002_.Acronym = ``
 	__Data__00000002_.Description = `Flight Plan Cancellation Message`
 	__Data__00000002_.ComputedPrefix = ``
-	__Data__00000002_.SVG_Path = ``
-	__Data__00000002_.InverseAppliedScaling = 0.000000
 
 	__Data__00000003_.Name = `DLA`
 	__Data__00000003_.Acronym = ``
 	__Data__00000003_.Description = `Delay Message`
 	__Data__00000003_.ComputedPrefix = ``
-	__Data__00000003_.SVG_Path = ``
-	__Data__00000003_.InverseAppliedScaling = 0.000000
 
 	__Data__00000004_.Name = `DEP`
 	__Data__00000004_.Acronym = ``
 	__Data__00000004_.Description = `Departure Message`
 	__Data__00000004_.ComputedPrefix = ``
-	__Data__00000004_.SVG_Path = ``
-	__Data__00000004_.InverseAppliedScaling = 0.000000
 
 	__Data__00000005_.Name = `ARR`
 	__Data__00000005_.Acronym = ``
 	__Data__00000005_.Description = `Arrival Message`
 	__Data__00000005_.ComputedPrefix = ``
-	__Data__00000005_.SVG_Path = ``
-	__Data__00000005_.InverseAppliedScaling = 0.000000
 
 	__Data__00000006_.Name = `FPL (w/o item 19)`
 	__Data__00000006_.Acronym = ``
 	__Data__00000006_.Description = ``
 	__Data__00000006_.ComputedPrefix = ``
-	__Data__00000006_.SVG_Path = ``
-	__Data__00000006_.InverseAppliedScaling = 0.000000
 
 	__Data__00000007_.Name = `RQS`
 	__Data__00000007_.Acronym = ``
 	__Data__00000007_.Description = ``
 	__Data__00000007_.ComputedPrefix = ``
-	__Data__00000007_.SVG_Path = ``
-	__Data__00000007_.InverseAppliedScaling = 0.000000
 
 	__Data__00000008_.Name = `SPL`
 	__Data__00000008_.Acronym = ``
 	__Data__00000008_.Description = ``
 	__Data__00000008_.ComputedPrefix = ``
-	__Data__00000008_.SVG_Path = ``
-	__Data__00000008_.InverseAppliedScaling = 0.000000
 
 	__Data__00000009_.Name = `RQS`
 	__Data__00000009_.Acronym = ``
 	__Data__00000009_.Description = `Request Supplementary Flight Plan Message`
 	__Data__00000009_.ComputedPrefix = ``
-	__Data__00000009_.SVG_Path = ``
-	__Data__00000009_.InverseAppliedScaling = 0.000000
 
 	__Data__00000010_.Name = `SPL`
 	__Data__00000010_.Acronym = ``
 	__Data__00000010_.Description = `Supplementary Flight Plan Message (Item 19 data)`
 	__Data__00000010_.ComputedPrefix = ``
-	__Data__00000010_.SVG_Path = ``
-	__Data__00000010_.InverseAppliedScaling = 0.000000
 
 	__Data__00000011_.Name = `RQS`
 	__Data__00000011_.Acronym = ``
 	__Data__00000011_.Description = `Request Supplementary Flight Plan Message`
 	__Data__00000011_.ComputedPrefix = ``
-	__Data__00000011_.SVG_Path = ``
-	__Data__00000011_.InverseAppliedScaling = 0.000000
 
 	__Data__00000012_.Name = `SPL`
 	__Data__00000012_.Acronym = ``
 	__Data__00000012_.Description = `Supplementary Flight Plan Message (Item 19 data)`
 	__Data__00000012_.ComputedPrefix = ``
-	__Data__00000012_.SVG_Path = ``
-	__Data__00000012_.InverseAppliedScaling = 0.000000
 
 	__DataFlow__00000000_.Name = `"Submit Flight Plan" to "Validate and Accept"`
 	__DataFlow__00000000_.Description = ``
@@ -816,24 +790,18 @@ func _(stage *models.Stage) {
 	__Process__00000000_.Name = `ARO Message Exchanges`
 	__Process__00000000_.Description = `Process governing the submission, validation, modification, and distribution of ATS messages via the ARO.`
 	__Process__00000000_.ComputedPrefix = ``
-	__Process__00000000_.SVG_Path = ``
-	__Process__00000000_.InverseAppliedScaling = 0.000000
 	__Process__00000000_.IsSubProcessNodeExpanded = false
 	__Process__00000000_.IsDataFlowsNodeExpanded = false
 
 	__Process__00000001_.Name = `RQS/SPL Exchange`
 	__Process__00000001_.Description = `Process for requesting and delivering supplementary flight plan data (Item 19).`
 	__Process__00000001_.ComputedPrefix = ``
-	__Process__00000001_.SVG_Path = ``
-	__Process__00000001_.InverseAppliedScaling = 0.000000
 	__Process__00000001_.IsSubProcessNodeExpanded = false
 	__Process__00000001_.IsDataFlowsNodeExpanded = false
 
 	__Process__00000002_.Name = `RQS/SPL Exchange (AO out of the loop)`
 	__Process__00000002_.Description = `Process for requesting and delivering supplementary flight plan data (Item 19).`
 	__Process__00000002_.ComputedPrefix = ``
-	__Process__00000002_.SVG_Path = ``
-	__Process__00000002_.InverseAppliedScaling = 0.000000
 	__Process__00000002_.IsSubProcessNodeExpanded = false
 	__Process__00000002_.IsDataFlowsNodeExpanded = false
 
@@ -865,64 +833,46 @@ func _(stage *models.Stage) {
 	__Resource__00000000_.Acronym = ``
 	__Resource__00000000_.Description = `Aircraft Operator / Flight Crew`
 	__Resource__00000000_.ComputedPrefix = ``
-	__Resource__00000000_.SVG_Path = ``
-	__Resource__00000000_.InverseAppliedScaling = 0.000000
 
 	__Resource__00000001_.Name = `ARO`
 	__Resource__00000001_.Acronym = ``
 	__Resource__00000001_.Description = `ATS Reporting Office`
 	__Resource__00000001_.ComputedPrefix = ``
-	__Resource__00000001_.SVG_Path = ``
-	__Resource__00000001_.InverseAppliedScaling = 0.000000
 
 	__Resource__00000002_.Name = `ATC`
 	__Resource__00000002_.Acronym = ``
 	__Resource__00000002_.Description = `Air Traffic Control Unit / ACC / TWR`
 	__Resource__00000002_.ComputedPrefix = ``
-	__Resource__00000002_.SVG_Path = ``
-	__Resource__00000002_.InverseAppliedScaling = 0.000000
 
 	__Resource__00000003_.Name = `ATC`
 	__Resource__00000003_.Acronym = ``
 	__Resource__00000003_.Description = ``
 	__Resource__00000003_.ComputedPrefix = ``
-	__Resource__00000003_.SVG_Path = ``
-	__Resource__00000003_.InverseAppliedScaling = 0.000000
 
 	__Resource__00000004_.Name = `IFPS`
 	__Resource__00000004_.Acronym = ``
 	__Resource__00000004_.Description = ``
 	__Resource__00000004_.ComputedPrefix = ``
-	__Resource__00000004_.SVG_Path = ``
-	__Resource__00000004_.InverseAppliedScaling = 0.000000
 
 	__Resource__00000005_.Name = `AO`
 	__Resource__00000005_.Acronym = ``
 	__Resource__00000005_.Description = ``
 	__Resource__00000005_.ComputedPrefix = ``
-	__Resource__00000005_.SVG_Path = ``
-	__Resource__00000005_.InverseAppliedScaling = 0.000000
 
 	__Resource__00000006_.Name = `ATC`
 	__Resource__00000006_.Acronym = ``
 	__Resource__00000006_.Description = ``
 	__Resource__00000006_.ComputedPrefix = ``
-	__Resource__00000006_.SVG_Path = ``
-	__Resource__00000006_.InverseAppliedScaling = 0.000000
 
 	__Resource__00000007_.Name = `IFPS`
 	__Resource__00000007_.Acronym = ``
 	__Resource__00000007_.Description = ``
 	__Resource__00000007_.ComputedPrefix = ``
-	__Resource__00000007_.SVG_Path = ``
-	__Resource__00000007_.InverseAppliedScaling = 0.000000
 
 	__Resource__00000008_.Name = `AO`
 	__Resource__00000008_.Acronym = ``
 	__Resource__00000008_.Description = ``
 	__Resource__00000008_.ComputedPrefix = ``
-	__Resource__00000008_.SVG_Path = ``
-	__Resource__00000008_.InverseAppliedScaling = 0.000000
 
 	__Task__00000000_.Name = `Submit Flight Plan`
 	__Task__00000000_.Description = `Originates and files the initial field flight plan parameters before departure.`

@@ -14,6 +14,104 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
+var orderToCashResourceIcons = map[string]string{
+	"CRM System": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1976D2" stroke-width="1.8">
+  <rect x="2" y="4" width="20" height="16" rx="2.5" fill="#1976D2" fill-opacity="0.14"/>
+  <circle cx="9" cy="10" r="2.5" fill="#1976D2" fill-opacity="0.25"/>
+  <path d="M5 16.5 C5 14.3 6.8 13 9 13 C11.2 13 13 14.3 13 16.5" fill="none"/>
+  <line x1="15" y1="9.5" x2="19.5" y2="9.5"/>
+  <line x1="15" y1="13" x2="19.5" y2="13"/>
+</svg>`,
+	"ERP System": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6A1B9A" stroke-width="1.8">
+  <ellipse cx="12" cy="5.5" rx="8" ry="3" fill="#6A1B9A" fill-opacity="0.2"/>
+  <path d="M4 5.5 V18.5 C4 20.2 7.6 21.5 12 21.5 C16.4 21.5 20 20.2 20 18.5 V5.5" fill="#6A1B9A" fill-opacity="0.1"/>
+  <path d="M4 12 C4 13.7 7.6 15 12 15 C16.4 15 20 13.7 20 12" fill="none"/>
+</svg>`,
+	"WMS (Warehouse Management)": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#EF6C00" stroke-width="1.8">
+  <polygon points="3,9.5 12,3 21,9.5 21,20.5 3,20.5" fill="#EF6C00" fill-opacity="0.14"/>
+  <rect x="6.5" y="14" width="4.5" height="6.5" fill="#EF6C00" fill-opacity="0.25"/>
+  <rect x="13" y="14" width="4.5" height="6.5" fill="#EF6C00" fill-opacity="0.25"/>
+  <rect x="9.75" y="9" width="4.5" height="5" fill="#EF6C00" fill-opacity="0.25"/>
+</svg>`,
+	"Payment Gateway": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="1.8">
+  <rect x="2" y="5" width="20" height="14" rx="2.5" fill="#2E7D32" fill-opacity="0.14"/>
+  <line x1="2" y1="9.5" x2="22" y2="9.5"/>
+  <rect x="5.5" y="13" width="4" height="2.8" rx="0.6" fill="#2E7D32" fill-opacity="0.3"/>
+  <line x1="13" y1="14.5" x2="18.5" y2="14.5"/>
+</svg>`,
+}
+
+var orderToCashParticipantIcons = map[string]string{
+	"Customer": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#3949AB" stroke-width="1.8">
+  <circle cx="12" cy="8" r="4" fill="#3949AB" fill-opacity="0.18"/>
+  <path d="M4.5 20 C4.5 15.8 7.8 13.5 12 13.5 C16.2 13.5 19.5 15.8 19.5 20 Z" fill="#3949AB" fill-opacity="0.14"/>
+</svg>`,
+	"Logistics Carrier": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00897B" stroke-width="1.8">
+  <rect x="1.5" y="5" width="13" height="11" rx="1" fill="#00897B" fill-opacity="0.16"/>
+  <polygon points="14.5,8.5 19,8.5 22,12 22,16 14.5,16" fill="#00897B" fill-opacity="0.12"/>
+  <circle cx="6.5" cy="17.5" r="2.3" fill="#FFFFFF"/>
+  <circle cx="18" cy="17.5" r="2.3" fill="#FFFFFF"/>
+</svg>`,
+	"Sales & Order Desk": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="1.8">
+  <rect x="3" y="7" width="18" height="13" rx="2" fill="#1565C0" fill-opacity="0.14"/>
+  <path d="M8.5 7 V5 C8.5 3.9 9.4 3 10.5 3 H13.5 C14.6 3 15.5 3.9 15.5 5 V7" fill="none"/>
+  <line x1="3" y1="12.5" x2="21" y2="12.5"/>
+  <rect x="10.2" y="10.8" width="3.6" height="3.4" rx="0.6" fill="#FFFFFF"/>
+</svg>`,
+	"Warehouse & Logistics": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="1.8">
+  <polygon points="12,2.5 21,7.5 21,16.5 12,21.5 3,16.5 3,7.5" fill="#E65100" fill-opacity="0.15"/>
+  <polyline points="3,7.5 12,12.5 21,7.5" fill="none"/>
+  <line x1="12" y1="12.5" x2="12" y2="21.5"/>
+  <line x1="7.5" y1="5" x2="16.5" y2="10"/>
+</svg>`,
+	"Finance & Billing": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="1.8">
+  <polygon points="3,9 12,3 21,9" fill="#2E7D32" fill-opacity="0.18"/>
+  <line x1="5.5" y1="9" x2="5.5" y2="17.5"/>
+  <line x1="10" y1="9" x2="10" y2="17.5"/>
+  <line x1="14" y1="9" x2="14" y2="17.5"/>
+  <line x1="18.5" y1="9" x2="18.5" y2="17.5"/>
+  <rect x="2.5" y="17.5" width="19" height="3" rx="0.6" fill="#2E7D32" fill-opacity="0.22"/>
+</svg>`,
+}
+
+var orderToCashDataIcons = map[string]string{
+	"Purchase Order": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="1.8">
+  <circle cx="9" cy="19.5" r="1.7" fill="#1565C0"/>
+  <circle cx="17.5" cy="19.5" r="1.7" fill="#1565C0"/>
+  <polygon points="5.5,6 21,6 19,15 7.5,15" fill="#1565C0" fill-opacity="0.15"/>
+  <polyline points="2,3.5 4.8,3.5 7.5,15" fill="none"/>
+</svg>`,
+	"Order Confirmation": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="1.8">
+  <rect x="4" y="2.5" width="16" height="19" rx="2" fill="#2E7D32" fill-opacity="0.14"/>
+  <polyline points="8.5,12.5 11,15 16,9.5" fill="none" stroke-width="2.1"/>
+</svg>`,
+	"Picking List": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#EF6C00" stroke-width="1.8">
+  <rect x="4" y="4" width="16" height="17.5" rx="2" fill="#EF6C00" fill-opacity="0.14"/>
+  <rect x="8.5" y="2" width="7" height="3.5" rx="1" fill="#FFFFFF"/>
+  <line x1="8" y1="10" x2="16.5" y2="10"/>
+  <line x1="8" y1="14" x2="16.5" y2="14"/>
+  <line x1="8" y1="18" x2="13.5" y2="18"/>
+</svg>`,
+	"Bill of Lading": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00796B" stroke-width="1.8">
+  <polygon points="5,2.5 14.5,2.5 19,7 19,21.5 5,21.5" fill="#00796B" fill-opacity="0.14"/>
+  <polyline points="14.5,2.5 14.5,7 19,7" fill="none"/>
+  <line x1="8" y1="11.5" x2="16" y2="11.5"/>
+  <line x1="8" y1="15.5" x2="16" y2="15.5"/>
+</svg>`,
+	"Commercial Invoice": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6A1B9A" stroke-width="1.8">
+  <polygon points="4.5,2.5 19.5,2.5 19.5,21 17,19.2 14.5,21 12,19.2 9.5,21 7,19.2 4.5,21" fill="#6A1B9A" fill-opacity="0.14"/>
+  <line x1="8" y1="7.5" x2="16" y2="7.5"/>
+  <line x1="8" y1="11.5" x2="16" y2="11.5"/>
+  <line x1="8" y1="15" x2="13" y2="15"/>
+</svg>`,
+	"Payment Remittance": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="1.8">
+  <rect x="2" y="5.5" width="20" height="13" rx="2" fill="#1B5E20" fill-opacity="0.15"/>
+  <circle cx="12" cy="12" r="3" fill="#1B5E20" fill-opacity="0.24"/>
+  <line x1="5.5" y1="9" x2="5.5" y2="15"/>
+  <line x1="18.5" y1="9" x2="18.5" y2="15"/>
+</svg>`,
+}
+
 func TestGenerateOrderToCashModel(t *testing.T) {
 	stage := models.NewStage("test")
 
@@ -25,19 +123,19 @@ func TestGenerateOrderToCashModel(t *testing.T) {
 	}).Stage(stage)
 
 	// 2. Resources
-	crmResource := (&models.Resource{Name: "CRM System"}).Stage(stage)
-	erpResource := (&models.Resource{Name: "ERP System"}).Stage(stage)
-	wmsResource := (&models.Resource{Name: "WMS (Warehouse Management)"}).Stage(stage)
-	paymentResource := (&models.Resource{Name: "Payment Gateway"}).Stage(stage)
+	crmResource := (&models.Resource{Name: "CRM System", SVG: orderToCashResourceIcons["CRM System"]}).Stage(stage)
+	erpResource := (&models.Resource{Name: "ERP System", SVG: orderToCashResourceIcons["ERP System"]}).Stage(stage)
+	wmsResource := (&models.Resource{Name: "WMS (Warehouse Management)", SVG: orderToCashResourceIcons["WMS (Warehouse Management)"]}).Stage(stage)
+	paymentResource := (&models.Resource{Name: "Payment Gateway", SVG: orderToCashResourceIcons["Payment Gateway"]}).Stage(stage)
 	rootLibrary.RootResources = append(rootLibrary.RootResources, crmResource, erpResource, wmsResource, paymentResource)
 
 	// 3. Data items
-	poData := (&models.Data{Name: "Purchase Order", Description: "Customer Purchase Order with line items and pricing"}).Stage(stage)
-	ackData := (&models.Data{Name: "Order Confirmation", Description: "Sales order confirmation with promised shipping schedule"}).Stage(stage)
-	pickData := (&models.Data{Name: "Picking List", Description: "Itemized warehouse pick and pack instruction slip"}).Stage(stage)
-	bolData := (&models.Data{Name: "Bill of Lading", Description: "Freight waybill and carrier consignment tracking record"}).Stage(stage)
-	invData := (&models.Data{Name: "Commercial Invoice", Description: "Tax and commercial invoice specifying payment terms"}).Stage(stage)
-	remitData := (&models.Data{Name: "Payment Remittance", Description: "Electronic funds transfer confirmation and remittance advice"}).Stage(stage)
+	poData := (&models.Data{Name: "Purchase Order", Description: "Customer Purchase Order with line items and pricing", SVG: orderToCashDataIcons["Purchase Order"]}).Stage(stage)
+	ackData := (&models.Data{Name: "Order Confirmation", Description: "Sales order confirmation with promised shipping schedule", SVG: orderToCashDataIcons["Order Confirmation"]}).Stage(stage)
+	pickData := (&models.Data{Name: "Picking List", Description: "Itemized warehouse pick and pack instruction slip", SVG: orderToCashDataIcons["Picking List"]}).Stage(stage)
+	bolData := (&models.Data{Name: "Bill of Lading", Description: "Freight waybill and carrier consignment tracking record", SVG: orderToCashDataIcons["Bill of Lading"]}).Stage(stage)
+	invData := (&models.Data{Name: "Commercial Invoice", Description: "Tax and commercial invoice specifying payment terms", SVG: orderToCashDataIcons["Commercial Invoice"]}).Stage(stage)
+	remitData := (&models.Data{Name: "Payment Remittance", Description: "Electronic funds transfer confirmation and remittance advice", SVG: orderToCashDataIcons["Payment Remittance"]}).Stage(stage)
 	rootLibrary.RootDatas = append(rootLibrary.RootDatas, poData, ackData, pickData, bolData, invData, remitData)
 
 	// 4. Process
@@ -51,11 +149,13 @@ func TestGenerateOrderToCashModel(t *testing.T) {
 	customer := (&models.Participant{
 		Name:        "Customer",
 		Description: "External buying customer placing orders and settling commercial invoices.",
+		SVG:         orderToCashParticipantIcons["Customer"],
 	}).Stage(stage)
 
 	carrier := (&models.Participant{
 		Name:        "Logistics Carrier",
 		Description: "Third-party freight carrier handling parcel dispatch and physical delivery.",
+		SVG:         orderToCashParticipantIcons["Logistics Carrier"],
 	}).Stage(stage)
 
 	o2cProcess.ExternalParticipants = append(o2cProcess.ExternalParticipants, customer, carrier)
@@ -64,18 +164,21 @@ func TestGenerateOrderToCashModel(t *testing.T) {
 	sales := (&models.Participant{
 		Name:        "Sales & Order Desk",
 		Description: "Internal sales operations validating customer orders, checking credit, and confirming sales agreements.",
+		SVG:         orderToCashParticipantIcons["Sales & Order Desk"],
 		Resources:   []*models.Resource{crmResource},
 	}).Stage(stage)
 
 	warehouse := (&models.Participant{
 		Name:        "Warehouse & Logistics",
 		Description: "Fulfillment center checking inventory, picking, packing, and dispatching products to carriers.",
+		SVG:         orderToCashParticipantIcons["Warehouse & Logistics"],
 		Resources:   []*models.Resource{wmsResource, erpResource},
 	}).Stage(stage)
 
 	finance := (&models.Participant{
 		Name:        "Finance & Billing",
 		Description: "Accounting department generating legal commercial invoices and reconciling customer payment remittances.",
+		SVG:         orderToCashParticipantIcons["Finance & Billing"],
 		Resources:   []*models.Resource{erpResource, paymentResource},
 	}).Stage(stage)
 
@@ -644,6 +747,43 @@ func TestGenerateOrderToCashModel(t *testing.T) {
 		stage.MarshallFile("../cmd/process/data/order_to_cash.go", "github.com/fullstack-lang/gong/dsm/process/go/models", "main")
 		stage.MarshallFile("../cmd/process/data/stage.go", "github.com/fullstack-lang/gong/dsm/process/go/models", "main")
 	}
+	if os.Getenv("GENERATE_ORDER_TO_CASH_ONLY") == "true" {
+		stage.MarshallFile("../cmd/process/data/order_to_cash.go", "github.com/fullstack-lang/gong/dsm/process/go/models", "main")
+	}
+	if os.Getenv("UPDATE_STAGE_ICONS") == "true" {
+		stageData := models.NewStage("update_stage")
+		fset := token.NewFileSet()
+		file, err := parser.ParseFile(fset, "../cmd/process/data/stage.go", nil, parser.ParseComments)
+		if err != nil {
+			t.Fatalf("failed to parse stage.go: %v", err)
+		}
+		stageData.ParseAstFileFromAst(file, fset, true)
+		stageData.ComputeReverseMaps()
+		stageData.ComputeInstancesNb()
+		stageData.ComputeReferenceAndOrders()
+
+		for _, r := range stageData.GetInstancesSorted[*models.Resource]() {
+			if icon, ok := orderToCashResourceIcons[r.Name]; ok {
+				r.SVG = icon
+			}
+		}
+		for _, p := range stageData.GetInstancesSorted[*models.Participant]() {
+			if icon, ok := orderToCashParticipantIcons[p.Name]; ok {
+				p.SVG = icon
+			}
+		}
+		for _, d := range stageData.GetInstancesSorted[*models.Data]() {
+			if icon, ok := orderToCashDataIcons[d.Name]; ok {
+				d.SVG = icon
+			}
+		}
+		for _, ds := range stageData.GetInstancesSorted[*models.DataShape]() {
+			if ds.Data != nil && ds.Data.SVG != "" && ds.GetWidth() == 180.0 {
+				ds.SetWidth(195.0)
+			}
+		}
+		stageData.MarshallFile("../cmd/process/data/stage.go", "github.com/fullstack-lang/gong/dsm/process/go/models", "main")
+	}
 }
 
 func TestLoadAndVerifyStage(t *testing.T) {
@@ -829,4 +969,95 @@ func TestIssue1503_DataShapeSelectAndResize(t *testing.T) {
 		t.Errorf("expected wrapped Data rect height (%v) to be greater than single-line height (%v)", resizedRect.Height, initialHeight)
 	}
 }
+
+func TestIssue1528_ParticipantResourceAndDataSVGIcons(t *testing.T) {
+	stack := level1stack.NewLevel1StackDelta("process", "../cmd/process/data/stage.go", "", true, true, true)
+	stager := models.NewStager(stack.R, stack.Stage, stack.Probe)
+
+	svgObj := stager.GetSvgObject()
+	if svgObj == nil || len(svgObj.Layers) == 0 {
+		t.Fatalf("expected SVG object with at least 1 layer")
+	}
+	layer := svgObj.Layers[0]
+
+	rectByName := make(map[string]*svg.Rect)
+	for _, r := range layer.Rects {
+		rectByName[r.Name] = r
+	}
+
+	// 1. Internal swimlane participants: header icon (negative Y_Offset) + allocated resource icons (positive Y_Offset)
+	for _, laneName := range []string{
+		"Sales & Order Desk-Order to Cash - Full Process",
+		"Warehouse & Logistics-Order to Cash - Full Process",
+		"Finance & Billing-Order to Cash - Full Process",
+	} {
+		r := rectByName[laneName]
+		if r == nil {
+			t.Fatalf("missing swimlane rect %q", laneName)
+		}
+		hasHeaderIcon := false
+		hasResourceIcon := false
+		for _, p := range r.RectAnchoredPaths {
+			if p.Y_Offset < 0 {
+				hasHeaderIcon = true
+			}
+			if p.Y_Offset > 0 {
+				hasResourceIcon = true
+			}
+		}
+		if !hasHeaderIcon {
+			t.Errorf("swimlane %q missing participant header icon RectAnchoredPath", laneName)
+		}
+		if !hasResourceIcon {
+			t.Errorf("swimlane %q missing allocated resource icon RectAnchoredPath", laneName)
+		}
+		if len(r.RectAnchoredTexts) == 0 || r.RectAnchoredTexts[0].X_Offset <= 0 {
+			t.Errorf("swimlane %q title was not shifted right for left icon", laneName)
+		}
+	}
+
+	// 2. External participants: left-aligned icon + shifted title
+	for _, extName := range []string{
+		"Customer-Order to Cash - Full Process",
+		"Logistics Carrier-Order to Cash - Full Process",
+	} {
+		r := rectByName[extName]
+		if r == nil {
+			t.Fatalf("missing external participant rect %q", extName)
+		}
+		if len(r.RectAnchoredPaths) == 0 {
+			t.Errorf("external participant %q missing icon RectAnchoredPaths", extName)
+		}
+		if len(r.RectAnchoredTexts) == 0 || r.RectAnchoredTexts[0].X_Offset <= 0 {
+			t.Errorf("external participant %q title was not shifted right for left icon", extName)
+		}
+	}
+
+	// 3. Data items on data flows: left-aligned 16x16 icon + leftMargin=24
+	for _, dataName := range []string{
+		"Purchase Order",
+		"Order Confirmation",
+		"Bill of Lading",
+		"Commercial Invoice",
+		"Payment Remittance",
+	} {
+		r := rectByName[dataName]
+		if r == nil {
+			t.Fatalf("missing data rect %q", dataName)
+		}
+		if len(r.RectAnchoredPaths) == 0 {
+			t.Errorf("data rect %q missing icon RectAnchoredPaths", dataName)
+		}
+		if len(r.RectAnchoredTexts) == 0 || r.RectAnchoredTexts[0].X_Offset != 24.0 {
+			t.Errorf("data rect %q expected title X_Offset=24.0, got %v", dataName, r.RectAnchoredTexts[0].X_Offset)
+		}
+	}
+
+	// 4. Static website SVG string export includes rendered icon paths
+	svgOut, _, _ := svgObj.GenerateString()
+	if !strings.Contains(svgOut, "<svg") || !strings.Contains(svgOut, "scale(") {
+		t.Errorf("expected svgObj.GenerateString() to output valid SVG with scaled icon paths")
+	}
+}
+
 

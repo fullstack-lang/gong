@@ -112,9 +112,7 @@ type Data_WOP struct {
 
 	IsExpanded bool
 
-	SVG_Path string
-
-	InverseAppliedScaling float64
+	SVG string
 }
 
 func (from *Data) GongCopyBasicFields(to *Data) {
@@ -672,6 +670,8 @@ type Participant_WOP struct {
 
 	Description string
 
+	SVG string
+
 	IsResourcesNodeExpanded bool
 
 	IsProcessesNodeExpanded bool
@@ -692,6 +692,7 @@ func (from *Participant) GongCopyBasicFields(to *Participant) {
 	to.Name = from.Name
 	to.IsProcessResource = from.IsProcessResource
 	to.Description = from.Description
+	to.SVG = from.SVG
 	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
 	to.IsProcessesNodeExpanded = from.IsProcessesNodeExpanded
 	to.ComputedPrefix = from.ComputedPrefix
@@ -777,9 +778,7 @@ type Process_WOP struct {
 
 	IsExpanded bool
 
-	SVG_Path string
-
-	InverseAppliedScaling float64
+	SVG string
 
 	IsSubProcessNodeExpanded bool
 
@@ -792,8 +791,7 @@ func (from *Process) GongCopyBasicFields(to *Process) {
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.SVG_Path = from.SVG_Path
-	to.InverseAppliedScaling = from.InverseAppliedScaling
+	to.SVG = from.SVG
 	to.IsSubProcessNodeExpanded = from.IsSubProcessNodeExpanded
 	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 }
@@ -873,9 +871,7 @@ type Resource_WOP struct {
 
 	IsExpanded bool
 
-	SVG_Path string
-
-	InverseAppliedScaling float64
+	SVG string
 }
 
 func (from *Resource) GongCopyBasicFields(to *Resource) {

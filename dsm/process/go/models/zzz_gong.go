@@ -4803,12 +4803,8 @@ func (data *Data) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "SVG_Path",
+			Name:               "SVG",
 			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "InverseAppliedScaling",
-			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -5810,6 +5806,10 @@ func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "SVG",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:                 "Resources",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Resource",
@@ -5989,12 +5989,8 @@ func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "SVG_Path",
+			Name:               "SVG",
 			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "InverseAppliedScaling",
-			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:                 "DiagramProcesss",
@@ -6156,12 +6152,8 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "SVG_Path",
+			Name:               "SVG",
 			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "InverseAppliedScaling",
-			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -6493,12 +6485,8 @@ func (data *Data) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", data.IsExpanded)
 		res.valueBool = data.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "SVG_Path":
-		res.valueString = data.SVG_Path
-	case "InverseAppliedScaling":
-		res.valueString = fmt.Sprintf("%f", data.InverseAppliedScaling)
-		res.valueFloat = data.InverseAppliedScaling
-		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "SVG":
+		res.valueString = data.SVG
 	}
 	return
 }
@@ -7598,6 +7586,8 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Description":
 		res.valueString = participant.Description
+	case "SVG":
+		res.valueString = participant.SVG
 	case "Resources":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range participant.Resources {
@@ -7796,12 +7786,8 @@ func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", process.IsExpanded)
 		res.valueBool = process.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "SVG_Path":
-		res.valueString = process.SVG_Path
-	case "InverseAppliedScaling":
-		res.valueString = fmt.Sprintf("%f", process.InverseAppliedScaling)
-		res.valueFloat = process.InverseAppliedScaling
-		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "SVG":
+		res.valueString = process.SVG
 	case "DiagramProcesss":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range process.DiagramProcesss {
@@ -7980,12 +7966,8 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = fmt.Sprintf("%t", resource.IsExpanded)
 		res.valueBool = resource.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "SVG_Path":
-		res.valueString = resource.SVG_Path
-	case "InverseAppliedScaling":
-		res.valueString = fmt.Sprintf("%f", resource.InverseAppliedScaling)
-		res.valueFloat = resource.InverseAppliedScaling
-		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "SVG":
+		res.valueString = resource.SVG
 	}
 	return
 }

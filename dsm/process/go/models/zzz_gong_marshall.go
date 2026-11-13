@@ -515,8 +515,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", dataIdent, __gong__toRawStringLiteral(data.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", dataIdent, __gong__toRawStringLiteral(data.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", dataIdent, data.IsExpanded))
-			values.WriteString(fmt.Sprintf("\n\t%s.SVG_Path = %s", dataIdent, __gong__toRawStringLiteral(data.SVG_Path)))
-			values.WriteString(fmt.Sprintf("\n\t%s.InverseAppliedScaling = %f", dataIdent, data.InverseAppliedScaling))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", dataIdent, __gong__toRawStringLiteral(data.SVG)))
 		}
 	}
 	if stage != nil {
@@ -1503,6 +1502,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", participantIdent, __gong__toRawStringLiteral(participant.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsProcessResource = %t", participantIdent, participant.IsProcessResource))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", participantIdent, __gong__toRawStringLiteral(participant.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", participantIdent, __gong__toRawStringLiteral(participant.SVG)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsResourcesNodeExpanded = %t", participantIdent, participant.IsResourcesNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsProcessesNodeExpanded = %t", participantIdent, participant.IsProcessesNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", participantIdent, __gong__toRawStringLiteral(participant.ComputedPrefix)))
@@ -1659,8 +1659,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", processIdent, __gong__toRawStringLiteral(process.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", processIdent, __gong__toRawStringLiteral(process.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", processIdent, process.IsExpanded))
-			values.WriteString(fmt.Sprintf("\n\t%s.SVG_Path = %s", processIdent, __gong__toRawStringLiteral(process.SVG_Path)))
-			values.WriteString(fmt.Sprintf("\n\t%s.InverseAppliedScaling = %f", processIdent, process.InverseAppliedScaling))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", processIdent, __gong__toRawStringLiteral(process.SVG)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsSubProcessNodeExpanded = %t", processIdent, process.IsSubProcessNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsDataFlowsNodeExpanded = %t", processIdent, process.IsDataFlowsNodeExpanded))
 			for _, elem := range process.DiagramProcesss {
@@ -1812,8 +1811,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", resourceIdent, __gong__toRawStringLiteral(resource.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", resourceIdent, __gong__toRawStringLiteral(resource.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", resourceIdent, resource.IsExpanded))
-			values.WriteString(fmt.Sprintf("\n\t%s.SVG_Path = %s", resourceIdent, __gong__toRawStringLiteral(resource.SVG_Path)))
-			values.WriteString(fmt.Sprintf("\n\t%s.InverseAppliedScaling = %f", resourceIdent, resource.InverseAppliedScaling))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", resourceIdent, __gong__toRawStringLiteral(resource.SVG)))
 		}
 	}
 	if stage != nil {
@@ -2106,10 +2104,8 @@ func (data *Data) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = __gong__marshallString(ident, "ComputedPrefix", data.ComputedPrefix)
 	case "IsExpanded":
 		res = __gong__marshallBool(ident, "IsExpanded", data.IsExpanded)
-	case "SVG_Path":
-		res = __gong__marshallString(ident, "SVG_Path", data.SVG_Path)
-	case "InverseAppliedScaling":
-		res = __gong__marshallFloat(ident, "InverseAppliedScaling", data.InverseAppliedScaling)
+	case "SVG":
+		res = __gong__marshallString(ident, "SVG", data.SVG)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Data", fieldName)
@@ -2898,6 +2894,8 @@ func (participant *Participant) GongMarshallField(stage *Stage, fieldName string
 		res = __gong__marshallBool(ident, "IsProcessResource", participant.IsProcessResource)
 	case "Description":
 		res = __gong__marshallString(ident, "Description", participant.Description)
+	case "SVG":
+		res = __gong__marshallString(ident, "SVG", participant.SVG)
 	case "IsResourcesNodeExpanded":
 		res = __gong__marshallBool(ident, "IsResourcesNodeExpanded", participant.IsResourcesNodeExpanded)
 	case "IsProcessesNodeExpanded":
@@ -3034,10 +3032,8 @@ func (process *Process) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = __gong__marshallString(ident, "ComputedPrefix", process.ComputedPrefix)
 	case "IsExpanded":
 		res = __gong__marshallBool(ident, "IsExpanded", process.IsExpanded)
-	case "SVG_Path":
-		res = __gong__marshallString(ident, "SVG_Path", process.SVG_Path)
-	case "InverseAppliedScaling":
-		res = __gong__marshallFloat(ident, "InverseAppliedScaling", process.InverseAppliedScaling)
+	case "SVG":
+		res = __gong__marshallString(ident, "SVG", process.SVG)
 	case "IsSubProcessNodeExpanded":
 		res = __gong__marshallBool(ident, "IsSubProcessNodeExpanded", process.IsSubProcessNodeExpanded)
 	case "IsDataFlowsNodeExpanded":
@@ -3164,10 +3160,8 @@ func (resource *Resource) GongMarshallField(stage *Stage, fieldName string) (res
 		res = __gong__marshallString(ident, "ComputedPrefix", resource.ComputedPrefix)
 	case "IsExpanded":
 		res = __gong__marshallBool(ident, "IsExpanded", resource.IsExpanded)
-	case "SVG_Path":
-		res = __gong__marshallString(ident, "SVG_Path", resource.SVG_Path)
-	case "InverseAppliedScaling":
-		res = __gong__marshallFloat(ident, "InverseAppliedScaling", resource.InverseAppliedScaling)
+	case "SVG":
+		res = __gong__marshallString(ident, "SVG", resource.SVG)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Resource", fieldName)
@@ -3337,8 +3331,7 @@ func (data *Data) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(data.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(data.GongMarshallField(stage, "SVG_Path"))
-		initializerStatements.WriteString(data.GongMarshallField(stage, "InverseAppliedScaling"))
+		initializerStatements.WriteString(data.GongMarshallField(stage, "SVG"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3671,6 +3664,7 @@ func (participant *Participant) GongMarshallAllFields(stage *Stage) (initRes str
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsProcessResource"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(participant.GongMarshallField(stage, "SVG"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Resources"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsResourcesNodeExpanded"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Processes"))
@@ -3730,8 +3724,7 @@ func (process *Process) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(process.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(process.GongMarshallField(stage, "SVG_Path"))
-		initializerStatements.WriteString(process.GongMarshallField(stage, "InverseAppliedScaling"))
+		initializerStatements.WriteString(process.GongMarshallField(stage, "SVG"))
 		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "DiagramProcesss"))
 		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "DiagramProcessWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "IsSubProcessNodeExpanded"))
@@ -3786,8 +3779,7 @@ func (resource *Resource) GongMarshallAllFields(stage *Stage) (initRes string, p
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(resource.GongMarshallField(stage, "SVG_Path"))
-		initializerStatements.WriteString(resource.GongMarshallField(stage, "InverseAppliedScaling"))
+		initializerStatements.WriteString(resource.GongMarshallField(stage, "SVG"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

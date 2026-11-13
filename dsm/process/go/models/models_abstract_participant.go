@@ -12,6 +12,10 @@ type Participant struct {
 	//gong:text width:300 height:300
 	Description string
 
+	// SVG is a raw <svg>...</svg> string rendering an icon representing the participant.
+	//gong:text gong:width 600 gong:height 300
+	SVG string
+
 	// Resources is the list of resources used by the participant
 	Resources               []*Resource
 	IsResourcesNodeExpanded bool

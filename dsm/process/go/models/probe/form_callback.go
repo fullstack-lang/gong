@@ -297,10 +297,8 @@ func saveDataFields(
 			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
-		case "SVG_Path":
-			FormDivBasicFieldToField(&(_instance.SVG_Path), formDiv)
-		case "InverseAppliedScaling":
-			FormDivBasicFieldToField(&(_instance.InverseAppliedScaling), formDiv)
+		case "SVG":
+			FormDivBasicFieldToField(&(_instance.SVG), formDiv)
 		case "DataFlow:Datas":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Datas", func(owner *models.DataFlow) *[]*models.Data { return &owner.Datas })
 		case "DiagramProcess:DatasWhoseNodeIsExpanded":
@@ -1097,6 +1095,8 @@ func saveParticipantFields(
 			FormDivBasicFieldToField(&(_instance.IsProcessResource), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(_instance.Description), formDiv)
+		case "SVG":
+			FormDivBasicFieldToField(&(_instance.SVG), formDiv)
 		case "Resources":
 			FormDivSliceOfPointersToField(_instance, "Resources", &(_instance.Resources), formDiv, probe)
 		case "IsResourcesNodeExpanded":
@@ -1249,10 +1249,8 @@ func saveProcessFields(
 			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
-		case "SVG_Path":
-			FormDivBasicFieldToField(&(_instance.SVG_Path), formDiv)
-		case "InverseAppliedScaling":
-			FormDivBasicFieldToField(&(_instance.InverseAppliedScaling), formDiv)
+		case "SVG":
+			FormDivBasicFieldToField(&(_instance.SVG), formDiv)
 		case "DiagramProcesss":
 			FormDivSliceOfPointersToField(_instance, "DiagramProcesss", &(_instance.DiagramProcesss), formDiv, probe)
 		case "DiagramProcessWhoseNodeIsExpanded":
@@ -1389,10 +1387,8 @@ func saveResourceFields(
 			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
-		case "SVG_Path":
-			FormDivBasicFieldToField(&(_instance.SVG_Path), formDiv)
-		case "InverseAppliedScaling":
-			FormDivBasicFieldToField(&(_instance.InverseAppliedScaling), formDiv)
+		case "SVG":
+			FormDivBasicFieldToField(&(_instance.SVG), formDiv)
 		case "DiagramProcess:AllocatedResourcesWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "AllocatedResourcesWhoseNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.Resource { return &owner.AllocatedResourcesWhoseNodeIsExpanded })
 		case "Library:RootResources":

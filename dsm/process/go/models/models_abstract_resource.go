@@ -14,13 +14,9 @@ type Resource struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
-	// SVG_Path is a a SVG Path rendering an icon representing the resource.
-	//gong:width 600 gong:height 300
-	SVG_Path string
-
-	// $960$ is a "magic number" because it is perfectly divisible by $24, 40, 48,$ and $60$
-	//
-	InverseAppliedScaling float64
+	// SVG is a raw <svg>...</svg> string rendering an icon representing the resource.
+	//gong:text gong:width 600 gong:height 300
+	SVG string
 }
 
 var _ AbstractType = (*Resource)(nil)

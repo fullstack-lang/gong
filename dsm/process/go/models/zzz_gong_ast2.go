@@ -298,10 +298,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.ComputedPrefix = GongExtractString(rhs)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
-					case "SVG_Path":
-						inst.SVG_Path = GongExtractString(rhs)
-					case "InverseAppliedScaling":
-						inst.InverseAppliedScaling = GongExtractFloat(rhs)
+					case "SVG":
+						inst.SVG = GongExtractString(rhs)
 					}
 				case *DataFlow:
 					switch fieldName {
@@ -762,6 +760,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.IsProcessResource = GongExtractBool(rhs)
 					case "Description":
 						inst.Description = GongExtractString(rhs)
+					case "SVG":
+						inst.SVG = GongExtractString(rhs)
 					case "Resources":
 						__gong__assignSliceOfPointers(&inst.Resources, rhs, identifierMap)
 					case "IsResourcesNodeExpanded":
@@ -846,10 +846,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.ComputedPrefix = GongExtractString(rhs)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
-					case "SVG_Path":
-						inst.SVG_Path = GongExtractString(rhs)
-					case "InverseAppliedScaling":
-						inst.InverseAppliedScaling = GongExtractFloat(rhs)
+					case "SVG":
+						inst.SVG = GongExtractString(rhs)
 					case "DiagramProcesss":
 						__gong__assignSliceOfPointers(&inst.DiagramProcesss, rhs, identifierMap)
 					case "DiagramProcessWhoseNodeIsExpanded":
@@ -924,10 +922,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.ComputedPrefix = GongExtractString(rhs)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
-					case "SVG_Path":
-						inst.SVG_Path = GongExtractString(rhs)
-					case "InverseAppliedScaling":
-						inst.InverseAppliedScaling = GongExtractFloat(rhs)
+					case "SVG":
+						inst.SVG = GongExtractString(rhs)
 					}
 				case *Task:
 					switch fieldName {
@@ -1303,10 +1299,8 @@ func (u *DataUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "SVG_Path":
-		instance.SVG_Path = GongExtractString(valueExpr)
-	case "InverseAppliedScaling":
-		instance.InverseAppliedScaling = GongExtractFloat(valueExpr)
+	case "SVG":
+		instance.SVG = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -1911,6 +1905,8 @@ func (u *ParticipantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.IsProcessResource = GongExtractBool(valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
+	case "SVG":
+		instance.SVG = GongExtractString(valueExpr)
 	case "Resources":
 		GongUnmarshallSliceOfPointers(&instance.Resources, valueExpr, identifierMap)
 	case "IsResourcesNodeExpanded":
@@ -2019,10 +2015,8 @@ func (u *ProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "SVG_Path":
-		instance.SVG_Path = GongExtractString(valueExpr)
-	case "InverseAppliedScaling":
-		instance.InverseAppliedScaling = GongExtractFloat(valueExpr)
+	case "SVG":
+		instance.SVG = GongExtractString(valueExpr)
 	case "DiagramProcesss":
 		GongUnmarshallSliceOfPointers(&instance.DiagramProcesss, valueExpr, identifierMap)
 	case "DiagramProcessWhoseNodeIsExpanded":
@@ -2121,10 +2115,8 @@ func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "SVG_Path":
-		instance.SVG_Path = GongExtractString(valueExpr)
-	case "InverseAppliedScaling":
-		instance.InverseAppliedScaling = GongExtractFloat(valueExpr)
+	case "SVG":
+		instance.SVG = GongExtractString(valueExpr)
 	}
 	return nil
 }

@@ -563,43 +563,66 @@ func _(stage *models.Stage) {
 	__models__Data__00000000_.Description = `Customer Purchase Order with line items and pricing`
 	__models__Data__00000000_.ComputedPrefix = ``
 	__models__Data__00000000_.IsExpanded = false
-	__models__Data__00000000_.SVG_Path = ``
-	__models__Data__00000000_.InverseAppliedScaling = 0.000000
+	__models__Data__00000000_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="1.8">
+  <circle cx="9" cy="19.5" r="1.7" fill="#1565C0"/>
+  <circle cx="17.5" cy="19.5" r="1.7" fill="#1565C0"/>
+  <polygon points="5.5,6 21,6 19,15 7.5,15" fill="#1565C0" fill-opacity="0.15"/>
+  <polyline points="2,3.5 4.8,3.5 7.5,15" fill="none"/>
+</svg>`
 	__models__Data__00000001_.Name = `Order Confirmation`
 	__models__Data__00000001_.Acronym = ``
 	__models__Data__00000001_.Description = `Sales order confirmation with promised shipping schedule`
 	__models__Data__00000001_.ComputedPrefix = ``
 	__models__Data__00000001_.IsExpanded = false
-	__models__Data__00000001_.SVG_Path = ``
-	__models__Data__00000001_.InverseAppliedScaling = 0.000000
+	__models__Data__00000001_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="1.8">
+  <rect x="4" y="2.5" width="16" height="19" rx="2" fill="#2E7D32" fill-opacity="0.14"/>
+  <polyline points="8.5,12.5 11,15 16,9.5" fill="none" stroke-width="2.1"/>
+</svg>`
 	__models__Data__00000002_.Name = `Picking List`
 	__models__Data__00000002_.Acronym = ``
 	__models__Data__00000002_.Description = `Itemized warehouse pick and pack instruction slip`
 	__models__Data__00000002_.ComputedPrefix = ``
 	__models__Data__00000002_.IsExpanded = false
-	__models__Data__00000002_.SVG_Path = ``
-	__models__Data__00000002_.InverseAppliedScaling = 0.000000
+	__models__Data__00000002_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#EF6C00" stroke-width="1.8">
+  <rect x="4" y="4" width="16" height="17.5" rx="2" fill="#EF6C00" fill-opacity="0.14"/>
+  <rect x="8.5" y="2" width="7" height="3.5" rx="1" fill="#FFFFFF"/>
+  <line x1="8" y1="10" x2="16.5" y2="10"/>
+  <line x1="8" y1="14" x2="16.5" y2="14"/>
+  <line x1="8" y1="18" x2="13.5" y2="18"/>
+</svg>`
 	__models__Data__00000003_.Name = `Bill of Lading`
 	__models__Data__00000003_.Acronym = ``
 	__models__Data__00000003_.Description = `Freight waybill and carrier consignment tracking record`
 	__models__Data__00000003_.ComputedPrefix = ``
 	__models__Data__00000003_.IsExpanded = false
-	__models__Data__00000003_.SVG_Path = ``
-	__models__Data__00000003_.InverseAppliedScaling = 0.000000
+	__models__Data__00000003_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00796B" stroke-width="1.8">
+  <polygon points="5,2.5 14.5,2.5 19,7 19,21.5 5,21.5" fill="#00796B" fill-opacity="0.14"/>
+  <polyline points="14.5,2.5 14.5,7 19,7" fill="none"/>
+  <line x1="8" y1="11.5" x2="16" y2="11.5"/>
+  <line x1="8" y1="15.5" x2="16" y2="15.5"/>
+</svg>`
 	__models__Data__00000004_.Name = `Commercial Invoice`
 	__models__Data__00000004_.Acronym = ``
 	__models__Data__00000004_.Description = `Tax and commercial invoice specifying payment terms`
 	__models__Data__00000004_.ComputedPrefix = ``
 	__models__Data__00000004_.IsExpanded = false
-	__models__Data__00000004_.SVG_Path = ``
-	__models__Data__00000004_.InverseAppliedScaling = 0.000000
+	__models__Data__00000004_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6A1B9A" stroke-width="1.8">
+  <polygon points="4.5,2.5 19.5,2.5 19.5,21 17,19.2 14.5,21 12,19.2 9.5,21 7,19.2 4.5,21" fill="#6A1B9A" fill-opacity="0.14"/>
+  <line x1="8" y1="7.5" x2="16" y2="7.5"/>
+  <line x1="8" y1="11.5" x2="16" y2="11.5"/>
+  <line x1="8" y1="15" x2="13" y2="15"/>
+</svg>`
 	__models__Data__00000005_.Name = `Payment Remittance`
 	__models__Data__00000005_.Acronym = ``
 	__models__Data__00000005_.Description = `Electronic funds transfer confirmation and remittance advice`
 	__models__Data__00000005_.ComputedPrefix = ``
 	__models__Data__00000005_.IsExpanded = false
-	__models__Data__00000005_.SVG_Path = ``
-	__models__Data__00000005_.InverseAppliedScaling = 0.000000
+	__models__Data__00000005_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="1.8">
+  <rect x="2" y="5.5" width="20" height="13" rx="2" fill="#1B5E20" fill-opacity="0.15"/>
+  <circle cx="12" cy="12" r="3" fill="#1B5E20" fill-opacity="0.24"/>
+  <line x1="5.5" y1="9" x2="5.5" y2="15"/>
+  <line x1="18.5" y1="9" x2="18.5" y2="15"/>
+</svg>`
 	__models__DataFlow__00000000_.Name = `Customer to Receive & Validate Order`
 	__models__DataFlow__00000000_.Description = ``
 	__models__DataFlow__00000000_.ComputedPrefix = ``
@@ -855,7 +878,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000000_.Name = `Customer to Receive & Validate Order-Customer to Receive & Validate Order-Order to Cash - Full Process`
 	__models__DataShape__00000000_.X = 117.914915
 	__models__DataShape__00000000_.Y = 270.009075
-	__models__DataShape__00000000_.Width = 180.000000
+	__models__DataShape__00000000_.Width = 195.000000
 	__models__DataShape__00000000_.Height = 24.000000
 	__models__DataShape__00000000_.IsHidden = false
 	__models__DataShape__00000000_.IsPresentationOverridden = false
@@ -872,7 +895,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000001_.Name = `Confirm Sales Order to Customer-Confirm Sales Order to Customer-Order to Cash - Full Process`
 	__models__DataShape__00000001_.X = 109.914890
 	__models__DataShape__00000001_.Y = 366.008675
-	__models__DataShape__00000001_.Width = 180.000000
+	__models__DataShape__00000001_.Width = 195.000000
 	__models__DataShape__00000001_.Height = 24.000000
 	__models__DataShape__00000001_.IsHidden = false
 	__models__DataShape__00000001_.IsPresentationOverridden = false
@@ -889,7 +912,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000002_.Name = `"Confirm Sales Order" to "Check & Reserve Inventory"-"Confirm Sales Order" to "Check & Reserve Inventory"-Order to Cash - Full Process`
 	__models__DataShape__00000002_.X = 582.914950
 	__models__DataShape__00000002_.Y = 346.008695
-	__models__DataShape__00000002_.Width = 180.000000
+	__models__DataShape__00000002_.Width = 195.000000
 	__models__DataShape__00000002_.Height = 24.000000
 	__models__DataShape__00000002_.IsHidden = false
 	__models__DataShape__00000002_.IsPresentationOverridden = false
@@ -906,7 +929,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000003_.Name = `Dispatch & Ship Goods to Logistics Carrier-Dispatch & Ship Goods to Logistics Carrier-Order to Cash - Full Process`
 	__models__DataShape__00000003_.X = 1153.288020
 	__models__DataShape__00000003_.Y = 603.008680
-	__models__DataShape__00000003_.Width = 180.000000
+	__models__DataShape__00000003_.Width = 195.000000
 	__models__DataShape__00000003_.Height = 24.000000
 	__models__DataShape__00000003_.IsHidden = false
 	__models__DataShape__00000003_.IsPresentationOverridden = false
@@ -957,7 +980,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000006_.Name = `Customer to Process Payment & Settle Account-Customer to Process Payment & Settle Account-Order to Cash - Full Process`
 	__models__DataShape__00000006_.X = 816.914915
 	__models__DataShape__00000006_.Y = 865.008975
-	__models__DataShape__00000006_.Width = 180.000000
+	__models__DataShape__00000006_.Width = 195.000000
 	__models__DataShape__00000006_.Height = 24.000000
 	__models__DataShape__00000006_.IsHidden = false
 	__models__DataShape__00000006_.IsPresentationOverridden = false
@@ -974,7 +997,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000007_.Name = `Customer to Receive & Validate Order-Customer to Receive & Validate Order-Order Fulfillment & Delivery`
 	__models__DataShape__00000007_.X = 127.914915
 	__models__DataShape__00000007_.Y = 262.008355
-	__models__DataShape__00000007_.Width = 180.000000
+	__models__DataShape__00000007_.Width = 195.000000
 	__models__DataShape__00000007_.Height = 24.000000
 	__models__DataShape__00000007_.IsHidden = false
 	__models__DataShape__00000007_.IsPresentationOverridden = false
@@ -991,7 +1014,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000008_.Name = `Confirm Sales Order to Customer-Confirm Sales Order to Customer-Order Fulfillment & Delivery`
 	__models__DataShape__00000008_.X = 122.914920
 	__models__DataShape__00000008_.Y = 387.500000
-	__models__DataShape__00000008_.Width = 180.000000
+	__models__DataShape__00000008_.Width = 195.000000
 	__models__DataShape__00000008_.Height = 24.000000
 	__models__DataShape__00000008_.IsHidden = false
 	__models__DataShape__00000008_.IsPresentationOverridden = false
@@ -1008,7 +1031,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000009_.Name = `"Confirm Sales Order" to "Check & Reserve Inventory"-"Confirm Sales Order" to "Check & Reserve Inventory"-Order Fulfillment & Delivery`
 	__models__DataShape__00000009_.X = 560.914960
 	__models__DataShape__00000009_.Y = 387.500000
-	__models__DataShape__00000009_.Width = 180.000000
+	__models__DataShape__00000009_.Width = 195.000000
 	__models__DataShape__00000009_.Height = 24.000000
 	__models__DataShape__00000009_.IsHidden = false
 	__models__DataShape__00000009_.IsPresentationOverridden = false
@@ -1025,7 +1048,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000010_.Name = `Dispatch & Ship Goods to Logistics Carrier-Dispatch & Ship Goods to Logistics Carrier-Order Fulfillment & Delivery`
 	__models__DataShape__00000010_.X = 921.914820
 	__models__DataShape__00000010_.Y = 688.500000
-	__models__DataShape__00000010_.Width = 180.000000
+	__models__DataShape__00000010_.Width = 195.000000
 	__models__DataShape__00000010_.Height = 24.000000
 	__models__DataShape__00000010_.IsHidden = false
 	__models__DataShape__00000010_.IsPresentationOverridden = false
@@ -1042,7 +1065,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000011_.Name = `Customer to Receive & Validate Order-Customer to Receive & Validate Order-Invoicing & Payment Settlement`
 	__models__DataShape__00000011_.X = 184.753420
 	__models__DataShape__00000011_.Y = 259.008835
-	__models__DataShape__00000011_.Width = 180.000000
+	__models__DataShape__00000011_.Width = 195.000000
 	__models__DataShape__00000011_.Height = 24.000000
 	__models__DataShape__00000011_.IsHidden = false
 	__models__DataShape__00000011_.IsPresentationOverridden = false
@@ -1059,7 +1082,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000012_.Name = `Confirm Sales Order to Customer-Confirm Sales Order to Customer-Invoicing & Payment Settlement`
 	__models__DataShape__00000012_.X = 149.753380
 	__models__DataShape__00000012_.Y = 380.500000
-	__models__DataShape__00000012_.Width = 180.000000
+	__models__DataShape__00000012_.Width = 195.000000
 	__models__DataShape__00000012_.Height = 24.000000
 	__models__DataShape__00000012_.IsHidden = false
 	__models__DataShape__00000012_.IsPresentationOverridden = false
@@ -1076,7 +1099,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000013_.Name = `Generate Commercial Invoice to Customer-Generate Commercial Invoice to Customer-Invoicing & Payment Settlement`
 	__models__DataShape__00000013_.X = 455.753380
 	__models__DataShape__00000013_.Y = 451.008645
-	__models__DataShape__00000013_.Width = 180.000000
+	__models__DataShape__00000013_.Width = 195.000000
 	__models__DataShape__00000013_.Height = 24.000000
 	__models__DataShape__00000013_.IsHidden = false
 	__models__DataShape__00000013_.IsPresentationOverridden = false
@@ -1093,7 +1116,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000014_.Name = `Customer to Process Payment & Settle Account-Customer to Process Payment & Settle Account-Invoicing & Payment Settlement`
 	__models__DataShape__00000014_.X = 392.753420
 	__models__DataShape__00000014_.Y = 584.008510
-	__models__DataShape__00000014_.Width = 180.000000
+	__models__DataShape__00000014_.Width = 195.000000
 	__models__DataShape__00000014_.Height = 24.000000
 	__models__DataShape__00000014_.IsHidden = false
 	__models__DataShape__00000014_.IsPresentationOverridden = false
@@ -1372,6 +1395,10 @@ func _(stage *models.Stage) {
 	__models__Participant__00000000_.Name = `Customer`
 	__models__Participant__00000000_.IsProcessResource = false
 	__models__Participant__00000000_.Description = `External buying customer placing orders and settling commercial invoices.`
+	__models__Participant__00000000_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#3949AB" stroke-width="1.8">
+  <circle cx="12" cy="8" r="4" fill="#3949AB" fill-opacity="0.18"/>
+  <path d="M4.5 20 C4.5 15.8 7.8 13.5 12 13.5 C16.2 13.5 19.5 15.8 19.5 20 Z" fill="#3949AB" fill-opacity="0.14"/>
+</svg>`
 	__models__Participant__00000000_.IsResourcesNodeExpanded = false
 	__models__Participant__00000000_.IsProcessesNodeExpanded = false
 	__models__Participant__00000000_.ComputedPrefix = ``
@@ -1382,6 +1409,12 @@ func _(stage *models.Stage) {
 	__models__Participant__00000001_.Name = `Logistics Carrier`
 	__models__Participant__00000001_.IsProcessResource = false
 	__models__Participant__00000001_.Description = `Third-party freight carrier handling parcel dispatch and physical delivery.`
+	__models__Participant__00000001_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00897B" stroke-width="1.8">
+  <rect x="1.5" y="5" width="13" height="11" rx="1" fill="#00897B" fill-opacity="0.16"/>
+  <polygon points="14.5,8.5 19,8.5 22,12 22,16 14.5,16" fill="#00897B" fill-opacity="0.12"/>
+  <circle cx="6.5" cy="17.5" r="2.3" fill="#FFFFFF"/>
+  <circle cx="18" cy="17.5" r="2.3" fill="#FFFFFF"/>
+</svg>`
 	__models__Participant__00000001_.IsResourcesNodeExpanded = false
 	__models__Participant__00000001_.IsProcessesNodeExpanded = false
 	__models__Participant__00000001_.ComputedPrefix = ``
@@ -1392,6 +1425,12 @@ func _(stage *models.Stage) {
 	__models__Participant__00000002_.Name = `Sales & Order Desk`
 	__models__Participant__00000002_.IsProcessResource = false
 	__models__Participant__00000002_.Description = `Internal sales operations validating customer orders, checking credit, and confirming sales agreements.`
+	__models__Participant__00000002_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="1.8">
+  <rect x="3" y="7" width="18" height="13" rx="2" fill="#1565C0" fill-opacity="0.14"/>
+  <path d="M8.5 7 V5 C8.5 3.9 9.4 3 10.5 3 H13.5 C14.6 3 15.5 3.9 15.5 5 V7" fill="none"/>
+  <line x1="3" y1="12.5" x2="21" y2="12.5"/>
+  <rect x="10.2" y="10.8" width="3.6" height="3.4" rx="0.6" fill="#FFFFFF"/>
+</svg>`
 	__models__Participant__00000002_.IsResourcesNodeExpanded = false
 	__models__Participant__00000002_.IsProcessesNodeExpanded = false
 	__models__Participant__00000002_.ComputedPrefix = ``
@@ -1402,6 +1441,12 @@ func _(stage *models.Stage) {
 	__models__Participant__00000003_.Name = `Warehouse & Logistics`
 	__models__Participant__00000003_.IsProcessResource = false
 	__models__Participant__00000003_.Description = `Fulfillment center checking inventory, picking, packing, and dispatching products to carriers.`
+	__models__Participant__00000003_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="1.8">
+  <polygon points="12,2.5 21,7.5 21,16.5 12,21.5 3,16.5 3,7.5" fill="#E65100" fill-opacity="0.15"/>
+  <polyline points="3,7.5 12,12.5 21,7.5" fill="none"/>
+  <line x1="12" y1="12.5" x2="12" y2="21.5"/>
+  <line x1="7.5" y1="5" x2="16.5" y2="10"/>
+</svg>`
 	__models__Participant__00000003_.IsResourcesNodeExpanded = false
 	__models__Participant__00000003_.IsProcessesNodeExpanded = false
 	__models__Participant__00000003_.ComputedPrefix = ``
@@ -1412,6 +1457,14 @@ func _(stage *models.Stage) {
 	__models__Participant__00000004_.Name = `Finance & Billing`
 	__models__Participant__00000004_.IsProcessResource = false
 	__models__Participant__00000004_.Description = `Accounting department generating legal commercial invoices and reconciling customer payment remittances.`
+	__models__Participant__00000004_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="1.8">
+  <polygon points="3,9 12,3 21,9" fill="#2E7D32" fill-opacity="0.18"/>
+  <line x1="5.5" y1="9" x2="5.5" y2="17.5"/>
+  <line x1="10" y1="9" x2="10" y2="17.5"/>
+  <line x1="14" y1="9" x2="14" y2="17.5"/>
+  <line x1="18.5" y1="9" x2="18.5" y2="17.5"/>
+  <rect x="2.5" y="17.5" width="19" height="3" rx="0.6" fill="#2E7D32" fill-opacity="0.22"/>
+</svg>`
 	__models__Participant__00000004_.IsResourcesNodeExpanded = false
 	__models__Participant__00000004_.IsProcessesNodeExpanded = false
 	__models__Participant__00000004_.ComputedPrefix = ``
@@ -1556,8 +1609,7 @@ func _(stage *models.Stage) {
 	__models__Process__00000000_.Description = `Standard Order-to-Cash (O2C) business process orchestrating customer order placement, order validation, inventory fulfillment, shipping, invoicing, and payment reconciliation across multiple enterprise actors.`
 	__models__Process__00000000_.ComputedPrefix = ``
 	__models__Process__00000000_.IsExpanded = false
-	__models__Process__00000000_.SVG_Path = ``
-	__models__Process__00000000_.InverseAppliedScaling = 0.000000
+	__models__Process__00000000_.SVG = ``
 	__models__Process__00000000_.IsSubProcessNodeExpanded = false
 	__models__Process__00000000_.IsDataFlowsNodeExpanded = false
 	__models__ProcessShape__00000000_.Name = `ProcessShape`
@@ -1619,36 +1671,51 @@ func _(stage *models.Stage) {
 	__models__Resource__00000000_.Description = ``
 	__models__Resource__00000000_.ComputedPrefix = ``
 	__models__Resource__00000000_.IsExpanded = false
-	__models__Resource__00000000_.SVG_Path = ``
-	__models__Resource__00000000_.InverseAppliedScaling = 0.000000
+	__models__Resource__00000000_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1976D2" stroke-width="1.8">
+  <rect x="2" y="4" width="20" height="16" rx="2.5" fill="#1976D2" fill-opacity="0.14"/>
+  <circle cx="9" cy="10" r="2.5" fill="#1976D2" fill-opacity="0.25"/>
+  <path d="M5 16.5 C5 14.3 6.8 13 9 13 C11.2 13 13 14.3 13 16.5" fill="none"/>
+  <line x1="15" y1="9.5" x2="19.5" y2="9.5"/>
+  <line x1="15" y1="13" x2="19.5" y2="13"/>
+</svg>`
 	__models__Resource__00000001_.Name = `ERP System`
 	__models__Resource__00000001_.Acronym = ``
 	__models__Resource__00000001_.Description = ``
 	__models__Resource__00000001_.ComputedPrefix = ``
 	__models__Resource__00000001_.IsExpanded = false
-	__models__Resource__00000001_.SVG_Path = ``
-	__models__Resource__00000001_.InverseAppliedScaling = 0.000000
+	__models__Resource__00000001_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6A1B9A" stroke-width="1.8">
+  <ellipse cx="12" cy="5.5" rx="8" ry="3" fill="#6A1B9A" fill-opacity="0.2"/>
+  <path d="M4 5.5 V18.5 C4 20.2 7.6 21.5 12 21.5 C16.4 21.5 20 20.2 20 18.5 V5.5" fill="#6A1B9A" fill-opacity="0.1"/>
+  <path d="M4 12 C4 13.7 7.6 15 12 15 C16.4 15 20 13.7 20 12" fill="none"/>
+</svg>`
 	__models__Resource__00000002_.Name = `WMS (Warehouse Management)`
 	__models__Resource__00000002_.Acronym = ``
 	__models__Resource__00000002_.Description = ``
 	__models__Resource__00000002_.ComputedPrefix = ``
 	__models__Resource__00000002_.IsExpanded = false
-	__models__Resource__00000002_.SVG_Path = ``
-	__models__Resource__00000002_.InverseAppliedScaling = 0.000000
+	__models__Resource__00000002_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#EF6C00" stroke-width="1.8">
+  <polygon points="3,9.5 12,3 21,9.5 21,20.5 3,20.5" fill="#EF6C00" fill-opacity="0.14"/>
+  <rect x="6.5" y="14" width="4.5" height="6.5" fill="#EF6C00" fill-opacity="0.25"/>
+  <rect x="13" y="14" width="4.5" height="6.5" fill="#EF6C00" fill-opacity="0.25"/>
+  <rect x="9.75" y="9" width="4.5" height="5" fill="#EF6C00" fill-opacity="0.25"/>
+</svg>`
 	__models__Resource__00000003_.Name = `Payment Gateway`
 	__models__Resource__00000003_.Acronym = ``
 	__models__Resource__00000003_.Description = ``
 	__models__Resource__00000003_.ComputedPrefix = ``
 	__models__Resource__00000003_.IsExpanded = false
-	__models__Resource__00000003_.SVG_Path = ``
-	__models__Resource__00000003_.InverseAppliedScaling = 0.000000
+	__models__Resource__00000003_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="1.8">
+  <rect x="2" y="5" width="20" height="14" rx="2.5" fill="#2E7D32" fill-opacity="0.14"/>
+  <line x1="2" y1="9.5" x2="22" y2="9.5"/>
+  <rect x="5.5" y="13" width="4" height="2.8" rx="0.6" fill="#2E7D32" fill-opacity="0.3"/>
+  <line x1="13" y1="14.5" x2="18.5" y2="14.5"/>
+</svg>`
 	__models__Resource__00000004_.Name = `R1`
 	__models__Resource__00000004_.Acronym = ``
 	__models__Resource__00000004_.Description = ``
 	__models__Resource__00000004_.ComputedPrefix = ``
 	__models__Resource__00000004_.IsExpanded = false
-	__models__Resource__00000004_.SVG_Path = ``
-	__models__Resource__00000004_.InverseAppliedScaling = 0.000000
+	__models__Resource__00000004_.SVG = ``
 	__models__Task__00000000_.Name = `Start Order Desk`
 	__models__Task__00000000_.Description = ``
 	__models__Task__00000000_.ComputedPrefix = ``

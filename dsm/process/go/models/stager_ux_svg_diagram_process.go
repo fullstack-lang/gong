@@ -277,6 +277,26 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 		}
 		syncRectPresentation(participantShape, rect)
+		if !participantShape.Participant.IsProcessResource && participantShape.Participant.SVG != "" {
+			iconColor := "#333333"
+			if len(rect.RectAnchoredTexts) > 0 && rect.RectAnchoredTexts[0].Color != "" {
+				iconColor = rect.RectAnchoredTexts[0].Color
+			}
+			const participantIconSize = 24.0
+			iconPaths := buildSVGRectAnchoredPaths(
+				participantShape.Participant.GetName(),
+				participantShape.Participant.SVG,
+				svg.RECT_TOP_LEFT,
+				12.0,
+				-(verticalTopMarginForTitle+participantIconSize)/2.0,
+				participantIconSize,
+				iconColor,
+			)
+			if len(iconPaths) > 0 {
+				rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, iconPaths...)
+				AdjustRectTitleForLeftIcon(stager, diagramProcess, participantShape, rect, 44.0)
+			}
+		}
 		titleBox := &svg.RectAnchoredRect{
 			Name:           participantShape.GetAbstractElement().GetName(),
 			Stroke:         "#E0E0E0",
@@ -395,6 +415,26 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 		}
 		syncRectPresentation(externalParticipantShape, rect)
+		if !externalParticipantShape.Participant.IsProcessResource && externalParticipantShape.Participant.SVG != "" {
+			iconColor := "#333333"
+			if len(rect.RectAnchoredTexts) > 0 && rect.RectAnchoredTexts[0].Color != "" {
+				iconColor = rect.RectAnchoredTexts[0].Color
+			}
+			const extParticipantIconSize = 24.0
+			iconPaths := buildSVGRectAnchoredPaths(
+				externalParticipantShape.Participant.GetName(),
+				externalParticipantShape.Participant.SVG,
+				svg.RECT_LEFT,
+				10.0,
+				-extParticipantIconSize/2.0,
+				extParticipantIconSize,
+				iconColor,
+			)
+			if len(iconPaths) > 0 {
+				rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, iconPaths...)
+				AdjustRectTitleForLeftIcon(stager, diagramProcess, externalParticipantShape, rect, 42.0)
+			}
+		}
 
 		rect.OnSelect = onSelectRectShape(stager, externalParticipantShape.Participant, externalParticipantShape)
 		rect.OnMove = onMoveRectElement(stager, externalParticipantShape, false)
@@ -759,6 +799,7 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 			leftMargin float64
 			width      float64
 			height     float64
+			iconPaths  []*svg.RectAnchoredPath
 		}
 
 		const lineHeight = 18.0
@@ -773,14 +814,22 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 
 			width := dataShape.GetWidth()
 			if width <= 0 {
-				width = 180.0
+				if data.SVG != "" {
+					width = 195.0
+				} else {
+					width = 180.0
+				}
 				dataShape.SetWidth(width)
 			}
 
 			leftMargin := 6.0
 			rightMargin := 6.0
-			if data.SVG_Path != "" {
-				leftMargin = 24.0
+			var iconPaths []*svg.RectAnchoredPath
+			if data.SVG != "" {
+				iconPaths = buildSVGRectAnchoredPaths(data.GetName(), data.SVG, svg.RECT_LEFT, 4.0, -8.0, 16.0, "#555555")
+				if len(iconPaths) > 0 {
+					leftMargin = 24.0
+				}
 			}
 
 			content := data.Name
@@ -806,6 +855,7 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 				leftMargin: leftMargin,
 				width:      width,
 				height:     height,
+				iconPaths:  iconPaths,
 			})
 			totalStackHeight += height
 			if idx > 0 {
@@ -858,23 +908,8 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 			}
 			dataRect.RectAnchoredTexts = append(dataRect.RectAnchoredTexts, title)
 
-			if data.SVG_Path != "" {
-				if data.InverseAppliedScaling == 0 {
-					data.InverseAppliedScaling = 1.0
-				}
-				path := &svg.RectAnchoredPath{
-					Name:                data.GetName(),
-					Definition:          data.SVG_Path,
-					StrokeWidth:         0,
-					Color:               "#757575",
-					FillOpacity:         1,
-					X_Offset:            4.0,
-					Y_Offset:            -8.0,
-					RectAnchorType:      svg.RECT_LEFT,
-					ScalePropotionnally: true,
-					AppliedScaling:      1.0 / data.InverseAppliedScaling,
-				}
-				dataRect.RectAnchoredPaths = append(dataRect.RectAnchoredPaths, path)
+			if len(item.iconPaths) > 0 {
+				dataRect.RectAnchoredPaths = append(dataRect.RectAnchoredPaths, item.iconPaths...)
 			}
 
 			syncRectPresentation(dataShape, dataRect)
@@ -1084,10 +1119,17 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 	rectAnchorType svg.RectAnchorType) (boxHeight float64, allocatedResourceRect *svg.RectAnchoredRect) {
 	root := stager.GetRootLibrary()
 	const HeightBetween2AttributeShapes = 20.0
+	const allocatedIconSize = 18.0
 
 	totalLines := 0
 	X_Offset := 35.0
 	Y_Offset := 20.0
+
+	itemAnchorType := svg.RECT_TOP_LEFT
+	if rectAnchorType == svg.RECT_BOTTOM {
+		itemAnchorType = svg.RECT_BOTTOM_LEFT
+	}
+	availableTextWidth := rect.Width - X_Offset - 8.0
 
 	// draw allocated process shapes that are within the participant
 	for _, process := range participant.Processes {
@@ -1101,9 +1143,12 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 		}
 
 		content := process.Name
-		if rect.Width > 0 {
-			content = strutils.WrapStringPreservingNewlinesScaled(content, rect.Width, float64(root.NbPixPerCharacter), 15.0, 16.0)
+		if availableTextWidth > 0 && root != nil && root.NbPixPerCharacter > 0 {
+			content = strutils.WrapStringPreservingNewlinesScaled(content, availableTextWidth, float64(root.NbPixPerCharacter), 15.0, 16.0)
 		}
+
+		lineStart := totalLines
+		lineCenterY := Y_Offset + float64(lineStart)*HeightBetween2AttributeShapes
 
 		allocatedProcessText := &svg.RectAnchoredText{
 			Name:        allocatedProcessShape.Name,
@@ -1116,44 +1161,28 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 
 			DominantBaseline: svg.DominantBaselineMiddle,
 			X_Offset:         X_Offset,
-			Y_Offset:         Y_Offset + float64(totalLines)*HeightBetween2AttributeShapes,
-			RectAnchorType:   rectAnchorType,
+			Y_Offset:         lineCenterY,
+			RectAnchorType:   itemAnchorType,
 			TextAnchorType:   svg.TEXT_ANCHOR_START,
 			URLPath:          "../../../References/Processes/" + process.GetReferencePath() + "/index.html",
 			URLTarget:        svg.LINK_TARGET_BLANK,
-		}
-		if rectAnchorType == svg.RECT_BOTTOM {
-			allocatedProcessText.RectAnchorType = svg.RECT_BOTTOM_LEFT
-		} else {
-			allocatedProcessText.RectAnchorType = svg.RECT_TOP_LEFT
 		}
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, allocatedProcessText)
 
 		lines := strings.Split(content, "\n")
 		totalLines += len(lines)
 
-		// add a rect anchored icon
-		if process.SVG_Path != "" {
-			if process.InverseAppliedScaling == 0 {
-				process.InverseAppliedScaling = 1.0
-			}
-			allocatedProcessPath := &svg.RectAnchoredPath{
-				Name:                process.GetName(),
-				Definition:          process.SVG_Path,
-				StrokeWidth:         0,
-				Color:               "#757575",
-				FillOpacity:         1,
-				X_Offset:            10,
-				Y_Offset:            10 + float64(totalLines)*HeightBetween2AttributeShapes,
-				ScalePropotionnally: true,
-				AppliedScaling:      1.25 / process.InverseAppliedScaling,
-			}
-			if rectAnchorType == svg.RECT_BOTTOM {
-				allocatedProcessPath.RectAnchorType = svg.RECT_BOTTOM_LEFT
-			} else {
-				allocatedProcessPath.RectAnchorType = svg.RECT_TOP_LEFT
-			}
-			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, allocatedProcessPath)
+		if process.SVG != "" {
+			iconPaths := buildSVGRectAnchoredPaths(
+				process.GetName(),
+				process.SVG,
+				itemAnchorType,
+				10.0,
+				lineCenterY-allocatedIconSize/2.0,
+				allocatedIconSize,
+				"#757575",
+			)
+			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, iconPaths...)
 		}
 	}
 
@@ -1169,9 +1198,12 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 		}
 
 		content := resource.Name
-		if rect.Width > 0 {
-			content = strutils.WrapStringPreservingNewlinesScaled(content, rect.Width, float64(root.NbPixPerCharacter), 15.0, 16.0)
+		if availableTextWidth > 0 && root != nil && root.NbPixPerCharacter > 0 {
+			content = strutils.WrapStringPreservingNewlinesScaled(content, availableTextWidth, float64(root.NbPixPerCharacter), 15.0, 16.0)
 		}
+
+		lineStart := totalLines
+		lineCenterY := Y_Offset + float64(lineStart)*HeightBetween2AttributeShapes
 
 		allocatedResourceText := &svg.RectAnchoredText{
 			Name:        allocatedResourceShape.Name,
@@ -1184,44 +1216,28 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 
 			DominantBaseline: svg.DominantBaselineMiddle,
 			X_Offset:         X_Offset,
-			Y_Offset:         Y_Offset + float64(totalLines)*HeightBetween2AttributeShapes,
-			RectAnchorType:   rectAnchorType,
+			Y_Offset:         lineCenterY,
+			RectAnchorType:   itemAnchorType,
 			TextAnchorType:   svg.TEXT_ANCHOR_START,
 			URLPath:          "../../../References/Resources/" + resource.GetReferencePath() + "/index.html",
 			URLTarget:        svg.LINK_TARGET_BLANK,
-		}
-		if rectAnchorType == svg.RECT_BOTTOM {
-			allocatedResourceText.RectAnchorType = svg.RECT_BOTTOM_LEFT
-		} else {
-			allocatedResourceText.RectAnchorType = svg.RECT_TOP_LEFT
 		}
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, allocatedResourceText)
 
 		lines := strings.Split(content, "\n")
 		totalLines += len(lines)
 
-		// add a rect anchored icon
-		if resource.SVG_Path != "" {
-			if resource.InverseAppliedScaling == 0 {
-				resource.InverseAppliedScaling = 1.0
-			}
-			allocatedResourcePath := &svg.RectAnchoredPath{
-				Name:                resource.GetName(),
-				Definition:          resource.SVG_Path,
-				StrokeWidth:         0,
-				Color:               "#757575",
-				FillOpacity:         1,
-				X_Offset:            10,
-				Y_Offset:            10 + float64(totalLines)*HeightBetween2AttributeShapes,
-				ScalePropotionnally: true,
-				AppliedScaling:      1.25 / resource.InverseAppliedScaling,
-			}
-			if rectAnchorType == svg.RECT_BOTTOM {
-				allocatedResourcePath.RectAnchorType = svg.RECT_BOTTOM_LEFT
-			} else {
-				allocatedResourcePath.RectAnchorType = svg.RECT_TOP_LEFT
-			}
-			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, allocatedResourcePath)
+		if resource.SVG != "" {
+			iconPaths := buildSVGRectAnchoredPaths(
+				resource.GetName(),
+				resource.SVG,
+				itemAnchorType,
+				10.0,
+				lineCenterY-allocatedIconSize/2.0,
+				allocatedIconSize,
+				"#757575",
+			)
+			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, iconPaths...)
 		}
 	}
 	// draw a rect around the allocated resource and process shapes if there is at least one
