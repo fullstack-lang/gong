@@ -52,6 +52,7 @@ func _(stage *models.Stage) {
 	__models__GongStructShape__00000012_ := (&models.GongStructShape{Name: `04 - Filtering-DiagramStructureQuery`}).Stage(stage)
 	__models__GongStructShape__00000013_ := (&models.GongStructShape{Name: `04 - Filtering-DiagramLayerState`}).Stage(stage)
 	__models__GongStructShape__00000014_ := (&models.GongStructShape{Name: `01 - Abstract Syntax-Protocol`}).Stage(stage)
+	__models__GongStructShape__00000015_ := (&models.GongStructShape{Name: `01 - Abstract Syntax-ProtocolLayer`}).Stage(stage)
 	__models__LinkShape__00000000_ := (&models.LinkShape{Name: `RootNotes`}).Stage(stage)
 	__models__LinkShape__00000001_ := (&models.LinkShape{Name: `RootSystemes`}).Stage(stage)
 	__models__LinkShape__00000002_ := (&models.LinkShape{Name: `Parts`}).Stage(stage)
@@ -70,6 +71,7 @@ func _(stage *models.Stage) {
 	__models__LinkShape__00000017_ := (&models.LinkShape{Name: `DiagramStructure`}).Stage(stage)
 	__models__LinkShape__00000018_ := (&models.LinkShape{Name: `Protocol`}).Stage(stage)
 	__models__LinkShape__00000019_ := (&models.LinkShape{Name: `Protocol`}).Stage(stage)
+	__models__LinkShape__00000020_ := (&models.LinkShape{Name: `ProtocolLayers`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations
@@ -83,7 +85,7 @@ func _(stage *models.Stage) {
 	__models__Classdiagram__00000000_.IsInRenameMode = false
 	__models__Classdiagram__00000000_.IsExpanded = true
 	__models__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
-	__models__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true]`
+	__models__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true]`
 	__models__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
 	__models__Classdiagram__00000000_.NodeGongEnumNodeExpansion = ``
 	__models__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
@@ -282,6 +284,14 @@ func _(stage *models.Stage) {
 	__models__GongStructShape__00000014_.IsHidden = false
 	__models__GongStructShape__00000014_.IdentifierMeta = ref_models.Protocol{}
 	__models__GongStructShape__00000014_.IsSelected = false
+	__models__GongStructShape__00000015_.Name = `01 - Abstract Syntax-ProtocolLayer`
+	__models__GongStructShape__00000015_.X = 338.000000
+	__models__GongStructShape__00000015_.Y = 593.000000
+	__models__GongStructShape__00000015_.Width = 240.000000
+	__models__GongStructShape__00000015_.Height = 63.000000
+	__models__GongStructShape__00000015_.IsHidden = false
+	__models__GongStructShape__00000015_.IdentifierMeta = ref_models.ProtocolLayer{}
+	__models__GongStructShape__00000015_.IsSelected = false
 	__models__LinkShape__00000000_.Name = `RootNotes`
 	__models__LinkShape__00000000_.IdentifierMeta = ref_models.Library{}.RootNotes
 	__models__LinkShape__00000000_.FieldTypeIdentifierMeta = ref_models.Note{}
@@ -624,6 +634,25 @@ func _(stage *models.Stage) {
 	__models__LinkShape__00000019_.EndRatio = 0.768767
 	__models__LinkShape__00000019_.CornerOffsetRatio = 1.599918
 	__models__LinkShape__00000019_.IsHidden = false
+	__models__LinkShape__00000020_.Name = `ProtocolLayers`
+	__models__LinkShape__00000020_.IdentifierMeta = ref_models.Protocol{}.ProtocolLayers
+	__models__LinkShape__00000020_.FieldTypeIdentifierMeta = ref_models.ProtocolLayer{}
+	__models__LinkShape__00000020_.FieldOffsetX = 0.000000
+	__models__LinkShape__00000020_.FieldOffsetY = 0.000000
+	__models__LinkShape__00000020_.TargetMultiplicity = models.MANY
+	__models__LinkShape__00000020_.TargetMultiplicityOffsetX = 0.000000
+	__models__LinkShape__00000020_.TargetMultiplicityOffsetY = 0.000000
+	__models__LinkShape__00000020_.SourceMultiplicity = models.MANY
+	__models__LinkShape__00000020_.SourceMultiplicityOffsetX = 0.000000
+	__models__LinkShape__00000020_.SourceMultiplicityOffsetY = 0.000000
+	__models__LinkShape__00000020_.X = 1550.500000
+	__models__LinkShape__00000020_.Y = 624.500000
+	__models__LinkShape__00000020_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__models__LinkShape__00000020_.StartRatio = 0.500000
+	__models__LinkShape__00000020_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__models__LinkShape__00000020_.EndRatio = 0.517443
+	__models__LinkShape__00000020_.CornerOffsetRatio = -0.161030
+	__models__LinkShape__00000020_.IsHidden = false
 
 	// ------------------------------------------------------------------------
 	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
@@ -636,6 +665,7 @@ func _(stage *models.Stage) {
 	__models__Classdiagram__00000000_.GongStructShapes = append(__models__Classdiagram__00000000_.GongStructShapes, __models__GongStructShape__00000005_)
 	__models__Classdiagram__00000000_.GongStructShapes = append(__models__Classdiagram__00000000_.GongStructShapes, __models__GongStructShape__00000006_)
 	__models__Classdiagram__00000000_.GongStructShapes = append(__models__Classdiagram__00000000_.GongStructShapes, __models__GongStructShape__00000014_)
+	__models__Classdiagram__00000000_.GongStructShapes = append(__models__Classdiagram__00000000_.GongStructShapes, __models__GongStructShape__00000015_)
 	__models__Classdiagram__00000001_.GongStructShapes = append(__models__Classdiagram__00000001_.GongStructShapes, __models__GongStructShape__00000008_)
 	__models__Classdiagram__00000001_.GongStructShapes = append(__models__Classdiagram__00000001_.GongStructShapes, __models__GongStructShape__00000009_)
 	__models__Classdiagram__00000001_.GongStructShapes = append(__models__Classdiagram__00000001_.GongStructShapes, __models__GongStructShape__00000010_)
@@ -671,5 +701,6 @@ func _(stage *models.Stage) {
 	__models__GongStructShape__00000012_.LinkShapes = append(__models__GongStructShape__00000012_.LinkShapes, __models__LinkShape__00000015_)
 	__models__GongStructShape__00000013_.LinkShapes = append(__models__GongStructShape__00000013_.LinkShapes, __models__LinkShape__00000016_)
 	__models__GongStructShape__00000013_.LinkShapes = append(__models__GongStructShape__00000013_.LinkShapes, __models__LinkShape__00000017_)
+	__models__GongStructShape__00000014_.LinkShapes = append(__models__GongStructShape__00000014_.LinkShapes, __models__LinkShape__00000020_)
 }
 
