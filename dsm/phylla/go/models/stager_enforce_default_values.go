@@ -102,6 +102,11 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				vase.ColorCombination = 1
 				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: default ColorCombination set to 1", plant.Name))
 			}
+			if vase.WallCurvature > 0.0 {
+				needCommit = true
+				vase.WallCurvature = 0.0
+				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: clamped WallCurvature to 0.0", plant.Name))
+			}
 		}
 		if stool := plant.StoolAbstract; stool != nil {
 			if stool.RadialRepetitions < 1 {

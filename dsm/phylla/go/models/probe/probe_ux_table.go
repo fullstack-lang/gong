@@ -5692,6 +5692,16 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *Probe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "HasCurvedWall"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "WallCurvature"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "RelativeVerticalThickness"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -6044,6 +6054,18 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *Probe) {
 		{
 			cell := &table_models.Cell{Name: "HasRingBottom"}
 			cell.CellBool = &table_models.CellBoolean{Value: structInstance.HasRingBottom}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "HasCurvedWall"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.HasCurvedWall}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "WallCurvature"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.WallCurvature)}
 			row.Cells = append(row.Cells, cell)
 		}
 

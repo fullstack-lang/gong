@@ -3,6 +3,7 @@ package vase
 import (
 	"math"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
@@ -635,5 +636,361 @@ func TestVaseTrapezeSideLengthProportionalScaling(t *testing.T) {
 	}
 	if math.Abs(prop200-prop100) > 1e-6 {
 		t.Errorf("expected unoccupied interior surface proportion to be scale-invariant, got %.6f vs %.6f", prop100, prop200)
+	}
+}
+
+func TestVaseTrapezeCurvedWall(t *testing.T) {
+	stagePath := filepath.Join("..", "..", "..", "cmd", "phylla", "data", "stage.go")
+	stage := models.NewStage("test_curved_wall")
+	if err := stage.ParseAstFile(stagePath, true); err != nil {
+		t.Fatalf("failed to parse stage.go: %v", err)
+	}
+	stage.ComputeReverseMaps()
+	stage.ComputeInstancesNb()
+	stage.ComputeReferenceAndOrders()
+
+	var targetPlant *models.PlantAbstract
+	for plant := range stage.PlantAbstracts {
+		if plant.Name == "Vase Trapeze" {
+			plant.IsSelected = true
+			targetPlant = plant
+		} else {
+			plant.IsSelected = false
+		}
+	}
+	if targetPlant == nil || targetPlant.TubeVaseAbstract == nil {
+		t.Fatalf("Vase Trapeze not found")
+	}
+	vase := targetPlant.TubeVaseAbstract
+
+	for d := range stage.TubeVase3DDiagrams {
+		if d.Name == "Vase Trapeze-TubeVase3DDiagram" {
+			d.IsChecked = true
+			d.IsHiddenTiledFloor3DShape = true
+			d.IsHiddenVaseTrapezeRingShape = false
+			d.IsHiddenCarvedOutVaseTrapezeRingShape = false
+			d.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = false
+			d.IsHiddenVaseTrapezeBasePlateShape = false
+		}
+	}
+
+	buildScene := func() map[string]*threejs.Mesh {
+		stager := models.NewStagerForTest(stage)
+		stager.EnforceSemanticForTest()
+		stager.SetCurrentPlant(targetPlant)
+		threejsStage := threejs.NewStage("threejs_curved_wall")
+		stager.SetThreejsStage(threejsStage)
+		updater := NewThreeJSStageUpdater()
+		updater.UpdateThreeJSStage(stager)
+
+		meshes := make(map[string]*threejs.Mesh)
+		for m := range threejsStage.Meshs {
+			meshes[m.Name] = m
+		}
+		return meshes
+	}
+
+	// Setup uncarved, zero-separation rotated stack for exact contour conservation checks
+	vase.CarvedOutTopRingsParameter = 0.0
+	vase.RelativeRotatedTorusSeparation = 0.0
+	vase.HasRingBottom = false
+	vase.RotationRatio = 1.0
+
+	// 1. Parity when HasCurvedWall == false (even if WallCurvature != 0), when WallCurvature == 0,
+	//    and enforcement that WallCurvature cannot be above 0 (clamped to 0).
+	vase.HasCurvedWall = false
+	vase.WallCurvature = 0.0
+	meshesStraight := buildScene()
+	stlOneStraight := models.GenerateVaseTrapezeOneRingSTL(targetPlant)
+	stlBaseStraight := models.GenerateVaseTrapezeBaseAndFirstRingSTL(targetPlant)
+	glbStraight := models.GenerateVaseTrapezeGLB(targetPlant)
+
+	vase.HasCurvedWall = false
+	vase.WallCurvature = -0.6
+	meshesDisabled := buildScene()
+	if len(meshesDisabled["Vase Trapeze Vase Trapeze Ring Mesh"].BufferGeometry.Faces) != len(meshesStraight["Vase Trapeze Vase Trapeze Ring Mesh"].BufferGeometry.Faces) {
+		t.Fatalf("expected HasCurvedWall=false to ignore WallCurvature")
+	}
+	if models.GenerateVaseTrapezeOneRingSTL(targetPlant) != stlOneStraight {
+		t.Errorf("expected OneRingSTL with HasCurvedWall=false to match straight STL")
+	}
+	if len(models.GenerateVaseTrapezeGLB(targetPlant)) != len(glbStraight) {
+		t.Errorf("expected GLB with HasCurvedWall=false to match straight GLB length")
+	}
+
+	vase.HasCurvedWall = true
+	vase.WallCurvature = 0.0
+	if models.VaseTrapezeWallSubdivisions(targetPlant) != 1 {
+		t.Errorf("expected sWall=1 when WallCurvature=0")
+	}
+	if models.GenerateVaseTrapezeOneRingSTL(targetPlant) != stlOneStraight {
+		t.Errorf("expected OneRingSTL with WallCurvature=0 to match straight STL")
+	}
+	if models.GenerateVaseTrapezeBaseAndFirstRingSTL(targetPlant) != stlBaseStraight {
+		t.Errorf("expected BaseAndFirstRingSTL with WallCurvature=0 to match straight STL")
+	}
+
+	// Positive WallCurvature (> 0) must be inactive and semantically clamped to 0.0
+	vase.HasCurvedWall = true
+	vase.WallCurvature = 0.5
+	if models.IsVaseTrapezeCurvedWallActive(targetPlant) {
+		t.Errorf("expected positive WallCurvature=0.5 to be inactive")
+	}
+	if models.VaseTrapezeWallSubdivisions(targetPlant) != 1 {
+		t.Errorf("expected sWall=1 for positive WallCurvature=0.5")
+	}
+	meshesClampedPos := buildScene()
+	if vase.WallCurvature != 0.0 {
+		t.Errorf("expected semantic check to clamp WallCurvature=0.5 to 0.0, got %.6f", vase.WallCurvature)
+	}
+	if len(meshesClampedPos["Vase Trapeze Vase Trapeze Ring Mesh"].BufferGeometry.Faces) != len(meshesStraight["Vase Trapeze Vase Trapeze Ring Mesh"].BufferGeometry.Faces) {
+		t.Errorf("expected clamped positive WallCurvature to produce straight ring mesh")
+	}
+	if models.GenerateVaseTrapezeOneRingSTL(targetPlant) != stlOneStraight {
+		t.Errorf("expected clamped positive WallCurvature to match straight OneRingSTL")
+	}
+
+	// Compute geometric reference heights
+	sideLen := targetPlant.RhombusSideLength
+	scaleY := vase.RibbonVerticalScale
+	if scaleY == 0 {
+		scaleY = 1.0
+	}
+	zStart := vase.Z_Ribbon * sideLen
+	p1H := zStart + vase.TopPlaneHeight*sideLen*scaleY
+	p2H := zStart + vase.BottomPlaneHeight*sideLen*scaleY
+	p2HBase := zStart + vase.BaseRingBottomPlaneHeight*sideLen*scaleY
+	deltaYContact := models.ComputeVaseTrapezeContactStepDY(targetPlant, vase.HasConstantThickness)
+	yContact := p1H - deltaYContact
+	yMidArch := p1H - 0.5*deltaYContact
+
+	meanOuterRadiusNearY := func(mesh *threejs.Mesh, prefix string, targetY, tol float64) (float64, int) {
+		var sumR float64
+		var count int
+		for _, v := range mesh.BufferGeometry.Vertices {
+			if strings.Contains(v.Name, prefix) && math.Abs(v.Y-targetY) <= tol {
+				sumR += math.Hypot(v.X, v.Z)
+				count++
+			}
+		}
+		if count == 0 {
+			return 0, 0
+		}
+		return sumR / float64(count), count
+	}
+
+	// Helper to fit a 2D circle through 3 points (r1,y1), (r2,y2), (r3,y3)
+	circleThrough3Pts := func(r1, y1, r2, y2, r3, y3 float64) (rc, yc, rad float64, ok bool) {
+		det := 2.0 * (r1*(y2-y3) + r2*(y3-y1) + r3*(y1-y2))
+		if math.Abs(det) < 1e-9 {
+			return 0, 0, 0, false
+		}
+		n1 := r1*r1 + y1*y1
+		n2 := r2*r2 + y2*y2
+		n3 := r3*r3 + y3*y3
+		rc = (n1*(y2-y3) + n2*(y3-y1) + n3*(y1-y2)) / det
+		yc = (n1*(r3-r2) + n2*(r1-r3) + n3*(r2-r1)) / det
+		rad = math.Hypot(r1-rc, y1-yc)
+		return rc, yc, rad, true
+	}
+
+	// Reference straight radii on Ring 1 (at dy = deltaYContact)
+	ring1Straight := meshesStraight["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"]
+	if ring1Straight == nil {
+		t.Fatalf("Ring 1 mesh not found in straight scene")
+	}
+	straightTopR, nTopStraight := meanOuterRadiusNearY(ring1Straight, "Plane 1 Face A", p1H+deltaYContact, 1e-4)
+	straightBotR, _ := meanOuterRadiusNearY(ring1Straight, "Plane 2 Face B", p2H+deltaYContact, 1e-4)
+	if nTopStraight == 0 {
+		t.Fatalf("expected Plane 1 Face A vertices at top of Ring 1")
+	}
+	uContactOnRing1 := (p1H - (p2H + deltaYContact)) / (p1H - p2H)
+	straightContactR := (1.0-uContactOnRing1)*straightBotR + uContactOnRing1*straightTopR
+	uMidOnRing1 := ((yMidArch + deltaYContact) - (p2H + deltaYContact)) / (p1H - p2H)
+	straightMidR := (1.0-uMidOnRing1)*straightBotR + uMidOnRing1*straightTopR
+
+	// 2. Convex curvatures: Contour Conservation + Constant Curvature Above & Below Contact Line + Non-Collision
+	tanAlpha := math.Tan(-vase.ProjectionAngle * math.Pi / 180.0)
+	for _, curv := range []float64{-0.34, -0.5, -1.0} {
+		vase.HasCurvedWall = true
+		vase.WallCurvature = curv
+		meshesCurved := buildScene()
+		ring1Curved := meshesCurved["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"]
+		if ring1Curved == nil {
+			t.Fatalf("Ring 1 mesh not found for curvature %.2f", curv)
+		}
+
+		// Top contour at y = p1H + deltaYContact must be conserved
+		curvedTopR, nTop := meanOuterRadiusNearY(ring1Curved, "Plane 1 Face A", p1H+deltaYContact, 1e-4)
+		if nTop != nTopStraight || math.Abs(curvedTopR-straightTopR) > 1e-5 {
+			t.Errorf("curv=%.2f: expected conserved top contour meanR %.6f, got %.6f (n=%d)",
+				curv, straightTopR, curvedTopR, nTop)
+		}
+
+		// Contact line contour at y = p1H on Ring 1 (row s8 of Outer Wall Face) must be conserved
+		curvedContactR, nContact := meanOuterRadiusNearY(ring1Curved, "Outer Wall Face s8 ", p1H, 1e-4)
+		if nContact != nTopStraight || math.Abs(curvedContactR-straightContactR) > 1e-4 {
+			t.Errorf("curv=%.2f: expected conserved contact contour meanR %.6f at y=p1H, got %.6f (n=%d)",
+				curv, straightContactR, curvedContactR, nContact)
+		}
+
+		// Mid-arch bulge direction check (s16 is midpoint between s8 at yContact and s24 at p1H+dy)
+		curvedMidR, nMid := meanOuterRadiusNearY(ring1Curved, "Outer Wall Face s16 ", yMidArch+deltaYContact, 1e-3)
+		if nMid == 0 {
+			t.Fatalf("curv=%.2f: expected s16 vertices at mid-arch height", curv)
+		}
+		if !(curvedMidR > straightMidR+5.0) {
+			t.Errorf("convex WallCurvature=%.2f should bulge outward: straightMidR=%.2f, curvedMidR=%.2f",
+				curv, straightMidR, curvedMidR)
+		}
+
+		// Constant Euclidean curvature check across the ENTIRE ring [p2H, p1H] (both above and below yContact)
+		rAt := func(localY float64) float64 {
+			rStraight := 300.0 + (localY-p2H)*tanAlpha
+			return rStraight + models.EvalVaseTrapezeRingWallDeltaR(targetPlant, localY, p1H, p2H, deltaYContact)
+		}
+		rc, yc, radCircle, ok := circleThrough3Pts(rAt(p2H), p2H, rAt(yContact), yContact, rAt(p1H), p1H)
+		if !ok || radCircle <= 0 {
+			t.Fatalf("curv=%.2f: failed to fit circle through p2H, yContact, p1H", curv)
+		}
+		const nSamples = 30
+		for k := 0; k <= nSamples; k++ {
+			ly := p2H + (float64(k)/float64(nSamples))*(p1H-p2H)
+			ry := rAt(ly)
+			dist := math.Hypot(ry-rc, ly-yc)
+			if math.Abs(dist-radCircle) > 1e-6 {
+				t.Errorf("curv=%.2f localY=%.2f: meridian point (%.4f, %.4f) deviates from constant-curvature circle R=%.4f by %.2e",
+					curv, ly, ry, ly, radCircle, math.Abs(dist-radCircle))
+			}
+			dr := models.EvalVaseTrapezeRingWallDeltaR(targetPlant, ly, p1H, p2H, deltaYContact)
+			if ly > yContact+1e-3 && ly < p1H-1e-3 && dr <= 0 {
+				t.Errorf("curv=%.2f localY=%.2f (above contact): expected dr > 0, got %.6f", curv, ly, dr)
+			}
+			if ly < yContact-1e-3 && dr >= 0 {
+				t.Errorf("curv=%.2f localY=%.2f (below contact): expected dr < 0 (smooth inward arc), got %.6f", curv, ly, dr)
+			}
+		}
+
+		// C1 slope continuity across yContact
+		eps := 1e-4
+		slopeBelow := (models.EvalVaseTrapezeRingWallDeltaR(targetPlant, yContact, p1H, p2H, deltaYContact) -
+			models.EvalVaseTrapezeRingWallDeltaR(targetPlant, yContact-eps, p1H, p2H, deltaYContact)) / eps
+		slopeAbove := (models.EvalVaseTrapezeRingWallDeltaR(targetPlant, yContact+eps, p1H, p2H, deltaYContact) -
+			models.EvalVaseTrapezeRingWallDeltaR(targetPlant, yContact, p1H, p2H, deltaYContact)) / eps
+		if math.Abs(slopeAbove-slopeBelow) > 1e-4 {
+			t.Errorf("curv=%.2f: slope discontinuity across contact line: below=%.6f vs above=%.6f",
+				curv, slopeBelow, slopeAbove)
+		}
+
+		// Verify actual 3D mesh meridian vertices (azimuth index 0 across rows s=1..23 on standalone Ring) lie on a single circle
+		standaloneCurved := meshesCurved["Vase Trapeze Vase Trapeze Ring Mesh"]
+		if standaloneCurved == nil {
+			t.Fatalf("standalone Vase Trapeze Ring Mesh not found")
+		}
+		var meridianPts [][2]float64
+		for _, v := range standaloneCurved.BufferGeometry.Vertices {
+			if strings.HasSuffix(v.Name, " 0") && strings.Contains(v.Name, "Vase Trapeze Vase Trapeze Ring Outer Wall Face s") {
+				meridianPts = append(meridianPts, [2]float64{math.Hypot(v.X, v.Z), v.Y})
+			}
+		}
+		if len(meridianPts) < 20 {
+			t.Fatalf("curv=%.2f: expected >= 20 meridian vertices on standalone ring outer wall, got %d", curv, len(meridianPts))
+		}
+		mrc, myc, mrad, mok := circleThrough3Pts(
+			meridianPts[0][0], meridianPts[0][1],
+			meridianPts[len(meridianPts)/2][0], meridianPts[len(meridianPts)/2][1],
+			meridianPts[len(meridianPts)-1][0], meridianPts[len(meridianPts)-1][1],
+		)
+		if !mok {
+			t.Fatalf("curv=%.2f: failed to fit circle to standalone ring mesh meridian vertices", curv)
+		}
+		for idx, pt := range meridianPts {
+			if dErr := math.Abs(math.Hypot(pt[0]-mrc, pt[1]-myc) - mrad); dErr > 1e-5 {
+				t.Errorf("curv=%.2f mesh row %d: vertex (r=%.4f, y=%.4f) deviates from constant-curvature circle R=%.4f by %.2e",
+					curv, idx, pt[0], pt[1], mrad, dErr)
+			}
+		}
+
+		// Overlap band [p2H + deltaYContact, p1H] clearance between Ring 0 / Ring k-1 and Ring 1 / Ring k
+		yOverlapStart := p2H + deltaYContact
+		for k := 0; k <= 20; k++ {
+			y := yOverlapStart + (float64(k)/20.0)*(p1H-yOverlapStart)
+			dr0 := models.EvalVaseTrapezeRingWallDeltaR(targetPlant, y, p1H, p2H, deltaYContact)
+			dr1 := models.EvalVaseTrapezeRingWallDeltaR(targetPlant, y-deltaYContact, p1H, p2H, deltaYContact)
+			if dr0+1e-9 < dr1 {
+				t.Errorf("curv=%.2f y=%.2f: Ring k outer offset (%.4f) penetrates Ring k-1 inner offset (%.4f)",
+					curv, y, dr1, dr0)
+			}
+			baseInDR := models.EvalVaseTrapezeBaseRingInnerDeltaR(targetPlant, y, p1H, p2HBase, p2H, deltaYContact, true)
+			if baseInDR+1e-9 < dr1 {
+				t.Errorf("curv=%.2f y=%.2f: Ring 1 outer offset (%.4f) penetrates Ring 0 inner offset (%.4f)",
+					curv, y, dr1, baseInDR)
+			}
+		}
+
+		// Verify Base_Plate C1 junction at p2HBase: deltaR == 0 and positive slope
+		drBot, slopeBot := models.EvalVaseTrapezeBaseRingOuterDeltaRAndSlope(targetPlant, p2HBase, p1H, p2HBase, deltaYContact)
+		if math.Abs(drBot) > 1e-9 {
+			t.Errorf("curv=%.2f: expected zero radial offset at p2HBase, got %.6f", curv, drBot)
+		}
+		if slopeBot <= 0 {
+			t.Errorf("convex curv=%.2f: expected positive d(deltaR)/dy at p2HBase+, got %.6f", curv, slopeBot)
+		}
+	}
+
+	// 3. Carved-out top + HasRingBottom (plancher) + STL & GLB export validation
+	vase.HasCurvedWall = true
+	vase.WallCurvature = -0.5
+	vase.CarvedOutTopRingsParameter = 0.5
+	vase.HasRingBottom = false
+	meshesNoBot := buildScene()
+	facesNoBot := len(meshesNoBot["Vase Trapeze Carved Out Vase Trapeze Ring Mesh"].BufferGeometry.Faces)
+	stlCurvedNoBot := models.GenerateVaseTrapezeOneRingSTL(targetPlant)
+	stlBaseCurved := models.GenerateVaseTrapezeBaseAndFirstRingSTL(targetPlant)
+	glbCurvedNoBot := models.GenerateVaseTrapezeGLB(targetPlant)
+
+	vase.HasRingBottom = true
+	meshesWithBot := buildScene()
+	facesWithBot := len(meshesWithBot["Vase Trapeze Carved Out Vase Trapeze Ring Mesh"].BufferGeometry.Faces)
+	stlCurvedWithBot := models.GenerateVaseTrapezeOneRingSTL(targetPlant)
+	glbCurvedWithBot := models.GenerateVaseTrapezeGLB(targetPlant)
+
+	if facesWithBot != facesNoBot || facesWithBot <= len(meshesStraight["Vase Trapeze Carved Out Vase Trapeze Ring Mesh"].BufferGeometry.Faces) {
+		t.Errorf("expected subdivided equal face counts for curved ring with/without bottom, got %d vs %d", facesWithBot, facesNoBot)
+	}
+	if !strings.Contains(stlCurvedNoBot, "vertex ") || stlCurvedNoBot == stlCurvedWithBot {
+		t.Errorf("expected valid distinct OneRing STLs for HasRingBottom=false vs true")
+	}
+	if !strings.Contains(stlBaseCurved, "vertex ") || stlBaseCurved == stlBaseStraight {
+		t.Errorf("expected curved BaseAndFirstRingSTL to be valid and distinct from straight")
+	}
+	if len(glbCurvedNoBot) < 12 || string(glbCurvedNoBot[:4]) != "glTF" || len(glbCurvedWithBot) <= len(glbCurvedNoBot) {
+		t.Errorf("expected valid curved GLB exports (noBot=%d bytes, withBot=%d bytes)", len(glbCurvedNoBot), len(glbCurvedWithBot))
+	}
+
+	// 4. Proportional scaling with curved walls enabled (RhombusSideLength 100 -> 200)
+	measureMaxBounds := func(side float64) (maxY, maxR float64) {
+		targetPlant.RhombusSideLength = side
+		meshes := buildScene()
+		for _, m := range meshes {
+			if m.BufferGeometry == nil {
+				continue
+			}
+			for _, v := range m.BufferGeometry.Vertices {
+				if v.Y > maxY {
+					maxY = v.Y
+				}
+				if r := math.Hypot(v.X, v.Z); r > maxR {
+					maxR = r
+				}
+			}
+		}
+		return
+	}
+	maxY100, maxR100 := measureMaxBounds(100.0)
+	maxY200, maxR200 := measureMaxBounds(200.0)
+	if math.Abs(maxY200/maxY100-2.0) > 1e-4 || math.Abs(maxR200/maxR100-2.0) > 1e-4 {
+		t.Errorf("expected 2.0x scaling with curved walls (100->200): Y %.2f->%.2f, R %.2f->%.2f",
+			maxY100, maxY200, maxR100, maxR200)
 	}
 }

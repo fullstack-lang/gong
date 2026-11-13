@@ -25391,6 +25391,14 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "HasCurvedWall",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "WallCurvature",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "RelativeVerticalThickness",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -30846,6 +30854,14 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldValue(fieldName string, st
 		res.valueString = fmt.Sprintf("%t", tubevaseabstract.HasRingBottom)
 		res.valueBool = tubevaseabstract.HasRingBottom
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "HasCurvedWall":
+		res.valueString = fmt.Sprintf("%t", tubevaseabstract.HasCurvedWall)
+		res.valueBool = tubevaseabstract.HasCurvedWall
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "WallCurvature":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.WallCurvature)
+		res.valueFloat = tubevaseabstract.WallCurvature
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RelativeVerticalThickness":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeVerticalThickness)
 		res.valueFloat = tubevaseabstract.RelativeVerticalThickness

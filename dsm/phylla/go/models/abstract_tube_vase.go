@@ -49,6 +49,13 @@ type TubeVaseAbstract struct {
 	// with the same thickness as the bottom of the vase (BasePlateHeight).
 	HasRingBottom bool
 
+	// HasCurvedWall when true generates curved walls for Vase Trapeze rings instead of straight walls.
+	HasCurvedWall bool
+
+	// WallCurvature controls the curvature of Vase Trapeze ring walls when HasCurvedWall is true (<= 0.0).
+	// If 0.0, no curvature (straight walls); if < 0.0, convex walls. Curvature cannot be above 0.0.
+	WallCurvature float64
+
 	// RelativeVerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next
 	// the vertical thickness is RelativeVerticalThickness x RhombusSideLength
 	RelativeVerticalThickness float64

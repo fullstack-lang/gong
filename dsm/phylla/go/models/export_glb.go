@@ -39,6 +39,52 @@ func (m *glbMeshData) addQuadStrip(curveA, curveB []vector3) {
 	}
 }
 
+func (m *glbMeshData) addWallGrid(rows [][]vector3, inward bool) {
+	if len(rows) < 2 {
+		return
+	}
+	if len(rows) == 2 {
+		if inward {
+			m.addQuadStrip(rows[1], rows[0])
+		} else {
+			m.addQuadStrip(rows[0], rows[1])
+		}
+		return
+	}
+	n := len(rows[0])
+	for r := 1; r < len(rows); r++ {
+		n = min(n, len(rows[r]))
+	}
+	if n < 3 {
+		return
+	}
+	sCount := len(rows) - 1
+	idx := make([][]uint32, sCount+1)
+	for s := range sCount + 1 {
+		idx[s] = make([]uint32, n)
+		for i := range n {
+			idx[s][i] = uint32(len(m.positions))
+			m.positions = append(m.positions, rows[s][i])
+		}
+	}
+	for s := range sCount {
+		for i := range n {
+			nextI := (i + 1) % n
+			if inward {
+				m.indices = append(m.indices,
+					[3]uint32{idx[s+1][i], idx[s][i], idx[s][nextI]},
+					[3]uint32{idx[s+1][i], idx[s][nextI], idx[s+1][nextI]},
+				)
+			} else {
+				m.indices = append(m.indices,
+					[3]uint32{idx[s][i], idx[s+1][i], idx[s+1][nextI]},
+					[3]uint32{idx[s][i], idx[s+1][nextI], idx[s][nextI]},
+				)
+			}
+		}
+	}
+}
+
 func (m *glbMeshData) computeNormals() {
 	m.normals = make([]vector3, len(m.positions))
 	for _, tri := range m.indices {
@@ -258,6 +304,22 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 	projAngleRad := -vase.ProjectionAngle * math.Pi / 180.0
 	carvedParam := math.Max(0.0, math.Min(1.0, vase.CarvedOutTopRingsParameter))
 
+	deltaYContact := ComputeVaseTrapezeContactStepDY(plant, hasTrapezeConstantThickness)
+	sWall := VaseTrapezeWallSubdivisions(plant)
+	isCurvedWall := IsVaseTrapezeCurvedWallActive(plant)
+
+	offsetCurveGLB := func(src []vector3, dy float64, deltaRAtLocalY func(float64) float64) []vector3 {
+		if !isCurvedWall || deltaRAtLocalY == nil {
+			return src
+		}
+		out := make([]vector3, len(src))
+		for i, pt := range src {
+			nx, ny, nz := OffsetRadialPoint(pt.X, pt.Y, pt.Z, deltaRAtLocalY(pt.Y-dy))
+			out[i] = vector3{X: nx, Y: ny, Z: nz}
+		}
+		return out
+	}
+
 	projectCurve := func(srcCurve []vector3, planeHeight float64, dy float64) []vector3 {
 		var projCurve []vector3
 		for _, pt := range srcCurve {
@@ -288,7 +350,7 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		return projCurve
 	}
 
-	computeCarvedOutCurve := func(cTop, cBottom []vector3, param float64) []vector3 {
+	computeCarvedOutCurve := func(cTop, cBottom []vector3, param, dy float64, deltaRAtLocalY func(float64) float64) []vector3 {
 		M := min(len(cTop), len(cBottom))
 		if M == 0 {
 			return nil
@@ -314,10 +376,16 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 			if rRange > 1e-6 {
 				coeff = param * (rMax - r) / rRange
 			}
+			sx := (1.0-coeff)*ptTop.X + coeff*ptBottom.X
+			sy := (1.0-coeff)*ptTop.Y + coeff*ptBottom.Y
+			sz := (1.0-coeff)*ptTop.Z + coeff*ptBottom.Z
+			if isCurvedWall && deltaRAtLocalY != nil {
+				sx, sy, sz = OffsetRadialPoint(sx, sy, sz, deltaRAtLocalY(sy-dy))
+			}
 			carvedCurve = append(carvedCurve, vector3{
-				X: (1.0-coeff)*ptTop.X + coeff*ptBottom.X,
-				Y: (1.0-coeff)*ptTop.Y + coeff*ptBottom.Y,
-				Z: (1.0-coeff)*ptTop.Z + coeff*ptBottom.Z,
+				X: sx,
+				Y: sy,
+				Z: sz,
 			})
 		}
 		return carvedCurve
@@ -378,219 +446,283 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 	cBottomP1_0 := projectCurve(baseBottom0, p1H, 0)
 	cTopP2Base := projectCurve(baseTop0, p2HBase, 0)
 	cBottomP2Base := projectCurve(baseBottom0, p2HBase, 0)
-	cCarvedTopP1_0 := computeCarvedOutCurve(cTopP1_0, cTopP2Base, carvedParam)
-	cCarvedBottomP1_0 := computeCarvedOutCurve(cBottomP1_0, cBottomP2Base, carvedParam)
 
 	const floorY = 0.0
-	if p2HBase > floorY && len(cTopP1_0) >= 3 && len(cBottomP1_0) >= 3 && len(cTopP2Base) >= 3 && len(cBottomP2Base) >= 3 && len(cCarvedTopP1_0) >= 3 && len(cCarvedBottomP1_0) >= 3 {
-		M := min(len(cTopP1_0), len(cBottomP1_0), len(cTopP2Base), len(cBottomP2Base), len(cCarvedTopP1_0), len(cCarvedBottomP1_0))
+	if p2HBase > floorY && len(cTopP1_0) >= 3 && len(cBottomP1_0) >= 3 && len(cTopP2Base) >= 3 && len(cBottomP2Base) >= 3 {
+		M0 := min(len(cTopP1_0), len(cBottomP1_0), len(cTopP2Base), len(cBottomP2Base))
 		var sumRTop, sumRBottom float64
-		for i := range M {
+		for i := range M0 {
 			sumRTop += math.Hypot(cTopP2Base[i].X, cTopP2Base[i].Z)
 			sumRBottom += math.Hypot(cBottomP2Base[i].X, cBottomP2Base[i].Z)
 		}
-		cOuter := cTopP2Base[:M]
-		cInner := cBottomP2Base[:M]
-		cOuterP1 := cTopP1_0[:M]
-		cOuterCarvedP1 := cCarvedTopP1_0[:M]
-		cInnerCarvedP1 := cCarvedBottomP1_0[:M]
-		if sumRBottom > sumRTop {
-			cOuter = cBottomP2Base[:M]
-			cInner = cTopP2Base[:M]
-			cOuterP1 = cBottomP1_0[:M]
-			cOuterCarvedP1 = cCarvedBottomP1_0[:M]
-			cInnerCarvedP1 = cCarvedTopP1_0[:M]
+		bottomIsOuter := sumRBottom > sumRTop
+		cOuter := cTopP2Base[:M0]
+		cInner := cBottomP2Base[:M0]
+		cOuterP1 := cTopP1_0[:M0]
+		cInnerP1 := cBottomP1_0[:M0]
+		if bottomIsOuter {
+			cOuter = cBottomP2Base[:M0]
+			cInner = cTopP2Base[:M0]
+			cOuterP1 = cBottomP1_0[:M0]
+			cInnerP1 = cTopP1_0[:M0]
 		}
 
 		pBottomH := p2HBase
-		hPlancher := math.Max(0.0, math.Min(pBottomH-floorY, vase.BasePlateHeight*sideLength))
-		startMag := vase.BulbousStartTangentMagnitude * sideLength
-		endAngleDeg := 30.0
-		if vase.BulbousEndAngle != 0.0 {
-			endAngleDeg = vase.BulbousEndAngle
+		baseOuterDeltaR := func(localY float64) float64 {
+			dr, _ := EvalVaseTrapezeBaseRingOuterDeltaRAndSlope(plant, localY, p1H, pBottomH, deltaYContact)
+			return dr
 		}
-		endMag := vase.BulbousEndTangentMagnitude * sideLength
-
-		S := 24
-		if startMag == 0 && endMag == 0 {
-			S = 1
+		baseInnerDeltaR := func(localY float64) float64 {
+			return EvalVaseTrapezeBaseRingInnerDeltaR(plant, localY, p1H, pBottomH, p2H, deltaYContact, bottomIsOuter)
 		}
 
-		baseMesh := &glbMeshData{
-			name:     "Base_Plate",
-			colorHex: GetVaseRingColor(vase.ColorCombination, 0),
-		}
+		cOuterCarvedP1 := computeCarvedOutCurve(cOuterP1, cOuter, carvedParam, 0.0, baseOuterDeltaR)
+		cInnerCarvedP1 := computeCarvedOutCurve(cInnerP1, cInner, carvedParam, 0.0, baseInnerDeltaR)
+		M := min(M0, len(cOuterCarvedP1), len(cInnerCarvedP1))
+		if M >= 3 {
+			cOuter = cOuter[:M]
+			cInner = cInner[:M]
+			cOuterP1 = cOuterP1[:M]
+			cInnerP1 = cInnerP1[:M]
+			cOuterCarvedP1 = cOuterCarvedP1[:M]
+			cInnerCarvedP1 = cInnerCarvedP1[:M]
 
-		idxRingOuterTop := make([]uint32, M)
-		idxRingInnerTop := make([]uint32, M)
-		for i := range M {
-			idxRingOuterTop[i] = uint32(len(baseMesh.positions))
-			baseMesh.positions = append(baseMesh.positions, cOuterCarvedP1[i])
+			hPlancher := math.Max(0.0, math.Min(pBottomH-floorY, vase.BasePlateHeight*sideLength))
+			startMag := vase.BulbousStartTangentMagnitude * sideLength
+			endAngleDeg := 30.0
+			if vase.BulbousEndAngle != 0.0 {
+				endAngleDeg = vase.BulbousEndAngle
+			}
+			endMag := vase.BulbousEndTangentMagnitude * sideLength
 
-			idxRingInnerTop[i] = uint32(len(baseMesh.positions))
-			baseMesh.positions = append(baseMesh.positions, cInnerCarvedP1[i])
-		}
-
-		idxOuter := make([][]uint32, S+1)
-		idxInner := make([][]uint32, S+1)
-		for s := range S + 1 {
-			idxOuter[s] = make([]uint32, M)
-			idxInner[s] = make([]uint32, M)
-		}
-
-		var sumOuterX, sumOuterZ, sumInnerX, sumInnerZ float64
-		plancherY := floorY + hPlancher
-		verticalScale := (pBottomH - plancherY) / (pBottomH - floorY)
-
-		beta := endAngleDeg * math.Pi / 180.0
-		v1R := endMag * (-math.Sin(beta))
-		v1Y := endMag * (-math.Cos(beta))
-
-		for i := range M {
-			ptOut := cOuter[i]
-			ptOutP1 := cOuterP1[i]
-			ptIn := cInner[i]
-
-			sumOuterX += ptOut.X
-			sumOuterZ += ptOut.Z
-			sumInnerX += ptIn.X
-			sumInnerZ += ptIn.Z
-
-			r0 := math.Hypot(ptOut.X, ptOut.Z)
-			rTop := math.Hypot(ptOutP1.X, ptOutP1.Z)
-			theta := math.Atan2(ptOut.Z, ptOut.X)
-			cosTheta, sinTheta := math.Cos(theta), math.Sin(theta)
-
-			rIn0 := math.Hypot(ptIn.X, ptIn.Z)
-			thetaIn := math.Atan2(ptIn.Z, ptIn.X)
-			cosThetaIn, sinThetaIn := math.Cos(thetaIn), math.Sin(thetaIn)
-			radialScale := 1.0
-			if r0 > 1e-6 {
-				radialScale = rIn0 / r0
+			S := 24
+			if startMag == 0 && endMag == 0 {
+				S = 1
 			}
 
-			deltaR := r0 - rTop
-			deltaY := pBottomH - p1H
-			lRing := math.Hypot(deltaR, deltaY)
-			t0R, t0Y := 0.0, -1.0
-			if lRing > 1e-6 {
-				t0R, t0Y = deltaR/lRing, deltaY/lRing
+			baseMesh := &glbMeshData{
+				name:     "Base_Plate",
+				colorHex: GetVaseRingColor(vase.ColorCombination, 0),
 			}
-			v0R, v0Y := startMag*t0R, startMag*t0Y
 
-			p0R, p0Y := r0, pBottomH
-			p1R, p1Y := r0+v0R/3.0, pBottomH+v0Y/3.0
-			p2R, p2Y := r0-v1R/3.0, floorY-v1Y/3.0
-			p3R, p3Y := r0, floorY
+			idxRingOuter := make([][]uint32, sWall+1)
+			idxRingInner := make([][]uint32, sWall+1)
+			baseRingSpan := p1H - pBottomH
+			for rw := range sWall {
+				idxRingOuter[rw] = make([]uint32, M)
+				idxRingInner[rw] = make([]uint32, M)
+				for i := range M {
+					var outPt vector3
+					if rw == 0 {
+						outPt = cOuterCarvedP1[i]
+					} else {
+						yTopOut := cOuterCarvedP1[i].Y
+						tOut := float64(rw) / float64(sWall)
+						oy := (1.0-tOut)*yTopOut + tOut*pBottomH
+						uOut := 0.0
+						if math.Abs(baseRingSpan) > 1e-9 {
+							uOut = (oy - pBottomH) / baseRingSpan
+						}
+						sxOut := (1.0-uOut)*cOuter[i].X + uOut*cOuterP1[i].X
+						szOut := (1.0-uOut)*cOuter[i].Z + uOut*cOuterP1[i].Z
+						ox, oy, oz := OffsetRadialPoint(sxOut, oy, szOut, baseOuterDeltaR(oy))
+						outPt = vector3{X: ox, Y: oy, Z: oz}
+					}
+					idxRingOuter[rw][i] = uint32(len(baseMesh.positions))
+					baseMesh.positions = append(baseMesh.positions, outPt)
 
-			for s := 0; s <= S; s++ {
-				t := float64(s) / float64(S)
-				omt := 1.0 - t
-				b0 := omt * omt * omt
-				b1 := 3.0 * omt * omt * t
-				b2 := 3.0 * omt * t * t
-				b3 := t * t * t
+					var inPt vector3
+					if rw == 0 {
+						inPt = cInnerCarvedP1[i]
+					} else {
+						yTopIn := cInnerCarvedP1[i].Y
+						tIn := float64(rw) / float64(sWall)
+						iy := (1.0-tIn)*yTopIn + tIn*pBottomH
+						uIn := 0.0
+						if math.Abs(baseRingSpan) > 1e-9 {
+							uIn = (iy - pBottomH) / baseRingSpan
+						}
+						sxIn := (1.0-uIn)*cInner[i].X + uIn*cInnerP1[i].X
+						szIn := (1.0-uIn)*cInner[i].Z + uIn*cInnerP1[i].Z
+						ix, iy, iz := OffsetRadialPoint(sxIn, iy, szIn, baseInnerDeltaR(iy))
+						inPt = vector3{X: ix, Y: iy, Z: iz}
+					}
+					idxRingInner[rw][i] = uint32(len(baseMesh.positions))
+					baseMesh.positions = append(baseMesh.positions, inPt)
+				}
+			}
 
-				rs := b0*p0R + b1*p1R + b2*p2R + b3*p3R
-				ys := b0*p0Y + b1*p1Y + b2*p2Y + b3*p3Y
-				if s == 0 {
-					rs, ys = r0, pBottomH
-				} else if s == S {
-					rs, ys = r0, floorY
+			idxOuter := make([][]uint32, S+1)
+			idxInner := make([][]uint32, S+1)
+			for s := range S + 1 {
+				idxOuter[s] = make([]uint32, M)
+				idxInner[s] = make([]uint32, M)
+			}
+
+			var sumOuterX, sumOuterZ, sumInnerX, sumInnerZ float64
+			plancherY := floorY + hPlancher
+			verticalScale := (pBottomH - plancherY) / (pBottomH - floorY)
+
+			beta := endAngleDeg * math.Pi / 180.0
+			v1R := endMag * (-math.Sin(beta))
+			v1Y := endMag * (-math.Cos(beta))
+
+			_, dBaseOutDyAtBottom := EvalVaseTrapezeBaseRingOuterDeltaRAndSlope(plant, pBottomH, p1H, pBottomH, deltaYContact)
+
+			for i := range M {
+				ptOut := cOuter[i]
+				ptOutP1 := cOuterP1[i]
+				ptIn := cInner[i]
+
+				sumOuterX += ptOut.X
+				sumOuterZ += ptOut.Z
+				sumInnerX += ptIn.X
+				sumInnerZ += ptIn.Z
+
+				r0 := math.Hypot(ptOut.X, ptOut.Z)
+				rTop := math.Hypot(ptOutP1.X, ptOutP1.Z)
+				theta := math.Atan2(ptOut.Z, ptOut.X)
+				cosTheta, sinTheta := math.Cos(theta), math.Sin(theta)
+
+				rIn0 := math.Hypot(ptIn.X, ptIn.Z)
+				thetaIn := math.Atan2(ptIn.Z, ptIn.X)
+				cosThetaIn, sinThetaIn := math.Cos(thetaIn), math.Sin(thetaIn)
+				radialScale := 1.0
+				if r0 > 1e-6 {
+					radialScale = rIn0 / r0
 				}
 
-				idxOuter[s][i] = uint32(len(baseMesh.positions))
-				baseMesh.positions = append(baseMesh.positions, vector3{
-					X: rs * cosTheta,
-					Y: ys,
-					Z: rs * sinTheta,
-				})
-
-				rsIn := rs * radialScale
-				ysIn := plancherY + (ys-floorY)*verticalScale
-				var inPt vector3
-				if s == 0 {
-					inPt = vector3{X: ptIn.X, Y: pBottomH, Z: ptIn.Z}
-				} else if s == S {
-					inPt = vector3{X: ptIn.X, Y: plancherY, Z: ptIn.Z}
-				} else {
-					inPt = vector3{X: rsIn * cosThetaIn, Y: ysIn, Z: rsIn * sinThetaIn}
+				deltaR := r0 - rTop
+				deltaY := pBottomH - p1H
+				if math.Abs(deltaY) > 1e-6 {
+					deltaR += dBaseOutDyAtBottom * deltaY
 				}
-				idxInner[s][i] = uint32(len(baseMesh.positions))
-				baseMesh.positions = append(baseMesh.positions, inPt)
+				lRing := math.Hypot(deltaR, deltaY)
+				t0R, t0Y := 0.0, -1.0
+				if lRing > 1e-6 {
+					t0R, t0Y = deltaR/lRing, deltaY/lRing
+				}
+				v0R, v0Y := startMag*t0R, startMag*t0Y
+
+				p0R, p0Y := r0, pBottomH
+				p1R, p1Y := r0+v0R/3.0, pBottomH+v0Y/3.0
+				p2R, p2Y := r0-v1R/3.0, floorY-v1Y/3.0
+				p3R, p3Y := r0, floorY
+
+				for s := 0; s <= S; s++ {
+					t := float64(s) / float64(S)
+					omt := 1.0 - t
+					b0 := omt * omt * omt
+					b1 := 3.0 * omt * omt * t
+					b2 := 3.0 * omt * t * t
+					b3 := t * t * t
+
+					rs := b0*p0R + b1*p1R + b2*p2R + b3*p3R
+					ys := b0*p0Y + b1*p1Y + b2*p2Y + b3*p3Y
+					if s == 0 {
+						rs, ys = r0, pBottomH
+					} else if s == S {
+						rs, ys = r0, floorY
+					}
+
+					idxOuter[s][i] = uint32(len(baseMesh.positions))
+					baseMesh.positions = append(baseMesh.positions, vector3{
+						X: rs * cosTheta,
+						Y: ys,
+						Z: rs * sinTheta,
+					})
+
+					rsIn := rs * radialScale
+					ysIn := plancherY + (ys-floorY)*verticalScale
+					var inPt vector3
+					if s == 0 {
+						inPt = vector3{X: ptIn.X, Y: pBottomH, Z: ptIn.Z}
+					} else if s == S {
+						inPt = vector3{X: ptIn.X, Y: plancherY, Z: ptIn.Z}
+					} else {
+						inPt = vector3{X: rsIn * cosThetaIn, Y: ysIn, Z: rsIn * sinThetaIn}
+					}
+					idxInner[s][i] = uint32(len(baseMesh.positions))
+					baseMesh.positions = append(baseMesh.positions, inPt)
+				}
 			}
-		}
 
-		for i := range M {
-			nextI := (i + 1) % M
-			// Bottom ring (h=0) outer wall
-			baseMesh.indices = append(baseMesh.indices,
-				[3]uint32{idxRingOuterTop[i], idxRingOuterTop[nextI], idxOuter[0][nextI]},
-				[3]uint32{idxRingOuterTop[i], idxOuter[0][nextI], idxOuter[0][i]},
-			)
-			// Bottom ring (h=0) inner wall
-			baseMesh.indices = append(baseMesh.indices,
-				[3]uint32{idxRingInnerTop[i], idxInner[0][nextI], idxRingInnerTop[nextI]},
-				[3]uint32{idxRingInnerTop[i], idxInner[0][i], idxInner[0][nextI]},
-			)
-		}
+			idxRingOuter[sWall] = idxOuter[0]
+			idxRingInner[sWall] = idxInner[0]
 
-		for s := range S {
+			for rw := range sWall {
+				for i := range M {
+					nextI := (i + 1) % M
+					// Bottom ring (h=0) outer wall
+					baseMesh.indices = append(baseMesh.indices,
+						[3]uint32{idxRingOuter[rw][i], idxRingOuter[rw][nextI], idxRingOuter[rw+1][nextI]},
+						[3]uint32{idxRingOuter[rw][i], idxRingOuter[rw+1][nextI], idxRingOuter[rw+1][i]},
+					)
+					// Bottom ring (h=0) inner wall
+					baseMesh.indices = append(baseMesh.indices,
+						[3]uint32{idxRingInner[rw][i], idxRingInner[rw+1][nextI], idxRingInner[rw][nextI]},
+						[3]uint32{idxRingInner[rw][i], idxRingInner[rw+1][i], idxRingInner[rw+1][nextI]},
+					)
+				}
+			}
+
+			for s := range S {
+				for i := range M {
+					nextI := (i + 1) % M
+					// Outer bulbous wall
+					baseMesh.indices = append(baseMesh.indices,
+						[3]uint32{idxOuter[s][i], idxOuter[s][nextI], idxOuter[s+1][nextI]},
+						[3]uint32{idxOuter[s][i], idxOuter[s+1][nextI], idxOuter[s+1][i]},
+					)
+					// Inner curved wall
+					baseMesh.indices = append(baseMesh.indices,
+						[3]uint32{idxInner[s][i], idxInner[s+1][nextI], idxInner[s][nextI]},
+						[3]uint32{idxInner[s][i], idxInner[s+1][i], idxInner[s+1][nextI]},
+					)
+				}
+			}
+
+			// Dedicated cap vertices so flat caps do not distort smooth wall normals
+			idxPlancherCenter := uint32(len(baseMesh.positions))
+			baseMesh.positions = append(baseMesh.positions, vector3{
+				X: sumInnerX / float64(M), Y: plancherY, Z: sumInnerZ / float64(M),
+			})
+			idxFloorCenter := uint32(len(baseMesh.positions))
+			baseMesh.positions = append(baseMesh.positions, vector3{
+				X: sumOuterX / float64(M), Y: floorY, Z: sumOuterZ / float64(M),
+			})
+
+			idxCapOuterTop := make([]uint32, M)
+			idxCapInnerTop := make([]uint32, M)
+			idxCapInnerFloor := make([]uint32, M)
+			idxCapOuterFloor := make([]uint32, M)
+			for i := range M {
+				idxCapOuterTop[i] = uint32(len(baseMesh.positions))
+				baseMesh.positions = append(baseMesh.positions, cOuterCarvedP1[i])
+
+				idxCapInnerTop[i] = uint32(len(baseMesh.positions))
+				baseMesh.positions = append(baseMesh.positions, cInnerCarvedP1[i])
+
+				idxCapInnerFloor[i] = uint32(len(baseMesh.positions))
+				baseMesh.positions = append(baseMesh.positions, baseMesh.positions[idxInner[S][i]])
+
+				idxCapOuterFloor[i] = uint32(len(baseMesh.positions))
+				baseMesh.positions = append(baseMesh.positions, baseMesh.positions[idxOuter[S][i]])
+			}
+
 			for i := range M {
 				nextI := (i + 1) % M
-				// Outer bulbous wall
 				baseMesh.indices = append(baseMesh.indices,
-					[3]uint32{idxOuter[s][i], idxOuter[s][nextI], idxOuter[s+1][nextI]},
-					[3]uint32{idxOuter[s][i], idxOuter[s+1][nextI], idxOuter[s+1][i]},
-				)
-				// Inner curved wall
-				baseMesh.indices = append(baseMesh.indices,
-					[3]uint32{idxInner[s][i], idxInner[s+1][nextI], idxInner[s][nextI]},
-					[3]uint32{idxInner[s][i], idxInner[s+1][i], idxInner[s+1][nextI]},
+					[3]uint32{idxCapInnerTop[i], idxCapOuterTop[nextI], idxCapOuterTop[i]},
+					[3]uint32{idxCapInnerTop[i], idxCapInnerTop[nextI], idxCapOuterTop[nextI]},
+					[3]uint32{idxPlancherCenter, idxCapInnerFloor[nextI], idxCapInnerFloor[i]},
+					[3]uint32{idxFloorCenter, idxCapOuterFloor[i], idxCapOuterFloor[nextI]},
 				)
 			}
+
+			baseMesh.computeNormals()
+			meshes = append(meshes, baseMesh)
 		}
-
-		// Dedicated cap vertices so flat caps do not distort smooth wall normals
-		idxPlancherCenter := uint32(len(baseMesh.positions))
-		baseMesh.positions = append(baseMesh.positions, vector3{
-			X: sumInnerX / float64(M), Y: plancherY, Z: sumInnerZ / float64(M),
-		})
-		idxFloorCenter := uint32(len(baseMesh.positions))
-		baseMesh.positions = append(baseMesh.positions, vector3{
-			X: sumOuterX / float64(M), Y: floorY, Z: sumOuterZ / float64(M),
-		})
-
-		idxCapOuterTop := make([]uint32, M)
-		idxCapInnerTop := make([]uint32, M)
-		idxCapInnerFloor := make([]uint32, M)
-		idxCapOuterFloor := make([]uint32, M)
-		for i := range M {
-			idxCapOuterTop[i] = uint32(len(baseMesh.positions))
-			baseMesh.positions = append(baseMesh.positions, cOuterCarvedP1[i])
-
-			idxCapInnerTop[i] = uint32(len(baseMesh.positions))
-			baseMesh.positions = append(baseMesh.positions, cInnerCarvedP1[i])
-
-			idxCapInnerFloor[i] = uint32(len(baseMesh.positions))
-			baseMesh.positions = append(baseMesh.positions, baseMesh.positions[idxInner[S][i]])
-
-			idxCapOuterFloor[i] = uint32(len(baseMesh.positions))
-			baseMesh.positions = append(baseMesh.positions, baseMesh.positions[idxOuter[S][i]])
-		}
-
-		for i := range M {
-			nextI := (i + 1) % M
-			baseMesh.indices = append(baseMesh.indices,
-				[3]uint32{idxCapInnerTop[i], idxCapOuterTop[nextI], idxCapOuterTop[i]},
-				[3]uint32{idxCapInnerTop[i], idxCapInnerTop[nextI], idxCapOuterTop[nextI]},
-				[3]uint32{idxPlancherCenter, idxCapInnerFloor[nextI], idxCapInnerFloor[i]},
-				[3]uint32{idxFloorCenter, idxCapOuterFloor[i], idxCapOuterFloor[nextI]},
-			)
-		}
-
-		baseMesh.computeNormals()
-		meshes = append(meshes, baseMesh)
 	}
 
 	// 2. Build Ring_1 .. Ring_{stackHeight-1}
@@ -617,6 +749,10 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		return plancher
 	}
 
+	ringDeltaR := func(localY float64) float64 {
+		return EvalVaseTrapezeRingWallDeltaR(plant, localY, p1H, p2H, deltaYContact)
+	}
+
 	for h := 1; h < stackHeight; h++ {
 		dx := dxs[h]
 		dy := dys[h]
@@ -629,34 +765,14 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		ringTopP2 := projectCurve(curTop, p2H+dy, dy)
 		ringBottomP2 := projectCurve(curBottom, p2H+dy, dy)
 
-		var ringTopPlancher, ringBottomPlancher []vector3
-		ringTopFloor, ringBottomFloor := ringTopP2, ringBottomP2
-		if hasRingBottom {
-			u := hRingBottom / ringHeight
-			ringTopPlancher = interpolatePlancherCurve(ringTopP2, ringTopP1, u)
-			ringBottomPlancher = interpolatePlancherCurve(ringBottomP2, ringBottomP1, u)
-			ringTopFloor = ringTopPlancher
-			ringBottomFloor = ringBottomPlancher
-		}
-
-		ringCarvedTopP1 := computeCarvedOutCurve(ringTopP1, ringTopFloor, carvedParam)
-		ringCarvedBottomP1 := computeCarvedOutCurve(ringBottomP1, ringBottomFloor, carvedParam)
-
-		M := min(len(ringCarvedTopP1), len(ringCarvedBottomP1), len(ringTopP2), len(ringBottomP2))
-		if hasRingBottom {
-			M = min(M, len(ringTopPlancher), len(ringBottomPlancher))
-		}
+		M := min(len(ringTopP1), len(ringBottomP1), len(ringTopP2), len(ringBottomP2))
 		if M < 3 {
 			continue
 		}
-		ringCarvedTopP1 = ringCarvedTopP1[:M]
-		ringCarvedBottomP1 = ringCarvedBottomP1[:M]
+		ringTopP1 = ringTopP1[:M]
+		ringBottomP1 = ringBottomP1[:M]
 		ringTopP2 = ringTopP2[:M]
 		ringBottomP2 = ringBottomP2[:M]
-		if hasRingBottom {
-			ringTopPlancher = ringTopPlancher[:M]
-			ringBottomPlancher = ringBottomPlancher[:M]
-		}
 
 		var sumRTop, sumRBottom float64
 		for i := range M {
@@ -664,17 +780,61 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 			sumRBottom += math.Hypot(ringBottomP2[i].X, ringBottomP2[i].Z)
 		}
 
-		cOuterP1 := ringCarvedTopP1
-		cInnerP1 := ringCarvedBottomP1
-		cOuterP2 := ringTopP2
-		cInnerP2 := ringBottomP2
-		cInnerPlancher := ringBottomPlancher
+		cOuterUncarvedP1 := ringTopP1
+		cInnerUncarvedP1 := ringBottomP1
+		cOuterStraightP2 := ringTopP2
+		cInnerStraightP2 := ringBottomP2
 		if sumRBottom > sumRTop {
-			cOuterP1 = ringCarvedBottomP1
-			cInnerP1 = ringCarvedTopP1
-			cOuterP2 = ringBottomP2
-			cInnerP2 = ringTopP2
-			cInnerPlancher = ringTopPlancher
+			cOuterUncarvedP1 = ringBottomP1
+			cInnerUncarvedP1 = ringTopP1
+			cOuterStraightP2 = ringBottomP2
+			cInnerStraightP2 = ringTopP2
+		}
+
+		cOuterFloorStraight, cInnerFloorStraight := cOuterStraightP2, cInnerStraightP2
+		var cInnerPlancher []vector3
+		if hasRingBottom {
+			u := hRingBottom / ringHeight
+			cOuterFloorStraight = interpolatePlancherCurve(cOuterStraightP2, cOuterUncarvedP1, u)
+			cInnerFloorStraight = interpolatePlancherCurve(cInnerStraightP2, cInnerUncarvedP1, u)
+			cInnerPlancher = offsetCurveGLB(cInnerFloorStraight, dy, ringDeltaR)
+		}
+
+		cOuterP1 := computeCarvedOutCurve(cOuterUncarvedP1, cOuterFloorStraight, carvedParam, dy, ringDeltaR)
+		cInnerP1 := computeCarvedOutCurve(cInnerUncarvedP1, cInnerFloorStraight, carvedParam, dy, ringDeltaR)
+		cOuterP2 := offsetCurveGLB(cOuterStraightP2, dy, ringDeltaR)
+		cInnerP2 := offsetCurveGLB(cInnerStraightP2, dy, ringDeltaR)
+
+		addSubdividedRingWallGLB := func(rm *glbMeshData, cBotCurved, cTopCurved, cStraightP2, cStraightP1 []vector3, inward bool) {
+			if sWall <= 1 {
+				if inward {
+					rm.addQuadStrip(cTopCurved, cBotCurved)
+				} else {
+					rm.addQuadStrip(cBotCurved, cTopCurved)
+				}
+				return
+			}
+			yContactGlobal := (p1H - deltaYContact) + dy
+			rows := make([][]vector3, sWall+1)
+			rows[0] = cBotCurved
+			rows[sWall] = cTopCurved
+			for s := 1; s < sWall; s++ {
+				rows[s] = make([]vector3, M)
+				for i := range M {
+					yBot := cBotCurved[i].Y
+					yTop := cTopCurved[i].Y
+					y := RingWallSampleY(s, sWall, yBot, yTop, yContactGlobal)
+					u := 0.0
+					if math.Abs(ringHeight) > 1e-9 {
+						u = (y - (p2H + dy)) / ringHeight
+					}
+					sx := (1.0-u)*cStraightP2[i].X + u*cStraightP1[i].X
+					sz := (1.0-u)*cStraightP2[i].Z + u*cStraightP1[i].Z
+					vx, vy, vz := OffsetRadialPoint(sx, y, sz, ringDeltaR(y-dy))
+					rows[s][i] = vector3{X: vx, Y: vy, Z: vz}
+				}
+			}
+			rm.addWallGrid(rows, inward)
 		}
 
 		ringMesh := &glbMeshData{
@@ -684,10 +844,10 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		// 1. Top carved rim face (normal +Y)
 		ringMesh.addQuadStrip(cOuterP1, cInnerP1)
 		// 2. Outer wall (normal +r)
-		ringMesh.addQuadStrip(cOuterP2, cOuterP1)
+		addSubdividedRingWallGLB(ringMesh, cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1, false)
 		if hasRingBottom {
 			// 3. Inner wall down to plancher (normal -r)
-			ringMesh.addQuadStrip(cInnerP1, cInnerPlancher)
+			addSubdividedRingWallGLB(ringMesh, cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, true)
 
 			var sumOuterX, sumOuterY, sumOuterZ float64
 			var sumInnerX, sumInnerY, sumInnerZ float64
@@ -727,7 +887,7 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 			// 3. Bottom annular face (normal -Y)
 			ringMesh.addQuadStrip(cInnerP2, cOuterP2)
 			// 4. Inner wall (normal -r)
-			ringMesh.addQuadStrip(cInnerP1, cInnerP2)
+			addSubdividedRingWallGLB(ringMesh, cInnerP2, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, true)
 		}
 
 		ringMesh.computeNormals()

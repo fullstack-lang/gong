@@ -552,6 +552,7 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 			h_horiz := relativeHorizontalRingsHeight * sideLength
 
 			if plant.PlantType == VaseTrapeze && plant.TubeVaseAbstract != nil {
+				hasTrapezeConstantThickness := false
 				if len(resampledBaseBottom) == len(targetAngles) && len(resampledBaseTop) == len(targetAngles) {
 					baseBottomY := make([]float64, len(targetAngles))
 					for i, pt := range resampledBaseBottom {
@@ -562,9 +563,10 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 							resampledBaseBottom[i].Y = newBottomY[i]
 							resampledBaseTop[i].Y = newTopY[i]
 						}
+						hasTrapezeConstantThickness = true
 					}
 				}
-				writeVaseTrapezeSTL(&sb, plant, resampledBaseBottom, resampledBaseTop, radialRepetitions, part)
+				writeVaseTrapezeSTL(&sb, plant, resampledBaseBottom, resampledBaseTop, radialRepetitions, part, hasTrapezeConstantThickness)
 			} else if part == STLExportBottomRing {
 				massiveBottom, massiveTop := buildBaseRingSTL(resampledBaseBottom, resampledBaseTop, radialRepetitions, 0.0)
 				writeRibbonLayerSTL(&sb, massiveBottom, massiveTop, 0.0, thickness, radialRepetitions)
@@ -795,6 +797,7 @@ func writeVaseTrapezeSTL(
 	resampledBaseBottom, resampledBaseTop []vector3,
 	radialRepetitions int,
 	part STLExportPart,
+	hasTrapezeConstantThickness bool,
 ) {
 	if plant.TubeVaseAbstract == nil {
 		return
@@ -814,12 +817,17 @@ func writeVaseTrapezeSTL(
 
 	zStart := vase.Z_Ribbon * sideLength
 	p1H := zStart + vase.TopPlaneHeight*sideLength*scaleY
+	p2HRegular := zStart + vase.BottomPlaneHeight*sideLength*scaleY
 	bottomPlaneHeight := vase.BottomPlaneHeight
 	if part == STLExportVaseTrapezeBaseAndFirstRing || part == STLExportAll {
 		bottomPlaneHeight = vase.BaseRingBottomPlaneHeight
 	}
 	p2H := zStart + bottomPlaneHeight*sideLength*scaleY
 	projAngleRad := -vase.ProjectionAngle * math.Pi / 180.0
+
+	deltaYContact := ComputeVaseTrapezeContactStepDY(plant, hasTrapezeConstantThickness)
+	sWall := VaseTrapezeWallSubdivisions(plant)
+	isCurvedWall := IsVaseTrapezeCurvedWallActive(plant)
 
 	projectCurve := func(srcCurve []vector3, planeHeight float64, dy float64) []vector3 {
 		var projCurve []vector3
@@ -856,6 +864,33 @@ func writeVaseTrapezeSTL(
 	cTopP2 := projectCurve(trapezeTopCurve, p2H, 0)
 	cBottomP2 := projectCurve(trapezeBottomCurve, p2H, 0)
 
+	M := min(len(cTopP1), len(cBottomP1), len(cTopP2), len(cBottomP2))
+	if M < 3 {
+		return
+	}
+	cTopP1 = cTopP1[:M]
+	cBottomP1 = cBottomP1[:M]
+	cTopP2 = cTopP2[:M]
+	cBottomP2 = cBottomP2[:M]
+
+	var sumRTop, sumRBottom float64
+	for i := range M {
+		sumRTop += math.Hypot(cTopP2[i].X, cTopP2[i].Z)
+		sumRBottom += math.Hypot(cBottomP2[i].X, cBottomP2[i].Z)
+	}
+	bottomIsOuter := sumRBottom > sumRTop
+
+	cOuterUncarvedP1 := cTopP1
+	cInnerUncarvedP1 := cBottomP1
+	cOuterStraightP2 := cTopP2
+	cInnerStraightP2 := cBottomP2
+	if bottomIsOuter {
+		cOuterUncarvedP1 = cBottomP1
+		cInnerUncarvedP1 = cTopP1
+		cOuterStraightP2 = cBottomP2
+		cInnerStraightP2 = cTopP2
+	}
+
 	carvedParam := vase.CarvedOutTopRingsParameter
 	if carvedParam < 0 {
 		carvedParam = 0
@@ -864,15 +899,27 @@ func writeVaseTrapezeSTL(
 		carvedParam = 1
 	}
 
-	computeCarvedOutCurve := func(cTop, cBottom []vector3, param float64) []vector3 {
-		M := min(len(cTop), len(cBottom))
-		if M == 0 {
+	offsetCurveSTL := func(src []vector3, deltaRAtLocalY func(float64) float64) []vector3 {
+		if !isCurvedWall || deltaRAtLocalY == nil {
+			return src
+		}
+		out := make([]vector3, len(src))
+		for i, pt := range src {
+			nx, ny, nz := OffsetRadialPoint(pt.X, pt.Y, pt.Z, deltaRAtLocalY(pt.Y))
+			out[i] = vector3{X: nx, Y: ny, Z: nz}
+		}
+		return out
+	}
+
+	computeCarvedOutCurve := func(cTop, cBottom []vector3, param float64, deltaRAtLocalY func(float64) float64) []vector3 {
+		n := min(len(cTop), len(cBottom))
+		if n == 0 {
 			return nil
 		}
 
 		rMin := math.MaxFloat64
 		rMax := -math.MaxFloat64
-		for i := range M {
+		for i := range n {
 			pt := cTop[i]
 			r := math.Hypot(pt.X, pt.Z)
 			if r < rMin {
@@ -884,8 +931,8 @@ func writeVaseTrapezeSTL(
 		}
 
 		rRange := rMax - rMin
-		carvedCurve := make([]vector3, 0, M)
-		for i := range M {
+		carvedCurve := make([]vector3, 0, n)
+		for i := range n {
 			ptTop := cTop[i]
 			ptBottom := cBottom[i]
 			r := math.Hypot(ptTop.X, ptTop.Z)
@@ -895,13 +942,69 @@ func writeVaseTrapezeSTL(
 				coeff = param * (rMax - r) / rRange
 			}
 
+			sx := (1.0-coeff)*ptTop.X + coeff*ptBottom.X
+			sy := (1.0-coeff)*ptTop.Y + coeff*ptBottom.Y
+			sz := (1.0-coeff)*ptTop.Z + coeff*ptBottom.Z
+			if isCurvedWall && deltaRAtLocalY != nil {
+				sx, sy, sz = OffsetRadialPoint(sx, sy, sz, deltaRAtLocalY(sy))
+			}
+
 			carvedCurve = append(carvedCurve, vector3{
-				X: (1.0-coeff)*ptTop.X + coeff*ptBottom.X,
-				Y: (1.0-coeff)*ptTop.Y + coeff*ptBottom.Y,
-				Z: (1.0-coeff)*ptTop.Z + coeff*ptBottom.Z,
+				X: sx,
+				Y: sy,
+				Z: sz,
 			})
 		}
 		return carvedCurve
+	}
+
+	writeSubdividedWallSTL := func(
+		cBotCurved, cTopCurved, cStraightP2, cStraightP1 []vector3,
+		spanH, yBotRef float64,
+		deltaRAtLocalY func(float64) float64,
+		useContactSample bool,
+		inward bool,
+	) {
+		if sWall <= 1 {
+			if inward {
+				writeQuadStripSTL(sb, cTopCurved, cBotCurved)
+			} else {
+				writeQuadStripSTL(sb, cBotCurved, cTopCurved)
+			}
+			return
+		}
+		yContact := p1H - deltaYContact
+		rows := make([][]vector3, sWall+1)
+		rows[0] = cBotCurved
+		rows[sWall] = cTopCurved
+		for s := 1; s < sWall; s++ {
+			rows[s] = make([]vector3, M)
+			for i := range M {
+				yBot := cBotCurved[i].Y
+				yTop := cTopCurved[i].Y
+				var y float64
+				if useContactSample {
+					y = RingWallSampleY(s, sWall, yBot, yTop, yContact)
+				} else {
+					y = yBot + (float64(s)/float64(sWall))*(yTop-yBot)
+				}
+				u := 0.0
+				if math.Abs(spanH) > 1e-9 {
+					u = (y - yBotRef) / spanH
+				}
+				sx := (1.0-u)*cStraightP2[i].X + u*cStraightP1[i].X
+				sz := (1.0-u)*cStraightP2[i].Z + u*cStraightP1[i].Z
+				vx, vy, vz := OffsetRadialPoint(sx, y, sz, deltaRAtLocalY(y))
+				rows[s][i] = vector3{X: vx, Y: vy, Z: vz}
+			}
+		}
+		for s := range sWall {
+			if inward {
+				writeQuadStripSTL(sb, rows[s+1], rows[s])
+			} else {
+				writeQuadStripSTL(sb, rows[s], rows[s+1])
+			}
+		}
 	}
 
 	pBottomH := p2H
@@ -917,9 +1020,9 @@ func writeVaseTrapezeSTL(
 	}
 
 	interpolatePlancherCurve := func(cP2, cUncarvedP1 []vector3, u float64) []vector3 {
-		M := min(len(cP2), len(cUncarvedP1))
-		plancher := make([]vector3, 0, M)
-		for i := range M {
+		n := min(len(cP2), len(cUncarvedP1))
+		plancher := make([]vector3, 0, n)
+		for i := range n {
 			p2 := cP2[i]
 			p1 := cUncarvedP1[i]
 			plancher = append(plancher, vector3{
@@ -931,67 +1034,33 @@ func writeVaseTrapezeSTL(
 		return plancher
 	}
 
-	var cTopPlancher, cBottomPlancher []vector3
-	cTopFloor, cBottomFloor := cTopP2, cBottomP2
-	if hasRingBottom {
-		u := hRingBottom / ringHeight
-		cTopPlancher = interpolatePlancherCurve(cTopP2, cTopP1, u)
-		cBottomPlancher = interpolatePlancherCurve(cBottomP2, cBottomP1, u)
-		cTopFloor = cTopPlancher
-		cBottomFloor = cBottomPlancher
-	}
-
-	cCarvedTopP1 := computeCarvedOutCurve(cTopP1, cTopFloor, carvedParam)
-	cCarvedBottomP1 := computeCarvedOutCurve(cBottomP1, cBottomFloor, carvedParam)
-
-	M := min(len(cCarvedTopP1), len(cCarvedBottomP1), len(cTopP2), len(cBottomP2))
-	if hasRingBottom {
-		M = min(M, len(cTopPlancher), len(cBottomPlancher))
-	}
-	if M < 3 {
-		return
-	}
-	cCarvedTopP1 = cCarvedTopP1[:M]
-	cCarvedBottomP1 = cCarvedBottomP1[:M]
-	cTopP1 = cTopP1[:M]
-	cBottomP1 = cBottomP1[:M]
-	cTopP2 = cTopP2[:M]
-	cBottomP2 = cBottomP2[:M]
-	if hasRingBottom {
-		cTopPlancher = cTopPlancher[:M]
-		cBottomPlancher = cBottomPlancher[:M]
-	}
-
-	var sumRTop, sumRBottom float64
-	for i := range M {
-		sumRTop += math.Hypot(cTopP2[i].X, cTopP2[i].Z)
-		sumRBottom += math.Hypot(cBottomP2[i].X, cBottomP2[i].Z)
-	}
-
-	cOuterP1 := cCarvedTopP1
-	cInnerP1 := cCarvedBottomP1
-	cOuterP2 := cTopP2
-	cInnerP2 := cBottomP2
-	cOuterUncarvedP1 := cTopP1
-	cInnerPlancher := cBottomPlancher
-	if sumRBottom > sumRTop {
-		cOuterP1 = cCarvedBottomP1
-		cInnerP1 = cCarvedTopP1
-		cOuterP2 = cBottomP2
-		cInnerP2 = cTopP2
-		cOuterUncarvedP1 = cBottomP1
-		cInnerPlancher = cTopPlancher
-	}
-
-	// 1. Plane 1 annular face (top of ring, normal +Y)
-	writeQuadStripSTL(sb, cOuterP1, cInnerP1)
-	// 2. Outer wall of ring (normal +r)
-	writeQuadStripSTL(sb, cOuterP2, cOuterP1)
-
 	if !includeBasePlate {
+		ringDeltaR := func(localY float64) float64 {
+			return EvalVaseTrapezeRingWallDeltaR(plant, localY, p1H, p2HRegular, deltaYContact)
+		}
+
+		cOuterFloorStraight, cInnerFloorStraight := cOuterStraightP2, cInnerStraightP2
+		var cInnerPlancher []vector3
+		if hasRingBottom {
+			u := hRingBottom / ringHeight
+			cOuterFloorStraight = interpolatePlancherCurve(cOuterStraightP2, cOuterUncarvedP1, u)
+			cInnerFloorStraight = interpolatePlancherCurve(cInnerStraightP2, cInnerUncarvedP1, u)
+			cInnerPlancher = offsetCurveSTL(cInnerFloorStraight, ringDeltaR)
+		}
+
+		cOuterP1 := computeCarvedOutCurve(cOuterUncarvedP1, cOuterFloorStraight, carvedParam, ringDeltaR)
+		cInnerP1 := computeCarvedOutCurve(cInnerUncarvedP1, cInnerFloorStraight, carvedParam, ringDeltaR)
+		cOuterP2 := offsetCurveSTL(cOuterStraightP2, ringDeltaR)
+		cInnerP2 := offsetCurveSTL(cInnerStraightP2, ringDeltaR)
+
+		// 1. Plane 1 annular face (top of ring, normal +Y)
+		writeQuadStripSTL(sb, cOuterP1, cInnerP1)
+		// 2. Outer wall of ring (normal +r)
+		writeSubdividedWallSTL(cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1, ringHeight, p2H, ringDeltaR, true, false)
+
 		if hasRingBottom {
 			// 3. Inner wall of ring down to plancher (normal -r)
-			writeQuadStripSTL(sb, cInnerP1, cInnerPlancher)
+			writeSubdividedWallSTL(cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, ringHeight, p2H, ringDeltaR, true, true)
 
 			var sumOuterX, sumOuterY, sumOuterZ float64
 			var sumInnerX, sumInnerY, sumInnerZ float64
@@ -1014,15 +1083,32 @@ func writeVaseTrapezeSTL(
 			}
 		} else {
 			// 3. Inner wall of ring (normal -r)
-			writeQuadStripSTL(sb, cInnerP1, cInnerP2)
+			writeSubdividedWallSTL(cInnerP2, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, ringHeight, p2H, ringDeltaR, true, true)
 			// 4. Close Plane 2 annular face (bottom of ring, normal -Y)
 			writeQuadStripSTL(sb, cInnerP2, cOuterP2)
 		}
 		return
 	}
 
-	// 3. Inner wall of ring (normal -r)
-	writeQuadStripSTL(sb, cInnerP1, cInnerP2)
+	baseOuterDeltaR := func(localY float64) float64 {
+		dr, _ := EvalVaseTrapezeBaseRingOuterDeltaRAndSlope(plant, localY, p1H, pBottomH, deltaYContact)
+		return dr
+	}
+	baseInnerDeltaR := func(localY float64) float64 {
+		return EvalVaseTrapezeBaseRingInnerDeltaR(plant, localY, p1H, pBottomH, p2HRegular, deltaYContact, bottomIsOuter)
+	}
+
+	cOuterP2 := cOuterStraightP2
+	cInnerP2 := cInnerStraightP2
+	cOuterP1 := computeCarvedOutCurve(cOuterUncarvedP1, cOuterStraightP2, carvedParam, baseOuterDeltaR)
+	cInnerP1 := computeCarvedOutCurve(cInnerUncarvedP1, cInnerStraightP2, carvedParam, baseInnerDeltaR)
+
+	// 1. Plane 1 annular face (top of ring, normal +Y)
+	writeQuadStripSTL(sb, cOuterP1, cInnerP1)
+	// 2. Outer wall of Ring 0 (normal +r)
+	writeSubdividedWallSTL(cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1, ringHeight, pBottomH, baseOuterDeltaR, false, false)
+	// 3. Inner wall of Ring 0 (normal -r)
+	writeSubdividedWallSTL(cInnerP2, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, ringHeight, pBottomH, baseInnerDeltaR, false, true)
 
 	// Base plate connected seamlessly at Plane 2 (cOuterP2 and cInnerP2)
 	hPlancher := basePlateHeight
@@ -1067,6 +1153,8 @@ func writeVaseTrapezeSTL(
 	v1R := endMag * tEndR
 	v1Y := endMag * tEndY
 
+	_, dBaseOutDyAtBottom := EvalVaseTrapezeBaseRingOuterDeltaRAndSlope(plant, pBottomH, p1H, pBottomH, deltaYContact)
+
 	for i := range M {
 		ptOut := cOuterP2[i]
 		ptOutP1 := cOuterUncarvedP1[i]
@@ -1092,9 +1180,12 @@ func writeVaseTrapezeSTL(
 			radialScale = rIn0 / r0
 		}
 
-		// Vector from Plane 1 to Plane 2 in (r, y)
+		// Downward tangent vector at pBottomH in (r, y), C1-continuous with Ring 0 outer wall
 		deltaR := r0 - rTop
 		deltaY := pBottomH - p1H
+		if math.Abs(deltaY) > 1e-6 {
+			deltaR += dBaseOutDyAtBottom * deltaY
+		}
 		lRing := math.Hypot(deltaR, deltaY)
 		t0R := 0.0
 		t0Y := -1.0

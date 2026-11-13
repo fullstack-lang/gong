@@ -13920,6 +13920,12 @@ func (tubevaseabstract *TubeVaseAbstract) GongDiff(stage *Stage, tubevaseabstrac
 	if tubevaseabstract.HasRingBottom != tubevaseabstractOther.HasRingBottom {
 		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "HasRingBottom"))
 	}
+	if tubevaseabstract.HasCurvedWall != tubevaseabstractOther.HasCurvedWall {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "HasCurvedWall"))
+	}
+	if tubevaseabstract.WallCurvature != tubevaseabstractOther.WallCurvature {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "WallCurvature"))
+	}
 	if tubevaseabstract.RelativeVerticalThickness != tubevaseabstractOther.RelativeVerticalThickness {
 		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
 	}

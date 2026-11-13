@@ -316,6 +316,19 @@ func (stager *Stager) ux_slider() {
 						"Ring Bottom",
 						&plant.TubeVaseAbstract.HasRingBottom,
 					),
+					NewBoolSlider(
+						stager,
+						"Curved Wall",
+						&plant.TubeVaseAbstract.HasCurvedWall,
+					),
+					m.NewSlider(
+						stager,
+						"Wall Curvature",
+						-1.0,
+						0.0,
+						0.01,
+						&plant.TubeVaseAbstract.WallCurvature,
+					),
 				)
 			}
 
