@@ -962,9 +962,9 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000004_.FontColor = `#333333`
 	__models__DataShape__00000005_.Name = `Generate Commercial Invoice to Customer-Generate Commercial Invoice to Customer-Order to Cash - Full Process`
 	__models__DataShape__00000005_.X = 840.914840
-	__models__DataShape__00000005_.Y = 759.008635
+	__models__DataShape__00000005_.Y = 741.008635
 	__models__DataShape__00000005_.Width = 181.000000
-	__models__DataShape__00000005_.Height = 24.000000
+	__models__DataShape__00000005_.Height = 42.000000
 	__models__DataShape__00000005_.IsHidden = false
 	__models__DataShape__00000005_.IsPresentationOverridden = false
 	__models__DataShape__00000005_.Color = `#FFFFFF`
@@ -1313,10 +1313,10 @@ func _(stage *models.Stage) {
 	__models__NoteControlFlowShape__00000000_.CornerOffsetRatio = 1.680000
 	__models__NoteControlFlowShape__00000000_.IsHidden = false
 	__models__NoteControlFlowShape__00000000_.IsPresentationOverridden = false
-	__models__NoteControlFlowShape__00000000_.Stroke = ``
-	__models__NoteControlFlowShape__00000000_.StrokeWidth = 0.000000
-	__models__NoteControlFlowShape__00000000_.StrokeOpacity = 0.000000
-	__models__NoteControlFlowShape__00000000_.StrokeDashArray = ``
+	__models__NoteControlFlowShape__00000000_.Stroke = `#9E9E9E`
+	__models__NoteControlFlowShape__00000000_.StrokeWidth = 1.500000
+	__models__NoteControlFlowShape__00000000_.StrokeOpacity = 1.000000
+	__models__NoteControlFlowShape__00000000_.StrokeDashArray = `5,5`
 	__models__NoteControlFlowShape__00000000_.FontSize = ``
 	__models__NoteControlFlowShape__00000000_.FontColor = ``
 	__models__NoteDataFlowShape__00000000_.Name = `Comment to Confirm Sales Order to Customer`
