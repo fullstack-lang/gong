@@ -172,6 +172,23 @@ func init() {
 	X__libc.Fpage_size = Tsize_t(os.Getpagesize())
 }
 
+// musl's stdio locks a FILE only when its lock word is not negative. The
+// standard streams start at -1, and fopen, fdopen, fmemopen and
+// open_memstream set it to -1 while libc.threaded is zero. musl's
+// pthread_create sets libc.threaded and clears the lock words of the open
+// FILEs before it starts the first thread, but the hand-written Xpthread_create
+// does not, and every TLS may be a thread anyway. Without locks, two TLSs
+// writing to the same FILE corrupt its buffer pointers and write past its
+// buffer. So stdio locks from the start, as it does in a musl program once
+// it has created a thread. Doing it later would race with a stdio call
+// already in progress on another TLS.
+func init() {
+	X__libc.Fthreaded = 1
+	X__stdin_FILE.Flock = 0
+	X__stdout_FILE.Flock = 0
+	X__stderr_FILE.Flock = 0
+}
+
 // RawMem64 represents the biggest uint64 array the runtime can handle.
 type RawMem64 [unsafe.Sizeof(RawMem{}) / unsafe.Sizeof(uint64(0))]uint64
 
@@ -265,13 +282,14 @@ type tlsStackSlot struct {
 // TLS emulates thread local storage. TLS is not safe for concurrent use by
 // multiple goroutines.
 type TLS struct {
-	allocaStack         []int
+	allocaStack         []allocaMark
 	allocas             []uintptr
 	jumpBuffers         []uintptr
 	pendingSignals      chan os.Signal
 	pthread             uintptr // *t__pthread
 	pthreadCleanupItems []pthreadCleanupItem
 	pthreadKeyValues    map[Tpthread_key_t]uintptr
+	sigFlags            map[int32]int32 // sa_flags of sigHandlers installed by sigaction
 	sigHandlers         map[int32]uintptr
 	sp                  int
 	stack               []tlsStackSlot
@@ -280,6 +298,35 @@ type TLS struct {
 
 	checkSignals bool
 	ownsPthread  bool
+
+	// The alloca(3) bump region. New fields go after the ones above so that
+	// their offsets do not change for ABI0 code built against older versions.
+	allocaChunks []allocaChunk
+	allocaNext   int     // allocaChunks index of the chunk to use when the current one is full
+	allocaP      uintptr // the next free byte in the current chunk
+	allocaEnd    uintptr // the end of the current chunk, zero before the first chunk
+
+	started bool // by Xpthread_create, whose goroutine ends the thread
+
+	// SetExitUnwind.
+	atExit      []uintptr // atexit handlers
+	atQuickExit []uintptr // at_quick_exit handlers
+	exitUnwind  bool
+
+	allocaSeq uintptr // numbers the alloca regions, see TLSCheckpoint
+
+	// Free malloc slots, indexed by the log of the slot size, see
+	// mem_musl.go. Unused by the libc.membrk and libc.memgrind allocators.
+	// The length is a power of two so that masking the index makes the
+	// bounds check go away.
+	tcache [16]tcacheBin
+}
+
+// tcacheBin is a stack of free malloc slots of one size, linked through their
+// first words.
+type tcacheBin struct {
+	head uintptr
+	n    int
 }
 
 var __ccgo_environOnce sync.Once
@@ -300,12 +347,70 @@ func NewTLS() (r *TLS) {
 		Fself:   pthread,
 		Ftid:    id,
 	}
-	return &TLS{
+	r = &TLS{
 		ID:          id,
 		ownsPthread: true,
 		pthread:     pthread,
+		sigFlags:    map[int32]int32{},
 		sigHandlers: map[int32]uintptr{},
 	}
+	tlsRegistryMu.Lock()
+	tlsByTID[id] = r
+	tlsRegistryMu.Unlock()
+	return r
+}
+
+var (
+	// tlsRegistryMu guards tlsByTID, threadNames and the creation of
+	// TLS.pendingSignals, the only TLS field another C thread reads.
+	tlsRegistryMu sync.Mutex
+	tlsByTID      = map[int32]*TLS{}
+	threadNames   = map[uintptr]string{} // pthread_t -> name
+)
+
+// tlsByTid returns the TLS of the live C thread with the emulated tid, or nil.
+func tlsByTid(tid int32) *TLS {
+	tlsRegistryMu.Lock()
+
+	defer tlsRegistryMu.Unlock()
+
+	return tlsByTID[tid]
+}
+
+// signalChan returns tls.pendingSignals, creating it if necessary. The
+// channel is created under tlsRegistryMu because killSignal reads it from
+// another goroutine.
+func (tls *TLS) signalChan() chan os.Signal {
+	tlsRegistryMu.Lock()
+
+	defer tlsRegistryMu.Unlock()
+
+	if tls.pendingSignals == nil {
+		tls.pendingSignals = make(chan os.Signal, 3)
+	}
+	return tls.pendingSignals
+}
+
+// killSignal implements tkill(2) directed at tls from another C thread. The
+// signal is queued for delivery at the next check point of tls when it has
+// registered for signals, otherwise it goes to the process.
+func (tls *TLS) killSignal(sig int32) long {
+	tlsRegistryMu.Lock()
+	ch := tls.pendingSignals
+	tlsRegistryMu.Unlock()
+	if ch != nil {
+		select {
+		case ch <- unix.Signal(sig):
+			return 0
+		default:
+			// Full, fall through.
+		}
+	}
+	if err := unix.Kill(unix.Getpid(), unix.Signal(sig)); err != nil {
+		return long(-err.(unix.Errno))
+	}
+
+	return 0
 }
 
 // StackSlots reports the number of tls stack slots currently in use.
@@ -400,6 +505,29 @@ func (tls *TLS) allocSlow(n0 int) (r uintptr) {
 	return r
 }
 
+// tlsCheckpointStack is the TLS.Alloc part of a TLSCheckpoint.
+type tlsCheckpointStack struct {
+	sp uintptr // TLS.sp
+}
+
+func (tls *TLS) stackCheckpoint() tlsCheckpointStack {
+	return tlsCheckpointStack{sp: uintptr(tls.sp)}
+}
+
+func (tls *TLS) checkStackRollback(c tlsCheckpointStack) error {
+	if c.sp > uintptr(tls.sp) {
+		return errTLSCheckpointNotLive
+	}
+
+	return nil
+}
+
+// stackRollback leaves the TLS.Alloc slots from c.sp on allocated, for reuse,
+// as Free does.
+func (tls *TLS) stackRollback(c tlsCheckpointStack) {
+	tls.sp = int(c.sp)
+}
+
 // Free manages memory of the preceding TLS.Alloc()
 func (tls *TLS) Free(n int) {
 	//TODO shrink stacks if possible. Tcl is currently against.
@@ -414,61 +542,85 @@ func (tls *TLS) Free(n int) {
 func (tls *TLS) checkSignal() {
 	select {
 	case sig := <-tls.pendingSignals:
-		signum := int32(sig.(unix.Signal))
-		h, ok := tls.sigHandlers[signum]
-		if !ok {
-			break
-		}
-
-		switch h {
-		case SIG_DFL:
-			// nop
-		case SIG_IGN:
-			// nop
-		default:
-			(*(*func(*TLS, int32))(unsafe.Pointer(&struct{ uintptr }{h})))(tls, signum)
-		}
+		tls.deliverSignal(int32(sig.(unix.Signal)))
 	default:
 		// nop
 	}
 }
 
-func (tls *TLS) alloca(n Tsize_t) (r uintptr) {
-	r = mustMalloc(n)
-	tls.allocas = append(tls.allocas, r)
-	return r
-}
-
-// AllocaEntry must be called early on function entry when the function calls
-// or may call alloca(3).
-func (tls *TLS) AllocaEntry() {
-	tls.allocaStack = append(tls.allocaStack, len(tls.allocas))
-}
-
-// AllocaExit must be defer-called on function exit when the function calls or
-// may call alloca(3).
-func (tls *TLS) AllocaExit() {
-	n := len(tls.allocaStack)
-	x := tls.allocaStack[n-1]
-	tls.allocaStack = tls.allocaStack[:n-1]
-	for _, v := range tls.allocas[x:] {
-		Xfree(tls, v)
+// deliverSignal runs the handler installed for signum, if any, on the calling
+// goroutine.
+func (tls *TLS) deliverSignal(signum int32) {
+	h, ok := tls.sigHandlers[signum]
+	if !ok {
+		return
 	}
-	tls.allocas = tls.allocas[:x]
+
+	switch h {
+	case SIG_DFL:
+		// nop
+	case SIG_IGN:
+		// nop
+	default:
+		flags := tls.sigFlags[signum]
+		if uint32(flags)&SA_RESETHAND != 0 {
+			Xsignal(tls, signum, SIG_DFL)
+		}
+		if flags&SA_SIGINFO != 0 {
+			// void handler(int sig, siginfo_t *info, void *ctx)
+			n := int(unsafe.Sizeof(Tsiginfo_t{}))
+			info := tls.Alloc(n)
+			*(*Tsiginfo_t)(unsafe.Pointer(info)) = Tsiginfo_t{Fsi_signo: signum}
+			(*(*func(*TLS, int32, uintptr, uintptr))(unsafe.Pointer(&struct{ uintptr }{h})))(tls, signum, info, 0)
+			tls.Free(n)
+			return
+		}
+
+		(*(*func(*TLS, int32))(unsafe.Pointer(&struct{ uintptr }{h})))(tls, signum)
+	}
+}
+
+// tid returns the emulated thread id of the C thread tls represents.
+func (tls *TLS) tid() int32 {
+	return (*t__pthread)(unsafe.Pointer(tls.pthread)).Ftid
+}
+
+// raiseSignal implements tkill(2) directed at the calling C thread, which is
+// what raise() and pthread_kill(pthread_self(), sig) reduce to. A handler
+// installed with signal() or sigaction() runs before the call returns, as it
+// does for a single threaded C program. Without one the signal is sent to the
+// process so the default action applies.
+func (tls *TLS) raiseSignal(sig int32) long {
+	switch h, ok := tls.sigHandlers[sig]; {
+	case ok && h == SIG_IGN:
+		return 0
+	case ok && h != SIG_DFL:
+		tls.deliverSignal(sig)
+		return 0
+	}
+
+	if err := unix.Kill(unix.Getpid(), unix.Signal(sig)); err != nil {
+		return long(-err.(unix.Errno))
+	}
+
+	return 0
 }
 
 func (tls *TLS) Close() {
 	defer func() { *tls = TLS{} }()
 
-	for _, v := range tls.allocas {
-		Xfree(tls, v)
-	}
+	tlsRegistryMu.Lock()
+	delete(tlsByTID, tls.ID)
+	delete(threadNames, tls.pthread)
+	tlsRegistryMu.Unlock()
+	tls.allocaClose()
 	for _, v := range tls.stack /* shrink diabled[:tls.sp] */ {
 		Xfree(tls, v.p)
 	}
 	if tls.ownsPthread {
 		Xfree(tls, tls.pthread)
 	}
+	tls.tcacheFlushAll()
 }
 
 // PushJumpBuffer arms jb, which stays armed until the matching PopJumpBuffer or
@@ -526,17 +678,42 @@ func (tls *TLS) Longjmp(jb uintptr, val int32) {
 
 // ============================================================================
 
+// Xexit implements exit(3) in musl's order: the atexit handlers, newest first,
+// then the functions registered by AtExit, then the flush of every stdio
+// stream, then the end of the process. A handler may register more handlers,
+// which run next, so no lock is held while one runs. See also SetExitUnwind.
 func Xexit(tls *TLS, code int32) {
-	//TODO atexit finalizers
-	X__stdio_exit(tls)
-	for i := len(atExit) - 1; i >= 0; i-- {
-		atExit[i]()
+	if tls != nil && tls.exitUnwind {
+		tls.exitUnwound(code)
 	}
-	atExitHandlersMu.Lock()
-	for i := len(atExitHandlers) - 1; i >= 0; i-- {
-		v := atExitHandlers[i]
+
+	for {
+		atExitHandlersMu.Lock()
+		n := len(atExitHandlers)
+		if n == 0 {
+			atExitHandlersMu.Unlock()
+			break
+		}
+
+		v := atExitHandlers[n-1]
+		atExitHandlers = atExitHandlers[:n-1]
+		atExitHandlersMu.Unlock()
 		(*(*func(*TLS))(unsafe.Pointer(&struct{ uintptr }{v})))(tls)
 	}
+	for {
+		atExitMu.Lock()
+		n := len(atExit)
+		if n == 0 {
+			atExitMu.Unlock()
+			break
+		}
+
+		f := atExit[n-1]
+		atExit = atExit[:n-1]
+		atExitMu.Unlock()
+		f()
+	}
+	X__stdio_exit(tls)
 	os.Exit(int(code))
 }
 
@@ -546,8 +723,27 @@ func _exit(tls *TLS, code int32) {
 
 var abort Tsigaction
 
+// abort dies by SIGABRT with the signal's default disposition, as musl's
+// does. ___libc_sigaction records the SIG_DFL for os/signal only and leaves
+// the Go runtime's SIGABRT handler in the kernel, which would print a
+// goroutine dump to stderr and only then let the process die; resetSigDfl
+// puts the kernel's default back so that the death is silent, with the core
+// dump the resource limits allow, and a parent sees a child killed by SIGABRT
+// with an empty stderr. sqlite's writecrash.test checks exactly that. The
+// signal is sent thread-directed with tgkill, as the Go runtime's raise()
+// does and as the netbsd Xabort explains: a process-directed kill(2) is
+// asynchronous and the calling thread can run on before it lands. With
+// SIG_DFL installed the kernel terminates the process in tgkill; the
+// process-directed kill and the panic are unreachable fallbacks. See also
+// SetExitUnwind.
 func Xabort(tls *TLS) {
-	X__libc_sigaction(tls, SIGABRT, uintptr(unsafe.Pointer(&abort)), 0)
+	if tls != nil && tls.exitUnwind {
+		panic(ExitError{Status: 128 + SIGABRT, Abort: true})
+	}
+
+	___libc_sigaction(tls, SIGABRT, uintptr(unsafe.Pointer(&abort)), 0)
+	resetSigDfl(SIGABRT)
+	unix.Tgkill(unix.Getpid(), unix.Gettid(), unix.Signal(SIGABRT))
 	unix.Kill(unix.Getpid(), unix.Signal(SIGABRT))
 	panic(todo("unrechable"))
 }
@@ -605,10 +801,11 @@ func ___unlock(tls *TLS, p uintptr) {
 	}
 }
 
-// lockPark collects the goroutines parked on one lock word address.
+// lockPark collects the goroutines parked on one lock word address, in
+// arrival order. Every waiter has its own channel, so a wake can target one
+// waiter and a waiter can leave on a timeout.
 type lockPark struct {
-	cond    sync.Cond
-	waiters int
+	waiters []chan struct{}
 }
 
 var (
@@ -619,73 +816,200 @@ var (
 // lockWait parks the calling goroutine while *p is still val, standing in for
 // musl's __futexwait.
 func lockWait(p uintptr, val int32) {
+	lockWaitTimeout(p, val, -1)
+}
+
+// lockWaitTimeout is lockWait with a timeout, none if it is negative. It
+// reports false when the timeout expired before a wake arrived.
+func lockWaitTimeout(p uintptr, val int32, timeout time.Duration) bool {
 	lockParkMu.Lock()
-
-	defer lockParkMu.Unlock()
-
 	// Re-check under lockParkMu: ___unlock stores to *p before lockWake takes
 	// lockParkMu, so a wake that would otherwise be delivered before we park shows
 	// up here as a changed value.
 	if atomic.LoadInt32((*int32)(unsafe.Pointer(p))) != val {
-		return
+		lockParkMu.Unlock()
+		return true
 	}
 
 	q := lockParked[p]
 	if q == nil {
 		q = &lockPark{}
-		q.cond.L = &lockParkMu
 		lockParked[p] = q
 	}
-	q.waiters++
-	q.cond.Wait()
-	q.waiters--
-	if q.waiters == 0 {
-		delete(lockParked, p)
+	ch := make(chan struct{}, 1)
+	q.waiters = append(q.waiters, ch)
+	lockParkMu.Unlock()
+
+	if timeout < 0 {
+		<-ch
+		return true
 	}
+
+	t := time.NewTimer(timeout)
+
+	defer t.Stop()
+
+	select {
+	case <-ch:
+		return true
+	case <-t.C:
+	}
+
+	lockParkMu.Lock()
+
+	defer lockParkMu.Unlock()
+
+	// A wake may have arrived while the timer fired: it is then in ch, and the
+	// waker has already removed us.
+	select {
+	case <-ch:
+		return true
+	default:
+	}
+
+	if q := lockParked[p]; q != nil {
+		for i, v := range q.waiters {
+			if v == ch {
+				q.waiters = append(q.waiters[:i], q.waiters[i+1:]...)
+				break
+			}
+		}
+		if len(q.waiters) == 0 {
+			delete(lockParked, p)
+		}
+	}
+	return false
 }
 
 // lockWake releases one goroutine parked on p, if any, standing in for musl's
 // __wake. Waking one suffices: whoever wakes either acquires p, and then owes
 // the next wake when it unlocks, or re-marks p contended before parking again.
 func lockWake(p uintptr) {
+	lockWakeN(p, 1)
+}
+
+// lockWakeN releases up to cnt goroutines parked on p, all of them if cnt is
+// negative.
+func lockWakeN(p uintptr, cnt int32) {
 	lockParkMu.Lock()
 
 	defer lockParkMu.Unlock()
 
-	if q := lockParked[p]; q != nil {
-		q.cond.Signal()
+	q := lockParked[p]
+	if q == nil {
+		return
+	}
+
+	for len(q.waiters) != 0 && cnt != 0 {
+		ch := q.waiters[0]
+		q.waiters = q.waiters[1:]
+		ch <- struct{}{}
+		cnt--
+	}
+	if len(q.waiters) == 0 {
+		delete(lockParked, p)
 	}
 }
 
-type lockedFile struct {
-	ch      chan struct{}
-	waiters int
+// casInt32 is musl's a_cas: it stores s into *p if *p is t and returns the
+// value *p had before.
+func casInt32(p uintptr, t, s int32) int32 {
+	w := (*int32)(unsafe.Pointer(p))
+	for {
+		old := atomic.LoadInt32(w)
+		if old != t {
+			return old
+		}
+
+		if atomic.CompareAndSwapInt32(w, t, s) {
+			return t
+		}
+	}
 }
 
-var (
-	lockedFilesMu sync.Mutex
-	lockedFiles   = map[uintptr]*lockedFile{}
-)
+// static inline void __wake(volatile void *addr, int cnt, int priv)
+//
+// The pthread_impl.h overlay declares __wake and __futexwait without a body,
+// because a futex syscall would never wake a goroutine parked by lockWait.
+func ___wake(tls *TLS, addr uintptr, cnt int32, priv int32) {
+	lockWakeN(addr, cnt)
+}
+
+// static inline void __futexwait(volatile void *addr, int val, int priv)
+func ___futexwait(tls *TLS, addr uintptr, val int32, priv int32) {
+	lockWait(addr, val)
+}
+
+// int __timedwait_cp(volatile int *addr, int val, clockid_t clk, const struct timespec *at, int priv)
+//
+// Parks while *addr is val, until the absolute time at on clock clk when at
+// is not null. Cancellation points are not implemented. See
+// https://gitlab.com/cznic/libc/-/issues/55.
+func ___timedwait_cp(tls *TLS, addr uintptr, val int32, clk Tclockid_t, at uintptr, priv int32) int32 {
+	timeout := time.Duration(-1)
+	if at != 0 {
+		ts := (*Ttimespec)(unsafe.Pointer(at))
+		if ts.Ftv_nsec < 0 || ts.Ftv_nsec >= 1e9 {
+			return EINVAL
+		}
+
+		var now unix.Timespec
+		if err := unix.ClockGettime(int32(clk), &now); err != nil {
+			return EINVAL
+		}
+
+		secs := int64(ts.Ftv_sec) - int64(now.Sec)
+		switch {
+		case secs < 0:
+			return ETIMEDOUT
+		case secs > 1<<31:
+			// Far enough to be no timeout at all.
+		default:
+			timeout = time.Duration(secs)*time.Second + time.Duration(int64(ts.Ftv_nsec)-int64(now.Nsec))
+			if timeout <= 0 {
+				return ETIMEDOUT
+			}
+		}
+	}
+	if !lockWaitTimeout(addr, val, timeout) {
+		return ETIMEDOUT
+	}
+
+	return 0
+}
 
 func X__lockfile(tls *TLS, file uintptr) int32 {
 	return ___lockfile(tls, file)
 }
 
 // int __lockfile(FILE *f)
+//
+// Transliterated from musl src/stdio/__lockfile.c, which the generator removes.
+// The transpiled ftrylockfile, funlockfile and the locking getc/putc helpers
+// operate on the same lock word with a_cas and a_swap, so the protocol must be
+// kept exactly: the owner's tid, MAYBE_WAITERS when someone parked.
 func ___lockfile(tls *TLS, file uintptr) int32 {
-	panic(todo(""))
-	// lockedFilesMu.Lock()
+	p := file + unsafe.Offsetof(TFILE{}.Flock)
+	tid := (*t__pthread)(unsafe.Pointer(___get_tp(tls))).Ftid
+	owner := atomic.LoadInt32((*int32)(unsafe.Pointer(p)))
+	if owner & ^int32(MAYBE_WAITERS) == tid {
+		return 0
+	}
 
-	// defer lockedFilesMu.Unlock()
+	if casInt32(p, 0, tid) == 0 {
+		return 1
+	}
 
-	// l := lockedFiles[file]
-	// if l == nil {
-	// 	l = &lockedFile{ch: make(chan struct{}, 1)}
-	// 	lockedFiles[file] = l
-	// }
+	for {
+		owner = casInt32(p, 0, tid|MAYBE_WAITERS)
+		if owner == 0 {
+			return 1
+		}
 
-	// l.waiters++
-	// l.ch <- struct{}{}
+		if owner&MAYBE_WAITERS != 0 || casInt32(p, owner, owner|MAYBE_WAITERS) == owner {
+			lockWait(p, owner|MAYBE_WAITERS)
+		}
+	}
 }
 
 func X__unlockfile(tls *TLS, file uintptr) {
@@ -694,17 +1018,10 @@ func X__unlockfile(tls *TLS, file uintptr) {
 
 // void __unlockfile(FILE *f)
 func ___unlockfile(tls *TLS, file uintptr) {
-	panic(todo(""))
-	lockedFilesMu.Lock()
-
-	defer lockedFilesMu.Unlock()
-
-	l := lockedFiles[file]
-	l.waiters--
-	if l.waiters == 0 {
-		delete(lockedFiles, file)
+	p := file + unsafe.Offsetof(TFILE{}.Flock)
+	if atomic.SwapInt32((*int32)(unsafe.Pointer(p)), 0)&MAYBE_WAITERS != 0 {
+		lockWake(p)
 	}
-	<-l.ch
 }
 
 // void __synccall(void (*func)(void *), void *ctx)
@@ -788,24 +1105,104 @@ func Xfork(t *TLS) int32 {
 	return -1
 }
 
-const SIG_DFL = 0
-const SIG_IGN = 1
-
 func Xsignal(tls *TLS, signum int32, handler uintptr) (r uintptr) {
 	r, tls.sigHandlers[signum] = tls.sigHandlers[signum], handler
+	delete(tls.sigFlags, signum)
 	switch handler {
 	case SIG_DFL:
 		gosignal.Reset(unix.Signal(signum))
 	case SIG_IGN:
 		gosignal.Ignore(unix.Signal(signum))
 	default:
-		if tls.pendingSignals == nil {
-			tls.pendingSignals = make(chan os.Signal, 3)
-			tls.checkSignals = true
-		}
-		gosignal.Notify(tls.pendingSignals, unix.Signal(signum))
+		ch := tls.signalChan()
+		tls.checkSignals = true
+		gosignal.Notify(ch, unix.Signal(signum))
 	}
 	return r
+}
+
+// int pthread_setname_np(pthread_t thread, const char *name)
+//
+// Emulated threads have no kernel thread of their own, so names are kept
+// here instead of in /proc. See https://gitlab.com/cznic/libc/-/issues/55.
+func Xpthread_setname_np(tls *TLS, thread uintptr, name uintptr) int32 {
+	s := GoString(name)
+	if len(s) > 15 {
+		return ERANGE
+	}
+
+	tlsRegistryMu.Lock()
+	threadNames[thread] = s
+	tlsRegistryMu.Unlock()
+	return 0
+}
+
+// int pthread_getname_np(pthread_t thread, char *name, size_t len)
+//
+// An unnamed thread reports the process name, as the kernel would.
+func Xpthread_getname_np(tls *TLS, thread uintptr, name uintptr, len1 Tsize_t) int32 {
+	if len1 < 16 {
+		return ERANGE
+	}
+
+	tlsRegistryMu.Lock()
+	s, ok := threadNames[thread]
+	tlsRegistryMu.Unlock()
+	if !ok {
+		var buf [16]byte
+		if err := unix.Prctl(unix.PR_GET_NAME, uintptr(unsafe.Pointer(&buf[0])), 0, 0, 0); err != nil {
+			return int32(err.(unix.Errno))
+		}
+
+		n := 0
+		for n < len(buf) && buf[n] != 0 {
+			n++
+		}
+		s = string(buf[:n])
+	}
+	copy(unsafe.Slice((*byte)(unsafe.Pointer(name)), len(s)+1), s+"\x00")
+	return 0
+}
+
+// int pthread_getcpuclockid(pthread_t t, clockid_t *clockid)
+//
+// The calling thread gets the CPU clock of the kernel thread it runs on.
+// Other emulated threads have no kernel thread and hence no clock, which is
+// reported as ESRCH.
+func Xpthread_getcpuclockid(tls *TLS, t uintptr, clockid uintptr) int32 {
+	if t != tls.pthread {
+		return ESRCH
+	}
+
+	*(*Tclockid_t)(unsafe.Pointer(clockid)) = CLOCK_THREAD_CPUTIME_ID
+	return 0
+}
+
+// int __libc_sigaction(int sig, const struct sigaction *sa, struct sigaction *old)
+//
+// The transpiled musl version installs the handler with the rt_sigaction
+// syscall, which cannot work here: the handler and the restorer would be Go
+// function values. The generator hides it and this version records the
+// disposition the same way Xsignal does, delivering through os/signal and
+// checkSignal. sa_mask and the flags other than SA_SIGINFO and SA_RESETHAND are
+// ignored. See https://gitlab.com/cznic/libc/-/issues/53.
+func ___libc_sigaction(tls *TLS, sig int32, sa, old uintptr) int32 {
+	if old != 0 {
+		h, ok := tls.sigHandlers[sig]
+		if !ok {
+			h = SIG_DFL
+		}
+		flags := tls.sigFlags[sig]
+		*(*Tsigaction)(unsafe.Pointer(old)) = Tsigaction{}
+		*(*uintptr)(unsafe.Pointer(old)) = h // sa_handler, sa_sigaction
+		(*Tsigaction)(unsafe.Pointer(old)).Fsa_flags = flags
+	}
+	if sa != 0 {
+		flags := (*Tsigaction)(unsafe.Pointer(sa)).Fsa_flags
+		Xsignal(tls, sig, *(*uintptr)(unsafe.Pointer(sa)))
+		tls.sigFlags[sig] = flags
+	}
+	return 0
 }
 
 var (
@@ -813,7 +1210,13 @@ var (
 	atExitHandlers   []uintptr
 )
 
+// Xatexit registers func_ with the process, or with tls under SetExitUnwind.
 func Xatexit(tls *TLS, func_ uintptr) (r int32) {
+	if tls != nil && tls.exitUnwind {
+		tls.atExit = append(tls.atExit, func_)
+		return 0
+	}
+
 	atExitHandlersMu.Lock()
 	atExitHandlers = append(atExitHandlers, func_)
 	atExitHandlersMu.Unlock()
@@ -1206,3 +1609,31 @@ func Xuuid_unparse(t *TLS, uu, out uintptr) {
 }
 
 var Xzero_struct_address Taddress
+
+// The env mirror helpers are called by the setenv family wrappers that
+// generator.go appends to the generated file: a change made through the C
+// environment functions is applied to the Go environment too, so that
+// os.Getenv agrees with getenv. Changes made with os.Setenv are not visible
+// to getenv; make them through the libc functions when C code must see them.
+
+func envMirrorSet(name, value string) {
+	os.Setenv(name, value)
+}
+
+func envMirrorUnset(name string) {
+	os.Unsetenv(name)
+}
+
+// envMirrorPut applies a putenv string: "name=value" sets, "name" unsets.
+func envMirrorPut(s string) {
+	if x := strings.IndexByte(s, '='); x >= 0 {
+		os.Setenv(s[:x], s[x+1:])
+		return
+	}
+
+	os.Unsetenv(s)
+}
+
+func envMirrorClear() {
+	os.Clearenv()
+}

@@ -65,6 +65,10 @@ func _(stage *models.Stage) {
 	__models__ControlPointShape__00000007_ := (&models.ControlPointShape{Name: `Control Point Shape in Commercial & Open Source MBSE tools  to Taylor MBSE tools for enabling SEMP 0`}).Stage(stage)
 	__models__ControlPointShape__00000008_ := (&models.ControlPointShape{Name: `Control Point Shape in Commercial & Open Source MBSE tools  to Taylor MBSE tools for enabling SEMP 1`}).Stage(stage)
 	__models__ControlPointShape__00000009_ := (&models.ControlPointShape{Name: `Control Point Shape in Edit System Engineering Management Plan to System Engineering Management Plan 0`}).Stage(stage)
+	__models__ControlPointShape__00000010_ := (&models.ControlPointShape{Name: `Control Point Shape in SEMP to Tool Manager enables SEMP & digital thread 0`}).Stage(stage)
+	__models__ControlPointShape__00000011_ := (&models.ControlPointShape{Name: `Control Point Shape in SEMP to Tool Manager enables SEMP & digital thread 0`}).Stage(stage)
+	__models__ControlPointShape__00000012_ := (&models.ControlPointShape{Name: `Control Point Shape in SEMP to Tool Manager enables SEMP & digital thread 0`}).Stage(stage)
+	__models__ControlPointShape__00000013_ := (&models.ControlPointShape{Name: `Control Point Shape in SEMP to Tool Manager enables SEMP & digital thread 0`}).Stage(stage)
 	__models__Deliverable__00000000_ := (&models.Deliverable{Name: `Documentation products: CONOPS, SSS, SSDD, ICDs...`}).Stage(stage)
 	__models__Deliverable__00000001_ := (&models.Deliverable{Name: `Digital thread between MBSE tools`}).Stage(stage)
 	__models__Deliverable__00000002_ := (&models.Deliverable{Name: `SEMP`}).Stage(stage)
@@ -536,6 +540,22 @@ Pain points with SysML v2 are:
 	__models__ControlPointShape__00000009_.X_Relative = -0.336568
 	__models__ControlPointShape__00000009_.Y_Relative = -0.263433
 	__models__ControlPointShape__00000009_.IsStartShapeTheClosestShape = false
+	__models__ControlPointShape__00000010_.Name = `Control Point Shape in SEMP to Tool Manager enables SEMP & digital thread 0`
+	__models__ControlPointShape__00000010_.X_Relative = -0.182493
+	__models__ControlPointShape__00000010_.Y_Relative = 1.657262
+	__models__ControlPointShape__00000010_.IsStartShapeTheClosestShape = true
+	__models__ControlPointShape__00000011_.Name = `Control Point Shape in SEMP to Tool Manager enables SEMP & digital thread 0`
+	__models__ControlPointShape__00000011_.X_Relative = -0.226493
+	__models__ControlPointShape__00000011_.Y_Relative = 1.257265
+	__models__ControlPointShape__00000011_.IsStartShapeTheClosestShape = true
+	__models__ControlPointShape__00000012_.Name = `Control Point Shape in SEMP to Tool Manager enables SEMP & digital thread 0`
+	__models__ControlPointShape__00000012_.X_Relative = -0.274493
+	__models__ControlPointShape__00000012_.Y_Relative = 1.257265
+	__models__ControlPointShape__00000012_.IsStartShapeTheClosestShape = true
+	__models__ControlPointShape__00000013_.Name = `Control Point Shape in SEMP to Tool Manager enables SEMP & digital thread 0`
+	__models__ControlPointShape__00000013_.X_Relative = -0.222493
+	__models__ControlPointShape__00000013_.Y_Relative = 1.642977
+	__models__ControlPointShape__00000013_.IsStartShapeTheClosestShape = true
 	__models__Deliverable__00000000_.Name = `Documentation products: CONOPS, SSS, SSDD, ICDs...`
 	__models__Deliverable__00000000_.ComputedPrefix = `1`
 	__models__Deliverable__00000000_.IsExpanded = false
@@ -825,6 +845,7 @@ Pain points with SysML v2 are:
 	__models__ConcernInputShape__00000001_.Concern = __models__Concern__00000000_
 	__models__ConcernInputShape__00000002_.Deliverable = __models__Deliverable__00000002_
 	__models__ConcernInputShape__00000002_.Concern = __models__Concern__00000002_
+	__models__ConcernInputShape__00000002_.ControlPointShapes = append(__models__ConcernInputShape__00000002_.ControlPointShapes, __models__ControlPointShape__00000013_)
 	__models__ConcernInputShape__00000003_.Deliverable = __models__Deliverable__00000003_
 	__models__ConcernInputShape__00000003_.Concern = __models__Concern__00000002_
 	__models__ConcernOutputShape__00000000_.Concern = __models__Concern__00000000_
@@ -932,3 +953,4 @@ Pain points with SysML v2 are:
 	__models__StakeholderConcernShape__00000000_.Concern = __models__Concern__00000005_
 	__models__StakeholderShape__00000000_.Stakeholder = __models__Stakeholder__00000004_
 }
+

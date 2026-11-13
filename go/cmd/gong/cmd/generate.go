@@ -149,7 +149,7 @@ var generateCmd = &cobra.Command{
 			if len(depModelPkg.GongStructs) == 0 && len(depModelPkg.GongEnums) == 0 {
 				continue
 			}
-			log.Printf("Generating dependent model package in %s", depPkgPath)
+			// log.Printf("Generating dependent model package in %s", depPkgPath)
 			golang.RemoveGeneratedSubModelPackageGongFiles(depPkgPath)
 			golang.GeneratesGoModelPackageCode(depModelPkg, depPkgPath, skipSerialize)
 		}

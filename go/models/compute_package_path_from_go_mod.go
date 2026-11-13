@@ -21,7 +21,7 @@ func ComputePkgPathFromGoModFile(pkgPathArg string) (pkgName, fullPkgPath string
 	_ = dirs
 
 	dirs = dirs[:len(dirs)-2]
-	log.Println(filepath.Join(dirs...))
+	// log.Println(filepath.Join(dirs...))
 
 	// parse the above directories for find a go.mod file
 	var nbOfLevelBetweenPackageAndModule int
