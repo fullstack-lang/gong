@@ -56,6 +56,15 @@ type TubeVaseAbstract struct {
 	// If 0.0, no curvature (straight walls); if < 0.0, convex walls. Curvature cannot be above 0.0.
 	WallCurvature float64
 
+	// HasLip when true adds an outward bordure/collar (lip) around the top outer rim of Vase Trapeze rings (outdoor pot).
+	HasLip bool
+
+	// LipHeight x RhombusSideLength is the vertical height of the top outer lip (bordure) when HasLip is true.
+	LipHeight float64
+
+	// LipWidth x RhombusSideLength is the outward horizontal width of the top outer lip (bordure) when HasLip is true.
+	LipWidth float64
+
 	// RelativeVerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next
 	// the vertical thickness is RelativeVerticalThickness x RhombusSideLength
 	RelativeVerticalThickness float64

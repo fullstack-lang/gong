@@ -329,6 +329,27 @@ func (stager *Stager) ux_slider() {
 						0.01,
 						&plant.TubeVaseAbstract.WallCurvature,
 					),
+					NewBoolSlider(
+						stager,
+						"Lip",
+						&plant.TubeVaseAbstract.HasLip,
+					),
+					m.NewSlider(
+						stager,
+						"Lip Height",
+						0.01,
+						3.0,
+						0.01,
+						&plant.TubeVaseAbstract.LipHeight,
+					),
+					m.NewSlider(
+						stager,
+						"Lip Width",
+						0.01,
+						1.0,
+						0.01,
+						&plant.TubeVaseAbstract.LipWidth,
+					),
 				)
 			}
 

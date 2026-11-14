@@ -3017,6 +3017,12 @@ type TubeVaseAbstract_WOP struct {
 
 	WallCurvature float64
 
+	HasLip bool
+
+	LipHeight float64
+
+	LipWidth float64
+
 	RelativeVerticalThickness float64
 
 	RelativeRadialThickness float64
@@ -3074,6 +3080,9 @@ func (from *TubeVaseAbstract) GongCopyBasicFields(to *TubeVaseAbstract) {
 	to.HasRingBottom = from.HasRingBottom
 	to.HasCurvedWall = from.HasCurvedWall
 	to.WallCurvature = from.WallCurvature
+	to.HasLip = from.HasLip
+	to.LipHeight = from.LipHeight
+	to.LipWidth = from.LipWidth
 	to.RelativeVerticalThickness = from.RelativeVerticalThickness
 	to.RelativeRadialThickness = from.RelativeRadialThickness
 	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight

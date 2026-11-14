@@ -843,6 +843,12 @@ func saveStageSet_TubeVaseAbstract_Stage(
 			FormDivBasicFieldToField(&inst.HasCurvedWall, formDiv)
 		case "WallCurvature":
 			FormDivBasicFieldToField(&inst.WallCurvature, formDiv)
+		case "HasLip":
+			FormDivBasicFieldToField(&inst.HasLip, formDiv)
+		case "LipHeight":
+			FormDivBasicFieldToField(&inst.LipHeight, formDiv)
+		case "LipWidth":
+			FormDivBasicFieldToField(&inst.LipWidth, formDiv)
 		case "RelativeVerticalThickness":
 			FormDivBasicFieldToField(&inst.RelativeVerticalThickness, formDiv)
 		case "RelativeRadialThickness":

@@ -3,6 +3,7 @@ package vase
 import (
 	"math"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -992,5 +993,735 @@ func TestVaseTrapezeCurvedWall(t *testing.T) {
 	if math.Abs(maxY200/maxY100-2.0) > 1e-4 || math.Abs(maxR200/maxR100-2.0) > 1e-4 {
 		t.Errorf("expected 2.0x scaling with curved walls (100->200): Y %.2f->%.2f, R %.2f->%.2f",
 			maxY100, maxY200, maxR100, maxR200)
+	}
+}
+
+func TestVaseTrapezeUnrotatedCurvedWallStacking(t *testing.T) {
+	stagePath := filepath.Join("..", "..", "..", "cmd", "phylla", "data", "stage.go")
+	stage := models.NewStage("test_unrotated_curved_stacking")
+	if err := stage.ParseAstFile(stagePath, true); err != nil {
+		t.Fatalf("failed to parse stage.go: %v", err)
+	}
+	stage.ComputeReverseMaps()
+	stage.ComputeInstancesNb()
+	stage.ComputeReferenceAndOrders()
+
+	var targetPlant *models.PlantAbstract
+	for plant := range stage.PlantAbstracts {
+		if plant.Name == "Vase Trapeze" {
+			plant.IsSelected = true
+			targetPlant = plant
+		} else {
+			plant.IsSelected = false
+		}
+	}
+	if targetPlant == nil || targetPlant.TubeVaseAbstract == nil {
+		t.Fatalf("Vase Trapeze not found")
+	}
+	vase := targetPlant.TubeVaseAbstract
+
+	for d := range stage.TubeVase3DDiagrams {
+		if d.Name == "Vase Trapeze-TubeVase3DDiagram" {
+			d.IsChecked = true
+			d.IsHiddenTiledFloor3DShape = true
+			d.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = false
+			d.IsHiddenVaseTrapezeBasePlateShape = false
+		}
+	}
+
+	buildScene := func() map[string]*threejs.Mesh {
+		stager := models.NewStagerForTest(stage)
+		stager.EnforceSemanticForTest()
+		stager.SetCurrentPlant(targetPlant)
+		threejsStage := threejs.NewStage("threejs_unrot_curved")
+		stager.SetThreejsStage(threejsStage)
+		updater := NewThreeJSStageUpdater()
+		updater.UpdateThreeJSStage(stager)
+
+		meshes := make(map[string]*threejs.Mesh)
+		for m := range threejsStage.Meshs {
+			meshes[m.Name] = m
+		}
+		return meshes
+	}
+
+	meshYBounds := func(mesh *threejs.Mesh) (minY, maxY float64) {
+		minY, maxY = math.MaxFloat64, -math.MaxFloat64
+		for _, v := range mesh.BufferGeometry.Vertices {
+			if v.Y < minY {
+				minY = v.Y
+			}
+			if v.Y > maxY {
+				maxY = v.Y
+			}
+		}
+		return
+	}
+
+	// Verify on actual 3D BufferGeometry vertices that at RotationRatio == 0:
+	// 1. Ring 1's outer wall does not penetrate Base Plate's inner top rim (at Y = p1H),
+	//    nor does Ring 2's outer wall penetrate Ring 1's inner top rim (at Y = p1H + dy1).
+	// 2. Minimum radial/vertical clearance at the contact locus is ~0 (exact resting contact, not floating).
+	checkRimClearanceAndContact := func(label string, meshes map[string]*threejs.Mesh, p1H float64) (dy1, dy2 float64) {
+		baseMesh := meshes["Vase Trapeze Vase Trapeze Base Plate Mesh"]
+		ring1Mesh := meshes["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"]
+		ring2Mesh := meshes["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h2 Mesh"]
+		if baseMesh == nil || ring1Mesh == nil || ring2Mesh == nil {
+			t.Fatalf("%s: missing expected meshes (base=%v, h1=%v, h2=%v)", label, baseMesh != nil, ring1Mesh != nil, ring2Mesh != nil)
+		}
+
+		_, maxBaseY := meshYBounds(baseMesh)
+		_, maxR1Y := meshYBounds(ring1Mesh)
+		_, maxR2Y := meshYBounds(ring2Mesh)
+		dy1 = maxR1Y - maxBaseY
+		dy2 = maxR2Y - maxR1Y
+
+		// Extract Base Plate inner top rim radii by azimuth index i: "Cap Inner Top <i>"
+		baseInTopR := make(map[int]float64)
+		for _, v := range baseMesh.BufferGeometry.Vertices {
+			const marker = "Cap Inner Top "
+			if idx := strings.Index(v.Name, marker); idx != -1 {
+				var i int
+				if _, err := scanIntSuffix(v.Name[idx+len(marker):], &i); err == nil {
+					baseInTopR[i] = math.Hypot(v.X, v.Z)
+				}
+			}
+		}
+		if len(baseInTopR) < 100 {
+			t.Fatalf("%s: expected >= 100 Base Plate Cap Inner Top vertices, got %d", label, len(baseInTopR))
+		}
+
+		// Extract Ring 1 outer wall polyline (s = 0..sWall) per azimuth i and interpolate r_outer_1(i, p1H)
+		ring1OuterRows := extractWallRowsByAzimuth(ring1Mesh, "Outer Wall Face")
+		minRadialClearance01 := math.MaxFloat64
+		for i, rIn0 := range baseInTopR {
+			pts := ring1OuterRows[i]
+			if rOut1AtP1H, ok := interpRAtMonotoneY(pts, p1H); ok {
+				clearance := rIn0 - rOut1AtP1H
+				if clearance < minRadialClearance01 {
+					minRadialClearance01 = clearance
+				}
+				if clearance < -0.05 {
+					t.Errorf("%s: Ring 1 outer wall penetrates Base Plate inner rim at azimuth %d: rOut1=%.3f > rIn0=%.3f (penetration=%.3f mm)",
+						label, i, rOut1AtP1H, rIn0, -clearance)
+					break
+				}
+			}
+		}
+
+		// Check Ring 2 outer wall vs Ring 1 inner top rim ("Plane 1 Face B <i>" when bottomIsOuter)
+		ring1InTopR := make(map[int]float64)
+		for _, v := range ring1Mesh.BufferGeometry.Vertices {
+			const marker = "Plane 1 Face B "
+			if idx := strings.Index(v.Name, marker); idx != -1 {
+				var i int
+				if _, err := scanIntSuffix(v.Name[idx+len(marker):], &i); err == nil {
+					ring1InTopR[i] = math.Hypot(v.X, v.Z)
+				}
+			}
+		}
+		ring2OuterRows := extractWallRowsByAzimuth(ring2Mesh, "Outer Wall Face")
+		minRadialClearance12 := math.MaxFloat64
+		for i, rIn1 := range ring1InTopR {
+			pts := ring2OuterRows[i]
+			if rOut2AtTop1, ok := interpRAtMonotoneY(pts, maxR1Y); ok {
+				clearance := rIn1 - rOut2AtTop1
+				if clearance < minRadialClearance12 {
+					minRadialClearance12 = clearance
+				}
+				if clearance < -0.05 {
+					t.Errorf("%s: Ring 2 outer wall penetrates Ring 1 inner rim at azimuth %d: rOut2=%.3f > rIn1=%.3f (penetration=%.3f mm)",
+						label, i, rOut2AtTop1, rIn1, -clearance)
+					break
+				}
+			}
+		}
+
+		t.Logf("%s: dy1=%.2f mm, dy2=%.2f mm, minRimClearance01=%.4f mm, minRimClearance12=%.4f mm",
+			label, dy1, dy2, minRadialClearance01, minRadialClearance12)
+		if minRadialClearance01 > 0.5 {
+			t.Errorf("%s: expected Ring 1 to rest in contact (clearance <= 0.5 mm), got %.4f mm (floating)", label, minRadialClearance01)
+		}
+		if minRadialClearance12 > 0.5 {
+			t.Errorf("%s: expected Ring 2 to rest in contact (clearance <= 0.5 mm), got %.4f mm (floating)", label, minRadialClearance12)
+		}
+		return dy1, dy2
+	}
+
+	targetPlant.StackHeight = 3
+	vase.RotationRatio = 0.0
+	vase.RelativeRotatedTorusSeparation = 0.0
+	vase.CarvedOutTopRingsParameter = 0.0
+	vase.HasConstantThickness = true
+	vase.HasRingBottom = true
+	vase.HasCurvedWall = true
+
+	sideLen := targetPlant.RhombusSideLength
+	scaleY := vase.RibbonVerticalScale
+	p1H := (vase.Z_Ribbon + vase.TopPlaneHeight*scaleY) * sideLen
+
+	var prevDY1 float64
+	for idx, curv := range []float64{0.0, -0.15, -0.25, -0.5, -1.0} {
+		vase.WallCurvature = curv
+		meshes := buildScene()
+		dy1, _ := checkRimClearanceAndContact("curv="+formatFloat2(curv), meshes, p1H)
+		if idx > 0 && idx <= 3 && !(dy1 > prevDY1+1.0) {
+			t.Errorf("expected unrotated step dy1 to strictly increase with convex curvature (curv=%.2f: %.2f vs prev %.2f)",
+				curv, dy1, prevDY1)
+		}
+		if idx > 3 && dy1+1e-6 < prevDY1 {
+			t.Errorf("expected unrotated step dy1 to be non-decreasing at clamped curvature (curv=%.2f: %.2f vs prev %.2f)",
+				curv, dy1, prevDY1)
+		}
+		prevDY1 = dy1
+
+		// Verify GLB export succeeds and reflects updated Ring_1 height at RotationRatio == 0
+		glb := models.GenerateVaseTrapezeGLB(targetPlant)
+		if len(glb) < 28 || string(glb[:4]) != "glTF" {
+			t.Fatalf("curv=%.2f: expected valid GLB at RotationRatio=0", curv)
+		}
+	}
+
+	// Verify thick plancher floor contact when BasePlateHeight exceeds wall-wedging step
+	vase.WallCurvature = -0.25
+	vase.HasRingBottom = true
+	savedBasePlateHeight := vase.BasePlateHeight
+	vase.BasePlateHeight = 2.0 // 240 mm solid plancher floor inside each ring
+	meshesThickBot := buildScene()
+	minR2Y, _ := meshYBounds(meshesThickBot["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h2 Mesh"])
+	minR1Y, _ := meshYBounds(meshesThickBot["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"])
+	expectedPlancherThickness := vase.BasePlateHeight * sideLen
+	if minR2Y-minR1Y < expectedPlancherThickness-1e-3 {
+		t.Errorf("expected Ring 2 bottom (%.2f) not to penetrate Ring 1 solid plancher (minR1Y + %.2f = %.2f)",
+			minR2Y, expectedPlancherThickness, minR1Y+expectedPlancherThickness)
+	}
+	vase.BasePlateHeight = savedBasePlateHeight
+
+	// Verify variable thickness (HasConstantThickness = false) and carved-out top (CarvedOutTopRingsParameter = 0.5)
+	vase.HasConstantThickness = false
+	vase.CarvedOutTopRingsParameter = 0.5
+	vase.WallCurvature = -0.35
+	meshesVarCarved := buildScene()
+	if meshesVarCarved["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"] == nil {
+		t.Fatalf("expected Ring 1 mesh with HasConstantThickness=false and CarvedOutTopRingsParameter=0.5")
+	}
+
+	// Verify HasLip = true with curved wall at RotationRatio = 0 (both wall-wedged and tall lip-on-lip contact)
+	vase.HasConstantThickness = true
+	vase.CarvedOutTopRingsParameter = 0.0
+	vase.WallCurvature = -0.25
+	vase.HasLip = true
+	vase.LipHeight = 0.35
+	vase.LipWidth = 0.12
+	meshesLip := buildScene()
+	checkRimClearanceAndContact("curv=-0.25+HasLip", meshesLip, p1H)
+
+	vase.LipHeight = 1.60 // 192 mm > 161.9 mm wall step -> Ring 1 lip underside rests on Base Plate lip top
+	meshesTallLip := buildScene()
+	_, maxBaseTallLipY := meshYBounds(meshesTallLip["Vase Trapeze Vase Trapeze Base Plate Mesh"])
+	_, maxR1TallLipY := meshYBounds(meshesTallLip["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"])
+	expectedLipStep := vase.LipHeight * sideLen
+	if math.Abs((maxR1TallLipY-maxBaseTallLipY)-expectedLipStep) > 1e-2 {
+		t.Errorf("expected tall lip step dy1=%.2f mm (lip-on-lip contact), got %.2f mm",
+			expectedLipStep, maxR1TallLipY-maxBaseTallLipY)
+	}
+}
+
+func scanIntSuffix(s string, out *int) (int, error) {
+	s = strings.TrimSpace(s)
+	val := 0
+	if len(s) == 0 {
+		return 0, errInvalidInt
+	}
+	for k := 0; k < len(s); k++ {
+		if s[k] < '0' || s[k] > '9' {
+			return 0, errInvalidInt
+		}
+		val = val*10 + int(s[k]-'0')
+	}
+	*out = val
+	return 1, nil
+}
+
+type simpleErr string
+
+func (e simpleErr) Error() string { return string(e) }
+
+const errInvalidInt = simpleErr("invalid int")
+
+func extractWallRowsByAzimuth(mesh *threejs.Mesh, stripName string) map[int][][2]float64 {
+	res := make(map[int][][2]float64)
+	for _, v := range mesh.BufferGeometry.Vertices {
+		idx := strings.Index(v.Name, stripName+" ")
+		if idx == -1 {
+			continue
+		}
+		rest := v.Name[idx+len(stripName)+1:]
+		// Format is either "s<row> <azimuth>" (curved) or "A <azimuth>" / "B <azimuth>" (straight)
+		parts := strings.Fields(rest)
+		if len(parts) != 2 {
+			continue
+		}
+		if !strings.HasPrefix(parts[0], "s") && parts[0] != "A" && parts[0] != "B" {
+			continue
+		}
+		var az int
+		if _, err := scanIntSuffix(parts[1], &az); err != nil {
+			continue
+		}
+		res[az] = append(res[az], [2]float64{math.Hypot(v.X, v.Z), v.Y})
+	}
+	// Sort each azimuth slice by Y ascending
+	for az, pts := range res {
+		for a := 0; a < len(pts); a++ {
+			for b := a + 1; b < len(pts); b++ {
+				if pts[b][1] < pts[a][1] {
+					pts[a], pts[b] = pts[b], pts[a]
+				}
+			}
+		}
+		res[az] = pts
+	}
+	return res
+}
+
+func interpRAtMonotoneY(pts [][2]float64, targetY float64) (float64, bool) {
+	if len(pts) < 2 {
+		return 0, false
+	}
+	if targetY < pts[0][1]-1e-4 || targetY > pts[len(pts)-1][1]+1e-4 {
+		return 0, false
+	}
+	for k := 0; k+1 < len(pts); k++ {
+		y0, y1 := pts[k][1], pts[k+1][1]
+		if targetY >= y0-1e-4 && targetY <= y1+1e-4 {
+			dy := y1 - y0
+			if math.Abs(dy) <= 1e-9 {
+				return 0.5 * (pts[k][0] + pts[k+1][0]), true
+			}
+			t := math.Max(0.0, math.Min(1.0, (targetY-y0)/dy))
+			return (1.0-t)*pts[k][0] + t*pts[k+1][0], true
+		}
+	}
+	return 0, false
+}
+
+func formatFloat2(v float64) string {
+	neg := v < 0
+	if neg {
+		v = -v
+	}
+	scaled := int(math.Round(v * 100.0))
+	whole := scaled / 100
+	frac := scaled % 100
+	sign := ""
+	if neg && scaled > 0 {
+		sign = "-"
+	}
+	d1 := byte('0' + frac/10)
+	d2 := byte('0' + frac%10)
+	var wholeStr string
+	if whole == 0 {
+		wholeStr = "0"
+	} else {
+		var digits []byte
+		for whole > 0 {
+			digits = append([]byte{byte('0' + whole%10)}, digits...)
+			whole /= 10
+		}
+		wholeStr = string(digits)
+	}
+	return sign + wholeStr + "." + string([]byte{d1, d2})
+}
+
+func TestVaseTrapezeLip(t *testing.T) {
+	stagePath := filepath.Join("..", "..", "..", "cmd", "phylla", "data", "stage.go")
+	stage := models.NewStage("test_vase_trapeze_lip")
+	if err := stage.ParseAstFile(stagePath, true); err != nil {
+		t.Fatalf("failed to parse stage.go: %v", err)
+	}
+	stage.ComputeReverseMaps()
+	stage.ComputeInstancesNb()
+	stage.ComputeReferenceAndOrders()
+
+	var targetPlant *models.PlantAbstract
+	for plant := range stage.PlantAbstracts {
+		if plant.Name == "Vase Trapeze" {
+			plant.IsSelected = true
+			targetPlant = plant
+		} else {
+			plant.IsSelected = false
+		}
+	}
+	if targetPlant == nil || targetPlant.TubeVaseAbstract == nil {
+		t.Fatalf("Vase Trapeze not found")
+	}
+	vase := targetPlant.TubeVaseAbstract
+
+	for d := range stage.TubeVase3DDiagrams {
+		if d.Name == "Vase Trapeze-TubeVase3DDiagram" {
+			d.IsChecked = true
+			d.IsHiddenTiledFloor3DShape = true
+			d.IsHiddenVaseTrapezeRingShape = false
+			d.IsHiddenCarvedOutVaseTrapezeRingShape = false
+			d.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = false
+			d.IsHiddenVaseTrapezeBasePlateShape = false
+		}
+	}
+
+	buildScene := func() map[string]*threejs.Mesh {
+		stager := models.NewStagerForTest(stage)
+		stager.EnforceSemanticForTest()
+		stager.SetCurrentPlant(targetPlant)
+		threejsStage := threejs.NewStage("threejs_lip")
+		stager.SetThreejsStage(threejsStage)
+		updater := NewThreeJSStageUpdater()
+		updater.UpdateThreeJSStage(stager)
+
+		meshes := make(map[string]*threejs.Mesh)
+		for m := range threejsStage.Meshs {
+			meshes[m.Name] = m
+		}
+		return meshes
+	}
+
+	// 1. Default values enforcement when LipHeight / LipWidth start at 0
+	vase.HasLip = false
+	vase.LipHeight = 0.0
+	vase.LipWidth = 0.0
+	meshesNoLip := buildScene()
+	if math.Abs(vase.LipHeight-0.45) > 1e-6 || math.Abs(vase.LipWidth-0.12) > 1e-6 {
+		t.Fatalf("expected default LipHeight=0.45 and LipWidth=0.12, got LipHeight=%.4f LipWidth=%.4f",
+			vase.LipHeight, vase.LipWidth)
+	}
+
+	stlOneNoLip := models.GenerateVaseTrapezeOneRingSTL(targetPlant)
+	stlBaseNoLip := models.GenerateVaseTrapezeBaseAndFirstRingSTL(targetPlant)
+	glbNoLip := models.GenerateVaseTrapezeGLB(targetPlant)
+
+	// 2. Parity when HasLip == false even with custom non-zero LipHeight / LipWidth
+	vase.HasLip = false
+	vase.LipHeight = 0.65
+	vase.LipWidth = 0.25
+	meshesStillNoLip := buildScene()
+	for _, meshName := range []string{
+		"Vase Trapeze Vase Trapeze Ring Mesh",
+		"Vase Trapeze Carved Out Vase Trapeze Ring Mesh",
+		"Vase Trapeze Vase Trapeze Base Plate Mesh",
+		"Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh",
+	} {
+		m0 := meshesNoLip[meshName]
+		m1 := meshesStillNoLip[meshName]
+		if m0 == nil || m1 == nil {
+			t.Fatalf("expected mesh %q in scene", meshName)
+		}
+		if len(m0.BufferGeometry.Faces) != len(m1.BufferGeometry.Faces) ||
+			len(m0.BufferGeometry.Vertices) != len(m1.BufferGeometry.Vertices) {
+			t.Errorf("%s: expected identical geometry when HasLip=false", meshName)
+		}
+	}
+	if models.GenerateVaseTrapezeOneRingSTL(targetPlant) != stlOneNoLip {
+		t.Errorf("expected OneRingSTL with HasLip=false to match no-lip baseline")
+	}
+	if models.GenerateVaseTrapezeBaseAndFirstRingSTL(targetPlant) != stlBaseNoLip {
+		t.Errorf("expected BaseAndFirstRingSTL with HasLip=false to match no-lip baseline")
+	}
+	if len(models.GenerateVaseTrapezeGLB(targetPlant)) != len(glbNoLip) {
+		t.Errorf("expected GLB with HasLip=false to match no-lip baseline length")
+	}
+
+	// 3. Enable Lip and verify 3D profile, normals, and height/width fine-tuning
+	vase.CarvedOutTopRingsParameter = 0.0
+	vase.HasRingBottom = true
+	vase.HasCurvedWall = true
+	vase.WallCurvature = -0.25
+	vase.HasLip = false
+	baseScene := buildScene()
+
+	sideLen := targetPlant.RhombusSideLength
+	scaleY := vase.RibbonVerticalScale
+	if scaleY == 0 {
+		scaleY = 1.0
+	}
+	p1H := (vase.Z_Ribbon + vase.TopPlaneHeight*scaleY) * sideLen
+
+	meshMaxR := func(m *threejs.Mesh) float64 {
+		maxR := 0.0
+		for _, v := range m.BufferGeometry.Vertices {
+			if r := math.Hypot(v.X, v.Z); r > maxR {
+				maxR = r
+			}
+		}
+		return maxR
+	}
+	meshMaxY := func(m *threejs.Mesh) float64 {
+		maxY := -math.MaxFloat64
+		for _, v := range m.BufferGeometry.Vertices {
+			if v.Y > maxY {
+				maxY = v.Y
+			}
+		}
+		return maxY
+	}
+	meanRadiusContaining := func(m *threejs.Mesh, substr string) (float64, float64, int) {
+		var sumR, sumY float64
+		var count int
+		for _, v := range m.BufferGeometry.Vertices {
+			if strings.Contains(v.Name, substr) {
+				sumR += math.Hypot(v.X, v.Z)
+				sumY += v.Y
+				count++
+			}
+		}
+		if count == 0 {
+			return 0, 0, 0
+		}
+		return sumR / float64(count), sumY / float64(count), count
+	}
+
+	noLipRing := baseScene["Vase Trapeze Vase Trapeze Ring Mesh"]
+	noLipBase := baseScene["Vase Trapeze Vase Trapeze Base Plate Mesh"]
+	noLipRingMaxR := meshMaxR(noLipRing)
+	noLipBaseMaxR := meshMaxR(noLipBase)
+	noLipInnerBaseR, _, nInnerBase := meanRadiusContaining(noLipBase, "Cap Inner Top ")
+	if nInnerBase < 100 {
+		t.Fatalf("expected >= 100 Cap Inner Top vertices on Base Plate, got %d", nInnerBase)
+	}
+
+	vase.HasLip = true
+	vase.LipHeight = 0.45
+	vase.LipWidth = 0.15
+	lipScene := buildScene()
+
+	lipRing := lipScene["Vase Trapeze Vase Trapeze Ring Mesh"]
+	lipBase := lipScene["Vase Trapeze Vase Trapeze Base Plate Mesh"]
+	lipH1 := lipScene["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"]
+
+	// Each ring gains 4*M faces (2*M underside + 2*M collar)
+	expectedExtraFaces := 4 * nInnerBase
+	if gotExtra := len(lipRing.BufferGeometry.Faces) - len(noLipRing.BufferGeometry.Faces); gotExtra != expectedExtraFaces {
+		t.Errorf("standalone ring: expected +%d lip faces, got +%d", expectedExtraFaces, gotExtra)
+	}
+	if gotExtra := len(lipBase.BufferGeometry.Faces) - len(noLipBase.BufferGeometry.Faces); gotExtra != expectedExtraFaces {
+		t.Errorf("base plate: expected +%d lip faces, got +%d", expectedExtraFaces, gotExtra)
+	}
+	if gotExtra := len(lipH1.BufferGeometry.Faces) - len(baseScene["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"].BufferGeometry.Faces); gotExtra != expectedExtraFaces {
+		t.Errorf("stack ring h1: expected +%d lip faces, got +%d", expectedExtraFaces, gotExtra)
+	}
+
+	// Top rim Y is preserved at p1H while outer radius increases and inner top rim radius stays unchanged
+	if math.Abs(meshMaxY(lipRing)-p1H) > 1e-4 || math.Abs(meshMaxY(lipBase)-p1H) > 1e-4 {
+		t.Errorf("expected top Y preserved at p1H=%.3f, got ring=%.3f base=%.3f",
+			p1H, meshMaxY(lipRing), meshMaxY(lipBase))
+	}
+	if !(meshMaxR(lipRing) > noLipRingMaxR+vase.LipWidth*sideLen-1.0) {
+		t.Errorf("expected standalone ring maxR to grow by at least LipWidth*sideLen (%.2f -> %.2f)",
+			noLipRingMaxR, meshMaxR(lipRing))
+	}
+	if !(meshMaxR(lipBase) > noLipBaseMaxR+vase.LipWidth*sideLen-1.0) {
+		t.Errorf("expected base plate maxR to grow by at least LipWidth*sideLen (%.2f -> %.2f)",
+			noLipBaseMaxR, meshMaxR(lipBase))
+	}
+	lipInnerBaseR, _, _ := meanRadiusContaining(lipBase, "Cap Inner Top ")
+	if math.Abs(lipInnerBaseR-noLipInnerBaseR) > 1e-6 {
+		t.Errorf("expected inner pot rim radius unchanged (%.4f vs %.4f)", noLipInnerBaseR, lipInnerBaseR)
+	}
+
+	// Verify Lip Underside Y equals p1H - LipHeight*sideLen when uncarved
+	expectedLipBotY := p1H - vase.LipHeight*sideLen
+	_, ringUnderY, nRingUnder := meanRadiusContaining(lipRing, "Lip Underside Face ")
+	_, baseUnderY, nBaseUnder := meanRadiusContaining(lipBase, "Lip Underside ")
+	if nRingUnder == 0 || nBaseUnder == 0 {
+		t.Fatalf("missing Lip Underside vertices (ring=%d, base=%d)", nRingUnder, nBaseUnder)
+	}
+	if math.Abs(ringUnderY-expectedLipBotY) > 1e-4 || math.Abs(baseUnderY-expectedLipBotY) > 1e-4 {
+		t.Errorf("expected lip underside Y=%.4f, got ring=%.4f base=%.4f", expectedLipBotY, ringUnderY, baseUnderY)
+	}
+
+	// Verify face normal orientations on both standalone ring and Base Plate
+	checkLipFaceNormals := func(meshLabel string, m *threejs.Mesh, topFaceSubstr string) {
+		verts := m.BufferGeometry.Vertices
+		var nUnderside, nCollar, nTop int
+		for _, f := range m.BufferGeometry.Faces {
+			v1, v2, v3 := verts[f.V1], verts[f.V2], verts[f.V3]
+			ux, uy, uz := v2.X-v1.X, v2.Y-v1.Y, v2.Z-v1.Z
+			wx, wy, wz := v3.X-v1.X, v3.Y-v1.Y, v3.Z-v1.Z
+			nx := uy*wz - uz*wy
+			ny := uz*wx - ux*wz
+			nz := ux*wy - uy*wx
+			nLen := math.Sqrt(nx*nx + ny*ny + nz*nz)
+			if nLen < 1e-9 {
+				t.Errorf("%s: degenerate triangle %q", meshLabel, f.Name)
+				continue
+			}
+			nx, ny, nz = nx/nLen, ny/nLen, nz/nLen
+			cx, cz := (v1.X+v2.X+v3.X)/3.0, (v1.Z+v2.Z+v3.Z)/3.0
+
+			switch {
+			case strings.Contains(f.Name, "Lip Underside Face"):
+				nUnderside++
+				if ny > -0.95 {
+					t.Errorf("%s %q: expected downward normal ny < -0.95, got %.4f", meshLabel, f.Name, ny)
+					return
+				}
+			case strings.Contains(f.Name, "Lip Collar Face"):
+				nCollar++
+				if nx*cx+nz*cz <= 0 {
+					t.Errorf("%s %q: expected outward radial normal, got dot=%.4f", meshLabel, f.Name, nx*cx+nz*cz)
+					return
+				}
+			case strings.Contains(f.Name, topFaceSubstr):
+				nTop++
+				if ny < 0.95 {
+					t.Errorf("%s %q: expected upward normal ny > 0.95, got %.4f", meshLabel, f.Name, ny)
+					return
+				}
+			}
+		}
+		if nUnderside == 0 || nCollar == 0 || nTop == 0 {
+			t.Errorf("%s: expected non-zero face counts (underside=%d collar=%d top=%d)",
+				meshLabel, nUnderside, nCollar, nTop)
+		}
+	}
+	checkLipFaceNormals("Standalone Ring", lipRing, "Plane 1 Face")
+	checkLipFaceNormals("Base Plate", lipBase, "Top Face")
+
+	// 4. Fine-tuning LipHeight and LipWidth sliders
+	vase.LipHeight = 0.30
+	vase.LipWidth = 0.10
+	sceneSmall := buildScene()
+	maxRSmall := meshMaxR(sceneSmall["Vase Trapeze Vase Trapeze Base Plate Mesh"])
+	_, underYSmall, _ := meanRadiusContaining(sceneSmall["Vase Trapeze Vase Trapeze Base Plate Mesh"], "Lip Underside ")
+
+	vase.LipHeight = 0.65
+	vase.LipWidth = 0.28
+	sceneLarge := buildScene()
+	maxRLarge := meshMaxR(sceneLarge["Vase Trapeze Vase Trapeze Base Plate Mesh"])
+	_, underYLarge, _ := meanRadiusContaining(sceneLarge["Vase Trapeze Vase Trapeze Base Plate Mesh"], "Lip Underside ")
+
+	if !(maxRLarge > maxRSmall+0.17*sideLen) {
+		t.Errorf("expected increasing LipWidth (0.10->0.28) to widen outer lip: %.2f -> %.2f", maxRSmall, maxRLarge)
+	}
+	expectedDrop := (0.65 - 0.30) * sideLen
+	if math.Abs((underYSmall-underYLarge)-expectedDrop) > 1e-4 {
+		t.Errorf("expected increasing LipHeight (0.30->0.65) to lower lip underside by %.3f, got %.3f",
+			expectedDrop, underYSmall-underYLarge)
+	}
+
+	// Verify extreme LipHeight exceeding ring wall height clamps safely without degenerate faces
+	vase.LipHeight = 10.0
+	sceneClamped := buildScene()
+	checkLipFaceNormals("Clamped Tall Lip Ring", sceneClamped["Vase Trapeze Vase Trapeze Ring Mesh"], "Plane 1 Face")
+	vase.LipHeight = 0.45
+	vase.LipWidth = 0.15
+
+	// 5. Watertight 2-manifold STL verification (with carved top + curved wall + both open & closed ring bottom)
+	vase.CarvedOutTopRingsParameter = 0.35
+	vase.HasCurvedWall = true
+	vase.WallCurvature = -0.30
+
+	vase.HasRingBottom = false
+	stlOneOpen := models.GenerateVaseTrapezeOneRingSTL(targetPlant)
+	assertWatertightASCIISTL(t, "OneRingSTL(HasRingBottom=false,HasLip=true)", stlOneOpen, true)
+
+	vase.HasRingBottom = true
+	stlOneClosed := models.GenerateVaseTrapezeOneRingSTL(targetPlant)
+	assertWatertightASCIISTL(t, "OneRingSTL(HasRingBottom=true,HasLip=true)", stlOneClosed, true)
+
+	stlBaseAndFirst := models.GenerateVaseTrapezeBaseAndFirstRingSTL(targetPlant)
+	assertWatertightASCIISTL(t, "BaseAndFirstRingSTL(HasLip=true)", stlBaseAndFirst, false)
+
+	// Also verify straight-wall STL watertightness with lip
+	vase.HasCurvedWall = false
+	assertWatertightASCIISTL(t, "OneRingSTL(Straight,HasLip=true)", models.GenerateVaseTrapezeOneRingSTL(targetPlant), true)
+	assertWatertightASCIISTL(t, "BaseAndFirstRingSTL(Straight,HasLip=true)", models.GenerateVaseTrapezeBaseAndFirstRingSTL(targetPlant), false)
+
+	// 6. GLB export & 2.0x proportional scaling with Lip + Curved Wall enabled
+	vase.HasCurvedWall = true
+	vase.WallCurvature = -0.25
+	glbWithLip := models.GenerateVaseTrapezeGLB(targetPlant)
+	if len(glbWithLip) <= len(glbNoLip) || string(glbWithLip[:4]) != "glTF" {
+		t.Errorf("expected valid larger GLB with HasLip=true (noLip=%d, withLip=%d)", len(glbNoLip), len(glbWithLip))
+	}
+	if !strings.Contains(string(glbWithLip), "Base_Plate") || !strings.Contains(string(glbWithLip), "Ring_1") {
+		t.Errorf("expected GLB with HasLip=true to contain Base_Plate and Ring_1 nodes")
+	}
+
+	measureBounds := func(side float64) (maxY, maxR float64) {
+		targetPlant.RhombusSideLength = side
+		ms := buildScene()
+		for _, m := range ms {
+			if m.BufferGeometry == nil {
+				continue
+			}
+			if y := meshMaxY(m); y > maxY {
+				maxY = y
+			}
+			if r := meshMaxR(m); r > maxR {
+				maxR = r
+			}
+		}
+		return
+	}
+	y100, r100 := measureBounds(100.0)
+	y200, r200 := measureBounds(200.0)
+	if math.Abs(y200/y100-2.0) > 1e-4 || math.Abs(r200/r100-2.0) > 1e-4 {
+		t.Errorf("expected 2.0x scaling with HasLip=true (100->200): Y %.2f->%.2f, R %.2f->%.2f",
+			y100, y200, r100, r200)
+	}
+}
+
+func assertWatertightASCIISTL(t *testing.T, label, stl string, strictSingleManifold bool) {
+	t.Helper()
+	type qVert [3]int64
+	type dEdge struct {
+		a, b qVert
+	}
+	quantize := func(x, y, z float64) qVert {
+		return qVert{
+			int64(math.Round(x * 100.0)),
+			int64(math.Round(y * 100.0)),
+			int64(math.Round(z * 100.0)),
+		}
+	}
+
+	edges := make(map[dEdge]int)
+	var triVerts []qVert
+	var nTris int
+	for _, line := range strings.Split(stl, "\n") {
+		fields := strings.Fields(line)
+		if len(fields) == 4 && fields[0] == "vertex" {
+			x, err1 := strconv.ParseFloat(fields[1], 64)
+			y, err2 := strconv.ParseFloat(fields[2], 64)
+			z, err3 := strconv.ParseFloat(fields[3], 64)
+			if err1 != nil || err2 != nil || err3 != nil {
+				t.Fatalf("%s: invalid vertex line %q", label, line)
+			}
+			triVerts = append(triVerts, quantize(x, y, z))
+			if len(triVerts) == 3 {
+				v0, v1, v2 := triVerts[0], triVerts[1], triVerts[2]
+				triVerts = triVerts[:0]
+				if v0 == v1 || v1 == v2 || v2 == v0 {
+					t.Fatalf("%s: degenerate triangle at %v", label, v0)
+				}
+				edges[dEdge{v0, v1}]++
+				edges[dEdge{v1, v2}]++
+				edges[dEdge{v2, v0}]++
+				nTris++
+			}
+		}
+	}
+	if nTris < 100 {
+		t.Fatalf("%s: expected >= 100 triangles in STL, got %d", label, nTris)
+	}
+	for e, cnt := range edges {
+		oppCnt := edges[dEdge{e.b, e.a}]
+		if strictSingleManifold {
+			if cnt != 1 || oppCnt != 1 {
+				t.Fatalf("%s: non-manifold edge %v->%v (count=%d, opposite=%d)", label, e.a, e.b, cnt, oppCnt)
+			}
+		} else if cnt != oppCnt {
+			t.Fatalf("%s: unmatched boundary edge %v->%v (count=%d, opposite=%d)", label, e.a, e.b, cnt, oppCnt)
+		}
 	}
 }

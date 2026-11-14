@@ -531,6 +531,16 @@ func ComputeVaseTrapezeConstant3DThickness(
 
 	updateAllTopY()
 
+	maxDiffY := 0.0
+	for i := range K {
+		if d := topY[i] - bottomY[i]; d > maxDiffY {
+			maxDiffY = d
+		}
+	}
+	if maxDiffY > 0 {
+		unrotatedStepDY = maxDiffY
+	}
+
 	return bottomY, topY, unrotatedStepDY, rotatedStepDX, rotatedStepDY, true
 }
 

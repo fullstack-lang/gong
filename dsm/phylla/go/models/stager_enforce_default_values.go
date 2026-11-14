@@ -107,6 +107,16 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				vase.WallCurvature = 0.0
 				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: clamped WallCurvature to 0.0", plant.Name))
 			}
+			if vase.LipHeight <= 0.0 {
+				needCommit = true
+				vase.LipHeight = 0.45
+				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: default LipHeight set to 0.45", plant.Name))
+			}
+			if vase.LipWidth <= 0.0 {
+				needCommit = true
+				vase.LipWidth = 0.12
+				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: default LipWidth set to 0.12", plant.Name))
+			}
 		}
 		if stool := plant.StoolAbstract; stool != nil {
 			if stool.RadialRepetitions < 1 {

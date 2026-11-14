@@ -378,8 +378,55 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		deltaYContact := models.ComputeVaseTrapezeContactStepDY(plant, hasTrapezeConstantThickness)
 		sWall := models.VaseTrapezeWallSubdivisions(plant)
 		isCurvedWall := models.IsVaseTrapezeCurvedWallActive(plant)
+		lipHeight, lipWidth, hasLip := models.VaseTrapezeLipDimensions(plant)
 		ringDeltaR := func(localY float64) float64 {
 			return models.EvalVaseTrapezeRingWallDeltaR(plant, localY, p1H, p2H, deltaYContact)
+		}
+
+		computeLipCurves3D := func(
+			cOuterBot, cOuterTop, cOuterStraightBot, cOuterUncarvedP1 *threejs.Curve,
+			M int,
+			yBotRef, spanH, dy float64,
+			outerDeltaRAtLocalY func(float64) float64,
+		) (cWallLipBot, cLipBot, cLipTop *threejs.Curve) {
+			cWallLipBot = &threejs.Curve{Points: make([]*threejs.Vector3, M)}
+			wallBotXs := make([]float64, M)
+			wallBotZs := make([]float64, M)
+			topXs := make([]float64, M)
+			topZs := make([]float64, M)
+
+			for i := 0; i < M; i++ {
+				yLipBot := models.VaseTrapezeLipBottomY(cOuterBot.Points[i].Y, cOuterTop.Points[i].Y, lipHeight)
+				u := 0.0
+				if math.Abs(spanH) > 1e-9 {
+					u = (yLipBot - yBotRef) / spanH
+				}
+				sx := (1.0-u)*cOuterStraightBot.Points[i].X + u*cOuterUncarvedP1.Points[i].X
+				sz := (1.0-u)*cOuterStraightBot.Points[i].Z + u*cOuterUncarvedP1.Points[i].Z
+				wx, wy, wz := sx, yLipBot, sz
+				if isCurvedWall && outerDeltaRAtLocalY != nil {
+					wx, wy, wz = models.OffsetRadialPoint(sx, yLipBot, sz, outerDeltaRAtLocalY(yLipBot-dy))
+				}
+				cWallLipBot.Points[i] = &threejs.Vector3{X: wx, Y: wy, Z: wz}
+				wallBotXs[i] = wx
+				wallBotZs[i] = wz
+				topXs[i] = cOuterTop.Points[i].X
+				topZs[i] = cOuterTop.Points[i].Z
+			}
+
+			botOffsets := models.ComputeRadialLipOffsets(wallBotXs, wallBotZs, lipWidth)
+			topOffsets := models.ComputeRadialLipOffsets(topXs, topZs, lipWidth)
+
+			cLipBot = &threejs.Curve{Points: make([]*threejs.Vector3, M)}
+			cLipTop = &threejs.Curve{Points: make([]*threejs.Vector3, M)}
+			for i := 0; i < M; i++ {
+				bx, by, bz := models.OffsetRadialPoint(cWallLipBot.Points[i].X, cWallLipBot.Points[i].Y, cWallLipBot.Points[i].Z, botOffsets[i])
+				cLipBot.Points[i] = &threejs.Vector3{X: bx, Y: by, Z: bz}
+
+				tx, ty, tz := models.OffsetRadialPoint(cOuterTop.Points[i].X, cOuterTop.Points[i].Y, cOuterTop.Points[i].Z, topOffsets[i])
+				cLipTop.Points[i] = &threejs.Vector3{X: tx, Y: ty, Z: tz}
+			}
+			return cWallLipBot, cLipBot, cLipTop
 		}
 
 		offsetCurveAtLocalY := func(src *threejs.Curve, dy float64, deltaRAtLocalY func(float64) float64, curveName string) *threejs.Curve {
@@ -599,11 +646,29 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			cOuterB := offsetCurveAtLocalY(cOuterStraightB, dy, ringDeltaR, fmt.Sprintf("%s %s Outer P2 Curved", plant.Name, ringName))
 			cInnerB := offsetCurveAtLocalY(cInnerStraightB, dy, ringDeltaR, fmt.Sprintf("%s %s Inner P2 Curved", plant.Name, ringName))
 
-			// 1. Plane 1 annular face (top of ring, normal +Y)
-			addQuadStrip(cOuterA, cInnerA, "Plane 1 Face", false)
+			if hasLip {
+				cWallLipBot, cLipBot, cLipTop := computeLipCurves3D(
+					cOuterB, cOuterA, cOuterStraightB, cOuterUncarvedP1,
+					M, p2H+dy, ringHeight, dy, ringDeltaR,
+				)
+				// 1. Widened Plane 1 annular face (top of ring, normal +Y)
+				addQuadStrip(cLipTop, cInnerA, "Plane 1 Face", false)
 
-			// 2. Outer wall from Plane 2 to Plane 1 (normal +r)
-			addSubdividedRingWall(cOuterB, cOuterA, cOuterStraightB, cOuterUncarvedP1, "Outer Wall Face", false)
+				// 2a. Lip outer collar band (normal +r)
+				addQuadStrip(cLipBot, cLipTop, "Lip Collar Face", false)
+
+				// 2b. Lip horizontal underside step (normal -Y)
+				addQuadStrip(cWallLipBot, cLipBot, "Lip Underside Face", false)
+
+				// 2c. Lower outer wall from Plane 2 up to lip bottom (normal +r)
+				addSubdividedRingWall(cOuterB, cWallLipBot, cOuterStraightB, cOuterUncarvedP1, "Outer Wall Face", false)
+			} else {
+				// 1. Plane 1 annular face (top of ring, normal +Y)
+				addQuadStrip(cOuterA, cInnerA, "Plane 1 Face", false)
+
+				// 2. Outer wall from Plane 2 to Plane 1 (normal +r)
+				addSubdividedRingWall(cOuterB, cOuterA, cOuterStraightB, cOuterUncarvedP1, "Outer Wall Face", false)
+			}
 
 			if withBottom {
 				// 3. Inner wall from Plane 1 down to plancher (normal -r)
@@ -838,6 +903,22 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 					rotatedStepDX = trapezeRotatedStepDX
 					rotatedStepDY = trapezeRotatedStepDY
 				}
+				unrotatedStepDYBase := unrotatedStepDY
+				unrotatedStepDYRing := unrotatedStepDY
+				if rotRatio+1e-9 < float64(numSteps)/float64(stackHeight) &&
+					len(resampledBaseBottom.Points) > 0 &&
+					len(resampledBaseTop.Points) > 0 {
+					nBase := min(len(resampledBaseBottom.Points), len(resampledBaseTop.Points))
+					botYs := make([]float64, nBase)
+					topYs := make([]float64, nBase)
+					for i := range nBase {
+						botYs[i] = resampledBaseBottom.Points[i].Y
+						topYs[i] = resampledBaseTop.Points[i].Y
+					}
+					unrotatedStepDYBase, unrotatedStepDYRing = models.ComputeVaseTrapezeUnrotatedStepDYs(
+						plant, globalR, botYs, topYs, hasTrapezeConstantThickness,
+					)
+				}
 
 				var cumDX, cumDY float64
 				for k := 1; k <= numSteps; k++ {
@@ -846,8 +927,10 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 					if rotRatio+1e-9 >= threshold {
 						cumDX += rotatedStepDX
 						cumDY += rotatedStepDY
+					} else if k == 1 {
+						cumDY += unrotatedStepDYBase
 					} else {
-						cumDY += unrotatedStepDY
+						cumDY += unrotatedStepDYRing
 					}
 					dxs[k] = cumDX
 					dys[k] = cumDY
@@ -963,6 +1046,20 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			idxRingOuter := make([][]int, sWall+1)
 			idxRingInner := make([][]int, sWall+1)
 			baseRingSpan := p1H - pBottomH
+
+			cOuterLowerTop := cOuterCarvedP1
+			cOuterRimTop := cOuterCarvedP1
+			var cBaseLipBot *threejs.Curve
+			if hasLip {
+				var cBaseWallLipBot, cBaseLipTop *threejs.Curve
+				cBaseWallLipBot, cBaseLipBot, cBaseLipTop = computeLipCurves3D(
+					cOuter, cOuterCarvedP1, cOuter, cOuterP1,
+					M, pBottomH, baseRingSpan, 0.0, baseOuterDeltaR,
+				)
+				cOuterLowerTop = cBaseWallLipBot
+				cOuterRimTop = cBaseLipTop
+			}
+
 			for rw := 0; rw < sWall; rw++ {
 				idxRingOuter[rw] = make([]int, M)
 				idxRingInner[rw] = make([]int, M)
@@ -970,11 +1067,11 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 					var ox, oy, oz float64
 					var outName string
 					if rw == 0 {
-						ptOutCarved := cOuterCarvedP1.Points[i]
+						ptOutCarved := cOuterLowerTop.Points[i]
 						ox, oy, oz = ptOutCarved.X, ptOutCarved.Y, ptOutCarved.Z
 						outName = fmt.Sprintf("%s %s Ring Outer Top %d", plant.Name, shapeName, i)
 					} else {
-						yTopOut := cOuterCarvedP1.Points[i].Y
+						yTopOut := cOuterLowerTop.Points[i].Y
 						tOut := float64(rw) / float64(sWall)
 						oy = (1.0-tOut)*yTopOut + tOut*pBottomH
 						uOut := 0.0
@@ -1227,12 +1324,74 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				}
 			}
 
+			if hasLip && cBaseLipBot != nil {
+				idxLipUnderInner := make([]int, M)
+				idxLipUnderOuter := make([]int, M)
+				idxLipCollarBot := make([]int, M)
+				idxLipCollarTop := make([]int, M)
+				for i := 0; i < M; i++ {
+					ptWallBot := cOuterLowerTop.Points[i]
+					ptLipBot := cBaseLipBot.Points[i]
+					ptLipTop := cOuterRimTop.Points[i]
+
+					idxLipUnderInner[i] = len(basePlateGeom.Vertices)
+					basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+						Name: fmt.Sprintf("%s %s Lip Underside Inner %d", plant.Name, shapeName, i),
+						X:    ptWallBot.X, Y: ptWallBot.Y, Z: ptWallBot.Z,
+					}).Stage(threejsStage))
+
+					idxLipUnderOuter[i] = len(basePlateGeom.Vertices)
+					basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+						Name: fmt.Sprintf("%s %s Lip Underside Outer %d", plant.Name, shapeName, i),
+						X:    ptLipBot.X, Y: ptLipBot.Y, Z: ptLipBot.Z,
+					}).Stage(threejsStage))
+
+					idxLipCollarBot[i] = len(basePlateGeom.Vertices)
+					basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+						Name: fmt.Sprintf("%s %s Lip Collar Bot %d", plant.Name, shapeName, i),
+						X:    ptLipBot.X, Y: ptLipBot.Y, Z: ptLipBot.Z,
+					}).Stage(threejsStage))
+
+					idxLipCollarTop[i] = len(basePlateGeom.Vertices)
+					basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+						Name: fmt.Sprintf("%s %s Lip Collar Top %d", plant.Name, shapeName, i),
+						X:    ptLipTop.X, Y: ptLipTop.Y, Z: ptLipTop.Z,
+					}).Stage(threejsStage))
+				}
+
+				for i := 0; i < M; i++ {
+					nextI := (i + 1) % M
+					// Lip horizontal underside step face (normal pointing down -Y)
+					basePlateGeom.Faces = append(basePlateGeom.Faces,
+						(&threejs.Triangle{
+							Name: fmt.Sprintf("%s %s Lip Underside Face T1 %d", plant.Name, shapeName, i),
+							V1:   idxLipUnderInner[i], V2: idxLipUnderOuter[i], V3: idxLipUnderOuter[nextI],
+						}).Stage(threejsStage),
+						(&threejs.Triangle{
+							Name: fmt.Sprintf("%s %s Lip Underside Face T2 %d", plant.Name, shapeName, i),
+							V1:   idxLipUnderInner[i], V2: idxLipUnderOuter[nextI], V3: idxLipUnderInner[nextI],
+						}).Stage(threejsStage),
+					)
+					// Lip outer collar band face (normal pointing outward +r)
+					basePlateGeom.Faces = append(basePlateGeom.Faces,
+						(&threejs.Triangle{
+							Name: fmt.Sprintf("%s %s Lip Collar Face T1 %d", plant.Name, shapeName, i),
+							V1:   idxLipCollarBot[i], V2: idxLipCollarTop[i], V3: idxLipCollarTop[nextI],
+						}).Stage(threejsStage),
+						(&threejs.Triangle{
+							Name: fmt.Sprintf("%s %s Lip Collar Face T2 %d", plant.Name, shapeName, i),
+							V1:   idxLipCollarBot[i], V2: idxLipCollarTop[nextI], V3: idxLipCollarBot[nextI],
+						}).Stage(threejsStage),
+					)
+				}
+			}
+
 			idxCapOuterTop := make([]int, M)
 			idxCapInnerTop := make([]int, M)
 			idxCapInnerFloor := make([]int, M)
 			idxCapOuterFloor := make([]int, M)
 			for i := 0; i < M; i++ {
-				vOutTop := cOuterCarvedP1.Points[i]
+				vOutTop := cOuterRimTop.Points[i]
 				idxCapOuterTop[i] = len(basePlateGeom.Vertices)
 				basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
 					Name: fmt.Sprintf("%s %s Cap Outer Top %d", plant.Name, shapeName, i),

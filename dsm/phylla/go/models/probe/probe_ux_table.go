@@ -5702,6 +5702,21 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *Probe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "HasLip"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "LipHeight"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "LipWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "RelativeVerticalThickness"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -6066,6 +6081,24 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *Probe) {
 		{
 			cell := &table_models.Cell{Name: "WallCurvature"}
 			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.WallCurvature)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "HasLip"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.HasLip}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "LipHeight"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.LipHeight)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "LipWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.LipWidth)}
 			row.Cells = append(row.Cells, cell)
 		}
 

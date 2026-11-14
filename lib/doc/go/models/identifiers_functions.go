@@ -145,10 +145,12 @@ func GongEnumValueToIdentifierMetaWithPackage(pkgName string, gongEnumValue stri
 }
 
 // IdentifierToGongStructName take an ident in the forms
-// "ref_models.Foo", "ref_models.Foo{}", or "ref_x.Foo{}" and returns "Foo"
+// "ref_models.Foo", "ref_models.Foo{}", "ref_x.Foo{}", or "new(ref_x.Foo)" and returns "Foo"
 func IdentifierToGongStructName(structIdentifier string) (structName string) {
 
-	clean := strings.TrimPrefix(structIdentifier, RefPrefixReferencedPackage)
+	clean := strings.TrimPrefix(structIdentifier, "new(")
+	clean = strings.TrimSuffix(clean, ")")
+	clean = strings.TrimPrefix(clean, RefPrefixReferencedPackage)
 	clean = strings.TrimSuffix(clean, "{}")
 
 	subStrings := strings.Split(clean, ".")
@@ -173,7 +175,7 @@ func IdentifierMetaToGongStructName(structIdentifierMeta any) (structName string
 }
 
 // IdentifierMetaToPackageAndGongStructName returns package name and struct name
-// e.g. "ref_x.Foo{}" -> ("x", "Foo")
+// e.g. "ref_x.Foo{}" -> ("x", "Foo"), "new(ref_x.Bar)" -> ("x", "Bar")
 func IdentifierMetaToPackageAndGongStructName(structIdentifierMeta any) (pkgName, structName string) {
 
 	var structIdentifier string
@@ -182,7 +184,9 @@ func IdentifierMetaToPackageAndGongStructName(structIdentifierMeta any) (pkgName
 		return "", ""
 	}
 
-	clean := strings.TrimPrefix(structIdentifier, RefPrefixReferencedPackage)
+	clean := strings.TrimPrefix(structIdentifier, "new(")
+	clean = strings.TrimSuffix(clean, ")")
+	clean = strings.TrimPrefix(clean, RefPrefixReferencedPackage)
 	clean = strings.TrimSuffix(clean, "{}")
 
 	subStrings := strings.Split(clean, ".")

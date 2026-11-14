@@ -25399,6 +25399,18 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "HasLip",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "LipHeight",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "LipWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "RelativeVerticalThickness",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -30861,6 +30873,18 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldValue(fieldName string, st
 	case "WallCurvature":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.WallCurvature)
 		res.valueFloat = tubevaseabstract.WallCurvature
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "HasLip":
+		res.valueString = fmt.Sprintf("%t", tubevaseabstract.HasLip)
+		res.valueBool = tubevaseabstract.HasLip
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LipHeight":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.LipHeight)
+		res.valueFloat = tubevaseabstract.LipHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "LipWidth":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.LipWidth)
+		res.valueFloat = tubevaseabstract.LipWidth
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RelativeVerticalThickness":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeVerticalThickness)

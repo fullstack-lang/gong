@@ -307,6 +307,7 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 	deltaYContact := ComputeVaseTrapezeContactStepDY(plant, hasTrapezeConstantThickness)
 	sWall := VaseTrapezeWallSubdivisions(plant)
 	isCurvedWall := IsVaseTrapezeCurvedWallActive(plant)
+	lipHeight, lipWidth, hasLip := VaseTrapezeLipDimensions(plant)
 
 	offsetCurveGLB := func(src []vector3, dy float64, deltaRAtLocalY func(float64) float64) []vector3 {
 		if !isCurvedWall || deltaRAtLocalY == nil {
@@ -423,6 +424,22 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		}
 
 		numSteps := stackHeight - 1
+		unrotatedStepDYBase := unrotatedStepDY
+		unrotatedStepDYRing := unrotatedStepDY
+		if rotRatio+1e-9 < float64(numSteps)/float64(stackHeight) &&
+			len(resampledBaseBottom) > 0 &&
+			len(resampledBaseTop) > 0 {
+			nBase := min(len(resampledBaseBottom), len(resampledBaseTop))
+			botYs := make([]float64, nBase)
+			topYs := make([]float64, nBase)
+			for i := range nBase {
+				botYs[i] = resampledBaseBottom[i].Y
+				topYs[i] = resampledBaseTop[i].Y
+			}
+			unrotatedStepDYBase, unrotatedStepDYRing = ComputeVaseTrapezeUnrotatedStepDYs(
+				plant, globalR, botYs, topYs, hasTrapezeConstantThickness,
+			)
+		}
 		var cumDX, cumDY float64
 		for k := 1; k <= numSteps; k++ {
 			stepOrder := numSteps - k + 1
@@ -430,8 +447,10 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 			if rotRatio+1e-9 >= threshold {
 				cumDX += rotatedStepDX
 				cumDY += rotatedStepDY
+			} else if k == 1 {
+				cumDY += unrotatedStepDYBase
 			} else {
-				cumDY += unrotatedStepDY
+				cumDY += unrotatedStepDYRing
 			}
 			dxs[k] = cumDX
 			dys[k] = cumDY
@@ -505,6 +524,18 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 				colorHex: GetVaseRingColor(vase.ColorCombination, 0),
 			}
 
+			cOuterLowerTop := cOuterCarvedP1
+			cOuterRimTop := cOuterCarvedP1
+			var cWallLipBot0, cLipBot0, cLipTop0 []vector3
+			if hasLip {
+				cWallLipBot0, cLipBot0, cLipTop0 = computeVaseTrapezeLipCurvesVec3(
+					cOuter, cOuterCarvedP1, cOuter, cOuterP1,
+					pBottomH, p1H-pBottomH, 0.0, lipHeight, lipWidth, isCurvedWall, baseOuterDeltaR,
+				)
+				cOuterLowerTop = cWallLipBot0
+				cOuterRimTop = cLipTop0
+			}
+
 			idxRingOuter := make([][]uint32, sWall+1)
 			idxRingInner := make([][]uint32, sWall+1)
 			baseRingSpan := p1H - pBottomH
@@ -514,9 +545,9 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 				for i := range M {
 					var outPt vector3
 					if rw == 0 {
-						outPt = cOuterCarvedP1[i]
+						outPt = cOuterLowerTop[i]
 					} else {
-						yTopOut := cOuterCarvedP1[i].Y
+						yTopOut := cOuterLowerTop[i].Y
 						tOut := float64(rw) / float64(sWall)
 						oy := (1.0-tOut)*yTopOut + tOut*pBottomH
 						uOut := 0.0
@@ -682,6 +713,11 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 				}
 			}
 
+			if hasLip {
+				baseMesh.addQuadStrip(cWallLipBot0, cLipBot0)
+				baseMesh.addQuadStrip(cLipBot0, cLipTop0)
+			}
+
 			// Dedicated cap vertices so flat caps do not distort smooth wall normals
 			idxPlancherCenter := uint32(len(baseMesh.positions))
 			baseMesh.positions = append(baseMesh.positions, vector3{
@@ -698,7 +734,7 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 			idxCapOuterFloor := make([]uint32, M)
 			for i := range M {
 				idxCapOuterTop[i] = uint32(len(baseMesh.positions))
-				baseMesh.positions = append(baseMesh.positions, cOuterCarvedP1[i])
+				baseMesh.positions = append(baseMesh.positions, cOuterRimTop[i])
 
 				idxCapInnerTop[i] = uint32(len(baseMesh.positions))
 				baseMesh.positions = append(baseMesh.positions, cInnerCarvedP1[i])
@@ -841,10 +877,25 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 			name:     fmt.Sprintf("Ring_%d", h),
 			colorHex: GetVaseRingColor(vase.ColorCombination, h),
 		}
-		// 1. Top carved rim face (normal +Y)
-		ringMesh.addQuadStrip(cOuterP1, cInnerP1)
-		// 2. Outer wall (normal +r)
-		addSubdividedRingWallGLB(ringMesh, cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1, false)
+		if hasLip {
+			cWallLipBot, cLipBot, cLipTop := computeVaseTrapezeLipCurvesVec3(
+				cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1,
+				p2H+dy, ringHeight, dy, lipHeight, lipWidth, isCurvedWall, ringDeltaR,
+			)
+			// 1. Top carved rim face (normal +Y)
+			ringMesh.addQuadStrip(cLipTop, cInnerP1)
+			// 2a. Outer lip collar band (normal +r)
+			ringMesh.addQuadStrip(cLipBot, cLipTop)
+			// 2b. Lip horizontal underside step (normal -Y)
+			ringMesh.addQuadStrip(cWallLipBot, cLipBot)
+			// 2c. Lower outer wall (normal +r)
+			addSubdividedRingWallGLB(ringMesh, cOuterP2, cWallLipBot, cOuterStraightP2, cOuterUncarvedP1, false)
+		} else {
+			// 1. Top carved rim face (normal +Y)
+			ringMesh.addQuadStrip(cOuterP1, cInnerP1)
+			// 2. Outer wall (normal +r)
+			addSubdividedRingWallGLB(ringMesh, cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1, false)
+		}
 		if hasRingBottom {
 			// 3. Inner wall down to plancher (normal -r)
 			addSubdividedRingWallGLB(ringMesh, cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, true)

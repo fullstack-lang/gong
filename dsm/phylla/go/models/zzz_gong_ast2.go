@@ -891,6 +891,12 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.HasCurvedWall = GongExtractBool(rhs)
 					case "WallCurvature":
 						inst.WallCurvature = GongExtractFloat(rhs)
+					case "HasLip":
+						inst.HasLip = GongExtractBool(rhs)
+					case "LipHeight":
+						inst.LipHeight = GongExtractFloat(rhs)
+					case "LipWidth":
+						inst.LipWidth = GongExtractFloat(rhs)
 					case "RelativeVerticalThickness":
 						inst.RelativeVerticalThickness = GongExtractFloat(rhs)
 					case "RelativeRadialThickness":
@@ -5303,6 +5309,12 @@ func (u *TubeVaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.HasCurvedWall = GongExtractBool(valueExpr)
 	case "WallCurvature":
 		instance.WallCurvature = GongExtractFloat(valueExpr)
+	case "HasLip":
+		instance.HasLip = GongExtractBool(valueExpr)
+	case "LipHeight":
+		instance.LipHeight = GongExtractFloat(valueExpr)
+	case "LipWidth":
+		instance.LipWidth = GongExtractFloat(valueExpr)
 	case "RelativeVerticalThickness":
 		instance.RelativeVerticalThickness = GongExtractFloat(valueExpr)
 	case "RelativeRadialThickness":

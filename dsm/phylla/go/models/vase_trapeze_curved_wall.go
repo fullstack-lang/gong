@@ -270,3 +270,541 @@ func OffsetRadialPoint(x, y, z, deltaR float64) (nx, ny, nz float64) {
 	rNew := math.Max(0.0, r+deltaR)
 	return rNew * math.Cos(theta), y, rNew * math.Sin(theta)
 }
+
+type meridianPt struct {
+	r float64
+	y float64
+}
+
+func polyMaxYAtR(poly []meridianPt, r float64) (float64, bool) {
+	bestY := -math.MaxFloat64
+	found := false
+	n := len(poly)
+	for e := range n {
+		a := poly[e]
+		b := poly[(e+1)%n]
+		dr := b.r - a.r
+		if math.Abs(dr) <= 1e-11 {
+			if math.Abs(r-a.r) <= 1e-9 {
+				if cand := math.Max(a.y, b.y); cand > bestY {
+					bestY = cand
+				}
+				found = true
+			}
+			continue
+		}
+		rLo, rHi := a.r, b.r
+		if rLo > rHi {
+			rLo, rHi = rHi, rLo
+		}
+		if r >= rLo-1e-9 && r <= rHi+1e-9 {
+			t := math.Max(0.0, math.Min(1.0, (r-a.r)/dr))
+			if cand := (1.0-t)*a.y + t*b.y; cand > bestY {
+				bestY = cand
+			}
+			found = true
+		}
+	}
+	return bestY, found
+}
+
+func polyMinYAtR(poly []meridianPt, r float64) (float64, bool) {
+	bestY := math.MaxFloat64
+	found := false
+	n := len(poly)
+	for e := range n {
+		a := poly[e]
+		b := poly[(e+1)%n]
+		dr := b.r - a.r
+		if math.Abs(dr) <= 1e-11 {
+			if math.Abs(r-a.r) <= 1e-9 {
+				if cand := math.Min(a.y, b.y); cand < bestY {
+					bestY = cand
+				}
+				found = true
+			}
+			continue
+		}
+		rLo, rHi := a.r, b.r
+		if rLo > rHi {
+			rLo, rHi = rHi, rLo
+		}
+		if r >= rLo-1e-9 && r <= rHi+1e-9 {
+			t := math.Max(0.0, math.Min(1.0, (r-a.r)/dr))
+			if cand := (1.0-t)*a.y + t*b.y; cand < bestY {
+				bestY = cand
+			}
+			found = true
+		}
+	}
+	return bestY, found
+}
+
+func verticalDropInContactStep(polyL, polyU []meridianPt) (float64, bool) {
+	if len(polyL) < 2 || len(polyU) < 2 {
+		return 0.0, false
+	}
+	rMinL, rMaxL := math.MaxFloat64, -math.MaxFloat64
+	for _, p := range polyL {
+		if p.r < rMinL {
+			rMinL = p.r
+		}
+		if p.r > rMaxL {
+			rMaxL = p.r
+		}
+	}
+	rMinU, rMaxU := math.MaxFloat64, -math.MaxFloat64
+	for _, p := range polyU {
+		if p.r < rMinU {
+			rMinU = p.r
+		}
+		if p.r > rMaxU {
+			rMaxU = p.r
+		}
+	}
+	if rMaxL < rMinU-1e-9 || rMaxU < rMinL-1e-9 {
+		return 0.0, false
+	}
+
+	maxStep := -math.MaxFloat64
+	found := false
+	for _, v := range polyL {
+		if v.r < rMinU-1e-9 || v.r > rMaxU+1e-9 {
+			continue
+		}
+		if minYU, ok := polyMinYAtR(polyU, v.r); ok {
+			if step := v.y - minYU; step > maxStep {
+				maxStep = step
+			}
+			found = true
+		}
+	}
+	for _, w := range polyU {
+		if w.r < rMinL-1e-9 || w.r > rMaxL+1e-9 {
+			continue
+		}
+		if maxYL, ok := polyMaxYAtR(polyL, w.r); ok {
+			if step := maxYL - w.y; step > maxStep {
+				maxStep = step
+			}
+			found = true
+		}
+	}
+	return maxStep, found
+}
+
+// ComputeVaseTrapezeUnrotatedStepDYs computes the exact vertical rigid-body drop-in
+// contact steps for unrotated stacking (DeltaTheta == 0) of VaseTrapeze rings:
+//   - stepDYBase: vertical offset for Ring 1 resting unrotated on Base Plate + Ring 0
+//   - stepDYRing: vertical offset for Ring k (k >= 2) resting unrotated on Ring k-1
+//
+// It accounts for straight or convex curved walls (including rim undercuts), constant
+// or variable thickness, HasRingBottom (plancher), Base Plate bulbous walls, and
+// CarvedOutTopRingsParameter.
+func ComputeVaseTrapezeUnrotatedStepDYs(
+	plant *PlantAbstract,
+	globalR float64,
+	baseBottomY, baseTopY []float64,
+	hasConstantThickness bool,
+) (stepDYBase, stepDYRing float64) {
+	if plant == nil || plant.TubeVaseAbstract == nil {
+		return 0.0, 0.0
+	}
+	vase := plant.TubeVaseAbstract
+	sideLength := plant.RhombusSideLength
+	scaleY := vase.RibbonVerticalScale
+	if scaleY == 0 {
+		scaleY = 1.0
+	}
+	sepDY := vase.RelativeRotatedTorusSeparation * sideLength * scaleY
+
+	M := min(len(baseBottomY), len(baseTopY))
+	if M == 0 || globalR <= 0 {
+		return sepDY, sepDY
+	}
+
+	maxCurveDiff := 0.0
+	for i := range M {
+		if d := math.Abs(baseTopY[i] - baseBottomY[i]); d > maxCurveDiff {
+			maxCurveDiff = d
+		}
+	}
+
+	zStart := vase.Z_Ribbon * sideLength
+	p1H := zStart + vase.TopPlaneHeight*sideLength*scaleY
+	p2H := zStart + vase.BottomPlaneHeight*sideLength*scaleY
+	p2HBase := zStart + vase.BaseRingBottomPlaneHeight*sideLength*scaleY
+	ringHeight := p1H - p2H
+	if ringHeight <= 1e-6 {
+		return maxCurveDiff + sepDY, maxCurveDiff + sepDY
+	}
+
+	projAngleRad := -vase.ProjectionAngle * math.Pi / 180.0
+	tanAlpha := math.Tan(projAngleRad)
+	carvedParam := math.Max(0.0, math.Min(1.0, vase.CarvedOutTopRingsParameter))
+
+	basePlateHeight := vase.BasePlateHeight * sideLength
+	hasRingBottom := vase.HasRingBottom && basePlateHeight > 0 && ringHeight > 0
+	hRingBottom := 0.0
+	if hasRingBottom {
+		hRingBottom = math.Min(basePlateHeight, ringHeight)
+	}
+	yFloorRing := p2H + hRingBottom
+
+	deltaYContact := ComputeVaseTrapezeContactStepDY(plant, hasConstantThickness)
+	yContact := p1H - deltaYContact
+	sWall := VaseTrapezeWallSubdivisions(plant)
+	isCurvedWall := IsVaseTrapezeCurvedWallActive(plant)
+	lipHeight, lipWidth, hasLip := VaseTrapezeLipDimensions(plant)
+
+	var sumRBottom, sumRTop float64
+	for i := range M {
+		sumRBottom += math.Max(0.0, globalR+(p2H-baseBottomY[i])*tanAlpha)
+		sumRTop += math.Max(0.0, globalR+(p2H-baseTopY[i])*tanAlpha)
+	}
+	bottomIsOuter := sumRBottom > sumRTop
+
+	yCurveOut := baseTopY
+	yCurveIn := baseBottomY
+	if bottomIsOuter {
+		yCurveOut = baseBottomY
+		yCurveIn = baseTopY
+	}
+
+	rStOut := func(i int, y float64) float64 {
+		return math.Max(0.0, globalR+(y-yCurveOut[i])*tanAlpha)
+	}
+	rStIn := func(i int, y float64) float64 {
+		return math.Max(0.0, globalR+(y-yCurveIn[i])*tanAlpha)
+	}
+
+	rMinOutP1, rMaxOutP1 := math.MaxFloat64, -math.MaxFloat64
+	rMinInP1, rMaxInP1 := math.MaxFloat64, -math.MaxFloat64
+	for i := range M {
+		ro := rStOut(i, p1H)
+		if ro < rMinOutP1 {
+			rMinOutP1 = ro
+		}
+		if ro > rMaxOutP1 {
+			rMaxOutP1 = ro
+		}
+		ri := rStIn(i, p1H)
+		if ri < rMinInP1 {
+			rMinInP1 = ri
+		}
+		if ri > rMaxInP1 {
+			rMaxInP1 = ri
+		}
+	}
+	rRangeOut := rMaxOutP1 - rMinOutP1
+	rRangeIn := rMaxInP1 - rMinInP1
+
+	ringDR := func(localY float64) float64 {
+		if !isCurvedWall {
+			return 0.0
+		}
+		return EvalVaseTrapezeRingWallDeltaR(plant, localY, p1H, p2H, deltaYContact)
+	}
+
+	const floorY = 0.0
+	hasBasePlate := p2HBase > floorY && p1H > p2HBase+1e-6
+	hPlancherBase := 0.0
+	plancherYBase := floorY
+	verticalScaleBase := 0.0
+	startMag := vase.BulbousStartTangentMagnitude * sideLength
+	endAngleDeg := 30.0
+	if vase.BulbousEndAngle != 0.0 {
+		endAngleDeg = vase.BulbousEndAngle
+	}
+	endMag := vase.BulbousEndTangentMagnitude * sideLength
+	sBulb := 24
+	if startMag == 0 && endMag == 0 {
+		sBulb = 1
+	}
+	beta := endAngleDeg * math.Pi / 180.0
+	v1R := -endMag * math.Sin(beta)
+	v1Y := -endMag * math.Cos(beta)
+	var dBaseOutDyAtBottom float64
+	if hasBasePlate {
+		hPlancherBase = math.Max(0.0, math.Min(p2HBase-floorY, basePlateHeight))
+		plancherYBase = floorY + hPlancherBase
+		verticalScaleBase = (p2HBase - plancherYBase) / (p2HBase - floorY)
+		_, dBaseOutDyAtBottom = EvalVaseTrapezeBaseRingOuterDeltaRAndSlope(plant, p2HBase, p1H, p2HBase, deltaYContact)
+	}
+
+	baseOutDR := func(localY float64) float64 {
+		if !isCurvedWall {
+			return 0.0
+		}
+		dr, _ := EvalVaseTrapezeBaseRingOuterDeltaRAndSlope(plant, localY, p1H, p2HBase, deltaYContact)
+		return dr
+	}
+	baseInDR := func(localY float64) float64 {
+		if !isCurvedWall {
+			return 0.0
+		}
+		return EvalVaseTrapezeBaseRingInnerDeltaR(plant, localY, p1H, p2HBase, p2H, deltaYContact, bottomIsOuter)
+	}
+
+	polyRing := make([]meridianPt, 0, 2*(sWall+6))
+	polyBase := make([]meridianPt, 0, 2*(sWall+sBulb+6))
+
+	K := M
+	if M > 3 && math.Abs(baseBottomY[M-1]-baseBottomY[0]) < 1e-6 && math.Abs(baseTopY[M-1]-baseTopY[0]) < 1e-6 {
+		K = M - 1
+	}
+	var ringBotLipOff, ringTopLipOff, baseBotLipOff, baseTopLipOff []float64
+	if hasLip && K > 0 {
+		radialReps := max(vase.RadialRepetitions, 1)
+		dTh2 := 2.0 * (2.0 * math.Pi / float64(radialReps)) / float64(K)
+		computeSectorLipOff := func(radii []float64) []float64 {
+			offs := make([]float64, K)
+			if K < 3 || dTh2 <= 1e-9 {
+				for idx := range K {
+					offs[idx] = lipWidth
+				}
+				return offs
+			}
+			for idx := range K {
+				prevIdx := (idx - 1 + K) % K
+				nextIdx := (idx + 1) % K
+				factor := 1.0
+				if radii[idx] > 1e-6 {
+					slopeNorm := (radii[nextIdx] - radii[prevIdx]) / (radii[idx] * dTh2)
+					factor = math.Min(3.0, math.Hypot(1.0, slopeNorm))
+				}
+				offs[idx] = lipWidth * factor
+			}
+			return offs
+		}
+
+		rRingBotLip := make([]float64, K)
+		rRingTop := make([]float64, K)
+		rBaseBotLip := make([]float64, K)
+		rBaseTop := make([]float64, K)
+		for idx := range K {
+			cOut := 0.0
+			if rRangeOut > 1e-6 {
+				cOut = carvedParam * (rMaxOutP1 - rStOut(idx, p1H)) / rRangeOut
+			}
+			ytRing := (1.0-cOut)*p1H + cOut*yFloorRing
+			ylRing := VaseTrapezeLipBottomY(p2H, ytRing, lipHeight)
+			rRingBotLip[idx] = math.Max(0.0, rStOut(idx, ylRing)+ringDR(ylRing))
+			rRingTop[idx] = math.Max(0.0, rStOut(idx, ytRing)+ringDR(ytRing))
+			if hasBasePlate {
+				ytBase := (1.0-cOut)*p1H + cOut*p2HBase
+				ylBase := VaseTrapezeLipBottomY(p2HBase, ytBase, lipHeight)
+				rBaseBotLip[idx] = math.Max(0.0, rStOut(idx, ylBase)+baseOutDR(ylBase))
+				rBaseTop[idx] = math.Max(0.0, rStOut(idx, ytBase)+baseOutDR(ytBase))
+			}
+		}
+		ringBotLipOff = computeSectorLipOff(rRingBotLip)
+		ringTopLipOff = computeSectorLipOff(rRingTop)
+		if hasBasePlate {
+			baseBotLipOff = computeSectorLipOff(rBaseBotLip)
+			baseTopLipOff = computeSectorLipOff(rBaseTop)
+		}
+	}
+
+	maxStepRing := 0.0
+	maxStepBase := 0.0
+
+	for i := range M {
+		iMod := i % K
+		coeffOut := 0.0
+		if rRangeOut > 1e-6 {
+			coeffOut = carvedParam * (rMaxOutP1 - rStOut(i, p1H)) / rRangeOut
+		}
+		coeffIn := 0.0
+		if rRangeIn > 1e-6 {
+			coeffIn = carvedParam * (rMaxInP1 - rStIn(i, p1H)) / rRangeIn
+		}
+
+		yTopOutRing := (1.0-coeffOut)*p1H + coeffOut*yFloorRing
+		yTopInRing := (1.0-coeffIn)*p1H + coeffIn*yFloorRing
+
+		// 1. Build Standard Ring meridian polygon polyRing
+		polyRing = polyRing[:0]
+		yWallTopRing := yTopOutRing
+		if hasLip {
+			yWallTopRing = VaseTrapezeLipBottomY(p2H, yTopOutRing, lipHeight)
+		}
+		for s := 0; s <= sWall; s++ {
+			var y float64
+			if s == 0 {
+				y = p2H
+			} else if s == sWall {
+				y = yWallTopRing
+			} else {
+				y = RingWallSampleY(s, sWall, p2H, yWallTopRing, yContact)
+			}
+			r := math.Max(0.0, rStOut(i, y)+ringDR(y))
+			polyRing = append(polyRing, meridianPt{r: r, y: y})
+		}
+		if hasLip {
+			rWallBot := math.Max(0.0, rStOut(i, yWallTopRing)+ringDR(yWallTopRing))
+			rTop := math.Max(0.0, rStOut(i, yTopOutRing)+ringDR(yTopOutRing))
+			polyRing = append(polyRing,
+				meridianPt{r: rWallBot + ringBotLipOff[iMod], y: yWallTopRing},
+				meridianPt{r: rTop + ringTopLipOff[iMod], y: yTopOutRing},
+			)
+		}
+		if hasRingBottom {
+			for s := sWall; s >= 0; s-- {
+				var y float64
+				if s == sWall {
+					y = yTopInRing
+				} else if s == 0 {
+					y = yFloorRing
+				} else {
+					y = RingWallSampleY(s, sWall, yFloorRing, yTopInRing, yContact)
+				}
+				r := math.Max(0.0, rStIn(i, y)+ringDR(y))
+				polyRing = append(polyRing, meridianPt{r: r, y: y})
+			}
+			polyRing = append(polyRing,
+				meridianPt{r: 0.0, y: yFloorRing},
+				meridianPt{r: 0.0, y: p2H},
+			)
+		} else {
+			for s := sWall; s >= 0; s-- {
+				var y float64
+				if s == sWall {
+					y = yTopInRing
+				} else if s == 0 {
+					y = p2H
+				} else {
+					y = RingWallSampleY(s, sWall, p2H, yTopInRing, yContact)
+				}
+				r := math.Max(0.0, rStIn(i, y)+ringDR(y))
+				polyRing = append(polyRing, meridianPt{r: r, y: y})
+			}
+		}
+
+		if stepR, ok := verticalDropInContactStep(polyRing, polyRing); ok && stepR > maxStepRing {
+			maxStepRing = stepR
+		}
+
+		if !hasBasePlate {
+			if maxStepRing > maxStepBase {
+				maxStepBase = maxStepRing
+			}
+			continue
+		}
+
+		// 2. Build Base Plate + Ring 0 meridian polygon polyBase
+		yTopOutBase := (1.0-coeffOut)*p1H + coeffOut*p2HBase
+		yTopInBase := (1.0-coeffIn)*p1H + coeffIn*p2HBase
+
+		polyBase = polyBase[:0]
+		yWallTopBase := yTopOutBase
+		if hasLip {
+			yWallTopBase = VaseTrapezeLipBottomY(p2HBase, yTopOutBase, lipHeight)
+			rBaseTop := math.Max(0.0, rStOut(i, yTopOutBase)+baseOutDR(yTopOutBase))
+			rBaseWallBot := math.Max(0.0, rStOut(i, yWallTopBase)+baseOutDR(yWallTopBase))
+			polyBase = append(polyBase,
+				meridianPt{r: rBaseTop + baseTopLipOff[iMod], y: yTopOutBase},
+				meridianPt{r: rBaseWallBot + baseBotLipOff[iMod], y: yWallTopBase},
+			)
+		}
+		for rw := 0; rw <= sWall; rw++ {
+			var oy float64
+			if rw == 0 {
+				oy = yWallTopBase
+			} else if rw == sWall {
+				oy = p2HBase
+			} else {
+				tOut := float64(rw) / float64(sWall)
+				oy = (1.0-tOut)*yWallTopBase + tOut*p2HBase
+			}
+			or := math.Max(0.0, rStOut(i, oy)+baseOutDR(oy))
+			polyBase = append(polyBase, meridianPt{r: or, y: oy})
+		}
+
+		r0 := rStOut(i, p2HBase)
+		rTop := rStOut(i, p1H)
+		rIn0 := rStIn(i, p2HBase)
+		radialScale := 1.0
+		if r0 > 1e-6 {
+			radialScale = rIn0 / r0
+		}
+
+		deltaR := r0 - rTop
+		deltaY := p2HBase - p1H
+		if math.Abs(deltaY) > 1e-6 {
+			deltaR += dBaseOutDyAtBottom * deltaY
+		}
+		lRing := math.Hypot(deltaR, deltaY)
+		t0R, t0Y := 0.0, -1.0
+		if lRing > 1e-6 {
+			t0R = deltaR / lRing
+			t0Y = deltaY / lRing
+		}
+		v0R := startMag * t0R
+		v0Y := startMag * t0Y
+
+		p0R, p0Y := r0, p2HBase
+		p1R, p1Y := r0+v0R/3.0, p2HBase+v0Y/3.0
+		p2R, p2Y := r0-v1R/3.0, floorY-v1Y/3.0
+		p3R, p3Y := r0, floorY
+
+		for s := 1; s <= sBulb; s++ {
+			var rs, ys float64
+			if s == sBulb {
+				rs = r0
+				ys = floorY
+			} else {
+				t := float64(s) / float64(sBulb)
+				omt := 1.0 - t
+				b0 := omt * omt * omt
+				b1 := 3.0 * omt * omt * t
+				b2 := 3.0 * omt * t * t
+				b3 := t * t * t
+				rs = math.Max(0.0, b0*p0R+b1*p1R+b2*p2R+b3*p3R)
+				ys = b0*p0Y + b1*p1Y + b2*p2Y + b3*p3Y
+			}
+			polyBase = append(polyBase, meridianPt{r: rs, y: ys})
+		}
+
+		polyBase = append(polyBase,
+			meridianPt{r: 0.0, y: floorY},
+			meridianPt{r: 0.0, y: plancherYBase},
+			meridianPt{r: rIn0, y: plancherYBase},
+		)
+
+		for s := sBulb - 1; s >= 1; s-- {
+			t := float64(s) / float64(sBulb)
+			omt := 1.0 - t
+			b0 := omt * omt * omt
+			b1 := 3.0 * omt * omt * t
+			b2 := 3.0 * omt * t * t
+			b3 := t * t * t
+			rs := math.Max(0.0, b0*p0R+b1*p1R+b2*p2R+b3*p3R)
+			ys := b0*p0Y + b1*p1Y + b2*p2Y + b3*p3Y
+			polyBase = append(polyBase, meridianPt{
+				r: rs * radialScale,
+				y: plancherYBase + (ys-floorY)*verticalScaleBase,
+			})
+		}
+
+		for rw := sWall; rw >= 0; rw-- {
+			var iy float64
+			if rw == sWall {
+				iy = p2HBase
+			} else if rw == 0 {
+				iy = yTopInBase
+			} else {
+				tIn := float64(rw) / float64(sWall)
+				iy = (1.0-tIn)*yTopInBase + tIn*p2HBase
+			}
+			ir := math.Max(0.0, rStIn(i, iy)+baseInDR(iy))
+			polyBase = append(polyBase, meridianPt{r: ir, y: iy})
+		}
+
+		if stepB, ok := verticalDropInContactStep(polyBase, polyRing); ok && stepB > maxStepBase {
+			maxStepBase = stepB
+		}
+	}
+
+	return math.Max(0.0, maxStepBase) + sepDY, math.Max(0.0, maxStepRing) + sepDY
+}
