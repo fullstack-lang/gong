@@ -97,7 +97,25 @@ func (ctx *MultiGenerateContext) hasAIXMAirspace() bool {
 		ctx.hasStruct("aixmfeatures", "GeoBorderType")
 }
 
+func (ctx *MultiGenerateContext) hasAIXMNavaid() bool {
+	return ctx.hasGMLMaplibre() &&
+		ctx.hasStruct("aixmfeatures", "NavaidType") &&
+		ctx.hasStruct("aixmfeatures", "DesignatedPointType")
+}
+
 func (ctx *MultiGenerateContext) generateStagerFile() error {
+	targetPath := filepath.Join(ctx.TargetModelsDir, "stager.go")
+	if ctx.hasAIXMAirspace() {
+		if existing, err := os.ReadFile(targetPath); err == nil && strings.Contains(string(existing), "selectedAirspace") {
+			return nil
+		}
+	}
+	if ctx.hasAIXMNavaid() {
+		if existing, err := os.ReadFile(targetPath); err == nil && strings.Contains(string(existing), "selectedFeatureKey") {
+			return nil
+		}
+	}
+
 	maplibreImports := ""
 	maplibreFields := ""
 	maplibreInit := ""
@@ -112,6 +130,12 @@ func (ctx *MultiGenerateContext) generateStagerFile() error {
 				aixmImp = fmt.Sprintf("\t%q\n\n", pkg.ImportPath)
 				aixmFields = "\tselectedAirspace     *aixmfeatures.AirspaceTimeSliceType\n\tselectedGeoBorder    *aixmfeatures.GeoBorderTimeSliceType\n\tfocusOnSelected      bool\n\tresetCameraToBounds  bool\n\thiddenAirspaces      map[*aixmfeatures.AirspaceType]bool\n\thiddenGeoBorders     map[*aixmfeatures.GeoBorderType]bool\n\texpandedCategories   map[string]bool\n\tisAirspacesExpanded  bool\n\tisGeoBordersExpanded bool\n"
 				aixmReset = "\t\tstager.selectedAirspace = nil\n\t\tstager.selectedGeoBorder = nil\n\t\tstager.focusOnSelected = false\n\t\tstager.resetCameraToBounds = true\n\t\tstager.hiddenAirspaces = make(map[*aixmfeatures.AirspaceType]bool)\n\t\tstager.hiddenGeoBorders = make(map[*aixmfeatures.GeoBorderType]bool)\n\t\tstager.expandedCategories = make(map[string]bool)\n"
+			}
+		} else if ctx.hasAIXMNavaid() {
+			if pkg := ctx.findTargetPackage("aixmfeatures"); pkg != nil {
+				aixmImp = fmt.Sprintf("\t%q\n\n", pkg.ImportPath)
+				aixmFields = "\tselectedFeatureKey             string\n\tfocusOnSelected                bool\n\tresetCameraToBounds            bool\n\thiddenFeatures                 map[string]bool\n\texpandedCategories             map[string]bool\n\texpandedFeatures               map[string]bool\n\tisNavaidSystemsExpanded        bool\n\tisRadioEquipmentExpanded       bool\n\tisApproachGuidanceExpanded     bool\n\tisWaypointsExpanded            bool\n\tisIndicationsExpanded          bool\n\tisCheckpointsAndRadarsExpanded bool\n"
+				aixmReset = "\t\tstager.selectedFeatureKey = \"\"\n\t\tstager.focusOnSelected = false\n\t\tstager.resetCameraToBounds = true\n\t\tstager.hiddenFeatures = make(map[string]bool)\n\t\tstager.expandedCategories = make(map[string]bool)\n\t\tstager.expandedFeatures = make(map[string]bool)\n"
 			}
 		}
 		maplibreImports = fmt.Sprintf(`
@@ -131,6 +155,10 @@ func (stager *Stager) GetMaplibreStage() *maplibre.Stage {
 
 func (stager *Stager) GetCesiumStage() *cesium.Stage {
 	return stager.cesiumStage
+}
+
+func (stager *Stager) GetTreeStage() *tree.Stage {
+	return stager.treeStage
 }
 `
 	}
@@ -235,10 +263,14 @@ func (ctx *MultiGenerateContext) generateStagerCreateViewsFile() error {
 				},
 			},
 `
-		cesiumViewBlock = `
+		cesiumViewTitle := "3D Cesium Airspace Globe"
+		if ctx.hasAIXMNavaid() {
+			cesiumViewTitle = "3D Cesium Navaid Globe"
+		}
+		cesiumViewBlock = fmt.Sprintf(`
 	stager.splitStage.StageBranch(&split.View{
-		Name:      "3D Cesium Airspace Globe",
-		Direction: split.Horizontal,
+		Name:      %q,
+		Direction: split.Horizontal,`, cesiumViewTitle) + `
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:             "Document Tree, Drop-in & Export",
@@ -397,6 +429,11 @@ func (ctx *MultiGenerateContext) generateStagerTreeFile() error {
 	targetPath := filepath.Join(ctx.TargetModelsDir, "stager_ux_tree.go")
 	if ctx.hasAIXMAirspace() {
 		if existing, err := os.ReadFile(targetPath); err == nil && strings.Contains(string(existing), "selectedAirspace") {
+			return nil
+		}
+	}
+	if ctx.hasAIXMNavaid() {
+		if existing, err := os.ReadFile(targetPath); err == nil && strings.Contains(string(existing), "selectedFeatureKey") {
 			return nil
 		}
 	}
@@ -584,19 +621,27 @@ func (ctx *MultiGenerateContext) generateStagerXMLIOFile() error {
 
 	toggle3DBlock := "\tgroup1.Buttons = append(group1.Buttons, btnExportGo, btnExportXML)"
 	if ctx.hasGMLMaplibre() {
-		toggle3DBlock = `	btnToggle3D := (&button.Button{
-		Name:        "Toggle 2D / 3D Airspace Volumes",
+		toggle3DName := "Toggle 2D / 3D Airspace Volumes"
+		toggle3DTooltip := "Switch MapLibre between 2D Aeronautical Chart and 3D Extruded Airspace Volumes"
+		if ctx.hasAIXMNavaid() {
+			toggle3DName = "Toggle 2D / 3D Navaid Volumes"
+			toggle3DTooltip = "Switch MapLibre between 2D Aeronautical Chart and 3D Extruded Navaid Coverage & ILS Glidepath Volumes"
+		}
+		toggle3DBlock = fmt.Sprintf(`	btnToggle3D := (&button.Button{
+		Name:        %q,
 		Icon:        string(tree_buttons.BUTTON_visibility),
 		Label:       "Toggle 2D / 3D Volumes",
 		HasToolTip:  true,
-		ToolTipText: "Switch MapLibre between 2D Aeronautical Chart and 3D Extruded Airspace Volumes",
+		ToolTipText: %q,
 		OnClick: func() {
+			stager.mu.Lock()
+			defer stager.mu.Unlock()
 			stager.extrude3D = !stager.extrude3D
 			stager.ux_maplibre()
 		},
 	}).Stage(stager.buttonStage)
 
-	group1.Buttons = append(group1.Buttons, btnExportGo, btnExportXML, btnToggle3D)`
+	group1.Buttons = append(group1.Buttons, btnExportGo, btnExportXML, btnToggle3D)`, toggle3DName, toggle3DTooltip)
 	}
 
 	code := fmt.Sprintf(`// generated by xsd2gong - Dual Go Multi-Stage & XML File Drop-in and Export

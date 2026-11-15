@@ -1312,6 +1312,21 @@
             ]
         },
         {
+            "label": "dsm - xsd - aixm/navaid: go run . edit ",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/app/xsd/tests/aixm/navaid/go/cmd/navaid"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                ""
+            ]
+        },
+        {
             "label": "dsm - xsd - aixm/navaid: gong portable",
             "type": "shell",
             "options": {

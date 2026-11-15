@@ -2,35 +2,640 @@
 <message:AIXMBasicMessage xmlns:message="http://www.aixm.aero/schema/5.1.1/message"
                           xmlns:aixm="http://www.aixm.aero/schema/5.1.1"
                           xmlns:gml="http://www.opengis.net/gml/3.2"
-                          gml:id="MSG_NAVAID_POINT_001">
-    <gml:description>Navaids and DesignatedPoints Domain Message</gml:description>
+                          xmlns:xlink="http://www.w3.org/1999/xlink"
+                          gml:id="MSG_LFPG_NAVAIDS_001">
+    <gml:description>Paris Charles-de-Gaulle (LFPG) &amp; Paris TMA (LFFF) Navaids, Approach Guidance, Fixes, Indications &amp; Radar Baseline</gml:description>
     <gml:identifier codeSpace="urn:uuid:">423e4567-e89b-12d3-a456-426614174000</gml:identifier>
+
+    <!-- 1. Radio Navaid Equipment: DVOR, DME, NDB -->
+    <message:hasMember>
+        <aixm:VOR gml:id="VOR_PGN">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000101</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:VORTimeSlice gml:id="VOR_TS_PGN_1">
+                    <aixm:name>PARIS CHARLES DE GAULLE</aixm:name>
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:designator>PGN</aixm:designator>
+                    <aixm:emissionClass>A9W</aixm:emissionClass>
+                    <aixm:mobile>NO</aixm:mobile>
+                    <aixm:magneticVariation>1.2</aixm:magneticVariation>
+                    <aixm:dateMagneticVariation>2025</aixm:dateMagneticVariation>
+                    <aixm:flightChecked>YES</aixm:flightChecked>
+                    <aixm:location>
+                        <aixm:ElevatedPoint srsName="urn:ogc:def:crs:EPSG::4326" gml:id="EP_VOR_PGN">
+                            <gml:pos>49.019722 2.602222</gml:pos>
+                            <aixm:elevation uom="M">119</aixm:elevation>
+                            <aixm:verticalDatum>EGM_96</aixm:verticalDatum>
+                        </aixm:ElevatedPoint>
+                    </aixm:location>
+                    <aixm:authority>
+                        <aixm:AuthorityForNavaidEquipment gml:id="AUTH_VOR_PGN_OWN">
+                            <aixm:type>OWN</aixm:type>
+                            <aixm:theOrganisationAuthority xlink:href="urn:uuid:10000000-0000-0000-0000-000000000001" xlink:title="DGAC DSNA FRANCE" xlink:type="simple"/>
+                        </aixm:AuthorityForNavaidEquipment>
+                    </aixm:authority>
+                    <aixm:authority>
+                        <aixm:AuthorityForNavaidEquipment gml:id="AUTH_VOR_PGN_OP">
+                            <aixm:type>OPERATE</aixm:type>
+                            <aixm:theOrganisationAuthority xlink:href="urn:uuid:10000000-0000-0000-0000-000000000002" xlink:title="SNA REGION PARISIENNE" xlink:type="simple"/>
+                        </aixm:AuthorityForNavaidEquipment>
+                    </aixm:authority>
+                    <aixm:monitoring>
+                        <aixm:NavaidEquipmentMonitoring gml:id="MON_VOR_PGN">
+                            <aixm:monitored>YES</aixm:monitored>
+                        </aixm:NavaidEquipmentMonitoring>
+                    </aixm:monitoring>
+                    <aixm:availability>
+                        <aixm:NavaidOperationalStatus gml:id="STAT_VOR_PGN">
+                            <aixm:operationalStatus>OPERATIONAL</aixm:operationalStatus>
+                        </aixm:NavaidOperationalStatus>
+                    </aixm:availability>
+                    <aixm:annotation>
+                        <aixm:Note gml:id="NOTE_VOR_PGN">
+                            <aixm:propertyName>frequency</aixm:propertyName>
+                            <aixm:purpose>REMARK</aixm:purpose>
+                            <aixm:translatedNote>
+                                <aixm:LinguisticNote gml:id="LNOTE_VOR_PGN">
+                                    <aixm:note lang="ENG">Operational coverage: 200 NM - FL 500</aixm:note>
+                                </aixm:LinguisticNote>
+                            </aixm:translatedNote>
+                        </aixm:Note>
+                    </aixm:annotation>
+                    <aixm:type>DVOR</aixm:type>
+                    <aixm:frequency uom="MHZ">115.35</aixm:frequency>
+                    <aixm:zeroBearingDirection>MAG</aixm:zeroBearingDirection>
+                    <aixm:declination>1.2</aixm:declination>
+                </aixm:VORTimeSlice>
+            </aixm:timeSlice>
+        </aixm:VOR>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:DME gml:id="DME_PGN">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000102</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:DMETimeSlice gml:id="DME_TS_PGN_1">
+                    <aixm:name>PARIS CHARLES DE GAULLE</aixm:name>
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:designator>PGN</aixm:designator>
+                    <aixm:emissionClass>PON</aixm:emissionClass>
+                    <aixm:mobile>NO</aixm:mobile>
+                    <aixm:flightChecked>YES</aixm:flightChecked>
+                    <aixm:location>
+                        <aixm:ElevatedPoint srsName="urn:ogc:def:crs:EPSG::4326" gml:id="EP_DME_PGN">
+                            <gml:pos>49.019722 2.602222</gml:pos>
+                            <aixm:elevation uom="M">119</aixm:elevation>
+                            <aixm:verticalDatum>EGM_96</aixm:verticalDatum>
+                        </aixm:ElevatedPoint>
+                    </aixm:location>
+                    <aixm:monitoring>
+                        <aixm:NavaidEquipmentMonitoring gml:id="MON_DME_PGN">
+                            <aixm:monitored>YES</aixm:monitored>
+                        </aixm:NavaidEquipmentMonitoring>
+                    </aixm:monitoring>
+                    <aixm:type>PRECISION</aixm:type>
+                    <aixm:channel>100X</aixm:channel>
+                    <aixm:ghostFrequency uom="MHZ">115.35</aixm:ghostFrequency>
+                    <aixm:displace uom="M">0</aixm:displace>
+                </aixm:DMETimeSlice>
+            </aixm:timeSlice>
+        </aixm:DME>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:NDB gml:id="NDB_CGO">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000103</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:NDBTimeSlice gml:id="NDB_TS_CGO_1">
+                    <aixm:name>ROISSY</aixm:name>
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:designator>CGO</aixm:designator>
+                    <aixm:emissionClass>NONA2A</aixm:emissionClass>
+                    <aixm:mobile>NO</aixm:mobile>
+                    <aixm:flightChecked>YES</aixm:flightChecked>
+                    <aixm:location>
+                        <aixm:ElevatedPoint srsName="urn:ogc:def:crs:EPSG::4326" gml:id="EP_NDB_CGO">
+                            <gml:pos>49.005556 2.721944</gml:pos>
+                            <aixm:elevation uom="M">110</aixm:elevation>
+                            <aixm:verticalDatum>EGM_96</aixm:verticalDatum>
+                        </aixm:ElevatedPoint>
+                    </aixm:location>
+                    <aixm:annotation>
+                        <aixm:Note gml:id="NOTE_NDB_CGO">
+                            <aixm:propertyName>frequency</aixm:propertyName>
+                            <aixm:purpose>REMARK</aixm:purpose>
+                            <aixm:translatedNote>
+                                <aixm:LinguisticNote gml:id="LNOTE_NDB_CGO">
+                                    <aixm:note lang="ENG">DOC: 25 NM</aixm:note>
+                                </aixm:LinguisticNote>
+                            </aixm:translatedNote>
+                        </aixm:Note>
+                    </aixm:annotation>
+                    <aixm:frequency uom="KHZ">343</aixm:frequency>
+                    <aixm:class>L</aixm:class>
+                </aixm:NDBTimeSlice>
+            </aixm:timeSlice>
+        </aixm:NDB>
+    </message:hasMember>
+
+    <!-- 2. Approach & Landing Guidance: ILS RWY 27R (Localizer, Glidepath, Outer Marker) -->
+    <message:hasMember>
+        <aixm:Localizer gml:id="LLZ_CGN">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000201</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:LocalizerTimeSlice gml:id="LLZ_TS_CGN_1">
+                    <aixm:name>LFPG RWY 27R LOCALIZER</aixm:name>
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:designator>CGN</aixm:designator>
+                    <aixm:emissionClass>A8W</aixm:emissionClass>
+                    <aixm:mobile>NO</aixm:mobile>
+                    <aixm:magneticVariation>1.2</aixm:magneticVariation>
+                    <aixm:dateMagneticVariation>2025</aixm:dateMagneticVariation>
+                    <aixm:flightChecked>YES</aixm:flightChecked>
+                    <aixm:location>
+                        <aixm:ElevatedPoint srsName="urn:ogc:def:crs:EPSG::4326" gml:id="EP_LLZ_CGN">
+                            <gml:pos>49.020556 2.515278</gml:pos>
+                            <aixm:elevation uom="M">118</aixm:elevation>
+                            <aixm:verticalDatum>EGM_96</aixm:verticalDatum>
+                        </aixm:ElevatedPoint>
+                    </aixm:location>
+                    <aixm:monitoring>
+                        <aixm:NavaidEquipmentMonitoring gml:id="MON_LLZ_CGN">
+                            <aixm:monitored>YES</aixm:monitored>
+                        </aixm:NavaidEquipmentMonitoring>
+                    </aixm:monitoring>
+                    <aixm:frequency uom="MHZ">110.35</aixm:frequency>
+                    <aixm:magneticBearing>265.0</aixm:magneticBearing>
+                    <aixm:trueBearing>266.2</aixm:trueBearing>
+                    <aixm:declination>1.2</aixm:declination>
+                    <aixm:widthCourse>4.8</aixm:widthCourse>
+                    <aixm:backCourseUsable>NO</aixm:backCourseUsable>
+                </aixm:LocalizerTimeSlice>
+            </aixm:timeSlice>
+        </aixm:Localizer>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:Glidepath gml:id="GP_CGN">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000202</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:GlidepathTimeSlice gml:id="GP_TS_CGN_1">
+                    <aixm:name>LFPG RWY 27R GLIDEPATH</aixm:name>
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:designator>CGN</aixm:designator>
+                    <aixm:emissionClass>A8W</aixm:emissionClass>
+                    <aixm:mobile>NO</aixm:mobile>
+                    <aixm:flightChecked>YES</aixm:flightChecked>
+                    <aixm:location>
+                        <aixm:ElevatedPoint srsName="urn:ogc:def:crs:EPSG::4326" gml:id="EP_GP_CGN">
+                            <gml:pos>49.023056 2.562500</gml:pos>
+                            <aixm:elevation uom="M">119</aixm:elevation>
+                            <aixm:verticalDatum>EGM_96</aixm:verticalDatum>
+                        </aixm:ElevatedPoint>
+                    </aixm:location>
+                    <aixm:frequency uom="MHZ">335.0</aixm:frequency>
+                    <aixm:slope>3.0</aixm:slope>
+                    <aixm:rdh uom="FT">54</aixm:rdh>
+                </aixm:GlidepathTimeSlice>
+            </aixm:timeSlice>
+        </aixm:Glidepath>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:MarkerBeacon gml:id="MKR_CGN_OM">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000203</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:MarkerBeaconTimeSlice gml:id="MKR_TS_CGN_OM_1">
+                    <aixm:name>OM LFPG RWY 27R</aixm:name>
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:designator>CGN</aixm:designator>
+                    <aixm:emissionClass>NONA2A</aixm:emissionClass>
+                    <aixm:mobile>NO</aixm:mobile>
+                    <aixm:flightChecked>YES</aixm:flightChecked>
+                    <aixm:location>
+                        <aixm:ElevatedPoint srsName="urn:ogc:def:crs:EPSG::4326" gml:id="EP_MKR_CGN_OM">
+                            <gml:pos>49.026667 2.668056</gml:pos>
+                            <aixm:elevation uom="M">112</aixm:elevation>
+                            <aixm:verticalDatum>EGM_96</aixm:verticalDatum>
+                        </aixm:ElevatedPoint>
+                    </aixm:location>
+                    <aixm:class>OUTER</aixm:class>
+                    <aixm:frequency uom="MHZ">75</aixm:frequency>
+                    <aixm:axisBearing>176.2</aixm:axisBearing>
+                    <aixm:auralMorseCode>----</aixm:auralMorseCode>
+                </aixm:MarkerBeaconTimeSlice>
+            </aixm:timeSlice>
+        </aixm:MarkerBeacon>
+    </message:hasMember>
+
+    <!-- 3. Composite Navaid Systems -->
     <message:hasMember>
         <aixm:Navaid gml:id="NAV_PGN">
             <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000031</gml:identifier>
             <aixm:timeSlice>
                 <aixm:NavaidTimeSlice gml:id="NAV_TS_PGN_1">
+                    <aixm:name>PARIS CHARLES DE GAULLE</aixm:name>
                     <aixm:interpretation>BASELINE</aixm:interpretation>
                     <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
                     <aixm:type>VOR_DME</aixm:type>
                     <aixm:designator>PGN</aixm:designator>
-                    <aixm:name>PARIS CHARLES DE GAULLE</aixm:name>
+                    <aixm:navaidEquipment>
+                        <aixm:NavaidComponent gml:id="NC_PGN_VOR">
+                            <aixm:collocationGroup>1</aixm:collocationGroup>
+                            <aixm:providesNavigableLocation>YES</aixm:providesNavigableLocation>
+                            <aixm:theNavaidEquipment xlink:href="#VOR_PGN" xlink:title="DVOR PGN 115.35 MHz" xlink:type="simple"/>
+                        </aixm:NavaidComponent>
+                    </aixm:navaidEquipment>
+                    <aixm:navaidEquipment>
+                        <aixm:NavaidComponent gml:id="NC_PGN_DME">
+                            <aixm:collocationGroup>1</aixm:collocationGroup>
+                            <aixm:providesNavigableLocation>NO</aixm:providesNavigableLocation>
+                            <aixm:theNavaidEquipment xlink:href="#DME_PGN" xlink:title="DME PGN CH 100X" xlink:type="simple"/>
+                        </aixm:NavaidComponent>
+                    </aixm:navaidEquipment>
+                    <aixm:location>
+                        <aixm:ElevatedPoint srsName="urn:ogc:def:crs:EPSG::4326" gml:id="EP_NAV_PGN">
+                            <gml:pos>49.019722 2.602222</gml:pos>
+                            <aixm:elevation uom="M">119</aixm:elevation>
+                            <aixm:verticalDatum>EGM_96</aixm:verticalDatum>
+                        </aixm:ElevatedPoint>
+                    </aixm:location>
+                    <aixm:servedAirport xlink:href="urn:uuid:20000000-0000-0000-0000-000000000001" xlink:title="LFPG PARIS CHARLES DE GAULLE" xlink:type="simple"/>
+                    <aixm:availability>
+                        <aixm:NavaidOperationalStatus gml:id="STAT_NAV_PGN">
+                            <aixm:operationalStatus>OPERATIONAL</aixm:operationalStatus>
+                        </aixm:NavaidOperationalStatus>
+                    </aixm:availability>
+                    <aixm:flightChecked>YES</aixm:flightChecked>
+                    <aixm:purpose>ALL</aixm:purpose>
                 </aixm:NavaidTimeSlice>
             </aixm:timeSlice>
         </aixm:Navaid>
     </message:hasMember>
+
+    <message:hasMember>
+        <aixm:Navaid gml:id="NAV_CGO">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000033</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:NavaidTimeSlice gml:id="NAV_TS_CGO_1">
+                    <aixm:name>ROISSY</aixm:name>
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:type>NDB</aixm:type>
+                    <aixm:designator>CGO</aixm:designator>
+                    <aixm:navaidEquipment>
+                        <aixm:NavaidComponent gml:id="NC_CGO_NDB">
+                            <aixm:collocationGroup>1</aixm:collocationGroup>
+                            <aixm:providesNavigableLocation>YES</aixm:providesNavigableLocation>
+                            <aixm:theNavaidEquipment xlink:href="#NDB_CGO" xlink:title="NDB CGO 343 kHz" xlink:type="simple"/>
+                        </aixm:NavaidComponent>
+                    </aixm:navaidEquipment>
+                    <aixm:servedAirport xlink:href="urn:uuid:20000000-0000-0000-0000-000000000001" xlink:title="LFPG PARIS CHARLES DE GAULLE" xlink:type="simple"/>
+                    <aixm:flightChecked>YES</aixm:flightChecked>
+                    <aixm:purpose>TERMINAL</aixm:purpose>
+                </aixm:NavaidTimeSlice>
+            </aixm:timeSlice>
+        </aixm:Navaid>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:Navaid gml:id="NAV_CGN">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000034</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:NavaidTimeSlice gml:id="NAV_TS_CGN_1">
+                    <aixm:name>ILS CAT III RWY 27R</aixm:name>
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:type>ILS</aixm:type>
+                    <aixm:designator>CGN</aixm:designator>
+                    <aixm:navaidEquipment>
+                        <aixm:NavaidComponent gml:id="NC_CGN_LLZ">
+                            <aixm:providesNavigableLocation>YES</aixm:providesNavigableLocation>
+                            <aixm:theNavaidEquipment xlink:href="#LLZ_CGN" xlink:title="LLZ CGN 110.35 MHz" xlink:type="simple"/>
+                        </aixm:NavaidComponent>
+                    </aixm:navaidEquipment>
+                    <aixm:navaidEquipment>
+                        <aixm:NavaidComponent gml:id="NC_CGN_GP">
+                            <aixm:providesNavigableLocation>NO</aixm:providesNavigableLocation>
+                            <aixm:theNavaidEquipment xlink:href="#GP_CGN" xlink:title="GP CGN 335.0 MHz" xlink:type="simple"/>
+                        </aixm:NavaidComponent>
+                    </aixm:navaidEquipment>
+                    <aixm:navaidEquipment>
+                        <aixm:NavaidComponent gml:id="NC_CGN_OM">
+                            <aixm:markerPosition>LO</aixm:markerPosition>
+                            <aixm:providesNavigableLocation>NO</aixm:providesNavigableLocation>
+                            <aixm:theNavaidEquipment xlink:href="#MKR_CGN_OM" xlink:title="OM CGN 75 MHz" xlink:type="simple"/>
+                        </aixm:NavaidComponent>
+                    </aixm:navaidEquipment>
+                    <aixm:runwayDirection xlink:href="urn:uuid:20000000-0000-0000-0000-000000000027" xlink:title="LFPG 27R" xlink:type="simple"/>
+                    <aixm:servedAirport xlink:href="urn:uuid:20000000-0000-0000-0000-000000000001" xlink:title="LFPG PARIS CHARLES DE GAULLE" xlink:type="simple"/>
+                    <aixm:flightChecked>YES</aixm:flightChecked>
+                    <aixm:purpose>APPROACH</aixm:purpose>
+                    <aixm:signalPerformance>III</aixm:signalPerformance>
+                    <aixm:courseQuality>E</aixm:courseQuality>
+                </aixm:NavaidTimeSlice>
+            </aixm:timeSlice>
+        </aixm:Navaid>
+    </message:hasMember>
+
+    <!-- 4. Waypoints & Airspace Significant Points -->
     <message:hasMember>
         <aixm:DesignatedPoint gml:id="DP_MOPAR">
             <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000032</gml:identifier>
             <aixm:timeSlice>
                 <aixm:DesignatedPointTimeSlice gml:id="DP_TS_MOPAR_1">
+                    <aixm:name>MOPAR</aixm:name>
                     <aixm:interpretation>BASELINE</aixm:interpretation>
                     <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
                     <aixm:designator>MOPAR</aixm:designator>
                     <aixm:type>ICAO</aixm:type>
-                    <aixm:name>MOPAR</aixm:name>
+                    <aixm:location>
+                        <aixm:Point srsName="urn:ogc:def:crs:EPSG::4326" gml:id="PT_DP_MOPAR">
+                            <gml:pos>49.461111 2.785000</gml:pos>
+                        </aixm:Point>
+                    </aixm:location>
                 </aixm:DesignatedPointTimeSlice>
             </aixm:timeSlice>
         </aixm:DesignatedPoint>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:DesignatedPoint gml:id="DP_BANOX">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000302</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:DesignatedPointTimeSlice gml:id="DP_TS_BANOX_1">
+                    <aixm:name>BANOX</aixm:name>
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:designator>BANOX</aixm:designator>
+                    <aixm:type>ICAO</aixm:type>
+                    <aixm:location>
+                        <aixm:Point srsName="urn:ogc:def:crs:EPSG::4326" gml:id="PT_DP_BANOX">
+                            <gml:pos>48.796389 2.012500</gml:pos>
+                        </aixm:Point>
+                    </aixm:location>
+                </aixm:DesignatedPointTimeSlice>
+            </aixm:timeSlice>
+        </aixm:DesignatedPoint>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:DesignatedPoint gml:id="DP_LORNI">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000303</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:DesignatedPointTimeSlice gml:id="DP_TS_LORNI_1">
+                    <aixm:name>LORNI</aixm:name>
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:designator>LORNI</aixm:designator>
+                    <aixm:type>ICAO</aixm:type>
+                    <aixm:location>
+                        <aixm:Point srsName="urn:ogc:def:crs:EPSG::4326" gml:id="PT_DP_LORNI">
+                            <gml:pos>49.318056 2.184444</gml:pos>
+                        </aixm:Point>
+                    </aixm:location>
+                </aixm:DesignatedPointTimeSlice>
+            </aixm:timeSlice>
+        </aixm:DesignatedPoint>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:DesignatedPoint gml:id="DP_OKIPA">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000304</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:DesignatedPointTimeSlice gml:id="DP_TS_OKIPA_1">
+                    <aixm:name>OKIPA</aixm:name>
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:designator>OKIPA</aixm:designator>
+                    <aixm:type>ADHP</aixm:type>
+                    <aixm:location>
+                        <aixm:Point srsName="urn:ogc:def:crs:EPSG::4326" gml:id="PT_DP_OKIPA">
+                            <gml:pos>49.035556 2.868056</gml:pos>
+                        </aixm:Point>
+                    </aixm:location>
+                    <aixm:airportHeliport xlink:href="urn:uuid:20000000-0000-0000-0000-000000000001" xlink:title="LFPG PARIS CHARLES DE GAULLE" xlink:type="simple"/>
+                </aixm:DesignatedPointTimeSlice>
+            </aixm:timeSlice>
+        </aixm:DesignatedPoint>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:SignificantPointInAirspace gml:id="SPA_MOPAR">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000305</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:SignificantPointInAirspaceTimeSlice gml:id="SPA_TS_MOPAR_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:type>ENTRY_EXIT</aixm:type>
+                    <aixm:relativeLocation>BORDER</aixm:relativeLocation>
+                    <aixm:containingAirspace xlink:href="urn:uuid:30000000-0000-0000-0000-000000000001" xlink:title="LFFF TMA PARIS" xlink:type="simple"/>
+                    <aixm:location_fixDesignatedPoint xlink:href="#DP_MOPAR" xlink:title="DPN MOPAR" xlink:type="simple"/>
+                </aixm:SignificantPointInAirspaceTimeSlice>
+            </aixm:timeSlice>
+        </aixm:SignificantPointInAirspace>
+    </message:hasMember>
+
+    <!-- 5. Bearings & Distance Indications -->
+    <message:hasMember>
+        <aixm:AngleIndication gml:id="ANG_PGN_MOPAR">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000401</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:AngleIndicationTimeSlice gml:id="ANG_TS_PGN_MOPAR_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:angle>015</aixm:angle>
+                    <aixm:angleType>RDL</aixm:angleType>
+                    <aixm:indicationDirection>FROM</aixm:indicationDirection>
+                    <aixm:trueAngle>016.2</aixm:trueAngle>
+                    <aixm:minimumReceptionAltitude uom="FT">3000</aixm:minimumReceptionAltitude>
+                    <aixm:fix xlink:href="#DP_MOPAR" xlink:title="DPN MOPAR" xlink:type="simple"/>
+                    <aixm:pointChoice_navaidSystem xlink:href="#NAV_PGN" xlink:title="NAV VOR/DME PGN" xlink:type="simple"/>
+                </aixm:AngleIndicationTimeSlice>
+            </aixm:timeSlice>
+        </aixm:AngleIndication>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:AngleIndication gml:id="ANG_PGN_BANOX">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000402</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:AngleIndicationTimeSlice gml:id="ANG_TS_PGN_BANOX_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:angle>240</aixm:angle>
+                    <aixm:angleType>RDL</aixm:angleType>
+                    <aixm:indicationDirection>FROM</aixm:indicationDirection>
+                    <aixm:trueAngle>241.2</aixm:trueAngle>
+                    <aixm:minimumReceptionAltitude uom="FT">3000</aixm:minimumReceptionAltitude>
+                    <aixm:fix xlink:href="#DP_BANOX" xlink:title="DPN BANOX" xlink:type="simple"/>
+                    <aixm:pointChoice_navaidSystem xlink:href="#NAV_PGN" xlink:title="NAV VOR/DME PGN" xlink:type="simple"/>
+                </aixm:AngleIndicationTimeSlice>
+            </aixm:timeSlice>
+        </aixm:AngleIndication>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:AngleIndication gml:id="ANG_PGN_LORNI">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000403</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:AngleIndicationTimeSlice gml:id="ANG_TS_PGN_LORNI_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:angle>316</aixm:angle>
+                    <aixm:angleType>RDL</aixm:angleType>
+                    <aixm:indicationDirection>FROM</aixm:indicationDirection>
+                    <aixm:trueAngle>317.2</aixm:trueAngle>
+                    <aixm:minimumReceptionAltitude uom="FT">2500</aixm:minimumReceptionAltitude>
+                    <aixm:fix xlink:href="#DP_LORNI" xlink:title="DPN LORNI" xlink:type="simple"/>
+                    <aixm:pointChoice_navaidSystem xlink:href="#NAV_PGN" xlink:title="NAV VOR/DME PGN" xlink:type="simple"/>
+                </aixm:AngleIndicationTimeSlice>
+            </aixm:timeSlice>
+        </aixm:AngleIndication>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:DistanceIndication gml:id="DIST_PGN_MOPAR">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000404</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:DistanceIndicationTimeSlice gml:id="DIST_TS_PGN_MOPAR_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:distance uom="NM">27.5</aixm:distance>
+                    <aixm:minimumReceptionAltitude uom="FT">3000</aixm:minimumReceptionAltitude>
+                    <aixm:type>DME</aixm:type>
+                    <aixm:fix xlink:href="#DP_MOPAR" xlink:title="DPN MOPAR" xlink:type="simple"/>
+                    <aixm:pointChoice_navaidSystem xlink:href="#NAV_PGN" xlink:title="NAV VOR/DME PGN" xlink:type="simple"/>
+                </aixm:DistanceIndicationTimeSlice>
+            </aixm:timeSlice>
+        </aixm:DistanceIndication>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:DistanceIndication gml:id="DIST_PGN_BANOX">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000405</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:DistanceIndicationTimeSlice gml:id="DIST_TS_PGN_BANOX_1">
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:distance uom="NM">27.1</aixm:distance>
+                    <aixm:minimumReceptionAltitude uom="FT">3000</aixm:minimumReceptionAltitude>
+                    <aixm:type>DME</aixm:type>
+                    <aixm:fix xlink:href="#DP_BANOX" xlink:title="DPN BANOX" xlink:type="simple"/>
+                    <aixm:pointChoice_navaidSystem xlink:href="#NAV_PGN" xlink:title="NAV VOR/DME PGN" xlink:type="simple"/>
+                </aixm:DistanceIndicationTimeSlice>
+            </aixm:timeSlice>
+        </aixm:DistanceIndication>
+    </message:hasMember>
+
+    <!-- 6. Checkpoints & Surveillance Radars -->
+    <message:hasMember>
+        <aixm:CheckpointVOR gml:id="CVOR_LFPG_TWY_N">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000501</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:CheckpointVORTimeSlice gml:id="CVOR_TS_LFPG_TWY_N_1">
+                    <aixm:name>TWY N HOLDING POINT</aixm:name>
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:category>G</aixm:category>
+                    <aixm:distance uom="NM">1.4</aixm:distance>
+                    <aixm:angle>252</aixm:angle>
+                    <aixm:position>
+                        <aixm:ElevatedPoint srsName="urn:ogc:def:crs:EPSG::4326" gml:id="EP_CVOR_LFPG">
+                            <gml:pos>49.012500 2.568333</gml:pos>
+                            <aixm:elevation uom="M">118</aixm:elevation>
+                            <aixm:verticalDatum>EGM_96</aixm:verticalDatum>
+                        </aixm:ElevatedPoint>
+                    </aixm:position>
+                    <aixm:airportHeliport xlink:href="urn:uuid:20000000-0000-0000-0000-000000000001" xlink:title="LFPG PARIS CHARLES DE GAULLE" xlink:type="simple"/>
+                    <aixm:checkPointFacility xlink:href="#VOR_PGN" xlink:title="DVOR PGN" xlink:type="simple"/>
+                </aixm:CheckpointVORTimeSlice>
+            </aixm:timeSlice>
+        </aixm:CheckpointVOR>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:SecondarySurveillanceRadar gml:id="SSR_CDG_NORTH">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000502</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:SecondarySurveillanceRadarTimeSlice gml:id="SSR_TS_CDG_NORTH_1">
+                    <aixm:name>PARIS CDG MODE-S SSR</aixm:name>
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:range uom="NM">200</aixm:range>
+                    <aixm:digital>YES</aixm:digital>
+                    <aixm:magneticVariation>1.2</aixm:magneticVariation>
+                    <aixm:dateMagneticVariation>2025</aixm:dateMagneticVariation>
+                    <aixm:location>
+                        <aixm:ElevatedPoint srsName="urn:ogc:def:crs:EPSG::4326" gml:id="EP_SSR_CDG_NORTH">
+                            <gml:pos>49.015278 2.576944</gml:pos>
+                            <aixm:elevation uom="M">142</aixm:elevation>
+                            <aixm:verticalDatum>EGM_96</aixm:verticalDatum>
+                        </aixm:ElevatedPoint>
+                    </aixm:location>
+                    <aixm:verticalCoverageAltitude uom="FL">660</aixm:verticalCoverageAltitude>
+                    <aixm:transponder>S</aixm:transponder>
+                    <aixm:monopulse>YES</aixm:monopulse>
+                </aixm:SecondarySurveillanceRadarTimeSlice>
+            </aixm:timeSlice>
+        </aixm:SecondarySurveillanceRadar>
+    </message:hasMember>
+
+    <message:hasMember>
+        <aixm:RadarSystem gml:id="RS_CDG_TAR">
+            <gml:identifier codeSpace="urn:uuid:">00000000-0000-0000-0000-000000000503</gml:identifier>
+            <aixm:timeSlice>
+                <aixm:RadarSystemTimeSlice gml:id="RS_TS_CDG_TAR_1">
+                    <aixm:name>CDG TERMINAL APPROACH RADAR</aixm:name>
+                    <aixm:interpretation>BASELINE</aixm:interpretation>
+                    <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                    <aixm:correctionNumber>0</aixm:correctionNumber>
+                    <aixm:type>TAR</aixm:type>
+                    <aixm:model>THALES RSM970S</aixm:model>
+                    <aixm:broadcastIdentifier>CDG1</aixm:broadcastIdentifier>
+                    <aixm:radarEquipment>
+                        <aixm:RadarComponent gml:id="RC_CDG_SSR">
+                            <aixm:collocationGroup>1</aixm:collocationGroup>
+                            <aixm:theRadarEquipment xlink:href="#SSR_CDG_NORTH" xlink:title="PARIS CDG MODE-S SSR" xlink:type="simple"/>
+                        </aixm:RadarComponent>
+                    </aixm:radarEquipment>
+                    <aixm:airportHeliport xlink:href="urn:uuid:20000000-0000-0000-0000-000000000001" xlink:title="LFPG PARIS CHARLES DE GAULLE" xlink:type="simple"/>
+                    <aixm:location>
+                        <aixm:ElevatedPoint srsName="urn:ogc:def:crs:EPSG::4326" gml:id="EP_RS_CDG_TAR">
+                            <gml:pos>49.015278 2.576944</gml:pos>
+                            <aixm:elevation uom="M">142</aixm:elevation>
+                            <aixm:verticalDatum>EGM_96</aixm:verticalDatum>
+                        </aixm:ElevatedPoint>
+                    </aixm:location>
+                </aixm:RadarSystemTimeSlice>
+            </aixm:timeSlice>
+        </aixm:RadarSystem>
     </message:hasMember>
 </message:AIXMBasicMessage>

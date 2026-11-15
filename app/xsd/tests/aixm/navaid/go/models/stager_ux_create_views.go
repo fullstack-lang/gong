@@ -21,7 +21,7 @@ func (stager *Stager) createViews() {
 			{
 				Name:             "Document Tree, Drop-in & Export",
 				ShowNameInHeader: false,
-				Size:             40,
+				Size:             25,
 				AsSplit: &split.AsSplit{
 					Name:      "sidebar split",
 					Direction: split.Vertical,
@@ -62,8 +62,82 @@ func (stager *Stager) createViews() {
 				},
 			},
 			{
+				Name:             "AIXM Aeronautical Map (MapLibre)",
+				Size:             45,
+				ShowNameInHeader: false,
+				Maplibre: &split.Maplibre{
+					StackName: stager.maplibreStage.GetName(),
+				},
+			},
+			{
 				Name:             "Inspector Form",
-				Size:             60,
+				Size:             30,
+				ShowNameInHeader: false,
+				Form: &split.Form{
+					StackName: formStageName,
+				},
+			},
+		},
+	})
+
+	stager.splitStage.StageBranch(&split.View{
+		Name:      "3D Cesium Navaid Globe",
+		Direction: split.Horizontal,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Name:             "Document Tree, Drop-in & Export",
+				ShowNameInHeader: false,
+				Size:             25,
+				AsSplit: &split.AsSplit{
+					Name:      "cesium sidebar split",
+					Direction: split.Vertical,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Name:             "Document & Semantic Tree",
+							Size:             65,
+							ShowNameInHeader: false,
+							Tree: &split.Tree{
+								StackName: stager.treeStage.GetName(),
+							},
+						},
+						{
+							Name:             "Load Multi-Stage Go File",
+							Size:             12,
+							ShowNameInHeader: false,
+							Load: &split.Load{
+								StackName: stager.loadStageGo.GetName(),
+							},
+						},
+						{
+							Name:             "Load XML Document",
+							Size:             12,
+							ShowNameInHeader: false,
+							Load: &split.Load{
+								StackName: stager.loadStageXML.GetName(),
+							},
+						},
+						{
+							Name:             "Export Actions",
+							Size:             11,
+							ShowNameInHeader: false,
+							Button: &split.Button{
+								StackName: stager.buttonStage.GetName(),
+							},
+						},
+					},
+				},
+			},
+			{
+				Name:             "AIXM 3D Aeronautical Globe (Cesium)",
+				Size:             45,
+				ShowNameInHeader: false,
+				Cesium: &split.Cesium{
+					StackName: stager.cesiumStage.GetName(),
+				},
+			},
+			{
+				Name:             "Inspector Form",
+				Size:             30,
 				ShowNameInHeader: false,
 				Form: &split.Form{
 					StackName: formStageName,
