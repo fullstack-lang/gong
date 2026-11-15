@@ -148,10 +148,66 @@ func (stager *Stager) createViews() {
 
 	stager.splitStage.StageBranch(&split.View{
 		Name: "Data Probe & Multi-Stage Model",
+		OnClick: func() {
+			if stager.probeForm != nil {
+				stager.probeForm.Refresh()
+			}
+		},
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Split: &split.Split{
 					StackName: stager.stage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	stager.splitStage.StageBranch(&split.View{
+		Name:            "Tree Probe",
+		IsSecondaryView: true,
+		OnClick: func() {
+			if p := stager.treeStage.GetProbeIF(); p != nil {
+				p.Refresh()
+			}
+		},
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.treeStage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	stager.splitStage.StageBranch(&split.View{
+		Name:            "Cesium Probe",
+		IsSecondaryView: true,
+		OnClick: func() {
+			if p := stager.cesiumStage.GetProbeIF(); p != nil {
+				p.Refresh()
+			}
+		},
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.cesiumStage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	stager.splitStage.StageBranch(&split.View{
+		Name:            "MapLibre Probe",
+		IsSecondaryView: true,
+		OnClick: func() {
+			if p := stager.maplibreStage.GetProbeIF(); p != nil {
+				p.Refresh()
+			}
+		},
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.maplibreStage.GetProbeSplitStageName(),
 				},
 			},
 		},

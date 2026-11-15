@@ -117,8 +117,11 @@ func NewStager(
 		stager.ux_load()
 		stager.ux_button()
 		stager.ux_maplibre()
-		if stager.probeForm != nil && numDesignatedPoints <= 500 {
-			stager.probeForm.Refresh()
+		if numDesignatedPoints <= 500 {
+			if stager.probeForm != nil {
+				stager.probeForm.Refresh()
+			}
+			stager.refreshSubProbes()
 		}
 	}
 
@@ -130,8 +133,30 @@ func NewStager(
 	return
 }
 
+func (stager *Stager) refreshSubProbes() {
+	if stager.treeStage != nil {
+		if p := stager.treeStage.GetProbeIF(); p != nil {
+			p.Refresh()
+		}
+	}
+	if stager.cesiumStage != nil {
+		if p := stager.cesiumStage.GetProbeIF(); p != nil {
+			p.Refresh()
+		}
+	}
+	if stager.maplibreStage != nil {
+		if p := stager.maplibreStage.GetProbeIF(); p != nil {
+			p.Refresh()
+		}
+	}
+}
+
 func (stager *Stager) GetSemanticErrors() []string {
 	return stager.semanticErrors
+}
+
+func (stager *Stager) GetSplitStage() *split.Stage {
+	return stager.splitStage
 }
 
 func (stager *Stager) GetMaplibreStage() *maplibre.Stage {

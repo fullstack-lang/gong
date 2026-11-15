@@ -15,6 +15,7 @@ import (
 	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/diagramlayout"
 	cesium "github.com/fullstack-lang/gong/lib/cesium/go/models"
 	maplibre "github.com/fullstack-lang/gong/lib/maplibre/go/models"
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -233,6 +234,34 @@ func TestUnmarshalDonlon(t *testing.T) {
 	hiddenMarkers := len(*stager.GetMaplibreStage().GetInstancesSet[*maplibre.Marker]())
 	if hiddenMarkers >= initialMarkers {
 		t.Errorf("expected marker count to decrease when hiding BOR (before=%d, after=%d)", initialMarkers, hiddenMarkers)
+	}
+
+	// Verify secondary ("Other views") probe views for Tree, Cesium, and MapLibre
+	viewsByName := stager.GetSplitStage().GetInstancesMapByName[*split.View]()
+	expectedSecondaryProbes := []struct {
+		viewName  string
+		stackName string
+	}{
+		{"Tree Probe", stager.GetTreeStage().GetProbeSplitStageName()},
+		{"Cesium Probe", stager.GetCesiumStage().GetProbeSplitStageName()},
+		{"MapLibre Probe", stager.GetMaplibreStage().GetProbeSplitStageName()},
+	}
+	for _, want := range expectedSecondaryProbes {
+		v, ok := viewsByName[want.viewName]
+		if !ok {
+			t.Fatalf("missing secondary probe view %q in splitStage", want.viewName)
+		}
+		if !v.IsSecondaryView {
+			t.Errorf("expected %q to have IsSecondaryView=true (Other views)", want.viewName)
+		}
+		if len(v.RootAsSplitAreas) != 1 || v.RootAsSplitAreas[0].Split == nil || v.RootAsSplitAreas[0].Split.StackName != want.stackName {
+			t.Errorf("view %q: expected Split StackName %q, got %+v", want.viewName, want.stackName, v.RootAsSplitAreas)
+		}
+		if v.OnClick == nil {
+			t.Errorf("expected non-nil OnClick refresh handler on secondary probe view %q", want.viewName)
+		} else {
+			v.OnClick()
+		}
 	}
 }
 
