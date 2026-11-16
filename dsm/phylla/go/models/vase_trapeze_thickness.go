@@ -11,18 +11,55 @@ type trapezeSegment struct {
 	indices    []int
 }
 
+// VaseTrapezeRotationBlend returns a C1-smooth blend weight w in [0, 1] adapting
+// VaseTrapeze ring geometry from unrotated uniform-rim contact (w == 0 at RotationRatio == 0)
+// to rotated constant-3D-normal-thickness contact (w == 1 once the first stacked ring reaches
+// its rotation threshold 1/StackHeight, and at RotationRatio == 1).
+func VaseTrapezeRotationBlend(plant *PlantAbstract) float64 {
+	if plant == nil || plant.TubeVaseAbstract == nil {
+		return 1.0
+	}
+	r := math.Max(0.0, math.Min(1.0, plant.TubeVaseAbstract.RotationRatio))
+	if r <= 0.0 {
+		return 0.0
+	}
+	tFull := 1.0
+	if plant.StackHeight >= 2 {
+		tFull = 1.0 / float64(plant.StackHeight)
+	}
+	if r >= tFull-1e-9 {
+		return 1.0
+	}
+	u := r / tFull
+	return u * u * (3.0 - 2.0*u)
+}
+
 // ComputeVaseTrapezeConstant3DThickness adjusts the resampled bottom and top cylinder curves
 // for VaseTrapeze so that:
-//  1. The 3D wall thickness normal to the projected ring surfaces is constant everywhere
-//     around the ring (both on the gentle M-segments and on the steep N-segments).
-//  2. In ROTATED mode, adjacent rings fit surface-to-surface with zero gap along all
-//     touching gentle M-segments.
+//  1. At RotationRatio == 1 (and once rings rotate), the 3D wall thickness normal to the
+//     projected ring surfaces is constant everywhere around the ring, and adjacent rotated
+//     rings fit surface-to-surface with zero gap along all touching gentle M-segments.
+//  2. At RotationRatio == 0, the vertical/radial rim separation is uniform across all 360°
+//     so unrotated stacked rings touch flush around the entire perimeter with zero gap,
+//     blending smoothly to the rotated constant-3D-thickness curves as RotationRatio increases.
 //  3. All segments join with C0 value and C1 tangent continuity at every rhombus vertex.
 func ComputeVaseTrapezeConstant3DThickness(
 	plant *PlantAbstract,
 	globalR float64,
 	targetAngles []float64,
 	baseBottomY []float64,
+) (bottomY []float64, topY []float64, unrotatedStepDY, rotatedStepDX, rotatedStepDY float64, ok bool) {
+	return computeVaseTrapezeConstant3DThicknessWithBlend(
+		plant, globalR, targetAngles, baseBottomY, VaseTrapezeRotationBlend(plant),
+	)
+}
+
+func computeVaseTrapezeConstant3DThicknessWithBlend(
+	plant *PlantAbstract,
+	globalR float64,
+	targetAngles []float64,
+	baseBottomY []float64,
+	rotBlend float64,
 ) (bottomY []float64, topY []float64, unrotatedStepDY, rotatedStepDX, rotatedStepDY float64, ok bool) {
 	if plant == nil || plant.PlantType != VaseTrapeze || plant.TubeVaseAbstract == nil || !plant.TubeVaseAbstract.HasConstantThickness {
 		return nil, nil, 0, 0, 0, false
@@ -300,9 +337,23 @@ func ComputeVaseTrapezeConstant3DThickness(
 	}
 	kSlope = tanAlpha / rRef
 	denomVertex = math.Hypot(1.0, sV*kSlope)
+	deltaYUniform := deltaYV / denomVertex
+
+	w := math.Max(0.0, math.Min(1.0, rotBlend))
 
 	bottomY = make([]float64, len(targetAngles))
 	topY = make([]float64, len(targetAngles))
+	if w <= 1e-12 {
+		for i := range K {
+			bottomY[i] = smoothBaseY[i]
+			topY[i] = smoothBaseY[i] + deltaYUniform
+		}
+		bottomY[K] = bottomY[0]
+		topY[K] = topY[0]
+		unrotatedStepDY = deltaYUniform
+		return bottomY, topY, unrotatedStepDY, rotatedStepDX, rotatedStepDY, true
+	}
+
 	copy(bottomY, smoothBaseY)
 
 	dBaseAll := make([]float64, len(targetAngles))
@@ -531,6 +582,17 @@ func ComputeVaseTrapezeConstant3DThickness(
 
 	updateAllTopY()
 
+	if w < 1.0-1e-12 {
+		for i := range K {
+			botUnrot := smoothBaseY[i]
+			topUnrot := botUnrot + deltaYUniform
+			bottomY[i] = (1.0-w)*botUnrot + w*bottomY[i]
+			topY[i] = (1.0-w)*topUnrot + w*topY[i]
+		}
+		bottomY[K] = bottomY[0]
+		topY[K] = topY[0]
+	}
+
 	maxDiffY := 0.0
 	for i := range K {
 		if d := topY[i] - bottomY[i]; d > maxDiffY {
@@ -691,7 +753,7 @@ func ComputeVaseTrapezeUnoccupiedInteriorSurfaceProportion(
 	}
 
 	var rotatedStepDX, rotatedStepDY float64
-	if newBottomY, newTopY, _, rotDX, rotDY, constOk := ComputeVaseTrapezeConstant3DThickness(plant, globalR, targetAngles, baseBottomY); constOk {
+	if newBottomY, newTopY, _, rotDX, rotDY, constOk := computeVaseTrapezeConstant3DThicknessWithBlend(plant, globalR, targetAngles, baseBottomY, 1.0); constOk {
 		baseBottomY = newBottomY
 		baseTopY = newTopY
 		rotatedStepDX = rotDX

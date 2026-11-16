@@ -304,7 +304,15 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 	projAngleRad := -vase.ProjectionAngle * math.Pi / 180.0
 	carvedParam := math.Max(0.0, math.Min(1.0, vase.CarvedOutTopRingsParameter))
 
-	deltaYContact := ComputeVaseTrapezeContactStepDY(plant, hasTrapezeConstantThickness)
+	nResampled := min(len(resampledBaseBottom), len(resampledBaseTop))
+	resampledBotYs := make([]float64, nResampled)
+	resampledTopYs := make([]float64, nResampled)
+	for i := range nResampled {
+		resampledBotYs[i] = resampledBaseBottom[i].Y
+		resampledTopYs[i] = resampledBaseTop[i].Y
+	}
+
+	deltaYContact := ComputeVaseTrapezeContactStepDYForCurves(plant, hasTrapezeConstantThickness, resampledBotYs, resampledTopYs)
 	sWall := VaseTrapezeWallSubdivisions(plant)
 	isCurvedWall := IsVaseTrapezeCurvedWallActive(plant)
 	lipHeight, lipWidth, hasLip := VaseTrapezeLipDimensions(plant)
@@ -426,18 +434,9 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 		numSteps := stackHeight - 1
 		unrotatedStepDYBase := unrotatedStepDY
 		unrotatedStepDYRing := unrotatedStepDY
-		if rotRatio+1e-9 < float64(numSteps)/float64(stackHeight) &&
-			len(resampledBaseBottom) > 0 &&
-			len(resampledBaseTop) > 0 {
-			nBase := min(len(resampledBaseBottom), len(resampledBaseTop))
-			botYs := make([]float64, nBase)
-			topYs := make([]float64, nBase)
-			for i := range nBase {
-				botYs[i] = resampledBaseBottom[i].Y
-				topYs[i] = resampledBaseTop[i].Y
-			}
+		if rotRatio+1e-9 < float64(numSteps)/float64(stackHeight) && len(resampledBotYs) > 0 {
 			unrotatedStepDYBase, unrotatedStepDYRing = ComputeVaseTrapezeUnrotatedStepDYs(
-				plant, globalR, botYs, topYs, hasTrapezeConstantThickness,
+				plant, globalR, resampledBotYs, resampledTopYs, hasTrapezeConstantThickness,
 			)
 		}
 		var cumDX, cumDY float64

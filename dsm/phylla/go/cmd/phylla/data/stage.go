@@ -714,12 +714,12 @@ func _(stage *models.Stage) {
 	__models__Rendered3DShape__00000009_.TargetZ = 0.000000
 	__models__Rendered3DShape__00000009_.Fov = 50.000000
 	__models__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__models__Rendered3DShape__00000010_.ViewX = -331.980290
-	__models__Rendered3DShape__00000010_.ViewY = 1926.963680
-	__models__Rendered3DShape__00000010_.ViewZ = 536.084868
-	__models__Rendered3DShape__00000010_.TargetX = -34.959977
-	__models__Rendered3DShape__00000010_.TargetY = 1411.073357
-	__models__Rendered3DShape__00000010_.TargetZ = 51.596289
+	__models__Rendered3DShape__00000010_.ViewX = -925.203042
+	__models__Rendered3DShape__00000010_.ViewY = 1600.133230
+	__models__Rendered3DShape__00000010_.ViewZ = 237.416360
+	__models__Rendered3DShape__00000010_.TargetX = -55.625218
+	__models__Rendered3DShape__00000010_.TargetY = 1322.832828
+	__models__Rendered3DShape__00000010_.TargetZ = 3.103929
 	__models__Rendered3DShape__00000010_.Fov = 50.000000
 	__models__SampledPoints3DShape__00000000_.Name = `New Plant - Diagram-SampledPoints3DShape`
 	__models__SampledPoints3DShape__00000001_.Name = `New Plant - Diagram-SampledPoints3DShape`
@@ -888,7 +888,7 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000
 	__models__TubeVaseAbstract__00000001_.RelativeCuttedStackFloorHeight = 0.000000
 	__models__TubeVaseAbstract__00000001_.RelativeRotatedTorusSeparation = 0.000000
-	__models__TubeVaseAbstract__00000001_.RotationRatio = 1.000000
+	__models__TubeVaseAbstract__00000001_.RotationRatio = 0.995000
 	__models__TubeVaseAbstract__00000001_.RadialRepetitions = 1
 	__models__TubeVaseAbstract__00000001_.Transparency = 0.000000
 	__models__TubeVaseAbstract__00000001_.ColorCombination = 4

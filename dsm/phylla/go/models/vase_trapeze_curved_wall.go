@@ -21,9 +21,9 @@ func VaseTrapezeWallSubdivisions(plant *PlantAbstract) int {
 	return 1
 }
 
-// ComputeVaseTrapezeContactStepDY computes the zero-separation vertical step between
-// consecutive rotated VaseTrapeze rings when CarvedOutTopRingsParameter == 0.
-func ComputeVaseTrapezeContactStepDY(plant *PlantAbstract, hasConstantThickness bool) float64 {
+// ComputeVaseTrapezeRotatedContactStepDY computes the zero-separation vertical step
+// between consecutive rotated VaseTrapeze rings when CarvedOutTopRingsParameter == 0.
+func ComputeVaseTrapezeRotatedContactStepDY(plant *PlantAbstract, hasConstantThickness bool) float64 {
 	if plant == nil || plant.TubeVaseAbstract == nil {
 		return 0.0
 	}
@@ -57,12 +57,227 @@ func ComputeVaseTrapezeContactStepDY(plant *PlantAbstract, hasConstantThickness 
 	return (growthVectorY + verticalThickness*vy) * scaleY
 }
 
+// ComputeVaseTrapezeContactStepDY computes the active zero-separation vertical contact step
+// anchoring yContact = p1H - deltaYContact on curved VaseTrapeze ring walls, adapting smoothly
+// with RotationRatio from the unrotated rim contact step (at RotationRatio == 0) to the
+// rotated contact step (at RotationRatio == 1).
+func ComputeVaseTrapezeContactStepDY(plant *PlantAbstract, hasConstantThickness bool) float64 {
+	if plant == nil || plant.TubeVaseAbstract == nil {
+		return 0.0
+	}
+	rotContactDY := ComputeVaseTrapezeRotatedContactStepDY(plant, hasConstantThickness)
+	w := VaseTrapezeRotationBlend(plant)
+	if w >= 1.0-1e-12 {
+		return rotContactDY
+	}
+
+	vase := plant.TubeVaseAbstract
+	scaleY := vase.RibbonVerticalScale
+	if scaleY == 0 {
+		scaleY = 1.0
+	}
+	sideLength := plant.RhombusSideLength
+	verticalThickness := vase.RelativeVerticalThickness * sideLength
+
+	var vx, vy float64
+	if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
+		vFirst := plant.PerpendicularVectorGrid.PerpendicularVectors[0]
+		vx = vFirst.EndX - vFirst.StartX
+		vy = vFirst.EndY - vFirst.StartY
+		if vLen := math.Hypot(vx, vy); vLen > 0 {
+			vx, vy = vx/vLen, vy/vLen
+		}
+	}
+	if math.Abs(vy) <= 1e-6 {
+		return rotContactDY
+	}
+
+	deltaYV := (verticalThickness / vy) * scaleY
+	unrotContactDY := deltaYV
+	if hasConstantThickness {
+		radialRepetitions := max(vase.RadialRepetitions, 1)
+		circumference := 0.0
+		if plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil && plant.RhombusStuff.PlantCircumferenceShape.Length > 0 {
+			circumference = plant.RhombusStuff.PlantCircumferenceShape.Length
+		} else if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 1 {
+			pGrid := plant.PerpendicularVectorGrid
+			circumference = pGrid.PerpendicularVectors[len(pGrid.PerpendicularVectors)-1].StartX - pGrid.PerpendicularVectors[0].StartX
+		}
+		globalR := circumference * float64(radialRepetitions) / (2.0 * math.Pi)
+		tanAlpha := math.Tan(-vase.ProjectionAngle * math.Pi / 180.0)
+		if globalR > 1e-3 && math.Abs(tanAlpha) > 1e-6 {
+			sV := (-vx / vy) * globalR * scaleY
+			kSlope := tanAlpha / globalR
+			unrotContactDY = deltaYV / math.Hypot(1.0, sV*kSlope)
+		}
+	}
+	return (1.0-w)*unrotContactDY + w*rotContactDY
+}
+
+// ComputeVaseTrapezeContactStepDYForCurves computes the active zero-separation vertical contact step
+// anchoring yContact = p1H - deltaYContact using the resampled bottom and top cylinder curves so that
+// at RotationRatio == 0, yContact matches the unrotated curve separation to machine precision.
+func ComputeVaseTrapezeContactStepDYForCurves(
+	plant *PlantAbstract,
+	hasConstantThickness bool,
+	baseBottomY, baseTopY []float64,
+) float64 {
+	if plant == nil || plant.TubeVaseAbstract == nil {
+		return 0.0
+	}
+	rotContactDY := ComputeVaseTrapezeRotatedContactStepDY(plant, hasConstantThickness)
+	w := VaseTrapezeRotationBlend(plant)
+	if w >= 1.0-1e-12 {
+		return rotContactDY
+	}
+	M := min(len(baseBottomY), len(baseTopY))
+	if M == 0 {
+		return ComputeVaseTrapezeContactStepDY(plant, hasConstantThickness)
+	}
+	minDiff := math.MaxFloat64
+	maxDiff := 0.0
+	for i := range M {
+		d := math.Abs(baseTopY[i] - baseBottomY[i])
+		if d < minDiff {
+			minDiff = d
+		}
+		if d > maxDiff {
+			maxDiff = d
+		}
+	}
+	unrotContactDY := maxDiff
+	if hasConstantThickness && minDiff > 1e-6 && minDiff < math.MaxFloat64 {
+		unrotContactDY = minDiff
+	}
+	return (1.0-w)*unrotContactDY + w*rotContactDY
+}
+
+// estimateMinRingInnerStraightRadius estimates a conservative, scale-homogeneous lower bound
+// on the straight inner radius of a VaseTrapeze ring at height yEval across all azimuths.
+func estimateMinRingInnerStraightRadius(plant *PlantAbstract, yEval, tanAlpha float64) float64 {
+	if plant == nil || plant.TubeVaseAbstract == nil {
+		return 0.0
+	}
+	vase := plant.TubeVaseAbstract
+	radialRepetitions := max(vase.RadialRepetitions, 1)
+	circumference := 0.0
+	if plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil && plant.RhombusStuff.PlantCircumferenceShape.Length > 0 {
+		circumference = plant.RhombusStuff.PlantCircumferenceShape.Length
+	} else if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 1 {
+		pGrid := plant.PerpendicularVectorGrid
+		circumference = pGrid.PerpendicularVectors[len(pGrid.PerpendicularVectors)-1].StartX - pGrid.PerpendicularVectors[0].StartX
+	}
+	if circumference <= 0 {
+		return 0.0
+	}
+	globalR := circumference * float64(radialRepetitions) / (2.0 * math.Pi)
+	if math.Abs(tanAlpha) <= 1e-6 {
+		return globalR
+	}
+
+	sideLength := plant.RhombusSideLength
+	scaleY := vase.RibbonVerticalScale
+	if scaleY == 0 {
+		scaleY = 1.0
+	}
+	zStart := vase.Z_Ribbon * sideLength
+
+	hasY0 := false
+	y0 := 0.0
+	minY2D := math.MaxFloat64
+	maxY2D := -math.MaxFloat64
+	updateArcBounds := func(x1, y1, x2, y2, r float64, largeArc bool) {
+		if !hasY0 {
+			y0 = y1
+			hasY0 = true
+		}
+		sag := 0.0
+		halfChord := 0.5 * math.Hypot(x2-x1, y2-y1)
+		if !largeArc && r > halfChord && halfChord > 0 {
+			sag = r - math.Sqrt(math.Max(0.0, r*r-halfChord*halfChord))
+		}
+		lo := math.Min(y1, y2) - sag
+		hi := math.Max(y1, y2) + sag
+		if lo < minY2D {
+			minY2D = lo
+		}
+		if hi > maxY2D {
+			maxY2D = hi
+		}
+	}
+
+	if plant.GrowthCurve2D != nil && plant.GrowthCurve2D.StartHalfwayArcShapeGrid != nil {
+		for _, sa := range plant.GrowthCurve2D.StartHalfwayArcShapeGrid.StartHalfwayArcShapes {
+			updateArcBounds(sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, sa.LargeArcFlag)
+		}
+		if plant.GrowthCurve2D.EndHalfwayArcShapeGrid != nil {
+			for _, ea := range plant.GrowthCurve2D.EndHalfwayArcShapeGrid.EndHalfwayArcShapes {
+				updateArcBounds(ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, ea.LargeArcFlag)
+			}
+		}
+	}
+	if vase.TopGrowthCurve2D != nil && vase.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil {
+		for _, tsa := range vase.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes {
+			updateArcBounds(tsa.StartX, tsa.StartY, tsa.EndX, tsa.EndY, tsa.RadiusX, tsa.LargeArcFlag)
+		}
+		if vase.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid != nil {
+			for _, tea := range vase.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes {
+				updateArcBounds(tea.StartX, tea.StartY, tea.EndX, tea.EndY, tea.RadiusX, tea.LargeArcFlag)
+			}
+		}
+	}
+	if !hasY0 && plant.PerpendicularVectorGrid != nil {
+		for _, pv := range plant.PerpendicularVectorGrid.PerpendicularVectors {
+			if !hasY0 {
+				y0 = pv.StartY
+				hasY0 = true
+			}
+			if pv.StartY < minY2D {
+				minY2D = pv.StartY
+			}
+			if pv.StartY > maxY2D {
+				maxY2D = pv.StartY
+			}
+		}
+	}
+	if !hasY0 {
+		return globalR
+	}
+
+	minCurveY := zStart + scaleY*(minY2D-y0)
+	maxCurveY := zStart + scaleY*(maxY2D-y0)
+	if vase.HasConstantThickness && plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
+		vFirst := plant.PerpendicularVectorGrid.PerpendicularVectors[0]
+		vx := vFirst.EndX - vFirst.StartX
+		vy := vFirst.EndY - vFirst.StartY
+		if vLen := math.Hypot(vx, vy); vLen > 0 {
+			vy /= vLen
+			if math.Abs(vy) > 1e-6 {
+				verticalThickness := vase.RelativeVerticalThickness * sideLength
+				deltaYV := (verticalThickness / vy) * scaleY
+				extraTopY := deltaYV - verticalThickness*vy*scaleY
+				if extraTopY > 0 {
+					maxCurveY += extraTopY
+				}
+			}
+		}
+	}
+
+	rAtMin := globalR + (yEval-minCurveY)*tanAlpha
+	rAtMax := globalR + (yEval-maxCurveY)*tanAlpha
+	rMin := math.Min(rAtMin, rAtMax)
+	if rMin < 0.15*globalR {
+		return 0.15 * globalR
+	}
+	return rMin
+}
+
 // computeEuclideanConvexArcParams computes the circle parameters in the 2D (r, y) meridian
 // plane for a single constant-curvature convex arc (wallCurvature < 0) passing through
 // (r_straight(yRefBot), yRefBot) and (r_straight(yRefTop), yRefTop) and remaining
 // well-defined across the full evaluation interval [yMinEval, yMaxEval].
 func computeEuclideanConvexArcParams(
-	yRefBot, yRefTop, yMinEval, yMaxEval, ampSpan, projAngleDeg, wallCurvature float64,
+	yRefBot, yRefTop, yMinEval, yMaxEval, ampSpan, maxInwardDR, projAngleDeg, wallCurvature float64,
 ) (rCenterRel, yCenter, radius, tanAlpha float64, ok bool) {
 	if wallCurvature >= -1e-9 {
 		return 0, 0, 0, 0, false
@@ -93,12 +308,13 @@ func computeEuclideanConvexArcParams(
 	yMid := 0.5 * (yRefBot + yRefTop)
 
 	eta := -0.25 * wallCurvature
+	refChordLen := math.Max(chordLen, ampSpan/cosA)
 	sag := eta * (ampSpan / cosA)
 	if sag <= 1e-9 {
 		return 0, 0, 0, 0, false
 	}
 
-	radius = (chordLen*chordLen)/(8.0*sag) + 0.5*sag
+	radius = (refChordLen*refChordLen)/(8.0*sag) + 0.5*sag
 	gamma := math.Max(0.96, math.Min(0.995, math.Abs(sinA)+0.05))
 
 	isValid := func(rCand float64) bool {
@@ -110,7 +326,19 @@ func computeEuclideanConvexArcParams(
 			return false
 		}
 		yc := yMid + d*sinA
-		return math.Abs(yMinEval-yc) <= gamma*rCand && math.Abs(yMaxEval-yc) <= gamma*rCand
+		if math.Abs(yMinEval-yc) > gamma*rCand || math.Abs(yMaxEval-yc) > gamma*rCand {
+			return false
+		}
+		if maxInwardDR > 0 && yMinEval < yRefBot-1e-9 {
+			rCenter := 0.5*chordDY*tanAlpha - d*cosA
+			dyMin := yMinEval - yc
+			radMin := math.Sqrt(math.Max(0.0, rCand*rCand-dyMin*dyMin))
+			drMin := rCenter + radMin - (yMinEval-yRefBot)*tanAlpha
+			if -drMin > maxInwardDR {
+				return false
+			}
+		}
+		return true
 	}
 
 	if !isValid(radius) {
@@ -175,9 +403,12 @@ func EvalVaseTrapezeRingWallDeltaR(plant *PlantAbstract, localY, p1H, p2H, delta
 	yContact := p1H - span
 	yMinEval := math.Min(p2H, yContact)
 	yMaxEval := p1H
+	ampSpan := math.Max(span, ComputeVaseTrapezeRotatedContactStepDY(plant, vase.HasConstantThickness))
+	tanA := math.Tan(-vase.ProjectionAngle * math.Pi / 180.0)
+	maxInwardDR := 0.72 * estimateMinRingInnerStraightRadius(plant, yMinEval, tanA)
 
 	rCenterRel, yCenter, radius, tanAlpha, ok := computeEuclideanConvexArcParams(
-		yContact, p1H, yMinEval, yMaxEval, span, vase.ProjectionAngle, vase.WallCurvature,
+		yContact, p1H, yMinEval, yMaxEval, ampSpan, maxInwardDR, vase.ProjectionAngle, vase.WallCurvature,
 	)
 	if !ok {
 		return 0.0
@@ -203,8 +434,9 @@ func EvalVaseTrapezeBaseRingOuterDeltaRAndSlope(plant *PlantAbstract, localY, p1
 		return 0.0, 0.0
 	}
 	ampScale := spanBase
-	if deltaYContact > 1e-6 && deltaYContact < ampScale {
-		ampScale = deltaYContact
+	refSpan := math.Max(deltaYContact, ComputeVaseTrapezeRotatedContactStepDY(plant, vase.HasConstantThickness))
+	if refSpan > 1e-6 && refSpan < ampScale {
+		ampScale = refSpan
 	}
 	if localY < p2HBase {
 		localY = p2HBase
@@ -212,7 +444,7 @@ func EvalVaseTrapezeBaseRingOuterDeltaRAndSlope(plant *PlantAbstract, localY, p1
 		localY = p1H
 	}
 	rCenterRel, yCenter, radius, tanAlpha, ok := computeEuclideanConvexArcParams(
-		p2HBase, p1H, p2HBase, p1H, ampScale, vase.ProjectionAngle, vase.WallCurvature,
+		p2HBase, p1H, p2HBase, p1H, ampScale, 0.0, vase.ProjectionAngle, vase.WallCurvature,
 	)
 	if !ok {
 		return 0.0, 0.0
@@ -451,7 +683,7 @@ func ComputeVaseTrapezeUnrotatedStepDYs(
 	}
 	yFloorRing := p2H + hRingBottom
 
-	deltaYContact := ComputeVaseTrapezeContactStepDY(plant, hasConstantThickness)
+	deltaYContact := ComputeVaseTrapezeContactStepDYForCurves(plant, hasConstantThickness, baseBottomY, baseTopY)
 	yContact := p1H - deltaYContact
 	sWall := VaseTrapezeWallSubdivisions(plant)
 	isCurvedWall := IsVaseTrapezeCurvedWallActive(plant)

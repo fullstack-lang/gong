@@ -375,7 +375,18 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			hRingBottom = min(basePlateHeight, ringHeight)
 		}
 
-		deltaYContact := models.ComputeVaseTrapezeContactStepDY(plant, hasTrapezeConstantThickness)
+		var resampledBotYs, resampledTopYs []float64
+		if resampledBaseBottom != nil && resampledBaseTop != nil {
+			nBase := min(len(resampledBaseBottom.Points), len(resampledBaseTop.Points))
+			resampledBotYs = make([]float64, nBase)
+			resampledTopYs = make([]float64, nBase)
+			for i := range nBase {
+				resampledBotYs[i] = resampledBaseBottom.Points[i].Y
+				resampledTopYs[i] = resampledBaseTop.Points[i].Y
+			}
+		}
+
+		deltaYContact := models.ComputeVaseTrapezeContactStepDYForCurves(plant, hasTrapezeConstantThickness, resampledBotYs, resampledTopYs)
 		sWall := models.VaseTrapezeWallSubdivisions(plant)
 		isCurvedWall := models.IsVaseTrapezeCurvedWallActive(plant)
 		lipHeight, lipWidth, hasLip := models.VaseTrapezeLipDimensions(plant)
@@ -905,18 +916,9 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				}
 				unrotatedStepDYBase := unrotatedStepDY
 				unrotatedStepDYRing := unrotatedStepDY
-				if rotRatio+1e-9 < float64(numSteps)/float64(stackHeight) &&
-					len(resampledBaseBottom.Points) > 0 &&
-					len(resampledBaseTop.Points) > 0 {
-					nBase := min(len(resampledBaseBottom.Points), len(resampledBaseTop.Points))
-					botYs := make([]float64, nBase)
-					topYs := make([]float64, nBase)
-					for i := range nBase {
-						botYs[i] = resampledBaseBottom.Points[i].Y
-						topYs[i] = resampledBaseTop.Points[i].Y
-					}
+				if rotRatio+1e-9 < float64(numSteps)/float64(stackHeight) && len(resampledBotYs) > 0 {
 					unrotatedStepDYBase, unrotatedStepDYRing = models.ComputeVaseTrapezeUnrotatedStepDYs(
-						plant, globalR, botYs, topYs, hasTrapezeConstantThickness,
+						plant, globalR, resampledBotYs, resampledTopYs, hasTrapezeConstantThickness,
 					)
 				}
 

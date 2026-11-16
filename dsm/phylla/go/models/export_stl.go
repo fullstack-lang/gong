@@ -825,7 +825,15 @@ func writeVaseTrapezeSTL(
 	p2H := zStart + bottomPlaneHeight*sideLength*scaleY
 	projAngleRad := -vase.ProjectionAngle * math.Pi / 180.0
 
-	deltaYContact := ComputeVaseTrapezeContactStepDY(plant, hasTrapezeConstantThickness)
+	nResampled := min(len(resampledBaseBottom), len(resampledBaseTop))
+	resampledBotYs := make([]float64, nResampled)
+	resampledTopYs := make([]float64, nResampled)
+	for i := range nResampled {
+		resampledBotYs[i] = resampledBaseBottom[i].Y
+		resampledTopYs[i] = resampledBaseTop[i].Y
+	}
+
+	deltaYContact := ComputeVaseTrapezeContactStepDYForCurves(plant, hasTrapezeConstantThickness, resampledBotYs, resampledTopYs)
 	sWall := VaseTrapezeWallSubdivisions(plant)
 	isCurvedWall := IsVaseTrapezeCurvedWallActive(plant)
 	lipHeight, lipWidth, hasLip := VaseTrapezeLipDimensions(plant)

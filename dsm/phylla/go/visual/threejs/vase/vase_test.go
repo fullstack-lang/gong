@@ -1061,8 +1061,9 @@ func TestVaseTrapezeUnrotatedCurvedWallStacking(t *testing.T) {
 	// Verify on actual 3D BufferGeometry vertices that at RotationRatio == 0:
 	// 1. Ring 1's outer wall does not penetrate Base Plate's inner top rim (at Y = p1H),
 	//    nor does Ring 2's outer wall penetrate Ring 1's inner top rim (at Y = p1H + dy1).
-	// 2. Minimum radial/vertical clearance at the contact locus is ~0 (exact resting contact, not floating).
-	checkRimClearanceAndContact := func(label string, meshes map[string]*threejs.Mesh, p1H float64) (dy1, dy2 float64) {
+	// 2. When expectFull360Flush is true, BOTH minimum AND maximum radial clearance across
+	//    all 360° of azimuth are ~0 mm (flush full-circumference contact with zero remaining space).
+	checkRimClearanceAndContact := func(label string, meshes map[string]*threejs.Mesh, p1H float64, expectFull360Flush bool) (dy1, dy2 float64) {
 		baseMesh := meshes["Vase Trapeze Vase Trapeze Base Plate Mesh"]
 		ring1Mesh := meshes["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"]
 		ring2Mesh := meshes["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h2 Mesh"]
@@ -1094,12 +1095,16 @@ func TestVaseTrapezeUnrotatedCurvedWallStacking(t *testing.T) {
 		// Extract Ring 1 outer wall polyline (s = 0..sWall) per azimuth i and interpolate r_outer_1(i, p1H)
 		ring1OuterRows := extractWallRowsByAzimuth(ring1Mesh, "Outer Wall Face")
 		minRadialClearance01 := math.MaxFloat64
+		maxRadialClearance01 := -math.MaxFloat64
 		for i, rIn0 := range baseInTopR {
 			pts := ring1OuterRows[i]
 			if rOut1AtP1H, ok := interpRAtMonotoneY(pts, p1H); ok {
 				clearance := rIn0 - rOut1AtP1H
 				if clearance < minRadialClearance01 {
 					minRadialClearance01 = clearance
+				}
+				if clearance > maxRadialClearance01 {
+					maxRadialClearance01 = clearance
 				}
 				if clearance < -0.05 {
 					t.Errorf("%s: Ring 1 outer wall penetrates Base Plate inner rim at azimuth %d: rOut1=%.3f > rIn0=%.3f (penetration=%.3f mm)",
@@ -1122,12 +1127,16 @@ func TestVaseTrapezeUnrotatedCurvedWallStacking(t *testing.T) {
 		}
 		ring2OuterRows := extractWallRowsByAzimuth(ring2Mesh, "Outer Wall Face")
 		minRadialClearance12 := math.MaxFloat64
+		maxRadialClearance12 := -math.MaxFloat64
 		for i, rIn1 := range ring1InTopR {
 			pts := ring2OuterRows[i]
 			if rOut2AtTop1, ok := interpRAtMonotoneY(pts, maxR1Y); ok {
 				clearance := rIn1 - rOut2AtTop1
 				if clearance < minRadialClearance12 {
 					minRadialClearance12 = clearance
+				}
+				if clearance > maxRadialClearance12 {
+					maxRadialClearance12 = clearance
 				}
 				if clearance < -0.05 {
 					t.Errorf("%s: Ring 2 outer wall penetrates Ring 1 inner rim at azimuth %d: rOut2=%.3f > rIn1=%.3f (penetration=%.3f mm)",
@@ -1137,50 +1146,107 @@ func TestVaseTrapezeUnrotatedCurvedWallStacking(t *testing.T) {
 			}
 		}
 
-		t.Logf("%s: dy1=%.2f mm, dy2=%.2f mm, minRimClearance01=%.4f mm, minRimClearance12=%.4f mm",
-			label, dy1, dy2, minRadialClearance01, minRadialClearance12)
+		t.Logf("%s: dy1=%.2f mm, dy2=%.2f mm, rimClearance01=[%.4f, %.4f] mm, rimClearance12=[%.4f, %.4f] mm",
+			label, dy1, dy2, minRadialClearance01, maxRadialClearance01, minRadialClearance12, maxRadialClearance12)
 		if minRadialClearance01 > 0.5 {
-			t.Errorf("%s: expected Ring 1 to rest in contact (clearance <= 0.5 mm), got %.4f mm (floating)", label, minRadialClearance01)
+			t.Errorf("%s: expected Ring 1 to rest in contact (min clearance <= 0.5 mm), got %.4f mm (floating)", label, minRadialClearance01)
 		}
 		if minRadialClearance12 > 0.5 {
-			t.Errorf("%s: expected Ring 2 to rest in contact (clearance <= 0.5 mm), got %.4f mm (floating)", label, minRadialClearance12)
+			t.Errorf("%s: expected Ring 2 to rest in contact (min clearance <= 0.5 mm), got %.4f mm (floating)", label, minRadialClearance12)
+		}
+		if expectFull360Flush {
+			if maxRadialClearance01 > 0.05 {
+				t.Errorf("%s: expected flush 360° contact between Base Plate and Ring 1 (max clearance <= 0.05 mm), got %.4f mm gap",
+					label, maxRadialClearance01)
+			}
+			if maxRadialClearance12 > 0.05 {
+				t.Errorf("%s: expected flush 360° contact between Ring 1 and Ring 2 (max clearance <= 0.05 mm), got %.4f mm gap",
+					label, maxRadialClearance12)
+			}
 		}
 		return dy1, dy2
 	}
 
+	// Verify flush 360° unrotated contact across both (N=2,M=3,rep=1) and (N=1,M=3,rep=2)
+	for _, cfg := range []struct {
+		n, m, reps        int
+		bottomPlaneHeight float64
+		relVertThickness  float64
+	}{
+		{n: 2, m: 3, reps: 1, bottomPlaneHeight: 0.22, relVertThickness: 0.06},
+		{n: 1, m: 3, reps: 2, bottomPlaneHeight: 0.16, relVertThickness: 0.08},
+	} {
+		targetPlant.N = cfg.n
+		targetPlant.M = cfg.m
+		targetPlant.StackHeight = 3
+		vase.RadialRepetitions = cfg.reps
+		vase.BottomPlaneHeight = cfg.bottomPlaneHeight
+		vase.RelativeVerticalThickness = cfg.relVertThickness
+		vase.RotationRatio = 0.0
+		vase.RelativeRotatedTorusSeparation = 0.0
+		vase.CarvedOutTopRingsParameter = 0.0
+		vase.HasConstantThickness = true
+		vase.HasRingBottom = true
+		vase.HasCurvedWall = true
+		vase.HasLip = false
+
+		sideLen := targetPlant.RhombusSideLength
+		scaleY := vase.RibbonVerticalScale
+		p1H := (vase.Z_Ribbon + vase.TopPlaneHeight*scaleY) * sideLen
+
+		var baseDY1 float64
+		for idx, curv := range []float64{0.0, -0.15, -0.25, -0.5, -1.0} {
+			vase.WallCurvature = curv
+			meshes := buildScene()
+			label := "N" + strconv.Itoa(cfg.n) + "M" + strconv.Itoa(cfg.m) + "/curv=" + formatFloat2(curv)
+			dy1, dy2 := checkRimClearanceAndContact(label, meshes, p1H, true)
+			if math.Abs(dy1-dy2) > 0.05 {
+				t.Errorf("%s: expected dy1 (%.3f) == dy2 (%.3f) for flush unrotated contact", label, dy1, dy2)
+			}
+			if idx == 0 {
+				baseDY1 = dy1
+			} else if math.Abs(dy1-baseDY1) > 0.05 {
+				t.Errorf("%s: expected conserved unrotated contact step %.3f mm across curvatures, got %.3f mm",
+					label, baseDY1, dy1)
+			}
+
+			glb := models.GenerateVaseTrapezeGLB(targetPlant)
+			if len(glb) < 28 || string(glb[:4]) != "glTF" {
+				t.Fatalf("%s: expected valid GLB at RotationRatio=0", label)
+			}
+		}
+	}
+
+	// Pin (N=1, M=3, RadialRepetitions=2) for transition, plancher, variable-thickness, and lip checks
+	targetPlant.N = 1
+	targetPlant.M = 3
 	targetPlant.StackHeight = 3
-	vase.RotationRatio = 0.0
-	vase.RelativeRotatedTorusSeparation = 0.0
-	vase.CarvedOutTopRingsParameter = 0.0
+	vase.RadialRepetitions = 2
+	vase.BottomPlaneHeight = 0.16
+	vase.RelativeVerticalThickness = 0.08
+	vase.WallCurvature = -0.25
 	vase.HasConstantThickness = true
 	vase.HasRingBottom = true
 	vase.HasCurvedWall = true
+	vase.HasLip = false
 
 	sideLen := targetPlant.RhombusSideLength
 	scaleY := vase.RibbonVerticalScale
 	p1H := (vase.Z_Ribbon + vase.TopPlaneHeight*scaleY) * sideLen
 
-	var prevDY1 float64
-	for idx, curv := range []float64{0.0, -0.15, -0.25, -0.5, -1.0} {
-		vase.WallCurvature = curv
-		meshes := buildScene()
-		dy1, _ := checkRimClearanceAndContact("curv="+formatFloat2(curv), meshes, p1H)
-		if idx > 0 && idx <= 3 && !(dy1 > prevDY1+1.0) {
-			t.Errorf("expected unrotated step dy1 to strictly increase with convex curvature (curv=%.2f: %.2f vs prev %.2f)",
-				curv, dy1, prevDY1)
-		}
-		if idx > 3 && dy1+1e-6 < prevDY1 {
-			t.Errorf("expected unrotated step dy1 to be non-decreasing at clamped curvature (curv=%.2f: %.2f vs prev %.2f)",
-				curv, dy1, prevDY1)
-		}
-		prevDY1 = dy1
-
-		// Verify GLB export succeeds and reflects updated Ring_1 height at RotationRatio == 0
-		glb := models.GenerateVaseTrapezeGLB(targetPlant)
-		if len(glb) < 28 || string(glb[:4]) != "glTF" {
-			t.Fatalf("curv=%.2f: expected valid GLB at RotationRatio=0", curv)
-		}
+	// Verify smooth intermediate RotationRatio blend (0 < RotationRatio < 1/StackHeight) and STL watertightness
+	vase.RotationRatio = 0.15
+	wMid := models.VaseTrapezeRotationBlend(targetPlant)
+	if !(wMid > 0.1 && wMid < 0.9) {
+		t.Errorf("expected intermediate VaseTrapezeRotationBlend in (0.1, 0.9) at RotationRatio=0.15, got %.4f", wMid)
 	}
+	meshesMid := buildScene()
+	checkRimClearanceAndContact("rotRatio=0.15/curv=-0.25", meshesMid, p1H, false)
+	assertWatertightASCIISTL(t, "OneRingSTL(rotRatio=0.15)", models.GenerateVaseTrapezeOneRingSTL(targetPlant), true)
+
+	vase.RotationRatio = 0.0
+	assertWatertightASCIISTL(t, "OneRingSTL(rotRatio=0.0)", models.GenerateVaseTrapezeOneRingSTL(targetPlant), true)
+	assertWatertightASCIISTL(t, "BaseAndFirstRingSTL(rotRatio=0.0)", models.GenerateVaseTrapezeBaseAndFirstRingSTL(targetPlant), false)
 
 	// Verify thick plancher floor contact when BasePlateHeight exceeds wall-wedging step
 	vase.WallCurvature = -0.25
@@ -1206,7 +1272,7 @@ func TestVaseTrapezeUnrotatedCurvedWallStacking(t *testing.T) {
 		t.Fatalf("expected Ring 1 mesh with HasConstantThickness=false and CarvedOutTopRingsParameter=0.5")
 	}
 
-	// Verify HasLip = true with curved wall at RotationRatio = 0 (both wall-wedged and tall lip-on-lip contact)
+	// Verify HasLip = true with curved wall at RotationRatio = 0 (both flush 360° rim contact and tall lip-on-lip contact)
 	vase.HasConstantThickness = true
 	vase.CarvedOutTopRingsParameter = 0.0
 	vase.WallCurvature = -0.25
@@ -1214,9 +1280,10 @@ func TestVaseTrapezeUnrotatedCurvedWallStacking(t *testing.T) {
 	vase.LipHeight = 0.35
 	vase.LipWidth = 0.12
 	meshesLip := buildScene()
-	checkRimClearanceAndContact("curv=-0.25+HasLip", meshesLip, p1H)
+	checkRimClearanceAndContact("curv=-0.25+HasLip", meshesLip, p1H, true)
 
-	vase.LipHeight = 1.60 // 192 mm > 161.9 mm wall step -> Ring 1 lip underside rests on Base Plate lip top
+	vase.LipHeight = 1.60 // 192 mm > 60.8 mm wall step, LipWidth wide enough to overhang Base Plate lip top
+	vase.LipWidth = 0.50
 	meshesTallLip := buildScene()
 	_, maxBaseTallLipY := meshYBounds(meshesTallLip["Vase Trapeze Vase Trapeze Base Plate Mesh"])
 	_, maxR1TallLipY := meshYBounds(meshesTallLip["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"])
