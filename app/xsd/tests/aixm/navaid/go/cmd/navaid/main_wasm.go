@@ -3,12 +3,16 @@
 package main
 
 import (
+	"embed"
 	"log"
 
-	"github.com/fullstack-lang/gong/lib/wasmregistry"
 	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/navaid/go/level1stack"
 	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/navaid/go/models"
+	"github.com/fullstack-lang/gong/lib/wasmregistry"
 )
+
+//go:embed data/stage.go data/donlon_navaid.xml
+var dataFS embed.FS
 
 func main() {
 	log.SetOutput(&wasmregistry.ConsoleWriter{})
@@ -16,6 +20,8 @@ func main() {
 	log.SetFlags(log.Lmicroseconds)
 
 	log.Println("Initializing navaid WASM Backend...")
+
+	models.DataFS = &dataFS
 
 	unmarshallFromCode := ""
 	marshallOnCommit := ""
@@ -28,8 +34,21 @@ func main() {
 	stack.Stage.SetGongMarshallingMode(models.GongMarshallingAppendCommit)
 	stack.Stage.SetIsWithGenesisCommit(true) // the genesis commit is the first commit of the stage, it is the one that contains the initial data. It cannot be rollbacked.
 
+	if unmarshallFromCode == "" {
+		if stageBytes, err := dataFS.ReadFile("data/stage.go"); err == nil {
+			if err := stack.Stage.ParseAstString(string(stageBytes), true); err != nil {
+				log.Printf("Failed parsing embedded data/stage.go: %v", err)
+			} else {
+				stack.Stage.ComputeReverseMaps()
+				stack.Stage.ComputeInstancesNb()
+				stack.Stage.ComputeReferenceAndOrders()
+			}
+		}
+	}
+
 	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()
+	stack.Stage.Commit()
 
 	// initiates the UX loop
 	models.NewStager(

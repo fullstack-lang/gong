@@ -17,6 +17,12 @@
 
 - **Requirements interchange format inspection**: [Reqif](https://fullstack-lang.github.io/gong/reqif-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/reqif-app-portable.zip)) provides an inspection tool for files conforming to the Requirements Interchange Format (ReqIF).
 
+## Aeronautical Information Management (AIXM)
+
+- **Airspaces**: [Airspace](https://fullstack-lang.github.io/gong/airspace-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/airspace-app-portable.zip)) provides 2D (MapLibre) and 3D (Cesium) aeronautical visualization, inspection, XSD semantic validation, and XML/Go round-trip for AIXM 5.1.1 airspaces, control sectors, and geographic borders.
+
+- **Navigation aids and waypoints**: [Navaid](https://fullstack-lang.github.io/gong/navaid-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/navaid-app-portable.zip)) provides 2D (MapLibre) and 3D (Cesium) aeronautical visualization, inspection, XSD semantic validation, and XML/Go round-trip for AIXM 5.1.1 navigation aids (VOR, DME, TACAN, NDB, ILS), designated waypoints, bearings/distances, and surveillance radars.
+
 ## Prospective Analysis
 
 - [Scenario](https://fullstack-lang.github.io/gong/scenario-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/scenario-app-portable.zip)): exploration of operational scenarios, actor state evolutions, timeline trajectories, and parameter trade-offs.

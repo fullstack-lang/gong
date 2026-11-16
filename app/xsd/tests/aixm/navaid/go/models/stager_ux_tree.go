@@ -2,8 +2,11 @@
 package models
 
 import (
+	"embed"
 	"fmt"
+	"log"
 	"math"
+	"path/filepath"
 	"slices"
 	"strings"
 
@@ -12,6 +15,74 @@ import (
 )
 
 var _ = fmt.Sprint
+
+var DataFS *embed.FS
+
+func (stager *Stager) buildExamplesNode() *tree.Node {
+	if DataFS == nil {
+		return nil
+	}
+	entries, err := DataFS.ReadDir("data")
+	if err != nil {
+		return nil
+	}
+	examplesNode := &tree.Node{
+		Name:            "Examples",
+		IsNodeClickable: true,
+		IsExpanded:      true,
+		Menu: &tree.Menu{
+			Name: "Examples Menu",
+		},
+	}
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue
+		}
+		entryName := entry.Name()
+		if entryName == "dummy.go" {
+			continue
+		}
+		lower := strings.ToLower(entryName)
+		if !strings.HasSuffix(lower, ".go") && !strings.HasSuffix(lower, ".xml") {
+			continue
+		}
+		examplesNode.Menu.Buttons = append(examplesNode.Menu.Buttons, &tree.Button{
+			Name: entryName,
+			Icon: string(tree_buttons.BUTTON_file_open),
+			OnClick: func() {
+				content, err := DataFS.ReadFile("data/" + entryName)
+				if err != nil {
+					log.Printf("Failed reading embedded example %s: %v", entryName, err)
+					return
+				}
+				stager.stage.OnInitCommitCallback = nil
+				stager.stage.Reset()
+
+				ext := filepath.Ext(entryName)
+				if strings.EqualFold(ext, ".xml") {
+					if err := UnmarshallXMLToStage(stager.stage, content); err != nil {
+						log.Printf("Failed unmarshalling XML example %s: %v", entryName, err)
+						return
+					}
+				} else {
+					if err := stager.stage.ParseAstString(string(content), true); err != nil {
+						log.Printf("Failed parsing Multi-Stage Go AST example %s: %v", entryName, err)
+						return
+					}
+					stager.stage.ComputeReverseMaps()
+					stager.stage.ComputeInstancesNb()
+					stager.stage.ComputeReferenceAndOrders()
+				}
+				stager.fileName = strings.TrimSuffix(entryName, ext)
+				stager.stage.Commit()
+			},
+		})
+	}
+	if len(examplesNode.Menu.Buttons) == 0 {
+		return nil
+	}
+	return examplesNode
+}
 
 func isAsciiDigitNavaid(b byte) bool {
 	return b >= '0' && b <= '9'
@@ -947,6 +1018,10 @@ func (stager *Stager) ux_tree() {
 		stager.probeForm.AddCommitNavigationNode(func(gni GongNodeIF) {
 			treeInstance.RootNodes = append(treeInstance.RootNodes, gni.(*tree.Node))
 		})
+	}
+
+	if examplesNode := stager.buildExamplesNode(); examplesNode != nil {
+		treeInstance.RootNodes = append(treeInstance.RootNodes, examplesNode)
 	}
 
 	// 1. Semantic Validation Status Node

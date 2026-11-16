@@ -114,6 +114,20 @@ jobs:
           cp svg-app-portable.html ../../../../../public-site/
           zip ../../../../../public-site/svg-app-portable.zip svg-app-portable.html
 
+      - name: Build airspace portable app
+        run: |
+          cd app/xsd/tests/aixm/airspace/go/cmd/airspace
+          gong portable
+          cp airspace-app-portable.html ../../../../../../../../public-site/
+          zip ../../../../../../../../public-site/airspace-app-portable.zip airspace-app-portable.html
+
+      - name: Build navaid portable app
+        run: |
+          cd app/xsd/tests/aixm/navaid/go/cmd/navaid
+          gong portable
+          cp navaid-app-portable.html ../../../../../../../../public-site/
+          zip ../../../../../../../../public-site/navaid-app-portable.zip navaid-app-portable.html
+
           
       - name: Setup Pages
         uses: actions/configure-pages@v6

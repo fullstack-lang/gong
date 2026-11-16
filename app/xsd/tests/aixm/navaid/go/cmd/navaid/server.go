@@ -3,6 +3,7 @@
 package main
 
 import (
+	"embed"
 	"log"
 	"strconv"
 
@@ -10,9 +11,13 @@ import (
 	"github.com/fullstack-lang/gong/app/xsd/tests/aixm/navaid/go/models"
 )
 
+//go:embed data/stage.go data/donlon_navaid.xml
+var dataFS embed.FS
+
 func executeServer() {
 
 	// setup
+	models.DataFS = &dataFS
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
 	stack := level1stack.NewLevel1Stack("navaid", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams)
