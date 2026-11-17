@@ -21,6 +21,9 @@ export class FormFieldInt {
 	MinValue: number = 0
 	HasMaxValidator: boolean = false
 	MaxValue: number = 0
+	IsSlider: boolean = false
+	Step: number = 0
+	IsLiveUpdate: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 
@@ -41,6 +44,9 @@ export function CopyFormFieldIntToFormFieldIntAPI(formfieldint: FormFieldInt, fo
 	formfieldintAPI.MinValue = formfieldint.MinValue
 	formfieldintAPI.HasMaxValidator = formfieldint.HasMaxValidator
 	formfieldintAPI.MaxValue = formfieldint.MaxValue
+	formfieldintAPI.IsSlider = formfieldint.IsSlider
+	formfieldintAPI.Step = formfieldint.Step
+	formfieldintAPI.IsLiveUpdate = formfieldint.IsLiveUpdate
 
 	// insertion point for pointer fields encoding
 
@@ -64,6 +70,9 @@ export function CopyFormFieldIntAPIToFormFieldInt(formfieldintAPI: FormFieldIntA
 	formfieldint.MinValue = formfieldintAPI.MinValue
 	formfieldint.HasMaxValidator = formfieldintAPI.HasMaxValidator
 	formfieldint.MaxValue = formfieldintAPI.MaxValue
+	formfieldint.IsSlider = formfieldintAPI.IsSlider
+	formfieldint.Step = formfieldintAPI.Step
+	formfieldint.IsLiveUpdate = formfieldintAPI.IsLiveUpdate
 
 	// insertion point for pointer fields encoding
 

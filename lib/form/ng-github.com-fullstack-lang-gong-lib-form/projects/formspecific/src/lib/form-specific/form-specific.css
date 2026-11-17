@@ -196,3 +196,66 @@ mat-accordion.custom-accordion {
   max-width: 500px;
   margin-bottom: 16px;
 }
+
+.form-div-container.compact-div {
+  margin-bottom: 2px;
+  padding-bottom: 2px;
+}
+
+.slider-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 3fr) minmax(44px, 1.5fr) 6.5fr;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 500px;
+  min-height: 30px;
+  box-sizing: border-box;
+}
+
+.slider-row.slider-disabled {
+  opacity: 0.6;
+}
+
+.slider-label {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.87);
+  line-height: 1.25;
+  overflow-wrap: break-word;
+  padding-left: 4px;
+}
+
+.slider-value {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: rgba(0, 0, 0, 0.75);
+  text-align: right;
+  padding-right: 4px;
+}
+
+.slider-control {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.slider-control mat-slider {
+  margin: 0;
+}
+
+.radio-checkbox-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 3fr) 8fr;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 500px;
+  min-height: 32px;
+}
+
+.radio-checkbox-group {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}

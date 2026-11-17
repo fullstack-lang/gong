@@ -1,6 +1,6 @@
 @if (angularFormGroup) {
   <form [formGroup]="angularFormGroup" (ngSubmit)="submitForm()">
-    @if (selectedFormGroup) {
+    @if (selectedFormGroup && shouldShowHeader()) {
       <div class="sticky-container">
         <div class="group-header">
           <mat-icon>description</mat-icon>
@@ -12,7 +12,9 @@
           </div>
         </div>
         <div class="button-container">
-          <button class="table__save custom-button" color="primary" mat-flat-button type="submit">Submit</button>
+          @if (!selectedFormGroup.HideSubmitButton) {
+            <button class="table__save custom-button" color="primary" mat-flat-button type="submit">Submit</button>
+          }
           @if (selectedFormGroup.HasSuppressButton) {
             <button
               class="table__save custom-button"
@@ -32,153 +34,207 @@
       @if (div.IsADivider) {
         <mat-divider class="custom-divider"></mat-divider>
       } @else {
-        <div class="form-div-container">
+        <div class="form-div-container" [class.compact-div]="isCompactDiv(div)">
           @for (formField of div.FormFields; track formField; let i = $index) {
-          @if (formField.FormFieldInt || formField.FormFieldFloat64 || formField.FormFieldString || formField.FormFieldDate || formField.FormFieldTime || formField.FormFieldDateTime || formField.FormFieldSelect) {
-            <div class="form-field-row">
-              <mat-form-field appearance="outline" [ngStyle]="getDynamicStyles(formField)" class="custom-form-field">
-                <mat-label>{{formField.Label}}</mat-label>
-
-                @if (formField.FormFieldInt) {
-                  @if (angularFormGroup.controls[formField.Name + '_' + i].hasError('min')) {
-                    <mat-error>
-                      The number must be at least {{formField.FormFieldInt.MinValue}}
-                    </mat-error>
+            @if ((formField.FormFieldInt && formField.FormFieldInt.IsSlider) || (formField.FormFieldFloat64 && formField.FormFieldFloat64.IsSlider)) {
+              <div class="slider-row" [class.slider-disabled]="formField.IsDisabled">
+                <span class="slider-label" [title]="formField.Label || formField.Name">{{formField.Label || formField.Name}}</span>
+                <span class="slider-value">{{getSliderDisplayValue(div, formField, i)}}</span>
+                <div class="slider-control">
+                  @if (formField.FormFieldInt) {
+                    <mat-slider
+                      style="width: 100%;"
+                      [disabled]="formField.IsDisabled"
+                      [min]="formField.FormFieldInt.MinValue"
+                      [max]="formField.FormFieldInt.MaxValue"
+                      [step]="formField.FormFieldInt.Step || 1"
+                      showTickMarks
+                      discrete
+                      [displayWith]="formatLabel">
+                      <input
+                        matSliderThumb
+                        [formControlName]="getFieldControlName(div, formField, i)"
+                        (input)="onSliderInput($event, formField, div, i)"
+                        (change)="onSliderChange($event, formField, div, i)">
+                    </mat-slider>
                   }
-                  @if (angularFormGroup.controls[formField.Name + '_' + i].hasError('max')) {
-                    <mat-error>
-                      The number must be at most {{formField.FormFieldInt.MaxValue}}
-                    </mat-error>
+                  @if (formField.FormFieldFloat64) {
+                    <mat-slider
+                      style="width: 100%;"
+                      [disabled]="formField.IsDisabled"
+                      [min]="formField.FormFieldFloat64.MinValue"
+                      [max]="formField.FormFieldFloat64.MaxValue"
+                      [step]="formField.FormFieldFloat64.Step || 0.1"
+                      showTickMarks
+                      discrete
+                      [displayWith]="formatLabel">
+                      <input
+                        matSliderThumb
+                        [formControlName]="getFieldControlName(div, formField, i)"
+                        (input)="onSliderInput($event, formField, div, i)"
+                        (change)="onSliderChange($event, formField, div, i)">
+                    </mat-slider>
                   }
-                  @if (angularFormGroup.controls[formField.Name + '_' + i].hasError('integer')) {
-                    <mat-error>
-                      Input must be an integer
-                    </mat-error>
-                  }
-                  <input matInput type="number" [formControlName]="formField.Name + '_' + i" [placeholder]="formField.Placeholder">
-                }
+                </div>
+              </div>
+            } @else if (formField.FormFieldInt || formField.FormFieldFloat64 || formField.FormFieldString || formField.FormFieldDate || formField.FormFieldTime || formField.FormFieldDateTime || formField.FormFieldSelect) {
+              <div class="form-field-row">
+                <mat-form-field appearance="outline" [ngStyle]="getDynamicStyles(formField)" class="custom-form-field">
+                  <mat-label>{{formField.Label}}</mat-label>
 
-                @if (formField.FormFieldFloat64) {
-                  @if (angularFormGroup.controls[formField.Name + '_' + i].hasError('min')) {
-                    <mat-error>
-                      The number must be at least {{formField.FormFieldFloat64.MinValue}}
-                    </mat-error>
-                  }
-                  @if (angularFormGroup.controls[formField.Name + '_' + i].hasError('max')) {
-                    <mat-error>
-                      The number must be at most {{formField.FormFieldFloat64.MaxValue}}
-                    </mat-error>
-                  }
-                  <input matInput type="number" [formControlName]="formField.Name + '_' + i" [placeholder]="formField.Placeholder">
-                }
-
-                @if (formField.FormFieldString && !formField.FormFieldString.IsTextArea) {
-                  <input matInput [formControlName]="formField.Name + '_' + i" [placeholder]="formField.Placeholder">
-                }
-
-                @if (formField.FormFieldString && formField.FormFieldString.IsTextArea) {
-                  <textarea matInput [formControlName]="formField.Name + '_' + i" [placeholder]="formField.Placeholder"></textarea>
-                }
-
-                @if (formField.FormFieldDate) {
-                  <input type="date" matInput [formControlName]="formField.Name + '_' + i" [placeholder]="formField.Placeholder">
-                }
-
-                @if (formField.FormFieldTime) {
-                  <input type="time" matInput [formControlName]="formField.Name + '_' + i" [placeholder]="formField.Placeholder" [step]="formField.FormFieldTime.Step">
-                }
-
-                @if (formField.FormFieldDateTime) {
-                  <input matInput [formControlName]="formField.Name + '_' + i" [placeholder]="formField.Placeholder">
-                }
-
-                @if (formField.FormFieldSelect) {
-                  <mat-select [formControlName]="formField.Name + '_' + i">
-                    @if (formField.FormFieldSelect.CanBeEmpty) {
-                      <mat-option>Empty</mat-option>
+                  @if (formField.FormFieldInt) {
+                    @if (angularFormGroup.controls[getFieldControlName(div, formField, i)].hasError('min')) {
+                      <mat-error>
+                        The number must be at least {{formField.FormFieldInt.MinValue}}
+                      </mat-error>
                     }
-                    @for (option of formField.FormFieldSelect.Options; track option) {
-                      <mat-option [value]="option.Name">{{ option.Name }}</mat-option>
+                    @if (angularFormGroup.controls[getFieldControlName(div, formField, i)].hasError('max')) {
+                      <mat-error>
+                        The number must be at most {{formField.FormFieldInt.MaxValue}}
+                      </mat-error>
                     }
-                  </mat-select>
-                }
-              </mat-form-field>
+                    @if (angularFormGroup.controls[getFieldControlName(div, formField, i)].hasError('integer')) {
+                      <mat-error>
+                        Input must be an integer
+                      </mat-error>
+                    }
+                    <input matInput type="number" [formControlName]="getFieldControlName(div, formField, i)" [placeholder]="formField.Placeholder">
+                  }
 
-              @if (div.FormEditAssocButton && formField.FormFieldSelect) {
-                <button type="button"
-                  (click)="openTableAssociation(div.FormEditAssocButton.Name)"
-                  mat-raised-button class="custom-button assoc-button"
-                  [matTooltip]="div.FormEditAssocButton.ToolTipText"
-                  matTooltipPosition="above"
-                  [matTooltipShowDelay]="div.FormEditAssocButton.MatTooltipShowDelay"
-                  [matTooltipDisabled]="!div.FormEditAssocButton.HasToolTip">
-                  <mat-icon>list</mat-icon>
-                </button>
-              }
-            </div>
-          }
-        }
+                  @if (formField.FormFieldFloat64) {
+                    @if (angularFormGroup.controls[getFieldControlName(div, formField, i)].hasError('min')) {
+                      <mat-error>
+                        The number must be at least {{formField.FormFieldFloat64.MinValue}}
+                      </mat-error>
+                    }
+                    @if (angularFormGroup.controls[getFieldControlName(div, formField, i)].hasError('max')) {
+                      <mat-error>
+                        The number must be at most {{formField.FormFieldFloat64.MaxValue}}
+                      </mat-error>
+                    }
+                    <input matInput type="number" [formControlName]="getFieldControlName(div, formField, i)" [placeholder]="formField.Placeholder">
+                  }
 
-        @for (checkBox of div.CheckBoxs; track checkBox; let i = $index) {
-          <mat-checkbox class="custom-checkbox" [formControlName]="checkBox.Name + '_' + i">{{checkBox.Name}}</mat-checkbox>
-        }
+                  @if (formField.FormFieldString && !formField.FormFieldString.IsTextArea) {
+                    <input matInput [formControlName]="getFieldControlName(div, formField, i)" [placeholder]="formField.Placeholder">
+                  }
 
-        @if ((div.FormEditAssocButton || div.FormSortAssocButton) && !(div.FormFields && div.FormFields.length > 0 && div.FormFields[0].FormFieldSelect)) {
-          <div class="flex-align-items-center">
-            @if (div.FormEditAssocButton) {
-              <p class="custom-text">{{div.FormEditAssocButton.Label}}</p>
-            }
-            <div class="assoc-button-container">
-              @if (div.FormEditAssocButton) {
-                @if (!div.FormEditAssocButton.HasToolTip) {
+                  @if (formField.FormFieldString && formField.FormFieldString.IsTextArea) {
+                    <textarea matInput [formControlName]="getFieldControlName(div, formField, i)" [placeholder]="formField.Placeholder"></textarea>
+                  }
+
+                  @if (formField.FormFieldDate) {
+                    <input type="date" matInput [formControlName]="getFieldControlName(div, formField, i)" [placeholder]="formField.Placeholder">
+                  }
+
+                  @if (formField.FormFieldTime) {
+                    <input type="time" matInput [formControlName]="getFieldControlName(div, formField, i)" [placeholder]="formField.Placeholder" [step]="formField.FormFieldTime.Step">
+                  }
+
+                  @if (formField.FormFieldDateTime) {
+                    <input matInput [formControlName]="getFieldControlName(div, formField, i)" [placeholder]="formField.Placeholder">
+                  }
+
+                  @if (formField.FormFieldSelect) {
+                    <mat-select
+                      [formControlName]="getFieldControlName(div, formField, i)"
+                      (selectionChange)="onSelectChange(formField, div, i)">
+                      @if (formField.FormFieldSelect.CanBeEmpty) {
+                        <mat-option>Empty</mat-option>
+                      }
+                      @for (option of formField.FormFieldSelect.Options; track option) {
+                        <mat-option [value]="option.Name">{{ option.Name }}</mat-option>
+                      }
+                    </mat-select>
+                  }
+                </mat-form-field>
+
+                @if (div.FormEditAssocButton && formField.FormFieldSelect) {
                   <button type="button"
                     (click)="openTableAssociation(div.FormEditAssocButton.Name)"
-                    mat-raised-button class="custom-button"
-
-                    >
-                    <mat-icon>list</mat-icon>
-                  </button>
-                } @else {
-                  <button type="button"
-                    (click)="openTableAssociation(div.FormEditAssocButton.Name)"
-                    mat-raised-button class="custom-button"
-
+                    mat-raised-button class="custom-button assoc-button"
                     [matTooltip]="div.FormEditAssocButton.ToolTipText"
                     matTooltipPosition="above"
                     [matTooltipShowDelay]="div.FormEditAssocButton.MatTooltipShowDelay"
-                    [matTooltipDisabled]="!div.FormEditAssocButton.HasToolTip"
-                    >
+                    [matTooltipDisabled]="!div.FormEditAssocButton.HasToolTip">
                     <mat-icon>list</mat-icon>
                   </button>
                 }
+              </div>
+            }
+          }
 
+          @for (checkBox of div.CheckBoxs; track checkBox; let i = $index) {
+            @if (checkBox.LabelForTrue || checkBox.LabelForFalse) {
+              <div class="radio-checkbox-row">
+                <span class="slider-label" [title]="checkBox.Name">{{checkBox.Name}}</span>
+                <mat-radio-group
+                  class="radio-checkbox-group"
+                  [formControlName]="getCheckBoxControlName(div, checkBox, i)"
+                  (change)="onCheckBoxChange(checkBox, div, i)">
+                  <mat-radio-button [value]="false">{{checkBox.LabelForFalse}}</mat-radio-button>
+                  <mat-radio-button [value]="true">{{checkBox.LabelForTrue}}</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            } @else {
+              <mat-checkbox
+                class="custom-checkbox"
+                [formControlName]="getCheckBoxControlName(div, checkBox, i)"
+                (change)="onCheckBoxChange(checkBox, div, i)">{{checkBox.Name}}</mat-checkbox>
+            }
+          }
+
+          @if ((div.FormEditAssocButton || div.FormSortAssocButton) && !(div.FormFields && div.FormFields.length > 0 && div.FormFields[0].FormFieldSelect)) {
+            <div class="flex-align-items-center">
+              @if (div.FormEditAssocButton) {
+                <p class="custom-text">{{div.FormEditAssocButton.Label}}</p>
               }
-              @if (div.FormSortAssocButton) {
-                @if (!div.FormSortAssocButton.HasToolTip) {
-                  <button type="button"
-                    (click)="openTableSort(div.FormSortAssocButton.Name)"
-                    mat-raised-button class="custom-button">
-                    <mat-icon>shuffle</mat-icon>
-                  </button>
-                } @else {
-                                  <button type="button"
-                    (click)="openTableSort(div.FormSortAssocButton.Name)"
-                    mat-raised-button class="custom-button"
-
-                    [matTooltip]="div.FormSortAssocButton.ToolTipText"
-                    [matTooltipShowDelay]="div.FormSortAssocButton.MatTooltipShowDelay"
-                    matTooltipPosition="above"
-                    [matTooltipDisabled]="!div.FormSortAssocButton.HasToolTip"
-                    >
-                    <mat-icon>shuffle</mat-icon>
-                  </button>
+              <div class="assoc-button-container">
+                @if (div.FormEditAssocButton) {
+                  @if (!div.FormEditAssocButton.HasToolTip) {
+                    <button type="button"
+                      (click)="openTableAssociation(div.FormEditAssocButton.Name)"
+                      mat-raised-button class="custom-button"
+                      >
+                      <mat-icon>list</mat-icon>
+                    </button>
+                  } @else {
+                    <button type="button"
+                      (click)="openTableAssociation(div.FormEditAssocButton.Name)"
+                      mat-raised-button class="custom-button"
+                      [matTooltip]="div.FormEditAssocButton.ToolTipText"
+                      matTooltipPosition="above"
+                      [matTooltipShowDelay]="div.FormEditAssocButton.MatTooltipShowDelay"
+                      [matTooltipDisabled]="!div.FormEditAssocButton.HasToolTip"
+                      >
+                      <mat-icon>list</mat-icon>
+                    </button>
+                  }
                 }
-
-              }
+                @if (div.FormSortAssocButton) {
+                  @if (!div.FormSortAssocButton.HasToolTip) {
+                    <button type="button"
+                      (click)="openTableSort(div.FormSortAssocButton.Name)"
+                      mat-raised-button class="custom-button">
+                      <mat-icon>shuffle</mat-icon>
+                    </button>
+                  } @else {
+                    <button type="button"
+                      (click)="openTableSort(div.FormSortAssocButton.Name)"
+                      mat-raised-button class="custom-button"
+                      [matTooltip]="div.FormSortAssocButton.ToolTipText"
+                      [matTooltipShowDelay]="div.FormSortAssocButton.MatTooltipShowDelay"
+                      matTooltipPosition="above"
+                      [matTooltipDisabled]="!div.FormSortAssocButton.HasToolTip"
+                      >
+                      <mat-icon>shuffle</mat-icon>
+                    </button>
+                  }
+                }
+              </div>
             </div>
-          </div>
-        }
-      </div>
+          }
+        </div>
       }
     </ng-template>
 

@@ -19,6 +19,7 @@ export class FormDivAPI {
 	IsADivider: boolean = false
 	IsAStartAccordionGroup: boolean = false
 	AccordionGroupName: string = ""
+	IsExpandedInitially: boolean = false
 	IsAEndAccordionGroup: boolean = false
 
 	// insertion point for other decls

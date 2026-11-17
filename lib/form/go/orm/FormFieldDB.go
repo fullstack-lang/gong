@@ -117,6 +117,10 @@ type FormFieldDB struct {
 	// Declation for basic field formfieldDB.BespokeHeightPx
 	BespokeHeightPx_Data sql.NullInt64
 
+	// Declation for basic field formfieldDB.IsDisabled
+	// provide the sql storage for the boolan
+	IsDisabled_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormFieldPointersEncoding
@@ -154,6 +158,8 @@ type FormFieldWOP struct {
 	HasBespokeHeight bool `xlsx:"7"`
 
 	BespokeHeightPx int `xlsx:"8"`
+
+	IsDisabled bool `xlsx:"9"`
 	// insertion for WOP pointer fields
 }
 
@@ -168,6 +174,7 @@ var FormField_Fields = []string{
 	"BespokeWidthPx",
 	"HasBespokeHeight",
 	"BespokeHeightPx",
+	"IsDisabled",
 }
 
 type BackRepoFormFieldStruct struct {
@@ -697,6 +704,9 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsFromFormField(formfield *models.F
 
 	formfieldDB.BespokeHeightPx_Data.Int64 = int64(formfield.BespokeHeightPx)
 	formfieldDB.BespokeHeightPx_Data.Valid = true
+
+	formfieldDB.IsDisabled_Data.Bool = formfield.IsDisabled
+	formfieldDB.IsDisabled_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormField_WOP
@@ -726,6 +736,9 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsFromFormField_WOP(formfield *mode
 
 	formfieldDB.BespokeHeightPx_Data.Int64 = int64(formfield.BespokeHeightPx)
 	formfieldDB.BespokeHeightPx_Data.Valid = true
+
+	formfieldDB.IsDisabled_Data.Bool = formfield.IsDisabled
+	formfieldDB.IsDisabled_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormFieldWOP
@@ -755,6 +768,9 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsFromFormFieldWOP(formfield *FormF
 
 	formfieldDB.BespokeHeightPx_Data.Int64 = int64(formfield.BespokeHeightPx)
 	formfieldDB.BespokeHeightPx_Data.Valid = true
+
+	formfieldDB.IsDisabled_Data.Bool = formfield.IsDisabled
+	formfieldDB.IsDisabled_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormField
@@ -768,6 +784,7 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsToFormField(formfield *models.For
 	formfield.BespokeWidthPx = int(formfieldDB.BespokeWidthPx_Data.Int64)
 	formfield.HasBespokeHeight = formfieldDB.HasBespokeHeight_Data.Bool
 	formfield.BespokeHeightPx = int(formfieldDB.BespokeHeightPx_Data.Int64)
+	formfield.IsDisabled = formfieldDB.IsDisabled_Data.Bool
 }
 
 // CopyBasicFieldsToFormField_WOP
@@ -781,6 +798,7 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsToFormField_WOP(formfield *models
 	formfield.BespokeWidthPx = int(formfieldDB.BespokeWidthPx_Data.Int64)
 	formfield.HasBespokeHeight = formfieldDB.HasBespokeHeight_Data.Bool
 	formfield.BespokeHeightPx = int(formfieldDB.BespokeHeightPx_Data.Int64)
+	formfield.IsDisabled = formfieldDB.IsDisabled_Data.Bool
 }
 
 // CopyBasicFieldsToFormFieldWOP
@@ -795,6 +813,7 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsToFormFieldWOP(formfield *FormFie
 	formfield.BespokeWidthPx = int(formfieldDB.BespokeWidthPx_Data.Int64)
 	formfield.HasBespokeHeight = formfieldDB.HasBespokeHeight_Data.Bool
 	formfield.BespokeHeightPx = int(formfieldDB.BespokeHeightPx_Data.Int64)
+	formfield.IsDisabled = formfieldDB.IsDisabled_Data.Bool
 }
 
 // Backup generates a json file from a slice of all FormFieldDB instances in the backrepo

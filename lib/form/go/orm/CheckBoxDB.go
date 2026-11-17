@@ -70,6 +70,20 @@ type CheckBoxDB struct {
 	// provide the sql storage for the boolan
 	Value_Data sql.NullBool
 
+	// Declation for basic field checkboxDB.LabelForTrue
+	LabelForTrue_Data sql.NullString
+
+	// Declation for basic field checkboxDB.LabelForFalse
+	LabelForFalse_Data sql.NullString
+
+	// Declation for basic field checkboxDB.IsDisabled
+	// provide the sql storage for the boolan
+	IsDisabled_Data sql.NullBool
+
+	// Declation for basic field checkboxDB.IsLiveUpdate
+	// provide the sql storage for the boolan
+	IsLiveUpdate_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CheckBoxPointersEncoding
@@ -95,6 +109,14 @@ type CheckBoxWOP struct {
 	Name string `xlsx:"1"`
 
 	Value bool `xlsx:"2"`
+
+	LabelForTrue string `xlsx:"3"`
+
+	LabelForFalse string `xlsx:"4"`
+
+	IsDisabled bool `xlsx:"5"`
+
+	IsLiveUpdate bool `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -103,6 +125,10 @@ var CheckBox_Fields = []string{
 	"ID",
 	"Name",
 	"Value",
+	"LabelForTrue",
+	"LabelForFalse",
+	"IsDisabled",
+	"IsLiveUpdate",
 }
 
 type BackRepoCheckBoxStruct struct {
@@ -383,6 +409,18 @@ func (checkboxDB *CheckBoxDB) CopyBasicFieldsFromCheckBox(checkbox *models.Check
 
 	checkboxDB.Value_Data.Bool = checkbox.Value
 	checkboxDB.Value_Data.Valid = true
+
+	checkboxDB.LabelForTrue_Data.String = checkbox.LabelForTrue
+	checkboxDB.LabelForTrue_Data.Valid = true
+
+	checkboxDB.LabelForFalse_Data.String = checkbox.LabelForFalse
+	checkboxDB.LabelForFalse_Data.Valid = true
+
+	checkboxDB.IsDisabled_Data.Bool = checkbox.IsDisabled
+	checkboxDB.IsDisabled_Data.Valid = true
+
+	checkboxDB.IsLiveUpdate_Data.Bool = checkbox.IsLiveUpdate
+	checkboxDB.IsLiveUpdate_Data.Valid = true
 }
 
 // CopyBasicFieldsFromCheckBox_WOP
@@ -394,6 +432,18 @@ func (checkboxDB *CheckBoxDB) CopyBasicFieldsFromCheckBox_WOP(checkbox *models.C
 
 	checkboxDB.Value_Data.Bool = checkbox.Value
 	checkboxDB.Value_Data.Valid = true
+
+	checkboxDB.LabelForTrue_Data.String = checkbox.LabelForTrue
+	checkboxDB.LabelForTrue_Data.Valid = true
+
+	checkboxDB.LabelForFalse_Data.String = checkbox.LabelForFalse
+	checkboxDB.LabelForFalse_Data.Valid = true
+
+	checkboxDB.IsDisabled_Data.Bool = checkbox.IsDisabled
+	checkboxDB.IsDisabled_Data.Valid = true
+
+	checkboxDB.IsLiveUpdate_Data.Bool = checkbox.IsLiveUpdate
+	checkboxDB.IsLiveUpdate_Data.Valid = true
 }
 
 // CopyBasicFieldsFromCheckBoxWOP
@@ -405,6 +455,18 @@ func (checkboxDB *CheckBoxDB) CopyBasicFieldsFromCheckBoxWOP(checkbox *CheckBoxW
 
 	checkboxDB.Value_Data.Bool = checkbox.Value
 	checkboxDB.Value_Data.Valid = true
+
+	checkboxDB.LabelForTrue_Data.String = checkbox.LabelForTrue
+	checkboxDB.LabelForTrue_Data.Valid = true
+
+	checkboxDB.LabelForFalse_Data.String = checkbox.LabelForFalse
+	checkboxDB.LabelForFalse_Data.Valid = true
+
+	checkboxDB.IsDisabled_Data.Bool = checkbox.IsDisabled
+	checkboxDB.IsDisabled_Data.Valid = true
+
+	checkboxDB.IsLiveUpdate_Data.Bool = checkbox.IsLiveUpdate
+	checkboxDB.IsLiveUpdate_Data.Valid = true
 }
 
 // CopyBasicFieldsToCheckBox
@@ -412,6 +474,10 @@ func (checkboxDB *CheckBoxDB) CopyBasicFieldsToCheckBox(checkbox *models.CheckBo
 	// insertion point for checkout of basic fields (back repo to stage)
 	checkbox.Name = checkboxDB.Name_Data.String
 	checkbox.Value = checkboxDB.Value_Data.Bool
+	checkbox.LabelForTrue = checkboxDB.LabelForTrue_Data.String
+	checkbox.LabelForFalse = checkboxDB.LabelForFalse_Data.String
+	checkbox.IsDisabled = checkboxDB.IsDisabled_Data.Bool
+	checkbox.IsLiveUpdate = checkboxDB.IsLiveUpdate_Data.Bool
 }
 
 // CopyBasicFieldsToCheckBox_WOP
@@ -419,6 +485,10 @@ func (checkboxDB *CheckBoxDB) CopyBasicFieldsToCheckBox_WOP(checkbox *models.Che
 	// insertion point for checkout of basic fields (back repo to stage)
 	checkbox.Name = checkboxDB.Name_Data.String
 	checkbox.Value = checkboxDB.Value_Data.Bool
+	checkbox.LabelForTrue = checkboxDB.LabelForTrue_Data.String
+	checkbox.LabelForFalse = checkboxDB.LabelForFalse_Data.String
+	checkbox.IsDisabled = checkboxDB.IsDisabled_Data.Bool
+	checkbox.IsLiveUpdate = checkboxDB.IsLiveUpdate_Data.Bool
 }
 
 // CopyBasicFieldsToCheckBoxWOP
@@ -427,6 +497,10 @@ func (checkboxDB *CheckBoxDB) CopyBasicFieldsToCheckBoxWOP(checkbox *CheckBoxWOP
 	// insertion point for checkout of basic fields (back repo to stage)
 	checkbox.Name = checkboxDB.Name_Data.String
 	checkbox.Value = checkboxDB.Value_Data.Bool
+	checkbox.LabelForTrue = checkboxDB.LabelForTrue_Data.String
+	checkbox.LabelForFalse = checkboxDB.LabelForFalse_Data.String
+	checkbox.IsDisabled = checkboxDB.IsDisabled_Data.Bool
+	checkbox.IsLiveUpdate = checkboxDB.IsLiveUpdate_Data.Bool
 }
 
 // Backup generates a json file from a slice of all CheckBoxDB instances in the backrepo

@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Subscription, forkJoin } from 'rxjs';
 
 import * as form from '../../../../form/src/public-api'
@@ -13,6 +13,7 @@ import { TableSpecificComponent } from '../../../../../../../table/ng-github.com
 import { ConfirmationDialogComponent } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/dialog/dialog.component';
 
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -57,6 +58,8 @@ export interface FormAccordionPanel {
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatRadioModule,
+    MatSliderModule,
     MatPaginatorModule,
     MatTooltipModule,
     MatDividerModule,
@@ -65,18 +68,13 @@ export interface FormAccordionPanel {
   templateUrl: './form-specific.html',
   styleUrl: './form-specific.css',
 })
-export class FormSpecific implements OnInit {
+export class FormSpecific implements OnInit, OnDestroy {
   @Input() Name: string = ""
 
-  // the component is refreshed when modification are performed in the back repo
-  //
-  // the checkCommitNbFromBackTimer polls the commit number of the back repo
-  // if the commit number has increased, it pulls the front repo and redraw the diagram
-  private commutNbFromBackSubscription: Subscription = new Subscription
-  lastCommitNbFromBack = -1
-  lastPushFromFrontNb = -1
-  currTime: number = 0
-  dateOfLastTimerEmission: Date = new Date
+  private frontRepoSub: Subscription | undefined
+  private debounceTimers: Map<number, ReturnType<typeof setTimeout>> = new Map()
+  private liveUpdateSubs: Map<string, Subscription> = new Map()
+  private readonly debounceDelayMs = 200
 
   public gongtableFrontRepo?: form.FrontRepo
 
@@ -88,8 +86,8 @@ export class FormSpecific implements OnInit {
 
   chunks: FormChunk[] = []
 
-  // map from instance key (${TypeLabel}:::${Label}) to set of opened accordion panel labels
-  private expandedPanelsByInstance = new Map<string, Set<string>>()
+  // map from instance key (${TypeLabel}:::${Label}) to map of panelLabel -> isExpanded
+  private expandedPanelsByInstance = new Map<string, Map<string, boolean>>()
 
   private getInstanceKey(): string {
     if (!this.selectedFormGroup) return ''
@@ -101,16 +99,74 @@ export class FormSpecific implements OnInit {
   onPanelExpandedChange(panelLabel: string, isExpanded: boolean): void {
     const key = this.getInstanceKey()
     if (!key) return
-    let set = this.expandedPanelsByInstance.get(key)
-    if (!set) {
-      set = new Set<string>()
-      this.expandedPanelsByInstance.set(key, set)
+    let map = this.expandedPanelsByInstance.get(key)
+    if (!map) {
+      map = new Map<string, boolean>()
+      this.expandedPanelsByInstance.set(key, map)
     }
-    if (isExpanded) {
-      set.add(panelLabel)
-    } else {
-      set.delete(panelLabel)
+    map.set(panelLabel, isExpanded)
+  }
+
+  private hasDivContent(div: form.FormDiv): boolean {
+    return !!(
+      div.IsADivider ||
+      (div.FormFields && div.FormFields.length > 0) ||
+      (div.CheckBoxs && div.CheckBoxs.length > 0) ||
+      div.FormEditAssocButton ||
+      div.FormSortAssocButton
+    )
+  }
+
+  getFieldControlName(div: form.FormDiv, formField: form.FormField, index: number): string {
+    return `field_${div.ID}_${formField.ID}_${index}`
+  }
+
+  getCheckBoxControlName(div: form.FormDiv, checkBox: form.CheckBox, index: number): string {
+    return `cb_${div.ID}_${checkBox.ID}_${index}`
+  }
+
+  shouldShowHeader(): boolean {
+    if (!this.selectedFormGroup) return false
+    return !this.selectedFormGroup.HideSubmitButton ||
+      !!this.selectedFormGroup.Label ||
+      !!this.selectedFormGroup.TypeLabel ||
+      !!this.selectedFormGroup.HasSuppressButton
+  }
+
+  isCompactDiv(div: form.FormDiv): boolean {
+    if (div.FormFields && div.FormFields.length > 0) {
+      return div.FormFields.every(f =>
+        !!(f.FormFieldInt && f.FormFieldInt.IsSlider) ||
+        !!(f.FormFieldFloat64 && f.FormFieldFloat64.IsSlider)
+      )
     }
+    return !!(div.CheckBoxs && div.CheckBoxs.length > 0 && !div.FormEditAssocButton && !div.FormSortAssocButton)
+  }
+
+  formatNumber(value: any): string {
+    if (value === undefined || value === null || value === '') return '0'
+    const num = +value
+    if (Number.isNaN(num)) return `${value}`
+    if (Number.isInteger(num)) return `${num}`
+    return `${parseFloat(num.toFixed(4))}`
+  }
+
+  formatLabel = (value: number): string => {
+    if (Math.abs(value) >= 1000) {
+      return Math.round(value / 1000) + 'k'
+    }
+    return this.formatNumber(value)
+  }
+
+  getSliderDisplayValue(div: form.FormDiv, formField: form.FormField, index: number): string {
+    const ctrlName = this.getFieldControlName(div, formField, index)
+    const ctrl = this.angularFormGroup?.get(ctrlName)
+    if (ctrl) {
+      return this.formatNumber(ctrl.value)
+    }
+    if (formField.FormFieldInt) return `${formField.FormFieldInt.Value}`
+    if (formField.FormFieldFloat64) return this.formatNumber(formField.FormFieldFloat64.Value)
+    return ''
   }
 
   currentFormEditAssocButton: form.FormEditAssocButton | undefined = undefined
@@ -142,14 +198,14 @@ export class FormSpecific implements OnInit {
   }
 
   ngOnInit(): void {
+    this.frontRepoSub?.unsubscribe()
 
-    this.frontRepoService.connectToWebSocket(this.Name).subscribe(
+    this.frontRepoSub = this.frontRepoService.connectToWebSocket(this.Name).subscribe(
       gongtablesFrontRepo => {
         this.gongtableFrontRepo = gongtablesFrontRepo
 
         this.selectedFormGroup = undefined
 
-        // refactorable version
         for (let form_ of this.gongtableFrontRepo.getFrontArray<form.FormGroup>(form.FormGroup.GONGSTRUCT_NAME)) {
           this.selectedFormGroup = form_
         }
@@ -163,7 +219,7 @@ export class FormSpecific implements OnInit {
 
         if (this.selectedFormGroup.FormDivs) {
           const instanceKey = this.getInstanceKey();
-          const expandedSet = this.expandedPanelsByInstance.get(instanceKey);
+          const expandedMap = this.expandedPanelsByInstance.get(instanceKey);
 
           let currentChunk: FormChunk | undefined = undefined;
           let currentPanel: FormAccordionPanel | undefined = undefined;
@@ -174,23 +230,26 @@ export class FormSpecific implements OnInit {
                 currentChunk = { IsAccordionGroup: true, Panels: [], NormalDivs: [] };
                 this.chunks.push(currentChunk);
               }
-              const isExpanded = expandedSet ? expandedSet.has(div.AccordionGroupName) : false;
+              const savedExpanded = expandedMap ? expandedMap.get(div.AccordionGroupName) : undefined;
+              const isExpanded = savedExpanded !== undefined ? savedExpanded : (div.IsExpandedInitially || false);
               currentPanel = { Label: div.AccordionGroupName, Divs: [], IsExpanded: isExpanded };
               currentChunk.Panels.push(currentPanel);
             }
 
             if (div.IsAEndAccordionGroup) {
-              if (currentPanel) {
-                currentPanel.Divs.push(div);
-              } else if (currentChunk && !currentChunk.IsAccordionGroup) {
-                currentChunk.NormalDivs.push(div);
+              if (this.hasDivContent(div)) {
+                if (currentPanel) {
+                  currentPanel.Divs.push(div);
+                } else if (currentChunk && !currentChunk.IsAccordionGroup) {
+                  currentChunk.NormalDivs.push(div);
+                }
               }
               currentChunk = undefined;
               currentPanel = undefined;
               continue;
             }
 
-            if (!div.IsAStartAccordionGroup) {
+            if (this.hasDivContent(div)) {
               if (currentPanel) {
                 currentPanel.Divs.push(div);
               } else {
@@ -199,10 +258,6 @@ export class FormSpecific implements OnInit {
                   this.chunks.push(currentChunk);
                 }
                 currentChunk.NormalDivs.push(div);
-              }
-            } else {
-              if (currentPanel) {
-                currentPanel.Divs.push(div);
               }
             }
           }
@@ -214,10 +269,11 @@ export class FormSpecific implements OnInit {
           for (let formDiv of this.selectedFormGroup.FormDivs) {
             if (formDiv.FormFields) {
               formDiv.FormFields.forEach((formField, index) => {
-                const uniqueFormControlName = `${formField.Name}_${index}`;
+                const uniqueFormControlName = this.getFieldControlName(formDiv, formField, index);
+                const isDisabled = !!formField.IsDisabled;
 
                 if (formField.FormFieldString) {
-                  generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldString.Value, Validators.required]
+                  generatedFormGroupConfig[uniqueFormControlName] = [{ value: formField.FormFieldString.Value, disabled: isDisabled }, Validators.required]
                 }
                 if (formField.FormFieldInt) {
                   let validators = [Validators.required]
@@ -229,7 +285,10 @@ export class FormSpecific implements OnInit {
                     validators.push(Validators.max(formField.FormFieldInt.MaxValue))
                   }
                   validators.push(integerValidator)
-                  generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldInt.Value.toString(), validators]
+                  const initVal = formField.FormFieldInt.IsSlider
+                    ? formField.FormFieldInt.Value
+                    : formField.FormFieldInt.Value.toString()
+                  generatedFormGroupConfig[uniqueFormControlName] = [{ value: initVal, disabled: isDisabled }, validators]
                 }
                 if (formField.FormFieldFloat64) {
                   let validators = [Validators.required]
@@ -240,16 +299,19 @@ export class FormSpecific implements OnInit {
                   if (formField.FormFieldFloat64.HasMaxValidator) {
                     validators.push(Validators.max(formField.FormFieldFloat64.MaxValue))
                   }
-                  generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldFloat64.Value.toString(), validators]
+                  const initVal = formField.FormFieldFloat64.IsSlider
+                    ? formField.FormFieldFloat64.Value
+                    : formField.FormFieldFloat64.Value.toString()
+                  generatedFormGroupConfig[uniqueFormControlName] = [{ value: initVal, disabled: isDisabled }, validators]
                 }
 
                 if (formField.FormFieldDate) {
                   let displayedString = formField.FormFieldDate.Value.toString().substring(0, 10)
-                  generatedFormGroupConfig[uniqueFormControlName] = [displayedString, Validators.required]
+                  generatedFormGroupConfig[uniqueFormControlName] = [{ value: displayedString, disabled: isDisabled }, Validators.required]
                 }
                 if (formField.FormFieldDateTime) {
                   let displayedString = formField.FormFieldDateTime.Value.toString()
-                  generatedFormGroupConfig[uniqueFormControlName] = [displayedString, Validators.required]
+                  generatedFormGroupConfig[uniqueFormControlName] = [{ value: displayedString, disabled: isDisabled }, Validators.required]
                 }
                 if (formField.FormFieldTime) {
                   let timeValue = new Date(formField.FormFieldTime.Value)
@@ -263,7 +325,7 @@ export class FormSpecific implements OnInit {
 
                   const timeStr = `${hoursStr}:${minutesStr}:${secondsStr}`
 
-                  generatedFormGroupConfig[uniqueFormControlName] = [timeStr, Validators.required]
+                  generatedFormGroupConfig[uniqueFormControlName] = [{ value: timeStr, disabled: isDisabled }, Validators.required]
                 }
                 if (formField.FormFieldSelect) {
 
@@ -272,9 +334,9 @@ export class FormSpecific implements OnInit {
                   }
 
                   if (formField.FormFieldSelect.CanBeEmpty) {
-                    generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldSelect.Value?.Name, []]
+                    generatedFormGroupConfig[uniqueFormControlName] = [{ value: formField.FormFieldSelect.Value?.Name, disabled: isDisabled }, []]
                   } else {
-                    generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldSelect.Value?.Name, Validators.required]
+                    generatedFormGroupConfig[uniqueFormControlName] = [{ value: formField.FormFieldSelect.Value?.Name, disabled: isDisabled }, Validators.required]
                   }
                 }
               })
@@ -282,8 +344,8 @@ export class FormSpecific implements OnInit {
 
             if (formDiv.CheckBoxs) {
               formDiv.CheckBoxs.forEach((checkBox, index) => {
-                const uniqueFormControlName = `${checkBox.Name}_${index}`;
-                generatedFormGroupConfig[uniqueFormControlName] = [checkBox.Value, Validators.required]
+                const uniqueFormControlName = this.getCheckBoxControlName(formDiv, checkBox, index);
+                generatedFormGroupConfig[uniqueFormControlName] = [{ value: checkBox.Value, disabled: !!checkBox.IsDisabled }, Validators.required]
               });
             }
 
@@ -296,6 +358,129 @@ export class FormSpecific implements OnInit {
     )
   }
 
+  ngOnDestroy(): void {
+    this.frontRepoSub?.unsubscribe()
+    this.debounceTimers.forEach(timer => clearTimeout(timer))
+    this.debounceTimers.clear()
+    this.liveUpdateSubs.forEach(sub => sub.unsubscribe())
+    this.liveUpdateSubs.clear()
+  }
+
+  private extractSliderEventValue($event: Event, div: form.FormDiv, formField: form.FormField, index: number): number {
+    const target = $event.target as HTMLInputElement | null
+    const ctrlName = this.getFieldControlName(div, formField, index)
+    let numVal: number
+    if (target && target.value !== undefined && target.value !== '') {
+      numVal = +target.value
+    } else {
+      numVal = +(this.angularFormGroup?.get(ctrlName)?.value ?? 0)
+    }
+    this.angularFormGroup?.get(ctrlName)?.setValue(numVal, { emitEvent: false })
+    this.cdr.markForCheck()
+    return numVal
+  }
+
+  private isSliderLiveUpdate(formField: form.FormField): boolean {
+    return !!(
+      (formField.FormFieldInt && formField.FormFieldInt.IsLiveUpdate) ||
+      (formField.FormFieldFloat64 && formField.FormFieldFloat64.IsLiveUpdate)
+    )
+  }
+
+  onSliderInput($event: Event, formField: form.FormField, div: form.FormDiv, index: number): void {
+    const numVal = this.extractSliderEventValue($event, div, formField, index)
+    if (!this.isSliderLiveUpdate(formField)) {
+      return
+    }
+
+    const fieldId = formField.ID
+    const existingTimer = this.debounceTimers.get(fieldId)
+    if (existingTimer) {
+      clearTimeout(existingTimer)
+    }
+
+    const timer = setTimeout(() => {
+      this.debounceTimers.delete(fieldId)
+      this.pushSliderUpdate(formField, numVal)
+    }, this.debounceDelayMs)
+
+    this.debounceTimers.set(fieldId, timer)
+  }
+
+  onSliderChange($event: Event, formField: form.FormField, div: form.FormDiv, index: number): void {
+    const numVal = this.extractSliderEventValue($event, div, formField, index)
+    if (!this.isSliderLiveUpdate(formField)) {
+      return
+    }
+
+    const fieldId = formField.ID
+    const existingTimer = this.debounceTimers.get(fieldId)
+    if (existingTimer) {
+      clearTimeout(existingTimer)
+      this.debounceTimers.delete(fieldId)
+    }
+    this.pushSliderUpdate(formField, numVal)
+  }
+
+  private pushSliderUpdate(formField: form.FormField, numVal: number): void {
+    if (formField.FormFieldInt) {
+      const ffInt = formField.FormFieldInt
+      const intVal = Math.round(numVal)
+      ffInt.Value = intVal
+      const subKey = `int_${ffInt.ID}`
+      this.liveUpdateSubs.get(subKey)?.unsubscribe()
+      const sub = this.formFieldIntService.updateFront(ffInt, this.Name).subscribe()
+      this.liveUpdateSubs.set(subKey, sub)
+    } else if (formField.FormFieldFloat64) {
+      const ffFloat = formField.FormFieldFloat64
+      ffFloat.Value = numVal
+      const subKey = `float_${ffFloat.ID}`
+      this.liveUpdateSubs.get(subKey)?.unsubscribe()
+      const sub = this.formFieldFloat64Service.updateFront(ffFloat, this.Name).subscribe()
+      this.liveUpdateSubs.set(subKey, sub)
+    }
+  }
+
+  onCheckBoxChange(checkBox: form.CheckBox, div: form.FormDiv, index: number): void {
+    if (!checkBox.IsLiveUpdate) {
+      return
+    }
+    const ctrlName = this.getCheckBoxControlName(div, checkBox, index)
+    const newVal = !!this.angularFormGroup?.get(ctrlName)?.value
+    if (newVal !== checkBox.Value) {
+      checkBox.Value = newVal
+      const subKey = `cb_${checkBox.ID}`
+      this.liveUpdateSubs.get(subKey)?.unsubscribe()
+      const sub = this.checkBoxService.updateFront(checkBox, this.Name).subscribe()
+      this.liveUpdateSubs.set(subKey, sub)
+    }
+  }
+
+  onSelectChange(formField: form.FormField, div: form.FormDiv, index: number): void {
+    const sel = formField.FormFieldSelect
+    if (!sel || !sel.IsLiveUpdate) {
+      return
+    }
+    const ctrlName = this.getFieldControlName(div, formField, index)
+    const newValueFromForm = this.angularFormGroup?.get(ctrlName)?.value
+    if (newValueFromForm !== sel.Value?.Name) {
+      let matchedOption: form.Option | undefined = undefined
+      if (sel.Options) {
+        for (let option of sel.Options) {
+          if (option.Name === newValueFromForm) {
+            matchedOption = option
+            break
+          }
+        }
+      }
+      sel.Value = matchedOption
+      const subKey = `sel_${sel.ID}`
+      this.liveUpdateSubs.get(subKey)?.unsubscribe()
+      const sub = this.formFieldSelectService.updateFront(sel, this.Name).subscribe()
+      this.liveUpdateSubs.set(subKey, sub)
+    }
+  }
+
   submitForm() {
 
     const promises = []
@@ -304,7 +489,6 @@ export class FormSpecific implements OnInit {
     if (this.angularFormGroup == undefined) {
       return
     }
-    // console.log(this.angularFormGroup.valueChanges)
 
     if (this.selectedFormGroup == undefined) {
       return
@@ -314,11 +498,13 @@ export class FormSpecific implements OnInit {
       return
     }
 
+    const rawFormValues = this.angularFormGroup.getRawValue()
+
     for (let formDiv of this.selectedFormGroup.FormDivs) {
       if (formDiv.FormFields) {
         formDiv.FormFields.forEach((formField, index) => {
-          const uniqueFormControlName = `${formField.Name}_${index}`;
-          const newValueFromForm = this.angularFormGroup!.value[uniqueFormControlName];
+          const uniqueFormControlName = this.getFieldControlName(formDiv, formField, index);
+          const newValueFromForm = rawFormValues[uniqueFormControlName];
 
           if (formField.FormFieldString) {
             let formFieldString = formField.FormFieldString
@@ -349,20 +535,14 @@ export class FormSpecific implements OnInit {
             }
           }
           if (formField.FormFieldDate) {
-            // Assume formField is already defined
             let formFieldDate = formField.FormFieldDate
 
             let formFieldValue = newValueFromForm;
 
-            // 1. Convert to a UTC formatted string and then to a Date object
             let dateObj = new Date(formFieldValue);
             let formattedDate = dateObj.toISOString();
             let dateObject = new Date(formattedDate);
 
-            // console.log("input date", dateObject);
-            // console.log("date before", formFieldDate.Value);
-
-            // 2. Check if two dates are on the same day
             let inputDate = new Date(formFieldValue);
             let comparisonDate = new Date(formFieldDate.Value);
 
@@ -371,8 +551,6 @@ export class FormSpecific implements OnInit {
                 date1.getUTCMonth() === date2.getUTCMonth() &&
                 date1.getUTCDate() === date2.getUTCDate();
             }
-
-            // console.log(isSameDay(inputDate, comparisonDate));
 
             if (!isSameDay(inputDate, comparisonDate)) {
               formFieldDate.Value = dateObject;
@@ -427,8 +605,8 @@ export class FormSpecific implements OnInit {
       }
       if (formDiv.CheckBoxs) {
         formDiv.CheckBoxs.forEach((checkBox, index) => {
-          const uniqueFormControlName = `${checkBox.Name}_${index}`;
-          const newValue = this.angularFormGroup!.value[uniqueFormControlName] as boolean;
+          const uniqueFormControlName = this.getCheckBoxControlName(formDiv, checkBox, index);
+          const newValue = rawFormValues[uniqueFormControlName] as boolean;
           if (newValue != checkBox.Value) {
             checkBox.Value = newValue
             promises.push(this.checkBoxService.updateFront(checkBox, this.Name))
@@ -446,9 +624,6 @@ export class FormSpecific implements OnInit {
       () => {
         this.formGroupService.updateFront(this.selectedFormGroup!, this.Name).subscribe(
           () => {
-            // console.log("Form refreshed", promises.length)
-            // a refresh is necessary to redeem all associations
-            // this.refresh()
           }
         )
       }
@@ -458,9 +633,6 @@ export class FormSpecific implements OnInit {
       this.formGroupService.updateFront(this.selectedFormGroup!, this.Name).subscribe(
         () => {
           console.log("Form refreshed without updates")
-
-          // a refresh is necessary to redeem all associations
-          // this.refresh()
         }
       )
     }
@@ -489,15 +661,11 @@ export class FormSpecific implements OnInit {
 
           this.currentFormEditAssocButton = formDiv.FormEditAssocButton
 
-          // This update will have the back generates the table stack for selecting the associated fields
-          // this table stack front "-table-pick" will be fill with the storage for having
-          // the rows selected
           formDiv.FormEditAssocButton.IsForSavePurpose = false
           this.formEditAssocButtonService.updateFront(formDiv.FormEditAssocButton, this.Name).subscribe(
             () => {
               console.log("assoc button updated")
 
-              // when the association button is pressed
               this.dialogRef = this.dialog.open(TableSpecificComponent, {
                 maxWidth: '90vw',
                 data: {
@@ -510,42 +678,35 @@ export class FormSpecific implements OnInit {
                 console.log('The dialog was closed');
 
                 if (result) {
-                  // Extract selected IDs from result
                   let selectedIDs = new Array<number>();
                   for (let row of result) {
                     selectedIDs.push(row.ID - 1);
                   }
 
                   if (this.currentFormEditAssocButton) {
-                    // Get current association storage as array
                     let currentAssociationIDs = decodeStringToIntArray_json(this.currentFormEditAssocButton.AssociationStorage);
 
-                    // Create new ordered array
                     let newOrderedIDs = new Array<number>();
 
-                    // First, preserve the original order for existing items that are still selected
                     for (let existingID of currentAssociationIDs) {
                       if (selectedIDs.includes(existingID)) {
                         newOrderedIDs.push(existingID);
                       }
                     }
 
-                    // Then, append any new items that weren't in the original association storage
                     for (let selectedID of selectedIDs) {
                       if (!currentAssociationIDs.includes(selectedID)) {
                         newOrderedIDs.push(selectedID);
                       }
                     }
 
-                    // Update the association storage with the new ordered array
                     this.currentFormEditAssocButton.AssociationStorage = encodeIntArrayToString_json(newOrderedIDs);
                     this.currentFormEditAssocButton.HasChanged = true;
                     console.log('Result:', this.currentFormEditAssocButton.AssociationStorage);
 
-                    // If this formDiv also has a FormFieldSelect, sync the dropdown selection in the UI
                     if (formDiv.FormFields && formDiv.FormFields.length > 0 && formDiv.FormFields[0].FormFieldSelect) {
                       const formField = formDiv.FormFields[0]
-                      const uniqueFormControlName = `${formField.Name}_0`
+                      const uniqueFormControlName = this.getFieldControlName(formDiv, formField, 0)
                       const select = formField.FormFieldSelect
                       if (select) {
                         if (newOrderedIDs.length > 0) {
@@ -596,7 +757,6 @@ export class FormSpecific implements OnInit {
             () => {
               console.log("sort button updated")
 
-              // when the association button is pressed
               this.dialogRef = this.dialog.open(TableSpecificComponent, {
                 maxWidth: '90vw',
                 data: {
@@ -609,11 +769,9 @@ export class FormSpecific implements OnInit {
               this.dialogRef.afterClosed().subscribe(result => {
                 console.log('The sort dialog was closed');
 
-                // Get the updated AssociationStorage from the dialog data
                 const updatedAssociationStorage = this.dialogRef?.componentInstance?.tableDialogData?.AssociationStorage;
 
                 if (updatedAssociationStorage && this.currentFormEditAssocButton) {
-                  // Update the FormEditAssocButton with the new association storage
                   this.currentFormEditAssocButton.AssociationStorage = updatedAssociationStorage;
                   this.currentFormEditAssocButton.HasChanged = true;
                   console.log('Updated AssociationStorage after sorting:', this.currentFormEditAssocButton.AssociationStorage);
@@ -631,8 +789,6 @@ export class FormSpecific implements OnInit {
       return
     }
     this.selectedFormGroup.HasSuppressButtonBeenPressed = true
-
-    // the update of the form will be called later
   }
 
   openDialog(): void {
@@ -658,7 +814,7 @@ export class FormSpecific implements OnInit {
   }
 
   getDynamicStyles(formField: form.FormField): { [key: string]: any } {
-    const styles: { [key: string]: any } = {} // Explicitly define the type here
+    const styles: { [key: string]: any } = {}
     if (formField) {
       if (formField.HasBespokeWidth) {
         styles['width.px'] = formField.BespokeWidthPx

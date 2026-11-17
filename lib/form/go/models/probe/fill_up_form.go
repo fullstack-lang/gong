@@ -23,6 +23,14 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Value", instanceWithInferedType.Value, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("LabelForTrue", instanceWithInferedType.LabelForTrue, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("LabelForFalse", instanceWithInferedType.LabelForFalse, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsDisabled", instanceWithInferedType.IsDisabled, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsLiveUpdate", instanceWithInferedType.IsLiveUpdate, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -51,6 +59,8 @@ func FillUpForm(
 		BasicFieldtoForm("IsAStartAccordionGroup", instanceWithInferedType.IsAStartAccordionGroup, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("AccordionGroupName", instanceWithInferedType.AccordionGroupName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpandedInitially", instanceWithInferedType.IsExpandedInitially, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsAEndAccordionGroup", instanceWithInferedType.IsAEndAccordionGroup, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -117,6 +127,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("BespokeHeightPx", instanceWithInferedType.BespokeHeightPx, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsDisabled", instanceWithInferedType.IsDisabled, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -170,6 +182,12 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("MaxValue", instanceWithInferedType.MaxValue, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsSlider", instanceWithInferedType.IsSlider, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Step", instanceWithInferedType.Step, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsLiveUpdate", instanceWithInferedType.IsLiveUpdate, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -190,6 +208,12 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("MaxValue", instanceWithInferedType.MaxValue, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsSlider", instanceWithInferedType.IsSlider, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Step", instanceWithInferedType.Step, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsLiveUpdate", instanceWithInferedType.IsLiveUpdate, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -205,6 +229,8 @@ func FillUpForm(
 		BasicFieldtoForm("CanBeEmpty", instanceWithInferedType.CanBeEmpty, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("PreserveInitialOrder", instanceWithInferedType.PreserveInitialOrder, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsLiveUpdate", instanceWithInferedType.IsLiveUpdate, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -252,6 +278,8 @@ func FillUpForm(
 		BasicFieldtoForm("HasSuppressButton", instanceWithInferedType.HasSuppressButton, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("HasSuppressButtonBeenPressed", instanceWithInferedType.HasSuppressButtonBeenPressed, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("HideSubmitButton", instanceWithInferedType.HideSubmitButton, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",

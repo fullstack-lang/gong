@@ -9,4 +9,21 @@ type FormFieldInt struct {
 
 	HasMaxValidator bool
 	MaxValue        int
+
+	IsSlider     bool
+	Step         int
+	IsLiveUpdate bool
+
+	// swagger:ignore
+	Proxy FormElementProxyInterface
+}
+
+func (formFieldInt *FormFieldInt) OnAfterUpdate(
+	stage *Stage,
+	stagedInstance, frontInstance *FormFieldInt) {
+
+	stagedInstance.Value = frontInstance.Value
+	if stagedInstance.Proxy != nil {
+		stagedInstance.Proxy.Updated()
+	}
 }

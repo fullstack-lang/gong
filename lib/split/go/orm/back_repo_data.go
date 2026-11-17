@@ -28,8 +28,6 @@ type BackRepoData struct {
 
 	MarkdownAPIs []*MarkdownAPI
 
-	SliderAPIs []*SliderAPI
-
 	SplitAPIs []*SplitAPI
 
 	SvgAPIs []*SvgAPI
@@ -177,16 +175,6 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		markdownDB.CopyBasicFieldsToMarkdown_WOP(&markdownAPI.Markdown_WOP)
 
 		backRepoData.MarkdownAPIs = append(backRepoData.MarkdownAPIs, &markdownAPI)
-	}
-
-	for _, sliderDB := range backRepo.BackRepoSlider.Map_SliderDBID_SliderDB {
-
-		var sliderAPI SliderAPI
-		sliderAPI.ID = sliderDB.ID
-		sliderAPI.SliderPointersEncoding = sliderDB.SliderPointersEncoding
-		sliderDB.CopyBasicFieldsToSlider_WOP(&sliderAPI.Slider_WOP)
-
-		backRepoData.SliderAPIs = append(backRepoData.SliderAPIs, &sliderAPI)
 	}
 
 	for _, splitDB := range backRepo.BackRepoSplit.Map_SplitDBID_SplitDB {

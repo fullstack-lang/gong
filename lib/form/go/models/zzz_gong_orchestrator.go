@@ -2,6 +2,17 @@
 package models
 
 // insertion point
+// CheckBoxOrchestrator
+type CheckBoxOrchestrator struct {
+}
+
+func (orchestrator *CheckBoxOrchestrator) OnAfterUpdate(
+	gongsvgStage *Stage,
+	stagedCheckBox, backRepoCheckBox *CheckBox) {
+
+	stagedCheckBox.OnAfterUpdate(gongsvgStage, stagedCheckBox, backRepoCheckBox)
+}
+
 // FormEditAssocButtonOrchestrator
 type FormEditAssocButtonOrchestrator struct {
 }
@@ -11,6 +22,39 @@ func (orchestrator *FormEditAssocButtonOrchestrator) OnAfterUpdate(
 	stagedFormEditAssocButton, backRepoFormEditAssocButton *FormEditAssocButton) {
 
 	stagedFormEditAssocButton.OnAfterUpdate(gongsvgStage, stagedFormEditAssocButton, backRepoFormEditAssocButton)
+}
+
+// FormFieldFloat64Orchestrator
+type FormFieldFloat64Orchestrator struct {
+}
+
+func (orchestrator *FormFieldFloat64Orchestrator) OnAfterUpdate(
+	gongsvgStage *Stage,
+	stagedFormFieldFloat64, backRepoFormFieldFloat64 *FormFieldFloat64) {
+
+	stagedFormFieldFloat64.OnAfterUpdate(gongsvgStage, stagedFormFieldFloat64, backRepoFormFieldFloat64)
+}
+
+// FormFieldIntOrchestrator
+type FormFieldIntOrchestrator struct {
+}
+
+func (orchestrator *FormFieldIntOrchestrator) OnAfterUpdate(
+	gongsvgStage *Stage,
+	stagedFormFieldInt, backRepoFormFieldInt *FormFieldInt) {
+
+	stagedFormFieldInt.OnAfterUpdate(gongsvgStage, stagedFormFieldInt, backRepoFormFieldInt)
+}
+
+// FormFieldSelectOrchestrator
+type FormFieldSelectOrchestrator struct {
+}
+
+func (orchestrator *FormFieldSelectOrchestrator) OnAfterUpdate(
+	gongsvgStage *Stage,
+	stagedFormFieldSelect, backRepoFormFieldSelect *FormFieldSelect) {
+
+	stagedFormFieldSelect.OnAfterUpdate(gongsvgStage, stagedFormFieldSelect, backRepoFormFieldSelect)
 }
 
 // FormGroupOrchestrator
@@ -42,8 +86,16 @@ func (stage *Stage) SetOrchestratorOnAfterUpdate[Type Gongstruct]() {
 
 	switch any(ret).(type) {
 	// insertion point
+	case CheckBox:
+		stage.OnAfterCheckBoxUpdateCallback = new(CheckBoxOrchestrator)
 	case FormEditAssocButton:
 		stage.OnAfterFormEditAssocButtonUpdateCallback = new(FormEditAssocButtonOrchestrator)
+	case FormFieldFloat64:
+		stage.OnAfterFormFieldFloat64UpdateCallback = new(FormFieldFloat64Orchestrator)
+	case FormFieldInt:
+		stage.OnAfterFormFieldIntUpdateCallback = new(FormFieldIntOrchestrator)
+	case FormFieldSelect:
+		stage.OnAfterFormFieldSelectUpdateCallback = new(FormFieldSelectOrchestrator)
 	case FormGroup:
 		stage.OnAfterFormGroupUpdateCallback = new(FormGroupOrchestrator)
 	case FormSortAssocButton:

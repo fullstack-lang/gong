@@ -13,6 +13,10 @@ export class CheckBoxAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Value: boolean = false
+	LabelForTrue: string = ""
+	LabelForFalse: string = ""
+	IsDisabled: boolean = false
+	IsLiveUpdate: boolean = false
 
 	// insertion point for other decls
 

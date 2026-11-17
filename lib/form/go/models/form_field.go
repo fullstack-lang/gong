@@ -28,4 +28,6 @@ type FormField struct {
 	// set up specific height
 	HasBespokeHeight bool
 	BespokeHeightPx  int
+
+	IsDisabled bool
 }

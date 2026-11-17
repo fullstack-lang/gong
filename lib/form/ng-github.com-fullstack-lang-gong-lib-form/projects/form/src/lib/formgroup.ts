@@ -21,6 +21,7 @@ export class FormGroup {
 	TypeLabel: string = ""
 	HasSuppressButton: boolean = false
 	HasSuppressButtonBeenPressed: boolean = false
+	HideSubmitButton: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 	FormDivs: Array<FormDiv> = []
@@ -41,6 +42,7 @@ export function CopyFormGroupToFormGroupAPI(formgroup: FormGroup, formgroupAPI: 
 	formgroupAPI.TypeLabel = formgroup.TypeLabel
 	formgroupAPI.HasSuppressButton = formgroup.HasSuppressButton
 	formgroupAPI.HasSuppressButtonBeenPressed = formgroup.HasSuppressButtonBeenPressed
+	formgroupAPI.HideSubmitButton = formgroup.HideSubmitButton
 
 	// insertion point for pointer fields encoding
 
@@ -68,6 +70,7 @@ export function CopyFormGroupAPIToFormGroup(formgroupAPI: FormGroupAPI, formgrou
 	formgroup.TypeLabel = formgroupAPI.TypeLabel
 	formgroup.HasSuppressButton = formgroupAPI.HasSuppressButton
 	formgroup.HasSuppressButtonBeenPressed = formgroupAPI.HasSuppressButtonBeenPressed
+	formgroup.HideSubmitButton = formgroupAPI.HideSubmitButton
 
 	// insertion point for pointer fields encoding
 

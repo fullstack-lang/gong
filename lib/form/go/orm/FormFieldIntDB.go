@@ -83,6 +83,17 @@ type FormFieldIntDB struct {
 	// Declation for basic field formfieldintDB.MaxValue
 	MaxValue_Data sql.NullInt64
 
+	// Declation for basic field formfieldintDB.IsSlider
+	// provide the sql storage for the boolan
+	IsSlider_Data sql.NullBool
+
+	// Declation for basic field formfieldintDB.Step
+	Step_Data sql.NullInt64
+
+	// Declation for basic field formfieldintDB.IsLiveUpdate
+	// provide the sql storage for the boolan
+	IsLiveUpdate_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormFieldIntPointersEncoding
@@ -116,6 +127,12 @@ type FormFieldIntWOP struct {
 	HasMaxValidator bool `xlsx:"5"`
 
 	MaxValue int `xlsx:"6"`
+
+	IsSlider bool `xlsx:"7"`
+
+	Step int `xlsx:"8"`
+
+	IsLiveUpdate bool `xlsx:"9"`
 	// insertion for WOP pointer fields
 }
 
@@ -128,6 +145,9 @@ var FormFieldInt_Fields = []string{
 	"MinValue",
 	"HasMaxValidator",
 	"MaxValue",
+	"IsSlider",
+	"Step",
+	"IsLiveUpdate",
 }
 
 type BackRepoFormFieldIntStruct struct {
@@ -420,6 +440,15 @@ func (formfieldintDB *FormFieldIntDB) CopyBasicFieldsFromFormFieldInt(formfieldi
 
 	formfieldintDB.MaxValue_Data.Int64 = int64(formfieldint.MaxValue)
 	formfieldintDB.MaxValue_Data.Valid = true
+
+	formfieldintDB.IsSlider_Data.Bool = formfieldint.IsSlider
+	formfieldintDB.IsSlider_Data.Valid = true
+
+	formfieldintDB.Step_Data.Int64 = int64(formfieldint.Step)
+	formfieldintDB.Step_Data.Valid = true
+
+	formfieldintDB.IsLiveUpdate_Data.Bool = formfieldint.IsLiveUpdate
+	formfieldintDB.IsLiveUpdate_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormFieldInt_WOP
@@ -443,6 +472,15 @@ func (formfieldintDB *FormFieldIntDB) CopyBasicFieldsFromFormFieldInt_WOP(formfi
 
 	formfieldintDB.MaxValue_Data.Int64 = int64(formfieldint.MaxValue)
 	formfieldintDB.MaxValue_Data.Valid = true
+
+	formfieldintDB.IsSlider_Data.Bool = formfieldint.IsSlider
+	formfieldintDB.IsSlider_Data.Valid = true
+
+	formfieldintDB.Step_Data.Int64 = int64(formfieldint.Step)
+	formfieldintDB.Step_Data.Valid = true
+
+	formfieldintDB.IsLiveUpdate_Data.Bool = formfieldint.IsLiveUpdate
+	formfieldintDB.IsLiveUpdate_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormFieldIntWOP
@@ -466,6 +504,15 @@ func (formfieldintDB *FormFieldIntDB) CopyBasicFieldsFromFormFieldIntWOP(formfie
 
 	formfieldintDB.MaxValue_Data.Int64 = int64(formfieldint.MaxValue)
 	formfieldintDB.MaxValue_Data.Valid = true
+
+	formfieldintDB.IsSlider_Data.Bool = formfieldint.IsSlider
+	formfieldintDB.IsSlider_Data.Valid = true
+
+	formfieldintDB.Step_Data.Int64 = int64(formfieldint.Step)
+	formfieldintDB.Step_Data.Valid = true
+
+	formfieldintDB.IsLiveUpdate_Data.Bool = formfieldint.IsLiveUpdate
+	formfieldintDB.IsLiveUpdate_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormFieldInt
@@ -477,6 +524,9 @@ func (formfieldintDB *FormFieldIntDB) CopyBasicFieldsToFormFieldInt(formfieldint
 	formfieldint.MinValue = int(formfieldintDB.MinValue_Data.Int64)
 	formfieldint.HasMaxValidator = formfieldintDB.HasMaxValidator_Data.Bool
 	formfieldint.MaxValue = int(formfieldintDB.MaxValue_Data.Int64)
+	formfieldint.IsSlider = formfieldintDB.IsSlider_Data.Bool
+	formfieldint.Step = int(formfieldintDB.Step_Data.Int64)
+	formfieldint.IsLiveUpdate = formfieldintDB.IsLiveUpdate_Data.Bool
 }
 
 // CopyBasicFieldsToFormFieldInt_WOP
@@ -488,6 +538,9 @@ func (formfieldintDB *FormFieldIntDB) CopyBasicFieldsToFormFieldInt_WOP(formfiel
 	formfieldint.MinValue = int(formfieldintDB.MinValue_Data.Int64)
 	formfieldint.HasMaxValidator = formfieldintDB.HasMaxValidator_Data.Bool
 	formfieldint.MaxValue = int(formfieldintDB.MaxValue_Data.Int64)
+	formfieldint.IsSlider = formfieldintDB.IsSlider_Data.Bool
+	formfieldint.Step = int(formfieldintDB.Step_Data.Int64)
+	formfieldint.IsLiveUpdate = formfieldintDB.IsLiveUpdate_Data.Bool
 }
 
 // CopyBasicFieldsToFormFieldIntWOP
@@ -500,6 +553,9 @@ func (formfieldintDB *FormFieldIntDB) CopyBasicFieldsToFormFieldIntWOP(formfield
 	formfieldint.MinValue = int(formfieldintDB.MinValue_Data.Int64)
 	formfieldint.HasMaxValidator = formfieldintDB.HasMaxValidator_Data.Bool
 	formfieldint.MaxValue = int(formfieldintDB.MaxValue_Data.Int64)
+	formfieldint.IsSlider = formfieldintDB.IsSlider_Data.Bool
+	formfieldint.Step = int(formfieldintDB.Step_Data.Int64)
+	formfieldint.IsLiveUpdate = formfieldintDB.IsLiveUpdate_Data.Bool
 }
 
 // Backup generates a json file from a slice of all FormFieldIntDB instances in the backrepo

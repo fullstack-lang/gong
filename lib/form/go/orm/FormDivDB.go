@@ -91,6 +91,10 @@ type FormDivDB struct {
 	// Declation for basic field formdivDB.AccordionGroupName
 	AccordionGroupName_Data sql.NullString
 
+	// Declation for basic field formdivDB.IsExpandedInitially
+	// provide the sql storage for the boolan
+	IsExpandedInitially_Data sql.NullBool
+
 	// Declation for basic field formdivDB.IsAEndAccordionGroup
 	// provide the sql storage for the boolan
 	IsAEndAccordionGroup_Data sql.NullBool
@@ -125,7 +129,9 @@ type FormDivWOP struct {
 
 	AccordionGroupName string `xlsx:"4"`
 
-	IsAEndAccordionGroup bool `xlsx:"5"`
+	IsExpandedInitially bool `xlsx:"5"`
+
+	IsAEndAccordionGroup bool `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -136,6 +142,7 @@ var FormDiv_Fields = []string{
 	"IsADivider",
 	"IsAStartAccordionGroup",
 	"AccordionGroupName",
+	"IsExpandedInitially",
 	"IsAEndAccordionGroup",
 }
 
@@ -544,6 +551,9 @@ func (formdivDB *FormDivDB) CopyBasicFieldsFromFormDiv(formdiv *models.FormDiv) 
 	formdivDB.AccordionGroupName_Data.String = formdiv.AccordionGroupName
 	formdivDB.AccordionGroupName_Data.Valid = true
 
+	formdivDB.IsExpandedInitially_Data.Bool = formdiv.IsExpandedInitially
+	formdivDB.IsExpandedInitially_Data.Valid = true
+
 	formdivDB.IsAEndAccordionGroup_Data.Bool = formdiv.IsAEndAccordionGroup
 	formdivDB.IsAEndAccordionGroup_Data.Valid = true
 }
@@ -563,6 +573,9 @@ func (formdivDB *FormDivDB) CopyBasicFieldsFromFormDiv_WOP(formdiv *models.FormD
 
 	formdivDB.AccordionGroupName_Data.String = formdiv.AccordionGroupName
 	formdivDB.AccordionGroupName_Data.Valid = true
+
+	formdivDB.IsExpandedInitially_Data.Bool = formdiv.IsExpandedInitially
+	formdivDB.IsExpandedInitially_Data.Valid = true
 
 	formdivDB.IsAEndAccordionGroup_Data.Bool = formdiv.IsAEndAccordionGroup
 	formdivDB.IsAEndAccordionGroup_Data.Valid = true
@@ -584,6 +597,9 @@ func (formdivDB *FormDivDB) CopyBasicFieldsFromFormDivWOP(formdiv *FormDivWOP) {
 	formdivDB.AccordionGroupName_Data.String = formdiv.AccordionGroupName
 	formdivDB.AccordionGroupName_Data.Valid = true
 
+	formdivDB.IsExpandedInitially_Data.Bool = formdiv.IsExpandedInitially
+	formdivDB.IsExpandedInitially_Data.Valid = true
+
 	formdivDB.IsAEndAccordionGroup_Data.Bool = formdiv.IsAEndAccordionGroup
 	formdivDB.IsAEndAccordionGroup_Data.Valid = true
 }
@@ -595,6 +611,7 @@ func (formdivDB *FormDivDB) CopyBasicFieldsToFormDiv(formdiv *models.FormDiv) {
 	formdiv.IsADivider = formdivDB.IsADivider_Data.Bool
 	formdiv.IsAStartAccordionGroup = formdivDB.IsAStartAccordionGroup_Data.Bool
 	formdiv.AccordionGroupName = formdivDB.AccordionGroupName_Data.String
+	formdiv.IsExpandedInitially = formdivDB.IsExpandedInitially_Data.Bool
 	formdiv.IsAEndAccordionGroup = formdivDB.IsAEndAccordionGroup_Data.Bool
 }
 
@@ -605,6 +622,7 @@ func (formdivDB *FormDivDB) CopyBasicFieldsToFormDiv_WOP(formdiv *models.FormDiv
 	formdiv.IsADivider = formdivDB.IsADivider_Data.Bool
 	formdiv.IsAStartAccordionGroup = formdivDB.IsAStartAccordionGroup_Data.Bool
 	formdiv.AccordionGroupName = formdivDB.AccordionGroupName_Data.String
+	formdiv.IsExpandedInitially = formdivDB.IsExpandedInitially_Data.Bool
 	formdiv.IsAEndAccordionGroup = formdivDB.IsAEndAccordionGroup_Data.Bool
 }
 
@@ -616,6 +634,7 @@ func (formdivDB *FormDivDB) CopyBasicFieldsToFormDivWOP(formdiv *FormDivWOP) {
 	formdiv.IsADivider = formdivDB.IsADivider_Data.Bool
 	formdiv.IsAStartAccordionGroup = formdivDB.IsAStartAccordionGroup_Data.Bool
 	formdiv.AccordionGroupName = formdivDB.AccordionGroupName_Data.String
+	formdiv.IsExpandedInitially = formdivDB.IsExpandedInitially_Data.Bool
 	formdiv.IsAEndAccordionGroup = formdivDB.IsAEndAccordionGroup_Data.Bool
 }
 

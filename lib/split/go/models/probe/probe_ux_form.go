@@ -198,19 +198,6 @@ func FillUpFormFromGongstructName(
 		markdown := new(models.Markdown)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(markdown, formGroup, probe)
-	case "Slider":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Slider Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__SliderFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		slider := new(models.Slider)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(slider, formGroup, probe)
 	case "Split":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

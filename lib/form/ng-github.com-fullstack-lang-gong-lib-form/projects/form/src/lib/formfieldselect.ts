@@ -19,6 +19,7 @@ export class FormFieldSelect {
 	Name: string = ""
 	CanBeEmpty: boolean = false
 	PreserveInitialOrder: boolean = false
+	IsLiveUpdate: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 	Value?: Option
@@ -39,6 +40,7 @@ export function CopyFormFieldSelectToFormFieldSelectAPI(formfieldselect: FormFie
 	formfieldselectAPI.Name = formfieldselect.Name
 	formfieldselectAPI.CanBeEmpty = formfieldselect.CanBeEmpty
 	formfieldselectAPI.PreserveInitialOrder = formfieldselect.PreserveInitialOrder
+	formfieldselectAPI.IsLiveUpdate = formfieldselect.IsLiveUpdate
 
 	// insertion point for pointer fields encoding
 	formfieldselectAPI.FormFieldSelectPointersEncoding.ValueID.Valid = true
@@ -71,6 +73,7 @@ export function CopyFormFieldSelectAPIToFormFieldSelect(formfieldselectAPI: Form
 	formfieldselect.Name = formfieldselectAPI.Name
 	formfieldselect.CanBeEmpty = formfieldselectAPI.CanBeEmpty
 	formfieldselect.PreserveInitialOrder = formfieldselectAPI.PreserveInitialOrder
+	formfieldselect.IsLiveUpdate = formfieldselectAPI.IsLiveUpdate
 
 	// insertion point for pointer fields encoding
 	formfieldselect.Value = frontRepo.map_ID_Option.get(formfieldselectAPI.FormFieldSelectPointersEncoding.ValueID.Int64)

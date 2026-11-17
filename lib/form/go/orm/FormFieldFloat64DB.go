@@ -83,6 +83,17 @@ type FormFieldFloat64DB struct {
 	// Declation for basic field formfieldfloat64DB.MaxValue
 	MaxValue_Data sql.NullFloat64
 
+	// Declation for basic field formfieldfloat64DB.IsSlider
+	// provide the sql storage for the boolan
+	IsSlider_Data sql.NullBool
+
+	// Declation for basic field formfieldfloat64DB.Step
+	Step_Data sql.NullFloat64
+
+	// Declation for basic field formfieldfloat64DB.IsLiveUpdate
+	// provide the sql storage for the boolan
+	IsLiveUpdate_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormFieldFloat64PointersEncoding
@@ -116,6 +127,12 @@ type FormFieldFloat64WOP struct {
 	HasMaxValidator bool `xlsx:"5"`
 
 	MaxValue float64 `xlsx:"6"`
+
+	IsSlider bool `xlsx:"7"`
+
+	Step float64 `xlsx:"8"`
+
+	IsLiveUpdate bool `xlsx:"9"`
 	// insertion for WOP pointer fields
 }
 
@@ -128,6 +145,9 @@ var FormFieldFloat64_Fields = []string{
 	"MinValue",
 	"HasMaxValidator",
 	"MaxValue",
+	"IsSlider",
+	"Step",
+	"IsLiveUpdate",
 }
 
 type BackRepoFormFieldFloat64Struct struct {
@@ -420,6 +440,15 @@ func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsFromFormFieldFloat6
 
 	formfieldfloat64DB.MaxValue_Data.Float64 = formfieldfloat64.MaxValue
 	formfieldfloat64DB.MaxValue_Data.Valid = true
+
+	formfieldfloat64DB.IsSlider_Data.Bool = formfieldfloat64.IsSlider
+	formfieldfloat64DB.IsSlider_Data.Valid = true
+
+	formfieldfloat64DB.Step_Data.Float64 = formfieldfloat64.Step
+	formfieldfloat64DB.Step_Data.Valid = true
+
+	formfieldfloat64DB.IsLiveUpdate_Data.Bool = formfieldfloat64.IsLiveUpdate
+	formfieldfloat64DB.IsLiveUpdate_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormFieldFloat64_WOP
@@ -443,6 +472,15 @@ func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsFromFormFieldFloat6
 
 	formfieldfloat64DB.MaxValue_Data.Float64 = formfieldfloat64.MaxValue
 	formfieldfloat64DB.MaxValue_Data.Valid = true
+
+	formfieldfloat64DB.IsSlider_Data.Bool = formfieldfloat64.IsSlider
+	formfieldfloat64DB.IsSlider_Data.Valid = true
+
+	formfieldfloat64DB.Step_Data.Float64 = formfieldfloat64.Step
+	formfieldfloat64DB.Step_Data.Valid = true
+
+	formfieldfloat64DB.IsLiveUpdate_Data.Bool = formfieldfloat64.IsLiveUpdate
+	formfieldfloat64DB.IsLiveUpdate_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormFieldFloat64WOP
@@ -466,6 +504,15 @@ func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsFromFormFieldFloat6
 
 	formfieldfloat64DB.MaxValue_Data.Float64 = formfieldfloat64.MaxValue
 	formfieldfloat64DB.MaxValue_Data.Valid = true
+
+	formfieldfloat64DB.IsSlider_Data.Bool = formfieldfloat64.IsSlider
+	formfieldfloat64DB.IsSlider_Data.Valid = true
+
+	formfieldfloat64DB.Step_Data.Float64 = formfieldfloat64.Step
+	formfieldfloat64DB.Step_Data.Valid = true
+
+	formfieldfloat64DB.IsLiveUpdate_Data.Bool = formfieldfloat64.IsLiveUpdate
+	formfieldfloat64DB.IsLiveUpdate_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormFieldFloat64
@@ -477,6 +524,9 @@ func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsToFormFieldFloat64(
 	formfieldfloat64.MinValue = formfieldfloat64DB.MinValue_Data.Float64
 	formfieldfloat64.HasMaxValidator = formfieldfloat64DB.HasMaxValidator_Data.Bool
 	formfieldfloat64.MaxValue = formfieldfloat64DB.MaxValue_Data.Float64
+	formfieldfloat64.IsSlider = formfieldfloat64DB.IsSlider_Data.Bool
+	formfieldfloat64.Step = formfieldfloat64DB.Step_Data.Float64
+	formfieldfloat64.IsLiveUpdate = formfieldfloat64DB.IsLiveUpdate_Data.Bool
 }
 
 // CopyBasicFieldsToFormFieldFloat64_WOP
@@ -488,6 +538,9 @@ func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsToFormFieldFloat64_
 	formfieldfloat64.MinValue = formfieldfloat64DB.MinValue_Data.Float64
 	formfieldfloat64.HasMaxValidator = formfieldfloat64DB.HasMaxValidator_Data.Bool
 	formfieldfloat64.MaxValue = formfieldfloat64DB.MaxValue_Data.Float64
+	formfieldfloat64.IsSlider = formfieldfloat64DB.IsSlider_Data.Bool
+	formfieldfloat64.Step = formfieldfloat64DB.Step_Data.Float64
+	formfieldfloat64.IsLiveUpdate = formfieldfloat64DB.IsLiveUpdate_Data.Bool
 }
 
 // CopyBasicFieldsToFormFieldFloat64WOP
@@ -500,6 +553,9 @@ func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsToFormFieldFloat64W
 	formfieldfloat64.MinValue = formfieldfloat64DB.MinValue_Data.Float64
 	formfieldfloat64.HasMaxValidator = formfieldfloat64DB.HasMaxValidator_Data.Bool
 	formfieldfloat64.MaxValue = formfieldfloat64DB.MaxValue_Data.Float64
+	formfieldfloat64.IsSlider = formfieldfloat64DB.IsSlider_Data.Bool
+	formfieldfloat64.Step = formfieldfloat64DB.Step_Data.Float64
+	formfieldfloat64.IsLiveUpdate = formfieldfloat64DB.IsLiveUpdate_Data.Bool
 }
 
 // Backup generates a json file from a slice of all FormFieldFloat64DB instances in the backrepo

@@ -81,6 +81,10 @@ type FormFieldSelectDB struct {
 	// provide the sql storage for the boolan
 	PreserveInitialOrder_Data sql.NullBool
 
+	// Declation for basic field formfieldselectDB.IsLiveUpdate
+	// provide the sql storage for the boolan
+	IsLiveUpdate_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormFieldSelectPointersEncoding
@@ -108,6 +112,8 @@ type FormFieldSelectWOP struct {
 	CanBeEmpty bool `xlsx:"2"`
 
 	PreserveInitialOrder bool `xlsx:"3"`
+
+	IsLiveUpdate bool `xlsx:"4"`
 	// insertion for WOP pointer fields
 }
 
@@ -117,6 +123,7 @@ var FormFieldSelect_Fields = []string{
 	"Name",
 	"CanBeEmpty",
 	"PreserveInitialOrder",
+	"IsLiveUpdate",
 }
 
 type BackRepoFormFieldSelectStruct struct {
@@ -460,6 +467,9 @@ func (formfieldselectDB *FormFieldSelectDB) CopyBasicFieldsFromFormFieldSelect(f
 
 	formfieldselectDB.PreserveInitialOrder_Data.Bool = formfieldselect.PreserveInitialOrder
 	formfieldselectDB.PreserveInitialOrder_Data.Valid = true
+
+	formfieldselectDB.IsLiveUpdate_Data.Bool = formfieldselect.IsLiveUpdate
+	formfieldselectDB.IsLiveUpdate_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormFieldSelect_WOP
@@ -474,6 +484,9 @@ func (formfieldselectDB *FormFieldSelectDB) CopyBasicFieldsFromFormFieldSelect_W
 
 	formfieldselectDB.PreserveInitialOrder_Data.Bool = formfieldselect.PreserveInitialOrder
 	formfieldselectDB.PreserveInitialOrder_Data.Valid = true
+
+	formfieldselectDB.IsLiveUpdate_Data.Bool = formfieldselect.IsLiveUpdate
+	formfieldselectDB.IsLiveUpdate_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormFieldSelectWOP
@@ -488,6 +501,9 @@ func (formfieldselectDB *FormFieldSelectDB) CopyBasicFieldsFromFormFieldSelectWO
 
 	formfieldselectDB.PreserveInitialOrder_Data.Bool = formfieldselect.PreserveInitialOrder
 	formfieldselectDB.PreserveInitialOrder_Data.Valid = true
+
+	formfieldselectDB.IsLiveUpdate_Data.Bool = formfieldselect.IsLiveUpdate
+	formfieldselectDB.IsLiveUpdate_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormFieldSelect
@@ -496,6 +512,7 @@ func (formfieldselectDB *FormFieldSelectDB) CopyBasicFieldsToFormFieldSelect(for
 	formfieldselect.Name = formfieldselectDB.Name_Data.String
 	formfieldselect.CanBeEmpty = formfieldselectDB.CanBeEmpty_Data.Bool
 	formfieldselect.PreserveInitialOrder = formfieldselectDB.PreserveInitialOrder_Data.Bool
+	formfieldselect.IsLiveUpdate = formfieldselectDB.IsLiveUpdate_Data.Bool
 }
 
 // CopyBasicFieldsToFormFieldSelect_WOP
@@ -504,6 +521,7 @@ func (formfieldselectDB *FormFieldSelectDB) CopyBasicFieldsToFormFieldSelect_WOP
 	formfieldselect.Name = formfieldselectDB.Name_Data.String
 	formfieldselect.CanBeEmpty = formfieldselectDB.CanBeEmpty_Data.Bool
 	formfieldselect.PreserveInitialOrder = formfieldselectDB.PreserveInitialOrder_Data.Bool
+	formfieldselect.IsLiveUpdate = formfieldselectDB.IsLiveUpdate_Data.Bool
 }
 
 // CopyBasicFieldsToFormFieldSelectWOP
@@ -513,6 +531,7 @@ func (formfieldselectDB *FormFieldSelectDB) CopyBasicFieldsToFormFieldSelectWOP(
 	formfieldselect.Name = formfieldselectDB.Name_Data.String
 	formfieldselect.CanBeEmpty = formfieldselectDB.CanBeEmpty_Data.Bool
 	formfieldselect.PreserveInitialOrder = formfieldselectDB.PreserveInitialOrder_Data.Bool
+	formfieldselect.IsLiveUpdate = formfieldselectDB.IsLiveUpdate_Data.Bool
 }
 
 // Backup generates a json file from a slice of all FormFieldSelectDB instances in the backrepo

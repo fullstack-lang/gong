@@ -184,8 +184,6 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Maplibre), stage, ident.Name, instanceName, preserveOrder)
 				case "Markdown":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Markdown), stage, ident.Name, instanceName, preserveOrder)
-				case "Slider":
-					identifierMap[ident.Name] = __gong__stageSetInit(new(Slider), stage, ident.Name, instanceName, preserveOrder)
 				case "Split":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Split), stage, ident.Name, instanceName, preserveOrder)
 				case "Svg":
@@ -259,8 +257,6 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Maplibre, rhs, identifierMap)
 					case "Markdown":
 						__gong__assignPointer(&inst.Markdown, rhs, identifierMap)
-					case "Slider":
-						__gong__assignPointer(&inst.Slider, rhs, identifierMap)
 					case "Split":
 						__gong__assignPointer(&inst.Split, rhs, identifierMap)
 					case "Svg":
@@ -354,13 +350,6 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.StackName = GongExtractString(rhs)
 					}
 				case *Markdown:
-					switch fieldName {
-					case "Name":
-						inst.Name = GongExtractString(rhs)
-					case "StackName":
-						inst.StackName = GongExtractString(rhs)
-					}
-				case *Slider:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
@@ -685,8 +674,6 @@ func (u *AsSplitAreaUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallPointer(&instance.Maplibre, valueExpr, identifierMap)
 	case "Markdown":
 		GongUnmarshallPointer(&instance.Markdown, valueExpr, identifierMap)
-	case "Slider":
-		GongUnmarshallPointer(&instance.Slider, valueExpr, identifierMap)
 	case "Split":
 		GongUnmarshallPointer(&instance.Split, valueExpr, identifierMap)
 	case "Svg":
@@ -898,25 +885,6 @@ func (u *MarkdownUnmarshaller) Initialize(stage *Stage, identifier string, insta
 
 func (u *MarkdownUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
 	instance := i.(*Markdown)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "StackName":
-		instance.StackName = GongExtractString(valueExpr)
-	}
-	return nil
-}
-
-type SliderUnmarshaller struct{}
-
-func (u *SliderUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	return GongInitialize(new(Slider), stage, identifier, instanceName, preserveOrder)
-}
-
-func (u *SliderUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Slider)
 	_ = instance
 	switch fieldName {
 	// insertion point per field

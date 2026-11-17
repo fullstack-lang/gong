@@ -8,7 +8,6 @@ import { FormAPI } from './form-api'
 import { LoadAPI } from './load-api'
 import { MaplibreAPI } from './maplibre-api'
 import { MarkdownAPI } from './markdown-api'
-import { SliderAPI } from './slider-api'
 import { SplitAPI } from './split-api'
 import { SvgAPI } from './svg-api'
 import { TableAPI } from './table-api'
@@ -59,8 +58,6 @@ export class AsSplitAreaPointersEncoding {
 	MaplibreID: NullInt64 = new NullInt64 // if pointer is null, Maplibre.ID = 0
 
 	MarkdownID: NullInt64 = new NullInt64 // if pointer is null, Markdown.ID = 0
-
-	SliderID: NullInt64 = new NullInt64 // if pointer is null, Slider.ID = 0
 
 	SplitID: NullInt64 = new NullInt64 // if pointer is null, Split.ID = 0
 

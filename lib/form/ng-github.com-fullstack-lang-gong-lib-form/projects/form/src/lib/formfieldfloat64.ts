@@ -21,6 +21,9 @@ export class FormFieldFloat64 {
 	MinValue: number = 0
 	HasMaxValidator: boolean = false
 	MaxValue: number = 0
+	IsSlider: boolean = false
+	Step: number = 0
+	IsLiveUpdate: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 
@@ -41,6 +44,9 @@ export function CopyFormFieldFloat64ToFormFieldFloat64API(formfieldfloat64: Form
 	formfieldfloat64API.MinValue = formfieldfloat64.MinValue
 	formfieldfloat64API.HasMaxValidator = formfieldfloat64.HasMaxValidator
 	formfieldfloat64API.MaxValue = formfieldfloat64.MaxValue
+	formfieldfloat64API.IsSlider = formfieldfloat64.IsSlider
+	formfieldfloat64API.Step = formfieldfloat64.Step
+	formfieldfloat64API.IsLiveUpdate = formfieldfloat64.IsLiveUpdate
 
 	// insertion point for pointer fields encoding
 
@@ -64,6 +70,9 @@ export function CopyFormFieldFloat64APIToFormFieldFloat64(formfieldfloat64API: F
 	formfieldfloat64.MinValue = formfieldfloat64API.MinValue
 	formfieldfloat64.HasMaxValidator = formfieldfloat64API.HasMaxValidator
 	formfieldfloat64.MaxValue = formfieldfloat64API.MaxValue
+	formfieldfloat64.IsSlider = formfieldfloat64API.IsSlider
+	formfieldfloat64.Step = formfieldfloat64API.Step
+	formfieldfloat64.IsLiveUpdate = formfieldfloat64API.IsLiveUpdate
 
 	// insertion point for pointer fields encoding
 

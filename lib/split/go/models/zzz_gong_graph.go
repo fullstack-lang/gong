@@ -75,11 +75,6 @@ func (markdown *Markdown) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
-func (slider *Slider) GongIsStaged(stage *Stage) bool {
-	_, ok := stage.Sliders[slider]
-	return ok
-}
-
 func (split *Split) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.Splits[split]
 	return ok
@@ -184,9 +179,6 @@ func (assplitarea *AsSplitArea) GongStageBranch(stage *Stage) {
 	}
 	if assplitarea.Markdown != nil {
 		stage.StageBranch(assplitarea.Markdown)
-	}
-	if assplitarea.Slider != nil {
-		stage.StageBranch(assplitarea.Slider)
 	}
 	if assplitarea.Split != nil {
 		stage.StageBranch(assplitarea.Split)
@@ -357,21 +349,6 @@ func (markdown *Markdown) GongStageBranch(stage *Stage) {
 	}
 
 	markdown.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (slider *Slider) GongStageBranch(stage *Stage) {
-
-	// check if instance is already staged
-	if stage.IsStaged(slider) {
-		return
-	}
-
-	slider.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -576,10 +553,6 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchMarkdown(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *Slider:
-		toT := GongCopyBranchSlider(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
 	case *Split:
 		toT := GongCopyBranchSplit(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -673,9 +646,6 @@ func GongCopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplit
 	}
 	if assplitareaFrom.Markdown != nil {
 		assplitareaTo.Markdown = GongCopyBranchMarkdown(mapOrigCopy, assplitareaFrom.Markdown)
-	}
-	if assplitareaFrom.Slider != nil {
-		assplitareaTo.Slider = GongCopyBranchSlider(mapOrigCopy, assplitareaFrom.Slider)
 	}
 	if assplitareaFrom.Split != nil {
 		assplitareaTo.Split = GongCopyBranchSplit(mapOrigCopy, assplitareaFrom.Split)
@@ -846,21 +816,6 @@ func GongCopyBranchMarkdown(mapOrigCopy map[any]any, markdownFrom *Markdown) (ma
 		return
 	}
 	markdownFrom.GongCopyBasicFields(markdownTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-	return
-}
-
-func GongCopyBranchSlider(mapOrigCopy map[any]any, sliderFrom *Slider) (sliderTo *Slider) {
-	var alreadyCopied bool
-	sliderTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, sliderFrom)
-	if alreadyCopied {
-		return
-	}
-	sliderFrom.GongCopyBasicFields(sliderTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1071,9 +1026,6 @@ func (assplitarea *AsSplitArea) GongUnstageBranch(stage *Stage) {
 	if assplitarea.Markdown != nil {
 		stage.UnstageBranch(assplitarea.Markdown)
 	}
-	if assplitarea.Slider != nil {
-		stage.UnstageBranch(assplitarea.Slider)
-	}
 	if assplitarea.Split != nil {
 		stage.UnstageBranch(assplitarea.Split)
 	}
@@ -1250,21 +1202,6 @@ func (markdown *Markdown) GongUnstageBranch(stage *Stage) {
 
 }
 
-func (slider *Slider) GongUnstageBranch(stage *Stage) {
-
-	// check if instance is already staged
-	if !stage.IsStaged(slider) {
-		return
-	}
-
-	slider.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
 func (split *Split) GongUnstageBranch(stage *Stage) {
 
 	// check if instance is already staged
@@ -1420,7 +1357,6 @@ func (reference *AsSplitArea) GongReconstructPointersFromReferences(stage *Stage
 	__gong__reconstructPointer(&reference.Load, stage.Loads_reference, instance.Load)
 	__gong__reconstructPointer(&reference.Maplibre, stage.Maplibres_reference, instance.Maplibre)
 	__gong__reconstructPointer(&reference.Markdown, stage.Markdowns_reference, instance.Markdown)
-	__gong__reconstructPointer(&reference.Slider, stage.Sliders_reference, instance.Slider)
 	__gong__reconstructPointer(&reference.Split, stage.Splits_reference, instance.Split)
 	__gong__reconstructPointer(&reference.Svg, stage.Svgs_reference, instance.Svg)
 	__gong__reconstructPointer(&reference.Table, stage.Tables_reference, instance.Table)
@@ -1477,11 +1413,6 @@ func (reference *Maplibre) GongReconstructPointersFromReferences(stage *Stage, i
 }
 
 func (reference *Markdown) GongReconstructPointersFromReferences(stage *Stage, instance *Markdown) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-}
-
-func (reference *Slider) GongReconstructPointersFromReferences(stage *Stage, instance *Slider) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -1549,7 +1480,6 @@ func (reference *AsSplitArea) GongReconstructPointersFromInstances(stage *Stage)
 	__gong__reconstructPointerFromInstance(&reference.Load, stage.Loads_instance)
 	__gong__reconstructPointerFromInstance(&reference.Maplibre, stage.Maplibres_instance)
 	__gong__reconstructPointerFromInstance(&reference.Markdown, stage.Markdowns_instance)
-	__gong__reconstructPointerFromInstance(&reference.Slider, stage.Sliders_instance)
 	__gong__reconstructPointerFromInstance(&reference.Split, stage.Splits_instance)
 	__gong__reconstructPointerFromInstance(&reference.Svg, stage.Svgs_instance)
 	__gong__reconstructPointerFromInstance(&reference.Table, stage.Tables_instance)
@@ -1606,11 +1536,6 @@ func (reference *Maplibre) GongReconstructPointersFromInstances(stage *Stage) {
 }
 
 func (reference *Markdown) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-}
-
-func (reference *Slider) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -1727,9 +1652,6 @@ func (assplitarea *AsSplitArea) GongDiff(stage *Stage, assplitareaOther *AsSplit
 	}
 	if assplitarea.Markdown != assplitareaOther.Markdown {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Markdown"))
-	}
-	if assplitarea.Slider != assplitareaOther.Slider {
-		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Slider"))
 	}
 	if assplitarea.Split != assplitareaOther.Split {
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Split"))
@@ -1912,20 +1834,6 @@ func (markdown *Markdown) GongDiff(stage *Stage, markdownOther *Markdown) (diffs
 	}
 	if markdown.StackName != markdownOther.StackName {
 		diffs = append(diffs, markdown.GongMarshallField(stage, "StackName"))
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (slider *Slider) GongDiff(stage *Stage, sliderOther *Slider) (diffs []string) {
-	// insertion point for field diffs
-	if slider.Name != sliderOther.Name {
-		diffs = append(diffs, slider.GongMarshallField(stage, "Name"))
-	}
-	if slider.StackName != sliderOther.StackName {
-		diffs = append(diffs, slider.GongMarshallField(stage, "StackName"))
 	}
 
 	return

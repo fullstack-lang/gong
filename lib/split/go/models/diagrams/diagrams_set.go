@@ -57,7 +57,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000005_ := (&models.GongStructShape{Name: `Default-Title`}).Stage(stage)
 	__GongStructShape__00000006_ := (&models.GongStructShape{Name: `Default-Table`}).Stage(stage)
 	__GongStructShape__00000007_ := (&models.GongStructShape{Name: `Default-Svg`}).Stage(stage)
-	__GongStructShape__00000008_ := (&models.GongStructShape{Name: `Default-Slider`}).Stage(stage)
 	__GongStructShape__00000009_ := (&models.GongStructShape{Name: `Default-Markdown`}).Stage(stage)
 	__GongStructShape__00000010_ := (&models.GongStructShape{Name: `Default-LogoOnTheRight`}).Stage(stage)
 	__GongStructShape__00000011_ := (&models.GongStructShape{Name: `Default-LogoOnTheLeft`}).Stage(stage)
@@ -75,7 +74,6 @@ func _(stage *models.Stage) {
 
 	__LinkShape__00000005_ := (&models.LinkShape{Name: `Load`}).Stage(stage)
 	__LinkShape__00000006_ := (&models.LinkShape{Name: `Markdown`}).Stage(stage)
-	__LinkShape__00000007_ := (&models.LinkShape{Name: `Slider`}).Stage(stage)
 	__LinkShape__00000008_ := (&models.LinkShape{Name: `Split`}).Stage(stage)
 	__LinkShape__00000009_ := (&models.LinkShape{Name: `Svg`}).Stage(stage)
 	__LinkShape__00000010_ := (&models.LinkShape{Name: `Table`}).Stage(stage)
@@ -269,14 +267,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000007_.Height = 63.000000
 	__GongStructShape__00000007_.IsSelected = false
 
-	__GongStructShape__00000008_.Name = `Default-Slider`
-	__GongStructShape__00000008_.X = 557.000000
-	__GongStructShape__00000008_.Y = 400.000000
-	__GongStructShape__00000008_.IdentifierMeta = ref_models.Slider{}
-	__GongStructShape__00000008_.Width = 240.000000
-	__GongStructShape__00000008_.Height = 63.000000
-	__GongStructShape__00000008_.IsSelected = false
-
 	__GongStructShape__00000009_.Name = `Default-Markdown`
 	__GongStructShape__00000009_.X = 576.000000
 	__GongStructShape__00000009_.Y = 575.000000
@@ -452,25 +442,6 @@ func _(stage *models.Stage) {
 	__LinkShape__00000006_.EndRatio = 0.500000
 	__LinkShape__00000006_.CornerOffsetRatio = 1.380000
 
-	__LinkShape__00000007_.Name = `Slider`
-	__LinkShape__00000007_.IdentifierMeta = ref_models.AsSplitArea{}.Slider
-	__LinkShape__00000007_.FieldTypeIdentifierMeta = ref_models.Slider{}
-	__LinkShape__00000007_.FieldOffsetX = 0.000000
-	__LinkShape__00000007_.FieldOffsetY = 0.000000
-	__LinkShape__00000007_.TargetMultiplicity = models.ZERO_ONE
-	__LinkShape__00000007_.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__00000007_.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__00000007_.SourceMultiplicity = models.MANY
-	__LinkShape__00000007_.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__00000007_.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__00000007_.X = 666.500000
-	__LinkShape__00000007_.Y = 572.000000
-	__LinkShape__00000007_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000007_.StartRatio = 0.500000
-	__LinkShape__00000007_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000007_.EndRatio = 0.500000
-	__LinkShape__00000007_.CornerOffsetRatio = 1.380000
-
 	__LinkShape__00000008_.Name = `Split`
 	__LinkShape__00000008_.IdentifierMeta = ref_models.AsSplitArea{}.Split
 	__LinkShape__00000008_.FieldTypeIdentifierMeta = ref_models.Split{}
@@ -632,7 +603,6 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000005_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000006_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000007_)
-	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000008_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000009_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000010_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000011_)
@@ -668,7 +638,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000017_.LinkShapes = append(__GongStructShape__00000017_.LinkShapes, __LinkShape__00000003_)
 	__GongStructShape__00000017_.LinkShapes = append(__GongStructShape__00000017_.LinkShapes, __LinkShape__00000005_)
 	__GongStructShape__00000017_.LinkShapes = append(__GongStructShape__00000017_.LinkShapes, __LinkShape__00000006_)
-	__GongStructShape__00000017_.LinkShapes = append(__GongStructShape__00000017_.LinkShapes, __LinkShape__00000007_)
 	__GongStructShape__00000017_.LinkShapes = append(__GongStructShape__00000017_.LinkShapes, __LinkShape__00000008_)
 	__GongStructShape__00000017_.LinkShapes = append(__GongStructShape__00000017_.LinkShapes, __LinkShape__00000009_)
 	__GongStructShape__00000017_.LinkShapes = append(__GongStructShape__00000017_.LinkShapes, __LinkShape__00000010_)

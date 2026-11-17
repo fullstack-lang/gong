@@ -23,6 +23,7 @@ export class FormDiv {
 	IsADivider: boolean = false
 	IsAStartAccordionGroup: boolean = false
 	AccordionGroupName: string = ""
+	IsExpandedInitially: boolean = false
 	IsAEndAccordionGroup: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
@@ -48,6 +49,7 @@ export function CopyFormDivToFormDivAPI(formdiv: FormDiv, formdivAPI: FormDivAPI
 	formdivAPI.IsADivider = formdiv.IsADivider
 	formdivAPI.IsAStartAccordionGroup = formdiv.IsAStartAccordionGroup
 	formdivAPI.AccordionGroupName = formdiv.AccordionGroupName
+	formdivAPI.IsExpandedInitially = formdiv.IsExpandedInitially
 	formdivAPI.IsAEndAccordionGroup = formdiv.IsAEndAccordionGroup
 
 	// insertion point for pointer fields encoding
@@ -94,6 +96,7 @@ export function CopyFormDivAPIToFormDiv(formdivAPI: FormDivAPI, formdiv: FormDiv
 	formdiv.IsADivider = formdivAPI.IsADivider
 	formdiv.IsAStartAccordionGroup = formdivAPI.IsAStartAccordionGroup
 	formdiv.AccordionGroupName = formdivAPI.AccordionGroupName
+	formdiv.IsExpandedInitially = formdivAPI.IsExpandedInitially
 	formdiv.IsAEndAccordionGroup = formdivAPI.IsAEndAccordionGroup
 
 	// insertion point for pointer fields encoding

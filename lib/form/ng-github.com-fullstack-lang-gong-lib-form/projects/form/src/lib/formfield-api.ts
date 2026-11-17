@@ -26,6 +26,7 @@ export class FormFieldAPI {
 	BespokeWidthPx: number = 0
 	HasBespokeHeight: boolean = false
 	BespokeHeightPx: number = 0
+	IsDisabled: boolean = false
 
 	// insertion point for other decls
 

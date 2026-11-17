@@ -17,6 +17,9 @@ export class FormFieldFloat64API {
 	MinValue: number = 0
 	HasMaxValidator: boolean = false
 	MaxValue: number = 0
+	IsSlider: boolean = false
+	Step: number = 0
+	IsLiveUpdate: boolean = false
 
 	// insertion point for other decls
 

@@ -49,7 +49,11 @@ func NewStackInstance(
 
 	// add orchestration
 	// insertion point
+	stage.SetOrchestratorOnAfterUpdate[models.CheckBox]()
 	stage.SetOrchestratorOnAfterUpdate[models.FormEditAssocButton]()
+	stage.SetOrchestratorOnAfterUpdate[models.FormFieldFloat64]()
+	stage.SetOrchestratorOnAfterUpdate[models.FormFieldInt]()
+	stage.SetOrchestratorOnAfterUpdate[models.FormFieldSelect]()
 	stage.SetOrchestratorOnAfterUpdate[models.FormGroup]()
 	stage.SetOrchestratorOnAfterUpdate[models.FormSortAssocButton]()
 

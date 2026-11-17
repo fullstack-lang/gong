@@ -25,8 +25,6 @@ import { MaplibreAPI } from './maplibre-api'
 
 import { MarkdownAPI } from './markdown-api'
 
-import { SliderAPI } from './slider-api'
-
 import { SplitAPI } from './split-api'
 
 import { SvgAPI } from './svg-api'
@@ -71,8 +69,6 @@ export class BackRepoData {
 	MaplibreAPIs = new Array<MaplibreAPI>()
 
 	MarkdownAPIs = new Array<MarkdownAPI>()
-
-	SliderAPIs = new Array<SliderAPI>()
 
 	SplitAPIs = new Array<SplitAPI>()
 
@@ -121,8 +117,6 @@ export class BackRepoData {
 		this.MaplibreAPIs = data?.MaplibreAPIs || [];
 
 		this.MarkdownAPIs = data?.MarkdownAPIs || [];
-
-		this.SliderAPIs = data?.SliderAPIs || [];
 
 		this.SplitAPIs = data?.SplitAPIs || [];
 

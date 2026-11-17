@@ -1127,6 +1127,18 @@ func (checkbox *CheckBox) GongDiff(stage *Stage, checkboxOther *CheckBox) (diffs
 	if checkbox.Value != checkboxOther.Value {
 		diffs = append(diffs, checkbox.GongMarshallField(stage, "Value"))
 	}
+	if checkbox.LabelForTrue != checkboxOther.LabelForTrue {
+		diffs = append(diffs, checkbox.GongMarshallField(stage, "LabelForTrue"))
+	}
+	if checkbox.LabelForFalse != checkboxOther.LabelForFalse {
+		diffs = append(diffs, checkbox.GongMarshallField(stage, "LabelForFalse"))
+	}
+	if checkbox.IsDisabled != checkboxOther.IsDisabled {
+		diffs = append(diffs, checkbox.GongMarshallField(stage, "IsDisabled"))
+	}
+	if checkbox.IsLiveUpdate != checkboxOther.IsLiveUpdate {
+		diffs = append(diffs, checkbox.GongMarshallField(stage, "IsLiveUpdate"))
+	}
 
 	return
 }
@@ -1158,6 +1170,9 @@ func (formdiv *FormDiv) GongDiff(stage *Stage, formdivOther *FormDiv) (diffs []s
 	}
 	if formdiv.AccordionGroupName != formdivOther.AccordionGroupName {
 		diffs = append(diffs, formdiv.GongMarshallField(stage, "AccordionGroupName"))
+	}
+	if formdiv.IsExpandedInitially != formdivOther.IsExpandedInitially {
+		diffs = append(diffs, formdiv.GongMarshallField(stage, "IsExpandedInitially"))
 	}
 	if formdiv.IsAEndAccordionGroup != formdivOther.IsAEndAccordionGroup {
 		diffs = append(diffs, formdiv.GongMarshallField(stage, "IsAEndAccordionGroup"))
@@ -1247,6 +1262,9 @@ func (formfield *FormField) GongDiff(stage *Stage, formfieldOther *FormField) (d
 	if formfield.BespokeHeightPx != formfieldOther.BespokeHeightPx {
 		diffs = append(diffs, formfield.GongMarshallField(stage, "BespokeHeightPx"))
 	}
+	if formfield.IsDisabled != formfieldOther.IsDisabled {
+		diffs = append(diffs, formfield.GongMarshallField(stage, "IsDisabled"))
+	}
 
 	return
 }
@@ -1301,6 +1319,15 @@ func (formfieldfloat64 *FormFieldFloat64) GongDiff(stage *Stage, formfieldfloat6
 	if formfieldfloat64.MaxValue != formfieldfloat64Other.MaxValue {
 		diffs = append(diffs, formfieldfloat64.GongMarshallField(stage, "MaxValue"))
 	}
+	if formfieldfloat64.IsSlider != formfieldfloat64Other.IsSlider {
+		diffs = append(diffs, formfieldfloat64.GongMarshallField(stage, "IsSlider"))
+	}
+	if formfieldfloat64.Step != formfieldfloat64Other.Step {
+		diffs = append(diffs, formfieldfloat64.GongMarshallField(stage, "Step"))
+	}
+	if formfieldfloat64.IsLiveUpdate != formfieldfloat64Other.IsLiveUpdate {
+		diffs = append(diffs, formfieldfloat64.GongMarshallField(stage, "IsLiveUpdate"))
+	}
 
 	return
 }
@@ -1327,6 +1354,15 @@ func (formfieldint *FormFieldInt) GongDiff(stage *Stage, formfieldintOther *Form
 	if formfieldint.MaxValue != formfieldintOther.MaxValue {
 		diffs = append(diffs, formfieldint.GongMarshallField(stage, "MaxValue"))
 	}
+	if formfieldint.IsSlider != formfieldintOther.IsSlider {
+		diffs = append(diffs, formfieldint.GongMarshallField(stage, "IsSlider"))
+	}
+	if formfieldint.Step != formfieldintOther.Step {
+		diffs = append(diffs, formfieldint.GongMarshallField(stage, "Step"))
+	}
+	if formfieldint.IsLiveUpdate != formfieldintOther.IsLiveUpdate {
+		diffs = append(diffs, formfieldint.GongMarshallField(stage, "IsLiveUpdate"))
+	}
 
 	return
 }
@@ -1349,6 +1385,9 @@ func (formfieldselect *FormFieldSelect) GongDiff(stage *Stage, formfieldselectOt
 	}
 	if formfieldselect.PreserveInitialOrder != formfieldselectOther.PreserveInitialOrder {
 		diffs = append(diffs, formfieldselect.GongMarshallField(stage, "PreserveInitialOrder"))
+	}
+	if formfieldselect.IsLiveUpdate != formfieldselectOther.IsLiveUpdate {
+		diffs = append(diffs, formfieldselect.GongMarshallField(stage, "IsLiveUpdate"))
 	}
 
 	return
@@ -1409,6 +1448,9 @@ func (formgroup *FormGroup) GongDiff(stage *Stage, formgroupOther *FormGroup) (d
 	}
 	if formgroup.HasSuppressButtonBeenPressed != formgroupOther.HasSuppressButtonBeenPressed {
 		diffs = append(diffs, formgroup.GongMarshallField(stage, "HasSuppressButtonBeenPressed"))
+	}
+	if formgroup.HideSubmitButton != formgroupOther.HideSubmitButton {
+		diffs = append(diffs, formgroup.GongMarshallField(stage, "HideSubmitButton"))
 	}
 
 	return

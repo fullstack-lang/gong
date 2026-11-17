@@ -42,9 +42,6 @@ import { Maplibre, CopyMaplibreAPIToMaplibre } from './maplibre'
 import { MarkdownAPI } from './markdown-api'
 import { Markdown, CopyMarkdownAPIToMarkdown } from './markdown'
 
-import { SliderAPI } from './slider-api'
-import { Slider, CopySliderAPIToSlider } from './slider'
-
 import { SplitAPI } from './split-api'
 import { Split, CopySplitAPIToSplit } from './split'
 
@@ -115,9 +112,6 @@ export class FrontRepo { // insertion point sub template
 	array_Markdowns = new Array<Markdown>() // array of front instances
 	map_ID_Markdown = new Map<number, Markdown>() // map of front instances
 
-	array_Sliders = new Array<Slider>() // array of front instances
-	map_ID_Slider = new Map<number, Slider>() // map of front instances
-
 	array_Splits = new Array<Split>() // array of front instances
 	map_ID_Split = new Map<number, Split>() // map of front instances
 
@@ -178,8 +172,6 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Maplibres as unknown as Array<Type>
 			case 'Markdown':
 				return this.array_Markdowns as unknown as Array<Type>
-			case 'Slider':
-				return this.array_Sliders as unknown as Array<Type>
 			case 'Split':
 				return this.array_Splits as unknown as Array<Type>
 			case 'Svg':
@@ -230,8 +222,6 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Maplibre as unknown as Map<number, Type>
 			case 'Markdown':
 				return this.map_ID_Markdown as unknown as Map<number, Type>
-			case 'Slider':
-				return this.map_ID_Slider as unknown as Map<number, Type>
 			case 'Split':
 				return this.map_ID_Split as unknown as Map<number, Type>
 			case 'Svg':
@@ -520,18 +510,6 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
-				frontRepo.array_Sliders = []
-				frontRepo.map_ID_Slider.clear()
-
-				backRepoData.SliderAPIs.forEach(
-					sliderAPI => {
-						let slider = new Slider
-						frontRepo.array_Sliders.push(slider)
-						frontRepo.map_ID_Slider.set(sliderAPI.ID, slider)
-					}
-				)
-
-				// init the arrays
 				frontRepo.array_Splits = []
 				frontRepo.map_ID_Split.clear()
 
@@ -740,14 +718,6 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
-				backRepoData.SliderAPIs.forEach(
-					sliderAPI => {
-						let slider = frontRepo.map_ID_Slider.get(sliderAPI.ID)
-						CopySliderAPIToSlider(sliderAPI, slider!, frontRepo)
-					}
-				)
-
-				// fill up front objects
 				backRepoData.SplitAPIs.forEach(
 					splitAPI => {
 						let split = frontRepo.map_ID_Split.get(splitAPI.ID)
@@ -929,33 +899,30 @@ export function getMaplibreUniqueID(id: number): number {
 export function getMarkdownUniqueID(id: number): number {
 	return 79 * id
 }
-export function getSliderUniqueID(id: number): number {
+export function getSplitUniqueID(id: number): number {
 	return 83 * id
 }
-export function getSplitUniqueID(id: number): number {
+export function getSvgUniqueID(id: number): number {
 	return 89 * id
 }
-export function getSvgUniqueID(id: number): number {
+export function getTableUniqueID(id: number): number {
 	return 97 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getThreejsUniqueID(id: number): number {
 	return 101 * id
 }
-export function getThreejsUniqueID(id: number): number {
+export function getTitleUniqueID(id: number): number {
 	return 103 * id
 }
-export function getTitleUniqueID(id: number): number {
+export function getToneUniqueID(id: number): number {
 	return 107 * id
 }
-export function getToneUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
 	return 109 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getViewUniqueID(id: number): number {
 	return 113 * id
 }
-export function getViewUniqueID(id: number): number {
-	return 127 * id
-}
 export function getXlsxUniqueID(id: number): number {
-	return 131 * id
+	return 127 * id
 }

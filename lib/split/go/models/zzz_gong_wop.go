@@ -196,19 +196,6 @@ func (from *Markdown) GongCopyBasicFields(to *Markdown) {
 	*to = *from
 }
 
-type Slider_WOP struct {
-	// insertion point
-
-	Name string
-
-	StackName string
-}
-
-func (from *Slider) GongCopyBasicFields(to *Slider) {
-	// insertion point
-	*to = *from
-}
-
 type Split_WOP struct {
 	// insertion point
 

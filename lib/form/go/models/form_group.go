@@ -14,6 +14,9 @@ type FormGroup struct {
 	// of the backend to reset this value to false
 	HasSuppressButtonBeenPressed bool
 
+	// HideSubmitButton hides the Submit button (used for live-updating slider/control forms)
+	HideSubmitButton bool
+
 	// swagger:ignore
 	OnSave OnSaveInterface
 }

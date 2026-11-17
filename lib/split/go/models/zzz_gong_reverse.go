@@ -80,11 +80,6 @@ func (inst *Markdown) GongGetReverseFieldOwnerName(stage *Stage, reverseField *G
 	return
 }
 
-func (inst *Slider) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
-	res = ""
-	return
-}
-
 func (inst *Split) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return

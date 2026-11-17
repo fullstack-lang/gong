@@ -342,6 +342,10 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", checkboxIdent, __gong__toRawStringLiteral(checkbox.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Value = %t", checkboxIdent, checkbox.Value))
+			values.WriteString(fmt.Sprintf("\n\t%s.LabelForTrue = %s", checkboxIdent, __gong__toRawStringLiteral(checkbox.LabelForTrue)))
+			values.WriteString(fmt.Sprintf("\n\t%s.LabelForFalse = %s", checkboxIdent, __gong__toRawStringLiteral(checkbox.LabelForFalse)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDisabled = %t", checkboxIdent, checkbox.IsDisabled))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLiveUpdate = %t", checkboxIdent, checkbox.IsLiveUpdate))
 		}
 	}
 	if stage != nil {
@@ -364,6 +368,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.IsADivider = %t", formdivIdent, formdiv.IsADivider))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsAStartAccordionGroup = %t", formdivIdent, formdiv.IsAStartAccordionGroup))
 			values.WriteString(fmt.Sprintf("\n\t%s.AccordionGroupName = %s", formdivIdent, __gong__toRawStringLiteral(formdiv.AccordionGroupName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpandedInitially = %t", formdivIdent, formdiv.IsExpandedInitially))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsAEndAccordionGroup = %t", formdivIdent, formdiv.IsAEndAccordionGroup))
 			for _, elem := range formdiv.FormFields {
 				if lastStagePtr != "Stage" {
@@ -461,6 +466,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.BespokeWidthPx = %d", formfieldIdent, formfield.BespokeWidthPx))
 			values.WriteString(fmt.Sprintf("\n\t%s.HasBespokeHeight = %t", formfieldIdent, formfield.HasBespokeHeight))
 			values.WriteString(fmt.Sprintf("\n\t%s.BespokeHeightPx = %d", formfieldIdent, formfield.BespokeHeightPx))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDisabled = %t", formfieldIdent, formfield.IsDisabled))
 			if formfield.FormFieldString != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -595,6 +601,9 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.MinValue = %f", formfieldfloat64Ident, formfieldfloat64.MinValue))
 			values.WriteString(fmt.Sprintf("\n\t%s.HasMaxValidator = %t", formfieldfloat64Ident, formfieldfloat64.HasMaxValidator))
 			values.WriteString(fmt.Sprintf("\n\t%s.MaxValue = %f", formfieldfloat64Ident, formfieldfloat64.MaxValue))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSlider = %t", formfieldfloat64Ident, formfieldfloat64.IsSlider))
+			values.WriteString(fmt.Sprintf("\n\t%s.Step = %f", formfieldfloat64Ident, formfieldfloat64.Step))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLiveUpdate = %t", formfieldfloat64Ident, formfieldfloat64.IsLiveUpdate))
 		}
 	}
 	if stage != nil {
@@ -619,6 +628,9 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.MinValue = %d", formfieldintIdent, formfieldint.MinValue))
 			values.WriteString(fmt.Sprintf("\n\t%s.HasMaxValidator = %t", formfieldintIdent, formfieldint.HasMaxValidator))
 			values.WriteString(fmt.Sprintf("\n\t%s.MaxValue = %d", formfieldintIdent, formfieldint.MaxValue))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSlider = %t", formfieldintIdent, formfieldint.IsSlider))
+			values.WriteString(fmt.Sprintf("\n\t%s.Step = %d", formfieldintIdent, formfieldint.Step))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLiveUpdate = %t", formfieldintIdent, formfieldint.IsLiveUpdate))
 		}
 	}
 	if stage != nil {
@@ -640,6 +652,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formfieldselectIdent, __gong__toRawStringLiteral(formfieldselect.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.CanBeEmpty = %t", formfieldselectIdent, formfieldselect.CanBeEmpty))
 			values.WriteString(fmt.Sprintf("\n\t%s.PreserveInitialOrder = %t", formfieldselectIdent, formfieldselect.PreserveInitialOrder))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLiveUpdate = %t", formfieldselectIdent, formfieldselect.IsLiveUpdate))
 			if formfieldselect.Value != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -725,6 +738,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.TypeLabel = %s", formgroupIdent, __gong__toRawStringLiteral(formgroup.TypeLabel)))
 			values.WriteString(fmt.Sprintf("\n\t%s.HasSuppressButton = %t", formgroupIdent, formgroup.HasSuppressButton))
 			values.WriteString(fmt.Sprintf("\n\t%s.HasSuppressButtonBeenPressed = %t", formgroupIdent, formgroup.HasSuppressButtonBeenPressed))
+			values.WriteString(fmt.Sprintf("\n\t%s.HideSubmitButton = %t", formgroupIdent, formgroup.HideSubmitButton))
 			for _, elem := range formgroup.FormDivs {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -866,6 +880,14 @@ func (checkbox *CheckBox) GongMarshallField(stage *Stage, fieldName string) (res
 		res = __gong__marshallString(ident, "Name", checkbox.Name)
 	case "Value":
 		res = __gong__marshallBool(ident, "Value", checkbox.Value)
+	case "LabelForTrue":
+		res = __gong__marshallString(ident, "LabelForTrue", checkbox.LabelForTrue)
+	case "LabelForFalse":
+		res = __gong__marshallString(ident, "LabelForFalse", checkbox.LabelForFalse)
+	case "IsDisabled":
+		res = __gong__marshallBool(ident, "IsDisabled", checkbox.IsDisabled)
+	case "IsLiveUpdate":
+		res = __gong__marshallBool(ident, "IsLiveUpdate", checkbox.IsLiveUpdate)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct CheckBox", fieldName)
@@ -885,6 +907,8 @@ func (formdiv *FormDiv) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = __gong__marshallBool(ident, "IsAStartAccordionGroup", formdiv.IsAStartAccordionGroup)
 	case "AccordionGroupName":
 		res = __gong__marshallString(ident, "AccordionGroupName", formdiv.AccordionGroupName)
+	case "IsExpandedInitially":
+		res = __gong__marshallBool(ident, "IsExpandedInitially", formdiv.IsExpandedInitially)
 	case "IsAEndAccordionGroup":
 		res = __gong__marshallBool(ident, "IsAEndAccordionGroup", formdiv.IsAEndAccordionGroup)
 
@@ -965,6 +989,8 @@ func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (r
 		res = __gong__marshallBool(ident, "HasBespokeHeight", formfield.HasBespokeHeight)
 	case "BespokeHeightPx":
 		res = __gong__marshallInt(ident, "BespokeHeightPx", formfield.BespokeHeightPx)
+	case "IsDisabled":
+		res = __gong__marshallBool(ident, "IsDisabled", formfield.IsDisabled)
 
 	case "FormFieldString":
 		if formfield.FormFieldString != nil {
@@ -1060,6 +1086,12 @@ func (formfieldfloat64 *FormFieldFloat64) GongMarshallField(stage *Stage, fieldN
 		res = __gong__marshallBool(ident, "HasMaxValidator", formfieldfloat64.HasMaxValidator)
 	case "MaxValue":
 		res = __gong__marshallFloat(ident, "MaxValue", formfieldfloat64.MaxValue)
+	case "IsSlider":
+		res = __gong__marshallBool(ident, "IsSlider", formfieldfloat64.IsSlider)
+	case "Step":
+		res = __gong__marshallFloat(ident, "Step", formfieldfloat64.Step)
+	case "IsLiveUpdate":
+		res = __gong__marshallBool(ident, "IsLiveUpdate", formfieldfloat64.IsLiveUpdate)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormFieldFloat64", fieldName)
@@ -1083,6 +1115,12 @@ func (formfieldint *FormFieldInt) GongMarshallField(stage *Stage, fieldName stri
 		res = __gong__marshallBool(ident, "HasMaxValidator", formfieldint.HasMaxValidator)
 	case "MaxValue":
 		res = __gong__marshallInt(ident, "MaxValue", formfieldint.MaxValue)
+	case "IsSlider":
+		res = __gong__marshallBool(ident, "IsSlider", formfieldint.IsSlider)
+	case "Step":
+		res = __gong__marshallInt(ident, "Step", formfieldint.Step)
+	case "IsLiveUpdate":
+		res = __gong__marshallBool(ident, "IsLiveUpdate", formfieldint.IsLiveUpdate)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormFieldInt", fieldName)
@@ -1100,6 +1138,8 @@ func (formfieldselect *FormFieldSelect) GongMarshallField(stage *Stage, fieldNam
 		res = __gong__marshallBool(ident, "CanBeEmpty", formfieldselect.CanBeEmpty)
 	case "PreserveInitialOrder":
 		res = __gong__marshallBool(ident, "PreserveInitialOrder", formfieldselect.PreserveInitialOrder)
+	case "IsLiveUpdate":
+		res = __gong__marshallBool(ident, "IsLiveUpdate", formfieldselect.IsLiveUpdate)
 
 	case "Value":
 		if formfieldselect.Value != nil {
@@ -1167,6 +1207,8 @@ func (formgroup *FormGroup) GongMarshallField(stage *Stage, fieldName string) (r
 		res = __gong__marshallBool(ident, "HasSuppressButton", formgroup.HasSuppressButton)
 	case "HasSuppressButtonBeenPressed":
 		res = __gong__marshallBool(ident, "HasSuppressButtonBeenPressed", formgroup.HasSuppressButtonBeenPressed)
+	case "HideSubmitButton":
+		res = __gong__marshallBool(ident, "HideSubmitButton", formgroup.HideSubmitButton)
 
 	case "FormDivs":
 		var sb strings.Builder
@@ -1228,6 +1270,10 @@ func (checkbox *CheckBox) GongMarshallAllFields(stage *Stage) (initRes string, p
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "Value"))
+		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "LabelForTrue"))
+		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "LabelForFalse"))
+		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "IsDisabled"))
+		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "IsLiveUpdate"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1246,6 +1292,7 @@ func (formdiv *FormDiv) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsADivider"))
 		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsAStartAccordionGroup"))
 		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "AccordionGroupName"))
+		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsExpandedInitially"))
 		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsAEndAccordionGroup"))
 	}
 	initRes = initializerStatements.String()
@@ -1290,6 +1337,7 @@ func (formfield *FormField) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(formfield.GongMarshallField(stage, "BespokeWidthPx"))
 		initializerStatements.WriteString(formfield.GongMarshallField(stage, "HasBespokeHeight"))
 		initializerStatements.WriteString(formfield.GongMarshallField(stage, "BespokeHeightPx"))
+		initializerStatements.WriteString(formfield.GongMarshallField(stage, "IsDisabled"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1330,6 +1378,9 @@ func (formfieldfloat64 *FormFieldFloat64) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(formfieldfloat64.GongMarshallField(stage, "MinValue"))
 		initializerStatements.WriteString(formfieldfloat64.GongMarshallField(stage, "HasMaxValidator"))
 		initializerStatements.WriteString(formfieldfloat64.GongMarshallField(stage, "MaxValue"))
+		initializerStatements.WriteString(formfieldfloat64.GongMarshallField(stage, "IsSlider"))
+		initializerStatements.WriteString(formfieldfloat64.GongMarshallField(stage, "Step"))
+		initializerStatements.WriteString(formfieldfloat64.GongMarshallField(stage, "IsLiveUpdate"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1346,6 +1397,9 @@ func (formfieldint *FormFieldInt) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(formfieldint.GongMarshallField(stage, "MinValue"))
 		initializerStatements.WriteString(formfieldint.GongMarshallField(stage, "HasMaxValidator"))
 		initializerStatements.WriteString(formfieldint.GongMarshallField(stage, "MaxValue"))
+		initializerStatements.WriteString(formfieldint.GongMarshallField(stage, "IsSlider"))
+		initializerStatements.WriteString(formfieldint.GongMarshallField(stage, "Step"))
+		initializerStatements.WriteString(formfieldint.GongMarshallField(stage, "IsLiveUpdate"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1361,6 +1415,7 @@ func (formfieldselect *FormFieldSelect) GongMarshallAllFields(stage *Stage) (ini
 		pointersInitializesStatements.WriteString(formfieldselect.GongMarshallField(stage, "Options"))
 		initializerStatements.WriteString(formfieldselect.GongMarshallField(stage, "CanBeEmpty"))
 		initializerStatements.WriteString(formfieldselect.GongMarshallField(stage, "PreserveInitialOrder"))
+		initializerStatements.WriteString(formfieldselect.GongMarshallField(stage, "IsLiveUpdate"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1403,6 +1458,7 @@ func (formgroup *FormGroup) GongMarshallAllFields(stage *Stage) (initRes string,
 		pointersInitializesStatements.WriteString(formgroup.GongMarshallField(stage, "FormDivs"))
 		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "HasSuppressButton"))
 		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "HasSuppressButtonBeenPressed"))
+		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "HideSubmitButton"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

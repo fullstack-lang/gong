@@ -208,6 +208,14 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Name = GongExtractString(rhs)
 					case "Value":
 						inst.Value = GongExtractBool(rhs)
+					case "LabelForTrue":
+						inst.LabelForTrue = GongExtractString(rhs)
+					case "LabelForFalse":
+						inst.LabelForFalse = GongExtractString(rhs)
+					case "IsDisabled":
+						inst.IsDisabled = GongExtractBool(rhs)
+					case "IsLiveUpdate":
+						inst.IsLiveUpdate = GongExtractBool(rhs)
 					}
 				case *FormDiv:
 					switch fieldName {
@@ -227,6 +235,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.IsAStartAccordionGroup = GongExtractBool(rhs)
 					case "AccordionGroupName":
 						inst.AccordionGroupName = GongExtractString(rhs)
+					case "IsExpandedInitially":
+						inst.IsExpandedInitially = GongExtractBool(rhs)
 					case "IsAEndAccordionGroup":
 						inst.IsAEndAccordionGroup = GongExtractBool(rhs)
 					}
@@ -281,6 +291,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.HasBespokeHeight = GongExtractBool(rhs)
 					case "BespokeHeightPx":
 						inst.BespokeHeightPx = GongExtractInt(rhs)
+					case "IsDisabled":
+						inst.IsDisabled = GongExtractBool(rhs)
 					}
 				case *FormFieldDate:
 					switch fieldName {
@@ -310,6 +322,12 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.HasMaxValidator = GongExtractBool(rhs)
 					case "MaxValue":
 						inst.MaxValue = GongExtractFloat(rhs)
+					case "IsSlider":
+						inst.IsSlider = GongExtractBool(rhs)
+					case "Step":
+						inst.Step = GongExtractFloat(rhs)
+					case "IsLiveUpdate":
+						inst.IsLiveUpdate = GongExtractBool(rhs)
 					}
 				case *FormFieldInt:
 					switch fieldName {
@@ -325,6 +343,12 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.HasMaxValidator = GongExtractBool(rhs)
 					case "MaxValue":
 						inst.MaxValue = GongExtractInt(rhs)
+					case "IsSlider":
+						inst.IsSlider = GongExtractBool(rhs)
+					case "Step":
+						inst.Step = GongExtractInt(rhs)
+					case "IsLiveUpdate":
+						inst.IsLiveUpdate = GongExtractBool(rhs)
 					}
 				case *FormFieldSelect:
 					switch fieldName {
@@ -338,6 +362,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.CanBeEmpty = GongExtractBool(rhs)
 					case "PreserveInitialOrder":
 						inst.PreserveInitialOrder = GongExtractBool(rhs)
+					case "IsLiveUpdate":
+						inst.IsLiveUpdate = GongExtractBool(rhs)
 					}
 				case *FormFieldString:
 					switch fieldName {
@@ -371,6 +397,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.HasSuppressButton = GongExtractBool(rhs)
 					case "HasSuppressButtonBeenPressed":
 						inst.HasSuppressButtonBeenPressed = GongExtractBool(rhs)
+					case "HideSubmitButton":
+						inst.HideSubmitButton = GongExtractBool(rhs)
 					}
 				case *FormSortAssocButton:
 					switch fieldName {
@@ -586,6 +614,14 @@ func (u *CheckBoxUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.Name = GongExtractString(valueExpr)
 	case "Value":
 		instance.Value = GongExtractBool(valueExpr)
+	case "LabelForTrue":
+		instance.LabelForTrue = GongExtractString(valueExpr)
+	case "LabelForFalse":
+		instance.LabelForFalse = GongExtractString(valueExpr)
+	case "IsDisabled":
+		instance.IsDisabled = GongExtractBool(valueExpr)
+	case "IsLiveUpdate":
+		instance.IsLiveUpdate = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -617,6 +653,8 @@ func (u *FormDivUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsAStartAccordionGroup = GongExtractBool(valueExpr)
 	case "AccordionGroupName":
 		instance.AccordionGroupName = GongExtractString(valueExpr)
+	case "IsExpandedInitially":
+		instance.IsExpandedInitially = GongExtractBool(valueExpr)
 	case "IsAEndAccordionGroup":
 		instance.IsAEndAccordionGroup = GongExtractBool(valueExpr)
 	}
@@ -695,6 +733,8 @@ func (u *FormFieldUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.HasBespokeHeight = GongExtractBool(valueExpr)
 	case "BespokeHeightPx":
 		instance.BespokeHeightPx = GongExtractInt(valueExpr)
+	case "IsDisabled":
+		instance.IsDisabled = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -760,6 +800,12 @@ func (u *FormFieldFloat64Unmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.HasMaxValidator = GongExtractBool(valueExpr)
 	case "MaxValue":
 		instance.MaxValue = GongExtractFloat(valueExpr)
+	case "IsSlider":
+		instance.IsSlider = GongExtractBool(valueExpr)
+	case "Step":
+		instance.Step = GongExtractFloat(valueExpr)
+	case "IsLiveUpdate":
+		instance.IsLiveUpdate = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -787,6 +833,12 @@ func (u *FormFieldIntUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.HasMaxValidator = GongExtractBool(valueExpr)
 	case "MaxValue":
 		instance.MaxValue = GongExtractInt(valueExpr)
+	case "IsSlider":
+		instance.IsSlider = GongExtractBool(valueExpr)
+	case "Step":
+		instance.Step = GongExtractInt(valueExpr)
+	case "IsLiveUpdate":
+		instance.IsLiveUpdate = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -812,6 +864,8 @@ func (u *FormFieldSelectUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 		instance.CanBeEmpty = GongExtractBool(valueExpr)
 	case "PreserveInitialOrder":
 		instance.PreserveInitialOrder = GongExtractBool(valueExpr)
+	case "IsLiveUpdate":
+		instance.IsLiveUpdate = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -881,6 +935,8 @@ func (u *FormGroupUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.HasSuppressButton = GongExtractBool(valueExpr)
 	case "HasSuppressButtonBeenPressed":
 		instance.HasSuppressButtonBeenPressed = GongExtractBool(valueExpr)
+	case "HideSubmitButton":
+		instance.HideSubmitButton = GongExtractBool(valueExpr)
 	}
 	return nil
 }

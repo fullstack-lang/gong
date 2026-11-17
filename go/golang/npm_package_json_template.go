@@ -12,7 +12,6 @@ const NpmPackageJsonTemplate = `{
         "vendor/github.com/fullstack-lang/gong/lib/maplibre/ng-github.com-fullstack-lang-gong-lib-maplibre",
         "vendor/github.com/fullstack-lang/gong/lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown",
         "vendor/github.com/fullstack-lang/gong/lib/sim/ng-github.com-fullstack-lang-gong-lib-sim",
-        "vendor/github.com/fullstack-lang/gong/lib/slider/ng-github.com-fullstack-lang-gong-lib-slider",
         "vendor/github.com/fullstack-lang/gong/lib/split/ng-github.com-fullstack-lang-gong-lib-split",
         "vendor/github.com/fullstack-lang/gong/lib/svg/ng-github.com-fullstack-lang-gong-lib-svg",
         "vendor/github.com/fullstack-lang/gong/lib/table/ng-github.com-fullstack-lang-gong-lib-table",

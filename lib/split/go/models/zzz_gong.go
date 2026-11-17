@@ -287,20 +287,6 @@ type Stage struct {
 	OnAfterMarkdownUpdateCallback GongOnAfterUpdateInterface[Markdown]
 	OnAfterMarkdownDeleteCallback GongOnAfterDeleteInterface[Markdown]
 
-	Sliders                map[*Slider]struct{}
-	Sliders_instance       map[*Slider]*Slider
-	Sliders_mapString      map[string]*Slider
-	SliderOrder            uint
-	Slider_stagedOrder     map[*Slider]uint
-	Slider_orderStaged     map[uint]*Slider
-	Sliders_reference      map[*Slider]*Slider
-	Sliders_referenceOrder map[*Slider]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterSliderCreateCallback GongOnAfterCreateInterface[Slider]
-	OnAfterSliderUpdateCallback GongOnAfterUpdateInterface[Slider]
-	OnAfterSliderDeleteCallback GongOnAfterDeleteInterface[Slider]
-
 	Splits                map[*Split]struct{}
 	Splits_instance       map[*Split]*Split
 	Splits_mapString      map[string]*Split
@@ -534,8 +520,6 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.Markdowns_reference, &stage.Markdowns_instance, &stage.Markdowns_referenceOrder)
 
-	__gong__clearReferences(&stage.Sliders_reference, &stage.Sliders_instance, &stage.Sliders_referenceOrder)
-
 	__gong__clearReferences(&stage.Splits_reference, &stage.Splits_instance, &stage.Splits_referenceOrder)
 
 	__gong__clearReferences(&stage.Svgs_reference, &stage.Svgs_instance, &stage.Svgs_referenceOrder)
@@ -600,8 +584,6 @@ func (stage *Stage) recomputeOrders() {
 	stage.MaplibreOrder = __gong__recomputeOrder(stage.Maplibre_stagedOrder)
 
 	stage.MarkdownOrder = __gong__recomputeOrder(stage.Markdown_stagedOrder)
-
-	stage.SliderOrder = __gong__recomputeOrder(stage.Slider_stagedOrder)
 
 	stage.SplitOrder = __gong__recomputeOrder(stage.Split_stagedOrder)
 
@@ -875,26 +857,6 @@ func (*Markdown) GongGetInstancesSet(stage *Stage) any {
 
 func (*Markdown) GongNewInstance() any {
 	return new(Markdown)
-}
-
-func (*Slider) GongGetInstancesByOrder(stage *Stage) any {
-	return __gong__getStructInstancesByOrder(stage.Sliders, stage.Slider_stagedOrder)
-}
-
-func (*Slider) GongGetInstanceFromOrder(stage *Stage, order uint) any {
-	return stage.Slider_orderStaged[order]
-}
-
-func (*Slider) GongGetInstancesMapByName(stage *Stage) any {
-	return stage.Sliders_mapString
-}
-
-func (*Slider) GongGetInstancesSet(stage *Stage) any {
-	return &stage.Sliders
-}
-
-func (*Slider) GongNewInstance() any {
-	return new(Slider)
 }
 
 func (*Split) GongGetInstancesByOrder(stage *Stage) any {
@@ -1294,9 +1256,6 @@ func NewStage(name string) (stage *Stage) {
 		Markdowns:           make(map[*Markdown]struct{}),
 		Markdowns_mapString: make(map[string]*Markdown),
 
-		Sliders:           make(map[*Slider]struct{}),
-		Sliders_mapString: make(map[string]*Slider),
-
 		Splits:           make(map[*Split]struct{}),
 		Splits_mapString: make(map[string]*Split),
 
@@ -1380,10 +1339,6 @@ func NewStage(name string) (stage *Stage) {
 		Markdown_orderStaged: make(map[uint]*Markdown),
 		Markdowns_reference:  make(map[*Markdown]*Markdown),
 
-		Slider_stagedOrder: make(map[*Slider]uint),
-		Slider_orderStaged: make(map[uint]*Slider),
-		Sliders_reference:  make(map[*Slider]*Slider),
-
 		Split_stagedOrder: make(map[*Split]uint),
 		Split_orderStaged: make(map[uint]*Split),
 		Splits_reference:  make(map[*Split]*Split),
@@ -1445,8 +1400,6 @@ func NewStage(name string) (stage *Stage) {
 			"Maplibre": &MaplibreUnmarshaller{},
 
 			"Markdown": &MarkdownUnmarshaller{},
-
-			"Slider": &SliderUnmarshaller{},
 
 			"Split": &SplitUnmarshaller{},
 
@@ -1560,7 +1513,6 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["LogoOnTheRight"] = len(stage.LogoOnTheRights)
 	stage.Map_GongStructName_InstancesNb["Maplibre"] = len(stage.Maplibres)
 	stage.Map_GongStructName_InstancesNb["Markdown"] = len(stage.Markdowns)
-	stage.Map_GongStructName_InstancesNb["Slider"] = len(stage.Sliders)
 	stage.Map_GongStructName_InstancesNb["Split"] = len(stage.Splits)
 	stage.Map_GongStructName_InstancesNb["Svg"] = len(stage.Svgs)
 	stage.Map_GongStructName_InstancesNb["Table"] = len(stage.Tables)
@@ -2090,46 +2042,6 @@ func (markdown *Markdown) SetName(name string) {
 	markdown.Name = name
 }
 
-// Stage puts slider to the model stage
-func (slider *Slider) Stage(stage *Stage) *Slider {
-	__gong__stage(stage.Sliders, stage.Slider_stagedOrder, stage.Slider_orderStaged, &stage.SliderOrder, stage.Sliders_mapString, slider, slider.Name)
-	return slider
-}
-
-// StagePreserveOrder puts slider to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.SliderOrder
-// - update stage.SliderOrder accordingly
-func (slider *Slider) StagePreserveOrder(stage *Stage, order uint) {
-	__gong__stagePreserveOrder(stage.Sliders, stage.Slider_stagedOrder, stage.Slider_orderStaged, &stage.SliderOrder, stage.Sliders_mapString, slider, order, slider.Name)
-}
-
-// Unstage removes slider off the model stage
-func (slider *Slider) Unstage(stage *Stage) *Slider {
-	__gong__unstage(stage.Sliders, stage.Sliders_mapString, slider, slider.Name)
-	return slider
-}
-
-// UnstageVoid removes slider off the model stage
-func (slider *Slider) UnstageVoid(stage *Stage) {
-	slider.Unstage(stage)
-}
-
-func (slider *Slider) StageVoid(stage *Stage) {
-	slider.Stage(stage)
-}
-
-// for satisfaction of GongStruct interface
-func (slider *Slider) GetName() (res string) {
-	return slider.Name
-}
-
-// for satisfaction of GongStruct interface
-func (slider *Slider) SetName(name string) {
-	slider.Name = name
-}
-
 // Stage puts split to the model stage
 func (split *Split) Stage(stage *Stage) *Split {
 	__gong__stage(stage.Splits, stage.Split_stagedOrder, stage.Split_orderStaged, &stage.SplitOrder, stage.Splits_mapString, split, split.Name)
@@ -2515,8 +2427,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.Markdowns, &stage.Markdowns_mapString, &stage.Markdown_stagedOrder, &stage.MarkdownOrder)
 
-	__gong__resetStageType(&stage.Sliders, &stage.Sliders_mapString, &stage.Slider_stagedOrder, &stage.SliderOrder)
-
 	__gong__resetStageType(&stage.Splits, &stage.Splits_mapString, &stage.Split_stagedOrder, &stage.SplitOrder)
 
 	__gong__resetStageType(&stage.Svgs, &stage.Svgs_mapString, &stage.Svg_stagedOrder, &stage.SvgOrder)
@@ -2655,7 +2565,6 @@ func (AsSplitArea) GongGetAssociationName() any {
 			Load: &Load{Name: "Load"},
 			Maplibre: &Maplibre{Name: "Maplibre"},
 			Markdown: &Markdown{Name: "Markdown"},
-			Slider: &Slider{Name: "Slider"},
 			Split: &Split{Name: "Split"},
 			Svg: &Svg{Name: "Svg"},
 			Table: &Table{Name: "Table"},
@@ -2713,11 +2622,6 @@ func (Maplibre) GongGetAssociationName() any {
 
 func (Markdown) GongGetAssociationName() any {
 	return &Markdown{
-	}
-}
-
-func (Slider) GongGetAssociationName() any {
-	return &Slider{
 	}
 }
 
@@ -2935,23 +2839,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Slider":
-			res := make(map[*Slider][]*AsSplitArea)
-			for assplitarea := range stage.AsSplitAreas {
-				if assplitarea.Slider != nil {
-					slider_ := assplitarea.Slider
-					var assplitareas []*AsSplitArea
-					_, ok := res[slider_]
-					if ok {
-						assplitareas = res[slider_]
-					} else {
-						assplitareas = make([]*AsSplitArea, 0)
-					}
-					assplitareas = append(assplitareas, assplitarea)
-					res[slider_] = assplitareas
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "Split":
 			res := make(map[*Split][]*AsSplitArea)
 			for assplitarea := range stage.AsSplitAreas {
@@ -3122,11 +3009,6 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Slider
-	case Slider:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of Split
 	case Split:
 		switch fieldname {
@@ -3247,11 +3129,6 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 		}
 	// reverse maps of direct associations of Markdown
 	case Markdown:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Slider
-	case Slider:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -3425,11 +3302,6 @@ func (*Markdown) GongGetReverseFields() []GongReverseField {
 	}
 }
 
-func (*Slider) GongGetReverseFields() []GongReverseField {
-	return []GongReverseField{ 
-	}
-}
-
 func (*Split) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 	}
@@ -3580,11 +3452,6 @@ func (assplitarea *AsSplitArea) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Markdown",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Markdown",
-		},
-		{
-			Name:                 "Slider",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Slider",
 		},
 		{
 			Name:                 "Split",
@@ -3789,21 +3656,6 @@ func (maplibre *Maplibre) GongGetFieldHeaders() (res []GongFieldHeader) {
 }
 
 func (markdown *Markdown) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "StackName",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-	}
-	return
-}
-
-func (slider *Slider) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -4141,12 +3993,6 @@ func (assplitarea *AsSplitArea) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString = assplitarea.Markdown.Name
 			res.ids = assplitarea.Markdown.GongGetUUID(stage)
 		}
-	case "Slider":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if assplitarea.Slider != nil {
-			res.valueString = assplitarea.Slider.Name
-			res.ids = assplitarea.Slider.GongGetUUID(stage)
-		}
 	case "Split":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Split != nil {
@@ -4323,17 +4169,6 @@ func (markdown *Markdown) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = markdown.Name
 	case "StackName":
 		res.valueString = markdown.StackName
-	}
-	return
-}
-
-func (slider *Slider) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = slider.Name
-	case "StackName":
-		res.valueString = slider.StackName
 	}
 	return
 }
@@ -4530,10 +4365,6 @@ func (markdown *Markdown) GongGetGongstructName() string {
 	return "Markdown"
 }
 
-func (slider *Slider) GongGetGongstructName() string {
-	return "Slider"
-}
-
 func (split *Split) GongGetGongstructName() string {
 	return "Split"
 }
@@ -4604,8 +4435,6 @@ func (stage *Stage) ResetMapStrings() {
 	__gong__rebuildMapString(stage.Maplibres, &stage.Maplibres_mapString)
 
 	__gong__rebuildMapString(stage.Markdowns, &stage.Markdowns_mapString)
-
-	__gong__rebuildMapString(stage.Sliders, &stage.Sliders_mapString)
 
 	__gong__rebuildMapString(stage.Splits, &stage.Splits_mapString)
 

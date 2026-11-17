@@ -176,8 +176,6 @@ func saveAsSplitAreaFields(
 			FormDivSelectFieldToField(&(_instance.Maplibre), probe.stageOfInterest, formDiv)
 		case "Markdown":
 			FormDivSelectFieldToField(&(_instance.Markdown), probe.stageOfInterest, formDiv)
-		case "Slider":
-			FormDivSelectFieldToField(&(_instance.Slider), probe.stageOfInterest, formDiv)
 		case "Split":
 			FormDivSelectFieldToField(&(_instance.Split), probe.stageOfInterest, formDiv)
 		case "Svg":
@@ -510,37 +508,6 @@ type MarkdownFormCallback = FormCallback[*models.Markdown]
 
 func saveMarkdownFields(
 	_instance *models.Markdown,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) {
-	for _, formDiv := range formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(_instance.Name), formDiv)
-		case "StackName":
-			FormDivBasicFieldToField(&(_instance.StackName), formDiv)
-		}
-	}
-}
-
-func __gong__New__SliderFormCallback(
-	_instance *models.Slider,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (sliderFormCallback *FormCallback[*models.Slider]) {
-	return NewFormCallback(
-		_instance,
-		probe,
-		formGroup,
-		saveSliderFields,
-	)
-}
-
-type SliderFormCallback = FormCallback[*models.Slider]
-
-func saveSliderFields(
-	_instance *models.Slider,
 	probe *Probe,
 	formGroup *form.FormGroup,
 ) {

@@ -30,6 +30,7 @@ export class FormField {
 	BespokeWidthPx: number = 0
 	HasBespokeHeight: boolean = false
 	BespokeHeightPx: number = 0
+	IsDisabled: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 	FormFieldString?: FormFieldString
@@ -66,6 +67,7 @@ export function CopyFormFieldToFormFieldAPI(formfield: FormField, formfieldAPI: 
 	formfieldAPI.BespokeWidthPx = formfield.BespokeWidthPx
 	formfieldAPI.HasBespokeHeight = formfield.HasBespokeHeight
 	formfieldAPI.BespokeHeightPx = formfield.BespokeHeightPx
+	formfieldAPI.IsDisabled = formfield.IsDisabled
 
 	// insertion point for pointer fields encoding
 	formfieldAPI.FormFieldPointersEncoding.FormFieldStringID.Valid = true
@@ -140,6 +142,7 @@ export function CopyFormFieldAPIToFormField(formfieldAPI: FormFieldAPI, formfiel
 	formfield.BespokeWidthPx = formfieldAPI.BespokeWidthPx
 	formfield.HasBespokeHeight = formfieldAPI.HasBespokeHeight
 	formfield.BespokeHeightPx = formfieldAPI.BespokeHeightPx
+	formfield.IsDisabled = formfieldAPI.IsDisabled
 
 	// insertion point for pointer fields encoding
 	formfield.FormFieldString = frontRepo.map_ID_FormFieldString.get(formfieldAPI.FormFieldPointersEncoding.FormFieldStringID.Int64)

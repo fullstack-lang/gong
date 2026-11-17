@@ -69,8 +69,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.Markdowns)
 
-	res = __gong__appendInstances(res, stage.Sliders)
-
 	res = __gong__appendInstances(res, stage.Splits)
 
 	res = __gong__appendInstances(res, stage.Svgs)
@@ -162,12 +160,6 @@ func (maplibre *Maplibre) GongCopy() GongstructIF {
 func (markdown *Markdown) GongCopy() GongstructIF {
 	newInstance := new(Markdown)
 	markdown.GongCopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (slider *Slider) GongCopy() GongstructIF {
-	newInstance := new(Slider)
-	slider.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -272,10 +264,6 @@ func (maplibre *Maplibre) GongGetUUID(stage *Stage) string {
 
 func (markdown *Markdown) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, markdown)
-}
-
-func (slider *Slider) GongGetUUID(stage *Stage) string {
-	return __gong__getUUID(stage, slider)
 }
 
 func (split *Split) GongGetUUID(stage *Stage) string {
@@ -620,23 +608,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
-		stage.Sliders,
-		stage.Slider_stagedOrder,
-		stage.Sliders_reference,
-		&stage.Sliders_referenceOrder,
-		stage.Sliders_instance,
-		&newInstancesSlice,
-		&fieldsEditSlice,
-		&deletedInstancesSlice,
-		&newInstancesReverseSlice,
-		&fieldsEditReverseSlice,
-		&deletedInstancesReverseSlice,
-		&lenNewInstances,
-		&lenDeletedInstances,
-		&lenModifiedInstances,
-	)
-	computeCommitsForType(
-		stage,
 		stage.Splits,
 		stage.Split_stagedOrder,
 		stage.Splits_reference,
@@ -847,8 +818,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.Markdowns, &stage.Markdowns_reference, &stage.Markdowns_referenceOrder, &stage.Markdowns_instance)
 
-	__gong__computeReferencePass1(stage, stage.Sliders, &stage.Sliders_reference, &stage.Sliders_referenceOrder, &stage.Sliders_instance)
-
 	__gong__computeReferencePass1(stage, stage.Splits, &stage.Splits_reference, &stage.Splits_referenceOrder, &stage.Splits_instance)
 
 	__gong__computeReferencePass1(stage, stage.Svgs, &stage.Svgs_reference, &stage.Svgs_referenceOrder, &stage.Svgs_instance)
@@ -891,8 +860,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass2(stage.Maplibres, stage.Maplibres_reference, stage)
 
 	__gong__computeReferencePass2(stage.Markdowns, stage.Markdowns_reference, stage)
-
-	__gong__computeReferencePass2(stage.Sliders, stage.Sliders_reference, stage)
 
 	__gong__computeReferencePass2(stage.Splits, stage.Splits_reference, stage)
 
@@ -968,10 +935,6 @@ func (maplibre *Maplibre) GongGetOrder(stage *Stage) uint {
 
 func (markdown *Markdown) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Markdown_stagedOrder, stage.Markdowns_referenceOrder, markdown, "Markdown")
-}
-
-func (slider *Slider) GongGetOrder(stage *Stage) uint {
-	return __gong__getOrder(stage.Slider_stagedOrder, stage.Sliders_referenceOrder, slider, "Slider")
 }
 
 func (split *Split) GongGetOrder(stage *Stage) uint {
@@ -1123,15 +1086,6 @@ func (markdown *Markdown) GongGetReferenceIdentifier(stage *Stage) string {
 	return markdown.GongGetIdentifier(stage)
 }
 
-func (slider *Slider) GongGetIdentifier(stage *Stage) string {
-	return __gong__formatIdentifier(slider, slider.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (slider *Slider) GongGetReferenceIdentifier(stage *Stage) string {
-	return slider.GongGetIdentifier(stage)
-}
-
 func (split *Split) GongGetIdentifier(stage *Stage) string {
 	return __gong__formatIdentifier(split, split.GongGetOrder(stage))
 }
@@ -1264,10 +1218,6 @@ func (markdown *Markdown) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(markdown.GongGetIdentifier(stage), "Markdown", markdown.Name)
 }
 
-func (slider *Slider) GongMarshallIdentifier(stage *Stage) string {
-	return __gong__marshallIdentifier(slider.GongGetIdentifier(stage), "Slider", slider.Name)
-}
-
 func (split *Split) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(split.GongGetIdentifier(stage), "Split", split.Name)
 }
@@ -1351,10 +1301,6 @@ func (maplibre *Maplibre) GongMarshallUnstaging(stage *Stage) string {
 
 func (markdown *Markdown) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(markdown.GongGetReferenceIdentifier(stage))
-}
-
-func (slider *Slider) GongMarshallUnstaging(stage *Stage) string {
-	return __gong__marshallUnstaging(slider.GongGetReferenceIdentifier(stage))
 }
 
 func (split *Split) GongMarshallUnstaging(stage *Stage) string {

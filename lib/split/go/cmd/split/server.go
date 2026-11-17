@@ -17,8 +17,8 @@ import (
 	cursor_models "github.com/fullstack-lang/gong/lib/cursor/go/models"
 	cursor_stack "github.com/fullstack-lang/gong/lib/cursor/go/stack"
 
-	slider_models "github.com/fullstack-lang/gong/lib/slider/go/models"
-	slider_stack "github.com/fullstack-lang/gong/lib/slider/go/stack"
+	form_models "github.com/fullstack-lang/gong/lib/form/go/models"
+	form_stack "github.com/fullstack-lang/gong/lib/form/go/stack"
 
 	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
 	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
@@ -97,9 +97,9 @@ func executeServer(args []string) {
 		</svg>`,
 	}).Stage(splitStage)
 
-	sliderStage1 := slider_stack.NewStack(r, "slider 1", "", "", "", true, true).Stage
+	sliderStage1 := form_stack.NewStack(r, "slider 1", "", "", "", true, true).Stage
 
-	sliderStage2 := slider_stack.NewStack(r, "slider 2", "", "", "", true, true).Stage
+	sliderStage2 := form_stack.NewStack(r, "slider 2", "", "", "", true, true).Stage
 
 	buttonStackName := "button"
 	stackbutton := button_stack.NewStack(r, buttonStackName, "", "", "", true, true)
@@ -109,39 +109,17 @@ func executeServer(args []string) {
 	stacktone := tone_stack.NewStack(r, toneStackName, "", "", "", true, true)
 	toneStage := stacktone.Stage
 
+	val1 := 25
 	{
-
-		layout := new(slider_models.Layout).Stage(sliderStage1)
-		group := new(slider_models.Group).Stage(sliderStage1)
-		group.Percentage = 100
-		layout.Groups = append(layout.Groups, group)
-
-		slider := new(slider_models.Slider).Stage(sliderStage1)
-		slider.IsInt = true
-		slider.MinInt = 10
-		slider.MaxInt = 100
-		slider.StepInt = 5
-		slider.Name = "slider 1"
-		group.Sliders = append(group.Sliders, slider)
-
+		fg := form_models.NewLiveFormGroup(sliderStage1, "Slider 1")
+		form_models.AppendSlider(sliderStage1, fg, "slider 1", 10, 100, 5, &val1, nil)
 		sliderStage1.Commit()
 	}
 
+	val2 := 50
 	{
-
-		layout := new(slider_models.Layout).Stage(sliderStage2)
-		group := new(slider_models.Group).Stage(sliderStage2)
-		group.Percentage = 100
-		layout.Groups = append(layout.Groups, group)
-
-		slider := new(slider_models.Slider).Stage(sliderStage2)
-		slider.IsInt = true
-		slider.MinInt = 10
-		slider.MaxInt = 100
-		slider.StepInt = 5
-		slider.Name = "slider 2"
-		group.Sliders = append(group.Sliders, slider)
-
+		fg := form_models.NewLiveFormGroup(sliderStage2, "Slider 2")
+		form_models.AppendSlider(sliderStage2, fg, "slider 2", 10, 100, 5, &val2, nil)
 		sliderStage2.Commit()
 	}
 
@@ -250,13 +228,13 @@ func executeServer(args []string) {
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
 				Size: 100,
-				Slider: (&split.Slider{
+				Form: (&split.Form{
 					StackName: sliderStage1.GetName(),
 				}).Stage(splitStage),
 			}).Stage(splitStage),
 			(&split.AsSplitArea{
 				IsAny: true,
-				Slider: (&split.Slider{
+				Form: (&split.Form{
 					StackName: sliderStage1.GetName(),
 				}).Stage(splitStage),
 			}).Stage(splitStage),
@@ -280,7 +258,7 @@ func executeServer(args []string) {
 		Name: "Slider 2",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
-				Slider: (&split.Slider{
+				Form: (&split.Form{
 					StackName: sliderStage2.GetName(),
 				}).Stage(splitStage),
 			}).Stage(splitStage),

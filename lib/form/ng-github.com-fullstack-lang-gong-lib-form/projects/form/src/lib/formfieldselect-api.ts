@@ -15,6 +15,7 @@ export class FormFieldSelectAPI {
 	Name: string = ""
 	CanBeEmpty: boolean = false
 	PreserveInitialOrder: boolean = false
+	IsLiveUpdate: boolean = false
 
 	// insertion point for other decls
 

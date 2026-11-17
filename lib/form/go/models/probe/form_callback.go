@@ -117,6 +117,14 @@ func saveCheckBoxFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Value":
 			FormDivBasicFieldToField(&(_instance.Value), formDiv)
+		case "LabelForTrue":
+			FormDivBasicFieldToField(&(_instance.LabelForTrue), formDiv)
+		case "LabelForFalse":
+			FormDivBasicFieldToField(&(_instance.LabelForFalse), formDiv)
+		case "IsDisabled":
+			FormDivBasicFieldToField(&(_instance.IsDisabled), formDiv)
+		case "IsLiveUpdate":
+			FormDivBasicFieldToField(&(_instance.IsLiveUpdate), formDiv)
 		case "FormDiv:CheckBoxs":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "CheckBoxs", func(owner *models.FormDiv) *[]*models.CheckBox { return &owner.CheckBoxs })
 		}
@@ -162,6 +170,8 @@ func saveFormDivFields(
 			FormDivBasicFieldToField(&(_instance.IsAStartAccordionGroup), formDiv)
 		case "AccordionGroupName":
 			FormDivBasicFieldToField(&(_instance.AccordionGroupName), formDiv)
+		case "IsExpandedInitially":
+			FormDivBasicFieldToField(&(_instance.IsExpandedInitially), formDiv)
 		case "IsAEndAccordionGroup":
 			FormDivBasicFieldToField(&(_instance.IsAEndAccordionGroup), formDiv)
 		case "FormGroup:FormDivs":
@@ -266,6 +276,8 @@ func saveFormFieldFields(
 			FormDivBasicFieldToField(&(_instance.HasBespokeHeight), formDiv)
 		case "BespokeHeightPx":
 			FormDivBasicFieldToField(&(_instance.BespokeHeightPx), formDiv)
+		case "IsDisabled":
+			FormDivBasicFieldToField(&(_instance.IsDisabled), formDiv)
 		case "FormDiv:FormFields":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "FormFields", func(owner *models.FormDiv) *[]*models.FormField { return &owner.FormFields })
 		}
@@ -369,6 +381,12 @@ func saveFormFieldFloat64Fields(
 			FormDivBasicFieldToField(&(_instance.HasMaxValidator), formDiv)
 		case "MaxValue":
 			FormDivBasicFieldToField(&(_instance.MaxValue), formDiv)
+		case "IsSlider":
+			FormDivBasicFieldToField(&(_instance.IsSlider), formDiv)
+		case "Step":
+			FormDivBasicFieldToField(&(_instance.Step), formDiv)
+		case "IsLiveUpdate":
+			FormDivBasicFieldToField(&(_instance.IsLiveUpdate), formDiv)
 		}
 	}
 }
@@ -408,6 +426,12 @@ func saveFormFieldIntFields(
 			FormDivBasicFieldToField(&(_instance.HasMaxValidator), formDiv)
 		case "MaxValue":
 			FormDivBasicFieldToField(&(_instance.MaxValue), formDiv)
+		case "IsSlider":
+			FormDivBasicFieldToField(&(_instance.IsSlider), formDiv)
+		case "Step":
+			FormDivBasicFieldToField(&(_instance.Step), formDiv)
+		case "IsLiveUpdate":
+			FormDivBasicFieldToField(&(_instance.IsLiveUpdate), formDiv)
 		}
 	}
 }
@@ -445,6 +469,8 @@ func saveFormFieldSelectFields(
 			FormDivBasicFieldToField(&(_instance.CanBeEmpty), formDiv)
 		case "PreserveInitialOrder":
 			FormDivBasicFieldToField(&(_instance.PreserveInitialOrder), formDiv)
+		case "IsLiveUpdate":
+			FormDivBasicFieldToField(&(_instance.IsLiveUpdate), formDiv)
 		}
 	}
 }
@@ -550,6 +576,8 @@ func saveFormGroupFields(
 			FormDivBasicFieldToField(&(_instance.HasSuppressButton), formDiv)
 		case "HasSuppressButtonBeenPressed":
 			FormDivBasicFieldToField(&(_instance.HasSuppressButtonBeenPressed), formDiv)
+		case "HideSubmitButton":
+			FormDivBasicFieldToField(&(_instance.HideSubmitButton), formDiv)
 		}
 	}
 }

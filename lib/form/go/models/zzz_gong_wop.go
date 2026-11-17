@@ -13,6 +13,14 @@ type CheckBox_WOP struct {
 	Name string
 
 	Value bool
+
+	LabelForTrue string
+
+	LabelForFalse string
+
+	IsDisabled bool
+
+	IsLiveUpdate bool
 }
 
 func (from *CheckBox) GongCopyBasicFields(to *CheckBox) {
@@ -31,6 +39,8 @@ type FormDiv_WOP struct {
 
 	AccordionGroupName string
 
+	IsExpandedInitially bool
+
 	IsAEndAccordionGroup bool
 }
 
@@ -40,6 +50,7 @@ func (from *FormDiv) GongCopyBasicFields(to *FormDiv) {
 	to.IsADivider = from.IsADivider
 	to.IsAStartAccordionGroup = from.IsAStartAccordionGroup
 	to.AccordionGroupName = from.AccordionGroupName
+	to.IsExpandedInitially = from.IsExpandedInitially
 	to.IsAEndAccordionGroup = from.IsAEndAccordionGroup
 }
 
@@ -86,6 +97,8 @@ type FormField_WOP struct {
 	HasBespokeHeight bool
 
 	BespokeHeightPx int
+
+	IsDisabled bool
 }
 
 func (from *FormField) GongCopyBasicFields(to *FormField) {
@@ -98,6 +111,7 @@ func (from *FormField) GongCopyBasicFields(to *FormField) {
 	to.BespokeWidthPx = from.BespokeWidthPx
 	to.HasBespokeHeight = from.HasBespokeHeight
 	to.BespokeHeightPx = from.BespokeHeightPx
+	to.IsDisabled = from.IsDisabled
 }
 
 type FormFieldDate_WOP struct {
@@ -140,6 +154,12 @@ type FormFieldFloat64_WOP struct {
 	HasMaxValidator bool
 
 	MaxValue float64
+
+	IsSlider bool
+
+	Step float64
+
+	IsLiveUpdate bool
 }
 
 func (from *FormFieldFloat64) GongCopyBasicFields(to *FormFieldFloat64) {
@@ -161,6 +181,12 @@ type FormFieldInt_WOP struct {
 	HasMaxValidator bool
 
 	MaxValue int
+
+	IsSlider bool
+
+	Step int
+
+	IsLiveUpdate bool
 }
 
 func (from *FormFieldInt) GongCopyBasicFields(to *FormFieldInt) {
@@ -176,6 +202,8 @@ type FormFieldSelect_WOP struct {
 	CanBeEmpty bool
 
 	PreserveInitialOrder bool
+
+	IsLiveUpdate bool
 }
 
 func (from *FormFieldSelect) GongCopyBasicFields(to *FormFieldSelect) {
@@ -183,6 +211,7 @@ func (from *FormFieldSelect) GongCopyBasicFields(to *FormFieldSelect) {
 	to.Name = from.Name
 	to.CanBeEmpty = from.CanBeEmpty
 	to.PreserveInitialOrder = from.PreserveInitialOrder
+	to.IsLiveUpdate = from.IsLiveUpdate
 }
 
 type FormFieldString_WOP struct {
@@ -227,6 +256,8 @@ type FormGroup_WOP struct {
 	HasSuppressButton bool
 
 	HasSuppressButtonBeenPressed bool
+
+	HideSubmitButton bool
 }
 
 func (from *FormGroup) GongCopyBasicFields(to *FormGroup) {
@@ -236,6 +267,7 @@ func (from *FormGroup) GongCopyBasicFields(to *FormGroup) {
 	to.TypeLabel = from.TypeLabel
 	to.HasSuppressButton = from.HasSuppressButton
 	to.HasSuppressButtonBeenPressed = from.HasSuppressButtonBeenPressed
+	to.HideSubmitButton = from.HideSubmitButton
 }
 
 type FormSortAssocButton_WOP struct {

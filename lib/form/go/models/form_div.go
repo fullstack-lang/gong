@@ -16,6 +16,9 @@ type FormDiv struct {
 	// Name of the Accordion group (relevant if IsAStartAccordionGroup is true)
 	AccordionGroupName string
 
+	// IsExpandedInitially opens the accordion panel on initial display before user interaction
+	IsExpandedInitially bool
+
 	// indicates if the FormDiv is an end Accordion group
 	IsAEndAccordionGroup bool
 }

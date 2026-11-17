@@ -2560,6 +2560,22 @@ func (checkbox *CheckBox) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "Value",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:               "LabelForTrue",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "LabelForFalse",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsDisabled",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsLiveUpdate",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -2602,6 +2618,10 @@ func (formdiv *FormDiv) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "AccordionGroupName",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpandedInitially",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsAEndAccordionGroup",
@@ -2721,6 +2741,10 @@ func (formfield *FormField) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "BespokeHeightPx",
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
+		{
+			Name:               "IsDisabled",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -2782,6 +2806,18 @@ func (formfieldfloat64 *FormFieldFloat64) GongGetFieldHeaders() (res []GongField
 			Name:               "MaxValue",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "IsSlider",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Step",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsLiveUpdate",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -2813,6 +2849,18 @@ func (formfieldint *FormFieldInt) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:               "MaxValue",
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
+		{
+			Name:               "IsSlider",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "Step",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "IsLiveUpdate",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -2840,6 +2888,10 @@ func (formfieldselect *FormFieldSelect) GongGetFieldHeaders() (res []GongFieldHe
 		},
 		{
 			Name:               "PreserveInitialOrder",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsLiveUpdate",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
@@ -2910,6 +2962,10 @@ func (formgroup *FormGroup) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "HasSuppressButtonBeenPressed",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "HideSubmitButton",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
@@ -3027,6 +3083,18 @@ func (checkbox *CheckBox) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = fmt.Sprintf("%t", checkbox.Value)
 		res.valueBool = checkbox.Value
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LabelForTrue":
+		res.valueString = checkbox.LabelForTrue
+	case "LabelForFalse":
+		res.valueString = checkbox.LabelForFalse
+	case "IsDisabled":
+		res.valueString = fmt.Sprintf("%t", checkbox.IsDisabled)
+		res.valueBool = checkbox.IsDisabled
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsLiveUpdate":
+		res.valueString = fmt.Sprintf("%t", checkbox.IsLiveUpdate)
+		res.valueBool = checkbox.IsLiveUpdate
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3078,6 +3146,10 @@ func (formdiv *FormDiv) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "AccordionGroupName":
 		res.valueString = formdiv.AccordionGroupName
+	case "IsExpandedInitially":
+		res.valueString = fmt.Sprintf("%t", formdiv.IsExpandedInitially)
+		res.valueBool = formdiv.IsExpandedInitially
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsAEndAccordionGroup":
 		res.valueString = fmt.Sprintf("%t", formdiv.IsAEndAccordionGroup)
 		res.valueBool = formdiv.IsAEndAccordionGroup
@@ -3185,6 +3257,10 @@ func (formfield *FormField) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%d", formfield.BespokeHeightPx)
 		res.valueInt = formfield.BespokeHeightPx
 		res.GongFieldValueType = GongFieldValueTypeInt
+	case "IsDisabled":
+		res.valueString = fmt.Sprintf("%t", formfield.IsDisabled)
+		res.valueBool = formfield.IsDisabled
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3236,6 +3312,18 @@ func (formfieldfloat64 *FormFieldFloat64) GongGetFieldValue(fieldName string, st
 		res.valueString = fmt.Sprintf("%f", formfieldfloat64.MaxValue)
 		res.valueFloat = formfieldfloat64.MaxValue
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsSlider":
+		res.valueString = fmt.Sprintf("%t", formfieldfloat64.IsSlider)
+		res.valueBool = formfieldfloat64.IsSlider
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Step":
+		res.valueString = fmt.Sprintf("%f", formfieldfloat64.Step)
+		res.valueFloat = formfieldfloat64.Step
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsLiveUpdate":
+		res.valueString = fmt.Sprintf("%t", formfieldfloat64.IsLiveUpdate)
+		res.valueBool = formfieldfloat64.IsLiveUpdate
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3265,6 +3353,18 @@ func (formfieldint *FormFieldInt) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%d", formfieldint.MaxValue)
 		res.valueInt = formfieldint.MaxValue
 		res.GongFieldValueType = GongFieldValueTypeInt
+	case "IsSlider":
+		res.valueString = fmt.Sprintf("%t", formfieldint.IsSlider)
+		res.valueBool = formfieldint.IsSlider
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Step":
+		res.valueString = fmt.Sprintf("%d", formfieldint.Step)
+		res.valueInt = formfieldint.Step
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "IsLiveUpdate":
+		res.valueString = fmt.Sprintf("%t", formfieldint.IsLiveUpdate)
+		res.valueBool = formfieldint.IsLiveUpdate
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3297,6 +3397,10 @@ func (formfieldselect *FormFieldSelect) GongGetFieldValue(fieldName string, stag
 	case "PreserveInitialOrder":
 		res.valueString = fmt.Sprintf("%t", formfieldselect.PreserveInitialOrder)
 		res.valueBool = formfieldselect.PreserveInitialOrder
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsLiveUpdate":
+		res.valueString = fmt.Sprintf("%t", formfieldselect.IsLiveUpdate)
+		res.valueBool = formfieldselect.IsLiveUpdate
 		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
@@ -3358,6 +3462,10 @@ func (formgroup *FormGroup) GongGetFieldValue(fieldName string, stage *Stage) (r
 	case "HasSuppressButtonBeenPressed":
 		res.valueString = fmt.Sprintf("%t", formgroup.HasSuppressButtonBeenPressed)
 		res.valueBool = formgroup.HasSuppressButtonBeenPressed
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "HideSubmitButton":
+		res.valueString = fmt.Sprintf("%t", formgroup.HideSubmitButton)
+		res.valueBool = formgroup.HideSubmitButton
 		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return

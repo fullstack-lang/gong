@@ -17,6 +17,7 @@ export class FormGroupAPI {
 	TypeLabel: string = ""
 	HasSuppressButton: boolean = false
 	HasSuppressButtonBeenPressed: boolean = false
+	HideSubmitButton: boolean = false
 
 	// insertion point for other decls
 

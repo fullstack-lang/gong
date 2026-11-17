@@ -62,7 +62,6 @@ func (assplitarea *AsSplitArea) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanPointer(&assplitarea.Load) || modified
 	modified = stage.CleanPointer(&assplitarea.Maplibre) || modified
 	modified = stage.CleanPointer(&assplitarea.Markdown) || modified
-	modified = stage.CleanPointer(&assplitarea.Slider) || modified
 	modified = stage.CleanPointer(&assplitarea.Split) || modified
 	modified = stage.CleanPointer(&assplitarea.Svg) || modified
 	modified = stage.CleanPointer(&assplitarea.Table) || modified

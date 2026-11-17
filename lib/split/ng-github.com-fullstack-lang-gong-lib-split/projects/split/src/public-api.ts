@@ -61,10 +61,6 @@ export * from './lib/markdown-api'
 export * from './lib/markdown'
 export * from './lib/markdown.service'
 
-export * from './lib/slider-api'
-export * from './lib/slider'
-export * from './lib/slider.service'
-
 export * from './lib/split-api'
 export * from './lib/split'
 export * from './lib/split.service'

@@ -463,16 +463,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := assplitarea.Markdown.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Markdown = %s", assplitareaIdent, targetIdent))
 			}
-			if assplitarea.Slider != nil {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := assplitarea.Slider.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Slider = %s", assplitareaIdent, targetIdent))
-			}
 			if assplitarea.Split != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -748,26 +738,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", markdownIdent, __gong__toRawStringLiteral(markdown.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", markdownIdent, __gong__toRawStringLiteral(markdown.StackName)))
-		}
-	}
-	if stage != nil {
-		for _, slider := range __gong__sortStageSetInstances(stage.Sliders, stage.Slider_stagedOrder) {
-			if lastStageDecl != "Stage" {
-				if declarations.Len() > 0 {
-					declarations.WriteString("\n")
-				}
-				lastStageDecl = "Stage"
-			}
-			sliderIdent := slider.GongGetIdentifier(stage)
-			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.Slider{Name: %s}).Stage(stage)", sliderIdent, __gong__toRawStringLiteral(slider.Name)))
-			if lastStageVal != "Stage" {
-				if values.Len() > 0 {
-					values.WriteString("\n")
-				}
-				lastStageVal = "Stage"
-			}
-			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", sliderIdent, __gong__toRawStringLiteral(slider.Name)))
-			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", sliderIdent, __gong__toRawStringLiteral(slider.StackName)))
 		}
 	}
 	if stage != nil {
@@ -1131,12 +1101,6 @@ func (assplitarea *AsSplitArea) GongMarshallField(stage *Stage, fieldName string
 		} else {
 			res = __gong__marshallPointer(ident, "Markdown", "nil")
 		}
-	case "Slider":
-		if assplitarea.Slider != nil {
-			res = __gong__marshallPointer(ident, "Slider", assplitarea.Slider.GongGetIdentifier(stage))
-		} else {
-			res = __gong__marshallPointer(ident, "Slider", "nil")
-		}
 	case "Split":
 		if assplitarea.Split != nil {
 			res = __gong__marshallPointer(ident, "Split", assplitarea.Split.GongGetIdentifier(stage))
@@ -1345,21 +1309,6 @@ func (markdown *Markdown) GongMarshallField(stage *Stage, fieldName string) (res
 	return
 }
 
-func (slider *Slider) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	ident := slider.GongGetIdentifier(stage)
-	_ = ident
-	switch fieldName {
-	case "Name":
-		res = __gong__marshallString(ident, "Name", slider.Name)
-	case "StackName":
-		res = __gong__marshallString(ident, "StackName", slider.StackName)
-
-	default:
-		log.Panicf("Unknown field %s for Gongstruct Slider", fieldName)
-	}
-	return
-}
-
 func (split *Split) GongMarshallField(stage *Stage, fieldName string) (res string) {
 	ident := split.GongGetIdentifier(stage)
 	_ = ident
@@ -1547,7 +1496,6 @@ func (assplitarea *AsSplitArea) GongMarshallAllFields(stage *Stage) (initRes str
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Load"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Maplibre"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Markdown"))
-		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Slider"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Split"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Svg"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Table"))
@@ -1682,18 +1630,6 @@ func (markdown *Markdown) GongMarshallAllFields(stage *Stage) (initRes string, p
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(markdown.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(markdown.GongMarshallField(stage, "StackName"))
-	}
-	initRes = initializerStatements.String()
-	ptrRes = pointersInitializesStatements.String()
-	return
-}
-func (slider *Slider) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
-
-	var initializerStatements strings.Builder
-	var pointersInitializesStatements strings.Builder
-	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(slider.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(slider.GongMarshallField(stage, "StackName"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

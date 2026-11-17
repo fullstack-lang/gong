@@ -19,7 +19,6 @@ import { FormSpecific } from '../../../../../../../form/ng-github.com-fullstack-
 import { LoadSpecificComponent } from '../../../../../../../load/ng-github.com-fullstack-lang-gong-lib-load/projects/loadspecific/src/lib/load-specific/load-specific.component'
 import { MaplibreSpecificComponent } from '../../../../../../../maplibre/ng-github.com-fullstack-lang-gong-lib-maplibre/projects/maplibrespecific/src/lib/maplibre-specific/maplibre-specific.component'
 import { MarkdownSpecificComponent } from '../../../../../../../markdown/ng-github.com-fullstack-lang-gong-lib-markdown/projects/markdownspecific/src/lib/markdown-specific/markdown-specific.component'
-import { SliderSpecificComponent } from '../../../../../../../slider/ng-github.com-fullstack-lang-gong-lib-slider/projects/sliderspecific/src/lib/slider-specific/slider-specific.component'
 import { SvgSpecificComponent } from '../../../../../../../svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svgspecific/src/lib/svg-specific/svg-specific.component'
 import { TableSpecificComponent } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/table-specific/table-specific.component'
 import { ToneSpecificComponent } from '../../../../../../../tone/ng-github.com-fullstack-lang-gong-lib-tone/projects/tonespecific/src/lib/tone-specific/tone-specific.component'
@@ -47,7 +46,6 @@ import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
     LoadSpecificComponent,
     MaplibreSpecificComponent,
     MarkdownSpecificComponent,
-    SliderSpecificComponent,
     SvgSpecificComponent,
     TableSpecificComponent,
     ToneSpecificComponent,

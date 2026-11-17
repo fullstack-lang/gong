@@ -68,10 +68,6 @@ type DBLite struct {
 
 	nextIDMarkdownDB uint
 
-	sliderDBs map[uint]*SliderDB
-
-	nextIDSliderDB uint
-
 	splitDBs map[uint]*SplitDB
 
 	nextIDSplitDB uint
@@ -137,8 +133,6 @@ func NewDBLite() *DBLite {
 		maplibreDBs: make(map[uint]*MaplibreDB),
 
 		markdownDBs: make(map[uint]*MarkdownDB),
-
-		sliderDBs: make(map[uint]*SliderDB),
 
 		splitDBs: make(map[uint]*SplitDB),
 
@@ -219,10 +213,6 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDMarkdownDB++
 		v.ID = db.nextIDMarkdownDB
 		db.markdownDBs[v.ID] = v
-	case *SliderDB:
-		db.nextIDSliderDB++
-		v.ID = db.nextIDSliderDB
-		db.sliderDBs[v.ID] = v
 	case *SplitDB:
 		db.nextIDSplitDB++
 		v.ID = db.nextIDSplitDB
@@ -311,8 +301,6 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.maplibreDBs, v.ID)
 	case *MarkdownDB:
 		delete(db.markdownDBs, v.ID)
-	case *SliderDB:
-		delete(db.sliderDBs, v.ID)
 	case *SplitDB:
 		delete(db.splitDBs, v.ID)
 	case *SvgDB:
@@ -384,9 +372,6 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *MarkdownDB:
 		db.markdownDBs[v.ID] = v
-		return db, nil
-	case *SliderDB:
-		db.sliderDBs[v.ID] = v
 		return db, nil
 	case *SplitDB:
 		db.splitDBs[v.ID] = v
@@ -502,12 +487,6 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Markdown github.com/fullstack-lang/gong/lib/split/go, record not found")
-		}
-	case *SliderDB:
-		if existing, ok := db.sliderDBs[v.ID]; ok {
-			*existing = *v
-		} else {
-			return nil, errors.New("db Slider github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *SplitDB:
 		if existing, ok := db.splitDBs[v.ID]; ok {
@@ -646,12 +625,6 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]MarkdownDB:
 		*ptr = make([]MarkdownDB, 0, len(db.markdownDBs))
 		for _, v := range db.markdownDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
-	case *[]SliderDB:
-		*ptr = make([]SliderDB, 0, len(db.sliderDBs))
-		for _, v := range db.sliderDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -861,16 +834,6 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		markdownDB, _ := instanceDB.(*MarkdownDB)
 		*markdownDB = *tmp
-
-	case *SliderDB:
-		tmp, ok := db.sliderDBs[uint(i)]
-
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First Slider Unkown entry %d", i))
-		}
-
-		sliderDB, _ := instanceDB.(*SliderDB)
-		*sliderDB = *tmp
 
 	case *SplitDB:
 		tmp, ok := db.splitDBs[uint(i)]

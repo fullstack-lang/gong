@@ -11,7 +11,6 @@ import (
 	_ "github.com/fullstack-lang/gong/lib/maplibre/ng-github.com-fullstack-lang-gong-lib-maplibre"
 	_ "github.com/fullstack-lang/gong/lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown"
 	_ "github.com/fullstack-lang/gong/lib/sim/ng-github.com-fullstack-lang-gong-lib-sim"
-	_ "github.com/fullstack-lang/gong/lib/slider/ng-github.com-fullstack-lang-gong-lib-slider"
 	_ "github.com/fullstack-lang/gong/lib/svg/ng-github.com-fullstack-lang-gong-lib-svg"
 	_ "github.com/fullstack-lang/gong/lib/table/ng-github.com-fullstack-lang-gong-lib-table"
 	_ "github.com/fullstack-lang/gong/lib/threejs/ng-github.com-fullstack-lang-gong-lib-threejs"
@@ -89,7 +88,6 @@ type AsSplitArea struct {
 	Load     *Load
 	Maplibre *Maplibre
 	Markdown *Markdown
-	Slider   *Slider
 	Split    *Split
 	Svg      *Svg
 	Table    *Table
@@ -134,11 +132,6 @@ type Maplibre struct {
 }
 
 type Markdown struct {
-	Name      string // name of the stack
-	StackName string
-}
-
-type Slider struct {
 	Name      string // name of the stack
 	StackName string
 }

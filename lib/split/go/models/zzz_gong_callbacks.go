@@ -339,32 +339,6 @@ func (markdown *Markdown) GongAfterDeleteFromFront(stage *Stage, front Gongstruc
 	}
 }
 
-func (slider *Slider) GongAfterCreateFromFront(stage *Stage) {
-	if stage.OnAfterSliderCreateCallback != nil {
-		stage.OnAfterSliderCreateCallback.OnAfterCreate(stage, slider)
-	}
-}
-
-func (slider *Slider) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterSliderUpdateCallback != nil {
-		var frontSlider *Slider
-		if front != nil {
-			frontSlider, _ = front.(*Slider)
-		}
-		stage.OnAfterSliderUpdateCallback.OnAfterUpdate(stage, slider, frontSlider)
-	}
-}
-
-func (slider *Slider) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
-	if stage.OnAfterSliderDeleteCallback != nil {
-		var frontSlider *Slider
-		if front != nil {
-			frontSlider, _ = front.(*Slider)
-		}
-		stage.OnAfterSliderDeleteCallback.OnAfterDelete(stage, slider, frontSlider)
-	}
-}
-
 func (split *Split) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterSplitCreateCallback != nil {
 		stage.OnAfterSplitCreateCallback.OnAfterCreate(stage, split)

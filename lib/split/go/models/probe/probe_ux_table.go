@@ -48,8 +48,6 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Maplibre](probe)
 	case "Markdown":
 		updateProbeTable[*models.Markdown](probe)
-	case "Slider":
-		updateProbeTable[*models.Slider](probe)
 	case "Split":
 		updateProbeTable[*models.Split](probe)
 	case "Svg":
