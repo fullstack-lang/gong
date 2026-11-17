@@ -5,34 +5,11 @@ import (
 	"math"
 	"slices"
 
-	m "github.com/fullstack-lang/gong/lib/slider/go/models"
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
 )
 
 func (stager *Stager) ux_slider() {
 	stager.sliderStage.Reset()
-
-	layout := new(m.Layout).Stage(stager.sliderStage)
-
-	groupDiagram := new(m.Group).Stage(stager.sliderStage)
-	groupDiagram.Name = "Diagram"
-	groupDiagram.Percentage = 16.0
-	layout.Groups = append(layout.Groups, groupDiagram)
-
-	// 3 separate groups for the 3 categories
-	groupComplexities := new(m.Group).Stage(stager.sliderStage)
-	groupComplexities.Name = "Complexities"
-	groupComplexities.Percentage = 28.0
-	layout.Groups = append(layout.Groups, groupComplexities)
-
-	groupPerformances := new(m.Group).Stage(stager.sliderStage)
-	groupPerformances.Name = "Performances"
-	groupPerformances.Percentage = 28.0
-	layout.Groups = append(layout.Groups, groupPerformances)
-
-	groupEfforts := new(m.Group).Stage(stager.sliderStage)
-	groupEfforts.Name = "Efforts"
-	groupEfforts.Percentage = 28.0
-	layout.Groups = append(layout.Groups, groupEfforts)
 
 	// Find active DiagramFlossEquation & its CompareAnalysis or System
 	var activeCompareAnalysis *CompareAnalysis
@@ -80,18 +57,20 @@ func (stager *Stager) ux_slider() {
 		return min, max, step
 	}
 
+	formGroup := form.NewLiveFormGroup(stager.sliderStage, "Floss Controls")
+
 	if activeDiagram != nil {
+		form.StartAccordion(stager.sliderStage, formGroup, "Diagram", true)
 		min, max, step := getScaleSliderBounds(activeDiagram.Scale)
-		groupDiagram.Sliders = append(
-			groupDiagram.Sliders,
-			m.NewSlider(
-				stager,
-				"Scale",
-				min,
-				max,
-				step,
-				&activeDiagram.Scale,
-			),
+		form.AppendSlider(
+			stager.sliderStage,
+			formGroup,
+			"Scale",
+			min,
+			max,
+			step,
+			&activeDiagram.Scale,
+			stager.OnAfterUpdateSliderElement,
 		)
 	}
 
@@ -173,6 +152,9 @@ func (stager *Stager) ux_slider() {
 		return 0.0, max, 0.1
 	}
 
+	if len(complexities) > 0 {
+		form.StartAccordion(stager.sliderStage, formGroup, "Complexities", true)
+	}
 	for _, c := range complexities {
 		sysOwner := cSysMap[c]
 		if sysOwner == nil && activeSystem != nil {
@@ -183,32 +165,33 @@ func (stager *Stager) ux_slider() {
 			label = fmt.Sprintf("[%s] %s", sysOwner.Name, c.Name)
 		}
 		min, max, step := getSliderBounds(c.Strength)
-		slider := m.NewSlider(
-			stager,
+		field := form.AppendSlider(
+			stager.sliderStage,
+			formGroup,
 			label,
 			min,
 			max,
 			step,
 			&c.Strength,
+			stager.OnAfterUpdateSliderElement,
 		)
 		if isElementDisabled(sysOwner) {
-			slider.IsDisabled = true
+			field.IsDisabled = true
 		}
-		groupComplexities.Sliders = append(groupComplexities.Sliders, slider)
 	}
 
 	// 2. Performances category (Mu + performance elements in slice order)
+	form.StartAccordion(stager.sliderStage, formGroup, "Performances", true)
 	if activeCompareAnalysis != nil {
-		groupPerformances.Sliders = append(
-			groupPerformances.Sliders,
-			m.NewSlider(
-				stager,
-				"Mu (μ)",
-				0.1,
-				5.0,
-				0.1,
-				&activeCompareAnalysis.Mu,
-			),
+		form.AppendSlider(
+			stager.sliderStage,
+			formGroup,
+			"Mu (μ)",
+			0.1,
+			5.0,
+			0.1,
+			&activeCompareAnalysis.Mu,
+			stager.OnAfterUpdateSliderElement,
 		)
 	}
 
@@ -279,32 +262,33 @@ func (stager *Stager) ux_slider() {
 			label = fmt.Sprintf("[%s] %s", sysOwner.Name, p.Name)
 		}
 		min, max, step := getSliderBounds(p.Strength)
-		slider := m.NewSlider(
-			stager,
+		field := form.AppendSlider(
+			stager.sliderStage,
+			formGroup,
 			label,
 			min,
 			max,
 			step,
 			&p.Strength,
+			stager.OnAfterUpdateSliderElement,
 		)
 		if isElementDisabled(sysOwner) {
-			slider.IsDisabled = true
+			field.IsDisabled = true
 		}
-		groupPerformances.Sliders = append(groupPerformances.Sliders, slider)
 	}
 
 	// 3. Efforts category (Epsilon + effort elements in slice order)
+	form.StartAccordion(stager.sliderStage, formGroup, "Efforts", true)
 	if activeCompareAnalysis != nil {
-		groupEfforts.Sliders = append(
-			groupEfforts.Sliders,
-			m.NewSlider(
-				stager,
-				"Epsilon (ε)",
-				0.0,
-				5.0,
-				0.1,
-				&activeCompareAnalysis.Epsilon,
-			),
+		form.AppendSlider(
+			stager.sliderStage,
+			formGroup,
+			"Epsilon (ε)",
+			0.0,
+			5.0,
+			0.1,
+			&activeCompareAnalysis.Epsilon,
+			stager.OnAfterUpdateSliderElement,
 		)
 	}
 
@@ -375,19 +359,22 @@ func (stager *Stager) ux_slider() {
 			label = fmt.Sprintf("[%s] %s", sysOwner.Name, e.Name)
 		}
 		min, max, step := getSliderBounds(e.Strength)
-		slider := m.NewSlider(
-			stager,
+		field := form.AppendSlider(
+			stager.sliderStage,
+			formGroup,
 			label,
 			min,
 			max,
 			step,
 			&e.Strength,
+			stager.OnAfterUpdateSliderElement,
 		)
 		if isElementDisabled(sysOwner) {
-			slider.IsDisabled = true
+			field.IsDisabled = true
 		}
-		groupEfforts.Sliders = append(groupEfforts.Sliders, slider)
 	}
+
+	form.EndAccordion(stager.sliderStage, formGroup)
 
 	stager.sliderStage.Commit()
 }

@@ -216,22 +216,8 @@ func (stager *Stager) createViews() {
 			},
 			{
 				Size: 525,
-				AsSplit: &split.AsSplit{
-					Direction: split.Vertical,
-					AsSplitAreas: []*split.AsSplitArea{
-						{
-							Size: 60,
-							Slider: &split.Slider{
-								StackName: stager.sliderStage.GetName(),
-							},
-						},
-						{
-							Size: 40,
-							Form: &split.Form{
-								StackName: stager.plantFormStage.GetName(),
-							},
-						},
-					},
+				Form: &split.Form{
+					StackName: stager.sliderStage.GetName(),
 				},
 			},
 		},
@@ -301,7 +287,7 @@ func (stager *Stager) createViews() {
 			},
 			{
 				Size: 585,
-				Slider: &split.Slider{
+				Form: &split.Form{
 					StackName: stager.sliderStage.GetName(),
 				},
 			},
@@ -449,7 +435,7 @@ func (stager *Stager) createViews() {
 				},
 				{
 					Size: 525,
-					Slider: &split.Slider{
+					Form: &split.Form{
 						StackName: stager.sliderStage.GetName(),
 					},
 				},
@@ -531,7 +517,7 @@ func (stager *Stager) createViews() {
 				},
 				{
 					Size: 585,
-					Slider: &split.Slider{
+					Form: &split.Form{
 						StackName: stager.sliderStage.GetName(),
 					},
 				},
@@ -615,7 +601,7 @@ func (stager *Stager) createViews() {
 				},
 				{
 					Size: 585,
-					Slider: &split.Slider{
+					Form: &split.Form{
 						StackName: stager.sliderStoolStage.GetName(),
 					},
 				},
@@ -689,7 +675,7 @@ func (stager *Stager) createViews() {
 				},
 				{
 					Size: 585,
-					Slider: &split.Slider{
+					Form: &split.Form{
 						StackName: stager.sliderClockStage.GetName(),
 					},
 				},
@@ -775,7 +761,7 @@ func (stager *Stager) createViews() {
 						AsSplitAreas: []*split.AsSplitArea{
 							{
 								Size: 82,
-								Slider: &split.Slider{
+								Form: &split.Form{
 									StackName: stager.sliderMusicStage.GetName(),
 								},
 							},
@@ -1024,7 +1010,7 @@ func (stager *Stager) createViews() {
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Split: &split.Split{
-					StackName: stager.plantFormStage.GetProbeSplitStageName(),
+					StackName: stager.sliderStage.GetProbeSplitStageName(),
 				},
 			},
 		},

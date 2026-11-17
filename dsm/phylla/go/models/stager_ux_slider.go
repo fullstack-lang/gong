@@ -1,8 +1,51 @@
 package models
 
 import (
-	m "github.com/fullstack-lang/gong/lib/slider/go/models"
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
 )
+
+func appendPlantTypeSelect(stager *Stager, formGroup *form.FormGroup, plant *PlantAbstract) {
+	codes := plant.PlantType.Codes()
+	codeValues := plant.PlantType.CodeValues()
+	currentCode := ""
+	for idx, code := range codes {
+		if codeValues[idx] == plant.PlantType.ToString() {
+			currentCode = code
+			break
+		}
+	}
+
+	form.AppendSelect(
+		stager.sliderStage,
+		formGroup,
+		"PlantType",
+		"Plant Type",
+		codes,
+		currentCode,
+		func(selected string) {
+			var newType PlantType
+			if err := (&newType).FromCodeString(selected); err == nil {
+				if plant.PlantType != newType {
+					plant.PlantType = newType
+					if newType == Stool {
+						if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_STOOL_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+							plant.CurrentView = VIEW_PLANT_2D
+						}
+					} else if newType == Clock {
+						if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_CLOCK_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+							plant.CurrentView = VIEW_PLANT_2D
+						}
+					} else if newType != TubeVase && newType != TrapezeVase {
+						if plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+							plant.CurrentView = VIEW_PLANT_2D
+						}
+					}
+					stager.stage.Commit()
+				}
+			}
+		},
+	)
+}
 
 func (stager *Stager) ux_slider() {
 
@@ -18,512 +61,97 @@ func (stager *Stager) ux_slider() {
 		return
 	}
 
-	layout := new(m.Layout).Stage(stager.sliderStage)
+	formGroup := form.NewLiveFormGroup(stager.sliderStage, "Plant Controls")
+	onUpdate := stager.OnAfterUpdateSliderElement
 
-	group1 := new(m.Group).Stage(stager.sliderStage)
-	group1.Percentage = 65
-	layout.Groups = append(layout.Groups, group1)
-
-	// group1 := new(m.Group).Stage(stager.sliderStage)
-	// group1.Percentage = 25
-	// layout.Groups = append(layout.Groups, group1)
-
-	// group3 := new(m.Group).Stage(stager.sliderStage)
-	// group3.Percentage = 50
-	// layout.Groups = append(layout.Groups, group3)
-
-	{
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"N",
-				1,
-				20,
-				1,
-				&plant.N,
-			),
-		)
-
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"M",
-				1,
-				20,
-				1,
-				&plant.M,
-			),
-		)
-
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Side Length",
-				5,
-				600,
-				5,
-				&plant.RhombusSideLength,
-			),
-		)
-
-		if zoom := stager.getActive2DDiagramZoom(plant); zoom != nil {
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Zoom",
-					0.05,
-					5.0,
-					0.05,
-					zoom,
-				),
-			)
-		}
-
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Inside Angle",
-				0,
-				180,
-				1,
-				&plant.RhombusInsideAngle,
-			),
-		)
-
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Stack Height",
-				0,
-				20,
-				1,
-				&plant.StackHeight,
-			),
-		)
-
-		if plant.CurrentView == VIEW_PLANT_3D {
-			if transparency := stager.getActivePlant3DCylinderTransparency(plant); transparency != nil {
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Cylinder Transparency",
-						0.0,
-						1.0,
-						0.05,
-						transparency,
-					),
-				)
-			}
-		}
-
-		if plant.CurrentView != VIEW_PLANT_2D && (plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze) && plant.TubeVaseAbstract != nil {
-
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Thickness",
-					0.01,
-					0.3,
-					0.01,
-					&plant.TubeVaseAbstract.RelativeVerticalThickness,
-				),
-			)
-
-			if plant.PlantType == TubeVase {
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"2D Separation",
-						0.0,
-						0.1,
-						0.002,
-						&plant.TubeVaseAbstract.RelativeCuttedStackFloorHeight,
-					),
-				)
-			}
-
-			if plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze {
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"3D Separation",
-						0.0,
-						1.0,
-						0.01,
-						&plant.TubeVaseAbstract.RelativeRotatedTorusSeparation,
-					),
-				)
-			}
-
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Radial Thickness",
-					0.01,
-					0.5,
-					0.01,
-					&plant.TubeVaseAbstract.RelativeRadialThickness,
-				),
-			)
-
-			if plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze {
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Rot Ratio",
-						0.0,
-						1.0,
-						0.005,
-						&plant.TubeVaseAbstract.RotationRatio,
-					),
-				)
-			}
-
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Radial Repetition",
-					1,
-					4,
-					1,
-					&plant.TubeVaseAbstract.RadialRepetitions,
-				),
-			)
-
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Transparency",
-					0.0,
-					1.0,
-					0.05,
-					&plant.TubeVaseAbstract.Transparency,
-				),
-			)
-
-			if plant.PlantType == VaseTrapeze {
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Z Ribbon",
-						-2.0,
-						10.0,
-						0.01,
-						&plant.TubeVaseAbstract.Z_Ribbon,
-					),
-					m.NewSlider(
-						stager,
-						"Ribbon Vertical Scale",
-						-5.0,
-						20.0,
-						0.01,
-						&plant.TubeVaseAbstract.RibbonVerticalScale,
-					),
-					m.NewSlider(
-						stager,
-						"Top Plane",
-						-2.0,
-						8.0,
-						0.01,
-						&plant.TubeVaseAbstract.TopPlaneHeight,
-					),
-					m.NewSlider(
-						stager,
-						"Bottom Plane",
-						-2.0,
-						8.0,
-						0.01,
-						&plant.TubeVaseAbstract.BottomPlaneHeight,
-					),
-					m.NewSlider(
-						stager,
-						"Base Ring Bottom Plane",
-						-2.0,
-						8.0,
-						0.01,
-						&plant.TubeVaseAbstract.BaseRingBottomPlaneHeight,
-					),
-					m.NewSlider(
-						stager,
-						"Projection Angle",
-						-90.0,
-						90.0,
-						0.1,
-						&plant.TubeVaseAbstract.ProjectionAngle,
-					),
-					m.NewSlider(
-						stager,
-						"Base Plate Height",
-						0.0,
-						5.0,
-						0.01,
-						&plant.TubeVaseAbstract.BasePlateHeight,
-					),
-					m.NewSlider(
-						stager,
-						"Carved Out Top Rings Parameter",
-						0.0,
-						1.0,
-						0.01,
-						&plant.TubeVaseAbstract.CarvedOutTopRingsParameter,
-					),
-					m.NewSlider(
-						stager,
-						"Bulbous Start Tangent Magnitude",
-						0.0,
-						10.0,
-						0.01,
-						&plant.TubeVaseAbstract.BulbousStartTangentMagnitude,
-					),
-					m.NewSlider(
-						stager,
-						"Bulbous End Angle",
-						-89.0,
-						89.0,
-						1.0,
-						&plant.TubeVaseAbstract.BulbousEndAngle,
-					),
-					m.NewSlider(
-						stager,
-						"Bulbous End Tangent Magnitude",
-						0.0,
-						5.0,
-						0.01,
-						&plant.TubeVaseAbstract.BulbousEndTangentMagnitude,
-					),
-					NewBoolSlider(
-						stager,
-						"Constant Thickness",
-						&plant.TubeVaseAbstract.HasConstantThickness,
-					),
-					NewBoolSlider(
-						stager,
-						"Ring Bottom",
-						&plant.TubeVaseAbstract.HasRingBottom,
-					),
-					NewBoolSlider(
-						stager,
-						"Curved Wall",
-						&plant.TubeVaseAbstract.HasCurvedWall,
-					),
-					m.NewSlider(
-						stager,
-						"Wall Curvature",
-						-1.0,
-						0.0,
-						0.01,
-						&plant.TubeVaseAbstract.WallCurvature,
-					),
-					NewBoolSlider(
-						stager,
-						"Lip",
-						&plant.TubeVaseAbstract.HasLip,
-					),
-					m.NewSlider(
-						stager,
-						"Lip Height",
-						0.01,
-						3.0,
-						0.01,
-						&plant.TubeVaseAbstract.LipHeight,
-					),
-					m.NewSlider(
-						stager,
-						"Lip Width",
-						0.01,
-						1.0,
-						0.01,
-						&plant.TubeVaseAbstract.LipWidth,
-					),
-				)
-			}
-
-			if plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze {
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Color Combination",
-						1,
-						10,
-						1,
-						&plant.TubeVaseAbstract.ColorCombination,
-					),
-				)
-			}
-
-			if plant.PlantType == TubeVase {
-
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Traj offset X",
-						-0.15,
-						0.15,
-						0.001,
-						&plant.TubeVaseAbstract.RelativeTrajectoryOffsetX,
-					),
-				)
-
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Traj offset Y",
-						-0.15,
-						0.15,
-						0.001,
-						&plant.TubeVaseAbstract.RelativeTrajectoryOffsetY,
-					),
-				)
-
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Nb Step P1 P2",
-						1,
-						30,
-						1,
-						&plant.TubeVaseAbstract.NbStepP1P2,
-					),
-				)
-
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Chosen Step",
-						1,
-						plant.TubeVaseAbstract.NbStepP1P2,
-						1,
-						&plant.TubeVaseAbstract.ChosenStep,
-					),
-				)
-
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Horiz Ring Height",
-						0.0,
-						1.0,
-						0.005,
-						&plant.TubeVaseAbstract.RelativeHorizontalRingsHeight,
-					),
-				)
-
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Offset Key X",
-						-500,
-						500,
-						1,
-						&plant.TubeVaseAbstract.OffsetKeyX,
-					),
-				)
-
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Offset Key Y",
-						-500,
-						500,
-						1,
-						&plant.TubeVaseAbstract.OffsetKeyY,
-					),
-				)
-
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Width Key",
-						0,
-						500,
-						1,
-						&plant.TubeVaseAbstract.WidthKey,
-					),
-				)
-
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Height Key",
-						0,
-						500,
-						1,
-						&plant.TubeVaseAbstract.HeightKey,
-					),
-				)
-
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Key Size Reduction",
-						0.0,
-						1.0,
-						0.01,
-						&plant.TubeVaseAbstract.RelativeKeySize,
-					),
-				)
-
-				group1.Sliders = append(
-					group1.Sliders,
-					m.NewSlider(
-						stager,
-						"Movie Nb Frames",
-						0,
-						1000,
-						1,
-						&plant.TubeVaseAbstract.MovieNbFrames,
-					),
-				)
-			}
-		}
-
+	if plant.CurrentView == VIEW_PLANT_2D {
+		appendPlantTypeSelect(stager, formGroup, plant)
 	}
+
+	form.StartAccordion(stager.sliderStage, formGroup, "Plant Lattice", true)
+
+	form.AppendSlider(stager.sliderStage, formGroup, "N", 1, 20, 1, &plant.N, onUpdate)
+	form.AppendSlider(stager.sliderStage, formGroup, "M", 1, 20, 1, &plant.M, onUpdate)
+	form.AppendSlider(stager.sliderStage, formGroup, "Side Length", 5, 600, 5, &plant.RhombusSideLength, onUpdate)
+
+	if zoom := stager.getActive2DDiagramZoom(plant); zoom != nil {
+		form.AppendSlider(stager.sliderStage, formGroup, "Zoom", 0.05, 5.0, 0.05, zoom, onUpdate)
+	}
+
+	form.AppendSlider(stager.sliderStage, formGroup, "Inside Angle", 0, 180, 1, &plant.RhombusInsideAngle, onUpdate)
+	form.AppendSlider(stager.sliderStage, formGroup, "Stack Height", 0, 20, 1, &plant.StackHeight, onUpdate)
+
+	if plant.CurrentView == VIEW_PLANT_3D {
+		if transparency := stager.getActivePlant3DCylinderTransparency(plant); transparency != nil {
+			form.AppendSlider(stager.sliderStage, formGroup, "Cylinder Transparency", 0.0, 1.0, 0.05, transparency, onUpdate)
+		}
+	}
+
+	if plant.CurrentView != VIEW_PLANT_2D && (plant.PlantType == TubeVase || plant.PlantType == VaseTrapeze) && plant.TubeVaseAbstract != nil {
+		form.StartAccordion(stager.sliderStage, formGroup, "Vase Core", true)
+
+		form.AppendSlider(stager.sliderStage, formGroup, "Thickness", 0.01, 0.3, 0.01, &plant.TubeVaseAbstract.RelativeVerticalThickness, onUpdate)
+
+		if plant.PlantType == TubeVase {
+			form.AppendSlider(stager.sliderStage, formGroup, "2D Separation", 0.0, 0.1, 0.002, &plant.TubeVaseAbstract.RelativeCuttedStackFloorHeight, onUpdate)
+		}
+
+		form.AppendSlider(stager.sliderStage, formGroup, "3D Separation", 0.0, 1.0, 0.01, &plant.TubeVaseAbstract.RelativeRotatedTorusSeparation, onUpdate)
+		form.AppendSlider(stager.sliderStage, formGroup, "Radial Thickness", 0.01, 0.5, 0.01, &plant.TubeVaseAbstract.RelativeRadialThickness, onUpdate)
+		form.AppendSlider(stager.sliderStage, formGroup, "Rot Ratio", 0.0, 1.0, 0.005, &plant.TubeVaseAbstract.RotationRatio, onUpdate)
+		form.AppendSlider(stager.sliderStage, formGroup, "Radial Repetition", 1, 4, 1, &plant.TubeVaseAbstract.RadialRepetitions, onUpdate)
+		form.AppendSlider(stager.sliderStage, formGroup, "Transparency", 0.0, 1.0, 0.05, &plant.TubeVaseAbstract.Transparency, onUpdate)
+		form.AppendSlider(stager.sliderStage, formGroup, "Color Combination", 1, 10, 1, &plant.TubeVaseAbstract.ColorCombination, onUpdate)
+
+		if plant.PlantType == VaseTrapeze {
+			form.StartAccordion(stager.sliderStage, formGroup, "Ribbon & Planes", true)
+			form.AppendSlider(stager.sliderStage, formGroup, "Z Ribbon", -2.0, 10.0, 0.01, &plant.TubeVaseAbstract.Z_Ribbon, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Ribbon Vertical Scale", -5.0, 20.0, 0.01, &plant.TubeVaseAbstract.RibbonVerticalScale, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Top Plane", -2.0, 8.0, 0.01, &plant.TubeVaseAbstract.TopPlaneHeight, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Bottom Plane", -2.0, 8.0, 0.01, &plant.TubeVaseAbstract.BottomPlaneHeight, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Base Ring Bottom Plane", -2.0, 8.0, 0.01, &plant.TubeVaseAbstract.BaseRingBottomPlaneHeight, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Projection Angle", -90.0, 90.0, 0.1, &plant.TubeVaseAbstract.ProjectionAngle, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Base Plate Height", 0.0, 5.0, 0.01, &plant.TubeVaseAbstract.BasePlateHeight, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Carved Out Top Rings Parameter", 0.0, 1.0, 0.01, &plant.TubeVaseAbstract.CarvedOutTopRingsParameter, onUpdate)
+
+			form.StartAccordion(stager.sliderStage, formGroup, "Bulbous, Wall & Lip", true)
+			form.AppendSlider(stager.sliderStage, formGroup, "Bulbous Start Tangent Magnitude", 0.0, 10.0, 0.01, &plant.TubeVaseAbstract.BulbousStartTangentMagnitude, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Bulbous End Angle", -89.0, 89.0, 1.0, &plant.TubeVaseAbstract.BulbousEndAngle, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Bulbous End Tangent Magnitude", 0.0, 5.0, 0.01, &plant.TubeVaseAbstract.BulbousEndTangentMagnitude, onUpdate)
+			form.AppendCheckBox(stager.sliderStage, formGroup, "Constant Thickness", &plant.TubeVaseAbstract.HasConstantThickness, onUpdate)
+			form.AppendCheckBox(stager.sliderStage, formGroup, "Ring Bottom", &plant.TubeVaseAbstract.HasRingBottom, onUpdate)
+			form.AppendCheckBox(stager.sliderStage, formGroup, "Curved Wall", &plant.TubeVaseAbstract.HasCurvedWall, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Wall Curvature", -1.0, 0.0, 0.01, &plant.TubeVaseAbstract.WallCurvature, onUpdate)
+			form.AppendCheckBox(stager.sliderStage, formGroup, "Lip", &plant.TubeVaseAbstract.HasLip, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Lip Height", 0.01, 3.0, 0.01, &plant.TubeVaseAbstract.LipHeight, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Lip Width", 0.01, 1.0, 0.01, &plant.TubeVaseAbstract.LipWidth, onUpdate)
+		}
+
+		if plant.PlantType == TubeVase {
+			form.StartAccordion(stager.sliderStage, formGroup, "Trajectory, Key & Movie", true)
+			form.AppendSlider(stager.sliderStage, formGroup, "Traj offset X", -0.15, 0.15, 0.001, &plant.TubeVaseAbstract.RelativeTrajectoryOffsetX, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Traj offset Y", -0.15, 0.15, 0.001, &plant.TubeVaseAbstract.RelativeTrajectoryOffsetY, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Nb Step P1 P2", 1, 30, 1, &plant.TubeVaseAbstract.NbStepP1P2, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Chosen Step", 1, plant.TubeVaseAbstract.NbStepP1P2, 1, &plant.TubeVaseAbstract.ChosenStep, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Horiz Ring Height", 0.0, 1.0, 0.005, &plant.TubeVaseAbstract.RelativeHorizontalRingsHeight, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Offset Key X", -500, 500, 1, &plant.TubeVaseAbstract.OffsetKeyX, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Offset Key Y", -500, 500, 1, &plant.TubeVaseAbstract.OffsetKeyY, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Width Key", 0, 500, 1, &plant.TubeVaseAbstract.WidthKey, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Height Key", 0, 500, 1, &plant.TubeVaseAbstract.HeightKey, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Key Size Reduction", 0.0, 1.0, 0.01, &plant.TubeVaseAbstract.RelativeKeySize, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Movie Nb Frames", 0, 1000, 1, &plant.TubeVaseAbstract.MovieNbFrames, onUpdate)
+		}
+	}
+
+	form.EndAccordion(stager.sliderStage, formGroup)
 
 	stager.sliderStage.Commit()
 }
 
-type SliderStageTarget struct {
-	stager      *Stager
-	sliderStage *m.Stage
-}
-
-func (t *SliderStageTarget) GetSliderStage() *m.Stage {
-	return t.sliderStage
-}
-
-func (t *SliderStageTarget) OnAfterUpdateSliderElement() {
-	t.stager.OnAfterUpdateSliderElement()
-}
-
 func appendCommonCylinderSliders(
-	target m.Target,
-	group *m.Group,
+	stage *form.Stage,
+	formGroup *form.FormGroup,
+	onUpdate func(),
 	plant *PlantAbstract,
 	radialReps *int,
 	transparency *float64,
@@ -533,105 +161,18 @@ func appendCommonCylinderSliders(
 	relHeight *float64,
 	projAngle *float64,
 ) {
-	group.Sliders = append(
-		group.Sliders,
-		m.NewSlider(
-			target,
-			"N",
-			1,
-			20,
-			1,
-			&plant.N,
-		),
-		m.NewSlider(
-			target,
-			"M",
-			1,
-			20,
-			1,
-			&plant.M,
-		),
-		m.NewSlider(
-			target,
-			"Side Length",
-			5,
-			600,
-			5,
-			&plant.RhombusSideLength,
-		),
-		m.NewSlider(
-			target,
-			"Inside Angle",
-			0,
-			180,
-			1,
-			&plant.RhombusInsideAngle,
-		),
-		m.NewSlider(
-			target,
-			"Stack Height",
-			0,
-			20,
-			1,
-			&plant.StackHeight,
-		),
-		m.NewSlider(
-			target,
-			"Radial Repetition",
-			1,
-			10,
-			1,
-			radialReps,
-		),
-		m.NewSlider(
-			target,
-			"Transparency",
-			0.0,
-			1.0,
-			0.05,
-			transparency,
-		),
-		m.NewSlider(
-			target,
-			"Tube Rel Diameter",
-			0.005,
-			0.1,
-			0.001,
-			relTubeDiam,
-		),
-		m.NewSlider(
-			target,
-			"Rel Height 3D Torus",
-			0.0,
-			6.0,
-			0.01,
-			relHeight3DTorus,
-		),
-		m.NewSlider(
-			target,
-			"Torus Vert Scale",
-			0.0,
-			5.0,
-			0.01,
-			torusVertScale,
-		),
-		m.NewSlider(
-			target,
-			"Rel Height",
-			0.0,
-			6.0,
-			0.01,
-			relHeight,
-		),
-		m.NewSlider(
-			target,
-			"Projection Angle",
-			0.0,
-			45,
-			0.1,
-			projAngle,
-		),
-	)
+	form.AppendSlider(stage, formGroup, "N", 1, 20, 1, &plant.N, onUpdate)
+	form.AppendSlider(stage, formGroup, "M", 1, 20, 1, &plant.M, onUpdate)
+	form.AppendSlider(stage, formGroup, "Side Length", 5, 600, 5, &plant.RhombusSideLength, onUpdate)
+	form.AppendSlider(stage, formGroup, "Inside Angle", 0, 180, 1, &plant.RhombusInsideAngle, onUpdate)
+	form.AppendSlider(stage, formGroup, "Stack Height", 0, 20, 1, &plant.StackHeight, onUpdate)
+	form.AppendSlider(stage, formGroup, "Radial Repetition", 1, 10, 1, radialReps, onUpdate)
+	form.AppendSlider(stage, formGroup, "Transparency", 0.0, 1.0, 0.05, transparency, onUpdate)
+	form.AppendSlider(stage, formGroup, "Tube Rel Diameter", 0.005, 0.1, 0.001, relTubeDiam, onUpdate)
+	form.AppendSlider(stage, formGroup, "Rel Height 3D Torus", 0.0, 6.0, 0.01, relHeight3DTorus, onUpdate)
+	form.AppendSlider(stage, formGroup, "Torus Vert Scale", 0.0, 5.0, 0.01, torusVertScale, onUpdate)
+	form.AppendSlider(stage, formGroup, "Rel Height", 0.0, 6.0, 0.01, relHeight, onUpdate)
+	form.AppendSlider(stage, formGroup, "Projection Angle", 0.0, 45.0, 0.1, projAngle, onUpdate)
 }
 
 func (stager *Stager) ux_slider_stool() {
@@ -647,17 +188,14 @@ func (stager *Stager) ux_slider_stool() {
 		return
 	}
 
-	layout := new(m.Layout).Stage(stager.sliderStoolStage)
+	formGroup := form.NewLiveFormGroup(stager.sliderStoolStage, "Stool Controls")
+	onUpdate := stager.OnAfterUpdateSliderElement
 
-	group1 := new(m.Group).Stage(stager.sliderStoolStage)
-	group1.Percentage = 65
-	layout.Groups = append(layout.Groups, group1)
-
-	target := &SliderStageTarget{stager: stager, sliderStage: stager.sliderStoolStage}
-
+	form.StartAccordion(stager.sliderStoolStage, formGroup, "Plant Lattice & Cylinder", true)
 	appendCommonCylinderSliders(
-		target,
-		group1,
+		stager.sliderStoolStage,
+		formGroup,
+		onUpdate,
 		plant,
 		&plant.StoolAbstract.RadialRepetitions,
 		&plant.StoolAbstract.Transparency,
@@ -668,33 +206,11 @@ func (stager *Stager) ux_slider_stool() {
 		&plant.StoolAbstract.ProjectionAngle,
 	)
 
-	group1.Sliders = append(
-		group1.Sliders,
-		m.NewSlider(
-			target,
-			"Rel Seat Thickness",
-			0.01,
-			1.0,
-			0.01,
-			&plant.StoolAbstract.RelativeSeatThickness,
-		),
-		m.NewSlider(
-			target,
-			"Rel Eye Separation",
-			0.0,
-			0.5,
-			0.005,
-			&plant.StoolAbstract.RelativeEyeSeparationCriteria,
-		),
-		m.NewSlider(
-			target,
-			"Rel Eye Corner Strength",
-			0.0,
-			2.0,
-			0.01,
-			&plant.StoolAbstract.RelativeEyeCornerControlVectorStrength,
-		),
-	)
+	form.StartAccordion(stager.sliderStoolStage, formGroup, "Seat & Eye", true)
+	form.AppendSlider(stager.sliderStoolStage, formGroup, "Rel Seat Thickness", 0.01, 1.0, 0.01, &plant.StoolAbstract.RelativeSeatThickness, onUpdate)
+	form.AppendSlider(stager.sliderStoolStage, formGroup, "Rel Eye Separation", 0.0, 0.5, 0.005, &plant.StoolAbstract.RelativeEyeSeparationCriteria, onUpdate)
+	form.AppendSlider(stager.sliderStoolStage, formGroup, "Rel Eye Corner Strength", 0.0, 2.0, 0.01, &plant.StoolAbstract.RelativeEyeCornerControlVectorStrength, onUpdate)
+	form.EndAccordion(stager.sliderStoolStage, formGroup)
 
 	stager.sliderStoolStage.Commit()
 }
@@ -712,17 +228,12 @@ func (stager *Stager) ux_slider_clock() {
 		return
 	}
 
-	layout := new(m.Layout).Stage(stager.sliderClockStage)
-
-	group1 := new(m.Group).Stage(stager.sliderClockStage)
-	group1.Percentage = 65
-	layout.Groups = append(layout.Groups, group1)
-
-	target := &SliderStageTarget{stager: stager, sliderStage: stager.sliderClockStage}
-
+	formGroup := form.NewLiveFormGroup(stager.sliderClockStage, "Clock Controls")
+	form.StartAccordion(stager.sliderClockStage, formGroup, "Plant Lattice & Cylinder", true)
 	appendCommonCylinderSliders(
-		target,
-		group1,
+		stager.sliderClockStage,
+		formGroup,
+		stager.OnAfterUpdateSliderElement,
 		plant,
 		&plant.ClockAbstract.RadialRepetitions,
 		&plant.ClockAbstract.Transparency,
@@ -732,6 +243,7 @@ func (stager *Stager) ux_slider_clock() {
 		&plant.ClockAbstract.RelativeHeight,
 		&plant.ClockAbstract.ProjectionAngle,
 	)
+	form.EndAccordion(stager.sliderClockStage, formGroup)
 
 	stager.sliderClockStage.Commit()
 }
@@ -751,44 +263,6 @@ func (stager *Stager) OnAfterUpdateSliderElement() {
 
 	stager.stage.CommitWithSuspendedCallbacks()
 	stager.button()
-}
-
-type BoolSliderProxy struct {
-	slider *m.Slider
-	Value  *bool
-	stager *Stager
-}
-
-func (proxy *BoolSliderProxy) Updated() {
-	*proxy.Value = (proxy.slider.ValueInt != 0)
-	proxy.stager.OnAfterUpdateSliderElement()
-}
-
-func NewBoolSlider(
-	stager *Stager,
-	name string,
-	valueRef *bool,
-) *m.Slider {
-	slider := new(m.Slider).Stage(stager.sliderStage)
-	slider.Name = name
-	slider.IsInt = true
-	slider.MinInt = 0
-	slider.MaxInt = 1
-	slider.StepInt = 1
-	if *valueRef {
-		slider.ValueInt = 1
-	} else {
-		slider.ValueInt = 0
-	}
-
-	proxy := &BoolSliderProxy{
-		slider: slider,
-		Value:  valueRef,
-		stager: stager,
-	}
-
-	slider.Proxy = proxy
-	return slider
 }
 
 func getActive2DDiagramZoom(plant *PlantAbstract) *float64 {

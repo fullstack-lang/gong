@@ -11,9 +11,6 @@ import (
 	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 
-	slider "github.com/fullstack-lang/gong/lib/slider/go/models"
-	slider_stack "github.com/fullstack-lang/gong/lib/slider/go/stack"
-
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 
@@ -79,11 +76,10 @@ type Stager struct {
 
 	treeStage2D      *tree.Stage
 	treeStage3D      *tree.Stage
-	sliderStage      *slider.Stage
-	sliderStoolStage *slider.Stage
-	sliderClockStage *slider.Stage
-	sliderMusicStage *slider.Stage
-	plantFormStage   *form.Stage
+	sliderStage      *form.Stage
+	sliderStoolStage *form.Stage
+	sliderClockStage *form.Stage
+	sliderMusicStage *form.Stage
 	ssgStage         *ssg.Stage // mandatory
 	svgPlantStage    *svg.Stage
 	svgVaseStage     *svg.Stage
@@ -147,10 +143,10 @@ func NewStager(
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
 	stager.loadStageMultistage, _ = load_fullstack.NewStackInstance(r, "multistage")
-	stager.sliderStage = slider_stack.NewStack(r, "", "", "", "", true, true).Stage
-	stager.sliderStoolStage = slider_stack.NewStack(r, "sliderStoolStage", "", "", "", true, true).Stage
-	stager.sliderClockStage = slider_stack.NewStack(r, "sliderClockStage", "", "", "", true, true).Stage
-	stager.sliderMusicStage = slider_stack.NewStack(r, "sliderMusicStage", "", "", "", true, true).Stage
+	stager.sliderStage = form_stack.NewStack(r, "plantFormStage", "", "", "", true, true).Stage
+	stager.sliderStoolStage = form_stack.NewStack(r, "sliderStoolStage", "", "", "", true, true).Stage
+	stager.sliderClockStage = form_stack.NewStack(r, "sliderClockStage", "", "", "", true, true).Stage
+	stager.sliderMusicStage = form_stack.NewStack(r, "sliderMusicStage", "", "", "", true, true).Stage
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
 	stager.svgPlantStage = svg_stack.NewStack(r, "svgPlantStage", "", "", "", true, true).Stage
@@ -171,8 +167,6 @@ func NewStager(
 
 	stager.treeStage2D = tree_stack.NewStack(r, "treeStage2D", "", "", "", true, true).Stage
 	stager.treeStage3D = tree_stack.NewStack(r, "treeStage3D", "", "", "", true, true).Stage
-	stager.plantFormStage = form_stack.NewStack(r, "plantFormStage", "", "", "", true, true).Stage
-	stager.plantFormStage.SetOrchestratorOnAfterUpdate[form.FormGroup]()
 
 	stager.createViews()
 
@@ -191,7 +185,6 @@ func NewStager(
 		stager.ux_slider_clock()
 		stager.ux_slider_music()
 		stager.ux_button_music()
-		stager.ux_plant_form()
 		stager.ux_svg_plant_diagram()
 		stager.ux_svg_music()
 		stager.ux_tone_music()
@@ -323,7 +316,7 @@ func (stager *Stager) SetCurrentPlant(plant *PlantAbstract) {
 	stager.selectedPlant = plant
 }
 
-func (stager *Stager) GetSliderStage() *slider.Stage {
+func (stager *Stager) GetSliderStage() *form.Stage {
 	return stager.sliderStage
 }
 
@@ -339,7 +332,7 @@ func (stager *Stager) GetStool3dStage() *threejs.Stage {
 	return stager.stool3dStage
 }
 
-func (stager *Stager) GetSliderStoolStage() *slider.Stage {
+func (stager *Stager) GetSliderStoolStage() *form.Stage {
 	return stager.sliderStoolStage
 }
 
@@ -357,7 +350,7 @@ func (stager *Stager) GetClock3dStage() *threejs.Stage {
 	return stager.clock3dStage
 }
 
-func (stager *Stager) GetSliderClockStage() *slider.Stage {
+func (stager *Stager) GetSliderClockStage() *form.Stage {
 	return stager.sliderClockStage
 }
 

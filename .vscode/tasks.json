@@ -2020,36 +2020,6 @@
             ]
         },
         {
-            "label": "lib - slider: gong generate slider",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/slider"
-            },
-            "command": "gong",
-            "group": "build",
-            "args": [
-                "generate",
-                "--skipGoModCommands",
-                "--skipNpmWorkspaces",
-                "--skipNpmInstall",
-                "--stack-height=4",
-                "go/models"
-            ]
-        },
-        {
-            "label": "lib - slider: ng serve slider",
-            "type": "shell",
-            "options": {
-                "cwd": "lib/slider/ng-github.com-fullstack-lang-gong-lib-slider"
-            },
-            "command": "ng",
-            "group": "build",
-            "args": [
-                "serve",
-                ""
-            ]
-        },
-        {
             "label": "lib - split: go run . edit data/stage.go --out data/stage",
             "type": "shell",
             "options": {

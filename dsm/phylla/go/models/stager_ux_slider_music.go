@@ -1,7 +1,7 @@
 package models
 
 import (
-	m "github.com/fullstack-lang/gong/lib/slider/go/models"
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
 )
 
 func (stager *Stager) ux_slider_music() {
@@ -17,175 +17,35 @@ func (stager *Stager) ux_slider_music() {
 		return
 	}
 
-	layout := new(m.Layout).Stage(stager.sliderMusicStage)
-
-	group1 := new(m.Group).Stage(stager.sliderMusicStage)
-	group1.Percentage = 25
-	layout.Groups = append(layout.Groups, group1)
-
-	group2 := new(m.Group).Stage(stager.sliderMusicStage)
-	group2.Percentage = 25
-	layout.Groups = append(layout.Groups, group2)
-
-	group3 := new(m.Group).Stage(stager.sliderMusicStage)
-	group3.Percentage = 50
-	layout.Groups = append(layout.Groups, group3)
-
-	target := &SliderStageTarget{stager: stager, sliderStage: stager.sliderMusicStage}
+	formGroup := form.NewLiveFormGroup(stager.sliderMusicStage, "Music Controls")
+	onUpdate := stager.OnAfterUpdateSliderElement
 
 	// Group 1: Score Navigation & Scale (Origin X, Y and Scale)
-	group1.Sliders = append(
-		group1.Sliders,
-		m.NewSlider(
-			target,
-			"Score Scale",
-			0.1,
-			3.0,
-			0.05,
-			&plant.MusicAbstract.ScoreScale,
-		),
-		m.NewSlider(
-			target,
-			"Score X",
-			-500,
-			2000,
-			10,
-			&plant.MusicAbstract.OriginX,
-		),
-		m.NewSlider(
-			target,
-			"Score Y",
-			0,
-			3000,
-			20,
-			&plant.MusicAbstract.OriginY,
-		),
-		m.NewSlider(
-			target,
-			"Side Length",
-			5,
-			600,
-			5,
-			&plant.RhombusSideLength,
-		),
-	)
+	form.StartAccordion(stager.sliderMusicStage, formGroup, "Score Navigation & Scale", true)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "Score Scale", 0.1, 3.0, 0.05, &plant.MusicAbstract.ScoreScale, onUpdate)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "Score X", -500.0, 2000.0, 10.0, &plant.MusicAbstract.OriginX, onUpdate)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "Score Y", 0.0, 3000.0, 20.0, &plant.MusicAbstract.OriginY, onUpdate)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "Side Length", 5, 600, 5, &plant.RhombusSideLength, onUpdate)
 
 	// Group 2: Plant geometry & lattice parameters
-	group2.Sliders = append(
-		group2.Sliders,
-		m.NewSlider(
-			target,
-			"N",
-			1,
-			20,
-			1,
-			&plant.N,
-		),
-		m.NewSlider(
-			target,
-			"M",
-			1,
-			20,
-			1,
-			&plant.M,
-		),
-		m.NewSlider(
-			target,
-			"Inside Angle",
-			0,
-			180,
-			1,
-			&plant.RhombusInsideAngle,
-		),
-		m.NewSlider(
-			target,
-			"Bezier Strength",
-			0,
-			4,
-			0.01,
-			&plant.MusicAbstract.BezierControlLengthRatio,
-		),
-	)
+	form.StartAccordion(stager.sliderMusicStage, formGroup, "Plant Lattice", true)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "N", 1, 20, 1, &plant.N, onUpdate)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "M", 1, 20, 1, &plant.M, onUpdate)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "Inside Angle", 0, 180, 1, &plant.RhombusInsideAngle, onUpdate)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "Bezier Strength", 0.0, 4.0, 0.01, &plant.MusicAbstract.BezierControlLengthRatio, onUpdate)
 
 	// Group 3: Music composition parameters (matching phyllotaxymusic)
-	group3.Sliders = append(
-		group3.Sliders,
-		m.NewSlider(
-			target,
-			"Pitch Height",
-			0.001,
-			0.3,
-			0.001,
-			&plant.MusicAbstract.PitchHeight,
-		),
-		m.NewSlider(
-			target,
-			"Nb Beats in Theme",
-			1,
-			64,
-			1,
-			&plant.MusicAbstract.NbOfBeatsInTheme,
-		),
-		m.NewSlider(
-			target,
-			"BeatsPerSecond",
-			0.1,
-			20,
-			0.05,
-			&plant.MusicAbstract.BeatsPerSecond,
-		),
-		m.NewSlider(
-			target,
-			"1st voice X",
-			-1,
-			1,
-			0.01,
-			&plant.MusicAbstract.FirstVoiceShiftX,
-		),
-		m.NewSlider(
-			target,
-			"1st voice Y",
-			-1,
-			4,
-			0.01,
-			&plant.MusicAbstract.FirstVoiceShiftY,
-		),
-		m.NewSlider(
-			target,
-			"2nd voice pitch diff",
-			-12,
-			24,
-			1,
-			&plant.MusicAbstract.PitchDifference,
-		),
-		m.NewSlider(
-			target,
-			"Level",
-			0,
-			20,
-			0.1,
-			&plant.MusicAbstract.Level,
-		),
-		m.NewSlider(
-			target,
-			"Actual Beats Shift",
-			0,
-			20,
-			1,
-			&plant.MusicAbstract.ActualBeatsTemporalShift,
-		),
-	)
-
-	group3.Checkboxes = append(
-		group3.Checkboxes,
-		m.NewCheckbox(
-			target,
-			"Scale",
-			"Minor",
-			"Major",
-			&plant.MusicAbstract.IsMinor,
-		),
-	)
+	form.StartAccordion(stager.sliderMusicStage, formGroup, "Music Composition", true)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "Pitch Height", 0.001, 0.3, 0.001, &plant.MusicAbstract.PitchHeight, onUpdate)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "Nb Beats in Theme", 1, 64, 1, &plant.MusicAbstract.NbOfBeatsInTheme, onUpdate)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "BeatsPerSecond", 0.1, 20.0, 0.05, &plant.MusicAbstract.BeatsPerSecond, onUpdate)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "1st voice X", -1.0, 1.0, 0.01, &plant.MusicAbstract.FirstVoiceShiftX, onUpdate)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "1st voice Y", -1.0, 4.0, 0.01, &plant.MusicAbstract.FirstVoiceShiftY, onUpdate)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "2nd voice pitch diff", -12, 24, 1, &plant.MusicAbstract.PitchDifference, onUpdate)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "Level", 0.0, 20.0, 0.1, &plant.MusicAbstract.Level, onUpdate)
+	form.AppendSlider(stager.sliderMusicStage, formGroup, "Actual Beats Shift", 0, 20, 1, &plant.MusicAbstract.ActualBeatsTemporalShift, onUpdate)
+	form.AppendRadioCheckBox(stager.sliderMusicStage, formGroup, "Scale", "Minor", "Major", &plant.MusicAbstract.IsMinor, onUpdate)
+	form.EndAccordion(stager.sliderMusicStage, formGroup)
 
 	stager.sliderMusicStage.Commit()
 }

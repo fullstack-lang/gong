@@ -73,7 +73,7 @@ func (stager *Stager) createViews() {
 					AsSplitAreas: []*split.AsSplitArea{
 						{
 							Size: 55,
-							Slider: &split.Slider{
+							Form: &split.Form{
 								StackName: stager.sliderStage.GetName(),
 							},
 						},

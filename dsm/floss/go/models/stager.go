@@ -24,9 +24,6 @@ import (
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
 	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
 
-	slider "github.com/fullstack-lang/gong/lib/slider/go/models"
-	slider_stack "github.com/fullstack-lang/gong/lib/slider/go/stack"
-
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	form_stack "github.com/fullstack-lang/gong/lib/form/go/stack"
 )
@@ -39,7 +36,7 @@ type Stager struct {
 	treeStage             *tree.Stage
 	systemDiagramSvgStage *svg.Stage
 	flossDiagramSvgStage  *svg.Stage
-	sliderStage           *slider.Stage
+	sliderStage           *form.Stage
 	ssgStage              *ssg.Stage
 	loadStage             *load.Stage
 	loadStageMultistage   *load.Stage
@@ -73,7 +70,7 @@ func NewStager(
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
 	stager.systemDiagramSvgStage = svg_stack.NewStack(r, "system diagram svg", "", "", "", true, true).Stage
 	stager.flossDiagramSvgStage = svg_stack.NewStack(r, "floss diagram svg", "", "", "", true, true).Stage
-	stager.sliderStage = slider_stack.NewStack(r, "floss sliders", "", "", "", true, true).Stage
+	stager.sliderStage = form_stack.NewStack(r, "floss sliders", "", "", "", true, true).Stage
 	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
 	stager.loadStageMultistage, _ = load_fullstack.NewStackInstance(r, "multistage")
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
@@ -102,12 +99,6 @@ func NewStager(
 	return stager
 }
 
-var _ slider.Target = (*Stager)(nil)
-
-func (stager *Stager) GetSliderStage() *slider.Stage {
-	return stager.sliderStage
-}
-
 func (stager *Stager) OnAfterUpdateSliderElement() {
 	stager.enforceSemantic()
 	stager.svg()
@@ -121,4 +112,8 @@ func (stager *Stager) GetSvgObject() *svg.SVG {
 
 func (stager *Stager) GetShapeFormStage() *form.Stage {
 	return stager.shapeFormStage
+}
+
+func (stager *Stager) GetSliderStage() *form.Stage {
+	return stager.sliderStage
 }
