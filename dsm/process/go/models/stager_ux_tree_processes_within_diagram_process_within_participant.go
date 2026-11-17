@@ -7,13 +7,13 @@ import (
 func (stager *Stager) treeProcessesWithinDiagramProcessWithinParticipant(
 	diagramProcess *DiagramProcess,
 	process *Process,
-	participant *Participant,
+	externalParticipant *ExternalParticipant,
 	parentNode *tree.Node) {
 
 	stage := stager.stage
 	key := allocatedProcessShapeKey{
-		participant: participant,
-		process:     process,
+		externalParticipant: externalParticipant,
+		process:             process,
 	}
 	allocatedProcessShape, ok := diagramProcess.map_AllocatedProcessShapeKey_AllocatedProcessShape[key]
 
@@ -33,9 +33,9 @@ func (stager *Stager) treeProcessesWithinDiagramProcessWithinParticipant(
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !ok {
 			allocatedProcessShape = (&AllocatedProcessShape{
-				Name:        diagramProcess.GetName() + "-" + participant.GetName() + "-" + process.GetName(),
-				Participant: participant,
-				Process:     process,
+				Name:                diagramProcess.GetName() + "-" + externalParticipant.GetName() + "-" + process.GetName(),
+				ExternalParticipant: externalParticipant,
+				Process:             process,
 			}).Stage(stage)
 			diagramProcess.AllocatedProcessShapes = append(diagramProcess.AllocatedProcessShapes, allocatedProcessShape)
 			stage.Commit()

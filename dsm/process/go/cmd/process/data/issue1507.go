@@ -254,7 +254,6 @@ The Angular frontend can stay bound to Commit #1's FormFieldFloat64 IDs while th
 	__models__Participant__00000000_.IsProcessResource = false
 	__models__Participant__00000000_.Description = ``
 	__models__Participant__00000000_.IsResourcesNodeExpanded = false
-	__models__Participant__00000000_.IsProcessesNodeExpanded = false
 	__models__Participant__00000000_.ComputedPrefix = ``
 	__models__Participant__00000000_.IsExpanded = false
 	__models__Participant__00000000_.IsTasksNodeExpanded = true
@@ -264,7 +263,6 @@ The Angular frontend can stay bound to Commit #1's FormFieldFloat64 IDs while th
 	__models__Participant__00000001_.IsProcessResource = false
 	__models__Participant__00000001_.Description = ``
 	__models__Participant__00000001_.IsResourcesNodeExpanded = false
-	__models__Participant__00000001_.IsProcessesNodeExpanded = false
 	__models__Participant__00000001_.ComputedPrefix = ``
 	__models__Participant__00000001_.IsExpanded = false
 	__models__Participant__00000001_.IsTasksNodeExpanded = true
@@ -274,7 +272,6 @@ The Angular frontend can stay bound to Commit #1's FormFieldFloat64 IDs while th
 	__models__Participant__00000002_.IsProcessResource = false
 	__models__Participant__00000002_.Description = ``
 	__models__Participant__00000002_.IsResourcesNodeExpanded = false
-	__models__Participant__00000002_.IsProcessesNodeExpanded = false
 	__models__Participant__00000002_.ComputedPrefix = ``
 	__models__Participant__00000002_.IsExpanded = false
 	__models__Participant__00000002_.IsTasksNodeExpanded = true
@@ -284,7 +281,6 @@ The Angular frontend can stay bound to Commit #1's FormFieldFloat64 IDs while th
 	__models__Participant__00000003_.IsProcessResource = false
 	__models__Participant__00000003_.Description = ``
 	__models__Participant__00000003_.IsResourcesNodeExpanded = false
-	__models__Participant__00000003_.IsProcessesNodeExpanded = false
 	__models__Participant__00000003_.ComputedPrefix = ``
 	__models__Participant__00000003_.IsExpanded = false
 	__models__Participant__00000003_.IsTasksNodeExpanded = true

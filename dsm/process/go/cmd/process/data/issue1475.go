@@ -163,7 +163,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Participant__00000000_.IsProcessResource = false
 	__stage_0__Participant__00000000_.Description = ``
 	__stage_0__Participant__00000000_.IsResourcesNodeExpanded = false
-	__stage_0__Participant__00000000_.IsProcessesNodeExpanded = false
 	__stage_0__Participant__00000000_.ComputedPrefix = ``
 	__stage_0__Participant__00000000_.IsExpanded = false
 	__stage_0__Participant__00000000_.IsTasksNodeExpanded = true
@@ -173,7 +172,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Participant__00000001_.IsProcessResource = false
 	__stage_0__Participant__00000001_.Description = ``
 	__stage_0__Participant__00000001_.IsResourcesNodeExpanded = false
-	__stage_0__Participant__00000001_.IsProcessesNodeExpanded = false
 	__stage_0__Participant__00000001_.ComputedPrefix = ``
 	__stage_0__Participant__00000001_.IsExpanded = false
 	__stage_0__Participant__00000001_.IsTasksNodeExpanded = true
@@ -183,7 +181,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Participant__00000002_.IsProcessResource = false
 	__stage_0__Participant__00000002_.Description = ``
 	__stage_0__Participant__00000002_.IsResourcesNodeExpanded = false
-	__stage_0__Participant__00000002_.IsProcessesNodeExpanded = false
 	__stage_0__Participant__00000002_.ComputedPrefix = ``
 	__stage_0__Participant__00000002_.IsExpanded = false
 	__stage_0__Participant__00000002_.IsTasksNodeExpanded = true
@@ -193,7 +190,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Participant__00000003_.IsProcessResource = false
 	__stage_0__Participant__00000003_.Description = ``
 	__stage_0__Participant__00000003_.IsResourcesNodeExpanded = false
-	__stage_0__Participant__00000003_.IsProcessesNodeExpanded = false
 	__stage_0__Participant__00000003_.ComputedPrefix = ``
 	__stage_0__Participant__00000003_.IsExpanded = false
 	__stage_0__Participant__00000003_.IsTasksNodeExpanded = true
@@ -324,16 +320,16 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__DataFlow__00000000_.Datas = append(__stage_0__DataFlow__00000000_.Datas, __stage_0__Data__00000000_)
 	__stage_0__DataFlow__00000000_.StartTask = __stage_0__Task__00000000_
 	__stage_0__DataFlow__00000000_.EndTask = __stage_0__Task__00000001_
-	__stage_0__DataFlow__00000000_.StartExternalParticipant = nil
-	__stage_0__DataFlow__00000000_.EndExternalParticipant = nil
+	__stage_0__DataFlow__00000000_.StartParticipant = nil
+	__stage_0__DataFlow__00000000_.EndParticipant = nil
 	__stage_0__DataFlow__00000001_.StartTask = __stage_0__Task__00000002_
 	__stage_0__DataFlow__00000001_.EndTask = __stage_0__Task__00000003_
-	__stage_0__DataFlow__00000001_.StartExternalParticipant = nil
-	__stage_0__DataFlow__00000001_.EndExternalParticipant = nil
+	__stage_0__DataFlow__00000001_.StartParticipant = nil
+	__stage_0__DataFlow__00000001_.EndParticipant = nil
 	__stage_0__DataFlow__00000002_.StartTask = __stage_0__Task__00000002_
 	__stage_0__DataFlow__00000002_.EndTask = __stage_0__Task__00000004_
-	__stage_0__DataFlow__00000002_.StartExternalParticipant = nil
-	__stage_0__DataFlow__00000002_.EndExternalParticipant = nil
+	__stage_0__DataFlow__00000002_.StartParticipant = nil
+	__stage_0__DataFlow__00000002_.EndParticipant = nil
 	__stage_0__DataFlowShape__00000000_.DataFlow = __stage_0__DataFlow__00000000_
 	__stage_0__DataFlowShape__00000001_.DataFlow = __stage_0__DataFlow__00000001_
 	__stage_0__DataFlowShape__00000002_.DataFlow = __stage_0__DataFlow__00000002_

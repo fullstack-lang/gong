@@ -6,8 +6,11 @@ func (stager *Stager) computeParticipantFields() {
 	// reset fields
 	for _, participant := range stage.GetInstancesSorted[*Participant]() {
 		participant.owningProcess = nil
-		participant.inDataFlows = nil
-		participant.outDataFlows = nil
+	}
+	for _, externalParticipant := range stage.GetInstancesSorted[*ExternalParticipant]() {
+		externalParticipant.owningProcess = nil
+		externalParticipant.inDataFlows = nil
+		externalParticipant.outDataFlows = nil
 	}
 
 	// compute owningProcess
@@ -25,10 +28,10 @@ func (stager *Stager) computeParticipantFields() {
 	}
 
 	for _, dataFlow := range stage.GetInstancesSorted[*DataFlow]() {
-		if startExternalParticipant := dataFlow.StartExternalParticipant; startExternalParticipant != nil {
+		if startExternalParticipant := dataFlow.StartParticipant; startExternalParticipant != nil {
 			startExternalParticipant.outDataFlows = append(startExternalParticipant.outDataFlows, dataFlow)
 		}
-		if endExternalParticipant := dataFlow.EndExternalParticipant; endExternalParticipant != nil {
+		if endExternalParticipant := dataFlow.EndParticipant; endExternalParticipant != nil {
 			endExternalParticipant.inDataFlows = append(endExternalParticipant.inDataFlows, dataFlow)
 		}
 	}

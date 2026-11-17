@@ -35,6 +35,7 @@ func (stager *Stager) exportWebsite() {
 
 	appendWebExportableChapter(stager, refChapter, "Processes", stager.stage.GetInstancesSorted[*Process]())
 	appendWebExportableChapter(stager, refChapter, "Participants", stager.stage.GetInstancesSorted[*Participant]())
+	appendWebExportableChapter(stager, refChapter, "External Participants", stager.stage.GetInstancesSorted[*ExternalParticipant]())
 	appendWebExportableChapter(stager, refChapter, "Tasks", stager.stage.GetInstancesSorted[*Task]())
 	appendWebExportableChapter(stager, refChapter, "Control Flows", stager.stage.GetInstancesSorted[*ControlFlow]())
 	appendWebExportableChapter(stager, refChapter, "Data Flows", stager.stage.GetInstancesSorted[*DataFlow]())
@@ -183,6 +184,15 @@ func (inst *Participant) GetReferencePath() string {
 }
 
 func (inst *Participant) GeneratePage(stager *Stager) *ssg.Page {
+	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
+}
+
+func (inst *ExternalParticipant) GetDescription() string { return inst.Description }
+func (inst *ExternalParticipant) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
+}
+
+func (inst *ExternalParticipant) GeneratePage(stager *Stager) *ssg.Page {
 	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
 }
 

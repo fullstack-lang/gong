@@ -152,7 +152,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Participant__00000000_.IsProcessResource = false
 	__stage_0__Participant__00000000_.Description = `Air Traffic Services Unit / Rescue Coordination Center`
 	__stage_0__Participant__00000000_.IsResourcesNodeExpanded = false
-	__stage_0__Participant__00000000_.IsProcessesNodeExpanded = false
 	__stage_0__Participant__00000000_.ComputedPrefix = ``
 	__stage_0__Participant__00000000_.IsTasksNodeExpanded = false
 	__stage_0__Participant__00000000_.IsControlFlowsNodeExpanded = true
@@ -161,7 +160,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Participant__00000001_.IsProcessResource = false
 	__stage_0__Participant__00000001_.Description = `Initial Flight Plan Processing System`
 	__stage_0__Participant__00000001_.IsResourcesNodeExpanded = false
-	__stage_0__Participant__00000001_.IsProcessesNodeExpanded = false
 	__stage_0__Participant__00000001_.ComputedPrefix = ``
 	__stage_0__Participant__00000001_.IsTasksNodeExpanded = true
 	__stage_0__Participant__00000001_.IsControlFlowsNodeExpanded = false
@@ -290,13 +288,13 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__DataFlow__00000000_.Datas = append(__stage_0__DataFlow__00000000_.Datas, __stage_0__Data__00000000_)
 	__stage_0__DataFlow__00000000_.StartTask = __stage_0__Task__00000000_
 	__stage_0__DataFlow__00000000_.EndTask = __stage_0__Task__00000001_
-	__stage_0__DataFlow__00000000_.StartExternalParticipant = nil
-	__stage_0__DataFlow__00000000_.EndExternalParticipant = nil
+	__stage_0__DataFlow__00000000_.StartParticipant = nil
+	__stage_0__DataFlow__00000000_.EndParticipant = nil
 	__stage_0__DataFlow__00000001_.Datas = append(__stage_0__DataFlow__00000001_.Datas, __stage_0__Data__00000001_)
 	__stage_0__DataFlow__00000001_.StartTask = __stage_0__Task__00000001_
 	__stage_0__DataFlow__00000001_.EndTask = __stage_0__Task__00000002_
-	__stage_0__DataFlow__00000001_.StartExternalParticipant = nil
-	__stage_0__DataFlow__00000001_.EndExternalParticipant = nil
+	__stage_0__DataFlow__00000001_.StartParticipant = nil
+	__stage_0__DataFlow__00000001_.EndParticipant = nil
 	__stage_0__DataFlowShape__00000000_.DataFlow = __stage_0__DataFlow__00000000_
 	__stage_0__DataFlowShape__00000001_.DataFlow = __stage_0__DataFlow__00000001_
 	__stage_0__DataShape__00000000_.Data = __stage_0__Data__00000000_

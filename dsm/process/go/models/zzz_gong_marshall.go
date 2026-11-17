@@ -341,15 +341,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				lastStageVal = "Stage"
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", allocatedprocessshapeIdent, __gong__toRawStringLiteral(allocatedprocessshape.Name)))
-			if allocatedprocessshape.Participant != nil {
+			if allocatedprocessshape.ExternalParticipant != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := allocatedprocessshape.Participant.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Participant = %s", allocatedprocessshapeIdent, targetIdent))
+				targetIdent := allocatedprocessshape.ExternalParticipant.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipant = %s", allocatedprocessshapeIdent, targetIdent))
 			}
 			if allocatedprocessshape.Process != nil {
 				if lastStagePtr != "Stage" {
@@ -389,6 +389,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := allocatedresourceshape.Participant.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Participant = %s", allocatedresourceshapeIdent, targetIdent))
+			}
+			if allocatedresourceshape.ExternalParticipant != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := allocatedresourceshape.ExternalParticipant.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipant = %s", allocatedresourceshapeIdent, targetIdent))
 			}
 			if allocatedresourceshape.Resource != nil {
 				if lastStagePtr != "Stage" {
@@ -574,25 +584,25 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := dataflow.EndTask.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EndTask = %s", dataflowIdent, targetIdent))
 			}
-			if dataflow.StartExternalParticipant != nil {
+			if dataflow.StartParticipant != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := dataflow.StartExternalParticipant.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.StartExternalParticipant = %s", dataflowIdent, targetIdent))
+				targetIdent := dataflow.StartParticipant.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartParticipant = %s", dataflowIdent, targetIdent))
 			}
-			if dataflow.EndExternalParticipant != nil {
+			if dataflow.EndParticipant != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := dataflow.EndExternalParticipant.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.EndExternalParticipant = %s", dataflowIdent, targetIdent))
+				targetIdent := dataflow.EndParticipant.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndParticipant = %s", dataflowIdent, targetIdent))
 			}
 		}
 	}
@@ -995,6 +1005,52 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 		}
 	}
 	if stage != nil {
+		for _, externalparticipant := range __gong__sortStageSetInstances(stage.ExternalParticipants, stage.ExternalParticipant_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			externalparticipantIdent := externalparticipant.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ExternalParticipant{Name: %s}).Stage(stage)", externalparticipantIdent, __gong__toRawStringLiteral(externalparticipant.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", externalparticipantIdent, __gong__toRawStringLiteral(externalparticipant.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsProcessResource = %t", externalparticipantIdent, externalparticipant.IsProcessResource))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", externalparticipantIdent, __gong__toRawStringLiteral(externalparticipant.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", externalparticipantIdent, __gong__toRawStringLiteral(externalparticipant.SVG)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsResourcesNodeExpanded = %t", externalparticipantIdent, externalparticipant.IsResourcesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", externalparticipantIdent, __gong__toRawStringLiteral(externalparticipant.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", externalparticipantIdent, externalparticipant.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsProcessesNodeExpanded = %t", externalparticipantIdent, externalparticipant.IsProcessesNodeExpanded))
+			for _, elem := range externalparticipant.Resources {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Resources = append(%s.Resources, %s)", externalparticipantIdent, externalparticipantIdent, targetIdent))
+			}
+			for _, elem := range externalparticipant.Processes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Processes = append(%s.Processes, %s)", externalparticipantIdent, externalparticipantIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
 		for _, externalparticipantshape := range __gong__sortStageSetInstances(stage.ExternalParticipantShapes, stage.ExternalParticipantShape_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
@@ -1029,15 +1085,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", externalparticipantshapeIdent, __gong__toRawStringLiteral(externalparticipantshape.FontWeight)))
 			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", externalparticipantshapeIdent, __gong__toRawStringLiteral(externalparticipantshape.FontColor)))
 			values.WriteString(fmt.Sprintf("\n\t%s.TailHeigth = %f", externalparticipantshapeIdent, externalparticipantshape.TailHeigth))
-			if externalparticipantshape.Participant != nil {
+			if externalparticipantshape.ExternalParticipant != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
 						pointers.WriteString("\n")
 					}
 					lastStagePtr = "Stage"
 				}
-				targetIdent := externalparticipantshape.Participant.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Participant = %s", externalparticipantshapeIdent, targetIdent))
+				targetIdent := externalparticipantshape.ExternalParticipant.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipant = %s", externalparticipantshapeIdent, targetIdent))
 			}
 		}
 	}
@@ -1180,6 +1236,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.ParticipantsWhoseNodeIsExpanded = append(%s.ParticipantsWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.ExternalParticipantsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParticipantsWhoseNodeIsExpanded = append(%s.ExternalParticipantsWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootNotes {
 				if lastStagePtr != "Stage" {
@@ -1504,7 +1570,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", participantIdent, __gong__toRawStringLiteral(participant.Description)))
 			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", participantIdent, __gong__toRawStringLiteral(participant.SVG)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsResourcesNodeExpanded = %t", participantIdent, participant.IsResourcesNodeExpanded))
-			values.WriteString(fmt.Sprintf("\n\t%s.IsProcessesNodeExpanded = %t", participantIdent, participant.IsProcessesNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", participantIdent, __gong__toRawStringLiteral(participant.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", participantIdent, participant.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsTasksNodeExpanded = %t", participantIdent, participant.IsTasksNodeExpanded))
@@ -1519,16 +1584,6 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Resources = append(%s.Resources, %s)", participantIdent, participantIdent, targetIdent))
-			}
-			for _, elem := range participant.Processes {
-				if lastStagePtr != "Stage" {
-					if pointers.Len() > 0 {
-						pointers.WriteString("\n")
-					}
-					lastStagePtr = "Stage"
-				}
-				targetIdent := elem.GongGetIdentifier(stage)
-				pointers.WriteString(fmt.Sprintf("\n\t%s.Processes = append(%s.Processes, %s)", participantIdent, participantIdent, targetIdent))
 			}
 			for _, elem := range participant.Tasks {
 				if lastStagePtr != "Stage" {
@@ -1971,11 +2026,11 @@ func (allocatedprocessshape *AllocatedProcessShape) GongMarshallField(stage *Sta
 	case "Name":
 		res = __gong__marshallString(ident, "Name", allocatedprocessshape.Name)
 
-	case "Participant":
-		if allocatedprocessshape.Participant != nil {
-			res = __gong__marshallPointer(ident, "Participant", allocatedprocessshape.Participant.GongGetIdentifier(stage))
+	case "ExternalParticipant":
+		if allocatedprocessshape.ExternalParticipant != nil {
+			res = __gong__marshallPointer(ident, "ExternalParticipant", allocatedprocessshape.ExternalParticipant.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "Participant", "nil")
+			res = __gong__marshallPointer(ident, "ExternalParticipant", "nil")
 		}
 	case "Process":
 		if allocatedprocessshape.Process != nil {
@@ -2001,6 +2056,12 @@ func (allocatedresourceshape *AllocatedResourceShape) GongMarshallField(stage *S
 			res = __gong__marshallPointer(ident, "Participant", allocatedresourceshape.Participant.GongGetIdentifier(stage))
 		} else {
 			res = __gong__marshallPointer(ident, "Participant", "nil")
+		}
+	case "ExternalParticipant":
+		if allocatedresourceshape.ExternalParticipant != nil {
+			res = __gong__marshallPointer(ident, "ExternalParticipant", allocatedresourceshape.ExternalParticipant.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "ExternalParticipant", "nil")
 		}
 	case "Resource":
 		if allocatedresourceshape.Resource != nil {
@@ -2148,17 +2209,17 @@ func (dataflow *DataFlow) GongMarshallField(stage *Stage, fieldName string) (res
 		} else {
 			res = __gong__marshallPointer(ident, "EndTask", "nil")
 		}
-	case "StartExternalParticipant":
-		if dataflow.StartExternalParticipant != nil {
-			res = __gong__marshallPointer(ident, "StartExternalParticipant", dataflow.StartExternalParticipant.GongGetIdentifier(stage))
+	case "StartParticipant":
+		if dataflow.StartParticipant != nil {
+			res = __gong__marshallPointer(ident, "StartParticipant", dataflow.StartParticipant.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "StartExternalParticipant", "nil")
+			res = __gong__marshallPointer(ident, "StartParticipant", "nil")
 		}
-	case "EndExternalParticipant":
-		if dataflow.EndExternalParticipant != nil {
-			res = __gong__marshallPointer(ident, "EndExternalParticipant", dataflow.EndExternalParticipant.GongGetIdentifier(stage))
+	case "EndParticipant":
+		if dataflow.EndParticipant != nil {
+			res = __gong__marshallPointer(ident, "EndParticipant", dataflow.EndParticipant.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "EndExternalParticipant", "nil")
+			res = __gong__marshallPointer(ident, "EndParticipant", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DataFlow", fieldName)
@@ -2335,20 +2396,20 @@ func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName 
 		res = sb.String()
 	case "ExternalParticipantWhoseNodeIsExpanded":
 		var sb strings.Builder
-		for _, _participant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ExternalParticipantWhoseNodeIsExpanded", _participant.GongGetIdentifier(stage)))
+		for _, _externalparticipant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ExternalParticipantWhoseNodeIsExpanded", _externalparticipant.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
 		var sb strings.Builder
-		for _, _participant := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded", _participant.GongGetIdentifier(stage)))
+		for _, _externalparticipant := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded", _externalparticipant.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
 		var sb strings.Builder
-		for _, _participant := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded", _participant.GongGetIdentifier(stage)))
+		for _, _externalparticipant := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded", _externalparticipant.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "TasksWhoseNodeIsExpanded":
@@ -2465,6 +2526,45 @@ func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName 
 	return
 }
 
+func (externalparticipant *ExternalParticipant) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := externalparticipant.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", externalparticipant.Name)
+	case "IsProcessResource":
+		res = __gong__marshallBool(ident, "IsProcessResource", externalparticipant.IsProcessResource)
+	case "Description":
+		res = __gong__marshallString(ident, "Description", externalparticipant.Description)
+	case "SVG":
+		res = __gong__marshallString(ident, "SVG", externalparticipant.SVG)
+	case "IsResourcesNodeExpanded":
+		res = __gong__marshallBool(ident, "IsResourcesNodeExpanded", externalparticipant.IsResourcesNodeExpanded)
+	case "ComputedPrefix":
+		res = __gong__marshallString(ident, "ComputedPrefix", externalparticipant.ComputedPrefix)
+	case "IsExpanded":
+		res = __gong__marshallBool(ident, "IsExpanded", externalparticipant.IsExpanded)
+	case "IsProcessesNodeExpanded":
+		res = __gong__marshallBool(ident, "IsProcessesNodeExpanded", externalparticipant.IsProcessesNodeExpanded)
+
+	case "Resources":
+		var sb strings.Builder
+		for _, _resource := range externalparticipant.Resources {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Resources", _resource.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "Processes":
+		var sb strings.Builder
+		for _, _process := range externalparticipant.Processes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Processes", _process.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ExternalParticipant", fieldName)
+	}
+	return
+}
+
 func (externalparticipantshape *ExternalParticipantShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
 	ident := externalparticipantshape.GongGetIdentifier(stage)
 	_ = ident
@@ -2508,11 +2608,11 @@ func (externalparticipantshape *ExternalParticipantShape) GongMarshallField(stag
 	case "TailHeigth":
 		res = __gong__marshallFloat(ident, "TailHeigth", externalparticipantshape.TailHeigth)
 
-	case "Participant":
-		if externalparticipantshape.Participant != nil {
-			res = __gong__marshallPointer(ident, "Participant", externalparticipantshape.Participant.GongGetIdentifier(stage))
+	case "ExternalParticipant":
+		if externalparticipantshape.ExternalParticipant != nil {
+			res = __gong__marshallPointer(ident, "ExternalParticipant", externalparticipantshape.ExternalParticipant.GongGetIdentifier(stage))
 		} else {
-			res = __gong__marshallPointer(ident, "Participant", "nil")
+			res = __gong__marshallPointer(ident, "ExternalParticipant", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ExternalParticipantShape", fieldName)
@@ -2617,6 +2717,12 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		var sb strings.Builder
 		for _, _participant := range library.ParticipantsWhoseNodeIsExpanded {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ParticipantsWhoseNodeIsExpanded", _participant.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "ExternalParticipantsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _externalparticipant := range library.ExternalParticipantsWhoseNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ExternalParticipantsWhoseNodeIsExpanded", _externalparticipant.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "RootNotes":
@@ -2898,8 +3004,6 @@ func (participant *Participant) GongMarshallField(stage *Stage, fieldName string
 		res = __gong__marshallString(ident, "SVG", participant.SVG)
 	case "IsResourcesNodeExpanded":
 		res = __gong__marshallBool(ident, "IsResourcesNodeExpanded", participant.IsResourcesNodeExpanded)
-	case "IsProcessesNodeExpanded":
-		res = __gong__marshallBool(ident, "IsProcessesNodeExpanded", participant.IsProcessesNodeExpanded)
 	case "ComputedPrefix":
 		res = __gong__marshallString(ident, "ComputedPrefix", participant.ComputedPrefix)
 	case "IsExpanded":
@@ -2915,12 +3019,6 @@ func (participant *Participant) GongMarshallField(stage *Stage, fieldName string
 		var sb strings.Builder
 		for _, _resource := range participant.Resources {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Resources", _resource.GongGetIdentifier(stage)))
-		}
-		res = sb.String()
-	case "Processes":
-		var sb strings.Builder
-		for _, _process := range participant.Processes {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Processes", _process.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "Tasks":
@@ -3077,14 +3175,14 @@ func (process *Process) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "ExternalParticipants":
 		var sb strings.Builder
-		for _, _participant := range process.ExternalParticipants {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ExternalParticipants", _participant.GongGetIdentifier(stage)))
+		for _, _externalparticipant := range process.ExternalParticipants {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ExternalParticipants", _externalparticipant.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "ExternalParticipantWhoseNodeIsExpanded":
 		var sb strings.Builder
-		for _, _participant := range process.ExternalParticipantWhoseNodeIsExpanded {
-			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ExternalParticipantWhoseNodeIsExpanded", _participant.GongGetIdentifier(stage)))
+		for _, _externalparticipant := range process.ExternalParticipantWhoseNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ExternalParticipantWhoseNodeIsExpanded", _externalparticipant.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	default:
@@ -3260,7 +3358,7 @@ func (allocatedprocessshape *AllocatedProcessShape) GongMarshallAllFields(stage 
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(allocatedprocessshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(allocatedprocessshape.GongMarshallField(stage, "Participant"))
+		pointersInitializesStatements.WriteString(allocatedprocessshape.GongMarshallField(stage, "ExternalParticipant"))
 		pointersInitializesStatements.WriteString(allocatedprocessshape.GongMarshallField(stage, "Process"))
 	}
 	initRes = initializerStatements.String()
@@ -3274,6 +3372,7 @@ func (allocatedresourceshape *AllocatedResourceShape) GongMarshallAllFields(stag
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(allocatedresourceshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(allocatedresourceshape.GongMarshallField(stage, "Participant"))
+		pointersInitializesStatements.WriteString(allocatedresourceshape.GongMarshallField(stage, "ExternalParticipant"))
 		pointersInitializesStatements.WriteString(allocatedresourceshape.GongMarshallField(stage, "Resource"))
 	}
 	initRes = initializerStatements.String()
@@ -3350,8 +3449,8 @@ func (dataflow *DataFlow) GongMarshallAllFields(stage *Stage) (initRes string, p
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Type"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "StartTask"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "EndTask"))
-		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "StartExternalParticipant"))
-		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "EndExternalParticipant"))
+		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "StartParticipant"))
+		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "EndParticipant"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
 	}
 	initRes = initializerStatements.String()
@@ -3463,13 +3562,33 @@ func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initR
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (externalparticipant *ExternalParticipant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(externalparticipant.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(externalparticipant.GongMarshallField(stage, "IsProcessResource"))
+		initializerStatements.WriteString(externalparticipant.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(externalparticipant.GongMarshallField(stage, "SVG"))
+		pointersInitializesStatements.WriteString(externalparticipant.GongMarshallField(stage, "Resources"))
+		initializerStatements.WriteString(externalparticipant.GongMarshallField(stage, "IsResourcesNodeExpanded"))
+		initializerStatements.WriteString(externalparticipant.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(externalparticipant.GongMarshallField(stage, "IsExpanded"))
+		pointersInitializesStatements.WriteString(externalparticipant.GongMarshallField(stage, "Processes"))
+		initializerStatements.WriteString(externalparticipant.GongMarshallField(stage, "IsProcessesNodeExpanded"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (externalparticipantshape *ExternalParticipantShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(externalparticipantshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(externalparticipantshape.GongMarshallField(stage, "Participant"))
+		pointersInitializesStatements.WriteString(externalparticipantshape.GongMarshallField(stage, "ExternalParticipant"))
 		initializerStatements.WriteString(externalparticipantshape.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(externalparticipantshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(externalparticipantshape.GongMarshallField(stage, "Y"))
@@ -3521,6 +3640,7 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsResourcesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ResourcesWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ParticipantsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ExternalParticipantsWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootNotes"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsNotesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
@@ -3667,8 +3787,6 @@ func (participant *Participant) GongMarshallAllFields(stage *Stage) (initRes str
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "SVG"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Resources"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsResourcesNodeExpanded"))
-		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Processes"))
-		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsProcessesNodeExpanded"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsTasksNodeExpanded"))

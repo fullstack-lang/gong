@@ -21,7 +21,7 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Participant", instanceWithInferedType.Participant, formGroup, probe)
+		AssociationFieldToForm("ExternalParticipant", instanceWithInferedType.ExternalParticipant, formGroup, probe)
 		AssociationFieldToForm("Process", instanceWithInferedType.Process, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -43,6 +43,7 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Participant", instanceWithInferedType.Participant, formGroup, probe)
+		AssociationFieldToForm("ExternalParticipant", instanceWithInferedType.ExternalParticipant, formGroup, probe)
 		AssociationFieldToForm("Resource", instanceWithInferedType.Resource, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -218,8 +219,8 @@ func FillUpForm(
 		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationFieldToForm("StartTask", instanceWithInferedType.StartTask, formGroup, probe)
 		AssociationFieldToForm("EndTask", instanceWithInferedType.EndTask, formGroup, probe)
-		AssociationFieldToForm("StartExternalParticipant", instanceWithInferedType.StartExternalParticipant, formGroup, probe)
-		AssociationFieldToForm("EndExternalParticipant", instanceWithInferedType.EndExternalParticipant, formGroup, probe)
+		AssociationFieldToForm("StartParticipant", instanceWithInferedType.StartParticipant, formGroup, probe)
+		AssociationFieldToForm("EndParticipant", instanceWithInferedType.EndParticipant, formGroup, probe)
 		BasicFieldtoForm("IsDatasNodeExpanded", instanceWithInferedType.IsDatasNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
@@ -461,11 +462,91 @@ func FillUpForm(
 				return owner.DiagramProcessWhoseNodeIsExpanded
 			})
 
+	case *models.ExternalParticipant:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsProcessResource", instanceWithInferedType.IsProcessResource, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
+			true, false, 0, false, 0, false)
+		BasicFieldtoForm("SVG", instanceWithInferedType.SVG, instanceWithInferedType, probe.formStage, formGroup,
+			true, true, 600, true, 300, false)
+		AssociationSliceToForm("Resources", instanceWithInferedType, &instanceWithInferedType.Resources, formGroup, probe)
+		BasicFieldtoForm("IsResourcesNodeExpanded", instanceWithInferedType.IsResourcesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Processes", instanceWithInferedType, &instanceWithInferedType.Processes, formGroup, probe)
+		BasicFieldtoForm("IsProcessesNodeExpanded", instanceWithInferedType.IsProcessesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"DiagramProcess",
+			"ExternalParticipantWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramProcess) []*models.ExternalParticipant {
+				return owner.ExternalParticipantWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"DiagramProcess",
+			"ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramProcess) []*models.ExternalParticipant {
+				return owner.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"DiagramProcess",
+			"ExternalParticipantsWhoseInDataFlowsNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramProcess) []*models.ExternalParticipant {
+				return owner.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"ExternalParticipantsWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.ExternalParticipant {
+				return owner.ExternalParticipantsWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Process",
+			"ExternalParticipants",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Process) []*models.ExternalParticipant {
+				return owner.ExternalParticipants
+			})
+		AssociationReverseSliceToForm(
+			"Process",
+			"ExternalParticipantWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Process) []*models.ExternalParticipant {
+				return owner.ExternalParticipantWhoseNodeIsExpanded
+			})
+
 	case *models.ExternalParticipantShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Participant", instanceWithInferedType.Participant, formGroup, probe)
+		AssociationFieldToForm("ExternalParticipant", instanceWithInferedType.ExternalParticipant, formGroup, probe)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
@@ -554,6 +635,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("ResourcesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ResourcesWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("ParticipantsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ParticipantsWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("ExternalParticipantsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ExternalParticipantsWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("RootNotes", instanceWithInferedType, &instanceWithInferedType.RootNotes, formGroup, probe)
 		BasicFieldtoForm("IsNotesNodeExpanded", instanceWithInferedType.IsNotesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -836,9 +918,6 @@ func FillUpForm(
 		AssociationSliceToForm("Resources", instanceWithInferedType, &instanceWithInferedType.Resources, formGroup, probe)
 		BasicFieldtoForm("IsResourcesNodeExpanded", instanceWithInferedType.IsResourcesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationSliceToForm("Processes", instanceWithInferedType, &instanceWithInferedType.Processes, formGroup, probe)
-		BasicFieldtoForm("IsProcessesNodeExpanded", instanceWithInferedType.IsProcessesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
@@ -870,33 +949,6 @@ func FillUpForm(
 				return owner.ParticipantWhoseNodeIsExpanded
 			})
 		AssociationReverseSliceToForm(
-			"DiagramProcess",
-			"ExternalParticipantWhoseNodeIsExpanded",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.DiagramProcess) []*models.Participant {
-				return owner.ExternalParticipantWhoseNodeIsExpanded
-			})
-		AssociationReverseSliceToForm(
-			"DiagramProcess",
-			"ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.DiagramProcess) []*models.Participant {
-				return owner.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded
-			})
-		AssociationReverseSliceToForm(
-			"DiagramProcess",
-			"ExternalParticipantsWhoseInDataFlowsNodeIsExpanded",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.DiagramProcess) []*models.Participant {
-				return owner.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded
-			})
-		AssociationReverseSliceToForm(
 			"Library",
 			"ParticipantsWhoseNodeIsExpanded",
 			instanceWithInferedType,
@@ -922,24 +974,6 @@ func FillUpForm(
 			probe,
 			func(owner *models.Process) []*models.Participant {
 				return owner.ParticipantWhoseNodeIsExpanded
-			})
-		AssociationReverseSliceToForm(
-			"Process",
-			"ExternalParticipants",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Process) []*models.Participant {
-				return owner.ExternalParticipants
-			})
-		AssociationReverseSliceToForm(
-			"Process",
-			"ExternalParticipantWhoseNodeIsExpanded",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Process) []*models.Participant {
-				return owner.ExternalParticipantWhoseNodeIsExpanded
 			})
 
 	case *models.ParticipantShape:
@@ -1046,6 +1080,15 @@ func FillUpForm(
 				return owner.AllocatedProcessesWhoseNodeIsExpanded
 			})
 		AssociationReverseSliceToForm(
+			"ExternalParticipant",
+			"Processes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ExternalParticipant) []*models.Process {
+				return owner.Processes
+			})
+		AssociationReverseSliceToForm(
 			"Library",
 			"RootProcesses",
 			instanceWithInferedType,
@@ -1062,15 +1105,6 @@ func FillUpForm(
 			probe,
 			func(owner *models.Library) []*models.Process {
 				return owner.ProcesssWhoseNodeIsExpanded
-			})
-		AssociationReverseSliceToForm(
-			"Participant",
-			"Processes",
-			instanceWithInferedType,
-			formGroup,
-			probe,
-			func(owner *models.Participant) []*models.Process {
-				return owner.Processes
 			})
 		AssociationReverseSliceToForm(
 			"Process",
@@ -1163,6 +1197,15 @@ func FillUpForm(
 			probe,
 			func(owner *models.DiagramProcess) []*models.Resource {
 				return owner.AllocatedResourcesWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"ExternalParticipant",
+			"Resources",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ExternalParticipant) []*models.Resource {
+				return owner.Resources
 			})
 		AssociationReverseSliceToForm(
 			"Library",

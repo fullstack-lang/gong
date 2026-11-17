@@ -45,3 +45,45 @@ func (stager *Stager) treeAllocatedResourceWithinDiagramWithinParticipant(
 		}
 	}
 }
+
+func (stager *Stager) treeAllocatedResourceWithinDiagramWithinExternalParticipant(
+	diagramProcess *DiagramProcess,
+	resource *Resource,
+	externalParticipant *ExternalParticipant,
+	parentNode *tree.Node) {
+
+	stage := stager.stage
+	key := allocatedResourceShapeKey{
+		externalParticipant: externalParticipant,
+		resource:            resource,
+	}
+	allocatedResourceShape, ok := diagramProcess.map_AllocatedResourceShapeKey_AllocatedResourceShape[key]
+
+	node := &tree.Node{
+		Name:              resource.Name,
+		IsNodeClickable:   true,
+		IsInEditMode:      resource.isInRenameMode,
+		IsChecked:         ok,
+		HasCheckboxButton: true,
+	}
+	parentNode.Children = append(parentNode.Children, node)
+	addRenameButton(resource, node, stager)
+
+	node.OnNameChange = stager.onNameChange(resource)
+	node.OnClick = onNodeClicked(stager, resource)
+
+	node.OnIsCheckedChanged = func(isChecked bool) {
+		if isChecked && !ok {
+			allocatedResourceShape = (&AllocatedResourceShape{
+				Name:                diagramProcess.GetName() + "-" + externalParticipant.GetName() + "-" + resource.GetName(),
+				ExternalParticipant: externalParticipant,
+				Resource:            resource,
+			}).Stage(stage)
+			diagramProcess.AllocatedResourceShapes = append(diagramProcess.AllocatedResourceShapes, allocatedResourceShape)
+			stage.Commit()
+		} else if !isChecked && ok {
+			allocatedResourceShape.Unstage(stage)
+			stage.Commit()
+		}
+	}
+}

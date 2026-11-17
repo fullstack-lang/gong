@@ -8,15 +8,35 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
+func (stager *Stager) treeExternalParticipantWithinLibrary(
+	library *Library,
+	externalParticipant *ExternalParticipant,
+	parentNode *tree.Node,
+) {
+	externalParticipantNode := &tree.Node{
+		Name:            externalParticipant.GetName(),
+		IsExpanded:      slices.Contains(library.ExternalParticipantsWhoseNodeIsExpanded, externalParticipant),
+		IsNodeClickable: true,
+		IsInEditMode:    externalParticipant.GetIsInRenameMode(),
+	}
+	parentNode.Children = append(parentNode.Children, externalParticipantNode)
+
+	addRenameButton(externalParticipant, externalParticipantNode, stager)
+
+	externalParticipantNode.OnNameChange = stager.onNameChange(externalParticipant)
+	externalParticipantNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, externalParticipant, &library.ExternalParticipantsWhoseNodeIsExpanded)
+	externalParticipantNode.OnClick = onNodeClicked(stager, externalParticipant)
+}
+
 func (stager *Stager) treeExternalParticipants(
 	diagramProcess *DiagramProcess,
-	externalParticipant *Participant,
+	externalParticipant *ExternalParticipant,
 	parentNode *tree.Node) {
 
 	stage := stager.stage
 
 	// find the shape (if any)
-	shape, ok := diagramProcess.map_Participant_ExternalParticipantShape[externalParticipant]
+	shape, ok := diagramProcess.map_ExternalParticipant_ExternalParticipantShape[externalParticipant]
 	node := &tree.Node{
 		Name:                    externalParticipant.Name,
 		IsExpanded:              slices.Contains(diagramProcess.ExternalParticipantWhoseNodeIsExpanded, externalParticipant),
@@ -28,9 +48,9 @@ func (stager *Stager) treeExternalParticipants(
 		CheckboxToolTipPosition: tree.Left,
 		CheckboxToolTipText: func() string {
 			if ok {
-				return "Click to remove the participant shape"
+				return "Click to remove the external participant shape"
 			}
-			return "Click to create a participant shape for this participant within this diagram"
+			return "Click to create an external participant shape for this external participant within this diagram"
 		}(),
 	}
 	parentNode.Children = append(parentNode.Children, node)
@@ -91,7 +111,7 @@ func (stager *Stager) treeExternalParticipants(
 	allocatedResourcesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&externalParticipant.IsResourcesNodeExpanded)
 
 	for _, resource := range externalParticipant.Resources {
-		stager.treeAllocatedResourceWithinDiagramWithinParticipant(diagramProcess, resource, externalParticipant, allocatedResourcesNode)
+		stager.treeAllocatedResourceWithinDiagramWithinExternalParticipant(diagramProcess, resource, externalParticipant, allocatedResourcesNode)
 	}
 
 	// processes

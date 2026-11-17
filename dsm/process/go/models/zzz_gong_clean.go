@@ -46,7 +46,7 @@ type GongCleaner interface {
 func (allocatedprocessshape *AllocatedProcessShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = stage.CleanPointer(&allocatedprocessshape.Participant) || modified
+	modified = stage.CleanPointer(&allocatedprocessshape.ExternalParticipant) || modified
 	modified = stage.CleanPointer(&allocatedprocessshape.Process) || modified
 	return
 }
@@ -56,6 +56,7 @@ func (allocatedresourceshape *AllocatedResourceShape) GongClean(stage *Stage) (m
 	// insertion point per field
 	// insertion point per field
 	modified = stage.CleanPointer(&allocatedresourceshape.Participant) || modified
+	modified = stage.CleanPointer(&allocatedresourceshape.ExternalParticipant) || modified
 	modified = stage.CleanPointer(&allocatedresourceshape.Resource) || modified
 	return
 }
@@ -84,8 +85,8 @@ func (dataflow *DataFlow) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanPointer(&dataflow.StartTask) || modified
 	modified = stage.CleanPointer(&dataflow.EndTask) || modified
-	modified = stage.CleanPointer(&dataflow.StartExternalParticipant) || modified
-	modified = stage.CleanPointer(&dataflow.EndExternalParticipant) || modified
+	modified = stage.CleanPointer(&dataflow.StartParticipant) || modified
+	modified = stage.CleanPointer(&dataflow.EndParticipant) || modified
 	return
 }
 
@@ -139,11 +140,20 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by ExternalParticipant
+func (externalparticipant *ExternalParticipant) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = stage.CleanSlice(&externalparticipant.Resources) || modified
+	modified = stage.CleanSlice(&externalparticipant.Processes) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by ExternalParticipantShape
 func (externalparticipantshape *ExternalParticipantShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = stage.CleanPointer(&externalparticipantshape.Participant) || modified
+	modified = stage.CleanPointer(&externalparticipantshape.ExternalParticipant) || modified
 	return
 }
 
@@ -161,6 +171,7 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&library.RootResources) || modified
 	modified = stage.CleanSlice(&library.ResourcesWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&library.ParticipantsWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&library.ExternalParticipantsWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&library.RootNotes) || modified
 	modified = stage.CleanSlice(&library.NotesWhoseNodeIsExpanded) || modified
 	// insertion point per field
@@ -216,7 +227,6 @@ func (notetaskshape *NoteTaskShape) GongClean(stage *Stage) (modified bool) {
 func (participant *Participant) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&participant.Resources) || modified
-	modified = stage.CleanSlice(&participant.Processes) || modified
 	modified = stage.CleanSlice(&participant.Tasks) || modified
 	modified = stage.CleanSlice(&participant.ControlFlows) || modified
 	modified = stage.CleanSlice(&participant.TaskWhoseOutControlFlowsNodeIsExpanded) || modified

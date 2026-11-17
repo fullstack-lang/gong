@@ -14,6 +14,8 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	reachableControlFlowShapes := make(map[*ControlFlowShape]struct{})
 	reachableDataFlowShapes := make(map[*DataFlowShape]struct{})
 	reachableDataShapes := make(map[*DataShape]struct{})
+	reachableAllocatedResourceShapes := make(map[*AllocatedResourceShape]struct{})
+	reachableAllocatedProcessShapes := make(map[*AllocatedProcessShape]struct{})
 	reachableNoteShapes := make(map[*NoteShape]struct{})
 	reachableNoteTaskShapes := make(map[*NoteTaskShape]struct{})
 	reachableNoteDataFlowShapes := make(map[*NoteDataFlowShape]struct{})
@@ -27,6 +29,8 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 		collectShapes(diagram.ControlFlow_Shapes, reachableControlFlowShapes)
 		collectShapes(diagram.DataFlow_Shapes, reachableDataFlowShapes)
 		collectShapes(diagram.Data_Shapes, reachableDataShapes)
+		collectShapes(diagram.AllocatedResourceShapes, reachableAllocatedResourceShapes)
+		collectShapes(diagram.AllocatedProcessShapes, reachableAllocatedProcessShapes)
 		collectShapes(diagram.Note_Shapes, reachableNoteShapes)
 		collectShapes(diagram.NoteTaskShapes, reachableNoteTaskShapes)
 		collectShapes(diagram.NoteDataFlowShapes, reachableNoteDataFlowShapes)
@@ -41,6 +45,8 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	needCommit = unstageUnreachableOrphans(stager, reachableControlFlowShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableDataFlowShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableDataShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableAllocatedResourceShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableAllocatedProcessShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteTaskShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteDataFlowShapes) || needCommit
@@ -60,8 +66,10 @@ func unstageUnreachableOrphans[T PointerToGongstruct](stager *Stager, reachable 
 		if _, ok := reachable[object]; !ok {
 			object.UnstageVoid(stager.stage)
 			needCommit = true
-			stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaging orphan shape object \"%s\" of type \"%s\"",
-				object.GetName(), object.GongGetGongstructName()))
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaging orphan shape object \"%s\" of type \"%s\"",
+					object.GetName(), object.GongGetGongstructName()))
+			}
 		}
 	}
 	return

@@ -211,6 +211,48 @@ func (inst *DiagramProcess) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
+func (inst *ExternalParticipant) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "ExternalParticipantWhoseNodeIsExpanded":
+			if _diagramprocess, ok := stage.DiagramProcess_ExternalParticipantWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
+			if _diagramprocess, ok := stage.DiagramProcess_ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
+			if _diagramprocess, ok := stage.DiagramProcess_ExternalParticipantsWhoseInDataFlowsNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		}
+	case "Library":
+		switch reverseField.Fieldname {
+		case "ExternalParticipantsWhoseNodeIsExpanded":
+			if _library, ok := stage.Library_ExternalParticipantsWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
+	case "Process":
+		switch reverseField.Fieldname {
+		case "ExternalParticipants":
+			if _process, ok := stage.Process_ExternalParticipants_reverseMap[inst]; ok {
+				res = _process.Name
+			}
+		case "ExternalParticipantWhoseNodeIsExpanded":
+			if _process, ok := stage.Process_ExternalParticipantWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _process.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *ExternalParticipantShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 
 	res = ""
@@ -349,18 +391,6 @@ func (inst *Participant) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 			if _diagramprocess, ok := stage.DiagramProcess_ParticipantWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _diagramprocess.Name
 			}
-		case "ExternalParticipantWhoseNodeIsExpanded":
-			if _diagramprocess, ok := stage.DiagramProcess_ExternalParticipantWhoseNodeIsExpanded_reverseMap[inst]; ok {
-				res = _diagramprocess.Name
-			}
-		case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
-			if _diagramprocess, ok := stage.DiagramProcess_ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded_reverseMap[inst]; ok {
-				res = _diagramprocess.Name
-			}
-		case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
-			if _diagramprocess, ok := stage.DiagramProcess_ExternalParticipantsWhoseInDataFlowsNodeIsExpanded_reverseMap[inst]; ok {
-				res = _diagramprocess.Name
-			}
 		}
 	case "Library":
 		switch reverseField.Fieldname {
@@ -377,14 +407,6 @@ func (inst *Participant) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 			}
 		case "ParticipantWhoseNodeIsExpanded":
 			if _process, ok := stage.Process_ParticipantWhoseNodeIsExpanded_reverseMap[inst]; ok {
-				res = _process.Name
-			}
-		case "ExternalParticipants":
-			if _process, ok := stage.Process_ExternalParticipants_reverseMap[inst]; ok {
-				res = _process.Name
-			}
-		case "ExternalParticipantWhoseNodeIsExpanded":
-			if _process, ok := stage.Process_ExternalParticipantWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _process.Name
 			}
 		}
@@ -424,6 +446,13 @@ func (inst *Process) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Go
 				res = _diagramprocess.Name
 			}
 		}
+	case "ExternalParticipant":
+		switch reverseField.Fieldname {
+		case "Processes":
+			if _externalparticipant, ok := stage.ExternalParticipant_Processes_reverseMap[inst]; ok {
+				res = _externalparticipant.Name
+			}
+		}
 	case "Library":
 		switch reverseField.Fieldname {
 		case "RootProcesses":
@@ -433,13 +462,6 @@ func (inst *Process) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Go
 		case "ProcesssWhoseNodeIsExpanded":
 			if _library, ok := stage.Library_ProcesssWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _library.Name
-			}
-		}
-	case "Participant":
-		switch reverseField.Fieldname {
-		case "Processes":
-			if _participant, ok := stage.Participant_Processes_reverseMap[inst]; ok {
-				res = _participant.Name
 			}
 		}
 	case "Process":
@@ -479,6 +501,13 @@ func (inst *Resource) GongGetReverseFieldOwnerName(stage *Stage, reverseField *G
 		case "AllocatedResourcesWhoseNodeIsExpanded":
 			if _diagramprocess, ok := stage.DiagramProcess_AllocatedResourcesWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _diagramprocess.Name
+			}
+		}
+	case "ExternalParticipant":
+		switch reverseField.Fieldname {
+		case "Resources":
+			if _externalparticipant, ok := stage.ExternalParticipant_Resources_reverseMap[inst]; ok {
+				res = _externalparticipant.Name
 			}
 		}
 	case "Library":

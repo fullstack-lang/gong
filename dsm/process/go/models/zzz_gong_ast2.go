@@ -178,6 +178,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(DataShape), stage, ident.Name, instanceName, preserveOrder)
 				case "DiagramProcess":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(DiagramProcess), stage, ident.Name, instanceName, preserveOrder)
+				case "ExternalParticipant":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ExternalParticipant), stage, ident.Name, instanceName, preserveOrder)
 				case "ExternalParticipantShape":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(ExternalParticipantShape), stage, ident.Name, instanceName, preserveOrder)
 				case "Library":
@@ -224,8 +226,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Participant":
-						__gong__assignPointer(&inst.Participant, rhs, identifierMap)
+					case "ExternalParticipant":
+						__gong__assignPointer(&inst.ExternalParticipant, rhs, identifierMap)
 					case "Process":
 						__gong__assignPointer(&inst.Process, rhs, identifierMap)
 					}
@@ -235,6 +237,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Name = GongExtractString(rhs)
 					case "Participant":
 						__gong__assignPointer(&inst.Participant, rhs, identifierMap)
+					case "ExternalParticipant":
+						__gong__assignPointer(&inst.ExternalParticipant, rhs, identifierMap)
 					case "Resource":
 						__gong__assignPointer(&inst.Resource, rhs, identifierMap)
 					}
@@ -319,10 +323,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.StartTask, rhs, identifierMap)
 					case "EndTask":
 						__gong__assignPointer(&inst.EndTask, rhs, identifierMap)
-					case "StartExternalParticipant":
-						__gong__assignPointer(&inst.StartExternalParticipant, rhs, identifierMap)
-					case "EndExternalParticipant":
-						__gong__assignPointer(&inst.EndExternalParticipant, rhs, identifierMap)
+					case "StartParticipant":
+						__gong__assignPointer(&inst.StartParticipant, rhs, identifierMap)
+					case "EndParticipant":
+						__gong__assignPointer(&inst.EndParticipant, rhs, identifierMap)
 					case "IsDatasNodeExpanded":
 						inst.IsDatasNodeExpanded = GongExtractBool(rhs)
 					}
@@ -485,12 +489,35 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					case "NoteControlFlowShapes":
 						__gong__assignSliceOfPointers(&inst.NoteControlFlowShapes, rhs, identifierMap)
 					}
+				case *ExternalParticipant:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "IsProcessResource":
+						inst.IsProcessResource = GongExtractBool(rhs)
+					case "Description":
+						inst.Description = GongExtractString(rhs)
+					case "SVG":
+						inst.SVG = GongExtractString(rhs)
+					case "Resources":
+						__gong__assignSliceOfPointers(&inst.Resources, rhs, identifierMap)
+					case "IsResourcesNodeExpanded":
+						inst.IsResourcesNodeExpanded = GongExtractBool(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "Processes":
+						__gong__assignSliceOfPointers(&inst.Processes, rhs, identifierMap)
+					case "IsProcessesNodeExpanded":
+						inst.IsProcessesNodeExpanded = GongExtractBool(rhs)
+					}
 				case *ExternalParticipantShape:
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
-					case "Participant":
-						__gong__assignPointer(&inst.Participant, rhs, identifierMap)
+					case "ExternalParticipant":
+						__gong__assignPointer(&inst.ExternalParticipant, rhs, identifierMap)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
 					case "X":
@@ -576,6 +603,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignSliceOfPointers(&inst.ResourcesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "ParticipantsWhoseNodeIsExpanded":
 						__gong__assignSliceOfPointers(&inst.ParticipantsWhoseNodeIsExpanded, rhs, identifierMap)
+					case "ExternalParticipantsWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.ExternalParticipantsWhoseNodeIsExpanded, rhs, identifierMap)
 					case "RootNotes":
 						__gong__assignSliceOfPointers(&inst.RootNotes, rhs, identifierMap)
 					case "IsNotesNodeExpanded":
@@ -766,10 +795,6 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignSliceOfPointers(&inst.Resources, rhs, identifierMap)
 					case "IsResourcesNodeExpanded":
 						inst.IsResourcesNodeExpanded = GongExtractBool(rhs)
-					case "Processes":
-						__gong__assignSliceOfPointers(&inst.Processes, rhs, identifierMap)
-					case "IsProcessesNodeExpanded":
-						inst.IsProcessesNodeExpanded = GongExtractBool(rhs)
 					case "ComputedPrefix":
 						inst.ComputedPrefix = GongExtractString(rhs)
 					case "IsExpanded":
@@ -1177,8 +1202,8 @@ func (u *AllocatedProcessShapeUnmarshaller) UnmarshallField(stage *Stage, i Gong
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Participant":
-		GongUnmarshallPointer(&instance.Participant, valueExpr, identifierMap)
+	case "ExternalParticipant":
+		GongUnmarshallPointer(&instance.ExternalParticipant, valueExpr, identifierMap)
 	case "Process":
 		GongUnmarshallPointer(&instance.Process, valueExpr, identifierMap)
 	}
@@ -1200,6 +1225,8 @@ func (u *AllocatedResourceShapeUnmarshaller) UnmarshallField(stage *Stage, i Gon
 		instance.Name = GongExtractString(valueExpr)
 	case "Participant":
 		GongUnmarshallPointer(&instance.Participant, valueExpr, identifierMap)
+	case "ExternalParticipant":
+		GongUnmarshallPointer(&instance.ExternalParticipant, valueExpr, identifierMap)
 	case "Resource":
 		GongUnmarshallPointer(&instance.Resource, valueExpr, identifierMap)
 	}
@@ -1332,10 +1359,10 @@ func (u *DataFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		GongUnmarshallPointer(&instance.StartTask, valueExpr, identifierMap)
 	case "EndTask":
 		GongUnmarshallPointer(&instance.EndTask, valueExpr, identifierMap)
-	case "StartExternalParticipant":
-		GongUnmarshallPointer(&instance.StartExternalParticipant, valueExpr, identifierMap)
-	case "EndExternalParticipant":
-		GongUnmarshallPointer(&instance.EndExternalParticipant, valueExpr, identifierMap)
+	case "StartParticipant":
+		GongUnmarshallPointer(&instance.StartParticipant, valueExpr, identifierMap)
+	case "EndParticipant":
+		GongUnmarshallPointer(&instance.EndParticipant, valueExpr, identifierMap)
 	case "IsDatasNodeExpanded":
 		instance.IsDatasNodeExpanded = GongExtractBool(valueExpr)
 	}
@@ -1537,6 +1564,41 @@ func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	return nil
 }
 
+type ExternalParticipantUnmarshaller struct{}
+
+func (u *ExternalParticipantUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(ExternalParticipant), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *ExternalParticipantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ExternalParticipant)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "IsProcessResource":
+		instance.IsProcessResource = GongExtractBool(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
+	case "SVG":
+		instance.SVG = GongExtractString(valueExpr)
+	case "Resources":
+		GongUnmarshallSliceOfPointers(&instance.Resources, valueExpr, identifierMap)
+	case "IsResourcesNodeExpanded":
+		instance.IsResourcesNodeExpanded = GongExtractBool(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "Processes":
+		GongUnmarshallSliceOfPointers(&instance.Processes, valueExpr, identifierMap)
+	case "IsProcessesNodeExpanded":
+		instance.IsProcessesNodeExpanded = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
 type ExternalParticipantShapeUnmarshaller struct{}
 
 func (u *ExternalParticipantShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1550,8 +1612,8 @@ func (u *ExternalParticipantShapeUnmarshaller) UnmarshallField(stage *Stage, i G
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Participant":
-		GongUnmarshallPointer(&instance.Participant, valueExpr, identifierMap)
+	case "ExternalParticipant":
+		GongUnmarshallPointer(&instance.ExternalParticipant, valueExpr, identifierMap)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "X":
@@ -1649,6 +1711,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.ResourcesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "ParticipantsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ParticipantsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ExternalParticipantsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ExternalParticipantsWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "RootNotes":
 		GongUnmarshallSliceOfPointers(&instance.RootNotes, valueExpr, identifierMap)
 	case "IsNotesNodeExpanded":
@@ -1911,10 +1975,6 @@ func (u *ParticipantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallSliceOfPointers(&instance.Resources, valueExpr, identifierMap)
 	case "IsResourcesNodeExpanded":
 		instance.IsResourcesNodeExpanded = GongExtractBool(valueExpr)
-	case "Processes":
-		GongUnmarshallSliceOfPointers(&instance.Processes, valueExpr, identifierMap)
-	case "IsProcessesNodeExpanded":
-		instance.IsProcessesNodeExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":

@@ -17,10 +17,10 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 		}
 
 		// Build a set of external participants that have a shape in this diagram
-		externalParticipantsInDiagram := make(map[*Participant]bool)
+		externalParticipantsInDiagram := make(map[*ExternalParticipant]bool)
 		for _, epShape := range diagram.ExternalParticipant_Shapes {
-			if epShape.Participant != nil {
-				externalParticipantsInDiagram[epShape.Participant] = true
+			if epShape.ExternalParticipant != nil {
+				externalParticipantsInDiagram[epShape.ExternalParticipant] = true
 			}
 		}
 
@@ -37,13 +37,13 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 						isValid = false
 					}
 				case DataFlow_ExternalParticipant2Task:
-					if df.StartExternalParticipant == nil || !externalParticipantsInDiagram[df.StartExternalParticipant] ||
+					if df.StartParticipant == nil || !externalParticipantsInDiagram[df.StartParticipant] ||
 						df.EndTask == nil || !tasksInDiagram[df.EndTask] {
 						isValid = false
 					}
 				case DataFlow_Task2ExternalParticipant:
 					if df.StartTask == nil || !tasksInDiagram[df.StartTask] ||
-						df.EndExternalParticipant == nil || !externalParticipantsInDiagram[df.EndExternalParticipant] {
+						df.EndParticipant == nil || !externalParticipantsInDiagram[df.EndParticipant] {
 						isValid = false
 					}
 				default:

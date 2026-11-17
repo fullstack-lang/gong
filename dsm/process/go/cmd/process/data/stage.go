@@ -109,6 +109,8 @@ func _(stage *models.Stage) {
 	__models__DiagramProcess__00000000_ := (&models.DiagramProcess{Name: `Order to Cash - Full Process`}).Stage(stage)
 	__models__DiagramProcess__00000001_ := (&models.DiagramProcess{Name: `Order Fulfillment & Delivery`}).Stage(stage)
 	__models__DiagramProcess__00000002_ := (&models.DiagramProcess{Name: `Invoicing & Payment Settlement`}).Stage(stage)
+	__models__ExternalParticipant__00000000_ := (&models.ExternalParticipant{Name: `Customer`}).Stage(stage)
+	__models__ExternalParticipant__00000001_ := (&models.ExternalParticipant{Name: `Logistics Carrier`}).Stage(stage)
 	__models__ExternalParticipantShape__00000000_ := (&models.ExternalParticipantShape{Name: `Customer-Order to Cash - Full Process`}).Stage(stage)
 	__models__ExternalParticipantShape__00000001_ := (&models.ExternalParticipantShape{Name: `Logistics Carrier-Order to Cash - Full Process`}).Stage(stage)
 	__models__ExternalParticipantShape__00000002_ := (&models.ExternalParticipantShape{Name: `Customer-Order Fulfillment & Delivery`}).Stage(stage)
@@ -123,8 +125,6 @@ func _(stage *models.Stage) {
 	__models__NoteTaskShape__00000000_ := (&models.NoteTaskShape{Name: `Comment to Confirm Sales Order`}).Stage(stage)
 	__models__NoteTaskShape__00000001_ := (&models.NoteTaskShape{Name: `Comment to End Order Desk`}).Stage(stage)
 	__models__NoteTaskShape__00000002_ := (&models.NoteTaskShape{Name: `Comment to Dispatch & Ship Goods`}).Stage(stage)
-	__models__Participant__00000000_ := (&models.Participant{Name: `Customer`}).Stage(stage)
-	__models__Participant__00000001_ := (&models.Participant{Name: `Logistics Carrier`}).Stage(stage)
 	__models__Participant__00000002_ := (&models.Participant{Name: `Sales & Order Desk`}).Stage(stage)
 	__models__Participant__00000003_ := (&models.Participant{Name: `Warehouse & Logistics`}).Stage(stage)
 	__models__Participant__00000004_ := (&models.Participant{Name: `Finance & Billing`}).Stage(stage)
@@ -878,7 +878,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000000_.Name = `Customer to Receive & Validate Order-Customer to Receive & Validate Order-Order to Cash - Full Process`
 	__models__DataShape__00000000_.X = 117.914915
 	__models__DataShape__00000000_.Y = 270.009075
-	__models__DataShape__00000000_.Width = 195.000000
+	__models__DataShape__00000000_.Width = 126.000000
 	__models__DataShape__00000000_.Height = 24.000000
 	__models__DataShape__00000000_.IsHidden = false
 	__models__DataShape__00000000_.IsPresentationOverridden = false
@@ -1175,6 +1175,30 @@ func _(stage *models.Stage) {
 	__models__DiagramProcess__00000002_.IsParticipantsNodeExpanded = false
 	__models__DiagramProcess__00000002_.IsExternalParticipantsNodeExpanded = false
 	__models__DiagramProcess__00000002_.IsNotesNodeExpanded = false
+	__models__ExternalParticipant__00000000_.Name = `Customer`
+	__models__ExternalParticipant__00000000_.IsProcessResource = false
+	__models__ExternalParticipant__00000000_.Description = `External buying customer placing orders and settling commercial invoices.`
+	__models__ExternalParticipant__00000000_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#3949AB" stroke-width="1.8">
+  <circle cx="12" cy="8" r="4" fill="#3949AB" fill-opacity="0.18"/>
+  <path d="M4.5 20 C4.5 15.8 7.8 13.5 12 13.5 C16.2 13.5 19.5 15.8 19.5 20 Z" fill="#3949AB" fill-opacity="0.14"/>
+</svg>`
+	__models__ExternalParticipant__00000000_.IsResourcesNodeExpanded = false
+	__models__ExternalParticipant__00000000_.ComputedPrefix = ``
+	__models__ExternalParticipant__00000000_.IsExpanded = false
+	__models__ExternalParticipant__00000000_.IsProcessesNodeExpanded = false
+	__models__ExternalParticipant__00000001_.Name = `Logistics Carrier`
+	__models__ExternalParticipant__00000001_.IsProcessResource = false
+	__models__ExternalParticipant__00000001_.Description = `Third-party freight carrier handling parcel dispatch and physical delivery.`
+	__models__ExternalParticipant__00000001_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00897B" stroke-width="1.8">
+  <rect x="1.5" y="5" width="13" height="11" rx="1" fill="#00897B" fill-opacity="0.16"/>
+  <polygon points="14.5,8.5 19,8.5 22,12 22,16 14.5,16" fill="#00897B" fill-opacity="0.12"/>
+  <circle cx="6.5" cy="17.5" r="2.3" fill="#FFFFFF"/>
+  <circle cx="18" cy="17.5" r="2.3" fill="#FFFFFF"/>
+</svg>`
+	__models__ExternalParticipant__00000001_.IsResourcesNodeExpanded = false
+	__models__ExternalParticipant__00000001_.ComputedPrefix = ``
+	__models__ExternalParticipant__00000001_.IsExpanded = false
+	__models__ExternalParticipant__00000001_.IsProcessesNodeExpanded = false
 	__models__ExternalParticipantShape__00000000_.Name = `Customer-Order to Cash - Full Process`
 	__models__ExternalParticipantShape__00000000_.IsExpanded = false
 	__models__ExternalParticipantShape__00000000_.X = 0.000000
@@ -1392,36 +1416,6 @@ func _(stage *models.Stage) {
 	__models__NoteTaskShape__00000002_.StrokeDashArray = `5,5`
 	__models__NoteTaskShape__00000002_.FontSize = ``
 	__models__NoteTaskShape__00000002_.FontColor = ``
-	__models__Participant__00000000_.Name = `Customer`
-	__models__Participant__00000000_.IsProcessResource = false
-	__models__Participant__00000000_.Description = `External buying customer placing orders and settling commercial invoices.`
-	__models__Participant__00000000_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#3949AB" stroke-width="1.8">
-  <circle cx="12" cy="8" r="4" fill="#3949AB" fill-opacity="0.18"/>
-  <path d="M4.5 20 C4.5 15.8 7.8 13.5 12 13.5 C16.2 13.5 19.5 15.8 19.5 20 Z" fill="#3949AB" fill-opacity="0.14"/>
-</svg>`
-	__models__Participant__00000000_.IsResourcesNodeExpanded = false
-	__models__Participant__00000000_.IsProcessesNodeExpanded = false
-	__models__Participant__00000000_.ComputedPrefix = ``
-	__models__Participant__00000000_.IsExpanded = false
-	__models__Participant__00000000_.IsTasksNodeExpanded = false
-	__models__Participant__00000000_.IsControlFlowsNodeExpanded = false
-	__models__Participant__00000000_.IsDataFlowsNodeExpanded = false
-	__models__Participant__00000001_.Name = `Logistics Carrier`
-	__models__Participant__00000001_.IsProcessResource = false
-	__models__Participant__00000001_.Description = `Third-party freight carrier handling parcel dispatch and physical delivery.`
-	__models__Participant__00000001_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00897B" stroke-width="1.8">
-  <rect x="1.5" y="5" width="13" height="11" rx="1" fill="#00897B" fill-opacity="0.16"/>
-  <polygon points="14.5,8.5 19,8.5 22,12 22,16 14.5,16" fill="#00897B" fill-opacity="0.12"/>
-  <circle cx="6.5" cy="17.5" r="2.3" fill="#FFFFFF"/>
-  <circle cx="18" cy="17.5" r="2.3" fill="#FFFFFF"/>
-</svg>`
-	__models__Participant__00000001_.IsResourcesNodeExpanded = false
-	__models__Participant__00000001_.IsProcessesNodeExpanded = false
-	__models__Participant__00000001_.ComputedPrefix = ``
-	__models__Participant__00000001_.IsExpanded = false
-	__models__Participant__00000001_.IsTasksNodeExpanded = false
-	__models__Participant__00000001_.IsControlFlowsNodeExpanded = false
-	__models__Participant__00000001_.IsDataFlowsNodeExpanded = false
 	__models__Participant__00000002_.Name = `Sales & Order Desk`
 	__models__Participant__00000002_.IsProcessResource = false
 	__models__Participant__00000002_.Description = `Internal sales operations validating customer orders, checking credit, and confirming sales agreements.`
@@ -1432,7 +1426,6 @@ func _(stage *models.Stage) {
   <rect x="10.2" y="10.8" width="3.6" height="3.4" rx="0.6" fill="#FFFFFF"/>
 </svg>`
 	__models__Participant__00000002_.IsResourcesNodeExpanded = false
-	__models__Participant__00000002_.IsProcessesNodeExpanded = false
 	__models__Participant__00000002_.ComputedPrefix = ``
 	__models__Participant__00000002_.IsExpanded = false
 	__models__Participant__00000002_.IsTasksNodeExpanded = false
@@ -1448,7 +1441,6 @@ func _(stage *models.Stage) {
   <line x1="7.5" y1="5" x2="16.5" y2="10"/>
 </svg>`
 	__models__Participant__00000003_.IsResourcesNodeExpanded = false
-	__models__Participant__00000003_.IsProcessesNodeExpanded = false
 	__models__Participant__00000003_.ComputedPrefix = ``
 	__models__Participant__00000003_.IsExpanded = false
 	__models__Participant__00000003_.IsTasksNodeExpanded = false
@@ -1466,7 +1458,6 @@ func _(stage *models.Stage) {
   <rect x="2.5" y="17.5" width="19" height="3" rx="0.6" fill="#2E7D32" fill-opacity="0.22"/>
 </svg>`
 	__models__Participant__00000004_.IsResourcesNodeExpanded = false
-	__models__Participant__00000004_.IsProcessesNodeExpanded = false
 	__models__Participant__00000004_.ComputedPrefix = ``
 	__models__Participant__00000004_.IsExpanded = false
 	__models__Participant__00000004_.IsTasksNodeExpanded = false
@@ -2406,25 +2397,25 @@ func _(stage *models.Stage) {
 	__models__ControlFlowShape__00000022_.ControlFlow = __models__ControlFlow__00000009_
 	__models__DataFlow__00000000_.Datas = append(__models__DataFlow__00000000_.Datas, __models__Data__00000000_)
 	__models__DataFlow__00000000_.EndTask = __models__Task__00000001_
-	__models__DataFlow__00000000_.StartExternalParticipant = __models__Participant__00000000_
+	__models__DataFlow__00000000_.StartParticipant = __models__ExternalParticipant__00000000_
 	__models__DataFlow__00000001_.Datas = append(__models__DataFlow__00000001_.Datas, __models__Data__00000001_)
 	__models__DataFlow__00000001_.StartTask = __models__Task__00000002_
-	__models__DataFlow__00000001_.EndExternalParticipant = __models__Participant__00000000_
+	__models__DataFlow__00000001_.EndParticipant = __models__ExternalParticipant__00000000_
 	__models__DataFlow__00000002_.Datas = append(__models__DataFlow__00000002_.Datas, __models__Data__00000001_)
 	__models__DataFlow__00000002_.StartTask = __models__Task__00000002_
 	__models__DataFlow__00000002_.EndTask = __models__Task__00000005_
 	__models__DataFlow__00000003_.Datas = append(__models__DataFlow__00000003_.Datas, __models__Data__00000003_)
 	__models__DataFlow__00000003_.StartTask = __models__Task__00000007_
-	__models__DataFlow__00000003_.EndExternalParticipant = __models__Participant__00000001_
+	__models__DataFlow__00000003_.EndParticipant = __models__ExternalParticipant__00000001_
 	__models__DataFlow__00000004_.Datas = append(__models__DataFlow__00000004_.Datas, __models__Data__00000003_)
 	__models__DataFlow__00000004_.StartTask = __models__Task__00000007_
 	__models__DataFlow__00000004_.EndTask = __models__Task__00000010_
 	__models__DataFlow__00000005_.Datas = append(__models__DataFlow__00000005_.Datas, __models__Data__00000004_)
 	__models__DataFlow__00000005_.StartTask = __models__Task__00000010_
-	__models__DataFlow__00000005_.EndExternalParticipant = __models__Participant__00000000_
+	__models__DataFlow__00000005_.EndParticipant = __models__ExternalParticipant__00000000_
 	__models__DataFlow__00000006_.Datas = append(__models__DataFlow__00000006_.Datas, __models__Data__00000005_)
 	__models__DataFlow__00000006_.EndTask = __models__Task__00000011_
-	__models__DataFlow__00000006_.StartExternalParticipant = __models__Participant__00000000_
+	__models__DataFlow__00000006_.StartParticipant = __models__ExternalParticipant__00000000_
 	__models__DataFlowShape__00000000_.DataFlow = __models__DataFlow__00000000_
 	__models__DataFlowShape__00000001_.DataFlow = __models__DataFlow__00000001_
 	__models__DataFlowShape__00000002_.DataFlow = __models__DataFlow__00000002_
@@ -2579,11 +2570,11 @@ func _(stage *models.Stage) {
 	__models__DiagramProcess__00000002_.Data_Shapes = append(__models__DiagramProcess__00000002_.Data_Shapes, __models__DataShape__00000012_)
 	__models__DiagramProcess__00000002_.Data_Shapes = append(__models__DiagramProcess__00000002_.Data_Shapes, __models__DataShape__00000013_)
 	__models__DiagramProcess__00000002_.Data_Shapes = append(__models__DiagramProcess__00000002_.Data_Shapes, __models__DataShape__00000014_)
-	__models__ExternalParticipantShape__00000000_.Participant = __models__Participant__00000000_
-	__models__ExternalParticipantShape__00000001_.Participant = __models__Participant__00000001_
-	__models__ExternalParticipantShape__00000002_.Participant = __models__Participant__00000000_
-	__models__ExternalParticipantShape__00000003_.Participant = __models__Participant__00000001_
-	__models__ExternalParticipantShape__00000004_.Participant = __models__Participant__00000000_
+	__models__ExternalParticipantShape__00000000_.ExternalParticipant = __models__ExternalParticipant__00000000_
+	__models__ExternalParticipantShape__00000001_.ExternalParticipant = __models__ExternalParticipant__00000001_
+	__models__ExternalParticipantShape__00000002_.ExternalParticipant = __models__ExternalParticipant__00000000_
+	__models__ExternalParticipantShape__00000003_.ExternalParticipant = __models__ExternalParticipant__00000001_
+	__models__ExternalParticipantShape__00000004_.ExternalParticipant = __models__ExternalParticipant__00000000_
 	__models__Library__00000000_.SubLibraries = append(__models__Library__00000000_.SubLibraries, __models__Library__00000001_)
 	__models__Library__00000000_.RootProcesses = append(__models__Library__00000000_.RootProcesses, __models__Process__00000000_)
 	__models__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__models__Library__00000000_.ProcesssWhoseNodeIsExpanded, __models__Process__00000000_)
@@ -2671,8 +2662,8 @@ func _(stage *models.Stage) {
 	__models__Process__00000000_.DataFlows = append(__models__Process__00000000_.DataFlows, __models__DataFlow__00000004_)
 	__models__Process__00000000_.DataFlows = append(__models__Process__00000000_.DataFlows, __models__DataFlow__00000005_)
 	__models__Process__00000000_.DataFlows = append(__models__Process__00000000_.DataFlows, __models__DataFlow__00000006_)
-	__models__Process__00000000_.ExternalParticipants = append(__models__Process__00000000_.ExternalParticipants, __models__Participant__00000000_)
-	__models__Process__00000000_.ExternalParticipants = append(__models__Process__00000000_.ExternalParticipants, __models__Participant__00000001_)
+	__models__Process__00000000_.ExternalParticipants = append(__models__Process__00000000_.ExternalParticipants, __models__ExternalParticipant__00000000_)
+	__models__Process__00000000_.ExternalParticipants = append(__models__Process__00000000_.ExternalParticipants, __models__ExternalParticipant__00000001_)
 	__models__ProcessShape__00000000_.Process = __models__Process__00000000_
 	__models__ProcessShape__00000001_.Process = __models__Process__00000000_
 	__models__ProcessShape__00000002_.Process = __models__Process__00000000_

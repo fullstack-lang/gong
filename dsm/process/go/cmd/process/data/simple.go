@@ -47,7 +47,7 @@ func _(stage *models.Stage) {
 	__models__Participant__00000001_ := (&models.Participant{Name: `ARO`}).Stage(stage)
 	__models__Participant__00000002_ := (&models.Participant{Name: `IFPS`}).Stage(stage)
 	__models__Participant__00000003_ := (&models.Participant{Name: `ATCs`}).Stage(stage)
-	__models__Participant__00000004_ := (&models.Participant{Name: `E1`}).Stage(stage)
+	__models__ExternalParticipant__00000000_ := (&models.ExternalParticipant{Name: `E1`}).Stage(stage)
 	__models__ParticipantShape__00000000_ := (&models.ParticipantShape{Name: `-DiagramProcess`}).Stage(stage)
 	__models__ParticipantShape__00000001_ := (&models.ParticipantShape{Name: `ARO-DiagramProcess`}).Stage(stage)
 	__models__ParticipantShape__00000002_ := (&models.ParticipantShape{Name: `IFPS-DiagramProcess`}).Stage(stage)
@@ -228,7 +228,6 @@ func _(stage *models.Stage) {
 	__models__Participant__00000000_.IsProcessResource = false
 	__models__Participant__00000000_.Description = ``
 	__models__Participant__00000000_.IsResourcesNodeExpanded = false
-	__models__Participant__00000000_.IsProcessesNodeExpanded = false
 	__models__Participant__00000000_.ComputedPrefix = ``
 	__models__Participant__00000000_.IsExpanded = false
 	__models__Participant__00000000_.IsTasksNodeExpanded = false
@@ -238,7 +237,6 @@ func _(stage *models.Stage) {
 	__models__Participant__00000001_.IsProcessResource = false
 	__models__Participant__00000001_.Description = ``
 	__models__Participant__00000001_.IsResourcesNodeExpanded = true
-	__models__Participant__00000001_.IsProcessesNodeExpanded = false
 	__models__Participant__00000001_.ComputedPrefix = ``
 	__models__Participant__00000001_.IsExpanded = false
 	__models__Participant__00000001_.IsTasksNodeExpanded = true
@@ -248,7 +246,6 @@ func _(stage *models.Stage) {
 	__models__Participant__00000002_.IsProcessResource = false
 	__models__Participant__00000002_.Description = ``
 	__models__Participant__00000002_.IsResourcesNodeExpanded = true
-	__models__Participant__00000002_.IsProcessesNodeExpanded = false
 	__models__Participant__00000002_.ComputedPrefix = ``
 	__models__Participant__00000002_.IsExpanded = false
 	__models__Participant__00000002_.IsTasksNodeExpanded = false
@@ -258,22 +255,18 @@ func _(stage *models.Stage) {
 	__models__Participant__00000003_.IsProcessResource = false
 	__models__Participant__00000003_.Description = ``
 	__models__Participant__00000003_.IsResourcesNodeExpanded = false
-	__models__Participant__00000003_.IsProcessesNodeExpanded = false
 	__models__Participant__00000003_.ComputedPrefix = ``
 	__models__Participant__00000003_.IsExpanded = false
 	__models__Participant__00000003_.IsTasksNodeExpanded = false
 	__models__Participant__00000003_.IsControlFlowsNodeExpanded = false
 	__models__Participant__00000003_.IsDataFlowsNodeExpanded = false
-	__models__Participant__00000004_.Name = `E1`
-	__models__Participant__00000004_.IsProcessResource = false
-	__models__Participant__00000004_.Description = ``
-	__models__Participant__00000004_.IsResourcesNodeExpanded = false
-	__models__Participant__00000004_.IsProcessesNodeExpanded = false
-	__models__Participant__00000004_.ComputedPrefix = ``
-	__models__Participant__00000004_.IsExpanded = false
-	__models__Participant__00000004_.IsTasksNodeExpanded = false
-	__models__Participant__00000004_.IsControlFlowsNodeExpanded = false
-	__models__Participant__00000004_.IsDataFlowsNodeExpanded = false
+	__models__ExternalParticipant__00000000_.Name = `E1`
+	__models__ExternalParticipant__00000000_.IsProcessResource = false
+	__models__ExternalParticipant__00000000_.Description = ``
+	__models__ExternalParticipant__00000000_.IsResourcesNodeExpanded = false
+	__models__ExternalParticipant__00000000_.IsProcessesNodeExpanded = false
+	__models__ExternalParticipant__00000000_.ComputedPrefix = ``
+	__models__ExternalParticipant__00000000_.IsExpanded = false
 	__models__ParticipantShape__00000000_.Name = `-DiagramProcess`
 	__models__ParticipantShape__00000000_.IsExpanded = false
 	__models__ParticipantShape__00000000_.X = 170.882152
@@ -508,7 +501,7 @@ func _(stage *models.Stage) {
 	__models__DataFlow__00000000_.EndTask = __models__Task__00000001_
 	__models__DataFlow__00000001_.Datas = append(__models__DataFlow__00000001_.Datas, __models__Data__00000000_)
 	__models__DataFlow__00000001_.EndTask = __models__Task__00000002_
-	__models__DataFlow__00000001_.StartExternalParticipant = __models__Participant__00000004_
+	__models__DataFlow__00000001_.StartParticipant = __models__ExternalParticipant__00000000_
 	__models__DataFlowShape__00000000_.DataFlow = __models__DataFlow__00000000_
 	__models__DataFlowShape__00000001_.DataFlow = __models__DataFlow__00000001_
 	__models__DataShape__00000000_.Data = __models__Data__00000000_
@@ -536,7 +529,7 @@ func _(stage *models.Stage) {
 	__models__DiagramProcess__00000000_.Note_Shapes = append(__models__DiagramProcess__00000000_.Note_Shapes, __models__NoteShape__00000000_)
 	__models__DiagramProcess__00000000_.NotesWhoseNodeIsExpanded = append(__models__DiagramProcess__00000000_.NotesWhoseNodeIsExpanded, __models__Note__00000000_)
 	__models__DiagramProcess__00000000_.NoteTaskShapes = append(__models__DiagramProcess__00000000_.NoteTaskShapes, __models__NoteTaskShape__00000000_)
-	__models__ExternalParticipantShape__00000000_.Participant = __models__Participant__00000004_
+	__models__ExternalParticipantShape__00000000_.ExternalParticipant = __models__ExternalParticipant__00000000_
 	__models__Library__00000000_.RootProcesses = append(__models__Library__00000000_.RootProcesses, __models__Process__00000000_)
 	__models__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__models__Library__00000000_.ProcesssWhoseNodeIsExpanded, __models__Process__00000000_)
 	__models__Library__00000000_.RootDataFlows = append(__models__Library__00000000_.RootDataFlows, __models__DataFlow__00000000_)
@@ -575,10 +568,9 @@ func _(stage *models.Stage) {
 	__models__Process__00000000_.Participants = append(__models__Process__00000000_.Participants, __models__Participant__00000003_)
 	__models__Process__00000000_.DataFlows = append(__models__Process__00000000_.DataFlows, __models__DataFlow__00000000_)
 	__models__Process__00000000_.DataFlows = append(__models__Process__00000000_.DataFlows, __models__DataFlow__00000001_)
-	__models__Process__00000000_.ExternalParticipants = append(__models__Process__00000000_.ExternalParticipants, __models__Participant__00000004_)
+	__models__Process__00000000_.ExternalParticipants = append(__models__Process__00000000_.ExternalParticipants, __models__ExternalParticipant__00000000_)
 	__models__ProcessShape__00000000_.Process = __models__Process__00000000_
 	__models__TaskShape__00000000_.Task = __models__Task__00000000_
 	__models__TaskShape__00000001_.Task = __models__Task__00000001_
 	__models__TaskShape__00000002_.Task = __models__Task__00000002_
 }
-

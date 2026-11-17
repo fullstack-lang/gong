@@ -9,13 +9,14 @@ type dataShapeKey struct {
 }
 
 type allocatedResourceShapeKey struct {
-	participant *Participant
-	resource    *Resource
+	participant         *Participant
+	externalParticipant *ExternalParticipant
+	resource            *Resource
 }
 
 type allocatedProcessShapeKey struct {
-	participant *Participant
-	process     *Process
+	externalParticipant *ExternalParticipant
+	process             *Process
 }
 
 type DiagramProcess struct {
@@ -63,16 +64,16 @@ type DiagramProcess struct {
 	ParticipantWhoseNodeIsExpanded   []*Participant
 
 	// ExternalParticipant
-	ExternalParticipant_Shapes               []*ExternalParticipantShape
-	map_Participant_ExternalParticipantShape map[*Participant]*ExternalParticipantShape
-	map_ExternalParticipant_Rect             map[*Participant]*svg.Rect
-	IsExternalParticipantsNodeExpanded       bool
-	ExternalParticipantWhoseNodeIsExpanded   []*Participant
-	map_SvgRect_ExternalParticipantShape     map[*svg.Rect]*ExternalParticipantShape
-	map_SvgRect_Participant                  map[*svg.Rect]*Participant
+	ExternalParticipant_Shapes                       []*ExternalParticipantShape
+	map_ExternalParticipant_ExternalParticipantShape map[*ExternalParticipant]*ExternalParticipantShape
+	map_ExternalParticipant_Rect                     map[*ExternalParticipant]*svg.Rect
+	IsExternalParticipantsNodeExpanded               bool
+	ExternalParticipantWhoseNodeIsExpanded           []*ExternalParticipant
+	map_SvgRect_ExternalParticipantShape             map[*svg.Rect]*ExternalParticipantShape
+	map_SvgRect_Participant                          map[*svg.Rect]*Participant
 
-	ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded []*Participant
-	ExternalParticipantsWhoseInDataFlowsNodeIsExpanded  []*Participant
+	ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded []*ExternalParticipant
+	ExternalParticipantsWhoseInDataFlowsNodeIsExpanded  []*ExternalParticipant
 
 	// Task
 	TasksWhoseNodeIsExpanded []*Task

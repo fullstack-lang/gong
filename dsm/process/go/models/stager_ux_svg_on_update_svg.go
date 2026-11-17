@@ -48,13 +48,13 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		if endExternalParticipantShape, ok := diagramProcess.map_SvgRect_ExternalParticipantShape[endRect]; ok {
 			assocType = ASSOCIATION_TYPE_TASK_EXTERNAL_PARTICIPANT
 			sourceAbstratctElement = startTaskShape.Task
-			targetAbstractElement = endExternalParticipantShape.Participant
+			targetAbstractElement = endExternalParticipantShape.ExternalParticipant
 		}
 	}
 	if startExternalParticipantShape, ok := diagramProcess.map_SvgRect_ExternalParticipantShape[startRect]; ok {
 		if endTaskShape, ok := diagramProcess.map_SvgRect_TaskShape[endRect]; ok {
 			assocType = ASSOCIATION_TYPE_EXTERNAL_PARTICIPANT_TASK
-			sourceAbstratctElement = startExternalParticipantShape.Participant
+			sourceAbstratctElement = startExternalParticipantShape.ExternalParticipant
 			targetAbstractElement = endTaskShape.Task
 		}
 	}
@@ -129,24 +129,24 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			diagramProcess.DataFlow_Shapes = append(diagramProcess.DataFlow_Shapes, dataFlowShape)
 		}
 	case ASSOCIATION_TYPE_EXTERNAL_PARTICIPANT_TASK:
-		startParticipant := sourceAbstratctElement.(*Participant)
+		startExternalParticipant := sourceAbstratctElement.(*ExternalParticipant)
 		endTask := targetAbstractElement.(*Task)
 
 		dataFlow := (&DataFlow{
-			Type:                     DataFlow_ExternalParticipant2Task,
-			StartExternalParticipant: startParticipant,
-			EndTask:                  endTask,
+			Type:             DataFlow_ExternalParticipant2Task,
+			StartParticipant: startExternalParticipant,
+			EndTask:          endTask,
 		})
-		dataFlow.StartExternalParticipant.owningProcess.DataFlows = append(dataFlow.StartExternalParticipant.owningProcess.DataFlows, dataFlow)
-		dataFlow.Name = dataFlow.StartExternalParticipant.GetName() + " to " + dataFlow.EndTask.GetName()
+		dataFlow.StartParticipant.owningProcess.DataFlows = append(dataFlow.StartParticipant.owningProcess.DataFlows, dataFlow)
+		dataFlow.Name = dataFlow.StartParticipant.GetName() + " to " + dataFlow.EndTask.GetName()
 		dataFlow.Stage(stage)
 
 		dataFlowShape := (&DataFlowShape{
 			DataFlow: dataFlow,
 		}).Stage(stager.stage)
 
-		dataFlowShape.SetName(dataFlow.StartExternalParticipant.GetName() + " to " + dataFlow.EndTask.GetName())
-		dataFlowShape.SetAbstractStartElement(dataFlow.StartExternalParticipant)
+		dataFlowShape.SetName(dataFlow.StartParticipant.GetName() + " to " + dataFlow.EndTask.GetName())
+		dataFlowShape.SetAbstractStartElement(dataFlow.StartParticipant)
 		dataFlowShape.SetAbstractEndElement(dataFlow.EndTask)
 		dataFlowShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
 		dataFlowShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
@@ -157,24 +157,24 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		diagramProcess.DataFlow_Shapes = append(diagramProcess.DataFlow_Shapes, dataFlowShape)
 	case ASSOCIATION_TYPE_TASK_EXTERNAL_PARTICIPANT:
 		startTask := sourceAbstratctElement.(*Task)
-		endParticipant := targetAbstractElement.(*Participant)
+		endExternalParticipant := targetAbstractElement.(*ExternalParticipant)
 
 		dataFlow := (&DataFlow{
-			Type:                   DataFlow_ExternalParticipant2Task,
-			StartTask:              startTask,
-			EndExternalParticipant: endParticipant,
+			Type:           DataFlow_Task2ExternalParticipant,
+			StartTask:      startTask,
+			EndParticipant: endExternalParticipant,
 		})
 		dataFlow.StartTask.owningParticipant.owningProcess.DataFlows = append(dataFlow.StartTask.owningParticipant.owningProcess.DataFlows, dataFlow)
-		dataFlow.Name = dataFlow.StartTask.GetName() + " to " + dataFlow.EndExternalParticipant.GetName()
+		dataFlow.Name = dataFlow.StartTask.GetName() + " to " + dataFlow.EndParticipant.GetName()
 		dataFlow.Stage(stage)
 
 		dataFlowShape := (&DataFlowShape{
 			DataFlow: dataFlow,
 		}).Stage(stager.stage)
 
-		dataFlowShape.SetName(dataFlow.StartTask.GetName() + " to " + dataFlow.EndExternalParticipant.GetName())
+		dataFlowShape.SetName(dataFlow.StartTask.GetName() + " to " + dataFlow.EndParticipant.GetName())
 		dataFlowShape.SetAbstractStartElement(dataFlow.StartTask)
-		dataFlowShape.SetAbstractEndElement(dataFlow.EndExternalParticipant)
+		dataFlowShape.SetAbstractEndElement(dataFlow.EndParticipant)
 		dataFlowShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
 		dataFlowShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
 

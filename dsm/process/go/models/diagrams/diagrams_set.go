@@ -78,6 +78,9 @@ func _(stage *models.Stage) {
 	__models__GongStructShape__00000017_ := (&models.GongStructShape{Name: `concrete syntax-Task`}).Stage(stage)
 	__models__GongStructShape__00000018_ := (&models.GongStructShape{Name: `concrete syntax-ControlFlow`}).Stage(stage)
 	__models__GongStructShape__00000019_ := (&models.GongStructShape{Name: `concrete syntax-DataFlow`}).Stage(stage)
+	__models__GongStructShape__00000020_ := (&models.GongStructShape{Name: `Abstract Syntax-ExternalParticipant`}).Stage(stage)
+	__models__GongStructShape__00000021_ := (&models.GongStructShape{Name: `concrete syntax-ExternalParticipant`}).Stage(stage)
+	__models__GongStructShape__00000022_ := (&models.GongStructShape{Name: `concrete syntax-ExternalParticipantShape`}).Stage(stage)
 	__models__LinkShape__00000000_ := (&models.LinkShape{Name: `Participants`}).Stage(stage)
 	__models__LinkShape__00000001_ := (&models.LinkShape{Name: `Tasks`}).Stage(stage)
 	__models__LinkShape__00000002_ := (&models.LinkShape{Name: `Start`}).Stage(stage)
@@ -111,6 +114,10 @@ func _(stage *models.Stage) {
 	__models__LinkShape__00000034_ := (&models.LinkShape{Name: `EndExternalParticipant`}).Stage(stage)
 	__models__LinkShape__00000035_ := (&models.LinkShape{Name: `DataFlows`}).Stage(stage)
 	__models__LinkShape__00000036_ := (&models.LinkShape{Name: `ControlFlows`}).Stage(stage)
+	__models__LinkShape__00000037_ := (&models.LinkShape{Name: `ExternalParticipants`}).Stage(stage)
+	__models__LinkShape__00000038_ := (&models.LinkShape{Name: `Resources`}).Stage(stage)
+	__models__LinkShape__00000039_ := (&models.LinkShape{Name: `ExternalParticipant_Shapes`}).Stage(stage)
+	__models__LinkShape__00000040_ := (&models.LinkShape{Name: `ExternalParticipant`}).Stage(stage)
 
 	// ------------------------------------------------------------------------
 	// Phase 2: Value Initializations
@@ -303,10 +310,10 @@ func _(stage *models.Stage) {
 	__models__GongNoteShape__00000000_.Identifier = `ref_models.NoteOnConcreteShape`
 	__models__GongNoteShape__00000000_.Body = `
 
-[models.ProcessShape], [models.ParticipantShape], [models.TaskShape], [models.ControlFlowShape] & [models.DataFlowShape] are the concrete syntax
+[models.ProcessShape], [models.ParticipantShape], [models.ExternalParticipantShape], [models.TaskShape], [models.ControlFlowShape] & [models.DataFlowShape] are the concrete syntax
 Each concrete instance must reference an abstract instance.
 `
-	__models__GongNoteShape__00000000_.BodyHTML = `<p><a href="/models#ProcessShape">models.ProcessShape</a>, <a href="/models#ParticipantShape">models.ParticipantShape</a>, <a href="/models#TaskShape">models.TaskShape</a>, <a href="/models#ControlFlowShape">models.ControlFlowShape</a> &amp; <a href="/models#DataFlowShape">models.DataFlowShape</a> are the concrete syntax
+	__models__GongNoteShape__00000000_.BodyHTML = `<p><a href="/models#ProcessShape">models.ProcessShape</a>, <a href="/models#ParticipantShape">models.ParticipantShape</a>, <a href="/models#ExternalParticipantShape">models.ExternalParticipantShape</a>, <a href="/models#TaskShape">models.TaskShape</a>, <a href="/models#ControlFlowShape">models.ControlFlowShape</a> &amp; <a href="/models#DataFlowShape">models.DataFlowShape</a> are the concrete syntax
 Each concrete instance must reference an abstract instance.
 `
 	__models__GongNoteShape__00000000_.X = 535.000000
@@ -333,16 +340,16 @@ Each concrete instance must reference an abstract instance.
 	__models__GongStructShape__00000001_.IdentifierMeta = ref_models.Participant{}
 	__models__GongStructShape__00000001_.IsSelected = false
 	__models__GongStructShape__00000002_.Name = `Default-Task`
-	__models__GongStructShape__00000002_.X = 721.000000
-	__models__GongStructShape__00000002_.Y = 601.000000
+	__models__GongStructShape__00000002_.X = 781.000000
+	__models__GongStructShape__00000002_.Y = 699.000000
 	__models__GongStructShape__00000002_.Width = 385.000000
 	__models__GongStructShape__00000002_.Height = 106.000000
 	__models__GongStructShape__00000002_.IsHidden = false
 	__models__GongStructShape__00000002_.IdentifierMeta = ref_models.Task{}
 	__models__GongStructShape__00000002_.IsSelected = false
 	__models__GongStructShape__00000003_.Name = `Default-ControlFlow`
-	__models__GongStructShape__00000003_.X = 1207.000000
-	__models__GongStructShape__00000003_.Y = 598.000000
+	__models__GongStructShape__00000003_.X = 1267.000000
+	__models__GongStructShape__00000003_.Y = 696.000000
 	__models__GongStructShape__00000003_.Width = 240.000000
 	__models__GongStructShape__00000003_.Height = 113.000000
 	__models__GongStructShape__00000003_.IsHidden = false
@@ -351,30 +358,30 @@ Each concrete instance must reference an abstract instance.
 	__models__GongStructShape__00000004_.Name = `Default-Library`
 	__models__GongStructShape__00000004_.X = 53.000000
 	__models__GongStructShape__00000004_.Y = 206.000000
-	__models__GongStructShape__00000004_.Width = 497.000000
+	__models__GongStructShape__00000004_.Width = 364.000000
 	__models__GongStructShape__00000004_.Height = 63.000000
 	__models__GongStructShape__00000004_.IsHidden = false
 	__models__GongStructShape__00000004_.IdentifierMeta = ref_models.Library{}
 	__models__GongStructShape__00000004_.IsSelected = false
 	__models__GongStructShape__00000005_.Name = `Default-DataFlow`
-	__models__GongStructShape__00000005_.X = 355.000000
-	__models__GongStructShape__00000005_.Y = 592.000000
-	__models__GongStructShape__00000005_.Width = 240.000000
+	__models__GongStructShape__00000005_.X = 359.000000
+	__models__GongStructShape__00000005_.Y = 693.000000
+	__models__GongStructShape__00000005_.Width = 287.000000
 	__models__GongStructShape__00000005_.Height = 106.000000
 	__models__GongStructShape__00000005_.IsHidden = false
 	__models__GongStructShape__00000005_.IdentifierMeta = ref_models.DataFlow{}
 	__models__GongStructShape__00000005_.IsSelected = false
 	__models__GongStructShape__00000006_.Name = `Default-Data`
-	__models__GongStructShape__00000006_.X = 124.000000
-	__models__GongStructShape__00000006_.Y = 614.000000
+	__models__GongStructShape__00000006_.X = 128.000000
+	__models__GongStructShape__00000006_.Y = 715.000000
 	__models__GongStructShape__00000006_.Width = 151.000000
 	__models__GongStructShape__00000006_.Height = 63.000000
 	__models__GongStructShape__00000006_.IsHidden = false
 	__models__GongStructShape__00000006_.IdentifierMeta = ref_models.Data{}
 	__models__GongStructShape__00000006_.IsSelected = false
 	__models__GongStructShape__00000007_.Name = `Default-Note`
-	__models__GongStructShape__00000007_.X = 58.000000
-	__models__GongStructShape__00000007_.Y = 806.000000
+	__models__GongStructShape__00000007_.X = 62.000000
+	__models__GongStructShape__00000007_.Y = 907.000000
 	__models__GongStructShape__00000007_.Width = 1386.999939
 	__models__GongStructShape__00000007_.Height = 63.000000
 	__models__GongStructShape__00000007_.IsHidden = false
@@ -476,6 +483,30 @@ Each concrete instance must reference an abstract instance.
 	__models__GongStructShape__00000019_.IsHidden = false
 	__models__GongStructShape__00000019_.IdentifierMeta = ref_models.DataFlow{}
 	__models__GongStructShape__00000019_.IsSelected = false
+	__models__GongStructShape__00000020_.Name = `Abstract Syntax-ExternalParticipant`
+	__models__GongStructShape__00000020_.X = 428.000061
+	__models__GongStructShape__00000020_.Y = 349.000000
+	__models__GongStructShape__00000020_.Width = 320.000000
+	__models__GongStructShape__00000020_.Height = 165.000000
+	__models__GongStructShape__00000020_.IsHidden = false
+	__models__GongStructShape__00000020_.IdentifierMeta = ref_models.ExternalParticipant{}
+	__models__GongStructShape__00000020_.IsSelected = false
+	__models__GongStructShape__00000021_.Name = `concrete syntax-ExternalParticipant`
+	__models__GongStructShape__00000021_.X = 1600.000000
+	__models__GongStructShape__00000021_.Y = 669.000000
+	__models__GongStructShape__00000021_.Width = 240.000000
+	__models__GongStructShape__00000021_.Height = 63.000000
+	__models__GongStructShape__00000021_.IsHidden = false
+	__models__GongStructShape__00000021_.IdentifierMeta = ref_models.ExternalParticipant{}
+	__models__GongStructShape__00000021_.IsSelected = false
+	__models__GongStructShape__00000022_.Name = `concrete syntax-ExternalParticipantShape`
+	__models__GongStructShape__00000022_.X = 1600.000000
+	__models__GongStructShape__00000022_.Y = 350.000000
+	__models__GongStructShape__00000022_.Width = 240.000000
+	__models__GongStructShape__00000022_.Height = 110.000000
+	__models__GongStructShape__00000022_.IsHidden = false
+	__models__GongStructShape__00000022_.IdentifierMeta = ref_models.ExternalParticipantShape{}
+	__models__GongStructShape__00000022_.IsSelected = false
 	__models__LinkShape__00000000_.Name = `Participants`
 	__models__LinkShape__00000000_.IdentifierMeta = ref_models.Process{}.Participants
 	__models__LinkShape__00000000_.FieldTypeIdentifierMeta = ref_models.Participant{}
@@ -490,9 +521,9 @@ Each concrete instance must reference an abstract instance.
 	__models__LinkShape__00000000_.X = 455.000000
 	__models__LinkShape__00000000_.Y = 134.500000
 	__models__LinkShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
-	__models__LinkShape__00000000_.StartRatio = 0.885695
+	__models__LinkShape__00000000_.StartRatio = 0.959303
 	__models__LinkShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__models__LinkShape__00000000_.EndRatio = 0.120633
+	__models__LinkShape__00000000_.EndRatio = 0.202575
 	__models__LinkShape__00000000_.CornerOffsetRatio = 1.476356
 	__models__LinkShape__00000000_.IsHidden = false
 	__models__LinkShape__00000001_.Name = `Tasks`
@@ -509,7 +540,7 @@ Each concrete instance must reference an abstract instance.
 	__models__LinkShape__00000001_.X = 421.000000
 	__models__LinkShape__00000001_.Y = 179.500000
 	__models__LinkShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
-	__models__LinkShape__00000001_.StartRatio = 0.150173
+	__models__LinkShape__00000001_.StartRatio = 0.254977
 	__models__LinkShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
 	__models__LinkShape__00000001_.EndRatio = 0.837013
 	__models__LinkShape__00000001_.CornerOffsetRatio = 1.264627
@@ -604,7 +635,7 @@ Each concrete instance must reference an abstract instance.
 	__models__LinkShape__00000010_.X = 401.500000
 	__models__LinkShape__00000010_.Y = 320.000000
 	__models__LinkShape__00000010_.StartOrientation = models.ORIENTATION_VERTICAL
-	__models__LinkShape__00000010_.StartRatio = 0.322435
+	__models__LinkShape__00000010_.StartRatio = 0.463680
 	__models__LinkShape__00000010_.EndOrientation = models.ORIENTATION_VERTICAL
 	__models__LinkShape__00000010_.EndRatio = 0.647546
 	__models__LinkShape__00000010_.CornerOffsetRatio = 2.095331
@@ -623,9 +654,9 @@ Each concrete instance must reference an abstract instance.
 	__models__LinkShape__00000011_.X = 908.000000
 	__models__LinkShape__00000011_.Y = 311.000000
 	__models__LinkShape__00000011_.StartOrientation = models.ORIENTATION_VERTICAL
-	__models__LinkShape__00000011_.StartRatio = 0.842767
+	__models__LinkShape__00000011_.StartRatio = 0.900493
 	__models__LinkShape__00000011_.EndOrientation = models.ORIENTATION_VERTICAL
-	__models__LinkShape__00000011_.EndRatio = 0.492741
+	__models__LinkShape__00000011_.EndRatio = 0.090748
 	__models__LinkShape__00000011_.CornerOffsetRatio = 1.825490
 	__models__LinkShape__00000011_.IsHidden = false
 	__models__LinkShape__00000012_.Name = `RootNotes`
@@ -699,13 +730,13 @@ Each concrete instance must reference an abstract instance.
 	__models__LinkShape__00000015_.X = 1773.000000
 	__models__LinkShape__00000015_.Y = 324.000000
 	__models__LinkShape__00000015_.StartOrientation = models.ORIENTATION_VERTICAL
-	__models__LinkShape__00000015_.StartRatio = 0.903449
+	__models__LinkShape__00000015_.StartRatio = 0.578121
 	__models__LinkShape__00000015_.EndOrientation = models.ORIENTATION_VERTICAL
-	__models__LinkShape__00000015_.EndRatio = 0.780208
+	__models__LinkShape__00000015_.EndRatio = 0.194914
 	__models__LinkShape__00000015_.CornerOffsetRatio = -0.233757
 	__models__LinkShape__00000015_.IsHidden = false
 	__models__LinkShape__00000016_.Name = `Processes`
-	__models__LinkShape__00000016_.IdentifierMeta = ref_models.Participant{}.Processes
+	__models__LinkShape__00000016_.IdentifierMeta = ref_models.ExternalParticipant{}.Processes
 	__models__LinkShape__00000016_.FieldTypeIdentifierMeta = ref_models.Process{}
 	__models__LinkShape__00000016_.FieldOffsetX = 0.000000
 	__models__LinkShape__00000016_.FieldOffsetY = 0.000000
@@ -718,9 +749,9 @@ Each concrete instance must reference an abstract instance.
 	__models__LinkShape__00000016_.X = 1536.000000
 	__models__LinkShape__00000016_.Y = 329.500000
 	__models__LinkShape__00000016_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__models__LinkShape__00000016_.StartRatio = 0.108943
+	__models__LinkShape__00000016_.StartRatio = 0.612037
 	__models__LinkShape__00000016_.EndOrientation = models.ORIENTATION_VERTICAL
-	__models__LinkShape__00000016_.EndRatio = 0.538102
+	__models__LinkShape__00000016_.EndRatio = 0.392459
 	__models__LinkShape__00000016_.CornerOffsetRatio = -1.579365
 	__models__LinkShape__00000016_.IsHidden = false
 	__models__LinkShape__00000017_.Name = `Type`
@@ -737,9 +768,9 @@ Each concrete instance must reference an abstract instance.
 	__models__LinkShape__00000017_.X = 1295.500000
 	__models__LinkShape__00000017_.Y = 435.500000
 	__models__LinkShape__00000017_.StartOrientation = models.ORIENTATION_VERTICAL
-	__models__LinkShape__00000017_.StartRatio = 0.062987
+	__models__LinkShape__00000017_.StartRatio = 0.440986
 	__models__LinkShape__00000017_.EndOrientation = models.ORIENTATION_VERTICAL
-	__models__LinkShape__00000017_.EndRatio = 0.099599
+	__models__LinkShape__00000017_.EndRatio = 0.654491
 	__models__LinkShape__00000017_.CornerOffsetRatio = -1.580189
 	__models__LinkShape__00000017_.IsHidden = false
 	__models__LinkShape__00000018_.Name = `DiagramProcesss`
@@ -1028,8 +1059,8 @@ Each concrete instance must reference an abstract instance.
 	__models__LinkShape__00000032_.CornerOffsetRatio = 1.380000
 	__models__LinkShape__00000032_.IsHidden = false
 	__models__LinkShape__00000033_.Name = `StartExternalParticipant`
-	__models__LinkShape__00000033_.IdentifierMeta = ref_models.DataFlow{}.StartExternalParticipant
-	__models__LinkShape__00000033_.FieldTypeIdentifierMeta = ref_models.Participant{}
+	__models__LinkShape__00000033_.IdentifierMeta = ref_models.DataFlow{}.StartParticipant
+	__models__LinkShape__00000033_.FieldTypeIdentifierMeta = ref_models.ExternalParticipant{}
 	__models__LinkShape__00000033_.FieldOffsetX = 0.000000
 	__models__LinkShape__00000033_.FieldOffsetY = 0.000000
 	__models__LinkShape__00000033_.TargetMultiplicity = models.ZERO_ONE
@@ -1041,14 +1072,14 @@ Each concrete instance must reference an abstract instance.
 	__models__LinkShape__00000033_.X = 1027.000000
 	__models__LinkShape__00000033_.Y = 516.000000
 	__models__LinkShape__00000033_.StartOrientation = models.ORIENTATION_VERTICAL
-	__models__LinkShape__00000033_.StartRatio = 0.678248
-	__models__LinkShape__00000033_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__models__LinkShape__00000033_.EndRatio = 0.397500
-	__models__LinkShape__00000033_.CornerOffsetRatio = -0.067005
+	__models__LinkShape__00000033_.StartRatio = 0.723970
+	__models__LinkShape__00000033_.EndOrientation = models.ORIENTATION_VERTICAL
+	__models__LinkShape__00000033_.EndRatio = 0.352436
+	__models__LinkShape__00000033_.CornerOffsetRatio = -0.988437
 	__models__LinkShape__00000033_.IsHidden = false
 	__models__LinkShape__00000034_.Name = `EndExternalParticipant`
-	__models__LinkShape__00000034_.IdentifierMeta = ref_models.DataFlow{}.EndExternalParticipant
-	__models__LinkShape__00000034_.FieldTypeIdentifierMeta = ref_models.Participant{}
+	__models__LinkShape__00000034_.IdentifierMeta = ref_models.DataFlow{}.EndParticipant
+	__models__LinkShape__00000034_.FieldTypeIdentifierMeta = ref_models.ExternalParticipant{}
 	__models__LinkShape__00000034_.FieldOffsetX = 0.000000
 	__models__LinkShape__00000034_.FieldOffsetY = 0.000000
 	__models__LinkShape__00000034_.TargetMultiplicity = models.ZERO_ONE
@@ -1061,9 +1092,9 @@ Each concrete instance must reference an abstract instance.
 	__models__LinkShape__00000034_.Y = 519.500000
 	__models__LinkShape__00000034_.StartOrientation = models.ORIENTATION_VERTICAL
 	__models__LinkShape__00000034_.StartRatio = 0.878248
-	__models__LinkShape__00000034_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__models__LinkShape__00000034_.EndRatio = 0.805461
-	__models__LinkShape__00000034_.CornerOffsetRatio = -0.312288
+	__models__LinkShape__00000034_.EndOrientation = models.ORIENTATION_VERTICAL
+	__models__LinkShape__00000034_.EndRatio = 0.961811
+	__models__LinkShape__00000034_.CornerOffsetRatio = -1.067217
 	__models__LinkShape__00000034_.IsHidden = false
 	__models__LinkShape__00000035_.Name = `DataFlows`
 	__models__LinkShape__00000035_.IdentifierMeta = ref_models.Note{}.DataFlows
@@ -1103,6 +1134,82 @@ Each concrete instance must reference an abstract instance.
 	__models__LinkShape__00000036_.EndRatio = 0.478248
 	__models__LinkShape__00000036_.CornerOffsetRatio = -0.890516
 	__models__LinkShape__00000036_.IsHidden = false
+	__models__LinkShape__00000037_.Name = `ExternalParticipants`
+	__models__LinkShape__00000037_.IdentifierMeta = ref_models.Process{}.ExternalParticipants
+	__models__LinkShape__00000037_.FieldTypeIdentifierMeta = ref_models.ExternalParticipant{}
+	__models__LinkShape__00000037_.FieldOffsetX = 0.000000
+	__models__LinkShape__00000037_.FieldOffsetY = 0.000000
+	__models__LinkShape__00000037_.TargetMultiplicity = models.MANY
+	__models__LinkShape__00000037_.TargetMultiplicityOffsetX = 0.000000
+	__models__LinkShape__00000037_.TargetMultiplicityOffsetY = 0.000000
+	__models__LinkShape__00000037_.SourceMultiplicity = models.MANY
+	__models__LinkShape__00000037_.SourceMultiplicityOffsetX = 0.000000
+	__models__LinkShape__00000037_.SourceMultiplicityOffsetY = 0.000000
+	__models__LinkShape__00000037_.X = 0.000000
+	__models__LinkShape__00000037_.Y = 0.000000
+	__models__LinkShape__00000037_.StartOrientation = models.ORIENTATION_VERTICAL
+	__models__LinkShape__00000037_.StartRatio = 0.034170
+	__models__LinkShape__00000037_.EndOrientation = models.ORIENTATION_VERTICAL
+	__models__LinkShape__00000037_.EndRatio = 0.911811
+	__models__LinkShape__00000037_.CornerOffsetRatio = 1.400000
+	__models__LinkShape__00000037_.IsHidden = false
+	__models__LinkShape__00000038_.Name = `Resources`
+	__models__LinkShape__00000038_.IdentifierMeta = ref_models.ExternalParticipant{}.Resources
+	__models__LinkShape__00000038_.FieldTypeIdentifierMeta = ref_models.Resource{}
+	__models__LinkShape__00000038_.FieldOffsetX = 0.000000
+	__models__LinkShape__00000038_.FieldOffsetY = 0.000000
+	__models__LinkShape__00000038_.TargetMultiplicity = models.MANY
+	__models__LinkShape__00000038_.TargetMultiplicityOffsetX = 0.000000
+	__models__LinkShape__00000038_.TargetMultiplicityOffsetY = 0.000000
+	__models__LinkShape__00000038_.SourceMultiplicity = models.MANY
+	__models__LinkShape__00000038_.SourceMultiplicityOffsetX = 0.000000
+	__models__LinkShape__00000038_.SourceMultiplicityOffsetY = 0.000000
+	__models__LinkShape__00000038_.X = 0.000000
+	__models__LinkShape__00000038_.Y = 0.000000
+	__models__LinkShape__00000038_.StartOrientation = models.ORIENTATION_VERTICAL
+	__models__LinkShape__00000038_.StartRatio = 0.355561
+	__models__LinkShape__00000038_.EndOrientation = models.ORIENTATION_VERTICAL
+	__models__LinkShape__00000038_.EndRatio = 0.078248
+	__models__LinkShape__00000038_.CornerOffsetRatio = -1.394024
+	__models__LinkShape__00000038_.IsHidden = false
+	__models__LinkShape__00000039_.Name = `ExternalParticipant_Shapes`
+	__models__LinkShape__00000039_.IdentifierMeta = ref_models.DiagramProcess{}.ExternalParticipant_Shapes
+	__models__LinkShape__00000039_.FieldTypeIdentifierMeta = ref_models.ExternalParticipantShape{}
+	__models__LinkShape__00000039_.FieldOffsetX = 0.000000
+	__models__LinkShape__00000039_.FieldOffsetY = 0.000000
+	__models__LinkShape__00000039_.TargetMultiplicity = models.MANY
+	__models__LinkShape__00000039_.TargetMultiplicityOffsetX = 0.000000
+	__models__LinkShape__00000039_.TargetMultiplicityOffsetY = 0.000000
+	__models__LinkShape__00000039_.SourceMultiplicity = models.MANY
+	__models__LinkShape__00000039_.SourceMultiplicityOffsetX = 0.000000
+	__models__LinkShape__00000039_.SourceMultiplicityOffsetY = 0.000000
+	__models__LinkShape__00000039_.X = 0.000000
+	__models__LinkShape__00000039_.Y = 0.000000
+	__models__LinkShape__00000039_.StartOrientation = models.ORIENTATION_VERTICAL
+	__models__LinkShape__00000039_.StartRatio = 0.980000
+	__models__LinkShape__00000039_.EndOrientation = models.ORIENTATION_VERTICAL
+	__models__LinkShape__00000039_.EndRatio = 0.500000
+	__models__LinkShape__00000039_.CornerOffsetRatio = 1.500000
+	__models__LinkShape__00000039_.IsHidden = false
+	__models__LinkShape__00000040_.Name = `ExternalParticipant`
+	__models__LinkShape__00000040_.IdentifierMeta = ref_models.ExternalParticipantShape{}.ExternalParticipant
+	__models__LinkShape__00000040_.FieldTypeIdentifierMeta = ref_models.ExternalParticipant{}
+	__models__LinkShape__00000040_.FieldOffsetX = 0.000000
+	__models__LinkShape__00000040_.FieldOffsetY = 0.000000
+	__models__LinkShape__00000040_.TargetMultiplicity = models.ZERO_ONE
+	__models__LinkShape__00000040_.TargetMultiplicityOffsetX = 0.000000
+	__models__LinkShape__00000040_.TargetMultiplicityOffsetY = 0.000000
+	__models__LinkShape__00000040_.SourceMultiplicity = models.MANY
+	__models__LinkShape__00000040_.SourceMultiplicityOffsetX = 0.000000
+	__models__LinkShape__00000040_.SourceMultiplicityOffsetY = 0.000000
+	__models__LinkShape__00000040_.X = 0.000000
+	__models__LinkShape__00000040_.Y = 0.000000
+	__models__LinkShape__00000040_.StartOrientation = models.ORIENTATION_VERTICAL
+	__models__LinkShape__00000040_.StartRatio = 0.500000
+	__models__LinkShape__00000040_.EndOrientation = models.ORIENTATION_VERTICAL
+	__models__LinkShape__00000040_.EndRatio = 0.500000
+	__models__LinkShape__00000040_.CornerOffsetRatio = 1.000000
+	__models__LinkShape__00000040_.IsHidden = false
 
 	// ------------------------------------------------------------------------
 	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
@@ -1116,6 +1223,7 @@ Each concrete instance must reference an abstract instance.
 	__models__Classdiagram__00000000_.GongStructShapes = append(__models__Classdiagram__00000000_.GongStructShapes, __models__GongStructShape__00000006_)
 	__models__Classdiagram__00000000_.GongStructShapes = append(__models__Classdiagram__00000000_.GongStructShapes, __models__GongStructShape__00000007_)
 	__models__Classdiagram__00000000_.GongStructShapes = append(__models__Classdiagram__00000000_.GongStructShapes, __models__GongStructShape__00000008_)
+	__models__Classdiagram__00000000_.GongStructShapes = append(__models__Classdiagram__00000000_.GongStructShapes, __models__GongStructShape__00000020_)
 	__models__Classdiagram__00000001_.GongStructShapes = append(__models__Classdiagram__00000001_.GongStructShapes, __models__GongStructShape__00000009_)
 	__models__Classdiagram__00000001_.GongStructShapes = append(__models__Classdiagram__00000001_.GongStructShapes, __models__GongStructShape__00000010_)
 	__models__Classdiagram__00000001_.GongStructShapes = append(__models__Classdiagram__00000001_.GongStructShapes, __models__GongStructShape__00000011_)
@@ -1127,6 +1235,8 @@ Each concrete instance must reference an abstract instance.
 	__models__Classdiagram__00000001_.GongStructShapes = append(__models__Classdiagram__00000001_.GongStructShapes, __models__GongStructShape__00000017_)
 	__models__Classdiagram__00000001_.GongStructShapes = append(__models__Classdiagram__00000001_.GongStructShapes, __models__GongStructShape__00000018_)
 	__models__Classdiagram__00000001_.GongStructShapes = append(__models__Classdiagram__00000001_.GongStructShapes, __models__GongStructShape__00000019_)
+	__models__Classdiagram__00000001_.GongStructShapes = append(__models__Classdiagram__00000001_.GongStructShapes, __models__GongStructShape__00000021_)
+	__models__Classdiagram__00000001_.GongStructShapes = append(__models__Classdiagram__00000001_.GongStructShapes, __models__GongStructShape__00000022_)
 	__models__Classdiagram__00000001_.GongNoteShapes = append(__models__Classdiagram__00000001_.GongNoteShapes, __models__GongNoteShape__00000000_)
 	__models__DiagramPackage__00000000_.Classdiagrams = append(__models__DiagramPackage__00000000_.Classdiagrams, __models__Classdiagram__00000000_)
 	__models__DiagramPackage__00000000_.Classdiagrams = append(__models__DiagramPackage__00000000_.Classdiagrams, __models__Classdiagram__00000001_)
@@ -1138,9 +1248,9 @@ Each concrete instance must reference an abstract instance.
 	__models__GongNoteShape__00000000_.GongNoteLinkShapes = append(__models__GongNoteShape__00000000_.GongNoteLinkShapes, __models__GongNoteLinkShape__00000004_)
 	__models__GongStructShape__00000000_.LinkShapes = append(__models__GongStructShape__00000000_.LinkShapes, __models__LinkShape__00000000_)
 	__models__GongStructShape__00000000_.LinkShapes = append(__models__GongStructShape__00000000_.LinkShapes, __models__LinkShape__00000029_)
+	__models__GongStructShape__00000000_.LinkShapes = append(__models__GongStructShape__00000000_.LinkShapes, __models__LinkShape__00000037_)
 	__models__GongStructShape__00000001_.LinkShapes = append(__models__GongStructShape__00000001_.LinkShapes, __models__LinkShape__00000001_)
 	__models__GongStructShape__00000001_.LinkShapes = append(__models__GongStructShape__00000001_.LinkShapes, __models__LinkShape__00000015_)
-	__models__GongStructShape__00000001_.LinkShapes = append(__models__GongStructShape__00000001_.LinkShapes, __models__LinkShape__00000016_)
 	__models__GongStructShape__00000002_.LinkShapes = append(__models__GongStructShape__00000002_.LinkShapes, __models__LinkShape__00000017_)
 	__models__GongStructShape__00000003_.LinkShapes = append(__models__GongStructShape__00000003_.LinkShapes, __models__LinkShape__00000002_)
 	__models__GongStructShape__00000003_.LinkShapes = append(__models__GongStructShape__00000003_.LinkShapes, __models__LinkShape__00000003_)
@@ -1164,6 +1274,7 @@ Each concrete instance must reference an abstract instance.
 	__models__GongStructShape__00000010_.LinkShapes = append(__models__GongStructShape__00000010_.LinkShapes, __models__LinkShape__00000021_)
 	__models__GongStructShape__00000010_.LinkShapes = append(__models__GongStructShape__00000010_.LinkShapes, __models__LinkShape__00000022_)
 	__models__GongStructShape__00000010_.LinkShapes = append(__models__GongStructShape__00000010_.LinkShapes, __models__LinkShape__00000023_)
+	__models__GongStructShape__00000010_.LinkShapes = append(__models__GongStructShape__00000010_.LinkShapes, __models__LinkShape__00000039_)
 	__models__GongStructShape__00000011_.AttributeShapes = append(__models__GongStructShape__00000011_.AttributeShapes, __models__AttributeShape__00000000_)
 	__models__GongStructShape__00000011_.AttributeShapes = append(__models__GongStructShape__00000011_.AttributeShapes, __models__AttributeShape__00000001_)
 	__models__GongStructShape__00000011_.AttributeShapes = append(__models__GongStructShape__00000011_.AttributeShapes, __models__AttributeShape__00000002_)
@@ -1191,5 +1302,8 @@ Each concrete instance must reference an abstract instance.
 	__models__GongStructShape__00000015_.AttributeShapes = append(__models__GongStructShape__00000015_.AttributeShapes, __models__AttributeShape__00000020_)
 	__models__GongStructShape__00000015_.AttributeShapes = append(__models__GongStructShape__00000015_.AttributeShapes, __models__AttributeShape__00000021_)
 	__models__GongStructShape__00000015_.LinkShapes = append(__models__GongStructShape__00000015_.LinkShapes, __models__LinkShape__00000028_)
+	__models__GongStructShape__00000020_.LinkShapes = append(__models__GongStructShape__00000020_.LinkShapes, __models__LinkShape__00000016_)
+	__models__GongStructShape__00000020_.LinkShapes = append(__models__GongStructShape__00000020_.LinkShapes, __models__LinkShape__00000038_)
+	__models__GongStructShape__00000022_.LinkShapes = append(__models__GongStructShape__00000022_.LinkShapes, __models__LinkShape__00000040_)
 }
 

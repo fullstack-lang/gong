@@ -146,13 +146,13 @@ func TestGenerateOrderToCashModel(t *testing.T) {
 	rootLibrary.RootProcesses = append(rootLibrary.RootProcesses, o2cProcess)
 
 	// 5. External Participants
-	customer := (&models.Participant{
+	customer := (&models.ExternalParticipant{
 		Name:        "Customer",
 		Description: "External buying customer placing orders and settling commercial invoices.",
 		SVG:         orderToCashParticipantIcons["Customer"],
 	}).Stage(stage)
 
-	carrier := (&models.Participant{
+	carrier := (&models.ExternalParticipant{
 		Name:        "Logistics Carrier",
 		Description: "Third-party freight carrier handling parcel dispatch and physical delivery.",
 		SVG:         orderToCashParticipantIcons["Logistics Carrier"],
@@ -234,20 +234,20 @@ func TestGenerateOrderToCashModel(t *testing.T) {
 	// 9. Data Flows
 	// Ext to Task: Customer -> validateOrder (PO)
 	df1 := (&models.DataFlow{
-		Name:                     "Customer to Receive & Validate Order",
-		Type:                     models.DataFlow_ExternalParticipant2Task,
-		StartExternalParticipant: customer,
-		EndTask:                  validateOrder,
-		Datas:                    []*models.Data{poData},
+		Name:             "Customer to Receive & Validate Order",
+		Type:             models.DataFlow_ExternalParticipant2Task,
+		StartParticipant: customer,
+		EndTask:          validateOrder,
+		Datas:            []*models.Data{poData},
 	}).Stage(stage)
 
 	// Task to Ext: confirmOrder -> Customer (Ack)
 	df2 := (&models.DataFlow{
-		Name:                   "Confirm Sales Order to Customer",
-		Type:                   models.DataFlow_Task2ExternalParticipant,
-		StartTask:              confirmOrder,
-		EndExternalParticipant: customer,
-		Datas:                  []*models.Data{ackData},
+		Name:           "Confirm Sales Order to Customer",
+		Type:           models.DataFlow_Task2ExternalParticipant,
+		StartTask:      confirmOrder,
+		EndParticipant: customer,
+		Datas:          []*models.Data{ackData},
 	}).Stage(stage)
 
 	// Task to Task: confirmOrder -> reserveStock (Ack)
@@ -261,11 +261,11 @@ func TestGenerateOrderToCashModel(t *testing.T) {
 
 	// Task to Ext: dispatchGoods -> Carrier (BOL)
 	df4 := (&models.DataFlow{
-		Name:                   "Dispatch & Ship Goods to Logistics Carrier",
-		Type:                   models.DataFlow_Task2ExternalParticipant,
-		StartTask:              dispatchGoods,
-		EndExternalParticipant: carrier,
-		Datas:                  []*models.Data{bolData},
+		Name:           "Dispatch & Ship Goods to Logistics Carrier",
+		Type:           models.DataFlow_Task2ExternalParticipant,
+		StartTask:      dispatchGoods,
+		EndParticipant: carrier,
+		Datas:          []*models.Data{bolData},
 	}).Stage(stage)
 
 	// Task to Task: dispatchGoods -> issueInvoice (BOL)
@@ -279,20 +279,20 @@ func TestGenerateOrderToCashModel(t *testing.T) {
 
 	// Task to Ext: issueInvoice -> Customer (Invoice)
 	df6 := (&models.DataFlow{
-		Name:                   "Generate Commercial Invoice to Customer",
-		Type:                   models.DataFlow_Task2ExternalParticipant,
-		StartTask:              issueInvoice,
-		EndExternalParticipant: customer,
-		Datas:                  []*models.Data{invData},
+		Name:           "Generate Commercial Invoice to Customer",
+		Type:           models.DataFlow_Task2ExternalParticipant,
+		StartTask:      issueInvoice,
+		EndParticipant: customer,
+		Datas:          []*models.Data{invData},
 	}).Stage(stage)
 
 	// Ext to Task: Customer -> processPayment (Remittance)
 	df7 := (&models.DataFlow{
-		Name:                     "Customer to Process Payment & Settle Account",
-		Type:                     models.DataFlow_ExternalParticipant2Task,
-		StartExternalParticipant: customer,
-		EndTask:                  processPayment,
-		Datas:                    []*models.Data{remitData},
+		Name:             "Customer to Process Payment & Settle Account",
+		Type:             models.DataFlow_ExternalParticipant2Task,
+		StartParticipant: customer,
+		EndTask:          processPayment,
+		Datas:            []*models.Data{remitData},
 	}).Stage(stage)
 
 	allDataFlows := []*models.DataFlow{df1, df2, df3, df4, df5, df6, df7}
@@ -342,11 +342,11 @@ func TestGenerateOrderToCashModel(t *testing.T) {
 		_ = psFin
 
 		// External Participant Shapes
-		makeEPShape := func(p *models.Participant, x, y, w, h, tail float64) *models.ExternalParticipantShape {
+		makeEPShape := func(p *models.ExternalParticipant, x, y, w, h, tail float64) *models.ExternalParticipantShape {
 			eps := (&models.ExternalParticipantShape{
-				Name:        fmt.Sprintf("%s-%s", p.Name, diag.Name),
-				Participant: p,
-				TailHeigth:  tail,
+				Name:                fmt.Sprintf("%s-%s", p.Name, diag.Name),
+				ExternalParticipant: p,
+				TailHeigth:          tail,
 			}).Stage(stage)
 			eps.SetX(x)
 			eps.SetY(y)
@@ -510,11 +510,11 @@ func TestGenerateOrderToCashModel(t *testing.T) {
 		makePShape(sales)
 		makePShape(warehouse)
 
-		makeEPShape := func(p *models.Participant, x, y, w, h, tail float64) *models.ExternalParticipantShape {
+		makeEPShape := func(p *models.ExternalParticipant, x, y, w, h, tail float64) *models.ExternalParticipantShape {
 			eps := (&models.ExternalParticipantShape{
-				Name:        fmt.Sprintf("%s-%s", p.Name, diag.Name),
-				Participant: p,
-				TailHeigth:  tail,
+				Name:                fmt.Sprintf("%s-%s", p.Name, diag.Name),
+				ExternalParticipant: p,
+				TailHeigth:          tail,
 			}).Stage(stage)
 			eps.SetX(x)
 			eps.SetY(y)
@@ -641,11 +641,11 @@ func TestGenerateOrderToCashModel(t *testing.T) {
 		makePShape(sales)
 		makePShape(finance)
 
-		makeEPShape := func(p *models.Participant, x, y, w, h, tail float64) *models.ExternalParticipantShape {
+		makeEPShape := func(p *models.ExternalParticipant, x, y, w, h, tail float64) *models.ExternalParticipantShape {
 			eps := (&models.ExternalParticipantShape{
-				Name:        fmt.Sprintf("%s-%s", p.Name, diag.Name),
-				Participant: p,
-				TailHeigth:  tail,
+				Name:                fmt.Sprintf("%s-%s", p.Name, diag.Name),
+				ExternalParticipant: p,
+				TailHeigth:          tail,
 			}).Stage(stage)
 			eps.SetX(x)
 			eps.SetY(y)
@@ -772,6 +772,11 @@ func TestGenerateOrderToCashModel(t *testing.T) {
 				p.SVG = icon
 			}
 		}
+		for _, ep := range stageData.GetInstancesSorted[*models.ExternalParticipant]() {
+			if icon, ok := orderToCashParticipantIcons[ep.Name]; ok {
+				ep.SVG = icon
+			}
+		}
 		for _, d := range stageData.GetInstancesSorted[*models.Data]() {
 			if icon, ok := orderToCashDataIcons[d.Name]; ok {
 				d.SVG = icon
@@ -830,8 +835,12 @@ func TestLoadAndVerifyStage(t *testing.T) {
 
 	// Verify participants
 	participants := stage.GetInstancesSorted[*models.Participant]()
-	if len(participants) != 5 { // 3 internal + 2 external
-		t.Errorf("expected 5 participants, got %d", len(participants))
+	if len(participants) != 3 {
+		t.Errorf("expected 3 internal participants, got %d", len(participants))
+	}
+	externalParticipants := stage.GetInstancesSorted[*models.ExternalParticipant]()
+	if len(externalParticipants) != 2 {
+		t.Errorf("expected 2 external participants, got %d", len(externalParticipants))
 	}
 
 	// Verify tasks
@@ -1059,5 +1068,3 @@ func TestIssue1528_ParticipantResourceAndDataSVGIcons(t *testing.T) {
 		t.Errorf("expected svgObj.GenerateString() to output valid SVG with scaled icon paths")
 	}
 }
-
-

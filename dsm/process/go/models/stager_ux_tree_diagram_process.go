@@ -103,12 +103,12 @@ func (stager *Stager) treeDiagramProcess(
 	}
 
 	confExternalParticipantsDiagram := ItemAndShapeButtonConfiguration[
-		Participant, *Participant,
+		ExternalParticipant, *ExternalParticipant,
 		Process, *Process,
 		ExternalParticipantShape, *ExternalParticipantShape,
 	]{
 		ItemButtonConfiguration: ItemButtonConfiguration[
-			Participant, *Participant,
+			ExternalParticipant, *ExternalParticipant,
 			Process, *Process,
 		]{
 			parentNode:                         diagramNode,
@@ -216,12 +216,12 @@ func (stager *Stager) treeDiagramProcess(
 		externalParticipantsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagramProcess.IsExternalParticipantsNodeExpanded)
 
 		confExternalParticipantsNode := ItemAndShapeButtonConfiguration[
-			Participant, *Participant,
+			ExternalParticipant, *ExternalParticipant,
 			Process, *Process,
 			ExternalParticipantShape, *ExternalParticipantShape,
 		]{
 			ItemButtonConfiguration: ItemButtonConfiguration[
-				Participant, *Participant,
+				ExternalParticipant, *ExternalParticipant,
 				Process, *Process,
 			]{
 				parentNode:                         externalParticipantsNode,

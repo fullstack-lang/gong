@@ -19,5 +19,16 @@ func (stager *Stager) enforceParticipantSemanticRules() (needCommit bool) {
 		}
 	}
 
+	for _, externalParticipant := range stage.GetInstancesSorted[*ExternalParticipant]() {
+		if externalParticipant.owningProcess == nil {
+			externalParticipant.UnstageVoid(stage)
+			needCommit = true
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(),
+					fmt.Sprintf("Unstaged orphan external participant \"%s\" (no process)", externalParticipant.GetName()))
+			}
+		}
+	}
+
 	return
 }

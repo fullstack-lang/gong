@@ -37,10 +37,10 @@ func (stager *Stager) treeDataFlowsWithinProcessDiagram(
 			endElement = dataFlow.EndTask
 		}
 	case DataFlow_ExternalParticipant2Task:
-		if dataFlow.StartExternalParticipant != nil {
-			_, isStartShapePresent = diagramProcess.map_Participant_ExternalParticipantShape[dataFlow.StartExternalParticipant]
-			startName = dataFlow.StartExternalParticipant.GetName()
-			startElement = dataFlow.StartExternalParticipant
+		if dataFlow.StartParticipant != nil {
+			_, isStartShapePresent = diagramProcess.map_ExternalParticipant_ExternalParticipantShape[dataFlow.StartParticipant]
+			startName = dataFlow.StartParticipant.GetName()
+			startElement = dataFlow.StartParticipant
 		}
 		if dataFlow.EndTask != nil {
 			_, isEndShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.EndTask]
@@ -53,10 +53,10 @@ func (stager *Stager) treeDataFlowsWithinProcessDiagram(
 			startName = dataFlow.StartTask.GetName()
 			startElement = dataFlow.StartTask
 		}
-		if dataFlow.EndExternalParticipant != nil {
-			_, isEndShapePresent = diagramProcess.map_Participant_ExternalParticipantShape[dataFlow.EndExternalParticipant]
-			endName = dataFlow.EndExternalParticipant.GetName()
-			endElement = dataFlow.EndExternalParticipant
+		if dataFlow.EndParticipant != nil {
+			_, isEndShapePresent = diagramProcess.map_ExternalParticipant_ExternalParticipantShape[dataFlow.EndParticipant]
+			endName = dataFlow.EndParticipant.GetName()
+			endElement = dataFlow.EndParticipant
 		}
 	}
 	isCheckboxDisabled := !(isStartShapePresent && isEndShapePresent)

@@ -310,7 +310,7 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 		}
 		rect.RectAnchoredRects = append(rect.RectAnchoredRects, titleBox)
 
-		boxHeigth, anchoredRect := stager.drawAllocatedProcessesAndResources(participantShape.Participant, diagramProcess, rect, svg.RECT_TOP)
+		boxHeigth, anchoredRect := stager.drawParticipantAllocatedResources(participantShape.Participant, diagramProcess, rect, svg.RECT_TOP)
 		_ = boxHeigth
 		_ = anchoredRect
 
@@ -353,9 +353,9 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
 	root := stager.GetRootLibrary()
 
-	diagramProcess.map_ExternalParticipant_Rect = make(map[*Participant]*svg.Rect)
+	diagramProcess.map_ExternalParticipant_Rect = make(map[*ExternalParticipant]*svg.Rect)
 	for _, externalParticipantShape := range diagramProcess.ExternalParticipant_Shapes {
-		if externalParticipantShape.IsHidden {
+		if externalParticipantShape.IsHidden || externalParticipantShape.ExternalParticipant == nil {
 			continue
 		}
 
@@ -388,7 +388,7 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 		rect.FillOpacity = 1.0
 		rect.Stroke = "#E0E0E0"
 
-		if !externalParticipantShape.Participant.IsProcessResource {
+		if !externalParticipantShape.ExternalParticipant.IsProcessResource {
 			title := new(svg.RectAnchoredText)
 			title.Name = externalParticipantShape.GetAbstractElement().GetName()
 
@@ -415,15 +415,15 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 		}
 		syncRectPresentation(externalParticipantShape, rect)
-		if !externalParticipantShape.Participant.IsProcessResource && externalParticipantShape.Participant.SVG != "" {
+		if !externalParticipantShape.ExternalParticipant.IsProcessResource && externalParticipantShape.ExternalParticipant.SVG != "" {
 			iconColor := "#333333"
 			if len(rect.RectAnchoredTexts) > 0 && rect.RectAnchoredTexts[0].Color != "" {
 				iconColor = rect.RectAnchoredTexts[0].Color
 			}
 			const extParticipantIconSize = 24.0
 			iconPaths := buildSVGRectAnchoredPaths(
-				externalParticipantShape.Participant.GetName(),
-				externalParticipantShape.Participant.SVG,
+				externalParticipantShape.ExternalParticipant.GetName(),
+				externalParticipantShape.ExternalParticipant.SVG,
 				svg.RECT_LEFT,
 				10.0,
 				-extParticipantIconSize/2.0,
@@ -436,7 +436,7 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 			}
 		}
 
-		rect.OnSelect = onSelectRectShape(stager, externalParticipantShape.Participant, externalParticipantShape)
+		rect.OnSelect = onSelectRectShape(stager, externalParticipantShape.ExternalParticipant, externalParticipantShape)
 		rect.OnMove = onMoveRectElement(stager, externalParticipantShape, false)
 		rect.OnResize = onResizeRectElement(stager, externalParticipantShape)
 
@@ -446,26 +446,28 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 		}
 
 		anchorType := svg.RECT_BOTTOM
-		if externalParticipantShape.Participant.IsProcessResource {
+		if externalParticipantShape.ExternalParticipant.IsProcessResource {
 			anchorType = svg.RECT_TOP
 		}
 
-		boxHeight, rectAnchoredRect := stager.drawAllocatedProcessesAndResources(
-			externalParticipantShape.Participant,
+		boxHeight, rectAnchoredRect := stager.drawExternalParticipantAllocatedProcessesAndResources(
+			externalParticipantShape.ExternalParticipant,
 			diagramProcess,
 			rect,
 			anchorType)
 		_ = rectAnchoredRect
 
-		if externalParticipantShape.Participant.IsProcessResource && boxHeight > 0 {
+		if externalParticipantShape.ExternalParticipant.IsProcessResource && boxHeight > 0 {
 			rect.Height = boxHeight
 			boxHeight = 0
 		}
 
 		// have the process rect be an obstacle to the rect
 		processRect := diagramProcess.map_Process_Rect[diagramProcess.owningProcess]
-		rect.Obstacles = append(rect.Obstacles, processRect)
-		processRect.Obstacles = append(processRect.Obstacles, rect)
+		if processRect != nil {
+			rect.Obstacles = append(rect.Obstacles, processRect)
+			processRect.Obstacles = append(processRect.Obstacles, rect)
+		}
 
 		tailRect := &svg.Rect{
 			Name:                "Tail" + rect.GetName(),
@@ -483,7 +485,7 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 			Y:                   rect.Y + rect.Height + boxHeight,
 			CanHaveBottomHandle: true,
 		}
-		diagramProcess.map_ExternalParticipant_Rect[externalParticipantShape.Participant] = tailRect
+		diagramProcess.map_ExternalParticipant_Rect[externalParticipantShape.ExternalParticipant] = tailRect
 
 		// tail rect and rect are moved togethere, therefore they are peers
 		rect.Peers = append(rect.Peers, tailRect)
@@ -732,17 +734,17 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 			startRect = diagramProcess.map_Task_Rect[df.StartTask]
 			endRect = diagramProcess.map_Task_Rect[df.EndTask]
 		case DataFlow_ExternalParticipant2Task:
-			if df.StartExternalParticipant == nil || df.EndTask == nil {
+			if df.StartParticipant == nil || df.EndTask == nil {
 				log.Panic("There should be a start external participant and an end task")
 			}
-			startRect = diagramProcess.map_ExternalParticipant_Rect[df.StartExternalParticipant]
+			startRect = diagramProcess.map_ExternalParticipant_Rect[df.StartParticipant]
 			endRect = diagramProcess.map_Task_Rect[df.EndTask]
 		case DataFlow_Task2ExternalParticipant:
-			if df.StartTask == nil || df.EndExternalParticipant == nil {
+			if df.StartTask == nil || df.EndParticipant == nil {
 				log.Panic("There should be a start task and an end external participant")
 			}
 			startRect = diagramProcess.map_Task_Rect[df.StartTask]
-			endRect = diagramProcess.map_ExternalParticipant_Rect[df.EndExternalParticipant]
+			endRect = diagramProcess.map_ExternalParticipant_Rect[df.EndParticipant]
 		}
 
 		if startRect == nil || endRect == nil {
@@ -1112,8 +1114,54 @@ func (stager *Stager) drawNoteDataFlowShapes(
 	}
 }
 
-func (stager *Stager) drawAllocatedProcessesAndResources(
+func (stager *Stager) drawParticipantAllocatedResources(
 	participant *Participant,
+	diagramProcess *DiagramProcess,
+	rect *svg.Rect,
+	rectAnchorType svg.RectAnchorType,
+) (boxHeight float64, allocatedResourceRect *svg.RectAnchoredRect) {
+	if participant == nil {
+		return 0, nil
+	}
+	return stager.drawAllocatedProcessesAndResourcesForOwner(
+		participant.Name,
+		participant,
+		nil,
+		nil,
+		participant.Resources,
+		diagramProcess,
+		rect,
+		rectAnchorType,
+	)
+}
+
+func (stager *Stager) drawExternalParticipantAllocatedProcessesAndResources(
+	externalParticipant *ExternalParticipant,
+	diagramProcess *DiagramProcess,
+	rect *svg.Rect,
+	rectAnchorType svg.RectAnchorType,
+) (boxHeight float64, allocatedResourceRect *svg.RectAnchoredRect) {
+	if externalParticipant == nil {
+		return 0, nil
+	}
+	return stager.drawAllocatedProcessesAndResourcesForOwner(
+		externalParticipant.Name,
+		nil,
+		externalParticipant,
+		externalParticipant.Processes,
+		externalParticipant.Resources,
+		diagramProcess,
+		rect,
+		rectAnchorType,
+	)
+}
+
+func (stager *Stager) drawAllocatedProcessesAndResourcesForOwner(
+	ownerName string,
+	participant *Participant,
+	externalParticipant *ExternalParticipant,
+	processes []*Process,
+	resources []*Resource,
 	diagramProcess *DiagramProcess,
 	rect *svg.Rect,
 	rectAnchorType svg.RectAnchorType) (boxHeight float64, allocatedResourceRect *svg.RectAnchoredRect) {
@@ -1131,11 +1179,11 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 	}
 	availableTextWidth := rect.Width - X_Offset - 8.0
 
-	// draw allocated process shapes that are within the participant
-	for _, process := range participant.Processes {
+	// draw allocated process shapes that are within the external participant
+	for _, process := range processes {
 		key := allocatedProcessShapeKey{
-			participant: participant,
-			process:     process,
+			externalParticipant: externalParticipant,
+			process:             process,
 		}
 		allocatedProcessShape := diagramProcess.map_AllocatedProcessShapeKey_AllocatedProcessShape[key]
 		if allocatedProcessShape == nil {
@@ -1151,13 +1199,14 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 		lineCenterY := Y_Offset + float64(lineStart)*HeightBetween2AttributeShapes
 
 		allocatedProcessText := &svg.RectAnchoredText{
-			Name:        allocatedProcessShape.Name,
-			Content:     content,
-			StrokeWidth: 0,
-			Color:       "#757575",
-			FillOpacity: 1,
-			FontStyle:   "italic",
-			FontSize:    "15px",
+			Name:          allocatedProcessShape.Name,
+			Content:       content,
+			StrokeWidth:   0,
+			StrokeOpacity: 1.0,
+			Color:         "#757575",
+			FillOpacity:   1,
+			FontStyle:     "italic",
+			FontSize:      "15px",
 
 			DominantBaseline: svg.DominantBaselineMiddle,
 			X_Offset:         X_Offset,
@@ -1186,11 +1235,12 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 		}
 	}
 
-	// draw allocated resource shapes that are within the participant
-	for _, resource := range participant.Resources {
+	// draw allocated resource shapes that are within the participant or external participant
+	for _, resource := range resources {
 		key := allocatedResourceShapeKey{
-			participant: participant,
-			resource:    resource,
+			participant:         participant,
+			externalParticipant: externalParticipant,
+			resource:            resource,
 		}
 		allocatedResourceShape := diagramProcess.map_AllocatedResourceShapeKey_AllocatedResourceShape[key]
 		if allocatedResourceShape == nil {
@@ -1206,13 +1256,14 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 		lineCenterY := Y_Offset + float64(lineStart)*HeightBetween2AttributeShapes
 
 		allocatedResourceText := &svg.RectAnchoredText{
-			Name:        allocatedResourceShape.Name,
-			Content:     content,
-			StrokeWidth: 0,
-			Color:       "#757575",
-			FillOpacity: 1,
-			FontStyle:   "italic",
-			FontSize:    "15px",
+			Name:          allocatedResourceShape.Name,
+			Content:       content,
+			StrokeWidth:   0,
+			StrokeOpacity: 1.0,
+			Color:         "#757575",
+			FillOpacity:   1,
+			FontStyle:     "italic",
+			FontSize:      "15px",
 
 			DominantBaseline: svg.DominantBaselineMiddle,
 			X_Offset:         X_Offset,
@@ -1245,10 +1296,10 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 	if totalLines > 0 {
 		lineWidth := 1.0
 		allocatedResourceRect = &svg.RectAnchoredRect{
-			Name:           participant.Name + "_allocated_resources_and_processes",
+			Name:           ownerName + "_allocated_resources_and_processes",
 			Stroke:         "#CCCCCC",
 			StrokeWidth:    lineWidth,
-			StrokeOpacity:  1,
+			StrokeOpacity:  1.0,
 			X_Offset:       lineWidth,
 			Y_Offset:       lineWidth,
 			Height:         boxHeight - 2*lineWidth,

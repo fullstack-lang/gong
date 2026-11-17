@@ -67,25 +67,25 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramProcess_ExternalParticipant_Shapes_reverseMap[_externalparticipantshape] = diagramprocess
 		}
 	}
-	stage.DiagramProcess_ExternalParticipantWhoseNodeIsExpanded_reverseMap = make(map[*Participant]*DiagramProcess)
+	stage.DiagramProcess_ExternalParticipantWhoseNodeIsExpanded_reverseMap = make(map[*ExternalParticipant]*DiagramProcess)
 	for diagramprocess := range stage.DiagramProcesss {
 		_ = diagramprocess
-		for _, _participant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
-			stage.DiagramProcess_ExternalParticipantWhoseNodeIsExpanded_reverseMap[_participant] = diagramprocess
+		for _, _externalparticipant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
+			stage.DiagramProcess_ExternalParticipantWhoseNodeIsExpanded_reverseMap[_externalparticipant] = diagramprocess
 		}
 	}
-	stage.DiagramProcess_ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded_reverseMap = make(map[*Participant]*DiagramProcess)
+	stage.DiagramProcess_ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded_reverseMap = make(map[*ExternalParticipant]*DiagramProcess)
 	for diagramprocess := range stage.DiagramProcesss {
 		_ = diagramprocess
-		for _, _participant := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
-			stage.DiagramProcess_ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded_reverseMap[_participant] = diagramprocess
+		for _, _externalparticipant := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+			stage.DiagramProcess_ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded_reverseMap[_externalparticipant] = diagramprocess
 		}
 	}
-	stage.DiagramProcess_ExternalParticipantsWhoseInDataFlowsNodeIsExpanded_reverseMap = make(map[*Participant]*DiagramProcess)
+	stage.DiagramProcess_ExternalParticipantsWhoseInDataFlowsNodeIsExpanded_reverseMap = make(map[*ExternalParticipant]*DiagramProcess)
 	for diagramprocess := range stage.DiagramProcesss {
 		_ = diagramprocess
-		for _, _participant := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
-			stage.DiagramProcess_ExternalParticipantsWhoseInDataFlowsNodeIsExpanded_reverseMap[_participant] = diagramprocess
+		for _, _externalparticipant := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+			stage.DiagramProcess_ExternalParticipantsWhoseInDataFlowsNodeIsExpanded_reverseMap[_externalparticipant] = diagramprocess
 		}
 	}
 	stage.DiagramProcess_TasksWhoseNodeIsExpanded_reverseMap = make(map[*Task]*DiagramProcess)
@@ -215,6 +215,23 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct ExternalParticipant
+	// insertion point per field
+	stage.ExternalParticipant_Resources_reverseMap = make(map[*Resource]*ExternalParticipant)
+	for externalparticipant := range stage.ExternalParticipants {
+		_ = externalparticipant
+		for _, _resource := range externalparticipant.Resources {
+			stage.ExternalParticipant_Resources_reverseMap[_resource] = externalparticipant
+		}
+	}
+	stage.ExternalParticipant_Processes_reverseMap = make(map[*Process]*ExternalParticipant)
+	for externalparticipant := range stage.ExternalParticipants {
+		_ = externalparticipant
+		for _, _process := range externalparticipant.Processes {
+			stage.ExternalParticipant_Processes_reverseMap[_process] = externalparticipant
+		}
+	}
+
 	// Compute reverse map for named struct Library
 	// insertion point per field
 	stage.Library_SubLibraries_reverseMap = make(map[*Library]*Library)
@@ -294,6 +311,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_ParticipantsWhoseNodeIsExpanded_reverseMap[_participant] = library
 		}
 	}
+	stage.Library_ExternalParticipantsWhoseNodeIsExpanded_reverseMap = make(map[*ExternalParticipant]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _externalparticipant := range library.ExternalParticipantsWhoseNodeIsExpanded {
+			stage.Library_ExternalParticipantsWhoseNodeIsExpanded_reverseMap[_externalparticipant] = library
+		}
+	}
 	stage.Library_RootNotes_reverseMap = make(map[*Note]*Library)
 	for library := range stage.Librarys {
 		_ = library
@@ -340,13 +364,6 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = participant
 		for _, _resource := range participant.Resources {
 			stage.Participant_Resources_reverseMap[_resource] = participant
-		}
-	}
-	stage.Participant_Processes_reverseMap = make(map[*Process]*Participant)
-	for participant := range stage.Participants {
-		_ = participant
-		for _, _process := range participant.Processes {
-			stage.Participant_Processes_reverseMap[_process] = participant
 		}
 	}
 	stage.Participant_Tasks_reverseMap = make(map[*Task]*Participant)
@@ -436,18 +453,18 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Process_DataFlows_reverseMap[_dataflow] = process
 		}
 	}
-	stage.Process_ExternalParticipants_reverseMap = make(map[*Participant]*Process)
+	stage.Process_ExternalParticipants_reverseMap = make(map[*ExternalParticipant]*Process)
 	for process := range stage.Processs {
 		_ = process
-		for _, _participant := range process.ExternalParticipants {
-			stage.Process_ExternalParticipants_reverseMap[_participant] = process
+		for _, _externalparticipant := range process.ExternalParticipants {
+			stage.Process_ExternalParticipants_reverseMap[_externalparticipant] = process
 		}
 	}
-	stage.Process_ExternalParticipantWhoseNodeIsExpanded_reverseMap = make(map[*Participant]*Process)
+	stage.Process_ExternalParticipantWhoseNodeIsExpanded_reverseMap = make(map[*ExternalParticipant]*Process)
 	for process := range stage.Processs {
 		_ = process
-		for _, _participant := range process.ExternalParticipantWhoseNodeIsExpanded {
-			stage.Process_ExternalParticipantWhoseNodeIsExpanded_reverseMap[_participant] = process
+		for _, _externalparticipant := range process.ExternalParticipantWhoseNodeIsExpanded {
+			stage.Process_ExternalParticipantWhoseNodeIsExpanded_reverseMap[_externalparticipant] = process
 		}
 	}
 
@@ -473,6 +490,8 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	res = __gong__appendInstances(res, stage.DataShapes)
 
 	res = __gong__appendInstances(res, stage.DiagramProcesss)
+
+	res = __gong__appendInstances(res, stage.ExternalParticipants)
 
 	res = __gong__appendInstances(res, stage.ExternalParticipantShapes)
 
@@ -557,6 +576,12 @@ func (datashape *DataShape) GongCopy() GongstructIF {
 func (diagramprocess *DiagramProcess) GongCopy() GongstructIF {
 	newInstance := new(DiagramProcess)
 	diagramprocess.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (externalparticipant *ExternalParticipant) GongCopy() GongstructIF {
+	newInstance := new(ExternalParticipant)
+	externalparticipant.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -679,6 +704,10 @@ func (datashape *DataShape) GongGetUUID(stage *Stage) string {
 
 func (diagramprocess *DiagramProcess) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, diagramprocess)
+}
+
+func (externalparticipant *ExternalParticipant) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, externalparticipant)
 }
 
 func (externalparticipantshape *ExternalParticipantShape) GongGetUUID(stage *Stage) string {
@@ -992,6 +1021,23 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	)
 	computeCommitsForType(
 		stage,
+		stage.ExternalParticipants,
+		stage.ExternalParticipant_stagedOrder,
+		stage.ExternalParticipants_reference,
+		&stage.ExternalParticipants_referenceOrder,
+		stage.ExternalParticipants_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
 		stage.ExternalParticipantShapes,
 		stage.ExternalParticipantShape_stagedOrder,
 		stage.ExternalParticipantShapes_reference,
@@ -1281,6 +1327,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.DiagramProcesss, &stage.DiagramProcesss_reference, &stage.DiagramProcesss_referenceOrder, &stage.DiagramProcesss_instance)
 
+	__gong__computeReferencePass1(stage, stage.ExternalParticipants, &stage.ExternalParticipants_reference, &stage.ExternalParticipants_referenceOrder, &stage.ExternalParticipants_instance)
+
 	__gong__computeReferencePass1(stage, stage.ExternalParticipantShapes, &stage.ExternalParticipantShapes_reference, &stage.ExternalParticipantShapes_referenceOrder, &stage.ExternalParticipantShapes_instance)
 
 	__gong__computeReferencePass1(stage, stage.Librarys, &stage.Librarys_reference, &stage.Librarys_referenceOrder, &stage.Librarys_instance)
@@ -1327,6 +1375,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass2(stage.DataShapes, stage.DataShapes_reference, stage)
 
 	__gong__computeReferencePass2(stage.DiagramProcesss, stage.DiagramProcesss_reference, stage)
+
+	__gong__computeReferencePass2(stage.ExternalParticipants, stage.ExternalParticipants_reference, stage)
 
 	__gong__computeReferencePass2(stage.ExternalParticipantShapes, stage.ExternalParticipantShapes_reference, stage)
 
@@ -1400,6 +1450,10 @@ func (datashape *DataShape) GongGetOrder(stage *Stage) uint {
 
 func (diagramprocess *DiagramProcess) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.DiagramProcess_stagedOrder, stage.DiagramProcesss_referenceOrder, diagramprocess, "DiagramProcess")
+}
+
+func (externalparticipant *ExternalParticipant) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.ExternalParticipant_stagedOrder, stage.ExternalParticipants_referenceOrder, externalparticipant, "ExternalParticipant")
 }
 
 func (externalparticipantshape *ExternalParticipantShape) GongGetOrder(stage *Stage) uint {
@@ -1542,6 +1596,15 @@ func (diagramprocess *DiagramProcess) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (diagramprocess *DiagramProcess) GongGetReferenceIdentifier(stage *Stage) string {
 	return diagramprocess.GongGetIdentifier(stage)
+}
+
+func (externalparticipant *ExternalParticipant) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(externalparticipant, externalparticipant.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (externalparticipant *ExternalParticipant) GongGetReferenceIdentifier(stage *Stage) string {
+	return externalparticipant.GongGetIdentifier(stage)
 }
 
 func (externalparticipantshape *ExternalParticipantShape) GongGetIdentifier(stage *Stage) string {
@@ -1709,6 +1772,10 @@ func (diagramprocess *DiagramProcess) GongMarshallIdentifier(stage *Stage) strin
 	return __gong__marshallIdentifier(diagramprocess.GongGetIdentifier(stage), "DiagramProcess", diagramprocess.Name)
 }
 
+func (externalparticipant *ExternalParticipant) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(externalparticipant.GongGetIdentifier(stage), "ExternalParticipant", externalparticipant.Name)
+}
+
 func (externalparticipantshape *ExternalParticipantShape) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(externalparticipantshape.GongGetIdentifier(stage), "ExternalParticipantShape", externalparticipantshape.Name)
 }
@@ -1800,6 +1867,10 @@ func (datashape *DataShape) GongMarshallUnstaging(stage *Stage) string {
 
 func (diagramprocess *DiagramProcess) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(diagramprocess.GongGetReferenceIdentifier(stage))
+}
+
+func (externalparticipant *ExternalParticipant) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(externalparticipant.GongGetReferenceIdentifier(stage))
 }
 
 func (externalparticipantshape *ExternalParticipantShape) GongMarshallUnstaging(stage *Stage) string {

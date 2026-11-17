@@ -27,8 +27,8 @@ func (s *ParticipantShape) SetAbstractElement(abstractElement AbstractType) {
 var _ ConcreteType = (*ParticipantShape)(nil)
 
 type ExternalParticipantShape struct {
-	Name        string
-	Participant *Participant
+	Name                string
+	ExternalParticipant *ExternalParticipant
 
 	IsExpanded bool
 
@@ -40,14 +40,14 @@ type ExternalParticipantShape struct {
 }
 
 func (s *ExternalParticipantShape) GetAbstractElement() AbstractType {
-	if s.Participant == nil {
-		return nil // otherwise returns s.Participant
+	if s.ExternalParticipant == nil {
+		return nil // otherwise returns s.ExternalParticipant
 	}
-	return s.Participant
+	return s.ExternalParticipant
 }
 
 func (s *ExternalParticipantShape) SetAbstractElement(abstractElement AbstractType) {
-	s.Participant = abstractElement.(*Participant)
+	s.ExternalParticipant = abstractElement.(*ExternalParticipant)
 }
 
 var _ ConcreteType = (*ExternalParticipantShape)(nil)

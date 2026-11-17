@@ -12,7 +12,7 @@ func (stager *Stager) enforceStagerMaps() {
 
 		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.Process_Shapes, &diagramProcess.map_Process_ProcessShape)
 		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.Participant_Shapes, &diagramProcess.map_Participant_ParticipantShape)
-		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.ExternalParticipant_Shapes, &diagramProcess.map_Participant_ExternalParticipantShape)
+		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.ExternalParticipant_Shapes, &diagramProcess.map_ExternalParticipant_ExternalParticipantShape)
 		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.Task_Shapes, &diagramProcess.map_Task_TaskShape)
 		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.ControlFlow_Shapes, &diagramProcess.map_ControlFlow_ControlFlowShape)
 		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.DataFlow_Shapes, &diagramProcess.map_DataFlow_DataFlowShape)
@@ -30,8 +30,9 @@ func (stager *Stager) enforceStagerMaps() {
 		diagramProcess.map_AllocatedResourceShapeKey_AllocatedResourceShape = make(map[allocatedResourceShapeKey]*AllocatedResourceShape)
 		for _, allocatedResourceShape := range diagramProcess.AllocatedResourceShapes {
 			key := allocatedResourceShapeKey{
-				participant: allocatedResourceShape.Participant,
-				resource:    allocatedResourceShape.Resource,
+				participant:         allocatedResourceShape.Participant,
+				externalParticipant: allocatedResourceShape.ExternalParticipant,
+				resource:            allocatedResourceShape.Resource,
 			}
 			diagramProcess.map_AllocatedResourceShapeKey_AllocatedResourceShape[key] = allocatedResourceShape
 		}
@@ -39,8 +40,8 @@ func (stager *Stager) enforceStagerMaps() {
 		diagramProcess.map_AllocatedProcessShapeKey_AllocatedProcessShape = make(map[allocatedProcessShapeKey]*AllocatedProcessShape)
 		for _, allocatedProcessShape := range diagramProcess.AllocatedProcessShapes {
 			key := allocatedProcessShapeKey{
-				participant: allocatedProcessShape.Participant,
-				process:     allocatedProcessShape.Process,
+				externalParticipant: allocatedProcessShape.ExternalParticipant,
+				process:             allocatedProcessShape.Process,
 			}
 			diagramProcess.map_AllocatedProcessShapeKey_AllocatedProcessShape[key] = allocatedProcessShape
 		}
@@ -82,8 +83,21 @@ func (stager *Stager) enforceStagerMaps() {
 		stager.map_Note_PrevControlFlows[note] = slices.Clone(note.ControlFlows)
 	}
 
+	stager.map_Participant_PrevResources = make(map[*Participant][]*Resource)
+	for _, participant := range stager.stage.GetInstancesSorted[*Participant]() {
+		stager.map_Participant_PrevResources[participant] = slices.Clone(participant.Resources)
+	}
+
+	stager.map_ExternalParticipant_PrevResources = make(map[*ExternalParticipant][]*Resource)
+	stager.map_ExternalParticipant_PrevProcesses = make(map[*ExternalParticipant][]*Process)
+	for _, externalParticipant := range stager.stage.GetInstancesSorted[*ExternalParticipant]() {
+		stager.map_ExternalParticipant_PrevResources[externalParticipant] = slices.Clone(externalParticipant.Resources)
+		stager.map_ExternalParticipant_PrevProcesses[externalParticipant] = slices.Clone(externalParticipant.Processes)
+	}
+
 	stager.rm_Data_DataFlows = stager.stage.GetSliceOfPointersReverseMap[DataFlow, Data](GongGetAssociationName[DataFlow]().Datas[0].Name)
 	stager.rm_Resource_Participants = stager.stage.GetSliceOfPointersReverseMap[Participant, Resource](GongGetAssociationName[Participant]().Resources[0].Name)
+	stager.rm_Resource_ExternalParticipants = stager.stage.GetSliceOfPointersReverseMap[ExternalParticipant, Resource](GongGetAssociationName[ExternalParticipant]().Resources[0].Name)
 }
 
 // updateMapElementDiagrams is a helper function to update the map of abstract elements to their shapes for a given diagram

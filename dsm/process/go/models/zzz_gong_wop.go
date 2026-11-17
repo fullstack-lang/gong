@@ -308,6 +308,38 @@ func (from *DiagramProcess) GongCopyBasicFields(to *DiagramProcess) {
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 }
 
+type ExternalParticipant_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsProcessResource bool
+
+	Description string
+
+	SVG string
+
+	IsResourcesNodeExpanded bool
+
+	ComputedPrefix string
+
+	IsExpanded bool
+
+	IsProcessesNodeExpanded bool
+}
+
+func (from *ExternalParticipant) GongCopyBasicFields(to *ExternalParticipant) {
+	// insertion point
+	to.Name = from.Name
+	to.IsProcessResource = from.IsProcessResource
+	to.Description = from.Description
+	to.SVG = from.SVG
+	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.IsProcessesNodeExpanded = from.IsProcessesNodeExpanded
+}
+
 type ExternalParticipantShape_WOP struct {
 	// insertion point
 
@@ -674,8 +706,6 @@ type Participant_WOP struct {
 
 	IsResourcesNodeExpanded bool
 
-	IsProcessesNodeExpanded bool
-
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -694,7 +724,6 @@ func (from *Participant) GongCopyBasicFields(to *Participant) {
 	to.Description = from.Description
 	to.SVG = from.SVG
 	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
-	to.IsProcessesNodeExpanded = from.IsProcessesNodeExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsTasksNodeExpanded = from.IsTasksNodeExpanded

@@ -27,8 +27,8 @@ type Process struct {
 	DataFlows               []*DataFlow
 	IsDataFlowsNodeExpanded bool
 
-	ExternalParticipants                   []*Participant
-	ExternalParticipantWhoseNodeIsExpanded []*Participant
+	ExternalParticipants                   []*ExternalParticipant
+	ExternalParticipantWhoseNodeIsExpanded []*ExternalParticipant
 }
 
 var _ AbstractType = (*Process)(nil)

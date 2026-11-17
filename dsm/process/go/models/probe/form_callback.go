@@ -115,8 +115,8 @@ func saveAllocatedProcessShapeFields(
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
-		case "Participant":
-			FormDivSelectFieldToField(&(_instance.Participant), probe.stageOfInterest, formDiv)
+		case "ExternalParticipant":
+			FormDivSelectFieldToField(&(_instance.ExternalParticipant), probe.stageOfInterest, formDiv)
 		case "Process":
 			FormDivSelectFieldToField(&(_instance.Process), probe.stageOfInterest, formDiv)
 		case "DiagramProcess:AllocatedProcessShapes":
@@ -152,6 +152,8 @@ func saveAllocatedResourceShapeFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Participant":
 			FormDivSelectFieldToField(&(_instance.Participant), probe.stageOfInterest, formDiv)
+		case "ExternalParticipant":
+			FormDivSelectFieldToField(&(_instance.ExternalParticipant), probe.stageOfInterest, formDiv)
 		case "Resource":
 			FormDivSelectFieldToField(&(_instance.Resource), probe.stageOfInterest, formDiv)
 		case "DiagramProcess:AllocatedResourceShapes":
@@ -350,10 +352,10 @@ func saveDataFlowFields(
 			FormDivSelectFieldToField(&(_instance.StartTask), probe.stageOfInterest, formDiv)
 		case "EndTask":
 			FormDivSelectFieldToField(&(_instance.EndTask), probe.stageOfInterest, formDiv)
-		case "StartExternalParticipant":
-			FormDivSelectFieldToField(&(_instance.StartExternalParticipant), probe.stageOfInterest, formDiv)
-		case "EndExternalParticipant":
-			FormDivSelectFieldToField(&(_instance.EndExternalParticipant), probe.stageOfInterest, formDiv)
+		case "StartParticipant":
+			FormDivSelectFieldToField(&(_instance.StartParticipant), probe.stageOfInterest, formDiv)
+		case "EndParticipant":
+			FormDivSelectFieldToField(&(_instance.EndParticipant), probe.stageOfInterest, formDiv)
 		case "IsDatasNodeExpanded":
 			FormDivBasicFieldToField(&(_instance.IsDatasNodeExpanded), formDiv)
 		case "DiagramProcess:DataFlowsWhoseNodeIsExpanded":
@@ -611,6 +613,65 @@ func saveDiagramProcessFields(
 	}
 }
 
+func __gong__New__ExternalParticipantFormCallback(
+	_instance *models.ExternalParticipant,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (externalparticipantFormCallback *FormCallback[*models.ExternalParticipant]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveExternalParticipantFields,
+	)
+}
+
+type ExternalParticipantFormCallback = FormCallback[*models.ExternalParticipant]
+
+func saveExternalParticipantFields(
+	_instance *models.ExternalParticipant,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "IsProcessResource":
+			FormDivBasicFieldToField(&(_instance.IsProcessResource), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(_instance.Description), formDiv)
+		case "SVG":
+			FormDivBasicFieldToField(&(_instance.SVG), formDiv)
+		case "Resources":
+			FormDivSliceOfPointersToField(_instance, "Resources", &(_instance.Resources), formDiv, probe)
+		case "IsResourcesNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsResourcesNodeExpanded), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
+		case "Processes":
+			FormDivSliceOfPointersToField(_instance, "Processes", &(_instance.Processes), formDiv, probe)
+		case "IsProcessesNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsProcessesNodeExpanded), formDiv)
+		case "DiagramProcess:ExternalParticipantWhoseNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ExternalParticipantWhoseNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.ExternalParticipant { return &owner.ExternalParticipantWhoseNodeIsExpanded })
+		case "DiagramProcess:ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.ExternalParticipant { return &owner.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded })
+		case "DiagramProcess:ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.ExternalParticipant { return &owner.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded })
+		case "Library:ExternalParticipantsWhoseNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ExternalParticipantsWhoseNodeIsExpanded", func(owner *models.Library) *[]*models.ExternalParticipant { return &owner.ExternalParticipantsWhoseNodeIsExpanded })
+		case "Process:ExternalParticipants":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ExternalParticipants", func(owner *models.Process) *[]*models.ExternalParticipant { return &owner.ExternalParticipants })
+		case "Process:ExternalParticipantWhoseNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ExternalParticipantWhoseNodeIsExpanded", func(owner *models.Process) *[]*models.ExternalParticipant { return &owner.ExternalParticipantWhoseNodeIsExpanded })
+		}
+	}
+}
+
 func __gong__New__ExternalParticipantShapeFormCallback(
 	_instance *models.ExternalParticipantShape,
 	probe *Probe,
@@ -636,8 +697,8 @@ func saveExternalParticipantShapeFields(
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
-		case "Participant":
-			FormDivSelectFieldToField(&(_instance.Participant), probe.stageOfInterest, formDiv)
+		case "ExternalParticipant":
+			FormDivSelectFieldToField(&(_instance.ExternalParticipant), probe.stageOfInterest, formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		case "X":
@@ -749,6 +810,8 @@ func saveLibraryFields(
 			FormDivSliceOfPointersToField(_instance, "ResourcesWhoseNodeIsExpanded", &(_instance.ResourcesWhoseNodeIsExpanded), formDiv, probe)
 		case "ParticipantsWhoseNodeIsExpanded":
 			FormDivSliceOfPointersToField(_instance, "ParticipantsWhoseNodeIsExpanded", &(_instance.ParticipantsWhoseNodeIsExpanded), formDiv, probe)
+		case "ExternalParticipantsWhoseNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "ExternalParticipantsWhoseNodeIsExpanded", &(_instance.ExternalParticipantsWhoseNodeIsExpanded), formDiv, probe)
 		case "RootNotes":
 			FormDivSliceOfPointersToField(_instance, "RootNotes", &(_instance.RootNotes), formDiv, probe)
 		case "IsNotesNodeExpanded":
@@ -1101,10 +1164,6 @@ func saveParticipantFields(
 			FormDivSliceOfPointersToField(_instance, "Resources", &(_instance.Resources), formDiv, probe)
 		case "IsResourcesNodeExpanded":
 			FormDivBasicFieldToField(&(_instance.IsResourcesNodeExpanded), formDiv)
-		case "Processes":
-			FormDivSliceOfPointersToField(_instance, "Processes", &(_instance.Processes), formDiv, probe)
-		case "IsProcessesNodeExpanded":
-			FormDivBasicFieldToField(&(_instance.IsProcessesNodeExpanded), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
 		case "IsExpanded":
@@ -1129,22 +1188,12 @@ func saveParticipantFields(
 			FormDivSliceOfPointersToField(_instance, "TaskWhoseInDataFlowsNodeIsExpanded", &(_instance.TaskWhoseInDataFlowsNodeIsExpanded), formDiv, probe)
 		case "DiagramProcess:ParticipantWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ParticipantWhoseNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.Participant { return &owner.ParticipantWhoseNodeIsExpanded })
-		case "DiagramProcess:ExternalParticipantWhoseNodeIsExpanded":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ExternalParticipantWhoseNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.Participant { return &owner.ExternalParticipantWhoseNodeIsExpanded })
-		case "DiagramProcess:ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.Participant { return &owner.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded })
-		case "DiagramProcess:ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.Participant { return &owner.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded })
 		case "Library:ParticipantsWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ParticipantsWhoseNodeIsExpanded", func(owner *models.Library) *[]*models.Participant { return &owner.ParticipantsWhoseNodeIsExpanded })
 		case "Process:Participants":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Participants", func(owner *models.Process) *[]*models.Participant { return &owner.Participants })
 		case "Process:ParticipantWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ParticipantWhoseNodeIsExpanded", func(owner *models.Process) *[]*models.Participant { return &owner.ParticipantWhoseNodeIsExpanded })
-		case "Process:ExternalParticipants":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ExternalParticipants", func(owner *models.Process) *[]*models.Participant { return &owner.ExternalParticipants })
-		case "Process:ExternalParticipantWhoseNodeIsExpanded":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ExternalParticipantWhoseNodeIsExpanded", func(owner *models.Process) *[]*models.Participant { return &owner.ExternalParticipantWhoseNodeIsExpanded })
 		}
 	}
 }
@@ -1275,12 +1324,12 @@ func saveProcessFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ProcesssWhoseNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.Process { return &owner.ProcesssWhoseNodeIsExpanded })
 		case "DiagramProcess:AllocatedProcessesWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "AllocatedProcessesWhoseNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.Process { return &owner.AllocatedProcessesWhoseNodeIsExpanded })
+		case "ExternalParticipant:Processes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Processes", func(owner *models.ExternalParticipant) *[]*models.Process { return &owner.Processes })
 		case "Library:RootProcesses":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "RootProcesses", func(owner *models.Library) *[]*models.Process { return &owner.RootProcesses })
 		case "Library:ProcesssWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ProcesssWhoseNodeIsExpanded", func(owner *models.Library) *[]*models.Process { return &owner.ProcesssWhoseNodeIsExpanded })
-		case "Participant:Processes":
-			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Processes", func(owner *models.Participant) *[]*models.Process { return &owner.Processes })
 		case "Process:SubProcesses":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SubProcesses", func(owner *models.Process) *[]*models.Process { return &owner.SubProcesses })
 		}
@@ -1391,6 +1440,8 @@ func saveResourceFields(
 			FormDivBasicFieldToField(&(_instance.SVG), formDiv)
 		case "DiagramProcess:AllocatedResourcesWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "AllocatedResourcesWhoseNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.Resource { return &owner.AllocatedResourcesWhoseNodeIsExpanded })
+		case "ExternalParticipant:Resources":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Resources", func(owner *models.ExternalParticipant) *[]*models.Resource { return &owner.Resources })
 		case "Library:RootResources":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "RootResources", func(owner *models.Library) *[]*models.Resource { return &owner.RootResources })
 		case "Library:ResourcesWhoseNodeIsExpanded":

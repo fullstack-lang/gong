@@ -261,6 +261,32 @@ func (diagramprocess *DiagramProcess) GongAfterDeleteFromFront(stage *Stage, fro
 	}
 }
 
+func (externalparticipant *ExternalParticipant) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterExternalParticipantCreateCallback != nil {
+		stage.OnAfterExternalParticipantCreateCallback.OnAfterCreate(stage, externalparticipant)
+	}
+}
+
+func (externalparticipant *ExternalParticipant) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterExternalParticipantUpdateCallback != nil {
+		var frontExternalParticipant *ExternalParticipant
+		if front != nil {
+			frontExternalParticipant, _ = front.(*ExternalParticipant)
+		}
+		stage.OnAfterExternalParticipantUpdateCallback.OnAfterUpdate(stage, externalparticipant, frontExternalParticipant)
+	}
+}
+
+func (externalparticipant *ExternalParticipant) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterExternalParticipantDeleteCallback != nil {
+		var frontExternalParticipant *ExternalParticipant
+		if front != nil {
+			frontExternalParticipant, _ = front.(*ExternalParticipant)
+		}
+		stage.OnAfterExternalParticipantDeleteCallback.OnAfterDelete(stage, externalparticipant, frontExternalParticipant)
+	}
+}
+
 func (externalparticipantshape *ExternalParticipantShape) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterExternalParticipantShapeCreateCallback != nil {
 		stage.OnAfterExternalParticipantShapeCreateCallback.OnAfterCreate(stage, externalparticipantshape)

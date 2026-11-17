@@ -1,8 +1,6 @@
 package models
 
-type Participant struct {
-	Name string
-
+type ParticipantAbstractFields struct {
 	// When the participant has one or more process/resource
 	// it might be conveniant to consider it, semanticaly/visualy, as
 	// the process/resource itself.
@@ -20,12 +18,20 @@ type Participant struct {
 	Resources               []*Resource
 	IsResourcesNodeExpanded bool
 
-	// Processess is the list of processes performed by the participant
-	Processes               []*Process
-	IsProcessesNodeExpanded bool
-
 	LibraryAbstractFields
 	AbstractTypeFields
+
+	owningProcess *Process
+}
+
+func (s *ParticipantAbstractFields) GetOwningProcess() *Process {
+	return s.owningProcess
+}
+
+type Participant struct {
+	Name string
+
+	ParticipantAbstractFields
 
 	IsTasksNodeExpanded bool
 	Tasks               []*Task
@@ -37,17 +43,9 @@ type Participant struct {
 	TaskWhoseInControlFlowsNodeIsExpanded  []*Task
 
 	IsDataFlowsNodeExpanded bool
-	inDataFlows             []*DataFlow
-	outDataFlows            []*DataFlow
 
 	TaskWhoseOutDataFlowsNodeIsExpanded []*Task
 	TaskWhoseInDataFlowsNodeIsExpanded  []*Task
-
-	owningProcess *Process
 }
 
 var _ AbstractType = (*Participant)(nil)
-
-func (s *Participant) GetOwningProcess() *Process {
-	return s.owningProcess
-}

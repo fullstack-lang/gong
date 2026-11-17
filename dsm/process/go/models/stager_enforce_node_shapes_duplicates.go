@@ -9,6 +9,7 @@ func (stager *Stager) enforceNodeShapeDuplicates() (needCommit bool) {
 	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramProcess]() {
 		needCommit = removeDuplicateNodeShape(stager, &diagram.Process_Shapes) || needCommit
 		needCommit = removeDuplicateNodeShape(stager, &diagram.Participant_Shapes) || needCommit
+		needCommit = removeDuplicateNodeShape(stager, &diagram.ExternalParticipant_Shapes) || needCommit
 		needCommit = removeDuplicateNodeShape(stager, &diagram.Task_Shapes) || needCommit
 		needCommit = removeDuplicateNodeShape(stager, &diagram.ControlFlow_Shapes) || needCommit
 		needCommit = removeDuplicateNodeShape(stager, &diagram.DataFlow_Shapes) || needCommit
@@ -25,7 +26,9 @@ func removeDuplicateNodeShape[T ConcreteType](stager *Stager, shapes *[]T) (need
 		if abstractElement != nil {
 			if seen[abstractElement] {
 				shape.UnstageVoid(stager.stage)
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged duplicate shape %s", shape.GetName()))
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged duplicate shape %s", shape.GetName()))
+				}
 				needCommit = true
 				continue
 			}

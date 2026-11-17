@@ -70,7 +70,7 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 				continue
 			}
 		case DataFlow_ExternalParticipant2Task:
-			if dataFlow.StartExternalParticipant == nil {
+			if dataFlow.StartParticipant == nil {
 				dataFlow.UnstageVoid(stage)
 				if stager.probeForm != nil {
 					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no start, unstaging",
@@ -99,7 +99,7 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 				needCommit = true
 				continue
 			}
-			if dataFlow.EndExternalParticipant == nil {
+			if dataFlow.EndParticipant == nil {
 				dataFlow.UnstageVoid(stage)
 				if stager.probeForm != nil {
 					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no end, unstaging",

@@ -28,4 +28,7 @@ func (stager *Stager) treeResourceWithinLibrary(
 	for _, participant := range stager.rm_Resource_Participants[resource] {
 		stager.treeParticipantWithinLibrary(library, participant, resourceNode)
 	}
+	for _, externalParticipant := range stager.rm_Resource_ExternalParticipants[resource] {
+		stager.treeExternalParticipantWithinLibrary(library, externalParticipant, resourceNode)
+	}
 }

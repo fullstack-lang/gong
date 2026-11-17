@@ -38,10 +38,11 @@ type Library struct {
 	IsDatasNodeExpanded      bool
 	DatasWhoseNodeIsExpanded []*Data
 
-	RootResources                   []*Resource
-	IsResourcesNodeExpanded         bool
-	ResourcesWhoseNodeIsExpanded    []*Resource
-	ParticipantsWhoseNodeIsExpanded []*Participant
+	RootResources                           []*Resource
+	IsResourcesNodeExpanded                 bool
+	ResourcesWhoseNodeIsExpanded            []*Resource
+	ParticipantsWhoseNodeIsExpanded         []*Participant
+	ExternalParticipantsWhoseNodeIsExpanded []*ExternalParticipant
 
 	RootNotes                []*Note
 	IsNotesNodeExpanded      bool

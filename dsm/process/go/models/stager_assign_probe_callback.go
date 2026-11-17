@@ -1,8 +1,9 @@
 package models
 
-import "slices"
-
-import "log"
+import (
+	"log"
+	"slices"
+)
 
 func (stager *Stager) assignProbeCallback() bool {
 	if stager.probeForm == nil {
@@ -26,10 +27,177 @@ func (stager *Stager) assignProbeCallback() bool {
 			case &inst.ControlFlows:
 				stager.onNoteControlFlowsUpdate(inst)
 			}
+		case *Participant:
+			if slicePtr == &inst.Resources {
+				stager.onParticipantResourcesUpdate(inst)
+			}
+		case *ExternalParticipant:
+			switch slicePtr {
+			case &inst.Resources:
+				stager.onExternalParticipantResourcesUpdate(inst)
+			case &inst.Processes:
+				stager.onExternalParticipantProcessesUpdate(inst)
+			}
 		}
 	})
 
 	return false
+}
+
+func (stager *Stager) onParticipantResourcesUpdate(participant *Participant) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramProcess]() {
+		var valid []*AllocatedResourceShape
+		for _, shape := range diagram.AllocatedResourceShapes {
+			if shape.Participant == participant && (shape.Resource == nil || !slices.Contains(participant.Resources, shape.Resource)) {
+				shape.Unstage(stager.stage)
+				continue
+			}
+			valid = append(valid, shape)
+		}
+		diagram.AllocatedResourceShapes = valid
+	}
+
+	prevResources := stager.map_Participant_PrevResources[participant]
+	if currentDiagram := stager.getCurrentDiagram(); currentDiagram != nil {
+		var hasParticipantShape bool
+		for _, pShape := range currentDiagram.Participant_Shapes {
+			if pShape.Participant == participant {
+				hasParticipantShape = true
+				break
+			}
+		}
+		if hasParticipantShape {
+			for _, resource := range participant.Resources {
+				if resource == nil || slices.Contains(prevResources, resource) {
+					continue
+				}
+				var alreadyExists bool
+				for _, existing := range currentDiagram.AllocatedResourceShapes {
+					if existing.Participant == participant && existing.Resource == resource {
+						alreadyExists = true
+						break
+					}
+				}
+				if !alreadyExists {
+					allocatedResourceShape := (&AllocatedResourceShape{
+						Name:        currentDiagram.GetName() + "-" + participant.GetName() + "-" + resource.GetName(),
+						Participant: participant,
+						Resource:    resource,
+					}).Stage(stager.stage)
+					currentDiagram.AllocatedResourceShapes = append(currentDiagram.AllocatedResourceShapes, allocatedResourceShape)
+				}
+			}
+		}
+	}
+
+	if stager.map_Participant_PrevResources == nil {
+		stager.map_Participant_PrevResources = make(map[*Participant][]*Resource)
+	}
+	stager.map_Participant_PrevResources[participant] = slices.Clone(participant.Resources)
+}
+
+func (stager *Stager) onExternalParticipantResourcesUpdate(externalParticipant *ExternalParticipant) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramProcess]() {
+		var valid []*AllocatedResourceShape
+		for _, shape := range diagram.AllocatedResourceShapes {
+			if shape.ExternalParticipant == externalParticipant && (shape.Resource == nil || !slices.Contains(externalParticipant.Resources, shape.Resource)) {
+				shape.Unstage(stager.stage)
+				continue
+			}
+			valid = append(valid, shape)
+		}
+		diagram.AllocatedResourceShapes = valid
+	}
+
+	prevResources := stager.map_ExternalParticipant_PrevResources[externalParticipant]
+	if currentDiagram := stager.getCurrentDiagram(); currentDiagram != nil {
+		var hasExternalParticipantShape bool
+		for _, epShape := range currentDiagram.ExternalParticipant_Shapes {
+			if epShape.ExternalParticipant == externalParticipant {
+				hasExternalParticipantShape = true
+				break
+			}
+		}
+		if hasExternalParticipantShape {
+			for _, resource := range externalParticipant.Resources {
+				if resource == nil || slices.Contains(prevResources, resource) {
+					continue
+				}
+				var alreadyExists bool
+				for _, existing := range currentDiagram.AllocatedResourceShapes {
+					if existing.ExternalParticipant == externalParticipant && existing.Resource == resource {
+						alreadyExists = true
+						break
+					}
+				}
+				if !alreadyExists {
+					allocatedResourceShape := (&AllocatedResourceShape{
+						Name:                currentDiagram.GetName() + "-" + externalParticipant.GetName() + "-" + resource.GetName(),
+						ExternalParticipant: externalParticipant,
+						Resource:            resource,
+					}).Stage(stager.stage)
+					currentDiagram.AllocatedResourceShapes = append(currentDiagram.AllocatedResourceShapes, allocatedResourceShape)
+				}
+			}
+		}
+	}
+
+	if stager.map_ExternalParticipant_PrevResources == nil {
+		stager.map_ExternalParticipant_PrevResources = make(map[*ExternalParticipant][]*Resource)
+	}
+	stager.map_ExternalParticipant_PrevResources[externalParticipant] = slices.Clone(externalParticipant.Resources)
+}
+
+func (stager *Stager) onExternalParticipantProcessesUpdate(externalParticipant *ExternalParticipant) {
+	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramProcess]() {
+		var valid []*AllocatedProcessShape
+		for _, shape := range diagram.AllocatedProcessShapes {
+			if shape.ExternalParticipant == externalParticipant && (shape.Process == nil || !slices.Contains(externalParticipant.Processes, shape.Process)) {
+				shape.Unstage(stager.stage)
+				continue
+			}
+			valid = append(valid, shape)
+		}
+		diagram.AllocatedProcessShapes = valid
+	}
+
+	prevProcesses := stager.map_ExternalParticipant_PrevProcesses[externalParticipant]
+	if currentDiagram := stager.getCurrentDiagram(); currentDiagram != nil {
+		var hasExternalParticipantShape bool
+		for _, epShape := range currentDiagram.ExternalParticipant_Shapes {
+			if epShape.ExternalParticipant == externalParticipant {
+				hasExternalParticipantShape = true
+				break
+			}
+		}
+		if hasExternalParticipantShape {
+			for _, process := range externalParticipant.Processes {
+				if process == nil || slices.Contains(prevProcesses, process) {
+					continue
+				}
+				var alreadyExists bool
+				for _, existing := range currentDiagram.AllocatedProcessShapes {
+					if existing.ExternalParticipant == externalParticipant && existing.Process == process {
+						alreadyExists = true
+						break
+					}
+				}
+				if !alreadyExists {
+					allocatedProcessShape := (&AllocatedProcessShape{
+						Name:                currentDiagram.GetName() + "-" + externalParticipant.GetName() + "-" + process.GetName(),
+						ExternalParticipant: externalParticipant,
+						Process:             process,
+					}).Stage(stager.stage)
+					currentDiagram.AllocatedProcessShapes = append(currentDiagram.AllocatedProcessShapes, allocatedProcessShape)
+				}
+			}
+		}
+	}
+
+	if stager.map_ExternalParticipant_PrevProcesses == nil {
+		stager.map_ExternalParticipant_PrevProcesses = make(map[*ExternalParticipant][]*Process)
+	}
+	stager.map_ExternalParticipant_PrevProcesses[externalParticipant] = slices.Clone(externalParticipant.Processes)
 }
 
 func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {

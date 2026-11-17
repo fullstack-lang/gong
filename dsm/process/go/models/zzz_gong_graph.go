@@ -60,6 +60,11 @@ func (diagramprocess *DiagramProcess) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
+func (externalparticipant *ExternalParticipant) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ExternalParticipants[externalparticipant]
+	return ok
+}
+
 func (externalparticipantshape *ExternalParticipantShape) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.ExternalParticipantShapes[externalparticipantshape]
 	return ok
@@ -148,8 +153,8 @@ func (allocatedprocessshape *AllocatedProcessShape) GongStageBranch(stage *Stage
 	allocatedprocessshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if allocatedprocessshape.Participant != nil {
-		stage.StageBranch(allocatedprocessshape.Participant)
+	if allocatedprocessshape.ExternalParticipant != nil {
+		stage.StageBranch(allocatedprocessshape.ExternalParticipant)
 	}
 	if allocatedprocessshape.Process != nil {
 		stage.StageBranch(allocatedprocessshape.Process)
@@ -171,6 +176,9 @@ func (allocatedresourceshape *AllocatedResourceShape) GongStageBranch(stage *Sta
 	//insertion point for the staging of instances referenced by pointers
 	if allocatedresourceshape.Participant != nil {
 		stage.StageBranch(allocatedresourceshape.Participant)
+	}
+	if allocatedresourceshape.ExternalParticipant != nil {
+		stage.StageBranch(allocatedresourceshape.ExternalParticipant)
 	}
 	if allocatedresourceshape.Resource != nil {
 		stage.StageBranch(allocatedresourceshape.Resource)
@@ -250,11 +258,11 @@ func (dataflow *DataFlow) GongStageBranch(stage *Stage) {
 	if dataflow.EndTask != nil {
 		stage.StageBranch(dataflow.EndTask)
 	}
-	if dataflow.StartExternalParticipant != nil {
-		stage.StageBranch(dataflow.StartExternalParticipant)
+	if dataflow.StartParticipant != nil {
+		stage.StageBranch(dataflow.StartParticipant)
 	}
-	if dataflow.EndExternalParticipant != nil {
-		stage.StageBranch(dataflow.EndExternalParticipant)
+	if dataflow.EndParticipant != nil {
+		stage.StageBranch(dataflow.EndParticipant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -330,14 +338,14 @@ func (diagramprocess *DiagramProcess) GongStageBranch(stage *Stage) {
 	for _, _externalparticipantshape := range diagramprocess.ExternalParticipant_Shapes {
 		stage.StageBranch(_externalparticipantshape)
 	}
-	for _, _participant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
-		stage.StageBranch(_participant)
+	for _, _externalparticipant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
+		stage.StageBranch(_externalparticipant)
 	}
-	for _, _participant := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
-		stage.StageBranch(_participant)
+	for _, _externalparticipant := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+		stage.StageBranch(_externalparticipant)
 	}
-	for _, _participant := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
-		stage.StageBranch(_participant)
+	for _, _externalparticipant := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+		stage.StageBranch(_externalparticipant)
 	}
 	for _, _task := range diagramprocess.TasksWhoseNodeIsExpanded {
 		stage.StageBranch(_task)
@@ -396,6 +404,27 @@ func (diagramprocess *DiagramProcess) GongStageBranch(stage *Stage) {
 
 }
 
+func (externalparticipant *ExternalParticipant) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(externalparticipant) {
+		return
+	}
+
+	externalparticipant.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _resource := range externalparticipant.Resources {
+		stage.StageBranch(_resource)
+	}
+	for _, _process := range externalparticipant.Processes {
+		stage.StageBranch(_process)
+	}
+
+}
+
 func (externalparticipantshape *ExternalParticipantShape) GongStageBranch(stage *Stage) {
 
 	// check if instance is already staged
@@ -406,8 +435,8 @@ func (externalparticipantshape *ExternalParticipantShape) GongStageBranch(stage 
 	externalparticipantshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if externalparticipantshape.Participant != nil {
-		stage.StageBranch(externalparticipantshape.Participant)
+	if externalparticipantshape.ExternalParticipant != nil {
+		stage.StageBranch(externalparticipantshape.ExternalParticipant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -458,6 +487,9 @@ func (library *Library) GongStageBranch(stage *Stage) {
 	}
 	for _, _participant := range library.ParticipantsWhoseNodeIsExpanded {
 		stage.StageBranch(_participant)
+	}
+	for _, _externalparticipant := range library.ExternalParticipantsWhoseNodeIsExpanded {
+		stage.StageBranch(_externalparticipant)
 	}
 	for _, _note := range library.RootNotes {
 		stage.StageBranch(_note)
@@ -588,9 +620,6 @@ func (participant *Participant) GongStageBranch(stage *Stage) {
 	for _, _resource := range participant.Resources {
 		stage.StageBranch(_resource)
 	}
-	for _, _process := range participant.Processes {
-		stage.StageBranch(_process)
-	}
 	for _, _task := range participant.Tasks {
 		stage.StageBranch(_task)
 	}
@@ -660,11 +689,11 @@ func (process *Process) GongStageBranch(stage *Stage) {
 	for _, _dataflow := range process.DataFlows {
 		stage.StageBranch(_dataflow)
 	}
-	for _, _participant := range process.ExternalParticipants {
-		stage.StageBranch(_participant)
+	for _, _externalparticipant := range process.ExternalParticipants {
+		stage.StageBranch(_externalparticipant)
 	}
-	for _, _participant := range process.ExternalParticipantWhoseNodeIsExpanded {
-		stage.StageBranch(_participant)
+	for _, _externalparticipant := range process.ExternalParticipantWhoseNodeIsExpanded {
+		stage.StageBranch(_externalparticipant)
 	}
 
 }
@@ -785,6 +814,10 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchDiagramProcess(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *ExternalParticipant:
+		toT := GongCopyBranchExternalParticipant(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *ExternalParticipantShape:
 		toT := GongCopyBranchExternalParticipantShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -857,8 +890,8 @@ func GongCopyBranchAllocatedProcessShape(mapOrigCopy map[any]any, allocatedproce
 	allocatedprocessshapeFrom.GongCopyBasicFields(allocatedprocessshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if allocatedprocessshapeFrom.Participant != nil {
-		allocatedprocessshapeTo.Participant = GongCopyBranchParticipant(mapOrigCopy, allocatedprocessshapeFrom.Participant)
+	if allocatedprocessshapeFrom.ExternalParticipant != nil {
+		allocatedprocessshapeTo.ExternalParticipant = GongCopyBranchExternalParticipant(mapOrigCopy, allocatedprocessshapeFrom.ExternalParticipant)
 	}
 	if allocatedprocessshapeFrom.Process != nil {
 		allocatedprocessshapeTo.Process = GongCopyBranchProcess(mapOrigCopy, allocatedprocessshapeFrom.Process)
@@ -880,6 +913,9 @@ func GongCopyBranchAllocatedResourceShape(mapOrigCopy map[any]any, allocatedreso
 	//insertion point for the staging of instances referenced by pointers
 	if allocatedresourceshapeFrom.Participant != nil {
 		allocatedresourceshapeTo.Participant = GongCopyBranchParticipant(mapOrigCopy, allocatedresourceshapeFrom.Participant)
+	}
+	if allocatedresourceshapeFrom.ExternalParticipant != nil {
+		allocatedresourceshapeTo.ExternalParticipant = GongCopyBranchExternalParticipant(mapOrigCopy, allocatedresourceshapeFrom.ExternalParticipant)
 	}
 	if allocatedresourceshapeFrom.Resource != nil {
 		allocatedresourceshapeTo.Resource = GongCopyBranchResource(mapOrigCopy, allocatedresourceshapeFrom.Resource)
@@ -959,11 +995,11 @@ func GongCopyBranchDataFlow(mapOrigCopy map[any]any, dataflowFrom *DataFlow) (da
 	if dataflowFrom.EndTask != nil {
 		dataflowTo.EndTask = GongCopyBranchTask(mapOrigCopy, dataflowFrom.EndTask)
 	}
-	if dataflowFrom.StartExternalParticipant != nil {
-		dataflowTo.StartExternalParticipant = GongCopyBranchParticipant(mapOrigCopy, dataflowFrom.StartExternalParticipant)
+	if dataflowFrom.StartParticipant != nil {
+		dataflowTo.StartParticipant = GongCopyBranchExternalParticipant(mapOrigCopy, dataflowFrom.StartParticipant)
 	}
-	if dataflowFrom.EndExternalParticipant != nil {
-		dataflowTo.EndExternalParticipant = GongCopyBranchParticipant(mapOrigCopy, dataflowFrom.EndExternalParticipant)
+	if dataflowFrom.EndParticipant != nil {
+		dataflowTo.EndParticipant = GongCopyBranchExternalParticipant(mapOrigCopy, dataflowFrom.EndParticipant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1039,14 +1075,14 @@ func GongCopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *D
 	for _, _externalparticipantshape := range diagramprocessFrom.ExternalParticipant_Shapes {
 		diagramprocessTo.ExternalParticipant_Shapes = append(diagramprocessTo.ExternalParticipant_Shapes, GongCopyBranchExternalParticipantShape(mapOrigCopy, _externalparticipantshape))
 	}
-	for _, _participant := range diagramprocessFrom.ExternalParticipantWhoseNodeIsExpanded {
-		diagramprocessTo.ExternalParticipantWhoseNodeIsExpanded = append(diagramprocessTo.ExternalParticipantWhoseNodeIsExpanded, GongCopyBranchParticipant(mapOrigCopy, _participant))
+	for _, _externalparticipant := range diagramprocessFrom.ExternalParticipantWhoseNodeIsExpanded {
+		diagramprocessTo.ExternalParticipantWhoseNodeIsExpanded = append(diagramprocessTo.ExternalParticipantWhoseNodeIsExpanded, GongCopyBranchExternalParticipant(mapOrigCopy, _externalparticipant))
 	}
-	for _, _participant := range diagramprocessFrom.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
-		diagramprocessTo.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(diagramprocessTo.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, GongCopyBranchParticipant(mapOrigCopy, _participant))
+	for _, _externalparticipant := range diagramprocessFrom.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+		diagramprocessTo.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(diagramprocessTo.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, GongCopyBranchExternalParticipant(mapOrigCopy, _externalparticipant))
 	}
-	for _, _participant := range diagramprocessFrom.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
-		diagramprocessTo.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(diagramprocessTo.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, GongCopyBranchParticipant(mapOrigCopy, _participant))
+	for _, _externalparticipant := range diagramprocessFrom.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+		diagramprocessTo.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(diagramprocessTo.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, GongCopyBranchExternalParticipant(mapOrigCopy, _externalparticipant))
 	}
 	for _, _task := range diagramprocessFrom.TasksWhoseNodeIsExpanded {
 		diagramprocessTo.TasksWhoseNodeIsExpanded = append(diagramprocessTo.TasksWhoseNodeIsExpanded, GongCopyBranchTask(mapOrigCopy, _task))
@@ -1106,6 +1142,27 @@ func GongCopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *D
 	return
 }
 
+func GongCopyBranchExternalParticipant(mapOrigCopy map[any]any, externalparticipantFrom *ExternalParticipant) (externalparticipantTo *ExternalParticipant) {
+	var alreadyCopied bool
+	externalparticipantTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, externalparticipantFrom)
+	if alreadyCopied {
+		return
+	}
+	externalparticipantFrom.GongCopyBasicFields(externalparticipantTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _resource := range externalparticipantFrom.Resources {
+		externalparticipantTo.Resources = append(externalparticipantTo.Resources, GongCopyBranchResource(mapOrigCopy, _resource))
+	}
+	for _, _process := range externalparticipantFrom.Processes {
+		externalparticipantTo.Processes = append(externalparticipantTo.Processes, GongCopyBranchProcess(mapOrigCopy, _process))
+	}
+
+	return
+}
+
 func GongCopyBranchExternalParticipantShape(mapOrigCopy map[any]any, externalparticipantshapeFrom *ExternalParticipantShape) (externalparticipantshapeTo *ExternalParticipantShape) {
 	var alreadyCopied bool
 	externalparticipantshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, externalparticipantshapeFrom)
@@ -1115,8 +1172,8 @@ func GongCopyBranchExternalParticipantShape(mapOrigCopy map[any]any, externalpar
 	externalparticipantshapeFrom.GongCopyBasicFields(externalparticipantshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if externalparticipantshapeFrom.Participant != nil {
-		externalparticipantshapeTo.Participant = GongCopyBranchParticipant(mapOrigCopy, externalparticipantshapeFrom.Participant)
+	if externalparticipantshapeFrom.ExternalParticipant != nil {
+		externalparticipantshapeTo.ExternalParticipant = GongCopyBranchExternalParticipant(mapOrigCopy, externalparticipantshapeFrom.ExternalParticipant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1167,6 +1224,9 @@ func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libra
 	}
 	for _, _participant := range libraryFrom.ParticipantsWhoseNodeIsExpanded {
 		libraryTo.ParticipantsWhoseNodeIsExpanded = append(libraryTo.ParticipantsWhoseNodeIsExpanded, GongCopyBranchParticipant(mapOrigCopy, _participant))
+	}
+	for _, _externalparticipant := range libraryFrom.ExternalParticipantsWhoseNodeIsExpanded {
+		libraryTo.ExternalParticipantsWhoseNodeIsExpanded = append(libraryTo.ExternalParticipantsWhoseNodeIsExpanded, GongCopyBranchExternalParticipant(mapOrigCopy, _externalparticipant))
 	}
 	for _, _note := range libraryFrom.RootNotes {
 		libraryTo.RootNotes = append(libraryTo.RootNotes, GongCopyBranchNote(mapOrigCopy, _note))
@@ -1297,9 +1357,6 @@ func GongCopyBranchParticipant(mapOrigCopy map[any]any, participantFrom *Partici
 	for _, _resource := range participantFrom.Resources {
 		participantTo.Resources = append(participantTo.Resources, GongCopyBranchResource(mapOrigCopy, _resource))
 	}
-	for _, _process := range participantFrom.Processes {
-		participantTo.Processes = append(participantTo.Processes, GongCopyBranchProcess(mapOrigCopy, _process))
-	}
 	for _, _task := range participantFrom.Tasks {
 		participantTo.Tasks = append(participantTo.Tasks, GongCopyBranchTask(mapOrigCopy, _task))
 	}
@@ -1369,11 +1426,11 @@ func GongCopyBranchProcess(mapOrigCopy map[any]any, processFrom *Process) (proce
 	for _, _dataflow := range processFrom.DataFlows {
 		processTo.DataFlows = append(processTo.DataFlows, GongCopyBranchDataFlow(mapOrigCopy, _dataflow))
 	}
-	for _, _participant := range processFrom.ExternalParticipants {
-		processTo.ExternalParticipants = append(processTo.ExternalParticipants, GongCopyBranchParticipant(mapOrigCopy, _participant))
+	for _, _externalparticipant := range processFrom.ExternalParticipants {
+		processTo.ExternalParticipants = append(processTo.ExternalParticipants, GongCopyBranchExternalParticipant(mapOrigCopy, _externalparticipant))
 	}
-	for _, _participant := range processFrom.ExternalParticipantWhoseNodeIsExpanded {
-		processTo.ExternalParticipantWhoseNodeIsExpanded = append(processTo.ExternalParticipantWhoseNodeIsExpanded, GongCopyBranchParticipant(mapOrigCopy, _participant))
+	for _, _externalparticipant := range processFrom.ExternalParticipantWhoseNodeIsExpanded {
+		processTo.ExternalParticipantWhoseNodeIsExpanded = append(processTo.ExternalParticipantWhoseNodeIsExpanded, GongCopyBranchExternalParticipant(mapOrigCopy, _externalparticipant))
 	}
 
 	return
@@ -1470,8 +1527,8 @@ func (allocatedprocessshape *AllocatedProcessShape) GongUnstageBranch(stage *Sta
 	allocatedprocessshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if allocatedprocessshape.Participant != nil {
-		stage.UnstageBranch(allocatedprocessshape.Participant)
+	if allocatedprocessshape.ExternalParticipant != nil {
+		stage.UnstageBranch(allocatedprocessshape.ExternalParticipant)
 	}
 	if allocatedprocessshape.Process != nil {
 		stage.UnstageBranch(allocatedprocessshape.Process)
@@ -1493,6 +1550,9 @@ func (allocatedresourceshape *AllocatedResourceShape) GongUnstageBranch(stage *S
 	//insertion point for the staging of instances referenced by pointers
 	if allocatedresourceshape.Participant != nil {
 		stage.UnstageBranch(allocatedresourceshape.Participant)
+	}
+	if allocatedresourceshape.ExternalParticipant != nil {
+		stage.UnstageBranch(allocatedresourceshape.ExternalParticipant)
 	}
 	if allocatedresourceshape.Resource != nil {
 		stage.UnstageBranch(allocatedresourceshape.Resource)
@@ -1572,11 +1632,11 @@ func (dataflow *DataFlow) GongUnstageBranch(stage *Stage) {
 	if dataflow.EndTask != nil {
 		stage.UnstageBranch(dataflow.EndTask)
 	}
-	if dataflow.StartExternalParticipant != nil {
-		stage.UnstageBranch(dataflow.StartExternalParticipant)
+	if dataflow.StartParticipant != nil {
+		stage.UnstageBranch(dataflow.StartParticipant)
 	}
-	if dataflow.EndExternalParticipant != nil {
-		stage.UnstageBranch(dataflow.EndExternalParticipant)
+	if dataflow.EndParticipant != nil {
+		stage.UnstageBranch(dataflow.EndParticipant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1652,14 +1712,14 @@ func (diagramprocess *DiagramProcess) GongUnstageBranch(stage *Stage) {
 	for _, _externalparticipantshape := range diagramprocess.ExternalParticipant_Shapes {
 		stage.UnstageBranch(_externalparticipantshape)
 	}
-	for _, _participant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
-		stage.UnstageBranch(_participant)
+	for _, _externalparticipant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
+		stage.UnstageBranch(_externalparticipant)
 	}
-	for _, _participant := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
-		stage.UnstageBranch(_participant)
+	for _, _externalparticipant := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+		stage.UnstageBranch(_externalparticipant)
 	}
-	for _, _participant := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
-		stage.UnstageBranch(_participant)
+	for _, _externalparticipant := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+		stage.UnstageBranch(_externalparticipant)
 	}
 	for _, _task := range diagramprocess.TasksWhoseNodeIsExpanded {
 		stage.UnstageBranch(_task)
@@ -1718,6 +1778,27 @@ func (diagramprocess *DiagramProcess) GongUnstageBranch(stage *Stage) {
 
 }
 
+func (externalparticipant *ExternalParticipant) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(externalparticipant) {
+		return
+	}
+
+	externalparticipant.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _resource := range externalparticipant.Resources {
+		stage.UnstageBranch(_resource)
+	}
+	for _, _process := range externalparticipant.Processes {
+		stage.UnstageBranch(_process)
+	}
+
+}
+
 func (externalparticipantshape *ExternalParticipantShape) GongUnstageBranch(stage *Stage) {
 
 	// check if instance is already staged
@@ -1728,8 +1809,8 @@ func (externalparticipantshape *ExternalParticipantShape) GongUnstageBranch(stag
 	externalparticipantshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if externalparticipantshape.Participant != nil {
-		stage.UnstageBranch(externalparticipantshape.Participant)
+	if externalparticipantshape.ExternalParticipant != nil {
+		stage.UnstageBranch(externalparticipantshape.ExternalParticipant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1780,6 +1861,9 @@ func (library *Library) GongUnstageBranch(stage *Stage) {
 	}
 	for _, _participant := range library.ParticipantsWhoseNodeIsExpanded {
 		stage.UnstageBranch(_participant)
+	}
+	for _, _externalparticipant := range library.ExternalParticipantsWhoseNodeIsExpanded {
+		stage.UnstageBranch(_externalparticipant)
 	}
 	for _, _note := range library.RootNotes {
 		stage.UnstageBranch(_note)
@@ -1910,9 +1994,6 @@ func (participant *Participant) GongUnstageBranch(stage *Stage) {
 	for _, _resource := range participant.Resources {
 		stage.UnstageBranch(_resource)
 	}
-	for _, _process := range participant.Processes {
-		stage.UnstageBranch(_process)
-	}
 	for _, _task := range participant.Tasks {
 		stage.UnstageBranch(_task)
 	}
@@ -1982,11 +2063,11 @@ func (process *Process) GongUnstageBranch(stage *Stage) {
 	for _, _dataflow := range process.DataFlows {
 		stage.UnstageBranch(_dataflow)
 	}
-	for _, _participant := range process.ExternalParticipants {
-		stage.UnstageBranch(_participant)
+	for _, _externalparticipant := range process.ExternalParticipants {
+		stage.UnstageBranch(_externalparticipant)
 	}
-	for _, _participant := range process.ExternalParticipantWhoseNodeIsExpanded {
-		stage.UnstageBranch(_participant)
+	for _, _externalparticipant := range process.ExternalParticipantWhoseNodeIsExpanded {
+		stage.UnstageBranch(_externalparticipant)
 	}
 
 }
@@ -2063,7 +2144,7 @@ func (taskshape *TaskShape) GongUnstageBranch(stage *Stage) {
 // insertion point for pointer reconstruction from references
 func (reference *AllocatedProcessShape) GongReconstructPointersFromReferences(stage *Stage, instance *AllocatedProcessShape) {
 	// insertion point for pointers field
-	__gong__reconstructPointer(&reference.Participant, stage.Participants_reference, instance.Participant)
+	__gong__reconstructPointer(&reference.ExternalParticipant, stage.ExternalParticipants_reference, instance.ExternalParticipant)
 	__gong__reconstructPointer(&reference.Process, stage.Processs_reference, instance.Process)
 	// insertion point for slice of pointers field
 }
@@ -2071,6 +2152,7 @@ func (reference *AllocatedProcessShape) GongReconstructPointersFromReferences(st
 func (reference *AllocatedResourceShape) GongReconstructPointersFromReferences(stage *Stage, instance *AllocatedResourceShape) {
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Participant, stage.Participants_reference, instance.Participant)
+	__gong__reconstructPointer(&reference.ExternalParticipant, stage.ExternalParticipants_reference, instance.ExternalParticipant)
 	__gong__reconstructPointer(&reference.Resource, stage.Resources_reference, instance.Resource)
 	// insertion point for slice of pointers field
 }
@@ -2097,8 +2179,8 @@ func (reference *DataFlow) GongReconstructPointersFromReferences(stage *Stage, i
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.StartTask, stage.Tasks_reference, instance.StartTask)
 	__gong__reconstructPointer(&reference.EndTask, stage.Tasks_reference, instance.EndTask)
-	__gong__reconstructPointer(&reference.StartExternalParticipant, stage.Participants_reference, instance.StartExternalParticipant)
-	__gong__reconstructPointer(&reference.EndExternalParticipant, stage.Participants_reference, instance.EndExternalParticipant)
+	__gong__reconstructPointer(&reference.StartParticipant, stage.ExternalParticipants_reference, instance.StartParticipant)
+	__gong__reconstructPointer(&reference.EndParticipant, stage.ExternalParticipants_reference, instance.EndParticipant)
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Datas, stage.Datas_reference, instance.Datas)
 }
@@ -2124,9 +2206,9 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Participant_Shapes, stage.ParticipantShapes_reference, instance.Participant_Shapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ParticipantWhoseNodeIsExpanded, stage.Participants_reference, instance.ParticipantWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ExternalParticipant_Shapes, stage.ExternalParticipantShapes_reference, instance.ExternalParticipant_Shapes)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.ExternalParticipantWhoseNodeIsExpanded, stage.Participants_reference, instance.ExternalParticipantWhoseNodeIsExpanded)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, stage.Participants_reference, instance.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, stage.Participants_reference, instance.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ExternalParticipantWhoseNodeIsExpanded, stage.ExternalParticipants_reference, instance.ExternalParticipantWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, stage.ExternalParticipants_reference, instance.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, stage.ExternalParticipants_reference, instance.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.TasksWhoseNodeIsExpanded, stage.Tasks_reference, instance.TasksWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Task_Shapes, stage.TaskShapes_reference, instance.Task_Shapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlFlowsWhoseNodeIsExpanded, stage.ControlFlows_reference, instance.ControlFlowsWhoseNodeIsExpanded)
@@ -2147,9 +2229,16 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 	__gong__reconstructSliceOfPointersFromReferences(&reference.NoteControlFlowShapes, stage.NoteControlFlowShapes_reference, instance.NoteControlFlowShapes)
 }
 
+func (reference *ExternalParticipant) GongReconstructPointersFromReferences(stage *Stage, instance *ExternalParticipant) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Resources, stage.Resources_reference, instance.Resources)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Processes, stage.Processs_reference, instance.Processes)
+}
+
 func (reference *ExternalParticipantShape) GongReconstructPointersFromReferences(stage *Stage, instance *ExternalParticipantShape) {
 	// insertion point for pointers field
-	__gong__reconstructPointer(&reference.Participant, stage.Participants_reference, instance.Participant)
+	__gong__reconstructPointer(&reference.ExternalParticipant, stage.ExternalParticipants_reference, instance.ExternalParticipant)
 	// insertion point for slice of pointers field
 }
 
@@ -2167,6 +2256,7 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	__gong__reconstructSliceOfPointersFromReferences(&reference.RootResources, stage.Resources_reference, instance.RootResources)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ResourcesWhoseNodeIsExpanded, stage.Resources_reference, instance.ResourcesWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ParticipantsWhoseNodeIsExpanded, stage.Participants_reference, instance.ParticipantsWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ExternalParticipantsWhoseNodeIsExpanded, stage.ExternalParticipants_reference, instance.ExternalParticipantsWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.RootNotes, stage.Notes_reference, instance.RootNotes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.NotesWhoseNodeIsExpanded, stage.Notes_reference, instance.NotesWhoseNodeIsExpanded)
 }
@@ -2210,7 +2300,6 @@ func (reference *Participant) GongReconstructPointersFromReferences(stage *Stage
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Resources, stage.Resources_reference, instance.Resources)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.Processes, stage.Processs_reference, instance.Processes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Tasks, stage.Tasks_reference, instance.Tasks)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ControlFlows, stage.ControlFlows_reference, instance.ControlFlows)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.TaskWhoseOutControlFlowsNodeIsExpanded, stage.Tasks_reference, instance.TaskWhoseOutControlFlowsNodeIsExpanded)
@@ -2234,8 +2323,8 @@ func (reference *Process) GongReconstructPointersFromReferences(stage *Stage, in
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Participants, stage.Participants_reference, instance.Participants)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ParticipantWhoseNodeIsExpanded, stage.Participants_reference, instance.ParticipantWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DataFlows, stage.DataFlows_reference, instance.DataFlows)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.ExternalParticipants, stage.Participants_reference, instance.ExternalParticipants)
-	__gong__reconstructSliceOfPointersFromReferences(&reference.ExternalParticipantWhoseNodeIsExpanded, stage.Participants_reference, instance.ExternalParticipantWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ExternalParticipants, stage.ExternalParticipants_reference, instance.ExternalParticipants)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ExternalParticipantWhoseNodeIsExpanded, stage.ExternalParticipants_reference, instance.ExternalParticipantWhoseNodeIsExpanded)
 }
 
 func (reference *ProcessShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProcessShape) {
@@ -2264,7 +2353,7 @@ func (reference *TaskShape) GongReconstructPointersFromReferences(stage *Stage, 
 // insertion point for pointer reconstruction from instances
 func (reference *AllocatedProcessShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	__gong__reconstructPointerFromInstance(&reference.Participant, stage.Participants_instance)
+	__gong__reconstructPointerFromInstance(&reference.ExternalParticipant, stage.ExternalParticipants_instance)
 	__gong__reconstructPointerFromInstance(&reference.Process, stage.Processs_instance)
 	// insertion point for slice of pointers fields
 }
@@ -2272,6 +2361,7 @@ func (reference *AllocatedProcessShape) GongReconstructPointersFromInstances(sta
 func (reference *AllocatedResourceShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Participant, stage.Participants_instance)
+	__gong__reconstructPointerFromInstance(&reference.ExternalParticipant, stage.ExternalParticipants_instance)
 	__gong__reconstructPointerFromInstance(&reference.Resource, stage.Resources_instance)
 	// insertion point for slice of pointers fields
 }
@@ -2298,8 +2388,8 @@ func (reference *DataFlow) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.StartTask, stage.Tasks_instance)
 	__gong__reconstructPointerFromInstance(&reference.EndTask, stage.Tasks_instance)
-	__gong__reconstructPointerFromInstance(&reference.StartExternalParticipant, stage.Participants_instance)
-	__gong__reconstructPointerFromInstance(&reference.EndExternalParticipant, stage.Participants_instance)
+	__gong__reconstructPointerFromInstance(&reference.StartParticipant, stage.ExternalParticipants_instance)
+	__gong__reconstructPointerFromInstance(&reference.EndParticipant, stage.ExternalParticipants_instance)
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Datas, stage.Datas_instance)
 }
@@ -2325,9 +2415,9 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Participant_Shapes, stage.ParticipantShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ParticipantWhoseNodeIsExpanded, stage.Participants_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ExternalParticipant_Shapes, stage.ExternalParticipantShapes_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.ExternalParticipantWhoseNodeIsExpanded, stage.Participants_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, stage.Participants_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, stage.Participants_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ExternalParticipantWhoseNodeIsExpanded, stage.ExternalParticipants_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, stage.ExternalParticipants_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, stage.ExternalParticipants_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.TasksWhoseNodeIsExpanded, stage.Tasks_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Task_Shapes, stage.TaskShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlFlowsWhoseNodeIsExpanded, stage.ControlFlows_instance)
@@ -2348,9 +2438,16 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 	__gong__reconstructSliceOfPointersFromInstances(&reference.NoteControlFlowShapes, stage.NoteControlFlowShapes_instance)
 }
 
+func (reference *ExternalParticipant) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Resources, stage.Resources_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Processes, stage.Processs_instance)
+}
+
 func (reference *ExternalParticipantShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	__gong__reconstructPointerFromInstance(&reference.Participant, stage.Participants_instance)
+	__gong__reconstructPointerFromInstance(&reference.ExternalParticipant, stage.ExternalParticipants_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -2368,6 +2465,7 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.RootResources, stage.Resources_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ResourcesWhoseNodeIsExpanded, stage.Resources_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ParticipantsWhoseNodeIsExpanded, stage.Participants_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ExternalParticipantsWhoseNodeIsExpanded, stage.ExternalParticipants_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.RootNotes, stage.Notes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.NotesWhoseNodeIsExpanded, stage.Notes_instance)
 }
@@ -2411,7 +2509,6 @@ func (reference *Participant) GongReconstructPointersFromInstances(stage *Stage)
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Resources, stage.Resources_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.Processes, stage.Processs_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Tasks, stage.Tasks_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ControlFlows, stage.ControlFlows_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.TaskWhoseOutControlFlowsNodeIsExpanded, stage.Tasks_instance)
@@ -2435,8 +2532,8 @@ func (reference *Process) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Participants, stage.Participants_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ParticipantWhoseNodeIsExpanded, stage.Participants_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DataFlows, stage.DataFlows_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.ExternalParticipants, stage.Participants_instance)
-	__gong__reconstructSliceOfPointersFromInstances(&reference.ExternalParticipantWhoseNodeIsExpanded, stage.Participants_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ExternalParticipants, stage.ExternalParticipants_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ExternalParticipantWhoseNodeIsExpanded, stage.ExternalParticipants_instance)
 }
 
 func (reference *ProcessShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2470,8 +2567,8 @@ func (allocatedprocessshape *AllocatedProcessShape) GongDiff(stage *Stage, alloc
 	if allocatedprocessshape.Name != allocatedprocessshapeOther.Name {
 		diffs = append(diffs, allocatedprocessshape.GongMarshallField(stage, "Name"))
 	}
-	if allocatedprocessshape.Participant != allocatedprocessshapeOther.Participant {
-		diffs = append(diffs, allocatedprocessshape.GongMarshallField(stage, "Participant"))
+	if allocatedprocessshape.ExternalParticipant != allocatedprocessshapeOther.ExternalParticipant {
+		diffs = append(diffs, allocatedprocessshape.GongMarshallField(stage, "ExternalParticipant"))
 	}
 	if allocatedprocessshape.Process != allocatedprocessshapeOther.Process {
 		diffs = append(diffs, allocatedprocessshape.GongMarshallField(stage, "Process"))
@@ -2489,6 +2586,9 @@ func (allocatedresourceshape *AllocatedResourceShape) GongDiff(stage *Stage, all
 	}
 	if allocatedresourceshape.Participant != allocatedresourceshapeOther.Participant {
 		diffs = append(diffs, allocatedresourceshape.GongMarshallField(stage, "Participant"))
+	}
+	if allocatedresourceshape.ExternalParticipant != allocatedresourceshapeOther.ExternalParticipant {
+		diffs = append(diffs, allocatedresourceshape.GongMarshallField(stage, "ExternalParticipant"))
 	}
 	if allocatedresourceshape.Resource != allocatedresourceshapeOther.Resource {
 		diffs = append(diffs, allocatedresourceshape.GongMarshallField(stage, "Resource"))
@@ -2630,11 +2730,11 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 	if dataflow.EndTask != dataflowOther.EndTask {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "EndTask"))
 	}
-	if dataflow.StartExternalParticipant != dataflowOther.StartExternalParticipant {
-		diffs = append(diffs, dataflow.GongMarshallField(stage, "StartExternalParticipant"))
+	if dataflow.StartParticipant != dataflowOther.StartParticipant {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "StartParticipant"))
 	}
-	if dataflow.EndExternalParticipant != dataflowOther.EndExternalParticipant {
-		diffs = append(diffs, dataflow.GongMarshallField(stage, "EndExternalParticipant"))
+	if dataflow.EndParticipant != dataflowOther.EndParticipant {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "EndParticipant"))
 	}
 	if dataflow.IsDatasNodeExpanded != dataflowOther.IsDatasNodeExpanded {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
@@ -2894,13 +2994,51 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (externalparticipant *ExternalParticipant) GongDiff(stage *Stage, externalparticipantOther *ExternalParticipant) (diffs []string) {
+	// insertion point for field diffs
+	if externalparticipant.Name != externalparticipantOther.Name {
+		diffs = append(diffs, externalparticipant.GongMarshallField(stage, "Name"))
+	}
+	if externalparticipant.IsProcessResource != externalparticipantOther.IsProcessResource {
+		diffs = append(diffs, externalparticipant.GongMarshallField(stage, "IsProcessResource"))
+	}
+	if externalparticipant.Description != externalparticipantOther.Description {
+		diffs = append(diffs, externalparticipant.GongMarshallField(stage, "Description"))
+	}
+	if externalparticipant.SVG != externalparticipantOther.SVG {
+		diffs = append(diffs, externalparticipant.GongMarshallField(stage, "SVG"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, externalparticipant, "Resources", externalparticipantOther.Resources, externalparticipant.Resources); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if externalparticipant.IsResourcesNodeExpanded != externalparticipantOther.IsResourcesNodeExpanded {
+		diffs = append(diffs, externalparticipant.GongMarshallField(stage, "IsResourcesNodeExpanded"))
+	}
+	if externalparticipant.ComputedPrefix != externalparticipantOther.ComputedPrefix {
+		diffs = append(diffs, externalparticipant.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if externalparticipant.IsExpanded != externalparticipantOther.IsExpanded {
+		diffs = append(diffs, externalparticipant.GongMarshallField(stage, "IsExpanded"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, externalparticipant, "Processes", externalparticipantOther.Processes, externalparticipant.Processes); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if externalparticipant.IsProcessesNodeExpanded != externalparticipantOther.IsProcessesNodeExpanded {
+		diffs = append(diffs, externalparticipant.GongMarshallField(stage, "IsProcessesNodeExpanded"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (externalparticipantshape *ExternalParticipantShape) GongDiff(stage *Stage, externalparticipantshapeOther *ExternalParticipantShape) (diffs []string) {
 	// insertion point for field diffs
 	if externalparticipantshape.Name != externalparticipantshapeOther.Name {
 		diffs = append(diffs, externalparticipantshape.GongMarshallField(stage, "Name"))
 	}
-	if externalparticipantshape.Participant != externalparticipantshapeOther.Participant {
-		diffs = append(diffs, externalparticipantshape.GongMarshallField(stage, "Participant"))
+	if externalparticipantshape.ExternalParticipant != externalparticipantshapeOther.ExternalParticipant {
+		diffs = append(diffs, externalparticipantshape.GongMarshallField(stage, "ExternalParticipant"))
 	}
 	if externalparticipantshape.IsExpanded != externalparticipantshapeOther.IsExpanded {
 		diffs = append(diffs, externalparticipantshape.GongMarshallField(stage, "IsExpanded"))
@@ -3031,6 +3169,9 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, library, "ParticipantsWhoseNodeIsExpanded", libraryOther.ParticipantsWhoseNodeIsExpanded, library.ParticipantsWhoseNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, library, "ExternalParticipantsWhoseNodeIsExpanded", libraryOther.ExternalParticipantsWhoseNodeIsExpanded, library.ExternalParticipantsWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, library, "RootNotes", libraryOther.RootNotes, library.RootNotes); ops != "" {
@@ -3338,12 +3479,6 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 	}
 	if participant.IsResourcesNodeExpanded != participantOther.IsResourcesNodeExpanded {
 		diffs = append(diffs, participant.GongMarshallField(stage, "IsResourcesNodeExpanded"))
-	}
-	if ops := __gong__diffSliceOfPointers(stage, participant, "Processes", participantOther.Processes, participant.Processes); ops != "" {
-		diffs = append(diffs, ops)
-	}
-	if participant.IsProcessesNodeExpanded != participantOther.IsProcessesNodeExpanded {
-		diffs = append(diffs, participant.GongMarshallField(stage, "IsProcessesNodeExpanded"))
 	}
 	if participant.ComputedPrefix != participantOther.ComputedPrefix {
 		diffs = append(diffs, participant.GongMarshallField(stage, "ComputedPrefix"))

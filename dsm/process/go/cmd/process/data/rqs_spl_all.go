@@ -214,7 +214,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Participant__00000000_.IsProcessResource = false
 	__stage_0__Participant__00000000_.Description = ``
 	__stage_0__Participant__00000000_.IsResourcesNodeExpanded = true
-	__stage_0__Participant__00000000_.IsProcessesNodeExpanded = false
 	__stage_0__Participant__00000000_.ComputedPrefix = ``
 	__stage_0__Participant__00000000_.IsTasksNodeExpanded = true
 	__stage_0__Participant__00000000_.IsControlFlowsNodeExpanded = false
@@ -223,7 +222,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Participant__00000001_.IsProcessResource = false
 	__stage_0__Participant__00000001_.Description = ``
 	__stage_0__Participant__00000001_.IsResourcesNodeExpanded = false
-	__stage_0__Participant__00000001_.IsProcessesNodeExpanded = false
 	__stage_0__Participant__00000001_.ComputedPrefix = ``
 	__stage_0__Participant__00000001_.IsTasksNodeExpanded = false
 	__stage_0__Participant__00000001_.IsControlFlowsNodeExpanded = false
@@ -232,7 +230,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Participant__00000002_.IsProcessResource = false
 	__stage_0__Participant__00000002_.Description = ``
 	__stage_0__Participant__00000002_.IsResourcesNodeExpanded = false
-	__stage_0__Participant__00000002_.IsProcessesNodeExpanded = false
 	__stage_0__Participant__00000002_.ComputedPrefix = ``
 	__stage_0__Participant__00000002_.IsTasksNodeExpanded = false
 	__stage_0__Participant__00000002_.IsControlFlowsNodeExpanded = false
@@ -241,7 +238,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Participant__00000003_.IsProcessResource = false
 	__stage_0__Participant__00000003_.Description = ``
 	__stage_0__Participant__00000003_.IsResourcesNodeExpanded = false
-	__stage_0__Participant__00000003_.IsProcessesNodeExpanded = false
 	__stage_0__Participant__00000003_.ComputedPrefix = ``
 	__stage_0__Participant__00000003_.IsTasksNodeExpanded = false
 	__stage_0__Participant__00000003_.IsControlFlowsNodeExpanded = false
@@ -250,7 +246,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Participant__00000004_.IsProcessResource = false
 	__stage_0__Participant__00000004_.Description = ``
 	__stage_0__Participant__00000004_.IsResourcesNodeExpanded = false
-	__stage_0__Participant__00000004_.IsProcessesNodeExpanded = false
 	__stage_0__Participant__00000004_.ComputedPrefix = ``
 	__stage_0__Participant__00000004_.IsTasksNodeExpanded = false
 	__stage_0__Participant__00000004_.IsControlFlowsNodeExpanded = false
@@ -259,7 +254,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Participant__00000005_.IsProcessResource = false
 	__stage_0__Participant__00000005_.Description = ``
 	__stage_0__Participant__00000005_.IsResourcesNodeExpanded = false
-	__stage_0__Participant__00000005_.IsProcessesNodeExpanded = false
 	__stage_0__Participant__00000005_.ComputedPrefix = ``
 	__stage_0__Participant__00000005_.IsTasksNodeExpanded = false
 	__stage_0__Participant__00000005_.IsControlFlowsNodeExpanded = false
@@ -268,7 +262,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Participant__00000006_.IsProcessResource = false
 	__stage_0__Participant__00000006_.Description = ``
 	__stage_0__Participant__00000006_.IsResourcesNodeExpanded = false
-	__stage_0__Participant__00000006_.IsProcessesNodeExpanded = false
 	__stage_0__Participant__00000006_.ComputedPrefix = ``
 	__stage_0__Participant__00000006_.IsTasksNodeExpanded = false
 	__stage_0__Participant__00000006_.IsControlFlowsNodeExpanded = false
@@ -277,7 +270,6 @@ func _(stage *__stage_0__.Stage) {
 	__stage_0__Participant__00000007_.IsProcessResource = false
 	__stage_0__Participant__00000007_.Description = ``
 	__stage_0__Participant__00000007_.IsResourcesNodeExpanded = false
-	__stage_0__Participant__00000007_.IsProcessesNodeExpanded = false
 	__stage_0__Participant__00000007_.ComputedPrefix = ``
 	__stage_0__Participant__00000007_.IsTasksNodeExpanded = false
 	__stage_0__Participant__00000007_.IsControlFlowsNodeExpanded = false
