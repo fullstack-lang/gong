@@ -10,7 +10,7 @@ func (stager *Stager) createViews() {
 
 	stage := stager.stage
 	stager.splitStage.StageBranch(&split.View{
-		Name:           "Edit PBS/WBS",
+		Name:           "Edit Process",
 		Direction:      split.Horizontal,
 		IsSelectedView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -69,7 +69,7 @@ func (stager *Stager) createViews() {
 	})
 
 	stager.splitStage.StageBranch(&split.View{
-		Name:      "Edit PBS/WBS",
+		Name:      "Edit Process with Probe",
 		Direction: split.Horizontal,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -172,7 +172,7 @@ func (stager *Stager) createViews() {
 	})
 
 	stager.splitStage.StageBranch(&split.View{
-		Name:            "Tree Product Probe",
+		Name:            "Tree Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
