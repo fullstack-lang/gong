@@ -13819,6 +13819,21 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongDiff(stage *Stage, tubevase3ddia
 	if tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape != tubevase3ddiagramOther.IsHiddenVaseTrapezeBasePlateShape {
 		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsHiddenVaseTrapezeBasePlateShape"))
 	}
+	if tubevase3ddiagram.IsCutoffEnabled != tubevase3ddiagramOther.IsCutoffEnabled {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsCutoffEnabled"))
+	}
+	if tubevase3ddiagram.IsCutoffHelperVisible != tubevase3ddiagramOther.IsCutoffHelperVisible {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsCutoffHelperVisible"))
+	}
+	if tubevase3ddiagram.IsCutoffFlipped != tubevase3ddiagramOther.IsCutoffFlipped {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsCutoffFlipped"))
+	}
+	if tubevase3ddiagram.CutoffAxis != tubevase3ddiagramOther.CutoffAxis {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "CutoffAxis"))
+	}
+	if tubevase3ddiagram.CutoffOffset != tubevase3ddiagramOther.CutoffOffset {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "CutoffOffset"))
+	}
 	if tubevase3ddiagram.Rendered3DShape != tubevase3ddiagramOther.Rendered3DShape {
 		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "Rendered3DShape"))
 	}

@@ -2,6 +2,96 @@
 package models
 
 // insertion point of enum utility functions
+// Utility function for CutoffAxis
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (cutoffaxis CutoffAxis) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch cutoffaxis {
+	// insertion code per enum code
+	case CutoffAxisX:
+		res = "X"
+	case CutoffAxisY:
+		res = "Y"
+	case CutoffAxisZ:
+		res = "Z"
+	}
+	return
+}
+
+func (cutoffaxis *CutoffAxis) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "X":
+		*cutoffaxis = CutoffAxisX
+		return
+	case "Y":
+		*cutoffaxis = CutoffAxisY
+		return
+	case "Z":
+		*cutoffaxis = CutoffAxisZ
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (cutoffaxis *CutoffAxis) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "CutoffAxisX":
+		*cutoffaxis = CutoffAxisX
+	case "CutoffAxisY":
+		*cutoffaxis = CutoffAxisY
+	case "CutoffAxisZ":
+		*cutoffaxis = CutoffAxisZ
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (cutoffaxis *CutoffAxis) ToCodeString() (res string) {
+
+	switch *cutoffaxis {
+	// insertion code per enum code
+	case CutoffAxisX:
+		res = "CutoffAxisX"
+	case CutoffAxisY:
+		res = "CutoffAxisY"
+	case CutoffAxisZ:
+		res = "CutoffAxisZ"
+	}
+	return
+}
+
+func (cutoffaxis CutoffAxis) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "CutoffAxisX")
+	res = append(res, "CutoffAxisY")
+	res = append(res, "CutoffAxisZ")
+
+	return
+}
+
+func (cutoffaxis CutoffAxis) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "X")
+	res = append(res, "Y")
+	res = append(res, "Z")
+
+	return
+}
+
 // Utility function for LayoutDirection
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value

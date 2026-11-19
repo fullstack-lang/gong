@@ -191,9 +191,25 @@ type Stage struct {
 
 	Canvas_Meshs_reverseMap map[*Mesh]*Canvas
 
+	Canvas_ClippingPlanes_reverseMap map[*ClippingPlane]*Canvas
+
 	OnAfterCanvasCreateCallback GongOnAfterCreateInterface[Canvas]
 	OnAfterCanvasUpdateCallback GongOnAfterUpdateInterface[Canvas]
 	OnAfterCanvasDeleteCallback GongOnAfterDeleteInterface[Canvas]
+
+	ClippingPlanes                map[*ClippingPlane]struct{}
+	ClippingPlanes_instance       map[*ClippingPlane]*ClippingPlane
+	ClippingPlanes_mapString      map[string]*ClippingPlane
+	ClippingPlaneOrder            uint
+	ClippingPlane_stagedOrder     map[*ClippingPlane]uint
+	ClippingPlane_orderStaged     map[uint]*ClippingPlane
+	ClippingPlanes_reference      map[*ClippingPlane]*ClippingPlane
+	ClippingPlanes_referenceOrder map[*ClippingPlane]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterClippingPlaneCreateCallback GongOnAfterCreateInterface[ClippingPlane]
+	OnAfterClippingPlaneUpdateCallback GongOnAfterUpdateInterface[ClippingPlane]
+	OnAfterClippingPlaneDeleteCallback GongOnAfterDeleteInterface[ClippingPlane]
 
 	Curves                map[*Curve]struct{}
 	Curves_instance       map[*Curve]*Curve
@@ -500,6 +516,8 @@ func (stage *Stage) Squash() {
 
 	__gong__clearReferences(&stage.Canvass_reference, &stage.Canvass_instance, &stage.Canvass_referenceOrder)
 
+	__gong__clearReferences(&stage.ClippingPlanes_reference, &stage.ClippingPlanes_instance, &stage.ClippingPlanes_referenceOrder)
+
 	__gong__clearReferences(&stage.Curves_reference, &stage.Curves_instance, &stage.Curves_referenceOrder)
 
 	__gong__clearReferences(&stage.CylinderGeometrys_reference, &stage.CylinderGeometrys_instance, &stage.CylinderGeometrys_referenceOrder)
@@ -562,6 +580,8 @@ func (stage *Stage) recomputeOrders() {
 	stage.CameraOrder = __gong__recomputeOrder(stage.Camera_stagedOrder)
 
 	stage.CanvasOrder = __gong__recomputeOrder(stage.Canvas_stagedOrder)
+
+	stage.ClippingPlaneOrder = __gong__recomputeOrder(stage.ClippingPlane_stagedOrder)
 
 	stage.CurveOrder = __gong__recomputeOrder(stage.Curve_stagedOrder)
 
@@ -707,6 +727,26 @@ func (*Canvas) GongGetInstancesSet(stage *Stage) any {
 
 func (*Canvas) GongNewInstance() any {
 	return new(Canvas)
+}
+
+func (*ClippingPlane) GongGetInstancesByOrder(stage *Stage) any {
+	return __gong__getStructInstancesByOrder(stage.ClippingPlanes, stage.ClippingPlane_stagedOrder)
+}
+
+func (*ClippingPlane) GongGetInstanceFromOrder(stage *Stage, order uint) any {
+	return stage.ClippingPlane_orderStaged[order]
+}
+
+func (*ClippingPlane) GongGetInstancesMapByName(stage *Stage) any {
+	return stage.ClippingPlanes_mapString
+}
+
+func (*ClippingPlane) GongGetInstancesSet(stage *Stage) any {
+	return &stage.ClippingPlanes
+}
+
+func (*ClippingPlane) GongNewInstance() any {
+	return new(ClippingPlane)
 }
 
 func (*Curve) GongGetInstancesByOrder(stage *Stage) any {
@@ -1205,6 +1245,9 @@ func NewStage(name string) (stage *Stage) {
 		Canvass:           make(map[*Canvas]struct{}),
 		Canvass_mapString: make(map[string]*Canvas),
 
+		ClippingPlanes:           make(map[*ClippingPlane]struct{}),
+		ClippingPlanes_mapString: make(map[string]*ClippingPlane),
+
 		Curves:           make(map[*Curve]struct{}),
 		Curves_mapString: make(map[string]*Curve),
 
@@ -1278,6 +1321,10 @@ func NewStage(name string) (stage *Stage) {
 		Canvas_orderStaged: make(map[uint]*Canvas),
 		Canvass_reference:  make(map[*Canvas]*Canvas),
 
+		ClippingPlane_stagedOrder: make(map[*ClippingPlane]uint),
+		ClippingPlane_orderStaged: make(map[uint]*ClippingPlane),
+		ClippingPlanes_reference:  make(map[*ClippingPlane]*ClippingPlane),
+
 		Curve_stagedOrder: make(map[*Curve]uint),
 		Curve_orderStaged: make(map[uint]*Curve),
 		Curves_reference:  make(map[*Curve]*Curve),
@@ -1349,6 +1396,8 @@ func NewStage(name string) (stage *Stage) {
 			"Camera": &CameraUnmarshaller{},
 
 			"Canvas": &CanvasUnmarshaller{},
+
+			"ClippingPlane": &ClippingPlaneUnmarshaller{},
 
 			"Curve": &CurveUnmarshaller{},
 
@@ -1467,6 +1516,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["BufferGeometry"] = len(stage.BufferGeometrys)
 	stage.Map_GongStructName_InstancesNb["Camera"] = len(stage.Cameras)
 	stage.Map_GongStructName_InstancesNb["Canvas"] = len(stage.Canvass)
+	stage.Map_GongStructName_InstancesNb["ClippingPlane"] = len(stage.ClippingPlanes)
 	stage.Map_GongStructName_InstancesNb["Curve"] = len(stage.Curves)
 	stage.Map_GongStructName_InstancesNb["CylinderGeometry"] = len(stage.CylinderGeometrys)
 	stage.Map_GongStructName_InstancesNb["DirectionalLight"] = len(stage.DirectionalLights)
@@ -1720,6 +1770,46 @@ func (canvas *Canvas) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (canvas *Canvas) SetName(name string) {
 	canvas.Name = name
+}
+
+// Stage puts clippingplane to the model stage
+func (clippingplane *ClippingPlane) Stage(stage *Stage) *ClippingPlane {
+	__gong__stage(stage.ClippingPlanes, stage.ClippingPlane_stagedOrder, stage.ClippingPlane_orderStaged, &stage.ClippingPlaneOrder, stage.ClippingPlanes_mapString, clippingplane, clippingplane.Name)
+	return clippingplane
+}
+
+// StagePreserveOrder puts clippingplane to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ClippingPlaneOrder
+// - update stage.ClippingPlaneOrder accordingly
+func (clippingplane *ClippingPlane) StagePreserveOrder(stage *Stage, order uint) {
+	__gong__stagePreserveOrder(stage.ClippingPlanes, stage.ClippingPlane_stagedOrder, stage.ClippingPlane_orderStaged, &stage.ClippingPlaneOrder, stage.ClippingPlanes_mapString, clippingplane, order, clippingplane.Name)
+}
+
+// Unstage removes clippingplane off the model stage
+func (clippingplane *ClippingPlane) Unstage(stage *Stage) *ClippingPlane {
+	__gong__unstage(stage.ClippingPlanes, stage.ClippingPlanes_mapString, clippingplane, clippingplane.Name)
+	return clippingplane
+}
+
+// UnstageVoid removes clippingplane off the model stage
+func (clippingplane *ClippingPlane) UnstageVoid(stage *Stage) {
+	clippingplane.Unstage(stage)
+}
+
+func (clippingplane *ClippingPlane) StageVoid(stage *Stage) {
+	clippingplane.Stage(stage)
+}
+
+// for satisfaction of GongStruct interface
+func (clippingplane *ClippingPlane) GetName() (res string) {
+	return clippingplane.Name
+}
+
+// for satisfaction of GongStruct interface
+func (clippingplane *ClippingPlane) SetName(name string) {
+	clippingplane.Name = name
 }
 
 // Stage puts curve to the model stage
@@ -2333,6 +2423,8 @@ func (stage *Stage) Reset() { // insertion point for array reset
 
 	__gong__resetStageType(&stage.Canvass, &stage.Canvass_mapString, &stage.Canvas_stagedOrder, &stage.CanvasOrder)
 
+	__gong__resetStageType(&stage.ClippingPlanes, &stage.ClippingPlanes_mapString, &stage.ClippingPlane_stagedOrder, &stage.ClippingPlaneOrder)
+
 	__gong__resetStageType(&stage.Curves, &stage.Curves_mapString, &stage.Curve_stagedOrder, &stage.CurveOrder)
 
 	__gong__resetStageType(&stage.CylinderGeometrys, &stage.CylinderGeometrys_mapString, &stage.CylinderGeometry_stagedOrder, &stage.CylinderGeometryOrder)
@@ -2495,6 +2587,12 @@ func (Canvas) GongGetAssociationName() any {
 			AmbiantLight: &AmbiantLight{Name: "AmbiantLight"},
 			Meshs: []*Mesh{{Name: "Meshs"}},
 			Camera: &Camera{Name: "Camera"},
+			ClippingPlanes: []*ClippingPlane{{Name: "ClippingPlanes"}},
+	}
+}
+
+func (ClippingPlane) GongGetAssociationName() any {
+	return &ClippingPlane{
 	}
 }
 
@@ -2669,6 +2767,11 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ClippingPlane
+	case ClippingPlane:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Curve
 	case Curve:
@@ -3032,6 +3135,19 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ClippingPlanes":
+			res := make(map[*ClippingPlane][]*Canvas)
+			for canvas := range stage.Canvass {
+				for _, clippingplane_ := range canvas.ClippingPlanes {
+					res[clippingplane_] = append(res[clippingplane_], canvas)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ClippingPlane
+	case ClippingPlane:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Curve
 	case Curve:
@@ -3195,6 +3311,15 @@ func (*Camera) GongGetReverseFields() []GongReverseField {
 
 func (*Canvas) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
+	}
+}
+
+func (*ClippingPlane) GongGetReverseFields() []GongReverseField {
+	return []GongReverseField{ 
+		{
+			GongstructName: "Canvas",
+			Fieldname: "ClippingPlanes",
+		},
 	}
 }
 
@@ -3449,6 +3574,11 @@ func (canvas *Canvas) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Camera",
 		},
 		{
+			Name:                 "ClippingPlanes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ClippingPlane",
+		},
+		{
 			Name:               "IsWithLastRenderingUpdate",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -3459,6 +3589,57 @@ func (canvas *Canvas) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Frame64BitsEncoded",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (clippingplane *ClippingPlane) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsEnabled",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "NormalX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "NormalY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "NormalZ",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Constant",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHelperVisible",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "HelperSize",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "HelperCenterX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "HelperCenterY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "HelperCenterZ",
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -3597,6 +3778,10 @@ func (mesh *Mesh) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Z",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsNotClipped",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "MeshMaterialBasic",
@@ -4116,6 +4301,16 @@ func (canvas *Canvas) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 			res.valueString = canvas.Camera.Name
 			res.ids = canvas.Camera.GongGetUUID(stage)
 		}
+	case "ClippingPlanes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range canvas.ClippingPlanes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "IsWithLastRenderingUpdate":
 		res.valueString = fmt.Sprintf("%t", canvas.IsWithLastRenderingUpdate)
 		res.valueBool = canvas.IsWithLastRenderingUpdate
@@ -4124,6 +4319,55 @@ func (canvas *Canvas) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.valueString = canvas.LastRendering.String()
 	case "Frame64BitsEncoded":
 		res.valueString = canvas.Frame64BitsEncoded
+	}
+	return
+}
+
+func (clippingplane *ClippingPlane) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = clippingplane.Name
+	case "IsEnabled":
+		res.valueString = fmt.Sprintf("%t", clippingplane.IsEnabled)
+		res.valueBool = clippingplane.IsEnabled
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "NormalX":
+		res.valueString = fmt.Sprintf("%f", clippingplane.NormalX)
+		res.valueFloat = clippingplane.NormalX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "NormalY":
+		res.valueString = fmt.Sprintf("%f", clippingplane.NormalY)
+		res.valueFloat = clippingplane.NormalY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "NormalZ":
+		res.valueString = fmt.Sprintf("%f", clippingplane.NormalZ)
+		res.valueFloat = clippingplane.NormalZ
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Constant":
+		res.valueString = fmt.Sprintf("%f", clippingplane.Constant)
+		res.valueFloat = clippingplane.Constant
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHelperVisible":
+		res.valueString = fmt.Sprintf("%t", clippingplane.IsHelperVisible)
+		res.valueBool = clippingplane.IsHelperVisible
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "HelperSize":
+		res.valueString = fmt.Sprintf("%f", clippingplane.HelperSize)
+		res.valueFloat = clippingplane.HelperSize
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "HelperCenterX":
+		res.valueString = fmt.Sprintf("%f", clippingplane.HelperCenterX)
+		res.valueFloat = clippingplane.HelperCenterX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "HelperCenterY":
+		res.valueString = fmt.Sprintf("%f", clippingplane.HelperCenterY)
+		res.valueFloat = clippingplane.HelperCenterY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "HelperCenterZ":
+		res.valueString = fmt.Sprintf("%f", clippingplane.HelperCenterZ)
+		res.valueFloat = clippingplane.HelperCenterZ
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -4259,6 +4503,10 @@ func (mesh *Mesh) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%f", mesh.Z)
 		res.valueFloat = mesh.Z
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsNotClipped":
+		res.valueString = fmt.Sprintf("%t", mesh.IsNotClipped)
+		res.valueBool = mesh.IsNotClipped
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "MeshMaterialBasic":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if mesh.MeshMaterialBasic != nil {
@@ -4591,6 +4839,10 @@ func (canvas *Canvas) GongGetGongstructName() string {
 	return "Canvas"
 }
 
+func (clippingplane *ClippingPlane) GongGetGongstructName() string {
+	return "ClippingPlane"
+}
+
 func (curve *Curve) GongGetGongstructName() string {
 	return "Curve"
 }
@@ -4671,6 +4923,8 @@ func (stage *Stage) ResetMapStrings() {
 	__gong__rebuildMapString(stage.Cameras, &stage.Cameras_mapString)
 
 	__gong__rebuildMapString(stage.Canvass, &stage.Canvass_mapString)
+
+	__gong__rebuildMapString(stage.ClippingPlanes, &stage.ClippingPlanes_mapString)
 
 	__gong__rebuildMapString(stage.Curves, &stage.Curves_mapString)
 

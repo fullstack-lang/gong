@@ -27,6 +27,22 @@ func (inst *Canvas) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Gon
 	return
 }
 
+func (inst *ClippingPlane) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Canvas":
+		switch reverseField.Fieldname {
+		case "ClippingPlanes":
+			if _canvas, ok := stage.Canvas_ClippingPlanes_reverseMap[inst]; ok {
+				res = _canvas.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *Curve) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
 	res = ""
 	return

@@ -99,6 +99,37 @@ func (from *Canvas) GongCopyBasicFields(to *Canvas) {
 	to.Frame64BitsEncoded = from.Frame64BitsEncoded
 }
 
+type ClippingPlane_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsEnabled bool
+
+	NormalX float64
+
+	NormalY float64
+
+	NormalZ float64
+
+	Constant float64
+
+	IsHelperVisible bool
+
+	HelperSize float64
+
+	HelperCenterX float64
+
+	HelperCenterY float64
+
+	HelperCenterZ float64
+}
+
+func (from *ClippingPlane) GongCopyBasicFields(to *ClippingPlane) {
+	// insertion point
+	*to = *from
+}
+
 type Curve_WOP struct {
 	// insertion point
 
@@ -182,6 +213,8 @@ type Mesh_WOP struct {
 	Y float64
 
 	Z float64
+
+	IsNotClipped bool
 }
 
 func (from *Mesh) GongCopyBasicFields(to *Mesh) {
@@ -190,6 +223,7 @@ func (from *Mesh) GongCopyBasicFields(to *Mesh) {
 	to.X = from.X
 	to.Y = from.Y
 	to.Z = from.Z
+	to.IsNotClipped = from.IsNotClipped
 }
 
 type MeshMaterialBasic_WOP struct {

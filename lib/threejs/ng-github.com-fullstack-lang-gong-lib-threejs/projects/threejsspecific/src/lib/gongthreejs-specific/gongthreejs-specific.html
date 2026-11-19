@@ -53,7 +53,10 @@
           }
           
           @if (mesh.MeshMaterialBasic) {
-            <ngt-mesh-basic-material [color]="mesh.MeshMaterialBasic.Color" />
+            <ngt-mesh-basic-material
+              [color]="mesh.MeshMaterialBasic.Color"
+              [clippingPlanes]="(mesh.IsNotClipped || activeClippingPlanes.length === 0) ? null : activeClippingPlanes"
+              [side]="2" />
           }
           
           @if (mesh.MeshPhysicalMaterial) {
@@ -62,8 +65,32 @@
               [transparent]="mesh.MeshPhysicalMaterial.Transparent"
               [opacity]="mesh.MeshPhysicalMaterial.Opacity"
               [wireframe]="mesh.MeshPhysicalMaterial.Wireframe"
+              [clippingPlanes]="(mesh.IsNotClipped || activeClippingPlanes.length === 0) ? null : activeClippingPlanes"
+              [clipShadows]="true"
               [side]="2" />
           }
+        </ngt-mesh>
+      }
+
+      @for (helper of clippingPlaneHelpers; track helper.id) {
+        <ngt-mesh [position]="helper.position" [quaternion]="helper.quaternion" [renderOrder]="999">
+          <ngt-plane-geometry *args="[helper.size, helper.size, 1, 1]" />
+          <ngt-mesh-basic-material
+            color="#0ea5e9"
+            [transparent]="true"
+            [opacity]="0.14"
+            [depthWrite]="false"
+            [side]="2" />
+        </ngt-mesh>
+        <ngt-mesh [position]="helper.position" [quaternion]="helper.quaternion" [renderOrder]="1000">
+          <ngt-plane-geometry *args="[helper.size, helper.size, 4, 4]" />
+          <ngt-mesh-basic-material
+            color="#0284c7"
+            [wireframe]="true"
+            [transparent]="true"
+            [opacity]="0.45"
+            [depthWrite]="false"
+            [side]="2" />
         </ngt-mesh>
       }
 

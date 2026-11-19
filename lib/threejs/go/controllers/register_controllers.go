@@ -69,6 +69,9 @@ func registerControllers(mux *http.ServeMux) {
 	mux.HandleFunc("PATCH " + base + "/canvass/{id}", GetController().UpdateCanvas)
 	mux.HandleFunc("PUT " + base + "/canvass/{id}", GetController().UpdateCanvas)
 
+	mux.HandleFunc("PATCH " + base + "/clippingplanes/{id}", GetController().UpdateClippingPlane)
+	mux.HandleFunc("PUT " + base + "/clippingplanes/{id}", GetController().UpdateClippingPlane)
+
 	mux.HandleFunc("PATCH " + base + "/curves/{id}", GetController().UpdateCurve)
 	mux.HandleFunc("PUT " + base + "/curves/{id}", GetController().UpdateCurve)
 

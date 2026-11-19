@@ -2943,6 +2943,16 @@ type TubeVase3DDiagram_WOP struct {
 
 	IsHiddenVaseTrapezeBasePlateShape bool
 
+	IsCutoffEnabled bool
+
+	IsCutoffHelperVisible bool
+
+	IsCutoffFlipped bool
+
+	CutoffAxis CutoffAxis
+
+	CutoffOffset float64
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -2977,6 +2987,11 @@ func (from *TubeVase3DDiagram) GongCopyBasicFields(to *TubeVase3DDiagram) {
 	to.IsHiddenCarvedOutVaseTrapezeRingShape = from.IsHiddenCarvedOutVaseTrapezeRingShape
 	to.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = from.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape
 	to.IsHiddenVaseTrapezeBasePlateShape = from.IsHiddenVaseTrapezeBasePlateShape
+	to.IsCutoffEnabled = from.IsCutoffEnabled
+	to.IsCutoffHelperVisible = from.IsCutoffHelperVisible
+	to.IsCutoffFlipped = from.IsCutoffFlipped
+	to.CutoffAxis = from.CutoffAxis
+	to.CutoffOffset = from.CutoffOffset
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded

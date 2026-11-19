@@ -822,6 +822,16 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = GongExtractBool(rhs)
 					case "IsHiddenVaseTrapezeBasePlateShape":
 						inst.IsHiddenVaseTrapezeBasePlateShape = GongExtractBool(rhs)
+					case "IsCutoffEnabled":
+						inst.IsCutoffEnabled = GongExtractBool(rhs)
+					case "IsCutoffHelperVisible":
+						inst.IsCutoffHelperVisible = GongExtractBool(rhs)
+					case "IsCutoffFlipped":
+						inst.IsCutoffFlipped = GongExtractBool(rhs)
+					case "CutoffAxis":
+						GongUnmarshallEnum(&inst.CutoffAxis, rhs)
+					case "CutoffOffset":
+						inst.CutoffOffset = GongExtractFloat(rhs)
 					case "Rendered3DShape":
 						__gong__assignPointer(&inst.Rendered3DShape, rhs, identifierMap)
 					case "SampledPoints3DShape":
@@ -5208,6 +5218,16 @@ func (u *TubeVase3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		instance.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = GongExtractBool(valueExpr)
 	case "IsHiddenVaseTrapezeBasePlateShape":
 		instance.IsHiddenVaseTrapezeBasePlateShape = GongExtractBool(valueExpr)
+	case "IsCutoffEnabled":
+		instance.IsCutoffEnabled = GongExtractBool(valueExpr)
+	case "IsCutoffHelperVisible":
+		instance.IsCutoffHelperVisible = GongExtractBool(valueExpr)
+	case "IsCutoffFlipped":
+		instance.IsCutoffFlipped = GongExtractBool(valueExpr)
+	case "CutoffAxis":
+		GongUnmarshallEnum(&instance.CutoffAxis, valueExpr)
+	case "CutoffOffset":
+		instance.CutoffOffset = GongExtractFloat(valueExpr)
 	case "Rendered3DShape":
 		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
 	case "TorusStackShape":

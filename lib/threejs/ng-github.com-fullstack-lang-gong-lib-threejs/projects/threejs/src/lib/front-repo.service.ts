@@ -21,6 +21,9 @@ import { Camera, CopyCameraAPIToCamera } from './camera'
 import { CanvasAPI } from './canvas-api'
 import { Canvas, CopyCanvasAPIToCanvas } from './canvas'
 
+import { ClippingPlaneAPI } from './clippingplane-api'
+import { ClippingPlane, CopyClippingPlaneAPIToClippingPlane } from './clippingplane'
+
 import { CurveAPI } from './curve-api'
 import { Curve, CopyCurveAPIToCurve } from './curve'
 
@@ -88,6 +91,9 @@ export class FrontRepo { // insertion point sub template
 	array_Canvass = new Array<Canvas>() // array of front instances
 	map_ID_Canvas = new Map<number, Canvas>() // map of front instances
 
+	array_ClippingPlanes = new Array<ClippingPlane>() // array of front instances
+	map_ID_ClippingPlane = new Map<number, ClippingPlane>() // map of front instances
+
 	array_Curves = new Array<Curve>() // array of front instances
 	map_ID_Curve = new Map<number, Curve>() // map of front instances
 
@@ -152,6 +158,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Cameras as unknown as Array<Type>
 			case 'Canvas':
 				return this.array_Canvass as unknown as Array<Type>
+			case 'ClippingPlane':
+				return this.array_ClippingPlanes as unknown as Array<Type>
 			case 'Curve':
 				return this.array_Curves as unknown as Array<Type>
 			case 'CylinderGeometry':
@@ -200,6 +208,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Camera as unknown as Map<number, Type>
 			case 'Canvas':
 				return this.map_ID_Canvas as unknown as Map<number, Type>
+			case 'ClippingPlane':
+				return this.map_ID_ClippingPlane as unknown as Map<number, Type>
 			case 'Curve':
 				return this.map_ID_Curve as unknown as Map<number, Type>
 			case 'CylinderGeometry':
@@ -412,6 +422,18 @@ export class FrontRepoService {
 						let canvas = new Canvas
 						frontRepo.array_Canvass.push(canvas)
 						frontRepo.map_ID_Canvas.set(canvasAPI.ID, canvas)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_ClippingPlanes = []
+				frontRepo.map_ID_ClippingPlane.clear()
+
+				backRepoData.ClippingPlaneAPIs.forEach(
+					clippingplaneAPI => {
+						let clippingplane = new ClippingPlane
+						frontRepo.array_ClippingPlanes.push(clippingplane)
+						frontRepo.map_ID_ClippingPlane.set(clippingplaneAPI.ID, clippingplane)
 					}
 				)
 
@@ -640,6 +662,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.ClippingPlaneAPIs.forEach(
+					clippingplaneAPI => {
+						let clippingplane = frontRepo.map_ID_ClippingPlane.get(clippingplaneAPI.ID)
+						CopyClippingPlaneAPIToClippingPlane(clippingplaneAPI, clippingplane!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.CurveAPIs.forEach(
 					curveAPI => {
 						let curve = frontRepo.map_ID_Curve.get(curveAPI.ID)
@@ -848,48 +878,51 @@ export function getCameraUniqueID(id: number): number {
 export function getCanvasUniqueID(id: number): number {
 	return 47 * id
 }
-export function getCurveUniqueID(id: number): number {
+export function getClippingPlaneUniqueID(id: number): number {
 	return 53 * id
 }
-export function getCylinderGeometryUniqueID(id: number): number {
+export function getCurveUniqueID(id: number): number {
 	return 59 * id
 }
-export function getDirectionalLightUniqueID(id: number): number {
+export function getCylinderGeometryUniqueID(id: number): number {
 	return 61 * id
 }
-export function getExtrudeGeometryUniqueID(id: number): number {
+export function getDirectionalLightUniqueID(id: number): number {
 	return 67 * id
 }
-export function getMeshUniqueID(id: number): number {
+export function getExtrudeGeometryUniqueID(id: number): number {
 	return 71 * id
 }
-export function getMeshMaterialBasicUniqueID(id: number): number {
+export function getMeshUniqueID(id: number): number {
 	return 73 * id
 }
-export function getMeshPhysicalMaterialUniqueID(id: number): number {
+export function getMeshMaterialBasicUniqueID(id: number): number {
 	return 79 * id
 }
-export function getPlaneGeometryUniqueID(id: number): number {
+export function getMeshPhysicalMaterialUniqueID(id: number): number {
 	return 83 * id
 }
-export function getShapeUniqueID(id: number): number {
+export function getPlaneGeometryUniqueID(id: number): number {
 	return 89 * id
 }
-export function getSphereGeometryUniqueID(id: number): number {
+export function getShapeUniqueID(id: number): number {
 	return 97 * id
 }
-export function getTorusGeometryUniqueID(id: number): number {
+export function getSphereGeometryUniqueID(id: number): number {
 	return 101 * id
 }
-export function getTriangleUniqueID(id: number): number {
+export function getTorusGeometryUniqueID(id: number): number {
 	return 103 * id
 }
-export function getTubeGeometryUniqueID(id: number): number {
+export function getTriangleUniqueID(id: number): number {
 	return 107 * id
 }
-export function getVector2UniqueID(id: number): number {
+export function getTubeGeometryUniqueID(id: number): number {
 	return 109 * id
 }
-export function getVector3UniqueID(id: number): number {
+export function getVector2UniqueID(id: number): number {
 	return 113 * id
+}
+export function getVector3UniqueID(id: number): number {
+	return 127 * id
 }

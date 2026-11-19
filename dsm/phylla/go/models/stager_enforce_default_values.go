@@ -191,6 +191,13 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			stager.logAndNotify(fmt.Sprintf("Vase2DDiagram %s: default Zoom set to 1.0", vase2DDiagram.Name))
 		}
 	}
+	for _, tubeVase3DDiagram := range stager.stage.GetInstancesSorted[*TubeVase3DDiagram]() {
+		if tubeVase3DDiagram.CutoffAxis == "" {
+			needCommit = true
+			tubeVase3DDiagram.CutoffAxis = CutoffAxisX
+			stager.logAndNotify(fmt.Sprintf("TubeVase3DDiagram %s: default CutoffAxis set to X", tubeVase3DDiagram.Name))
+		}
+	}
 	for _, stool2DDiagram := range stager.stage.GetInstancesSorted[*Stool2DDiagram]() {
 		if stool2DDiagram.Zoom == 0.0 {
 			needCommit = true

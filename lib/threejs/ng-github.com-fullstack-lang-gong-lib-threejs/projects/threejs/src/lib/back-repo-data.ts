@@ -11,6 +11,8 @@ import { CameraAPI } from './camera-api'
 
 import { CanvasAPI } from './canvas-api'
 
+import { ClippingPlaneAPI } from './clippingplane-api'
+
 import { CurveAPI } from './curve-api'
 
 import { CylinderGeometryAPI } from './cylindergeometry-api'
@@ -53,6 +55,8 @@ export class BackRepoData {
 	CameraAPIs = new Array<CameraAPI>()
 
 	CanvasAPIs = new Array<CanvasAPI>()
+
+	ClippingPlaneAPIs = new Array<ClippingPlaneAPI>()
 
 	CurveAPIs = new Array<CurveAPI>()
 
@@ -99,6 +103,8 @@ export class BackRepoData {
 		this.CameraAPIs = data?.CameraAPIs || [];
 
 		this.CanvasAPIs = data?.CanvasAPIs || [];
+
+		this.ClippingPlaneAPIs = data?.ClippingPlaneAPIs || [];
 
 		this.CurveAPIs = data?.CurveAPIs || [];
 

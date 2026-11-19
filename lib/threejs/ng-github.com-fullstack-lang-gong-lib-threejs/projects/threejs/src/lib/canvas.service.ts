@@ -21,6 +21,7 @@ import { DirectionalLightAPI } from './directionallight-api'
 import { AmbiantLightAPI } from './ambiantlight-api'
 import { MeshAPI } from './mesh-api'
 import { CameraAPI } from './camera-api'
+import { ClippingPlaneAPI } from './clippingplane-api'
 
 @Injectable({
   providedIn: 'root'

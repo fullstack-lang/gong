@@ -12,6 +12,8 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 
 	threejsStage := stager.GetThreejsStage()
 	threejsStage.Reset()
+	u.clippingPlane = nil
+	u.hasBounds = false
 
 	plant := stager.GetCurrentPlant()
 	if plant == nil {
@@ -1750,6 +1752,8 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 	if !checkedDiagram.IsHiddenTiledFloor3DShape {
 		u.addFloorTiles(stager, floorMinY, plant, globalR, canvas)
 	}
+
+	u.setupCutoffPlane(stager, canvas, checkedDiagram, globalR)
 
 	threejsStage.Commit()
 

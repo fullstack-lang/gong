@@ -4,6 +4,7 @@ import { DirectionalLightAPI } from './directionallight-api'
 import { AmbiantLightAPI } from './ambiantlight-api'
 import { MeshAPI } from './mesh-api'
 import { CameraAPI } from './camera-api'
+import { ClippingPlaneAPI } from './clippingplane-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -36,4 +37,5 @@ export class CanvasPointersEncoding {
 	Meshs: number[] = []
 	CameraID: NullInt64 = new NullInt64 // if pointer is null, Camera.ID = 0
 
+	ClippingPlanes: number[] = []
 }

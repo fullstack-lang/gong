@@ -8,6 +8,7 @@ import { DirectionalLight } from './directionallight'
 import { AmbiantLight } from './ambiantlight'
 import { Mesh } from './mesh'
 import { Camera } from './camera'
+import { ClippingPlane } from './clippingplane'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -31,6 +32,7 @@ export class Canvas {
 	Meshs: Array<Mesh> = []
 	Camera?: Camera
 
+	ClippingPlanes: Array<ClippingPlane> = []
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -73,6 +75,11 @@ export function CopyCanvasToCanvasAPI(canvas: Canvas, canvasAPI: CanvasAPI) {
 	canvasAPI.CanvasPointersEncoding.Meshs = []
 	for (let _mesh of canvas.Meshs) {
 		canvasAPI.CanvasPointersEncoding.Meshs.push(_mesh.ID)
+	}
+
+	canvasAPI.CanvasPointersEncoding.ClippingPlanes = []
+	for (let _clippingplane of canvas.ClippingPlanes) {
+		canvasAPI.CanvasPointersEncoding.ClippingPlanes.push(_clippingplane.ID)
 	}
 
 }
@@ -120,6 +127,18 @@ export function CopyCanvasAPIToCanvas(canvasAPI: CanvasAPI, canvas: Canvas, fron
 		let _mesh = frontRepo.map_ID_Mesh.get(_id)
 		if (_mesh != undefined) {
 			canvas.Meshs.push(_mesh!)
+		}
+	}
+	if (!Array.isArray(canvasAPI.CanvasPointersEncoding.ClippingPlanes)) {
+		console.error('Rects is not an array:', canvasAPI.CanvasPointersEncoding.ClippingPlanes);
+		return;
+	}
+
+	canvas.ClippingPlanes = new Array<ClippingPlane>()
+	for (let _id of canvasAPI.CanvasPointersEncoding.ClippingPlanes) {
+		let _clippingplane = frontRepo.map_ID_ClippingPlane.get(_id)
+		if (_clippingplane != undefined) {
+			canvas.ClippingPlanes.push(_clippingplane!)
 		}
 	}
 }

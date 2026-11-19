@@ -494,6 +494,45 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := canvas.Camera.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.Camera = %s", canvasIdent, targetIdent))
 			}
+			for _, elem := range canvas.ClippingPlanes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ClippingPlanes = append(%s.ClippingPlanes, %s)", canvasIdent, canvasIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, clippingplane := range __gong__sortStageSetInstances(stage.ClippingPlanes, stage.ClippingPlane_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			clippingplaneIdent := clippingplane.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.ClippingPlane{Name: %s}).Stage(stage)", clippingplaneIdent, __gong__toRawStringLiteral(clippingplane.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", clippingplaneIdent, __gong__toRawStringLiteral(clippingplane.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsEnabled = %t", clippingplaneIdent, clippingplane.IsEnabled))
+			values.WriteString(fmt.Sprintf("\n\t%s.NormalX = %f", clippingplaneIdent, clippingplane.NormalX))
+			values.WriteString(fmt.Sprintf("\n\t%s.NormalY = %f", clippingplaneIdent, clippingplane.NormalY))
+			values.WriteString(fmt.Sprintf("\n\t%s.NormalZ = %f", clippingplaneIdent, clippingplane.NormalZ))
+			values.WriteString(fmt.Sprintf("\n\t%s.Constant = %f", clippingplaneIdent, clippingplane.Constant))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHelperVisible = %t", clippingplaneIdent, clippingplane.IsHelperVisible))
+			values.WriteString(fmt.Sprintf("\n\t%s.HelperSize = %f", clippingplaneIdent, clippingplane.HelperSize))
+			values.WriteString(fmt.Sprintf("\n\t%s.HelperCenterX = %f", clippingplaneIdent, clippingplane.HelperCenterX))
+			values.WriteString(fmt.Sprintf("\n\t%s.HelperCenterY = %f", clippingplaneIdent, clippingplane.HelperCenterY))
+			values.WriteString(fmt.Sprintf("\n\t%s.HelperCenterZ = %f", clippingplaneIdent, clippingplane.HelperCenterZ))
 		}
 	}
 	if stage != nil {
@@ -636,6 +675,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", meshIdent, mesh.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", meshIdent, mesh.Y))
 			values.WriteString(fmt.Sprintf("\n\t%s.Z = %f", meshIdent, mesh.Z))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsNotClipped = %t", meshIdent, mesh.IsNotClipped))
 			if mesh.MeshMaterialBasic != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -1180,8 +1220,47 @@ func (canvas *Canvas) GongMarshallField(stage *Stage, fieldName string) (res str
 		} else {
 			res = __gong__marshallPointer(ident, "Camera", "nil")
 		}
+	case "ClippingPlanes":
+		var sb strings.Builder
+		for _, _clippingplane := range canvas.ClippingPlanes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ClippingPlanes", _clippingplane.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Canvas", fieldName)
+	}
+	return
+}
+
+func (clippingplane *ClippingPlane) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := clippingplane.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", clippingplane.Name)
+	case "IsEnabled":
+		res = __gong__marshallBool(ident, "IsEnabled", clippingplane.IsEnabled)
+	case "NormalX":
+		res = __gong__marshallFloat(ident, "NormalX", clippingplane.NormalX)
+	case "NormalY":
+		res = __gong__marshallFloat(ident, "NormalY", clippingplane.NormalY)
+	case "NormalZ":
+		res = __gong__marshallFloat(ident, "NormalZ", clippingplane.NormalZ)
+	case "Constant":
+		res = __gong__marshallFloat(ident, "Constant", clippingplane.Constant)
+	case "IsHelperVisible":
+		res = __gong__marshallBool(ident, "IsHelperVisible", clippingplane.IsHelperVisible)
+	case "HelperSize":
+		res = __gong__marshallFloat(ident, "HelperSize", clippingplane.HelperSize)
+	case "HelperCenterX":
+		res = __gong__marshallFloat(ident, "HelperCenterX", clippingplane.HelperCenterX)
+	case "HelperCenterY":
+		res = __gong__marshallFloat(ident, "HelperCenterY", clippingplane.HelperCenterY)
+	case "HelperCenterZ":
+		res = __gong__marshallFloat(ident, "HelperCenterZ", clippingplane.HelperCenterZ)
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ClippingPlane", fieldName)
 	}
 	return
 }
@@ -1296,6 +1375,8 @@ func (mesh *Mesh) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = __gong__marshallFloat(ident, "Y", mesh.Y)
 	case "Z":
 		res = __gong__marshallFloat(ident, "Z", mesh.Z)
+	case "IsNotClipped":
+		res = __gong__marshallBool(ident, "IsNotClipped", mesh.IsNotClipped)
 
 	case "MeshMaterialBasic":
 		if mesh.MeshMaterialBasic != nil {
@@ -1644,9 +1725,31 @@ func (canvas *Canvas) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "AmbiantLight"))
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "Meshs"))
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "Camera"))
+		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "ClippingPlanes"))
 		initializerStatements.WriteString(canvas.GongMarshallField(stage, "IsWithLastRenderingUpdate"))
 		initializerStatements.WriteString(canvas.GongMarshallField(stage, "LastRendering"))
 		initializerStatements.WriteString(canvas.GongMarshallField(stage, "Frame64BitsEncoded"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (clippingplane *ClippingPlane) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(clippingplane.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(clippingplane.GongMarshallField(stage, "IsEnabled"))
+		initializerStatements.WriteString(clippingplane.GongMarshallField(stage, "NormalX"))
+		initializerStatements.WriteString(clippingplane.GongMarshallField(stage, "NormalY"))
+		initializerStatements.WriteString(clippingplane.GongMarshallField(stage, "NormalZ"))
+		initializerStatements.WriteString(clippingplane.GongMarshallField(stage, "Constant"))
+		initializerStatements.WriteString(clippingplane.GongMarshallField(stage, "IsHelperVisible"))
+		initializerStatements.WriteString(clippingplane.GongMarshallField(stage, "HelperSize"))
+		initializerStatements.WriteString(clippingplane.GongMarshallField(stage, "HelperCenterX"))
+		initializerStatements.WriteString(clippingplane.GongMarshallField(stage, "HelperCenterY"))
+		initializerStatements.WriteString(clippingplane.GongMarshallField(stage, "HelperCenterZ"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1722,6 +1825,7 @@ func (mesh *Mesh) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(mesh.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(mesh.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(mesh.GongMarshallField(stage, "Z"))
+		initializerStatements.WriteString(mesh.GongMarshallField(stage, "IsNotClipped"))
 		pointersInitializesStatements.WriteString(mesh.GongMarshallField(stage, "MeshMaterialBasic"))
 		pointersInitializesStatements.WriteString(mesh.GongMarshallField(stage, "MeshPhysicalMaterial"))
 		pointersInitializesStatements.WriteString(mesh.GongMarshallField(stage, "CylinderGeometry"))

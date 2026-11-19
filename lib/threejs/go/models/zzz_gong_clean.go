@@ -56,6 +56,7 @@ func (canvas *Canvas) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanSlice(&canvas.DirectionalLights) || modified
 	modified = stage.CleanSlice(&canvas.Meshs) || modified
+	modified = stage.CleanSlice(&canvas.ClippingPlanes) || modified
 	// insertion point per field
 	modified = stage.CleanPointer(&canvas.AmbiantLight) || modified
 	modified = stage.CleanPointer(&canvas.Camera) || modified

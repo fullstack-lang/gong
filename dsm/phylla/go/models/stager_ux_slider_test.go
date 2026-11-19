@@ -3,6 +3,7 @@ package models_test
 import (
 	"embed"
 	"net/http"
+	"path/filepath"
 	"testing"
 
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
@@ -97,7 +98,7 @@ func TestPhyllaMergedFormSlidersCheckboxesSelectAndAccordions(t *testing.T) {
 		}
 	}
 
-	for _, expectedAcc := range []string{"Plant Lattice", "Vase Core", "Ribbon & Planes", "Bulbous, Wall & Lip"} {
+	for _, expectedAcc := range []string{"Plant Lattice", "Vase Core", "Ribbon & Planes", "Bulbous, Wall & Lip", "Cutoff Plane"} {
 		if !accordions[expectedAcc] {
 			t.Fatalf("expected accordion %q in VaseTrapeze 3D controls, got %v", expectedAcc, accordions)
 		}
@@ -123,5 +124,137 @@ func TestPhyllaMergedFormSlidersCheckboxesSelectAndAccordions(t *testing.T) {
 	stager.GetSliderStage().OnAfterUpdateFromFront(nSlider, &frontN)
 	if plant.N != 8 || plant.M != 13 {
 		t.Fatalf("expected plant.N=8 and plant.M=13 after live slider update + semantic enforcement, got N=%d M=%d", plant.N, plant.M)
+	}
+}
+
+func TestTubeVase3DCutoffSliderControlsAndRoundtrip(t *testing.T) {
+	var emptyFS embed.FS
+	mux := http.NewServeMux()
+	stage := models.NewStage("phylla-cutoff-slider-test")
+	prb := probe.NewProbe(mux, emptyFS, emptyFS, true, stage)
+
+	lib := (&models.Library{
+		Name:          "Root",
+		IsRootLibrary: true,
+	}).Stage(stage)
+
+	vase := (&models.TubeVaseAbstract{
+		Name:                      "TubeVase",
+		RadialRepetitions:         2,
+		ColorCombination:          1,
+		RelativeRadialThickness:   0.1,
+		RelativeVerticalThickness: 0.1,
+	}).Stage(stage)
+
+	plant := (&models.PlantAbstract{
+		Name:               "TV1",
+		N:                  5,
+		M:                  8,
+		RhombusSideLength:  50,
+		RhombusInsideAngle: 60,
+		StackHeight:        5,
+		PlantType:          models.TubeVase,
+		TubeVaseAbstract:   vase,
+		CurrentView:        models.VIEW_PLANT_3D,
+	}).Stage(stage)
+	lib.Plants = append(lib.Plants, plant)
+
+	stager := models.NewStager(mux, stage, prb, "", nil, nil, nil, nil)
+	stager.SetCurrentPlant(plant)
+
+	// Not shown in VIEW_PLANT_3D
+	stager.UxSlider()
+	fg := stager.GetSliderStage().GetInstancesSorted[*form.FormGroup]()[0]
+	for _, div := range fg.FormDivs {
+		if div.IsAStartAccordionGroup && div.AccordionGroupName == "Cutoff Plane" {
+			t.Fatalf("did not expect Cutoff Plane accordion in VIEW_PLANT_3D")
+		}
+	}
+
+	// Shown in VIEW_TUBE_VASE_3D
+	plant.CurrentView = models.VIEW_TUBE_VASE_3D
+	stager.UxSlider()
+	fg = stager.GetSliderStage().GetInstancesSorted[*form.FormGroup]()[0]
+
+	var enableCB, helperCB, flipCB *form.CheckBox
+	var axisSelect *form.FormFieldSelect
+	var offsetSlider *form.FormFieldFloat64
+
+	for _, div := range fg.FormDivs {
+		for _, cb := range div.CheckBoxs {
+			switch cb.Name {
+			case "Enable Cutoff":
+				enableCB = cb
+			case "Show Cutoff Plane":
+				helperCB = cb
+			case "Flip Cutoff":
+				flipCB = cb
+			}
+		}
+		for _, ff := range div.FormFields {
+			if ff.Name == "Cutoff Axis" && ff.FormFieldSelect != nil {
+				axisSelect = ff.FormFieldSelect
+			}
+			if ff.Name == "Cutoff Offset" && ff.FormFieldFloat64 != nil {
+				offsetSlider = ff.FormFieldFloat64
+			}
+		}
+	}
+
+	if enableCB == nil || helperCB == nil || flipCB == nil || axisSelect == nil || offsetSlider == nil {
+		t.Fatalf("missing Cutoff Plane form controls: enable=%v helper=%v flip=%v axis=%v offset=%v",
+			enableCB != nil, helperCB != nil, flipCB != nil, axisSelect != nil, offsetSlider != nil)
+	}
+
+	diagram := plant.TubeVase3DDiagrams[0]
+
+	frontEnable := *enableCB
+	frontEnable.Value = true
+	stager.GetSliderStage().OnAfterUpdateFromFront(enableCB, &frontEnable)
+
+	frontHelper := *helperCB
+	frontHelper.Value = true
+	stager.GetSliderStage().OnAfterUpdateFromFront(helperCB, &frontHelper)
+
+	frontFlip := *flipCB
+	frontFlip.Value = true
+	stager.GetSliderStage().OnAfterUpdateFromFront(flipCB, &frontFlip)
+
+	var yOpt *form.Option
+	for opt := range *stager.GetSliderStage().GetInstancesSet[*form.Option]() {
+		if opt.Name == "Y" {
+			yOpt = opt
+			break
+		}
+	}
+	if yOpt == nil {
+		t.Fatalf("expected Option 'Y' in Cutoff Axis select")
+	}
+	frontSelect := *axisSelect
+	frontSelect.Value = yOpt
+	stager.GetSliderStage().OnAfterUpdateFromFront(axisSelect, &frontSelect)
+
+	frontOffset := *offsetSlider
+	frontOffset.Value = -0.35
+	stager.GetSliderStage().OnAfterUpdateFromFront(offsetSlider, &frontOffset)
+
+	if !diagram.IsCutoffEnabled || !diagram.IsCutoffHelperVisible || !diagram.IsCutoffFlipped ||
+		diagram.CutoffAxis != models.CutoffAxisY || diagram.CutoffOffset != -0.35 {
+		t.Fatalf("unexpected diagram cutoff state: %+v", diagram)
+	}
+
+	// Verify AST Marshall/Parse roundtrip preserves cutoff fields
+	tmpPath := filepath.Join(t.TempDir(), "stage.go")
+	stage.MarshallFile(tmpPath, "main")
+
+	stage2 := models.NewStage("phylla-cutoff-roundtrip")
+	if err := stage2.ParseAstFile(tmpPath, true); err != nil {
+		t.Fatalf("failed to parse marshalled stage: %v", err)
+	}
+	for d2 := range stage2.TubeVase3DDiagrams {
+		if !d2.IsCutoffEnabled || !d2.IsCutoffHelperVisible || !d2.IsCutoffFlipped ||
+			d2.CutoffAxis != models.CutoffAxisY || d2.CutoffOffset != -0.35 {
+			t.Fatalf("roundtrip lost cutoff state: %+v", d2)
+		}
 	}
 }

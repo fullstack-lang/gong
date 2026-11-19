@@ -33,6 +33,10 @@ export * from './lib/canvas-api'
 export * from './lib/canvas'
 export * from './lib/canvas.service'
 
+export * from './lib/clippingplane-api'
+export * from './lib/clippingplane'
+export * from './lib/clippingplane.service'
+
 export * from './lib/curve-api'
 export * from './lib/curve'
 export * from './lib/curve.service'

@@ -1324,6 +1324,15 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenCarvedOutVaseTrapezeRingShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenCarvedOutVaseTrapezeRingShape))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenVaseTrapezeBasePlateShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsCutoffEnabled = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsCutoffEnabled))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsCutoffHelperVisible = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsCutoffHelperVisible))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsCutoffFlipped = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsCutoffFlipped))
+			if tubevase3ddiagram.CutoffAxis.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.CutoffAxis = models.%s", tubevase3ddiagramIdent, tubevase3ddiagram.CutoffAxis.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.CutoffAxis = \"\"", tubevase3ddiagramIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CutoffOffset = %f", tubevase3ddiagramIdent, tubevase3ddiagram.CutoffOffset))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsChecked))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", tubevase3ddiagramIdent, __gong__toRawStringLiteral(tubevase3ddiagram.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsExpanded))
@@ -4995,6 +5004,16 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallField(stage *Stage, fiel
 		res = __gong__marshallBool(ident, "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape", tubevase3ddiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape)
 	case "IsHiddenVaseTrapezeBasePlateShape":
 		res = __gong__marshallBool(ident, "IsHiddenVaseTrapezeBasePlateShape", tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape)
+	case "IsCutoffEnabled":
+		res = __gong__marshallBool(ident, "IsCutoffEnabled", tubevase3ddiagram.IsCutoffEnabled)
+	case "IsCutoffHelperVisible":
+		res = __gong__marshallBool(ident, "IsCutoffHelperVisible", tubevase3ddiagram.IsCutoffHelperVisible)
+	case "IsCutoffFlipped":
+		res = __gong__marshallBool(ident, "IsCutoffFlipped", tubevase3ddiagram.IsCutoffFlipped)
+	case "CutoffAxis":
+		res = __gong__marshallEnumString(ident, "CutoffAxis", tubevase3ddiagram.CutoffAxis.ToCodeString())
+	case "CutoffOffset":
+		res = __gong__marshallFloat(ident, "CutoffOffset", tubevase3ddiagram.CutoffOffset)
 	case "IsChecked":
 		res = __gong__marshallBool(ident, "IsChecked", tubevase3ddiagram.IsChecked)
 	case "ComputedPrefix":
@@ -7587,6 +7606,11 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallAllFields(stage *Stage) 
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenCarvedOutVaseTrapezeRingShape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenVaseTrapezeBasePlateShape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsCutoffEnabled"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsCutoffHelperVisible"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsCutoffFlipped"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "CutoffAxis"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "CutoffOffset"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "Rendered3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "OriginalPoints3DShape"))

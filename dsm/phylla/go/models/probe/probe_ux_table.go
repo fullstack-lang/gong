@@ -4991,6 +4991,31 @@ func updateStageSetTable_TubeVase3DDiagram_Stage(probe *Probe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "IsCutoffEnabled"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsCutoffHelperVisible"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsCutoffFlipped"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "CutoffAxis"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "CutoffOffset"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "Rendered3DShape"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -5319,6 +5344,36 @@ func updateStageSetTable_TubeVase3DDiagram_Stage(probe *Probe) {
 		{
 			cell := &table_models.Cell{Name: "IsHiddenVaseTrapezeBasePlateShape"}
 			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHiddenVaseTrapezeBasePlateShape}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsCutoffEnabled"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsCutoffEnabled}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsCutoffHelperVisible"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsCutoffHelperVisible}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsCutoffFlipped"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsCutoffFlipped}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "CutoffAxis"}
+			cell.CellString = &table_models.CellString{Value: fmt.Sprintf("%v", structInstance.CutoffAxis)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "CutoffOffset"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.CutoffOffset)}
 			row.Cells = append(row.Cells, cell)
 		}
 

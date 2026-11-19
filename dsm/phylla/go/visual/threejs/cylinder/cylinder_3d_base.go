@@ -779,10 +779,11 @@ func AddFloorTiles(stage3d *threejs.Stage, canvas *threejs.Canvas, globalR float
 			}
 
 			tileMesh := (&threejs.Mesh{
-				Name: "Floor Tile " + strconv.Itoa(i) + "-" + strconv.Itoa(j),
-				X:    float64(i)*tileSize + tileSize/2,
-				Y:    floorMinY - 0.05,
-				Z:    float64(j)*tileSize + tileSize/2,
+				Name:         "Floor Tile " + strconv.Itoa(i) + "-" + strconv.Itoa(j),
+				X:            float64(i)*tileSize + tileSize/2,
+				Y:            floorMinY - 0.05,
+				Z:            float64(j)*tileSize + tileSize/2,
+				IsNotClipped: true,
 				BoxGeometry: (&threejs.BoxGeometry{
 					Name:           "Tile Geometry",
 					Width:          tileSize,

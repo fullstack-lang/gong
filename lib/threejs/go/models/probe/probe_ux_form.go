@@ -107,6 +107,19 @@ func FillUpFormFromGongstructName(
 		canvas := new(models.Canvas)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(canvas, formGroup, probe)
+	case "ClippingPlane":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ClippingPlane Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ClippingPlaneFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		clippingplane := new(models.ClippingPlane)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(clippingplane, formGroup, probe)
 	case "Curve":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

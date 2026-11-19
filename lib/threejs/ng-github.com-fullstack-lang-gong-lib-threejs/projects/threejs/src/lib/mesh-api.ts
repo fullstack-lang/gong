@@ -25,6 +25,7 @@ export class MeshAPI {
 	X: number = 0
 	Y: number = 0
 	Z: number = 0
+	IsNotClipped: boolean = false
 
 	// insertion point for other decls
 

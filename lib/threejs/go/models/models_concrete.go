@@ -11,6 +11,8 @@ type Canvas struct {
 
 	Camera *Camera
 
+	ClippingPlanes []*ClippingPlane
+
 	// usefull for movie creation
 	// when the back detects an update, it can generates the next frame
 
@@ -21,6 +23,26 @@ type Canvas struct {
 	Frame64BitsEncoded        string
 
 	OnUpdate func(updatedCanvas *Canvas)
+}
+
+type ClippingPlane struct {
+	Name string
+
+	IsEnabled bool
+
+	NormalX float64
+	NormalY float64
+	NormalZ float64
+
+	// Constant is the signed offset of the plane in THREE.Plane(normal, constant):
+	// fragments where normal.dot(p) + Constant < 0 are discarded.
+	Constant float64
+
+	IsHelperVisible bool
+	HelperSize      float64
+	HelperCenterX   float64
+	HelperCenterY   float64
+	HelperCenterZ   float64
 }
 
 type Camera struct {
@@ -74,6 +96,8 @@ type Mesh struct {
 	Name string
 
 	Position
+
+	IsNotClipped bool
 
 	MeshMaterialBasic    *MeshMaterialBasic
 	MeshPhysicalMaterial *MeshPhysicalMaterial

@@ -115,6 +115,10 @@ type MeshDB struct {
 	// Declation for basic field meshDB.Z
 	Z_Data sql.NullFloat64
 
+	// Declation for basic field meshDB.IsNotClipped
+	// provide the sql storage for the boolan
+	IsNotClipped_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	MeshPointersEncoding
@@ -144,6 +148,8 @@ type MeshWOP struct {
 	Y float64 `xlsx:"3"`
 
 	Z float64 `xlsx:"4"`
+
+	IsNotClipped bool `xlsx:"5"`
 	// insertion for WOP pointer fields
 }
 
@@ -154,6 +160,7 @@ var Mesh_Fields = []string{
 	"X",
 	"Y",
 	"Z",
+	"IsNotClipped",
 }
 
 type BackRepoMeshStruct struct {
@@ -770,6 +777,9 @@ func (meshDB *MeshDB) CopyBasicFieldsFromMesh(mesh *models.Mesh) {
 
 	meshDB.Z_Data.Float64 = mesh.Z
 	meshDB.Z_Data.Valid = true
+
+	meshDB.IsNotClipped_Data.Bool = mesh.IsNotClipped
+	meshDB.IsNotClipped_Data.Valid = true
 }
 
 // CopyBasicFieldsFromMesh_WOP
@@ -787,6 +797,9 @@ func (meshDB *MeshDB) CopyBasicFieldsFromMesh_WOP(mesh *models.Mesh_WOP) {
 
 	meshDB.Z_Data.Float64 = mesh.Z
 	meshDB.Z_Data.Valid = true
+
+	meshDB.IsNotClipped_Data.Bool = mesh.IsNotClipped
+	meshDB.IsNotClipped_Data.Valid = true
 }
 
 // CopyBasicFieldsFromMeshWOP
@@ -804,6 +817,9 @@ func (meshDB *MeshDB) CopyBasicFieldsFromMeshWOP(mesh *MeshWOP) {
 
 	meshDB.Z_Data.Float64 = mesh.Z
 	meshDB.Z_Data.Valid = true
+
+	meshDB.IsNotClipped_Data.Bool = mesh.IsNotClipped
+	meshDB.IsNotClipped_Data.Valid = true
 }
 
 // CopyBasicFieldsToMesh
@@ -813,6 +829,7 @@ func (meshDB *MeshDB) CopyBasicFieldsToMesh(mesh *models.Mesh) {
 	mesh.X = meshDB.X_Data.Float64
 	mesh.Y = meshDB.Y_Data.Float64
 	mesh.Z = meshDB.Z_Data.Float64
+	mesh.IsNotClipped = meshDB.IsNotClipped_Data.Bool
 }
 
 // CopyBasicFieldsToMesh_WOP
@@ -822,6 +839,7 @@ func (meshDB *MeshDB) CopyBasicFieldsToMesh_WOP(mesh *models.Mesh_WOP) {
 	mesh.X = meshDB.X_Data.Float64
 	mesh.Y = meshDB.Y_Data.Float64
 	mesh.Z = meshDB.Z_Data.Float64
+	mesh.IsNotClipped = meshDB.IsNotClipped_Data.Bool
 }
 
 // CopyBasicFieldsToMeshWOP
@@ -832,6 +850,7 @@ func (meshDB *MeshDB) CopyBasicFieldsToMeshWOP(mesh *MeshWOP) {
 	mesh.X = meshDB.X_Data.Float64
 	mesh.Y = meshDB.Y_Data.Float64
 	mesh.Z = meshDB.Z_Data.Float64
+	mesh.IsNotClipped = meshDB.IsNotClipped_Data.Bool
 }
 
 // Backup generates a json file from a slice of all MeshDB instances in the backrepo

@@ -271,12 +271,65 @@ func saveCanvasFields(
 			FormDivSliceOfPointersToField(_instance, "Meshs", &(_instance.Meshs), formDiv, probe)
 		case "Camera":
 			FormDivSelectFieldToField(&(_instance.Camera), probe.stageOfInterest, formDiv)
+		case "ClippingPlanes":
+			FormDivSliceOfPointersToField(_instance, "ClippingPlanes", &(_instance.ClippingPlanes), formDiv, probe)
 		case "IsWithLastRenderingUpdate":
 			FormDivBasicFieldToField(&(_instance.IsWithLastRenderingUpdate), formDiv)
 		case "LastRendering":
 			FormDivTimeFieldToField(&(_instance.LastRendering), formDiv, false)
 		case "Frame64BitsEncoded":
 			FormDivBasicFieldToField(&(_instance.Frame64BitsEncoded), formDiv)
+		}
+	}
+}
+
+func __gong__New__ClippingPlaneFormCallback(
+	_instance *models.ClippingPlane,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (clippingplaneFormCallback *FormCallback[*models.ClippingPlane]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveClippingPlaneFields,
+	)
+}
+
+type ClippingPlaneFormCallback = FormCallback[*models.ClippingPlane]
+
+func saveClippingPlaneFields(
+	_instance *models.ClippingPlane,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "IsEnabled":
+			FormDivBasicFieldToField(&(_instance.IsEnabled), formDiv)
+		case "NormalX":
+			FormDivBasicFieldToField(&(_instance.NormalX), formDiv)
+		case "NormalY":
+			FormDivBasicFieldToField(&(_instance.NormalY), formDiv)
+		case "NormalZ":
+			FormDivBasicFieldToField(&(_instance.NormalZ), formDiv)
+		case "Constant":
+			FormDivBasicFieldToField(&(_instance.Constant), formDiv)
+		case "IsHelperVisible":
+			FormDivBasicFieldToField(&(_instance.IsHelperVisible), formDiv)
+		case "HelperSize":
+			FormDivBasicFieldToField(&(_instance.HelperSize), formDiv)
+		case "HelperCenterX":
+			FormDivBasicFieldToField(&(_instance.HelperCenterX), formDiv)
+		case "HelperCenterY":
+			FormDivBasicFieldToField(&(_instance.HelperCenterY), formDiv)
+		case "HelperCenterZ":
+			FormDivBasicFieldToField(&(_instance.HelperCenterZ), formDiv)
+		case "Canvas:ClippingPlanes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ClippingPlanes", func(owner *models.Canvas) *[]*models.ClippingPlane { return &owner.ClippingPlanes })
 		}
 	}
 }
@@ -464,6 +517,8 @@ func saveMeshFields(
 			FormDivBasicFieldToField(&(_instance.Y), formDiv)
 		case "Z":
 			FormDivBasicFieldToField(&(_instance.Z), formDiv)
+		case "IsNotClipped":
+			FormDivBasicFieldToField(&(_instance.IsNotClipped), formDiv)
 		case "MeshMaterialBasic":
 			FormDivSelectFieldToField(&(_instance.MeshMaterialBasic), probe.stageOfInterest, formDiv)
 		case "MeshPhysicalMaterial":

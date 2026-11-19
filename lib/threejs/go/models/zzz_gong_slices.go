@@ -53,6 +53,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Canvas_Meshs_reverseMap[_mesh] = canvas
 		}
 	}
+	stage.Canvas_ClippingPlanes_reverseMap = make(map[*ClippingPlane]*Canvas)
+	for canvas := range stage.Canvass {
+		_ = canvas
+		for _, _clippingplane := range canvas.ClippingPlanes {
+			stage.Canvas_ClippingPlanes_reverseMap[_clippingplane] = canvas
+		}
+	}
 
 	// Compute reverse map for named struct Curve
 	// insertion point per field
@@ -88,6 +95,8 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	res = __gong__appendInstances(res, stage.Cameras)
 
 	res = __gong__appendInstances(res, stage.Canvass)
+
+	res = __gong__appendInstances(res, stage.ClippingPlanes)
 
 	res = __gong__appendInstances(res, stage.Curves)
 
@@ -150,6 +159,12 @@ func (camera *Camera) GongCopy() GongstructIF {
 func (canvas *Canvas) GongCopy() GongstructIF {
 	newInstance := new(Canvas)
 	canvas.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (clippingplane *ClippingPlane) GongCopy() GongstructIF {
+	newInstance := new(ClippingPlane)
+	clippingplane.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -262,6 +277,10 @@ func (camera *Camera) GongGetUUID(stage *Stage) string {
 
 func (canvas *Canvas) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, canvas)
+}
+
+func (clippingplane *ClippingPlane) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, clippingplane)
 }
 
 func (curve *Curve) GongGetUUID(stage *Stage) string {
@@ -499,6 +518,23 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		stage.Canvass_reference,
 		&stage.Canvass_referenceOrder,
 		stage.Canvass_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.ClippingPlanes,
+		stage.ClippingPlane_stagedOrder,
+		stage.ClippingPlanes_reference,
+		&stage.ClippingPlanes_referenceOrder,
+		stage.ClippingPlanes_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -809,6 +845,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.Canvass, &stage.Canvass_reference, &stage.Canvass_referenceOrder, &stage.Canvass_instance)
 
+	__gong__computeReferencePass1(stage, stage.ClippingPlanes, &stage.ClippingPlanes_reference, &stage.ClippingPlanes_referenceOrder, &stage.ClippingPlanes_instance)
+
 	__gong__computeReferencePass1(stage, stage.Curves, &stage.Curves_reference, &stage.Curves_referenceOrder, &stage.Curves_instance)
 
 	__gong__computeReferencePass1(stage, stage.CylinderGeometrys, &stage.CylinderGeometrys_reference, &stage.CylinderGeometrys_referenceOrder, &stage.CylinderGeometrys_instance)
@@ -849,6 +887,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass2(stage.Cameras, stage.Cameras_reference, stage)
 
 	__gong__computeReferencePass2(stage.Canvass, stage.Canvass_reference, stage)
+
+	__gong__computeReferencePass2(stage.ClippingPlanes, stage.ClippingPlanes_reference, stage)
 
 	__gong__computeReferencePass2(stage.Curves, stage.Curves_reference, stage)
 
@@ -908,6 +948,10 @@ func (camera *Camera) GongGetOrder(stage *Stage) uint {
 
 func (canvas *Canvas) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.Canvas_stagedOrder, stage.Canvass_referenceOrder, canvas, "Canvas")
+}
+
+func (clippingplane *ClippingPlane) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.ClippingPlane_stagedOrder, stage.ClippingPlanes_referenceOrder, clippingplane, "ClippingPlane")
 }
 
 func (curve *Curve) GongGetOrder(stage *Stage) uint {
@@ -1018,6 +1062,15 @@ func (canvas *Canvas) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (canvas *Canvas) GongGetReferenceIdentifier(stage *Stage) string {
 	return canvas.GongGetIdentifier(stage)
+}
+
+func (clippingplane *ClippingPlane) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(clippingplane, clippingplane.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (clippingplane *ClippingPlane) GongGetReferenceIdentifier(stage *Stage) string {
+	return clippingplane.GongGetIdentifier(stage)
 }
 
 func (curve *Curve) GongGetIdentifier(stage *Stage) string {
@@ -1178,6 +1231,10 @@ func (canvas *Canvas) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(canvas.GongGetIdentifier(stage), "Canvas", canvas.Name)
 }
 
+func (clippingplane *ClippingPlane) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(clippingplane.GongGetIdentifier(stage), "ClippingPlane", clippingplane.Name)
+}
+
 func (curve *Curve) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(curve.GongGetIdentifier(stage), "Curve", curve.Name)
 }
@@ -1257,6 +1314,10 @@ func (camera *Camera) GongMarshallUnstaging(stage *Stage) string {
 
 func (canvas *Canvas) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(canvas.GongGetReferenceIdentifier(stage))
+}
+
+func (clippingplane *ClippingPlane) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(clippingplane.GongGetReferenceIdentifier(stage))
 }
 
 func (curve *Curve) GongMarshallUnstaging(stage *Stage) string {

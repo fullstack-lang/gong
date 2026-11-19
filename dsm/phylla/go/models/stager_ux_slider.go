@@ -141,6 +141,42 @@ func (stager *Stager) ux_slider() {
 			form.AppendSlider(stager.sliderStage, formGroup, "Key Size Reduction", 0.0, 1.0, 0.01, &plant.TubeVaseAbstract.RelativeKeySize, onUpdate)
 			form.AppendSlider(stager.sliderStage, formGroup, "Movie Nb Frames", 0, 1000, 1, &plant.TubeVaseAbstract.MovieNbFrames, onUpdate)
 		}
+
+		if plant.CurrentView == VIEW_TUBE_VASE_3D || plant.CurrentView == VIEW_VASE_TRAPEZE_3D {
+			if diagram := getActiveTubeVase3DDiagram(plant); diagram != nil {
+				onUpdateCutoff := func() {
+					stager.UpdateCutoffPlane()
+					stager.stage.CommitWithSuspendedCallbacks()
+				}
+				axis := diagram.CutoffAxis
+				if axis != CutoffAxisX && axis != CutoffAxisY && axis != CutoffAxisZ {
+					axis = CutoffAxisX
+				}
+
+				form.StartAccordion(stager.sliderStage, formGroup, "Cutoff Plane", true)
+				form.AppendCheckBox(stager.sliderStage, formGroup, "Enable Cutoff", &diagram.IsCutoffEnabled, onUpdateCutoff)
+				form.AppendCheckBox(stager.sliderStage, formGroup, "Show Cutoff Plane", &diagram.IsCutoffHelperVisible, onUpdateCutoff)
+				form.AppendCheckBox(stager.sliderStage, formGroup, "Flip Cutoff", &diagram.IsCutoffFlipped, onUpdateCutoff)
+				form.AppendSelect(
+					stager.sliderStage,
+					formGroup,
+					"Cutoff Axis",
+					"Cutoff Axis",
+					axis.CodeValues(),
+					axis.ToString(),
+					func(selected string) {
+						var newAxis CutoffAxis
+						if err := (&newAxis).FromString(selected); err == nil {
+							if diagram.CutoffAxis != newAxis {
+								diagram.CutoffAxis = newAxis
+								onUpdateCutoff()
+							}
+						}
+					},
+				)
+				form.AppendSlider(stager.sliderStage, formGroup, "Cutoff Offset", -1.0, 1.0, 0.01, &diagram.CutoffOffset, onUpdateCutoff)
+			}
+		}
 	}
 
 	form.EndAccordion(stager.sliderStage, formGroup)
@@ -354,4 +390,19 @@ func getActivePlant3DCylinderTransparency(plant *PlantAbstract) *float64 {
 
 func (stager *Stager) getActivePlant3DCylinderTransparency(plant *PlantAbstract) *float64 {
 	return getActivePlant3DCylinderTransparency(plant)
+}
+
+func getActiveTubeVase3DDiagram(plant *PlantAbstract) *TubeVase3DDiagram {
+	if plant == nil {
+		return nil
+	}
+	for _, d := range plant.TubeVase3DDiagrams {
+		if d.IsChecked {
+			return d
+		}
+	}
+	if len(plant.TubeVase3DDiagrams) > 0 {
+		return plant.TubeVase3DDiagrams[0]
+	}
+	return nil
 }

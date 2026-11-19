@@ -1,5 +1,13 @@
 package models
 
+type CutoffAxis string
+
+const (
+	CutoffAxisX CutoffAxis = "X"
+	CutoffAxisY CutoffAxis = "Y"
+	CutoffAxisZ CutoffAxis = "Z"
+)
+
 type TubeVase3DDiagram struct {
 	Name string
 
@@ -27,6 +35,12 @@ type TubeVase3DDiagram struct {
 	IsHiddenCarvedOutVaseTrapezeRingShape                bool
 	IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape bool
 	IsHiddenVaseTrapezeBasePlateShape                    bool
+
+	IsCutoffEnabled       bool
+	IsCutoffHelperVisible bool
+	IsCutoffFlipped       bool
+	CutoffAxis            CutoffAxis
+	CutoffOffset          float64
 
 	Rendered3DShape *Rendered3DShape
 

@@ -40,6 +40,10 @@ type DBLite struct {
 
 	nextIDCanvasDB uint
 
+	clippingplaneDBs map[uint]*ClippingPlaneDB
+
+	nextIDClippingPlaneDB uint
+
 	curveDBs map[uint]*CurveDB
 
 	nextIDCurveDB uint
@@ -116,6 +120,8 @@ func NewDBLite() *DBLite {
 
 		canvasDBs: make(map[uint]*CanvasDB),
 
+		clippingplaneDBs: make(map[uint]*ClippingPlaneDB),
+
 		curveDBs: make(map[uint]*CurveDB),
 
 		cylindergeometryDBs: make(map[uint]*CylinderGeometryDB),
@@ -179,6 +185,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDCanvasDB++
 		v.ID = db.nextIDCanvasDB
 		db.canvasDBs[v.ID] = v
+	case *ClippingPlaneDB:
+		db.nextIDClippingPlaneDB++
+		v.ID = db.nextIDClippingPlaneDB
+		db.clippingplaneDBs[v.ID] = v
 	case *CurveDB:
 		db.nextIDCurveDB++
 		v.ID = db.nextIDCurveDB
@@ -277,6 +287,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.cameraDBs, v.ID)
 	case *CanvasDB:
 		delete(db.canvasDBs, v.ID)
+	case *ClippingPlaneDB:
+		delete(db.clippingplaneDBs, v.ID)
 	case *CurveDB:
 		delete(db.curveDBs, v.ID)
 	case *CylinderGeometryDB:
@@ -339,6 +351,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *CanvasDB:
 		db.canvasDBs[v.ID] = v
+		return db, nil
+	case *ClippingPlaneDB:
+		db.clippingplaneDBs[v.ID] = v
 		return db, nil
 	case *CurveDB:
 		db.curveDBs[v.ID] = v
@@ -430,6 +445,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Canvas github.com/fullstack-lang/gong/lib/threejs/go, record not found")
+		}
+	case *ClippingPlaneDB:
+		if existing, ok := db.clippingplaneDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db ClippingPlane github.com/fullstack-lang/gong/lib/threejs/go, record not found")
 		}
 	case *CurveDB:
 		if existing, ok := db.curveDBs[v.ID]; ok {
@@ -562,6 +583,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]CanvasDB:
 		*ptr = make([]CanvasDB, 0, len(db.canvasDBs))
 		for _, v := range db.canvasDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]ClippingPlaneDB:
+		*ptr = make([]ClippingPlaneDB, 0, len(db.clippingplaneDBs))
+		for _, v := range db.clippingplaneDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -737,6 +764,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		canvasDB, _ := instanceDB.(*CanvasDB)
 		*canvasDB = *tmp
+
+	case *ClippingPlaneDB:
+		tmp, ok := db.clippingplaneDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First ClippingPlane Unkown entry %d", i))
+		}
+
+		clippingplaneDB, _ := instanceDB.(*ClippingPlaneDB)
+		*clippingplaneDB = *tmp
 
 	case *CurveDB:
 		tmp, ok := db.curveDBs[uint(i)]

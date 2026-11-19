@@ -40,6 +40,11 @@ func (canvas *Canvas) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
+func (clippingplane *ClippingPlane) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.ClippingPlanes[clippingplane]
+	return ok
+}
+
 func (curve *Curve) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.Curves[curve]
 	return ok
@@ -213,6 +218,24 @@ func (canvas *Canvas) GongStageBranch(stage *Stage) {
 	for _, _mesh := range canvas.Meshs {
 		stage.StageBranch(_mesh)
 	}
+	for _, _clippingplane := range canvas.ClippingPlanes {
+		stage.StageBranch(_clippingplane)
+	}
+
+}
+
+func (clippingplane *ClippingPlane) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(clippingplane) {
+		return
+	}
+
+	clippingplane.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -517,6 +540,10 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchCanvas(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *ClippingPlane:
+		toT := GongCopyBranchClippingPlane(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Curve:
 		toT := GongCopyBranchCurve(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -673,6 +700,24 @@ func GongCopyBranchCanvas(mapOrigCopy map[any]any, canvasFrom *Canvas) (canvasTo
 	for _, _mesh := range canvasFrom.Meshs {
 		canvasTo.Meshs = append(canvasTo.Meshs, GongCopyBranchMesh(mapOrigCopy, _mesh))
 	}
+	for _, _clippingplane := range canvasFrom.ClippingPlanes {
+		canvasTo.ClippingPlanes = append(canvasTo.ClippingPlanes, GongCopyBranchClippingPlane(mapOrigCopy, _clippingplane))
+	}
+
+	return
+}
+
+func GongCopyBranchClippingPlane(mapOrigCopy map[any]any, clippingplaneFrom *ClippingPlane) (clippingplaneTo *ClippingPlane) {
+	var alreadyCopied bool
+	clippingplaneTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, clippingplaneFrom)
+	if alreadyCopied {
+		return
+	}
+	clippingplaneFrom.GongCopyBasicFields(clippingplaneTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -1049,6 +1094,24 @@ func (canvas *Canvas) GongUnstageBranch(stage *Stage) {
 	for _, _mesh := range canvas.Meshs {
 		stage.UnstageBranch(_mesh)
 	}
+	for _, _clippingplane := range canvas.ClippingPlanes {
+		stage.UnstageBranch(_clippingplane)
+	}
+
+}
+
+func (clippingplane *ClippingPlane) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(clippingplane) {
+		return
+	}
+
+	clippingplane.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -1352,6 +1415,12 @@ func (reference *Canvas) GongReconstructPointersFromReferences(stage *Stage, ins
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DirectionalLights, stage.DirectionalLights_reference, instance.DirectionalLights)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Meshs, stage.Meshs_reference, instance.Meshs)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.ClippingPlanes, stage.ClippingPlanes_reference, instance.ClippingPlanes)
+}
+
+func (reference *ClippingPlane) GongReconstructPointersFromReferences(stage *Stage, instance *ClippingPlane) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
 }
 
 func (reference *Curve) GongReconstructPointersFromReferences(stage *Stage, instance *Curve) {
@@ -1474,6 +1543,12 @@ func (reference *Canvas) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DirectionalLights, stage.DirectionalLights_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Meshs, stage.Meshs_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.ClippingPlanes, stage.ClippingPlanes_instance)
+}
+
+func (reference *ClippingPlane) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
 }
 
 func (reference *Curve) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1678,6 +1753,9 @@ func (canvas *Canvas) GongDiff(stage *Stage, canvasOther *Canvas) (diffs []strin
 	if canvas.Camera != canvasOther.Camera {
 		diffs = append(diffs, canvas.GongMarshallField(stage, "Camera"))
 	}
+	if ops := __gong__diffSliceOfPointers(stage, canvas, "ClippingPlanes", canvasOther.ClippingPlanes, canvas.ClippingPlanes); ops != "" {
+		diffs = append(diffs, ops)
+	}
 	if canvas.IsWithLastRenderingUpdate != canvasOther.IsWithLastRenderingUpdate {
 		diffs = append(diffs, canvas.GongMarshallField(stage, "IsWithLastRenderingUpdate"))
 	}
@@ -1686,6 +1764,47 @@ func (canvas *Canvas) GongDiff(stage *Stage, canvasOther *Canvas) (diffs []strin
 	}
 	if canvas.Frame64BitsEncoded != canvasOther.Frame64BitsEncoded {
 		diffs = append(diffs, canvas.GongMarshallField(stage, "Frame64BitsEncoded"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (clippingplane *ClippingPlane) GongDiff(stage *Stage, clippingplaneOther *ClippingPlane) (diffs []string) {
+	// insertion point for field diffs
+	if clippingplane.Name != clippingplaneOther.Name {
+		diffs = append(diffs, clippingplane.GongMarshallField(stage, "Name"))
+	}
+	if clippingplane.IsEnabled != clippingplaneOther.IsEnabled {
+		diffs = append(diffs, clippingplane.GongMarshallField(stage, "IsEnabled"))
+	}
+	if clippingplane.NormalX != clippingplaneOther.NormalX {
+		diffs = append(diffs, clippingplane.GongMarshallField(stage, "NormalX"))
+	}
+	if clippingplane.NormalY != clippingplaneOther.NormalY {
+		diffs = append(diffs, clippingplane.GongMarshallField(stage, "NormalY"))
+	}
+	if clippingplane.NormalZ != clippingplaneOther.NormalZ {
+		diffs = append(diffs, clippingplane.GongMarshallField(stage, "NormalZ"))
+	}
+	if clippingplane.Constant != clippingplaneOther.Constant {
+		diffs = append(diffs, clippingplane.GongMarshallField(stage, "Constant"))
+	}
+	if clippingplane.IsHelperVisible != clippingplaneOther.IsHelperVisible {
+		diffs = append(diffs, clippingplane.GongMarshallField(stage, "IsHelperVisible"))
+	}
+	if clippingplane.HelperSize != clippingplaneOther.HelperSize {
+		diffs = append(diffs, clippingplane.GongMarshallField(stage, "HelperSize"))
+	}
+	if clippingplane.HelperCenterX != clippingplaneOther.HelperCenterX {
+		diffs = append(diffs, clippingplane.GongMarshallField(stage, "HelperCenterX"))
+	}
+	if clippingplane.HelperCenterY != clippingplaneOther.HelperCenterY {
+		diffs = append(diffs, clippingplane.GongMarshallField(stage, "HelperCenterY"))
+	}
+	if clippingplane.HelperCenterZ != clippingplaneOther.HelperCenterZ {
+		diffs = append(diffs, clippingplane.GongMarshallField(stage, "HelperCenterZ"))
 	}
 
 	return
@@ -1801,6 +1920,9 @@ func (mesh *Mesh) GongDiff(stage *Stage, meshOther *Mesh) (diffs []string) {
 	}
 	if mesh.Z != meshOther.Z {
 		diffs = append(diffs, mesh.GongMarshallField(stage, "Z"))
+	}
+	if mesh.IsNotClipped != meshOther.IsNotClipped {
+		diffs = append(diffs, mesh.GongMarshallField(stage, "IsNotClipped"))
 	}
 	if mesh.MeshMaterialBasic != meshOther.MeshMaterialBasic {
 		diffs = append(diffs, mesh.GongMarshallField(stage, "MeshMaterialBasic"))

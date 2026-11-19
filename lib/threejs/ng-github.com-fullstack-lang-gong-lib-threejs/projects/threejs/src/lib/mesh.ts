@@ -29,6 +29,7 @@ export class Mesh {
 	X: number = 0
 	Y: number = 0
 	Z: number = 0
+	IsNotClipped: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 	MeshMaterialBasic?: MeshMaterialBasic
@@ -67,6 +68,7 @@ export function CopyMeshToMeshAPI(mesh: Mesh, meshAPI: MeshAPI) {
 	meshAPI.X = mesh.X
 	meshAPI.Y = mesh.Y
 	meshAPI.Z = mesh.Z
+	meshAPI.IsNotClipped = mesh.IsNotClipped
 
 	// insertion point for pointer fields encoding
 	meshAPI.MeshPointersEncoding.MeshMaterialBasicID.Valid = true
@@ -158,6 +160,7 @@ export function CopyMeshAPIToMesh(meshAPI: MeshAPI, mesh: Mesh, frontRepo: Front
 	mesh.X = meshAPI.X
 	mesh.Y = meshAPI.Y
 	mesh.Z = meshAPI.Z
+	mesh.IsNotClipped = meshAPI.IsNotClipped
 
 	// insertion point for pointer fields encoding
 	mesh.MeshMaterialBasic = frontRepo.map_ID_MeshMaterialBasic.get(meshAPI.MeshPointersEncoding.MeshMaterialBasicID.Int64)

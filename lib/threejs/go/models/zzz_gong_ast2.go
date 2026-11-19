@@ -170,6 +170,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Camera), stage, ident.Name, instanceName, preserveOrder)
 				case "Canvas":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Canvas), stage, ident.Name, instanceName, preserveOrder)
+				case "ClippingPlane":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(ClippingPlane), stage, ident.Name, instanceName, preserveOrder)
 				case "Curve":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(Curve), stage, ident.Name, instanceName, preserveOrder)
 				case "CylinderGeometry":
@@ -278,12 +280,39 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignSliceOfPointers(&inst.Meshs, rhs, identifierMap)
 					case "Camera":
 						__gong__assignPointer(&inst.Camera, rhs, identifierMap)
+					case "ClippingPlanes":
+						__gong__assignSliceOfPointers(&inst.ClippingPlanes, rhs, identifierMap)
 					case "IsWithLastRenderingUpdate":
 						inst.IsWithLastRenderingUpdate = GongExtractBool(rhs)
 					case "LastRendering":
 						inst.LastRendering = GongExtractDate(rhs)
 					case "Frame64BitsEncoded":
 						inst.Frame64BitsEncoded = GongExtractString(rhs)
+					}
+				case *ClippingPlane:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "IsEnabled":
+						inst.IsEnabled = GongExtractBool(rhs)
+					case "NormalX":
+						inst.NormalX = GongExtractFloat(rhs)
+					case "NormalY":
+						inst.NormalY = GongExtractFloat(rhs)
+					case "NormalZ":
+						inst.NormalZ = GongExtractFloat(rhs)
+					case "Constant":
+						inst.Constant = GongExtractFloat(rhs)
+					case "IsHelperVisible":
+						inst.IsHelperVisible = GongExtractBool(rhs)
+					case "HelperSize":
+						inst.HelperSize = GongExtractFloat(rhs)
+					case "HelperCenterX":
+						inst.HelperCenterX = GongExtractFloat(rhs)
+					case "HelperCenterY":
+						inst.HelperCenterY = GongExtractFloat(rhs)
+					case "HelperCenterZ":
+						inst.HelperCenterZ = GongExtractFloat(rhs)
 					}
 				case *Curve:
 					switch fieldName {
@@ -349,6 +378,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Y = GongExtractFloat(rhs)
 					case "Z":
 						inst.Z = GongExtractFloat(rhs)
+					case "IsNotClipped":
+						inst.IsNotClipped = GongExtractBool(rhs)
 					case "MeshMaterialBasic":
 						__gong__assignPointer(&inst.MeshMaterialBasic, rhs, identifierMap)
 					case "MeshPhysicalMaterial":
@@ -792,12 +823,51 @@ func (u *CanvasUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		GongUnmarshallSliceOfPointers(&instance.Meshs, valueExpr, identifierMap)
 	case "Camera":
 		GongUnmarshallPointer(&instance.Camera, valueExpr, identifierMap)
+	case "ClippingPlanes":
+		GongUnmarshallSliceOfPointers(&instance.ClippingPlanes, valueExpr, identifierMap)
 	case "IsWithLastRenderingUpdate":
 		instance.IsWithLastRenderingUpdate = GongExtractBool(valueExpr)
 	case "LastRendering":
 		instance.LastRendering = GongExtractDate(valueExpr)
 	case "Frame64BitsEncoded":
 		instance.Frame64BitsEncoded = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type ClippingPlaneUnmarshaller struct{}
+
+func (u *ClippingPlaneUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(ClippingPlane), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *ClippingPlaneUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ClippingPlane)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "IsEnabled":
+		instance.IsEnabled = GongExtractBool(valueExpr)
+	case "NormalX":
+		instance.NormalX = GongExtractFloat(valueExpr)
+	case "NormalY":
+		instance.NormalY = GongExtractFloat(valueExpr)
+	case "NormalZ":
+		instance.NormalZ = GongExtractFloat(valueExpr)
+	case "Constant":
+		instance.Constant = GongExtractFloat(valueExpr)
+	case "IsHelperVisible":
+		instance.IsHelperVisible = GongExtractBool(valueExpr)
+	case "HelperSize":
+		instance.HelperSize = GongExtractFloat(valueExpr)
+	case "HelperCenterX":
+		instance.HelperCenterX = GongExtractFloat(valueExpr)
+	case "HelperCenterY":
+		instance.HelperCenterY = GongExtractFloat(valueExpr)
+	case "HelperCenterZ":
+		instance.HelperCenterZ = GongExtractFloat(valueExpr)
 	}
 	return nil
 }
@@ -923,6 +993,8 @@ func (u *MeshUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Y = GongExtractFloat(valueExpr)
 	case "Z":
 		instance.Z = GongExtractFloat(valueExpr)
+	case "IsNotClipped":
+		instance.IsNotClipped = GongExtractBool(valueExpr)
 	case "MeshMaterialBasic":
 		GongUnmarshallPointer(&instance.MeshMaterialBasic, valueExpr, identifierMap)
 	case "MeshPhysicalMaterial":

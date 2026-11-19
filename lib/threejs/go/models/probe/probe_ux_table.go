@@ -34,6 +34,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Camera](probe)
 	case "Canvas":
 		updateProbeTable[*models.Canvas](probe)
+	case "ClippingPlane":
+		updateProbeTable[*models.ClippingPlane](probe)
 	case "Curve":
 		updateProbeTable[*models.Curve](probe)
 	case "CylinderGeometry":

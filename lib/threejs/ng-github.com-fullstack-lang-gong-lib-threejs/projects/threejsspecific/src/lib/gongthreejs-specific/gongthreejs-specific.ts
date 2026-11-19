@@ -47,6 +47,7 @@ export class FrameCapturerDirective {
     private canvasService: threejs.CanvasService
   ) {
     beforeRender(({ gl, scene, camera }) => {
+      gl.localClippingEnabled = true;
       gl.render(scene, camera);
 
       if (this.canvasSingloton && this.canvasSingloton.IsWithLastRenderingUpdate) {
@@ -211,6 +212,13 @@ export class CameraUpdaterDirective implements OnChanges, OnInit, OnDestroy {
   }
 }
 
+export interface ClippingPlaneHelperRenderData {
+  id: number;
+  position: [number, number, number];
+  quaternion: [number, number, number, number];
+  size: number;
+}
+
 @Component({
   selector: 'lib-threejs-specific',
   templateUrl: './gongthreejs-specific.html',
@@ -226,6 +234,9 @@ export class GongthreejsSpecific {
   public frontRepo?: threejs.FrontRepo
 
   canvasSingloton?: threejs.Canvas
+  activeClippingPlanes: THREE.Plane[] = []
+  clippingPlaneHelpers: ClippingPlaneHelperRenderData[] = []
+  private planeCache = new Map<number, THREE.Plane>()
   private lastProcessedGongIndex: number = -1;
 
   constructor(
@@ -338,6 +349,51 @@ export class GongthreejsSpecific {
     }
   }
 
+  updateClippingPlanes(): void {
+    const rawPlanes = this.canvasSingloton?.ClippingPlanes ?? [];
+    const nextPlanes: THREE.Plane[] = [];
+    const nextHelpers: ClippingPlaneHelperRenderData[] = [];
+    const zAxis = new THREE.Vector3(0, 0, 1);
+
+    for (const cp of rawPlanes) {
+      if (!cp.IsEnabled) {
+        continue;
+      }
+      const normal = new THREE.Vector3(cp.NormalX, cp.NormalY, cp.NormalZ);
+      if (normal.lengthSq() < 1e-12) {
+        continue;
+      }
+      normal.normalize();
+
+      let plane = this.planeCache.get(cp.ID);
+      if (!plane) {
+        plane = new THREE.Plane(normal.clone(), cp.Constant);
+        this.planeCache.set(cp.ID, plane);
+      } else {
+        plane.set(normal, cp.Constant);
+      }
+      nextPlanes.push(plane);
+
+      if (cp.IsHelperVisible) {
+        const size = cp.HelperSize > 0 ? cp.HelperSize : 100;
+        const center = new THREE.Vector3(cp.HelperCenterX, cp.HelperCenterY, cp.HelperCenterZ);
+        const projected = new THREE.Vector3();
+        plane.projectPoint(center, projected);
+
+        const quat = new THREE.Quaternion().setFromUnitVectors(zAxis, normal);
+        nextHelpers.push({
+          id: cp.ID,
+          position: [projected.x, projected.y, projected.z],
+          quaternion: [quat.x, quat.y, quat.z, quat.w],
+          size,
+        });
+      }
+    }
+
+    this.activeClippingPlanes = nextPlanes;
+    this.clippingPlaneHelpers = nextHelpers;
+  }
+
   ngOnInit(): void {
     this.threejsFrontRepoService.connectToWebSocket(this.Name).subscribe(
       frontRepo => {
@@ -350,6 +406,7 @@ export class GongthreejsSpecific {
         }
 
         this.canvasSingloton = canvasSingloton
+        this.updateClippingPlanes()
         this.cdr.detectChanges()
       }
     )

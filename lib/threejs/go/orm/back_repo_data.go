@@ -14,6 +14,8 @@ type BackRepoData struct {
 
 	CanvasAPIs []*CanvasAPI
 
+	ClippingPlaneAPIs []*ClippingPlaneAPI
+
 	CurveAPIs []*CurveAPI
 
 	CylinderGeometryAPIs []*CylinderGeometryAPI
@@ -103,6 +105,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		canvasDB.CopyBasicFieldsToCanvas_WOP(&canvasAPI.Canvas_WOP)
 
 		backRepoData.CanvasAPIs = append(backRepoData.CanvasAPIs, &canvasAPI)
+	}
+
+	for _, clippingplaneDB := range backRepo.BackRepoClippingPlane.Map_ClippingPlaneDBID_ClippingPlaneDB {
+
+		var clippingplaneAPI ClippingPlaneAPI
+		clippingplaneAPI.ID = clippingplaneDB.ID
+		clippingplaneAPI.ClippingPlanePointersEncoding = clippingplaneDB.ClippingPlanePointersEncoding
+		clippingplaneDB.CopyBasicFieldsToClippingPlane_WOP(&clippingplaneAPI.ClippingPlane_WOP)
+
+		backRepoData.ClippingPlaneAPIs = append(backRepoData.ClippingPlaneAPIs, &clippingplaneAPI)
 	}
 
 	for _, curveDB := range backRepo.BackRepoCurve.Map_CurveDBID_CurveDB {

@@ -98,6 +98,16 @@ func (stage *Stage) SerializeStageCSVAsBytes(addIDs bool) ([]byte, error) {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.ClippingPlanes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "ClippingPlane", instances, (*ClippingPlane)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.Curves {
 				instances = append(instances, instance)
 			}
@@ -291,6 +301,13 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 				instances = append(instances, instance)
 			}
 			stage.SerializeExcelize(f, "Canvas", instances, (*Canvas)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.ClippingPlanes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "ClippingPlane", instances, (*ClippingPlane)(nil).GongGetFieldHeaders(), addIDs)
 		}
 		{
 			var instances []GongstructIF

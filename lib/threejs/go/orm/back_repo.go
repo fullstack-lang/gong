@@ -34,6 +34,8 @@ type BackRepoStruct struct {
 
 	BackRepoCanvas BackRepoCanvasStruct
 
+	BackRepoClippingPlane BackRepoClippingPlaneStruct
+
 	BackRepoCurve BackRepoCurveStruct
 
 	BackRepoCylinderGeometry BackRepoCylinderGeometryStruct
@@ -90,6 +92,7 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		&BufferGeometryDB{},
 		&CameraDB{},
 		&CanvasDB{},
+		&ClippingPlaneDB{},
 		&CurveDB{},
 		&CylinderGeometryDB{},
 		&DirectionalLightDB{},
@@ -147,6 +150,14 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		Map_CanvasDBID_CanvasPtr: make(map[uint]*models.Canvas, 0),
 		Map_CanvasDBID_CanvasDB:  make(map[uint]*CanvasDB, 0),
 		Map_CanvasPtr_CanvasDBID: make(map[*models.Canvas]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoClippingPlane = BackRepoClippingPlaneStruct{
+		Map_ClippingPlaneDBID_ClippingPlanePtr: make(map[uint]*models.ClippingPlane, 0),
+		Map_ClippingPlaneDBID_ClippingPlaneDB:  make(map[uint]*ClippingPlaneDB, 0),
+		Map_ClippingPlanePtr_ClippingPlaneDBID: make(map[*models.ClippingPlane]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -322,6 +333,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoBufferGeometry.CommitPhaseOne(stage)
 	backRepo.BackRepoCamera.CommitPhaseOne(stage)
 	backRepo.BackRepoCanvas.CommitPhaseOne(stage)
+	backRepo.BackRepoClippingPlane.CommitPhaseOne(stage)
 	backRepo.BackRepoCurve.CommitPhaseOne(stage)
 	backRepo.BackRepoCylinderGeometry.CommitPhaseOne(stage)
 	backRepo.BackRepoDirectionalLight.CommitPhaseOne(stage)
@@ -344,6 +356,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoBufferGeometry.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoCamera.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoCanvas.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoClippingPlane.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoCurve.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoCylinderGeometry.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoDirectionalLight.CommitPhaseTwo(backRepo)
@@ -378,6 +391,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoBufferGeometry.CheckoutPhaseOne()
 	backRepo.BackRepoCamera.CheckoutPhaseOne()
 	backRepo.BackRepoCanvas.CheckoutPhaseOne()
+	backRepo.BackRepoClippingPlane.CheckoutPhaseOne()
 	backRepo.BackRepoCurve.CheckoutPhaseOne()
 	backRepo.BackRepoCylinderGeometry.CheckoutPhaseOne()
 	backRepo.BackRepoDirectionalLight.CheckoutPhaseOne()
@@ -400,6 +414,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoBufferGeometry.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoCamera.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoCanvas.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoClippingPlane.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoCurve.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoCylinderGeometry.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoDirectionalLight.CheckoutPhaseTwo(backRepo)
@@ -427,6 +442,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoBufferGeometry.Backup(dirPath)
 	backRepo.BackRepoCamera.Backup(dirPath)
 	backRepo.BackRepoCanvas.Backup(dirPath)
+	backRepo.BackRepoClippingPlane.Backup(dirPath)
 	backRepo.BackRepoCurve.Backup(dirPath)
 	backRepo.BackRepoCylinderGeometry.Backup(dirPath)
 	backRepo.BackRepoDirectionalLight.Backup(dirPath)
@@ -457,6 +473,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoBufferGeometry.BackupXL(file)
 	backRepo.BackRepoCamera.BackupXL(file)
 	backRepo.BackRepoCanvas.BackupXL(file)
+	backRepo.BackRepoClippingPlane.BackupXL(file)
 	backRepo.BackRepoCurve.BackupXL(file)
 	backRepo.BackRepoCylinderGeometry.BackupXL(file)
 	backRepo.BackRepoDirectionalLight.BackupXL(file)
@@ -501,6 +518,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoBufferGeometry.RestorePhaseOne(dirPath)
 	backRepo.BackRepoCamera.RestorePhaseOne(dirPath)
 	backRepo.BackRepoCanvas.RestorePhaseOne(dirPath)
+	backRepo.BackRepoClippingPlane.RestorePhaseOne(dirPath)
 	backRepo.BackRepoCurve.RestorePhaseOne(dirPath)
 	backRepo.BackRepoCylinderGeometry.RestorePhaseOne(dirPath)
 	backRepo.BackRepoDirectionalLight.RestorePhaseOne(dirPath)
@@ -527,6 +545,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoBufferGeometry.RestorePhaseTwo()
 	backRepo.BackRepoCamera.RestorePhaseTwo()
 	backRepo.BackRepoCanvas.RestorePhaseTwo()
+	backRepo.BackRepoClippingPlane.RestorePhaseTwo()
 	backRepo.BackRepoCurve.RestorePhaseTwo()
 	backRepo.BackRepoCylinderGeometry.RestorePhaseTwo()
 	backRepo.BackRepoDirectionalLight.RestorePhaseTwo()
@@ -574,6 +593,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoBufferGeometry.RestoreXLPhaseOne(file)
 	backRepo.BackRepoCamera.RestoreXLPhaseOne(file)
 	backRepo.BackRepoCanvas.RestoreXLPhaseOne(file)
+	backRepo.BackRepoClippingPlane.RestoreXLPhaseOne(file)
 	backRepo.BackRepoCurve.RestoreXLPhaseOne(file)
 	backRepo.BackRepoCylinderGeometry.RestoreXLPhaseOne(file)
 	backRepo.BackRepoDirectionalLight.RestoreXLPhaseOne(file)

@@ -157,6 +157,32 @@ func (canvas *Canvas) GongAfterDeleteFromFront(stage *Stage, front GongstructIF)
 	}
 }
 
+func (clippingplane *ClippingPlane) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterClippingPlaneCreateCallback != nil {
+		stage.OnAfterClippingPlaneCreateCallback.OnAfterCreate(stage, clippingplane)
+	}
+}
+
+func (clippingplane *ClippingPlane) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterClippingPlaneUpdateCallback != nil {
+		var frontClippingPlane *ClippingPlane
+		if front != nil {
+			frontClippingPlane, _ = front.(*ClippingPlane)
+		}
+		stage.OnAfterClippingPlaneUpdateCallback.OnAfterUpdate(stage, clippingplane, frontClippingPlane)
+	}
+}
+
+func (clippingplane *ClippingPlane) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterClippingPlaneDeleteCallback != nil {
+		var frontClippingPlane *ClippingPlane
+		if front != nil {
+			frontClippingPlane, _ = front.(*ClippingPlane)
+		}
+		stage.OnAfterClippingPlaneDeleteCallback.OnAfterDelete(stage, clippingplane, frontClippingPlane)
+	}
+}
+
 func (curve *Curve) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterCurveCreateCallback != nil {
 		stage.OnAfterCurveCreateCallback.OnAfterCreate(stage, curve)

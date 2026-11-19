@@ -746,6 +746,16 @@ func saveStageSet_TubeVase3DDiagram_Stage(
 			FormDivBasicFieldToField(&inst.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape, formDiv)
 		case "IsHiddenVaseTrapezeBasePlateShape":
 			FormDivBasicFieldToField(&inst.IsHiddenVaseTrapezeBasePlateShape, formDiv)
+		case "IsCutoffEnabled":
+			FormDivBasicFieldToField(&inst.IsCutoffEnabled, formDiv)
+		case "IsCutoffHelperVisible":
+			FormDivBasicFieldToField(&inst.IsCutoffHelperVisible, formDiv)
+		case "IsCutoffFlipped":
+			FormDivBasicFieldToField(&inst.IsCutoffFlipped, formDiv)
+		case "CutoffAxis":
+			StageSetFormDivEnumStringFieldToField(&inst.CutoffAxis, formDiv)
+		case "CutoffOffset":
+			FormDivBasicFieldToField(&inst.CutoffOffset, formDiv)
 		case "Rendered3DShape":
 			StageSetFormDivSelectFieldToField(&inst.Rendered3DShape, probe.stageOfInterest.GetInstancesSet[*models.Rendered3DShape](), formDiv)
 		case "TorusStackShape":

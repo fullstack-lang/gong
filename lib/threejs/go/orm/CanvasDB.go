@@ -64,6 +64,9 @@ type CanvasPointersEncoding struct {
 	// field Camera is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	CameraID sql.NullInt64
+
+	// field ClippingPlanes is a slice of pointers to another Struct (optional or 0..1)
+	ClippingPlanes IntSlice `gorm:"type:TEXT"`
 }
 
 // CanvasDB describes a canvas in the database
@@ -319,6 +322,24 @@ func (backRepoCanvas *BackRepoCanvasStruct) CommitPhaseTwoInstance(backRepo *Bac
 			canvasDB.CameraID.Valid = true
 		}
 
+		// 1. reset
+		canvasDB.CanvasPointersEncoding.ClippingPlanes = make([]int, 0)
+		// 2. encode
+		for _, clippingplaneAssocEnd := range canvas.ClippingPlanes {
+			clippingplaneAssocEnd_DB :=
+				backRepo.BackRepoClippingPlane.GetClippingPlaneDBFromClippingPlanePtr(clippingplaneAssocEnd)
+
+			// the stage might be inconsistant, meaning that the clippingplaneAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if clippingplaneAssocEnd_DB == nil {
+				continue
+			}
+
+			canvasDB.CanvasPointersEncoding.ClippingPlanes =
+				append(canvasDB.CanvasPointersEncoding.ClippingPlanes, int(clippingplaneAssocEnd_DB.ID))
+		}
+
 		_, err := backRepoCanvas.db.Save(canvasDB)
 		if err != nil {
 			log.Fatal(err)
@@ -489,6 +510,15 @@ func (canvasDB *CanvasDB) DecodePointers(backRepo *BackRepoStruct, canvas *model
 		} else {
 			canvas.Camera = nil
 		}
+	}
+
+	// This loop redeem canvas.ClippingPlanes in the stage from the encode in the back repo
+	// It parses all ClippingPlaneDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	canvas.ClippingPlanes = canvas.ClippingPlanes[:0]
+	for _, _ClippingPlaneid := range canvasDB.CanvasPointersEncoding.ClippingPlanes {
+		canvas.ClippingPlanes = append(canvas.ClippingPlanes, backRepo.BackRepoClippingPlane.Map_ClippingPlaneDBID_ClippingPlanePtr[uint(_ClippingPlaneid)])
 	}
 
 }

@@ -25196,6 +25196,27 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsCutoffEnabled",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsCutoffHelperVisible",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsCutoffFlipped",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "CutoffAxis",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "CutoffAxis",
+		},
+		{
+			Name:               "CutoffOffset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:                 "Rendered3DShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Rendered3DShape",
@@ -30651,6 +30672,25 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldValue(fieldName string, 
 		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape)
 		res.valueBool = tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsCutoffEnabled":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsCutoffEnabled)
+		res.valueBool = tubevase3ddiagram.IsCutoffEnabled
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsCutoffHelperVisible":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsCutoffHelperVisible)
+		res.valueBool = tubevase3ddiagram.IsCutoffHelperVisible
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsCutoffFlipped":
+		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsCutoffFlipped)
+		res.valueBool = tubevase3ddiagram.IsCutoffFlipped
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "CutoffAxis":
+		enum := tubevase3ddiagram.CutoffAxis
+		res.valueString = enum.ToCodeString()
+	case "CutoffOffset":
+		res.valueString = fmt.Sprintf("%f", tubevase3ddiagram.CutoffOffset)
+		res.valueFloat = tubevase3ddiagram.CutoffOffset
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Rendered3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if tubevase3ddiagram.Rendered3DShape != nil {

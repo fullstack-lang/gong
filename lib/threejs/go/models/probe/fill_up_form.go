@@ -95,6 +95,7 @@ func FillUpForm(
 		AssociationFieldToForm("AmbiantLight", instanceWithInferedType.AmbiantLight, formGroup, probe)
 		AssociationSliceToForm("Meshs", instanceWithInferedType, &instanceWithInferedType.Meshs, formGroup, probe)
 		AssociationFieldToForm("Camera", instanceWithInferedType.Camera, formGroup, probe)
+		AssociationSliceToForm("ClippingPlanes", instanceWithInferedType, &instanceWithInferedType.ClippingPlanes, formGroup, probe)
 		BasicFieldtoForm("IsWithLastRenderingUpdate", instanceWithInferedType.IsWithLastRenderingUpdate, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("LastRendering", instanceWithInferedType.LastRendering, instanceWithInferedType, probe.formStage, formGroup,
@@ -106,6 +107,45 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.ClippingPlane:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsEnabled", instanceWithInferedType.IsEnabled, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("NormalX", instanceWithInferedType.NormalX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("NormalY", instanceWithInferedType.NormalY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("NormalZ", instanceWithInferedType.NormalZ, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Constant", instanceWithInferedType.Constant, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHelperVisible", instanceWithInferedType.IsHelperVisible, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("HelperSize", instanceWithInferedType.HelperSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("HelperCenterX", instanceWithInferedType.HelperCenterX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("HelperCenterY", instanceWithInferedType.HelperCenterY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("HelperCenterZ", instanceWithInferedType.HelperCenterZ, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Canvas",
+			"ClippingPlanes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Canvas) []*models.ClippingPlane {
+				return owner.ClippingPlanes
+			})
 
 	case *models.Curve:
 		// insertion point
@@ -196,6 +236,8 @@ func FillUpForm(
 		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Z", instanceWithInferedType.Z, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsNotClipped", instanceWithInferedType.IsNotClipped, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("MeshMaterialBasic", instanceWithInferedType.MeshMaterialBasic, formGroup, probe)
 		AssociationFieldToForm("MeshPhysicalMaterial", instanceWithInferedType.MeshPhysicalMaterial, formGroup, probe)
