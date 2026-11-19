@@ -148,4 +148,33 @@ func TestCutoffPlaneAxisAlignedAndFloorUnclipped(t *testing.T) {
 		t.Fatalf("expected Z plane at -0.25 to have NormalZ=-1 and Constant<0, got normal=(%v,%v,%v) constant=%v",
 			cp.NormalX, cp.NormalY, cp.NormalZ, cp.Constant)
 	}
+
+	// Verify lighting provides sufficient ambient and interior/plancher illumination (Three.js r182 PBR units)
+	if canvas.AmbiantLight == nil || canvas.AmbiantLight.Intensity < 0.8 {
+		t.Fatalf("expected AmbiantLight intensity >= 0.8 for readable shadow/interior surfaces, got %+v", canvas.AmbiantLight)
+	}
+	testNormals := [][3]float64{
+		{0, 1, 0},   // Top rim & interior plancher (+Y)
+		{1, 0, 0},   // +X wall
+		{-1, 0, 0},  // -X wall
+		{0, 0, 1},   // +Z wall
+		{0, 0, -1},  // -Z wall
+		{0, -1, 0},  // Underside (-Y)
+	}
+	for _, n := range testNormals {
+		irr := canvas.AmbiantLight.Intensity
+		for _, dl := range canvas.DirectionalLights {
+			lLen := math.Sqrt(dl.X*dl.X + dl.Y*dl.Y + dl.Z*dl.Z)
+			if lLen > 1e-9 {
+				ndotl := (n[0]*dl.X + n[1]*dl.Y + n[2]*dl.Z) / lLen
+				if ndotl > 0 {
+					irr += dl.Intensity * ndotl
+				}
+			}
+		}
+		diffuseFactor := irr / math.Pi
+		if diffuseFactor < 0.40 {
+			t.Errorf("insufficient diffuse factor %.3f for normal %v (irradiance=%.3f)", diffuseFactor, n, irr)
+		}
+	}
 }
