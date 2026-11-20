@@ -1324,6 +1324,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenCarvedOutVaseTrapezeRingShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenCarvedOutVaseTrapezeRingShape))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenVaseTrapezeBasePlateShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.AmbientLightLevel = %f", tubevase3ddiagramIdent, tubevase3ddiagram.AmbientLightLevel))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsCutoffEnabled = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsCutoffEnabled))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsCutoffHelperVisible = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsCutoffHelperVisible))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsCutoffFlipped = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsCutoffFlipped))
@@ -5004,6 +5005,8 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallField(stage *Stage, fiel
 		res = __gong__marshallBool(ident, "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape", tubevase3ddiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape)
 	case "IsHiddenVaseTrapezeBasePlateShape":
 		res = __gong__marshallBool(ident, "IsHiddenVaseTrapezeBasePlateShape", tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape)
+	case "AmbientLightLevel":
+		res = __gong__marshallFloat(ident, "AmbientLightLevel", tubevase3ddiagram.AmbientLightLevel)
 	case "IsCutoffEnabled":
 		res = __gong__marshallBool(ident, "IsCutoffEnabled", tubevase3ddiagram.IsCutoffEnabled)
 	case "IsCutoffHelperVisible":
@@ -7606,6 +7609,7 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongMarshallAllFields(stage *Stage) 
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenCarvedOutVaseTrapezeRingShape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsHiddenVaseTrapezeBasePlateShape"))
+		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "AmbientLightLevel"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsCutoffEnabled"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsCutoffHelperVisible"))
 		initializerStatements.WriteString(tubevase3ddiagram.GongMarshallField(stage, "IsCutoffFlipped"))

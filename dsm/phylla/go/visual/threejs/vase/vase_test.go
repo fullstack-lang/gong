@@ -695,6 +695,7 @@ func TestVaseTrapezeCurvedWall(t *testing.T) {
 	vase.CarvedOutTopRingsParameter = 0.0
 	vase.RelativeRotatedTorusSeparation = 0.0
 	vase.HasRingBottom = false
+	vase.HasLip = false
 	vase.RotationRatio = 1.0
 
 	// 1. Parity when HasCurvedWall == false (even if WallCurvature != 0), when WallCurvature == 0,
@@ -1092,8 +1093,8 @@ func TestVaseTrapezeUnrotatedCurvedWallStacking(t *testing.T) {
 			t.Fatalf("%s: expected >= 100 Base Plate Cap Inner Top vertices, got %d", label, len(baseInTopR))
 		}
 
-		// Extract Ring 1 outer wall polyline (s = 0..sWall) per azimuth i and interpolate r_outer_1(i, p1H)
-		ring1OuterRows := extractWallRowsByAzimuth(ring1Mesh, "Outer Wall Face")
+		// Extract Ring 1 outer profile polyline (lower wall + lip collar) per azimuth i and interpolate r_outer_1(i, p1H)
+		ring1OuterRows := extractOuterWallAndLipByAzimuth(ring1Mesh)
 		minRadialClearance01 := math.MaxFloat64
 		maxRadialClearance01 := -math.MaxFloat64
 		for i, rIn0 := range baseInTopR {
@@ -1125,7 +1126,7 @@ func TestVaseTrapezeUnrotatedCurvedWallStacking(t *testing.T) {
 				}
 			}
 		}
-		ring2OuterRows := extractWallRowsByAzimuth(ring2Mesh, "Outer Wall Face")
+		ring2OuterRows := extractOuterWallAndLipByAzimuth(ring2Mesh)
 		minRadialClearance12 := math.MaxFloat64
 		maxRadialClearance12 := -math.MaxFloat64
 		for i, rIn1 := range ring1InTopR {
@@ -1272,26 +1273,46 @@ func TestVaseTrapezeUnrotatedCurvedWallStacking(t *testing.T) {
 		t.Fatalf("expected Ring 1 mesh with HasConstantThickness=false and CarvedOutTopRingsParameter=0.5")
 	}
 
-	// Verify HasLip = true with curved wall at RotationRatio = 0 (both flush 360° rim contact and tall lip-on-lip contact)
+	// Verify HasLip = true with curved wall at RotationRatio = 0 (both narrow lip drop-in contact and wide lip-on-lip contact)
 	vase.HasConstantThickness = true
 	vase.CarvedOutTopRingsParameter = 0.0
 	vase.WallCurvature = -0.25
 	vase.HasLip = true
-	vase.LipHeight = 0.35
-	vase.LipWidth = 0.12
+	vase.LipHeight = models.DefaultVaseTrapezeLipExtraRatio
+	vase.LipWidth = 0.06
 	meshesLip := buildScene()
-	checkRimClearanceAndContact("curv=-0.25+HasLip", meshesLip, p1H, true)
+	checkRimClearanceAndContact("curv=-0.25+HasLip", meshesLip, p1H, false)
 
-	vase.LipHeight = 1.60 // 192 mm > 60.8 mm wall step, LipWidth wide enough to overhang Base Plate lip top
+	vase.LipHeight = 0.10 // Lip extends rotContactDY + 0.10*sideLen, LipWidth wide enough to overhang Base Plate lip top unrotated
 	vase.LipWidth = 0.50
 	meshesTallLip := buildScene()
 	_, maxBaseTallLipY := meshYBounds(meshesTallLip["Vase Trapeze Vase Trapeze Base Plate Mesh"])
 	_, maxR1TallLipY := meshYBounds(meshesTallLip["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"])
-	expectedLipStep := vase.LipHeight * sideLen
+	expectedLipStep, _, okLip := models.VaseTrapezeLipDimensions(targetPlant)
+	if !okLip {
+		t.Fatalf("expected active lip dimensions")
+	}
 	if math.Abs((maxR1TallLipY-maxBaseTallLipY)-expectedLipStep) > 1e-2 {
 		t.Errorf("expected tall lip step dy1=%.2f mm (lip-on-lip contact), got %.2f mm",
 			expectedLipStep, maxR1TallLipY-maxBaseTallLipY)
 	}
+}
+
+func extractOuterWallAndLipByAzimuth(mesh *threejs.Mesh) map[int][][2]float64 {
+	res := extractWallRowsByAzimuth(mesh, "Outer Wall Face")
+	lip := extractWallRowsByAzimuth(mesh, "Lip Collar Face")
+	for az, lpts := range lip {
+		merged := append(res[az], lpts...)
+		for a := 0; a < len(merged); a++ {
+			for b := a + 1; b < len(merged); b++ {
+				if merged[b][1] < merged[a][1] || (math.Abs(merged[b][1]-merged[a][1]) <= 1e-6 && merged[b][0] < merged[a][0]) {
+					merged[a], merged[b] = merged[b], merged[a]
+				}
+			}
+		}
+		res[az] = merged
+	}
+	return res
 }
 
 func scanIntSuffix(s string, out *int) (int, error) {
@@ -1457,9 +1478,9 @@ func TestVaseTrapezeLip(t *testing.T) {
 	vase.LipHeight = 0.0
 	vase.LipWidth = 0.0
 	meshesNoLip := buildScene()
-	if math.Abs(vase.LipHeight-0.45) > 1e-6 || math.Abs(vase.LipWidth-0.12) > 1e-6 {
-		t.Fatalf("expected default LipHeight=0.45 and LipWidth=0.12, got LipHeight=%.4f LipWidth=%.4f",
-			vase.LipHeight, vase.LipWidth)
+	if math.Abs(vase.LipHeight-models.DefaultVaseTrapezeLipExtraRatio) > 1e-6 || math.Abs(vase.LipWidth-0.12) > 1e-6 {
+		t.Fatalf("expected default LipHeight=%.3f and LipWidth=0.12, got LipHeight=%.4f LipWidth=%.4f",
+			models.DefaultVaseTrapezeLipExtraRatio, vase.LipHeight, vase.LipWidth)
 	}
 
 	stlOneNoLip := models.GenerateVaseTrapezeOneRingSTL(targetPlant)
@@ -1548,15 +1569,19 @@ func TestVaseTrapezeLip(t *testing.T) {
 
 	noLipRing := baseScene["Vase Trapeze Vase Trapeze Ring Mesh"]
 	noLipBase := baseScene["Vase Trapeze Vase Trapeze Base Plate Mesh"]
+	noLipH1 := baseScene["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"]
 	noLipRingMaxR := meshMaxR(noLipRing)
 	noLipBaseMaxR := meshMaxR(noLipBase)
+	noLipH1MaxY := meshMaxY(noLipH1)
 	noLipInnerBaseR, _, nInnerBase := meanRadiusContaining(noLipBase, "Cap Inner Top ")
 	if nInnerBase < 100 {
 		t.Fatalf("expected >= 100 Cap Inner Top vertices on Base Plate, got %d", nInnerBase)
 	}
 
+	vase.RotationRatio = 1.0
+	vase.RelativeRotatedTorusSeparation = 0.0
 	vase.HasLip = true
-	vase.LipHeight = 0.45
+	vase.LipHeight = models.DefaultVaseTrapezeLipExtraRatio // ~5.04 mm at SideLength=120 mm
 	vase.LipWidth = 0.15
 	lipScene := buildScene()
 
@@ -1564,19 +1589,20 @@ func TestVaseTrapezeLip(t *testing.T) {
 	lipBase := lipScene["Vase Trapeze Vase Trapeze Base Plate Mesh"]
 	lipH1 := lipScene["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"]
 
-	// Each ring gains 4*M faces (2*M underside + 2*M collar)
-	expectedExtraFaces := 4 * nInnerBase
+	// With curved walls (sWall = 24), each ring gains (2 + 2*sWall)*M faces (2*M underside + 2*sWall*M subdivided curved collar)
+	sWall := models.VaseTrapezeWallSubdivisions(targetPlant)
+	expectedExtraFaces := (2 + 2*sWall) * nInnerBase
 	if gotExtra := len(lipRing.BufferGeometry.Faces) - len(noLipRing.BufferGeometry.Faces); gotExtra != expectedExtraFaces {
 		t.Errorf("standalone ring: expected +%d lip faces, got +%d", expectedExtraFaces, gotExtra)
 	}
 	if gotExtra := len(lipBase.BufferGeometry.Faces) - len(noLipBase.BufferGeometry.Faces); gotExtra != expectedExtraFaces {
 		t.Errorf("base plate: expected +%d lip faces, got +%d", expectedExtraFaces, gotExtra)
 	}
-	if gotExtra := len(lipH1.BufferGeometry.Faces) - len(baseScene["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"].BufferGeometry.Faces); gotExtra != expectedExtraFaces {
+	if gotExtra := len(lipH1.BufferGeometry.Faces) - len(noLipH1.BufferGeometry.Faces); gotExtra != expectedExtraFaces {
 		t.Errorf("stack ring h1: expected +%d lip faces, got +%d", expectedExtraFaces, gotExtra)
 	}
 
-	// Top rim Y is preserved at p1H while outer radius increases and inner top rim radius stays unchanged
+	// Top rim Y is preserved at p1H on Ring 0 & Base Plate while outer radius increases and inner top rim radius stays unchanged
 	if math.Abs(meshMaxY(lipRing)-p1H) > 1e-4 || math.Abs(meshMaxY(lipBase)-p1H) > 1e-4 {
 		t.Errorf("expected top Y preserved at p1H=%.3f, got ring=%.3f base=%.3f",
 			p1H, meshMaxY(lipRing), meshMaxY(lipBase))
@@ -1594,15 +1620,34 @@ func TestVaseTrapezeLip(t *testing.T) {
 		t.Errorf("expected inner pot rim radius unchanged (%.4f vs %.4f)", noLipInnerBaseR, lipInnerBaseR)
 	}
 
-	// Verify Lip Underside Y equals p1H - LipHeight*sideLen when uncarved
-	expectedLipBotY := p1H - vase.LipHeight*sideLen
+	// Verify Lip starts at top (p1H) and extends down to lower pot edge + ~5mm:
+	// Lip Underside Y on standalone ring / Base Plate equals p1H - (rotContactDY + LipHeight*sideLen)
+	rotContactDY := models.ComputeVaseTrapezeRotatedContactStepDY(targetPlant, true)
+	expectedTotalLipH := rotContactDY + vase.LipHeight*sideLen
+	expectedLipBotY := p1H - expectedTotalLipH
 	_, ringUnderY, nRingUnder := meanRadiusContaining(lipRing, "Lip Underside Face ")
 	_, baseUnderY, nBaseUnder := meanRadiusContaining(lipBase, "Lip Underside ")
 	if nRingUnder == 0 || nBaseUnder == 0 {
 		t.Fatalf("missing Lip Underside vertices (ring=%d, base=%d)", nRingUnder, nBaseUnder)
 	}
 	if math.Abs(ringUnderY-expectedLipBotY) > 1e-4 || math.Abs(baseUnderY-expectedLipBotY) > 1e-4 {
-		t.Errorf("expected lip underside Y=%.4f, got ring=%.4f base=%.4f", expectedLipBotY, ringUnderY, baseUnderY)
+		t.Errorf("expected lip underside Y=%.4f (p1H - [rotContactDY=%.2f + extra=%.2f]), got ring=%.4f base=%.4f",
+			expectedLipBotY, rotContactDY, vase.LipHeight*sideLen, ringUnderY, baseUnderY)
+	}
+
+	// Verify stacked upper pot (h1) sits horizontally on lower pot's top rim (Y == p1H)
+	// AND is lifted by LipHeight*sideLen (~5mm) to eliminate wedging stress on the bottom pot!
+	_, h1UnderY, nH1Under := meanRadiusContaining(lipH1, "Lip Underside Face ")
+	if nH1Under == 0 {
+		t.Fatalf("missing Lip Underside Face vertices on stacked Ring h1")
+	}
+	if math.Abs(h1UnderY-p1H) > 1e-4 {
+		t.Errorf("expected stacked Ring h1 Lip Underside to sit flush at lower pot top rim p1H=%.4f, got %.4f", p1H, h1UnderY)
+	}
+	expectedLift := vase.LipHeight * sideLen
+	if gotLift := meshMaxY(lipH1) - noLipH1MaxY; math.Abs(gotLift-expectedLift) > 1e-3 {
+		t.Errorf("expected stacked Ring h1 to be lifted by %.3f mm for stress-free wall clearance, got %.3f mm",
+			expectedLift, gotLift)
 	}
 
 	// Verify face normal orientations on both standalone ring and Base Plate
@@ -1653,14 +1698,14 @@ func TestVaseTrapezeLip(t *testing.T) {
 	checkLipFaceNormals("Standalone Ring", lipRing, "Plane 1 Face")
 	checkLipFaceNormals("Base Plate", lipBase, "Top Face")
 
-	// 4. Fine-tuning LipHeight and LipWidth sliders
-	vase.LipHeight = 0.30
+	// 4. Fine-tuning LipHeight (extra drop margin) and LipWidth sliders
+	vase.LipHeight = 0.03
 	vase.LipWidth = 0.10
 	sceneSmall := buildScene()
 	maxRSmall := meshMaxR(sceneSmall["Vase Trapeze Vase Trapeze Base Plate Mesh"])
 	_, underYSmall, _ := meanRadiusContaining(sceneSmall["Vase Trapeze Vase Trapeze Base Plate Mesh"], "Lip Underside ")
 
-	vase.LipHeight = 0.65
+	vase.LipHeight = 0.15
 	vase.LipWidth = 0.28
 	sceneLarge := buildScene()
 	maxRLarge := meshMaxR(sceneLarge["Vase Trapeze Vase Trapeze Base Plate Mesh"])
@@ -1669,9 +1714,9 @@ func TestVaseTrapezeLip(t *testing.T) {
 	if !(maxRLarge > maxRSmall+0.17*sideLen) {
 		t.Errorf("expected increasing LipWidth (0.10->0.28) to widen outer lip: %.2f -> %.2f", maxRSmall, maxRLarge)
 	}
-	expectedDrop := (0.65 - 0.30) * sideLen
+	expectedDrop := (0.15 - 0.03) * sideLen
 	if math.Abs((underYSmall-underYLarge)-expectedDrop) > 1e-4 {
-		t.Errorf("expected increasing LipHeight (0.30->0.65) to lower lip underside by %.3f, got %.3f",
+		t.Errorf("expected increasing LipHeight extra margin (0.03->0.15) to lower lip underside by %.3f, got %.3f",
 			expectedDrop, underYSmall-underYLarge)
 	}
 
@@ -1679,7 +1724,7 @@ func TestVaseTrapezeLip(t *testing.T) {
 	vase.LipHeight = 10.0
 	sceneClamped := buildScene()
 	checkLipFaceNormals("Clamped Tall Lip Ring", sceneClamped["Vase Trapeze Vase Trapeze Ring Mesh"], "Plane 1 Face")
-	vase.LipHeight = 0.45
+	vase.LipHeight = models.DefaultVaseTrapezeLipExtraRatio
 	vase.LipWidth = 0.15
 
 	// 5. Watertight 2-manifold STL verification (with carved top + curved wall + both open & closed ring bottom)

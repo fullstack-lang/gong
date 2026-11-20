@@ -4991,6 +4991,11 @@ func updateStageSetTable_TubeVase3DDiagram_Stage(probe *Probe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "AmbientLightLevel"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "IsCutoffEnabled"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -5344,6 +5349,12 @@ func updateStageSetTable_TubeVase3DDiagram_Stage(probe *Probe) {
 		{
 			cell := &table_models.Cell{Name: "IsHiddenVaseTrapezeBasePlateShape"}
 			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsHiddenVaseTrapezeBasePlateShape}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "AmbientLightLevel"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.AmbientLightLevel)}
 			row.Cells = append(row.Cells, cell)
 		}
 

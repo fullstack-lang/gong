@@ -687,7 +687,7 @@ func ComputeVaseTrapezeUnrotatedStepDYs(
 	yContact := p1H - deltaYContact
 	sWall := VaseTrapezeWallSubdivisions(plant)
 	isCurvedWall := IsVaseTrapezeCurvedWallActive(plant)
-	lipHeight, lipWidth, hasLip := VaseTrapezeLipDimensions(plant)
+	lipHeight, lipWidth, _, hasLip := VaseTrapezeLipDimensionsForMode(plant, hasConstantThickness)
 
 	var sumRBottom, sumRTop float64
 	for i := range M {
@@ -874,12 +874,22 @@ func ComputeVaseTrapezeUnrotatedStepDYs(
 			polyRing = append(polyRing, meridianPt{r: r, y: y})
 		}
 		if hasLip {
-			rWallBot := math.Max(0.0, rStOut(i, yWallTopRing)+ringDR(yWallTopRing))
-			rTop := math.Max(0.0, rStOut(i, yTopOutRing)+ringDR(yTopOutRing))
-			polyRing = append(polyRing,
-				meridianPt{r: rWallBot + ringBotLipOff[iMod], y: yWallTopRing},
-				meridianPt{r: rTop + ringTopLipOff[iMod], y: yTopOutRing},
-			)
+			for s := 0; s <= sWall; s++ {
+				var y, off float64
+				if s == 0 {
+					y = yWallTopRing
+					off = ringBotLipOff[iMod]
+				} else if s == sWall {
+					y = yTopOutRing
+					off = ringTopLipOff[iMod]
+				} else {
+					t := float64(s) / float64(sWall)
+					y = (1.0-t)*yWallTopRing + t*yTopOutRing
+					off = (1.0-t)*ringBotLipOff[iMod] + t*ringTopLipOff[iMod]
+				}
+				r := math.Max(0.0, rStOut(i, y)+ringDR(y)) + off
+				polyRing = append(polyRing, meridianPt{r: r, y: y})
+			}
 		}
 		if hasRingBottom {
 			for s := sWall; s >= 0; s-- {
@@ -932,12 +942,22 @@ func ComputeVaseTrapezeUnrotatedStepDYs(
 		yWallTopBase := yTopOutBase
 		if hasLip {
 			yWallTopBase = VaseTrapezeLipBottomY(p2HBase, yTopOutBase, lipHeight)
-			rBaseTop := math.Max(0.0, rStOut(i, yTopOutBase)+baseOutDR(yTopOutBase))
-			rBaseWallBot := math.Max(0.0, rStOut(i, yWallTopBase)+baseOutDR(yWallTopBase))
-			polyBase = append(polyBase,
-				meridianPt{r: rBaseTop + baseTopLipOff[iMod], y: yTopOutBase},
-				meridianPt{r: rBaseWallBot + baseBotLipOff[iMod], y: yWallTopBase},
-			)
+			for s := 0; s <= sWall; s++ {
+				var y, off float64
+				if s == 0 {
+					y = yTopOutBase
+					off = baseTopLipOff[iMod]
+				} else if s == sWall {
+					y = yWallTopBase
+					off = baseBotLipOff[iMod]
+				} else {
+					t := float64(s) / float64(sWall)
+					y = (1.0-t)*yTopOutBase + t*yWallTopBase
+					off = (1.0-t)*baseTopLipOff[iMod] + t*baseBotLipOff[iMod]
+				}
+				r := math.Max(0.0, rStOut(i, y)+baseOutDR(y)) + off
+				polyBase = append(polyBase, meridianPt{r: r, y: y})
+			}
 		}
 		for rw := 0; rw <= sWall; rw++ {
 			var oy float64

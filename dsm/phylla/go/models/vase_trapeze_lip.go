@@ -2,26 +2,77 @@ package models
 
 import "math"
 
-// IsVaseTrapezeLipActive reports whether the outdoor-pot top outer lip (bordure)
-// is enabled and has strictly positive height and width for a VaseTrapeze plant.
+// DefaultVaseTrapezeLipExtraRatio is the default LipHeight ratio (multiplied by RhombusSideLength)
+// added past the nominal lower-pot contact edge (~5.04 mm for RhombusSideLength = 120 mm).
+const DefaultVaseTrapezeLipExtraRatio = 0.042
+
+func canUseVaseTrapezeConstantThickness(plant *PlantAbstract) bool {
+	if plant == nil || plant.PlantType != VaseTrapeze || plant.TubeVaseAbstract == nil || !plant.TubeVaseAbstract.HasConstantThickness {
+		return false
+	}
+	if plant.PerpendicularVectorGrid == nil || len(plant.PerpendicularVectorGrid.PerpendicularVectors) < 2 {
+		return false
+	}
+	tanAlpha := math.Tan(-plant.TubeVaseAbstract.ProjectionAngle * math.Pi / 180.0)
+	return math.Abs(tanAlpha) >= 1e-6
+}
+
+// IsVaseTrapezeLipActive reports whether the load-bearing outer stacking lip
+// is enabled and has valid dimensions for a VaseTrapeze plant.
 func IsVaseTrapezeLipActive(plant *PlantAbstract) bool {
 	return plant != nil &&
 		plant.PlantType == VaseTrapeze &&
 		plant.TubeVaseAbstract != nil &&
 		plant.TubeVaseAbstract.HasLip &&
-		plant.TubeVaseAbstract.LipHeight > 1e-9 &&
+		plant.TubeVaseAbstract.LipHeight >= 0 &&
 		plant.TubeVaseAbstract.LipWidth > 1e-9 &&
 		plant.RhombusSideLength > 1e-9
 }
 
-// VaseTrapezeLipDimensions returns the scaled lip height and outward lip width
-// (both proportional to RhombusSideLength) when IsVaseTrapezeLipActive is true.
-func VaseTrapezeLipDimensions(plant *PlantAbstract) (lipHeight, lipWidth float64, ok bool) {
+// VaseTrapezeLipDimensionsForMode returns:
+//   - lipHeight: total vertical extent of the lip measured downward from the pot top rim,
+//     equal to the rotated lower-pot contact step plus LipHeight * RhombusSideLength (~5mm)
+//   - lipWidth: outward horizontal perpendicular lip width (LipWidth * RhombusSideLength)
+//   - lipExtra: the extra vertical clearance margin (LipHeight * RhombusSideLength)
+func VaseTrapezeLipDimensionsForMode(plant *PlantAbstract, hasConstantThickness bool) (lipHeight, lipWidth, lipExtra float64, ok bool) {
 	if !IsVaseTrapezeLipActive(plant) {
-		return 0, 0, false
+		return 0, 0, 0, false
 	}
 	side := plant.RhombusSideLength
-	return plant.TubeVaseAbstract.LipHeight * side, plant.TubeVaseAbstract.LipWidth * side, true
+	lipExtra = math.Max(0.0, plant.TubeVaseAbstract.LipHeight) * side
+	baseContactDY := math.Max(0.0, ComputeVaseTrapezeRotatedContactStepDY(plant, hasConstantThickness))
+	lipHeight = baseContactDY + lipExtra
+	lipWidth = plant.TubeVaseAbstract.LipWidth * side
+	if lipHeight <= 1e-9 || lipWidth <= 1e-9 {
+		return 0, 0, 0, false
+	}
+	return lipHeight, lipWidth, lipExtra, true
+}
+
+// VaseTrapezeLipDimensions returns the total scaled lip height (from pot top down to the
+// lower pot's top edge plus LipHeight * RhombusSideLength) and outward lip width when active.
+func VaseTrapezeLipDimensions(plant *PlantAbstract) (lipHeight, lipWidth float64, ok bool) {
+	h, w, _, active := VaseTrapezeLipDimensionsForMode(plant, canUseVaseTrapezeConstantThickness(plant))
+	return h, w, active
+}
+
+// ComputeVaseTrapezeLipRotatedStepDY returns the vertical step between consecutive rotated
+// VaseTrapeze pots so that when HasLip is active, the upper pot's horizontal lip underside
+// rests directly on the lower pot's horizontal top rim (lifting the upper pot by lipExtra
+// so its lower wall has clearance and puts no wedging stress on the lower pot).
+func ComputeVaseTrapezeLipRotatedStepDY(
+	plant *PlantAbstract,
+	baseRotatedStepDY, ringHeight float64,
+	hasConstantThickness bool,
+) float64 {
+	lipHeight, _, _, hasLip := VaseTrapezeLipDimensionsForMode(plant, hasConstantThickness)
+	if !hasLip || ringHeight <= 1e-6 {
+		return baseRotatedStepDY
+	}
+	rotContactDY := ComputeVaseTrapezeRotatedContactStepDY(plant, hasConstantThickness)
+	sepDY := baseRotatedStepDY - rotContactDY
+	actualLipHeight := ringHeight - VaseTrapezeLipBottomY(0.0, ringHeight, lipHeight)
+	return math.Max(rotContactDY, actualLipHeight) + sepDY
 }
 
 // VaseTrapezeLipBottomY computes the bottom Y coordinate of the lip band at a single
@@ -85,16 +136,21 @@ func ComputeRadialLipOffsets(xs, zs []float64, lipWidth float64) []float64 {
 	return out
 }
 
-func computeVaseTrapezeLipCurvesVec3(
+func computeVaseTrapezeLipGridVec3(
 	cOuterBot, cOuterTop, cOuterStraightBot, cOuterUncarvedP1 []vector3,
 	yBotRef, spanH, dy, lipHeight, lipWidth float64,
+	sCollar int,
 	isCurvedWall bool,
 	outerDeltaRAtLocalY func(float64) float64,
-) (cWallLipBot, cLipBot, cLipTop []vector3) {
+) (cWallLipBot []vector3, collarRows [][]vector3) {
 	M := min(len(cOuterBot), len(cOuterTop), len(cOuterStraightBot), len(cOuterUncarvedP1))
 	if M == 0 {
-		return nil, nil, nil
+		return nil, nil
 	}
+	if !isCurvedWall || sCollar < 1 {
+		sCollar = 1
+	}
+
 	cWallLipBot = make([]vector3, M)
 	wallBotXs := make([]float64, M)
 	wallBotZs := make([]float64, M)
@@ -123,14 +179,54 @@ func computeVaseTrapezeLipCurvesVec3(
 	botOffsets := ComputeRadialLipOffsets(wallBotXs, wallBotZs, lipWidth)
 	topOffsets := ComputeRadialLipOffsets(topXs, topZs, lipWidth)
 
-	cLipBot = make([]vector3, M)
-	cLipTop = make([]vector3, M)
+	collarRows = make([][]vector3, sCollar+1)
+	collarRows[0] = make([]vector3, M)
+	collarRows[sCollar] = make([]vector3, M)
 	for i := range M {
 		bx, by, bz := OffsetRadialPoint(cWallLipBot[i].X, cWallLipBot[i].Y, cWallLipBot[i].Z, botOffsets[i])
-		cLipBot[i] = vector3{X: bx, Y: by, Z: bz}
+		collarRows[0][i] = vector3{X: bx, Y: by, Z: bz}
 
 		tx, ty, tz := OffsetRadialPoint(cOuterTop[i].X, cOuterTop[i].Y, cOuterTop[i].Z, topOffsets[i])
-		cLipTop[i] = vector3{X: tx, Y: ty, Z: tz}
+		collarRows[sCollar][i] = vector3{X: tx, Y: ty, Z: tz}
 	}
-	return cWallLipBot, cLipBot, cLipTop
+
+	for s := 1; s < sCollar; s++ {
+		t := float64(s) / float64(sCollar)
+		row := make([]vector3, M)
+		for i := range M {
+			y := (1.0-t)*cWallLipBot[i].Y + t*cOuterTop[i].Y
+			u := 0.0
+			if math.Abs(spanH) > 1e-9 {
+				u = (y - yBotRef) / spanH
+			}
+			sx := (1.0-u)*cOuterStraightBot[i].X + u*cOuterUncarvedP1[i].X
+			sz := (1.0-u)*cOuterStraightBot[i].Z + u*cOuterUncarvedP1[i].Z
+			wx, wy, wz := sx, y, sz
+			if isCurvedWall && outerDeltaRAtLocalY != nil {
+				wx, wy, wz = OffsetRadialPoint(sx, y, sz, outerDeltaRAtLocalY(y-dy))
+			}
+			off := (1.0-t)*botOffsets[i] + t*topOffsets[i]
+			lx, ly, lz := OffsetRadialPoint(wx, wy, wz, off)
+			row[i] = vector3{X: lx, Y: ly, Z: lz}
+		}
+		collarRows[s] = row
+	}
+
+	return cWallLipBot, collarRows
+}
+
+func computeVaseTrapezeLipCurvesVec3(
+	cOuterBot, cOuterTop, cOuterStraightBot, cOuterUncarvedP1 []vector3,
+	yBotRef, spanH, dy, lipHeight, lipWidth float64,
+	isCurvedWall bool,
+	outerDeltaRAtLocalY func(float64) float64,
+) (cWallLipBot, cLipBot, cLipTop []vector3) {
+	cWallLipBot, rows := computeVaseTrapezeLipGridVec3(
+		cOuterBot, cOuterTop, cOuterStraightBot, cOuterUncarvedP1,
+		yBotRef, spanH, dy, lipHeight, lipWidth, 1, isCurvedWall, outerDeltaRAtLocalY,
+	)
+	if len(rows) == 0 {
+		return nil, nil, nil
+	}
+	return cWallLipBot, rows[0], rows[len(rows)-1]
 }

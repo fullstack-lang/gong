@@ -633,6 +633,7 @@ func FillUpForm(
 		StageSetBasicFieldtoForm("IsHiddenCarvedOutVaseTrapezeRingShape", inst.IsHiddenCarvedOutVaseTrapezeRingShape, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape", inst.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsHiddenVaseTrapezeBasePlateShape", inst.IsHiddenVaseTrapezeBasePlateShape, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("AmbientLightLevel", inst.AmbientLightLevel, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsCutoffEnabled", inst.IsCutoffEnabled, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsCutoffHelperVisible", inst.IsCutoffHelperVisible, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("IsCutoffFlipped", inst.IsCutoffFlipped, probe.formStage, formGroup)

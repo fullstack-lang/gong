@@ -836,7 +836,7 @@ func writeVaseTrapezeSTL(
 	deltaYContact := ComputeVaseTrapezeContactStepDYForCurves(plant, hasTrapezeConstantThickness, resampledBotYs, resampledTopYs)
 	sWall := VaseTrapezeWallSubdivisions(plant)
 	isCurvedWall := IsVaseTrapezeCurvedWallActive(plant)
-	lipHeight, lipWidth, hasLip := VaseTrapezeLipDimensions(plant)
+	lipHeight, lipWidth, _, hasLip := VaseTrapezeLipDimensionsForMode(plant, hasTrapezeConstantThickness)
 
 	projectCurve := func(srcCurve []vector3, planeHeight float64, dy float64) []vector3 {
 		var projCurve []vector3
@@ -1063,14 +1063,18 @@ func writeVaseTrapezeSTL(
 		cInnerP2 := offsetCurveSTL(cInnerStraightP2, ringDeltaR)
 
 		if hasLip {
-			cWallLipBot, cLipBot, cLipTop := computeVaseTrapezeLipCurvesVec3(
+			cWallLipBot, collarRows := computeVaseTrapezeLipGridVec3(
 				cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1,
-				p2H, ringHeight, 0.0, lipHeight, lipWidth, isCurvedWall, ringDeltaR,
+				p2H, ringHeight, 0.0, lipHeight, lipWidth, sWall, isCurvedWall, ringDeltaR,
 			)
+			cLipBot := collarRows[0]
+			cLipTop := collarRows[len(collarRows)-1]
 			// 1. Plane 1 annular face (top of ring + lip, normal +Y)
 			writeQuadStripSTL(sb, cLipTop, cInnerP1)
 			// 2a. Outer lip collar band (normal +r)
-			writeQuadStripSTL(sb, cLipBot, cLipTop)
+			for s := range len(collarRows) - 1 {
+				writeQuadStripSTL(sb, collarRows[s], collarRows[s+1])
+			}
 			// 2b. Lip horizontal underside step (normal -Y)
 			writeQuadStripSTL(sb, cWallLipBot, cLipBot)
 			// 2c. Lower outer wall of ring (normal +r)
@@ -1128,14 +1132,18 @@ func writeVaseTrapezeSTL(
 	cInnerP1 := computeCarvedOutCurve(cInnerUncarvedP1, cInnerStraightP2, carvedParam, baseInnerDeltaR)
 
 	if hasLip {
-		cWallLipBot, cLipBot, cLipTop := computeVaseTrapezeLipCurvesVec3(
+		cWallLipBot, collarRows := computeVaseTrapezeLipGridVec3(
 			cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1,
-			pBottomH, ringHeight, 0.0, lipHeight, lipWidth, isCurvedWall, baseOuterDeltaR,
+			pBottomH, ringHeight, 0.0, lipHeight, lipWidth, sWall, isCurvedWall, baseOuterDeltaR,
 		)
+		cLipBot := collarRows[0]
+		cLipTop := collarRows[len(collarRows)-1]
 		// 1. Plane 1 annular face (top of ring + lip, normal +Y)
 		writeQuadStripSTL(sb, cLipTop, cInnerP1)
 		// 2a. Outer lip collar band of Ring 0 (normal +r)
-		writeQuadStripSTL(sb, cLipBot, cLipTop)
+		for s := range len(collarRows) - 1 {
+			writeQuadStripSTL(sb, collarRows[s], collarRows[s+1])
+		}
 		// 2b. Lip horizontal underside step of Ring 0 (normal -Y)
 		writeQuadStripSTL(sb, cWallLipBot, cLipBot)
 		// 2c. Lower outer wall of Ring 0 (normal +r)

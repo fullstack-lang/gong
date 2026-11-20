@@ -822,6 +822,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = GongExtractBool(rhs)
 					case "IsHiddenVaseTrapezeBasePlateShape":
 						inst.IsHiddenVaseTrapezeBasePlateShape = GongExtractBool(rhs)
+					case "AmbientLightLevel":
+						inst.AmbientLightLevel = GongExtractFloat(rhs)
 					case "IsCutoffEnabled":
 						inst.IsCutoffEnabled = GongExtractBool(rhs)
 					case "IsCutoffHelperVisible":
@@ -5218,6 +5220,8 @@ func (u *TubeVase3DDiagramUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		instance.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = GongExtractBool(valueExpr)
 	case "IsHiddenVaseTrapezeBasePlateShape":
 		instance.IsHiddenVaseTrapezeBasePlateShape = GongExtractBool(valueExpr)
+	case "AmbientLightLevel":
+		instance.AmbientLightLevel = GongExtractFloat(valueExpr)
 	case "IsCutoffEnabled":
 		instance.IsCutoffEnabled = GongExtractBool(valueExpr)
 	case "IsCutoffHelperVisible":

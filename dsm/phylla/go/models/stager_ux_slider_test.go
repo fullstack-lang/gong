@@ -82,6 +82,7 @@ func TestPhyllaMergedFormSlidersCheckboxesSelectAndAccordions(t *testing.T) {
 	accordions := map[string]bool{}
 	var curvedWallCB *form.CheckBox
 	var nSlider *form.FormFieldInt
+	var ambientSlider *form.FormFieldFloat64
 	for _, div := range fg3D.FormDivs {
 		if div.IsAStartAccordionGroup {
 			accordions[div.AccordionGroupName] = true
@@ -95,10 +96,13 @@ func TestPhyllaMergedFormSlidersCheckboxesSelectAndAccordions(t *testing.T) {
 			if ff.Name == "N" && ff.FormFieldInt != nil && ff.FormFieldInt.IsSlider {
 				nSlider = ff.FormFieldInt
 			}
+			if ff.Name == "Ambient Light" && ff.FormFieldFloat64 != nil && ff.FormFieldFloat64.IsSlider {
+				ambientSlider = ff.FormFieldFloat64
+			}
 		}
 	}
 
-	for _, expectedAcc := range []string{"Plant Lattice", "Vase Core", "Ribbon & Planes", "Bulbous, Wall & Lip", "Cutoff Plane"} {
+	for _, expectedAcc := range []string{"Plant Lattice", "Vase Core", "Ribbon & Planes", "Bulbous, Wall & Lip", "Lighting", "Cutoff Plane"} {
 		if !accordions[expectedAcc] {
 			t.Fatalf("expected accordion %q in VaseTrapeze 3D controls, got %v", expectedAcc, accordions)
 		}
@@ -108,6 +112,19 @@ func TestPhyllaMergedFormSlidersCheckboxesSelectAndAccordions(t *testing.T) {
 	}
 	if nSlider == nil {
 		t.Fatalf("expected int slider for 'N'")
+	}
+	if ambientSlider == nil {
+		t.Fatalf("expected float64 slider for 'Ambient Light'")
+	}
+	if ambientSlider.Value != models.DefaultTubeVase3DAmbientLightLevel {
+		t.Fatalf("expected default Ambient Light slider value %.2f, got %.2f", models.DefaultTubeVase3DAmbientLightLevel, ambientSlider.Value)
+	}
+
+	frontAmbient := *ambientSlider
+	frontAmbient.Value = 0.25
+	stager.GetSliderStage().OnAfterUpdateFromFront(ambientSlider, &frontAmbient)
+	if plant.TubeVase3DDiagrams[0].AmbientLightLevel != 0.25 {
+		t.Fatalf("expected diagram.AmbientLightLevel=0.25 after live slider update, got %.2f", plant.TubeVase3DDiagrams[0].AmbientLightLevel)
 	}
 
 	// Simulate live frontend toggle on Curved Wall checkbox & N slider
@@ -243,7 +260,8 @@ func TestTubeVase3DCutoffSliderControlsAndRoundtrip(t *testing.T) {
 		t.Fatalf("unexpected diagram cutoff state: %+v", diagram)
 	}
 
-	// Verify AST Marshall/Parse roundtrip preserves cutoff fields
+	// Verify AST Marshall/Parse roundtrip preserves cutoff and ambient light fields
+	diagram.AmbientLightLevel = 1.65
 	tmpPath := filepath.Join(t.TempDir(), "stage.go")
 	stage.MarshallFile(tmpPath, "main")
 
@@ -253,8 +271,8 @@ func TestTubeVase3DCutoffSliderControlsAndRoundtrip(t *testing.T) {
 	}
 	for d2 := range stage2.TubeVase3DDiagrams {
 		if !d2.IsCutoffEnabled || !d2.IsCutoffHelperVisible || !d2.IsCutoffFlipped ||
-			d2.CutoffAxis != models.CutoffAxisY || d2.CutoffOffset != -0.35 {
-			t.Fatalf("roundtrip lost cutoff state: %+v", d2)
+			d2.CutoffAxis != models.CutoffAxisY || d2.CutoffOffset != -0.35 || d2.AmbientLightLevel != 1.65 {
+			t.Fatalf("roundtrip lost cutoff or ambient light state: %+v", d2)
 		}
 	}
 }

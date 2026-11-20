@@ -13,7 +13,8 @@ type ThreeJSStageUpdater struct {
 	recordingPlant          *models.PlantAbstract
 	savedInitCommitCallback models.OnInitCommitInterface
 
-	// active cutoff plane and scene bounds for fast slider updates
+	// active ambient light, cutoff plane, and scene bounds for fast slider updates
+	ambiantLight  *threejs.AmbiantLight
 	clippingPlane *threejs.ClippingPlane
 	boundsMinX    float64
 	boundsMaxX    float64
@@ -34,6 +35,10 @@ func (u *ThreeJSStageUpdater) UpdateThreeJSStage(stager *models.Stager) {
 
 func (u *ThreeJSStageUpdater) UpdateCutoffPlane(stager *models.Stager) {
 	u.updateCutoffPlane(stager)
+}
+
+func (u *ThreeJSStageUpdater) UpdateAmbientLight(stager *models.Stager) {
+	u.updateAmbientLight(stager)
 }
 
 func (u *ThreeJSStageUpdater) StartMovieRecordingTubeVase3D(stager *models.Stager, plant *models.PlantAbstract, diagram *models.TubeVase3DDiagram) {

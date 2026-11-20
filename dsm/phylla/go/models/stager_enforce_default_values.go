@@ -109,8 +109,8 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			}
 			if vase.LipHeight <= 0.0 {
 				needCommit = true
-				vase.LipHeight = 0.45
-				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: default LipHeight set to 0.45", plant.Name))
+				vase.LipHeight = DefaultVaseTrapezeLipExtraRatio
+				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: default LipHeight set to %.3f", plant.Name, DefaultVaseTrapezeLipExtraRatio))
 			}
 			if vase.LipWidth <= 0.0 {
 				needCommit = true
@@ -196,6 +196,11 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			tubeVase3DDiagram.CutoffAxis = CutoffAxisX
 			stager.logAndNotify(fmt.Sprintf("TubeVase3DDiagram %s: default CutoffAxis set to X", tubeVase3DDiagram.Name))
+		}
+		if tubeVase3DDiagram.AmbientLightLevel <= 0.0 {
+			needCommit = true
+			tubeVase3DDiagram.AmbientLightLevel = DefaultTubeVase3DAmbientLightLevel
+			stager.logAndNotify(fmt.Sprintf("TubeVase3DDiagram %s: default AmbientLightLevel set to %.2f", tubeVase3DDiagram.Name, DefaultTubeVase3DAmbientLightLevel))
 		}
 	}
 	for _, stool2DDiagram := range stager.stage.GetInstancesSorted[*Stool2DDiagram]() {

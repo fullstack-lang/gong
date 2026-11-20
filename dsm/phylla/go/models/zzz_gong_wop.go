@@ -2943,6 +2943,8 @@ type TubeVase3DDiagram_WOP struct {
 
 	IsHiddenVaseTrapezeBasePlateShape bool
 
+	AmbientLightLevel float64
+
 	IsCutoffEnabled bool
 
 	IsCutoffHelperVisible bool
@@ -2987,6 +2989,7 @@ func (from *TubeVase3DDiagram) GongCopyBasicFields(to *TubeVase3DDiagram) {
 	to.IsHiddenCarvedOutVaseTrapezeRingShape = from.IsHiddenCarvedOutVaseTrapezeRingShape
 	to.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = from.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape
 	to.IsHiddenVaseTrapezeBasePlateShape = from.IsHiddenVaseTrapezeBasePlateShape
+	to.AmbientLightLevel = from.AmbientLightLevel
 	to.IsCutoffEnabled = from.IsCutoffEnabled
 	to.IsCutoffHelperVisible = from.IsCutoffHelperVisible
 	to.IsCutoffFlipped = from.IsCutoffFlipped

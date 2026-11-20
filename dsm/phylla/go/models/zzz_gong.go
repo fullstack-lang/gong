@@ -25196,6 +25196,10 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "AmbientLightLevel",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "IsCutoffEnabled",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -30672,6 +30676,10 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongGetFieldValue(fieldName string, 
 		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape)
 		res.valueBool = tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "AmbientLightLevel":
+		res.valueString = fmt.Sprintf("%f", tubevase3ddiagram.AmbientLightLevel)
+		res.valueFloat = tubevase3ddiagram.AmbientLightLevel
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsCutoffEnabled":
 		res.valueString = fmt.Sprintf("%t", tubevase3ddiagram.IsCutoffEnabled)
 		res.valueBool = tubevase3ddiagram.IsCutoffEnabled

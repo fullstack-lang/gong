@@ -123,7 +123,7 @@ func (stager *Stager) ux_slider() {
 			form.AppendCheckBox(stager.sliderStage, formGroup, "Curved Wall", &plant.TubeVaseAbstract.HasCurvedWall, onUpdate)
 			form.AppendSlider(stager.sliderStage, formGroup, "Wall Curvature", -1.0, 0.0, 0.01, &plant.TubeVaseAbstract.WallCurvature, onUpdate)
 			form.AppendCheckBox(stager.sliderStage, formGroup, "Lip", &plant.TubeVaseAbstract.HasLip, onUpdate)
-			form.AppendSlider(stager.sliderStage, formGroup, "Lip Height", 0.01, 3.0, 0.01, &plant.TubeVaseAbstract.LipHeight, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Lip Extra Height", 0.002, 0.50, 0.002, &plant.TubeVaseAbstract.LipHeight, onUpdate)
 			form.AppendSlider(stager.sliderStage, formGroup, "Lip Width", 0.01, 1.0, 0.01, &plant.TubeVaseAbstract.LipWidth, onUpdate)
 		}
 
@@ -144,6 +144,13 @@ func (stager *Stager) ux_slider() {
 
 		if plant.CurrentView == VIEW_TUBE_VASE_3D || plant.CurrentView == VIEW_VASE_TRAPEZE_3D {
 			if diagram := getActiveTubeVase3DDiagram(plant); diagram != nil {
+				onUpdateLighting := func() {
+					stager.UpdateAmbientLight()
+					stager.stage.CommitWithSuspendedCallbacks()
+				}
+				form.StartAccordion(stager.sliderStage, formGroup, "Lighting", true)
+				form.AppendSlider(stager.sliderStage, formGroup, "Ambient Light", 0.05, 3.0, 0.05, &diagram.AmbientLightLevel, onUpdateLighting)
+
 				onUpdateCutoff := func() {
 					stager.UpdateCutoffPlane()
 					stager.stage.CommitWithSuspendedCallbacks()

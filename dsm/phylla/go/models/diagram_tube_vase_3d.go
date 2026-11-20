@@ -8,6 +8,8 @@ const (
 	CutoffAxisZ CutoffAxis = "Z"
 )
 
+const DefaultTubeVase3DAmbientLightLevel = 1.10
+
 type TubeVase3DDiagram struct {
 	Name string
 
@@ -35,6 +37,8 @@ type TubeVase3DDiagram struct {
 	IsHiddenCarvedOutVaseTrapezeRingShape                bool
 	IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape bool
 	IsHiddenVaseTrapezeBasePlateShape                    bool
+
+	AmbientLightLevel float64
 
 	IsCutoffEnabled       bool
 	IsCutoffHelperVisible bool

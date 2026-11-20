@@ -67,6 +67,7 @@ func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 			vase3DDiagram := new(TubeVase3DDiagram).Stage(stage)
 			vase3DDiagram.Name = plant.Name + "-TubeVase3DDiagram"
 			vase3DDiagram.IsExpanded = true
+			vase3DDiagram.AmbientLightLevel = DefaultTubeVase3DAmbientLightLevel
 			if plant.PlantType == VaseTrapeze {
 				vase3DDiagram.IsHiddenTorusStackShape = false
 				vase3DDiagram.IsHiddenVerticalTorusStackShape = true

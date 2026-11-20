@@ -9,7 +9,7 @@ import (
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
-func (u *ThreeJSStageUpdater) addLights(stager *models.Stager, canvas *threejs.Canvas) {
+func (u *ThreeJSStageUpdater) addLights(stager *models.Stager, canvas *threejs.Canvas, checkedDiagram *models.TubeVase3DDiagram) {
 	threejsStage := stager.GetThreejsStage()
 
 	// Compute horizontal camera Front and Left unit vectors so the raking key light
@@ -73,11 +73,51 @@ func (u *ThreeJSStageUpdater) addLights(stager *models.Stager, canvas *threejs.C
 	canvas.DirectionalLights = append(canvas.DirectionalLights,
 		dirLight1, dirLight2, dirLight3, dirLight4)
 
+	ambientIntensity := models.DefaultTubeVase3DAmbientLightLevel
+	if checkedDiagram != nil && checkedDiagram.AmbientLightLevel > 0 {
+		ambientIntensity = checkedDiagram.AmbientLightLevel
+	}
+
 	ambiantLight := (&threejs.AmbiantLight{
 		Name:      "Ambiant Light",
-		Intensity: 1.10,
+		Intensity: ambientIntensity,
 	}).Stage(threejsStage)
+	u.ambiantLight = ambiantLight
 	canvas.AmbiantLight = ambiantLight
+}
+
+func (u *ThreeJSStageUpdater) updateAmbientLight(stager *models.Stager) {
+	threejsStage := stager.GetThreejsStage()
+	plant := stager.GetCurrentPlant()
+	if threejsStage == nil || plant == nil {
+		return
+	}
+
+	var checkedDiagram *models.TubeVase3DDiagram
+	for _, diagram := range plant.TubeVase3DDiagrams {
+		if diagram.IsChecked {
+			checkedDiagram = diagram
+			break
+		}
+	}
+	if checkedDiagram == nil && len(plant.TubeVase3DDiagrams) > 0 {
+		checkedDiagram = plant.TubeVase3DDiagrams[0]
+	}
+	if checkedDiagram == nil {
+		return
+	}
+
+	if u.ambiantLight == nil {
+		u.ux_3d_plant_diagram(stager)
+		return
+	}
+
+	ambientIntensity := models.DefaultTubeVase3DAmbientLightLevel
+	if checkedDiagram.AmbientLightLevel > 0 {
+		ambientIntensity = checkedDiagram.AmbientLightLevel
+	}
+	u.ambiantLight.Intensity = ambientIntensity
+	threejsStage.Commit()
 }
 
 func (u *ThreeJSStageUpdater) setupCamera(stager *models.Stager, canvas *threejs.Canvas, checkedDiagram *models.TubeVase3DDiagram, globalR float64) {

@@ -13819,6 +13819,9 @@ func (tubevase3ddiagram *TubeVase3DDiagram) GongDiff(stage *Stage, tubevase3ddia
 	if tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape != tubevase3ddiagramOther.IsHiddenVaseTrapezeBasePlateShape {
 		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsHiddenVaseTrapezeBasePlateShape"))
 	}
+	if tubevase3ddiagram.AmbientLightLevel != tubevase3ddiagramOther.AmbientLightLevel {
+		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "AmbientLightLevel"))
+	}
 	if tubevase3ddiagram.IsCutoffEnabled != tubevase3ddiagramOther.IsCutoffEnabled {
 		diffs = append(diffs, tubevase3ddiagram.GongMarshallField(stage, "IsCutoffEnabled"))
 	}

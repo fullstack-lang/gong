@@ -746,6 +746,8 @@ func saveStageSet_TubeVase3DDiagram_Stage(
 			FormDivBasicFieldToField(&inst.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape, formDiv)
 		case "IsHiddenVaseTrapezeBasePlateShape":
 			FormDivBasicFieldToField(&inst.IsHiddenVaseTrapezeBasePlateShape, formDiv)
+		case "AmbientLightLevel":
+			FormDivBasicFieldToField(&inst.AmbientLightLevel, formDiv)
 		case "IsCutoffEnabled":
 			FormDivBasicFieldToField(&inst.IsCutoffEnabled, formDiv)
 		case "IsCutoffHelperVisible":

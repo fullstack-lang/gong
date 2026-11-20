@@ -12,6 +12,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 
 	threejsStage := stager.GetThreejsStage()
 	threejsStage.Reset()
+	u.ambiantLight = nil
 	u.clippingPlane = nil
 	u.hasBounds = false
 
@@ -48,7 +49,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 	u.setupCamera(stager, canvas, checkedDiagram, globalR)
 
 	// lights (placed relative to camera so raking side-light always sculpts the visible undulations)
-	u.addLights(stager, canvas)
+	u.addLights(stager, canvas, checkedDiagram)
 
 	floorMinY := math.MaxFloat64
 
@@ -391,17 +392,21 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		deltaYContact := models.ComputeVaseTrapezeContactStepDYForCurves(plant, hasTrapezeConstantThickness, resampledBotYs, resampledTopYs)
 		sWall := models.VaseTrapezeWallSubdivisions(plant)
 		isCurvedWall := models.IsVaseTrapezeCurvedWallActive(plant)
-		lipHeight, lipWidth, hasLip := models.VaseTrapezeLipDimensions(plant)
+		lipHeight, lipWidth, _, hasLip := models.VaseTrapezeLipDimensionsForMode(plant, hasTrapezeConstantThickness)
 		ringDeltaR := func(localY float64) float64 {
 			return models.EvalVaseTrapezeRingWallDeltaR(plant, localY, p1H, p2H, deltaYContact)
 		}
 
-		computeLipCurves3D := func(
+		computeLipGrid3D := func(
 			cOuterBot, cOuterTop, cOuterStraightBot, cOuterUncarvedP1 *threejs.Curve,
 			M int,
 			yBotRef, spanH, dy float64,
 			outerDeltaRAtLocalY func(float64) float64,
-		) (cWallLipBot, cLipBot, cLipTop *threejs.Curve) {
+		) (cWallLipBot *threejs.Curve, collarRows []*threejs.Curve) {
+			sCollar := 1
+			if isCurvedWall && sWall > 1 {
+				sCollar = sWall
+			}
 			cWallLipBot = &threejs.Curve{Points: make([]*threejs.Vector3, M)}
 			wallBotXs := make([]float64, M)
 			wallBotZs := make([]float64, M)
@@ -430,16 +435,38 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			botOffsets := models.ComputeRadialLipOffsets(wallBotXs, wallBotZs, lipWidth)
 			topOffsets := models.ComputeRadialLipOffsets(topXs, topZs, lipWidth)
 
-			cLipBot = &threejs.Curve{Points: make([]*threejs.Vector3, M)}
-			cLipTop = &threejs.Curve{Points: make([]*threejs.Vector3, M)}
+			collarRows = make([]*threejs.Curve, sCollar+1)
+			collarRows[0] = &threejs.Curve{Points: make([]*threejs.Vector3, M)}
+			collarRows[sCollar] = &threejs.Curve{Points: make([]*threejs.Vector3, M)}
 			for i := 0; i < M; i++ {
 				bx, by, bz := models.OffsetRadialPoint(cWallLipBot.Points[i].X, cWallLipBot.Points[i].Y, cWallLipBot.Points[i].Z, botOffsets[i])
-				cLipBot.Points[i] = &threejs.Vector3{X: bx, Y: by, Z: bz}
+				collarRows[0].Points[i] = &threejs.Vector3{X: bx, Y: by, Z: bz}
 
 				tx, ty, tz := models.OffsetRadialPoint(cOuterTop.Points[i].X, cOuterTop.Points[i].Y, cOuterTop.Points[i].Z, topOffsets[i])
-				cLipTop.Points[i] = &threejs.Vector3{X: tx, Y: ty, Z: tz}
+				collarRows[sCollar].Points[i] = &threejs.Vector3{X: tx, Y: ty, Z: tz}
 			}
-			return cWallLipBot, cLipBot, cLipTop
+			for s := 1; s < sCollar; s++ {
+				t := float64(s) / float64(sCollar)
+				row := &threejs.Curve{Points: make([]*threejs.Vector3, M)}
+				for i := 0; i < M; i++ {
+					y := (1.0-t)*cWallLipBot.Points[i].Y + t*cOuterTop.Points[i].Y
+					u := 0.0
+					if math.Abs(spanH) > 1e-9 {
+						u = (y - yBotRef) / spanH
+					}
+					sx := (1.0-u)*cOuterStraightBot.Points[i].X + u*cOuterUncarvedP1.Points[i].X
+					sz := (1.0-u)*cOuterStraightBot.Points[i].Z + u*cOuterUncarvedP1.Points[i].Z
+					wx, wy, wz := sx, y, sz
+					if isCurvedWall && outerDeltaRAtLocalY != nil {
+						wx, wy, wz = models.OffsetRadialPoint(sx, y, sz, outerDeltaRAtLocalY(y-dy))
+					}
+					off := (1.0-t)*botOffsets[i] + t*topOffsets[i]
+					lx, ly, lz := models.OffsetRadialPoint(wx, wy, wz, off)
+					row.Points[i] = &threejs.Vector3{X: lx, Y: ly, Z: lz}
+				}
+				collarRows[s] = row
+			}
+			return cWallLipBot, collarRows
 		}
 
 		offsetCurveAtLocalY := func(src *threejs.Curve, dy float64, deltaRAtLocalY func(float64) float64, curveName string) *threejs.Curve {
@@ -660,15 +687,48 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			cInnerB := offsetCurveAtLocalY(cInnerStraightB, dy, ringDeltaR, fmt.Sprintf("%s %s Inner P2 Curved", plant.Name, ringName))
 
 			if hasLip {
-				cWallLipBot, cLipBot, cLipTop := computeLipCurves3D(
+				cWallLipBot, collarRows := computeLipGrid3D(
 					cOuterB, cOuterA, cOuterStraightB, cOuterUncarvedP1,
 					M, p2H+dy, ringHeight, dy, ringDeltaR,
 				)
+				cLipBot := collarRows[0]
+				cLipTop := collarRows[len(collarRows)-1]
 				// 1. Widened Plane 1 annular face (top of ring, normal +Y)
 				addQuadStrip(cLipTop, cInnerA, "Plane 1 Face", false)
 
-				// 2a. Lip outer collar band (normal +r)
-				addQuadStrip(cLipBot, cLipTop, "Lip Collar Face", false)
+				// 2a. Lip outer collar band (normal +r, subdivided when curved)
+				if len(collarRows) <= 2 {
+					addQuadStrip(cLipBot, cLipTop, "Lip Collar Face", false)
+				} else {
+					sCollar := len(collarRows) - 1
+					idxCollar := make([][]int, sCollar+1)
+					for s := 0; s <= sCollar; s++ {
+						idxCollar[s] = make([]int, M)
+						for i := 0; i < M; i++ {
+							pt := collarRows[s].Points[i]
+							idxCollar[s][i] = len(volGeom.Vertices)
+							volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
+								Name: fmt.Sprintf("%s %s Lip Collar Face s%d %d", plant.Name, ringName, s, i),
+								X:    pt.X, Y: pt.Y, Z: pt.Z,
+							}).Stage(threejsStage))
+						}
+					}
+					for s := 0; s < sCollar; s++ {
+						for i := 0; i < M; i++ {
+							nextI := (i + 1) % M
+							volGeom.Faces = append(volGeom.Faces,
+								(&threejs.Triangle{
+									Name: fmt.Sprintf("%s %s Lip Collar Face T1 s%d %d", plant.Name, ringName, s, i),
+									V1:   idxCollar[s][i], V2: idxCollar[s+1][i], V3: idxCollar[s+1][nextI],
+								}).Stage(threejsStage),
+								(&threejs.Triangle{
+									Name: fmt.Sprintf("%s %s Lip Collar Face T2 s%d %d", plant.Name, ringName, s, i),
+									V1:   idxCollar[s][i], V2: idxCollar[s+1][nextI], V3: idxCollar[s][nextI],
+								}).Stage(threejsStage),
+							)
+						}
+					}
+				}
 
 				// 2b. Lip horizontal underside step (normal -Y)
 				addQuadStrip(cWallLipBot, cLipBot, "Lip Underside Face", false)
@@ -916,6 +976,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 					rotatedStepDX = trapezeRotatedStepDX
 					rotatedStepDY = trapezeRotatedStepDY
 				}
+				rotatedStepDY = models.ComputeVaseTrapezeLipRotatedStepDY(plant, rotatedStepDY, ringHeight, hasTrapezeConstantThickness)
 				unrotatedStepDYBase := unrotatedStepDY
 				unrotatedStepDYRing := unrotatedStepDY
 				if rotRatio+1e-9 < float64(numSteps)/float64(stackHeight) && len(resampledBotYs) > 0 {
@@ -1053,15 +1114,15 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 
 			cOuterLowerTop := cOuterCarvedP1
 			cOuterRimTop := cOuterCarvedP1
-			var cBaseLipBot *threejs.Curve
+			var baseCollarRows []*threejs.Curve
 			if hasLip {
-				var cBaseWallLipBot, cBaseLipTop *threejs.Curve
-				cBaseWallLipBot, cBaseLipBot, cBaseLipTop = computeLipCurves3D(
+				var cBaseWallLipBot *threejs.Curve
+				cBaseWallLipBot, baseCollarRows = computeLipGrid3D(
 					cOuter, cOuterCarvedP1, cOuter, cOuterP1,
 					M, pBottomH, baseRingSpan, 0.0, baseOuterDeltaR,
 				)
 				cOuterLowerTop = cBaseWallLipBot
-				cOuterRimTop = cBaseLipTop
+				cOuterRimTop = baseCollarRows[len(baseCollarRows)-1]
 			}
 
 			for rw := 0; rw < sWall; rw++ {
@@ -1328,15 +1389,14 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				}
 			}
 
-			if hasLip && cBaseLipBot != nil {
+			if hasLip && len(baseCollarRows) >= 2 {
+				cBaseLipBot := baseCollarRows[0]
+				sCollar := len(baseCollarRows) - 1
 				idxLipUnderInner := make([]int, M)
 				idxLipUnderOuter := make([]int, M)
-				idxLipCollarBot := make([]int, M)
-				idxLipCollarTop := make([]int, M)
 				for i := 0; i < M; i++ {
 					ptWallBot := cOuterLowerTop.Points[i]
 					ptLipBot := cBaseLipBot.Points[i]
-					ptLipTop := cOuterRimTop.Points[i]
 
 					idxLipUnderInner[i] = len(basePlateGeom.Vertices)
 					basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
@@ -1349,18 +1409,19 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 						Name: fmt.Sprintf("%s %s Lip Underside Outer %d", plant.Name, shapeName, i),
 						X:    ptLipBot.X, Y: ptLipBot.Y, Z: ptLipBot.Z,
 					}).Stage(threejsStage))
+				}
 
-					idxLipCollarBot[i] = len(basePlateGeom.Vertices)
-					basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
-						Name: fmt.Sprintf("%s %s Lip Collar Bot %d", plant.Name, shapeName, i),
-						X:    ptLipBot.X, Y: ptLipBot.Y, Z: ptLipBot.Z,
-					}).Stage(threejsStage))
-
-					idxLipCollarTop[i] = len(basePlateGeom.Vertices)
-					basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
-						Name: fmt.Sprintf("%s %s Lip Collar Top %d", plant.Name, shapeName, i),
-						X:    ptLipTop.X, Y: ptLipTop.Y, Z: ptLipTop.Z,
-					}).Stage(threejsStage))
+				idxLipCollar := make([][]int, sCollar+1)
+				for s := 0; s <= sCollar; s++ {
+					idxLipCollar[s] = make([]int, M)
+					for i := 0; i < M; i++ {
+						pt := baseCollarRows[s].Points[i]
+						idxLipCollar[s][i] = len(basePlateGeom.Vertices)
+						basePlateGeom.Vertices = append(basePlateGeom.Vertices, (&threejs.Vector3{
+							Name: fmt.Sprintf("%s %s Lip Collar s%d %d", plant.Name, shapeName, s, i),
+							X:    pt.X, Y: pt.Y, Z: pt.Z,
+						}).Stage(threejsStage))
+					}
 				}
 
 				for i := 0; i < M; i++ {
@@ -1376,17 +1437,22 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 							V1:   idxLipUnderInner[i], V2: idxLipUnderOuter[nextI], V3: idxLipUnderInner[nextI],
 						}).Stage(threejsStage),
 					)
-					// Lip outer collar band face (normal pointing outward +r)
-					basePlateGeom.Faces = append(basePlateGeom.Faces,
-						(&threejs.Triangle{
-							Name: fmt.Sprintf("%s %s Lip Collar Face T1 %d", plant.Name, shapeName, i),
-							V1:   idxLipCollarBot[i], V2: idxLipCollarTop[i], V3: idxLipCollarTop[nextI],
-						}).Stage(threejsStage),
-						(&threejs.Triangle{
-							Name: fmt.Sprintf("%s %s Lip Collar Face T2 %d", plant.Name, shapeName, i),
-							V1:   idxLipCollarBot[i], V2: idxLipCollarTop[nextI], V3: idxLipCollarBot[nextI],
-						}).Stage(threejsStage),
-					)
+				}
+				for s := 0; s < sCollar; s++ {
+					for i := 0; i < M; i++ {
+						nextI := (i + 1) % M
+						// Lip outer collar band face (normal pointing outward +r)
+						basePlateGeom.Faces = append(basePlateGeom.Faces,
+							(&threejs.Triangle{
+								Name: fmt.Sprintf("%s %s Lip Collar Face T1 s%d %d", plant.Name, shapeName, s, i),
+								V1:   idxLipCollar[s][i], V2: idxLipCollar[s+1][i], V3: idxLipCollar[s+1][nextI],
+							}).Stage(threejsStage),
+							(&threejs.Triangle{
+								Name: fmt.Sprintf("%s %s Lip Collar Face T2 s%d %d", plant.Name, shapeName, s, i),
+								V1:   idxLipCollar[s][i], V2: idxLipCollar[s+1][nextI], V3: idxLipCollar[s][nextI],
+							}).Stage(threejsStage),
+						)
+					}
 				}
 			}
 

@@ -42,6 +42,7 @@ import (
 type ThreeJSStageUpdaterInterface interface {
 	UpdateThreeJSStage(stager *Stager)
 	UpdateCutoffPlane(stager *Stager)
+	UpdateAmbientLight(stager *Stager)
 	StartMovieRecordingTubeVase3D(stager *Stager, plant *PlantAbstract, tubeVase3DDiagram *TubeVase3DDiagram)
 	StopMovieRecording(stager *Stager)
 	IsMovieRecording() bool
@@ -236,6 +237,12 @@ func (stager *Stager) UpdateThreeJSStage() {
 func (stager *Stager) UpdateCutoffPlane() {
 	if stager.threeJSUpdater != nil {
 		stager.threeJSUpdater.UpdateCutoffPlane(stager)
+	}
+}
+
+func (stager *Stager) UpdateAmbientLight() {
+	if stager.threeJSUpdater != nil {
+		stager.threeJSUpdater.UpdateAmbientLight(stager)
 	}
 }
 

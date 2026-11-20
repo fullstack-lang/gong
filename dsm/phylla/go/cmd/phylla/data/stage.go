@@ -625,7 +625,7 @@ func _(stage *models.Stage) {
 	__models__PlantAbstract__00000005_.Name = `Vase Trapeze`
 	__models__PlantAbstract__00000005_.N = 2
 	__models__PlantAbstract__00000005_.M = 3
-	__models__PlantAbstract__00000005_.StackHeight = 3
+	__models__PlantAbstract__00000005_.StackHeight = 4
 	__models__PlantAbstract__00000005_.RhombusInsideAngle = 130.000000
 	__models__PlantAbstract__00000005_.RhombusSideLength = 120.000000
 	__models__PlantAbstract__00000005_.PlantType = models.VaseTrapeze
@@ -714,12 +714,12 @@ func _(stage *models.Stage) {
 	__models__Rendered3DShape__00000009_.TargetZ = 0.000000
 	__models__Rendered3DShape__00000009_.Fov = 50.000000
 	__models__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__models__Rendered3DShape__00000010_.ViewX = 362.977375
-	__models__Rendered3DShape__00000010_.ViewY = 2419.737266
-	__models__Rendered3DShape__00000010_.ViewZ = 504.733223
-	__models__Rendered3DShape__00000010_.TargetX = -6.989295
-	__models__Rendered3DShape__00000010_.TargetY = 1390.643788
-	__models__Rendered3DShape__00000010_.TargetZ = -31.132715
+	__models__Rendered3DShape__00000010_.ViewX = 626.099976
+	__models__Rendered3DShape__00000010_.ViewY = 1964.587297
+	__models__Rendered3DShape__00000010_.ViewZ = 285.750954
+	__models__Rendered3DShape__00000010_.TargetX = -24.801487
+	__models__Rendered3DShape__00000010_.TargetY = 1507.540669
+	__models__Rendered3DShape__00000010_.TargetZ = -125.129383
 	__models__Rendered3DShape__00000010_.Fov = 50.000000
 	__models__SampledPoints3DShape__00000000_.Name = `New Plant - Diagram-SampledPoints3DShape`
 	__models__SampledPoints3DShape__00000001_.Name = `New Plant - Diagram-SampledPoints3DShape`
@@ -796,6 +796,7 @@ func _(stage *models.Stage) {
 	__models__TubeVase3DDiagram__00000000_.IsHiddenCarvedOutVaseTrapezeRingShape = false
 	__models__TubeVase3DDiagram__00000000_.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = false
 	__models__TubeVase3DDiagram__00000000_.IsHiddenVaseTrapezeBasePlateShape = true
+	__models__TubeVase3DDiagram__00000000_.AmbientLightLevel = 1.100000
 	__models__TubeVase3DDiagram__00000000_.IsCutoffEnabled = false
 	__models__TubeVase3DDiagram__00000000_.IsCutoffHelperVisible = false
 	__models__TubeVase3DDiagram__00000000_.IsCutoffFlipped = false
@@ -829,11 +830,12 @@ func _(stage *models.Stage) {
 	__models__TubeVase3DDiagram__00000001_.IsHiddenCarvedOutVaseTrapezeRingShape = true
 	__models__TubeVase3DDiagram__00000001_.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = false
 	__models__TubeVase3DDiagram__00000001_.IsHiddenVaseTrapezeBasePlateShape = true
+	__models__TubeVase3DDiagram__00000001_.AmbientLightLevel = 0.250000
 	__models__TubeVase3DDiagram__00000001_.IsCutoffEnabled = true
 	__models__TubeVase3DDiagram__00000001_.IsCutoffHelperVisible = false
 	__models__TubeVase3DDiagram__00000001_.IsCutoffFlipped = false
 	__models__TubeVase3DDiagram__00000001_.CutoffAxis = models.CutoffAxisY
-	__models__TubeVase3DDiagram__00000001_.CutoffOffset = 0.230000
+	__models__TubeVase3DDiagram__00000001_.CutoffOffset = -0.080000
 	__models__TubeVase3DDiagram__00000001_.IsChecked = true
 	__models__TubeVase3DDiagram__00000001_.ComputedPrefix = ``
 	__models__TubeVase3DDiagram__00000001_.IsExpanded = true
@@ -854,7 +856,7 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000000_.HasCurvedWall = false
 	__models__TubeVaseAbstract__00000000_.WallCurvature = 0.000000
 	__models__TubeVaseAbstract__00000000_.HasLip = false
-	__models__TubeVaseAbstract__00000000_.LipHeight = 0.450000
+	__models__TubeVaseAbstract__00000000_.LipHeight = 0.042000
 	__models__TubeVaseAbstract__00000000_.LipWidth = 0.120000
 	__models__TubeVaseAbstract__00000000_.RelativeVerticalThickness = 0.010000
 	__models__TubeVaseAbstract__00000000_.RelativeRadialThickness = 0.040000
@@ -892,7 +894,7 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000001_.HasCurvedWall = true
 	__models__TubeVaseAbstract__00000001_.WallCurvature = -0.180000
 	__models__TubeVaseAbstract__00000001_.HasLip = true
-	__models__TubeVaseAbstract__00000001_.LipHeight = 0.160000
+	__models__TubeVaseAbstract__00000001_.LipHeight = 0.042000
 	__models__TubeVaseAbstract__00000001_.LipWidth = 0.060000
 	__models__TubeVaseAbstract__00000001_.RelativeVerticalThickness = 0.060000
 	__models__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000
@@ -901,7 +903,7 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000001_.RotationRatio = 0.995000
 	__models__TubeVaseAbstract__00000001_.RadialRepetitions = 1
 	__models__TubeVaseAbstract__00000001_.Transparency = 0.000000
-	__models__TubeVaseAbstract__00000001_.ColorCombination = 4
+	__models__TubeVaseAbstract__00000001_.ColorCombination = 5
 	__models__TubeVaseAbstract__00000001_.RelativeTrajectoryOffsetX = 0.000000
 	__models__TubeVaseAbstract__00000001_.RelativeTrajectoryOffsetY = 0.000000
 	__models__TubeVaseAbstract__00000001_.NbStepP1P2 = 10

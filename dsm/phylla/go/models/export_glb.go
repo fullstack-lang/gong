@@ -315,7 +315,7 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 	deltaYContact := ComputeVaseTrapezeContactStepDYForCurves(plant, hasTrapezeConstantThickness, resampledBotYs, resampledTopYs)
 	sWall := VaseTrapezeWallSubdivisions(plant)
 	isCurvedWall := IsVaseTrapezeCurvedWallActive(plant)
-	lipHeight, lipWidth, hasLip := VaseTrapezeLipDimensions(plant)
+	lipHeight, lipWidth, _, hasLip := VaseTrapezeLipDimensionsForMode(plant, hasTrapezeConstantThickness)
 
 	offsetCurveGLB := func(src []vector3, dy float64, deltaRAtLocalY func(float64) float64) []vector3 {
 		if !isCurvedWall || deltaRAtLocalY == nil {
@@ -430,6 +430,7 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 			rotatedStepDX = trapezeRotatedStepDX
 			rotatedStepDY = trapezeRotatedStepDY
 		}
+		rotatedStepDY = ComputeVaseTrapezeLipRotatedStepDY(plant, rotatedStepDY, p1H-p2H, hasTrapezeConstantThickness)
 
 		numSteps := stackHeight - 1
 		unrotatedStepDYBase := unrotatedStepDY
@@ -525,14 +526,15 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 
 			cOuterLowerTop := cOuterCarvedP1
 			cOuterRimTop := cOuterCarvedP1
-			var cWallLipBot0, cLipBot0, cLipTop0 []vector3
+			var cWallLipBot0 []vector3
+			var collarRows0 [][]vector3
 			if hasLip {
-				cWallLipBot0, cLipBot0, cLipTop0 = computeVaseTrapezeLipCurvesVec3(
+				cWallLipBot0, collarRows0 = computeVaseTrapezeLipGridVec3(
 					cOuter, cOuterCarvedP1, cOuter, cOuterP1,
-					pBottomH, p1H-pBottomH, 0.0, lipHeight, lipWidth, isCurvedWall, baseOuterDeltaR,
+					pBottomH, p1H-pBottomH, 0.0, lipHeight, lipWidth, sWall, isCurvedWall, baseOuterDeltaR,
 				)
 				cOuterLowerTop = cWallLipBot0
-				cOuterRimTop = cLipTop0
+				cOuterRimTop = collarRows0[len(collarRows0)-1]
 			}
 
 			idxRingOuter := make([][]uint32, sWall+1)
@@ -712,9 +714,9 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 				}
 			}
 
-			if hasLip {
-				baseMesh.addQuadStrip(cWallLipBot0, cLipBot0)
-				baseMesh.addQuadStrip(cLipBot0, cLipTop0)
+			if hasLip && len(collarRows0) >= 2 {
+				baseMesh.addQuadStrip(cWallLipBot0, collarRows0[0])
+				baseMesh.addWallGrid(collarRows0, false)
 			}
 
 			// Dedicated cap vertices so flat caps do not distort smooth wall normals
@@ -877,14 +879,16 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 			colorHex: GetVaseRingColor(vase.ColorCombination, h),
 		}
 		if hasLip {
-			cWallLipBot, cLipBot, cLipTop := computeVaseTrapezeLipCurvesVec3(
+			cWallLipBot, collarRows := computeVaseTrapezeLipGridVec3(
 				cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1,
-				p2H+dy, ringHeight, dy, lipHeight, lipWidth, isCurvedWall, ringDeltaR,
+				p2H+dy, ringHeight, dy, lipHeight, lipWidth, sWall, isCurvedWall, ringDeltaR,
 			)
+			cLipBot := collarRows[0]
+			cLipTop := collarRows[len(collarRows)-1]
 			// 1. Top carved rim face (normal +Y)
 			ringMesh.addQuadStrip(cLipTop, cInnerP1)
 			// 2a. Outer lip collar band (normal +r)
-			ringMesh.addQuadStrip(cLipBot, cLipTop)
+			ringMesh.addWallGrid(collarRows, false)
 			// 2b. Lip horizontal underside step (normal -Y)
 			ringMesh.addQuadStrip(cWallLipBot, cLipBot)
 			// 2c. Lower outer wall (normal +r)

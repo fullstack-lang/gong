@@ -177,4 +177,97 @@ func TestCutoffPlaneAxisAlignedAndFloorUnclipped(t *testing.T) {
 			t.Errorf("insufficient diffuse factor %.3f for normal %v (irradiance=%.3f)", diffuseFactor, n, irr)
 		}
 	}
+
+	// Verify fast-path UpdateAmbientLight doses AmbiantLight.Intensity without rebuilding meshes
+	diagram.AmbientLightLevel = 0.25
+	updater.UpdateAmbientLight(stager)
+	if _, ok := threejsStage.Meshs[sampleMesh]; !ok {
+		t.Fatalf("expected fast-path UpdateAmbientLight to preserve existing staged meshes")
+	}
+	if math.Abs(canvas.AmbiantLight.Intensity-0.25) > 1e-9 {
+		t.Fatalf("expected AmbiantLight.Intensity=0.25 after fast-path update, got %v", canvas.AmbiantLight.Intensity)
+	}
+
+	// Verify full UpdateThreeJSStage rebuild also applies diagram.AmbientLightLevel
+	diagram.AmbientLightLevel = 1.85
+	updater.UpdateThreeJSStage(stager)
+	canvases = threejsStage.GetInstancesSorted[*threejs.Canvas]()
+	if len(canvases) != 1 || canvases[0].AmbiantLight == nil || math.Abs(canvases[0].AmbiantLight.Intensity-1.85) > 1e-9 {
+		t.Fatalf("expected AmbiantLight.Intensity=1.85 after full rebuild, got %+v", canvases[0].AmbiantLight)
+	}
+}
+
+func TestVaseTrapezeAmbientLightParameter(t *testing.T) {
+	stage := models.NewStage("test_vase_trapeze_ambient")
+	lib := (&models.Library{
+		Name:          "Root",
+		IsRootLibrary: true,
+	}).Stage(stage)
+
+	vase := (&models.TubeVaseAbstract{
+		Name:                      "Vase Trapeze-TubeVaseAbstract",
+		Z_Ribbon:                  7.5,
+		RibbonVerticalScale:       6.0,
+		TopPlaneHeight:            0.6,
+		BottomPlaneHeight:         0.2,
+		BaseRingBottomPlaneHeight: 0.25,
+		ProjectionAngle:           -15.0,
+		BasePlateHeight:           0.25,
+		HasConstantThickness:      true,
+		HasRingBottom:             true,
+		HasCurvedWall:             true,
+		WallCurvature:             -0.18,
+		HasLip:                    true,
+		RelativeRadialThickness:   0.02,
+		RelativeVerticalThickness: 0.06,
+		RotationRatio:             0.99,
+		RadialRepetitions:         1,
+		ColorCombination:          4,
+	}).Stage(stage)
+
+	plant := (&models.PlantAbstract{
+		Name:               "Vase Trapeze",
+		N:                  8,
+		M:                  13,
+		RhombusSideLength:  100,
+		RhombusInsideAngle: 65,
+		StackHeight:        3,
+		PlantType:          models.VaseTrapeze,
+		TubeVaseAbstract:   vase,
+		CurrentView:        models.VIEW_VASE_TRAPEZE_3D,
+		IsSelected:         true,
+	}).Stage(stage)
+	lib.Plants = append(lib.Plants, plant)
+
+	stager := models.NewStagerForTest(stage)
+	stager.EnforceSemanticForTest()
+	stager.SetCurrentPlant(plant)
+
+	diagram := plant.TubeVase3DDiagrams[0]
+	diagram.IsChecked = true
+	if math.Abs(diagram.AmbientLightLevel-models.DefaultTubeVase3DAmbientLightLevel) > 1e-9 {
+		t.Fatalf("expected default AmbientLightLevel=%.2f, got %v", models.DefaultTubeVase3DAmbientLightLevel, diagram.AmbientLightLevel)
+	}
+
+	threejsStage := threejs.NewStage("threejs_trapeze")
+	stager.SetThreejsStage(threejsStage)
+
+	updater := NewThreeJSStageUpdater()
+	stager.SetThreeJSUpdater(updater)
+	stager.UpdateThreeJSStage()
+
+	canvases := threejsStage.GetInstancesSorted[*threejs.Canvas]()
+	if len(canvases) != 1 || canvases[0].AmbiantLight == nil {
+		t.Fatalf("expected Canvas with AmbiantLight in VaseTrapeze 3D scene")
+	}
+	if math.Abs(canvases[0].AmbiantLight.Intensity-models.DefaultTubeVase3DAmbientLightLevel) > 1e-9 {
+		t.Fatalf("expected initial AmbiantLight.Intensity=%.2f, got %v",
+			models.DefaultTubeVase3DAmbientLightLevel, canvases[0].AmbiantLight.Intensity)
+	}
+
+	diagram.AmbientLightLevel = 0.20
+	stager.UpdateAmbientLight()
+	if math.Abs(canvases[0].AmbiantLight.Intensity-0.20) > 1e-9 {
+		t.Fatalf("expected AmbiantLight.Intensity=0.20 after UpdateAmbientLight, got %v", canvases[0].AmbiantLight.Intensity)
+	}
 }
