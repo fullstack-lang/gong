@@ -6395,6 +6395,10 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsForkJoin",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "Type",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Process",
@@ -6421,6 +6425,14 @@ func (taskshape *TaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsVertical",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsNameDisplayed",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -8254,6 +8266,10 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", task.IsEndTask)
 		res.valueBool = task.IsEndTask
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsForkJoin":
+		res.valueString = fmt.Sprintf("%t", task.IsForkJoin)
+		res.valueBool = task.IsForkJoin
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Type":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if task.Type != nil {
@@ -8282,6 +8298,14 @@ func (taskshape *TaskShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", taskshape.IsExpanded)
 		res.valueBool = taskshape.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsVertical":
+		res.valueString = fmt.Sprintf("%t", taskshape.IsVertical)
+		res.valueBool = taskshape.IsVertical
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsNameDisplayed":
+		res.valueString = fmt.Sprintf("%t", taskshape.IsNameDisplayed)
+		res.valueBool = taskshape.IsNameDisplayed
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "X":
 		res.valueString = fmt.Sprintf("%f", taskshape.X)

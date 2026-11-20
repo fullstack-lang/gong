@@ -33,10 +33,17 @@ func (stager *Stager) exportWebsite() {
 	}
 	content.Chapters = append(content.Chapters, refChapter)
 
+	var exportedTasks []*Task
+	for _, t := range stager.stage.GetInstancesSorted[*Task]() {
+		if !t.IsForkJoin {
+			exportedTasks = append(exportedTasks, t)
+		}
+	}
+
 	appendWebExportableChapter(stager, refChapter, "Processes", stager.stage.GetInstancesSorted[*Process]())
 	appendWebExportableChapter(stager, refChapter, "Participants", stager.stage.GetInstancesSorted[*Participant]())
 	appendWebExportableChapter(stager, refChapter, "External Participants", stager.stage.GetInstancesSorted[*ExternalParticipant]())
-	appendWebExportableChapter(stager, refChapter, "Tasks", stager.stage.GetInstancesSorted[*Task]())
+	appendWebExportableChapter(stager, refChapter, "Tasks", exportedTasks)
 	appendWebExportableChapter(stager, refChapter, "Control Flows", stager.stage.GetInstancesSorted[*ControlFlow]())
 	appendWebExportableChapter(stager, refChapter, "Data Flows", stager.stage.GetInstancesSorted[*DataFlow]())
 	appendWebExportableChapter(stager, refChapter, "Datas", stager.stage.GetInstancesSorted[*Data]())
@@ -128,7 +135,11 @@ func (process *Process) GeneratePage(stager *Stager) *ssg.Page {
 	var allTasks []*Task
 	var allControlFlows []*ControlFlow
 	for _, p := range process.Participants {
-		allTasks = append(allTasks, p.Tasks...)
+		for _, t := range p.Tasks {
+			if !t.IsForkJoin {
+				allTasks = append(allTasks, t)
+			}
+		}
 		allControlFlows = append(allControlFlows, p.ControlFlows...)
 	}
 
@@ -139,6 +150,9 @@ func (process *Process) GeneratePage(stager *Stager) *ssg.Page {
 		}
 		for _, p := range process.Participants {
 			for _, t := range p.Tasks {
+				if t.IsForkJoin {
+					continue
+				}
 				page.MardownContent += fmt.Sprintf("| %s | %s |\n", t.Name, p.Name)
 			}
 		}

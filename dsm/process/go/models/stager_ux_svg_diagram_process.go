@@ -564,11 +564,13 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 			layer)
 		diagramProcess.map_SvgRect_TaskShape[rect] = taskShape
 
-		rect.URLPath = "../../../References/Tasks/" + task.GetReferencePath() + "/index.html"
-		rect.URLTarget = svg.LINK_TARGET_BLANK
+		if !task.IsForkJoin {
+			rect.URLPath = "../../../References/Tasks/" + task.GetReferencePath() + "/index.html"
+			rect.URLTarget = svg.LINK_TARGET_BLANK
 
-		rect.RectAnchoredTexts[0].URLPath = rect.URLPath
-		rect.RectAnchoredTexts[0].URLTarget = svg.LINK_TARGET_BLANK
+			rect.RectAnchoredTexts[0].URLPath = rect.URLPath
+			rect.RectAnchoredTexts[0].URLTarget = svg.LINK_TARGET_BLANK
+		}
 
 		// make the rect of the task move with alls participant rect and the process rect
 		// not the opposite !
@@ -598,7 +600,7 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 			rect.RectAnchoredTexts[0].FontFamily = "sans-serif"
 			rect.RectAnchoredTexts[0].Color = "#333333"
 		}
-		if !task.IsStartTask && !task.IsEndTask {
+		if !task.IsStartTask && !task.IsEndTask && !task.IsForkJoin {
 			syncRectPresentation(taskShape, rect)
 		}
 
@@ -693,6 +695,72 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 			rect.StrokeOpacity = 0.0
 			rect.FillOpacity = 0.0
 
+		}
+
+		if task.IsForkJoin {
+			rect.Color = "#333333"
+			rect.FillOpacity = 1.0
+			rect.Stroke = "#333333"
+			rect.StrokeWidth = 1.0
+			rect.StrokeOpacity = 1.0
+			rect.RX = 2.0
+
+			stateTitleText.Stroke = ""
+			stateTitleText.StrokeWidth = 0
+			stateTitleText.StrokeOpacity = 0
+			stateTitleText.Color = "#333333"
+			stateTitleText.FillOpacity = 1.0
+			stateTitleText.FontSize = "14px"
+			stateTitleText.WhiteSpace = svg.WhiteSpaceEnumPre
+
+			content := task.GetName()
+			if diagramProcess.GetIsShowPrefix() && task.GetComputedPrefix() != "" {
+				content = task.GetComputedPrefix() + " " + content
+			}
+			stateTitleText.Content = content
+
+			syncRectPresentation(taskShape, rect)
+
+			if taskShape.IsVertical {
+				rect.Width = ForkJoinBarThickness
+				if rect.Height < ForkJoinMinLength {
+					rect.Height = ForkJoinDefaultLength
+				}
+				if diagramProcess.IsEditable() {
+					rect.CanHaveLeftHandle = false
+					rect.CanHaveRightHandle = false
+					rect.CanHaveTopHandle = true
+					rect.CanHaveBottomHandle = true
+				}
+				stateTitleText.RectAnchorType = svg.RECT_TOP
+				stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+				stateTitleText.DominantBaseline = svg.DominantBaselineAuto
+				stateTitleText.X_Offset = 0
+				stateTitleText.Y_Offset = -8
+			} else {
+				rect.Height = ForkJoinBarThickness
+				if rect.Width < ForkJoinMinLength {
+					rect.Width = ForkJoinDefaultLength
+				}
+				if diagramProcess.IsEditable() {
+					rect.CanHaveLeftHandle = true
+					rect.CanHaveRightHandle = true
+					rect.CanHaveTopHandle = false
+					rect.CanHaveBottomHandle = false
+				}
+				stateTitleText.RectAnchorType = svg.RECT_RIGHT
+				stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
+				stateTitleText.DominantBaseline = svg.DominantBaselineCentral
+				stateTitleText.X_Offset = 8
+				stateTitleText.Y_Offset = 0
+			}
+
+			stateTitleText.StrokeWidth = 0
+			stateTitleText.StrokeOpacity = 0
+
+			if !taskShape.IsNameDisplayed {
+				rect.RectAnchoredTexts = nil
+			}
 		}
 		diagramProcess.map_Task_Rect[taskShape.Task] = rect
 	}

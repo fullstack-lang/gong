@@ -923,6 +923,8 @@ type Task_WOP struct {
 
 	IsEndTask bool
 
+	IsForkJoin bool
+
 	IsTaskNameNotProcessName bool
 }
 
@@ -934,6 +936,7 @@ func (from *Task) GongCopyBasicFields(to *Task) {
 	to.IsExpanded = from.IsExpanded
 	to.IsStartTask = from.IsStartTask
 	to.IsEndTask = from.IsEndTask
+	to.IsForkJoin = from.IsForkJoin
 	to.IsTaskNameNotProcessName = from.IsTaskNameNotProcessName
 }
 
@@ -943,6 +946,10 @@ type TaskShape_WOP struct {
 	Name string
 
 	IsExpanded bool
+
+	IsVertical bool
+
+	IsNameDisplayed bool
 
 	X float64
 
@@ -981,6 +988,8 @@ func (from *TaskShape) GongCopyBasicFields(to *TaskShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
+	to.IsVertical = from.IsVertical
+	to.IsNameDisplayed = from.IsNameDisplayed
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width

@@ -1249,6 +1249,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsEndTask", instanceWithInferedType.IsEndTask, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsForkJoin", instanceWithInferedType.IsForkJoin, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Type", instanceWithInferedType.Type, formGroup, probe)
 		BasicFieldtoForm("IsTaskNameNotProcessName", instanceWithInferedType.IsTaskNameNotProcessName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -1327,6 +1329,10 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Task", instanceWithInferedType.Task, formGroup, probe)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsVertical", instanceWithInferedType.IsVertical, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsNameDisplayed", instanceWithInferedType.IsNameDisplayed, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)

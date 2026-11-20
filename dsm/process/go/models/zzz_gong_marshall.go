@@ -1891,6 +1891,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", taskIdent, task.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsStartTask = %t", taskIdent, task.IsStartTask))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsEndTask = %t", taskIdent, task.IsEndTask))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsForkJoin = %t", taskIdent, task.IsForkJoin))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsTaskNameNotProcessName = %t", taskIdent, task.IsTaskNameNotProcessName))
 			if task.Type != nil {
 				if lastStagePtr != "Stage" {
@@ -1922,6 +1923,8 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", taskshapeIdent, __gong__toRawStringLiteral(taskshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", taskshapeIdent, taskshape.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsVertical = %t", taskshapeIdent, taskshape.IsVertical))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsNameDisplayed = %t", taskshapeIdent, taskshape.IsNameDisplayed))
 			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", taskshapeIdent, taskshape.X))
 			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", taskshapeIdent, taskshape.Y))
 			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", taskshapeIdent, taskshape.Width))
@@ -3283,6 +3286,8 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = __gong__marshallBool(ident, "IsStartTask", task.IsStartTask)
 	case "IsEndTask":
 		res = __gong__marshallBool(ident, "IsEndTask", task.IsEndTask)
+	case "IsForkJoin":
+		res = __gong__marshallBool(ident, "IsForkJoin", task.IsForkJoin)
 	case "IsTaskNameNotProcessName":
 		res = __gong__marshallBool(ident, "IsTaskNameNotProcessName", task.IsTaskNameNotProcessName)
 
@@ -3306,6 +3311,10 @@ func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = __gong__marshallString(ident, "Name", taskshape.Name)
 	case "IsExpanded":
 		res = __gong__marshallBool(ident, "IsExpanded", taskshape.IsExpanded)
+	case "IsVertical":
+		res = __gong__marshallBool(ident, "IsVertical", taskshape.IsVertical)
+	case "IsNameDisplayed":
+		res = __gong__marshallBool(ident, "IsNameDisplayed", taskshape.IsNameDisplayed)
 	case "X":
 		res = __gong__marshallFloat(ident, "X", taskshape.X)
 	case "Y":
@@ -3914,6 +3923,7 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsStartTask"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsEndTask"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsForkJoin"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Type"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsTaskNameNotProcessName"))
 	}
@@ -3929,6 +3939,8 @@ func (taskshape *TaskShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(taskshape.GongMarshallField(stage, "Task"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsVertical"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsNameDisplayed"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Width"))

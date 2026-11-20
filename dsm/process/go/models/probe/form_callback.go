@@ -1487,6 +1487,8 @@ func saveTaskFields(
 			FormDivBasicFieldToField(&(_instance.IsStartTask), formDiv)
 		case "IsEndTask":
 			FormDivBasicFieldToField(&(_instance.IsEndTask), formDiv)
+		case "IsForkJoin":
+			FormDivBasicFieldToField(&(_instance.IsForkJoin), formDiv)
 		case "Type":
 			FormDivSelectFieldToField(&(_instance.Type), probe.stageOfInterest, formDiv)
 		case "IsTaskNameNotProcessName":
@@ -1538,6 +1540,10 @@ func saveTaskShapeFields(
 			FormDivSelectFieldToField(&(_instance.Task), probe.stageOfInterest, formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
+		case "IsVertical":
+			FormDivBasicFieldToField(&(_instance.IsVertical), formDiv)
+		case "IsNameDisplayed":
+			FormDivBasicFieldToField(&(_instance.IsNameDisplayed), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":

@@ -100,6 +100,35 @@ func (stager *Stager) treeParticipants(
 	}
 	node.OnClick = onNodeClicked(stager, participant)
 
+	// Menu buttons on participant node: Add Task & Add Fork/Join
+	stager.addCreateForkJoinButton(diagramProcess, participant, node, true)
+	confParticipantTaskMenu := ItemAndShapeButtonConfiguration[
+		Task, *Task,
+		Participant, *Participant,
+		TaskShape, *TaskShape,
+	]{
+		ItemButtonConfiguration: ItemButtonConfiguration[
+			Task, *Task,
+			Participant, *Participant,
+		]{
+			parentNode:                         node,
+			sliceForNewAddedItem:               &participant.Tasks,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeBySlice,
+			parentNodeExpansionSliceEncoding:   &diagramProcess.ParticipantWhoseNodeIsExpanded,
+			parentElement:                      participant,
+			IsButtonInMenu:                     true,
+		},
+		receivingDiagram:      diagramProcess,
+		sliceForNewAddedShape: &diagramProcess.Task_Shapes,
+	}
+	callbacksParticipantTaskMenu := addCreateItemAndShapeButton(stager, confParticipantTaskMenu)
+	callbacksParticipantTaskMenu.button.Name = "Add Task"
+	callbacksParticipantTaskMenu.button.ToolTipText = "Add a Task to \"" + participant.Name + "\""
+	callbacksParticipantTaskMenu.OnBeforeCommit = func() {
+		participant.IsTasksNodeExpanded = true
+	}
+
 	// Allocated Resources
 	allocatedResourcesNode := &tree.Node{
 		Name:            "Allocated Resources",
@@ -151,6 +180,12 @@ func (stager *Stager) treeParticipants(
 		sliceForNewAddedShape: &diagramProcess.Task_Shapes,
 	}
 	addCreateItemAndShapeButton(stager, conf)
+	stager.addCreateForkJoinButton(diagramProcess, participant, tasksNode, true)
+	confTasksMenu := conf
+	confTasksMenu.IsButtonInMenu = true
+	callbacksTasksMenu := addCreateItemAndShapeButton(stager, confTasksMenu)
+	callbacksTasksMenu.button.Name = "Add Task"
+	callbacksTasksMenu.button.ToolTipText = "Add a Task to \"" + participant.Name + "\""
 
 	controlflowsNode := &tree.Node{
 		Name:            "ControlFlows",
@@ -163,5 +198,52 @@ func (stager *Stager) treeParticipants(
 
 	for _, controlflow := range participant.ControlFlows {
 		stager.treeControlFlows(diagramProcess, controlflow, controlflowsNode, &diagramProcess.ControlFlowsWhoseNodeIsExpanded)
+	}
+}
+
+func (stager *Stager) addCreateForkJoinButton(
+	diagramProcess *DiagramProcess,
+	participant *Participant,
+	parentNode *tree.Node,
+	isButtonInMenu bool,
+) {
+	confForkJoin := ItemAndShapeButtonConfiguration[
+		Task, *Task,
+		Participant, *Participant,
+		TaskShape, *TaskShape,
+	]{
+		ItemButtonConfiguration: ItemButtonConfiguration[
+			Task, *Task,
+			Participant, *Participant,
+		]{
+			parentNode:                         parentNode,
+			sliceForNewAddedItem:               &participant.Tasks,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &participant.IsTasksNodeExpanded,
+			parentElement:                      participant,
+			IsButtonInMenu:                     isButtonInMenu,
+		},
+		receivingDiagram:      diagramProcess,
+		sliceForNewAddedShape: &diagramProcess.Task_Shapes,
+	}
+	callbacksForkJoin := addCreateItemAndShapeButton(stager, confForkJoin)
+	callbacksForkJoin.button.Name = "Add Fork/Join"
+	callbacksForkJoin.button.Icon = string(buttons.BUTTON_call_split)
+	callbacksForkJoin.button.ToolTipText = "Add a Fork/Join to \"" + participant.Name + "\""
+	callbacksForkJoin.OnBeforeCommit = func() {
+		participant.IsTasksNodeExpanded = true
+		if !slices.Contains(diagramProcess.ParticipantWhoseNodeIsExpanded, participant) {
+			diagramProcess.ParticipantWhoseNodeIsExpanded = append(diagramProcess.ParticipantWhoseNodeIsExpanded, participant)
+		}
+		newForkJoin := callbacksForkJoin.createdItem
+		newForkJoin.IsForkJoin = true
+		if len(diagramProcess.Task_Shapes) > 0 {
+			lastShape := diagramProcess.Task_Shapes[len(diagramProcess.Task_Shapes)-1]
+			if lastShape.Task == newForkJoin {
+				lastShape.SetWidth(ForkJoinDefaultLength)
+				lastShape.SetHeight(ForkJoinBarThickness)
+			}
+		}
 	}
 }

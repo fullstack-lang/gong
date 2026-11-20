@@ -3751,6 +3751,9 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	if task.IsEndTask != taskOther.IsEndTask {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsEndTask"))
 	}
+	if task.IsForkJoin != taskOther.IsForkJoin {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsForkJoin"))
+	}
 	if task.Type != taskOther.Type {
 		diffs = append(diffs, task.GongMarshallField(stage, "Type"))
 	}
@@ -3773,6 +3776,12 @@ func (taskshape *TaskShape) GongDiff(stage *Stage, taskshapeOther *TaskShape) (d
 	}
 	if taskshape.IsExpanded != taskshapeOther.IsExpanded {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "IsExpanded"))
+	}
+	if taskshape.IsVertical != taskshapeOther.IsVertical {
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "IsVertical"))
+	}
+	if taskshape.IsNameDisplayed != taskshapeOther.IsNameDisplayed {
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "IsNameDisplayed"))
 	}
 	if taskshape.X != taskshapeOther.X {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "X"))

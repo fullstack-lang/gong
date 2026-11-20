@@ -843,10 +843,19 @@ func TestLoadAndVerifyStage(t *testing.T) {
 		t.Errorf("expected 2 external participants, got %d", len(externalParticipants))
 	}
 
-	// Verify tasks
+	// Verify tasks (including 2 Fork/Join synchronization bars and parallel Prepare Shipping Docs task)
 	tasks := stage.GetInstancesSorted[*models.Task]()
-	if len(tasks) != 13 {
-		t.Errorf("expected 13 tasks, got %d", len(tasks))
+	if len(tasks) != 16 {
+		t.Errorf("expected 16 tasks, got %d", len(tasks))
+	}
+	forkJoinCount := 0
+	for _, task := range tasks {
+		if task.IsForkJoin {
+			forkJoinCount++
+		}
+	}
+	if forkJoinCount != 2 {
+		t.Errorf("expected 2 IsForkJoin tasks in stage.go, got %d", forkJoinCount)
 	}
 
 	// Verify data items

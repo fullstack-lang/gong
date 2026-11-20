@@ -79,6 +79,35 @@ func (stager *Stager) enforceTaskShapeWithinParticipant() (needCommit bool) {
 			modified := false
 			margin := 1.0
 
+			// Enforce Fork/Join synchronization bar thickness and minimum length
+			if taskShape.Task != nil && taskShape.Task.IsForkJoin {
+				if taskShape.IsVertical {
+					if taskShape.Width != ForkJoinBarThickness {
+						taskShape.Width = ForkJoinBarThickness
+						modified = true
+					}
+					if taskShape.Height <= ForkJoinBarThickness {
+						taskShape.Height = ForkJoinDefaultLength
+						modified = true
+					} else if taskShape.Height < ForkJoinMinLength {
+						taskShape.Height = ForkJoinMinLength
+						modified = true
+					}
+				} else {
+					if taskShape.Height != ForkJoinBarThickness {
+						taskShape.Height = ForkJoinBarThickness
+						modified = true
+					}
+					if taskShape.Width <= ForkJoinBarThickness {
+						taskShape.Width = ForkJoinDefaultLength
+						modified = true
+					} else if taskShape.Width < ForkJoinMinLength {
+						taskShape.Width = ForkJoinMinLength
+						modified = true
+					}
+				}
+			}
+
 			// 1. Enforce maximum dimensions first
 			maxWidth := boundingWidth - 2*margin
 			if maxWidth < 10.0 { // arbitrary minimum width to prevent negative/invisible shapes

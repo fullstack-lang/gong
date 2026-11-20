@@ -964,6 +964,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.IsStartTask = GongExtractBool(rhs)
 					case "IsEndTask":
 						inst.IsEndTask = GongExtractBool(rhs)
+					case "IsForkJoin":
+						inst.IsForkJoin = GongExtractBool(rhs)
 					case "Type":
 						__gong__assignPointer(&inst.Type, rhs, identifierMap)
 					case "IsTaskNameNotProcessName":
@@ -977,6 +979,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Task, rhs, identifierMap)
 					case "IsExpanded":
 						inst.IsExpanded = GongExtractBool(rhs)
+					case "IsVertical":
+						inst.IsVertical = GongExtractBool(rhs)
+					case "IsNameDisplayed":
+						inst.IsNameDisplayed = GongExtractBool(rhs)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -2204,6 +2210,8 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsStartTask = GongExtractBool(valueExpr)
 	case "IsEndTask":
 		instance.IsEndTask = GongExtractBool(valueExpr)
+	case "IsForkJoin":
+		instance.IsForkJoin = GongExtractBool(valueExpr)
 	case "Type":
 		GongUnmarshallPointer(&instance.Type, valueExpr, identifierMap)
 	case "IsTaskNameNotProcessName":
@@ -2229,6 +2237,10 @@ func (u *TaskShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		GongUnmarshallPointer(&instance.Task, valueExpr, identifierMap)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "IsVertical":
+		instance.IsVertical = GongExtractBool(valueExpr)
+	case "IsNameDisplayed":
+		instance.IsNameDisplayed = GongExtractBool(valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":

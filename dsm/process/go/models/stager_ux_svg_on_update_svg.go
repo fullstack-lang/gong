@@ -93,15 +93,7 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 				ControlFlow: controlFlow,
 			}).Stage(stager.stage)
 
-			controlFlowShape.SetName(controlFlow.Start.GetName() + " to " + controlFlow.End.GetName())
-			controlFlowShape.SetAbstractStartElement(controlFlow.Start)
-			controlFlowShape.SetAbstractEndElement(controlFlow.End)
-			controlFlowShape.SetStartOrientation(ORIENTATION_VERTICAL)
-			controlFlowShape.SetEndOrientation(ORIENTATION_VERTICAL)
-
-			controlFlowShape.SetCornerOffsetRatio(1.5)
-			controlFlowShape.SetStartRatio(0.5)
-			controlFlowShape.SetEndRatio(0.5)
+			configureDefaultControlFlowShape(diagramProcess, controlFlow, controlFlowShape, 1.5)
 			diagramProcess.ControlFlow_Shapes = append(diagramProcess.ControlFlow_Shapes, controlFlowShape)
 		} else {
 			dataFlow := (&DataFlow{
@@ -123,7 +115,11 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			dataFlowShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
 			dataFlowShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
 
-			dataFlowShape.SetCornerOffsetRatio(1.5)
+			cornerOffset := 1.5
+			if startShape := diagramProcess.map_Task_TaskShape[startTask]; startTask.IsForkJoin && startShape != nil && startShape.IsVertical {
+				cornerOffset = 4.5
+			}
+			dataFlowShape.SetCornerOffsetRatio(cornerOffset)
 			dataFlowShape.SetStartRatio(0.5)
 			dataFlowShape.SetEndRatio(0.5)
 			diagramProcess.DataFlow_Shapes = append(diagramProcess.DataFlow_Shapes, dataFlowShape)
@@ -198,4 +194,79 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 
 	// commit to encode the result, this will generate a new SVG generation
 	stager.stage.Commit()
+}
+
+func clampForkJoinRatio(ratio float64) float64 {
+	if ratio < 0.15 {
+		return 0.15
+	}
+	if ratio > 0.85 {
+		return 0.85
+	}
+	return ratio
+}
+
+func configureDefaultControlFlowShape(
+	diagramProcess *DiagramProcess,
+	controlFlow *ControlFlow,
+	controlFlowShape *ControlFlowShape,
+	defaultCornerOffset float64,
+) {
+	startTask := controlFlow.Start
+	endTask := controlFlow.End
+
+	controlFlowShape.SetName(startTask.GetName() + " to " + endTask.GetName())
+	controlFlowShape.SetAbstractStartElement(startTask)
+	controlFlowShape.SetAbstractEndElement(endTask)
+
+	startShape := diagramProcess.map_Task_TaskShape[startTask]
+	endShape := diagramProcess.map_Task_TaskShape[endTask]
+
+	startOrientation := ORIENTATION_VERTICAL
+	if startTask.IsForkJoin && startShape != nil && startShape.IsVertical {
+		startOrientation = ORIENTATION_HORIZONTAL
+	}
+
+	endOrientation := ORIENTATION_VERTICAL
+	if endTask.IsForkJoin && endShape != nil && endShape.IsVertical {
+		endOrientation = ORIENTATION_HORIZONTAL
+	}
+
+	startRatio := 0.5
+	endRatio := 0.5
+
+	if startTask.IsForkJoin && startShape != nil && endShape != nil {
+		if startShape.IsVertical && startShape.Height > 0 {
+			endCenterY := endShape.Y + endShape.Height/2.0
+			startRatio = clampForkJoinRatio((endCenterY - startShape.Y) / startShape.Height)
+		} else if !startShape.IsVertical && startShape.Width > 0 {
+			endCenterX := endShape.X + endShape.Width/2.0
+			startRatio = clampForkJoinRatio((endCenterX - startShape.X) / startShape.Width)
+		}
+	}
+
+	if endTask.IsForkJoin && endShape != nil && startShape != nil {
+		if endShape.IsVertical && endShape.Height > 0 {
+			startCenterY := startShape.Y + startShape.Height/2.0
+			endRatio = clampForkJoinRatio((startCenterY - endShape.Y) / endShape.Height)
+		} else if !endShape.IsVertical && endShape.Width > 0 {
+			startCenterX := startShape.X + startShape.Width/2.0
+			endRatio = clampForkJoinRatio((startCenterX - endShape.X) / endShape.Width)
+		}
+	}
+
+	cornerOffsetRatio := defaultCornerOffset
+	if startTask.IsForkJoin {
+		if startOrientation == ORIENTATION_VERTICAL && endOrientation == ORIENTATION_VERTICAL {
+			cornerOffsetRatio = 4.5
+		} else if startOrientation == ORIENTATION_HORIZONTAL && endOrientation == ORIENTATION_HORIZONTAL {
+			cornerOffsetRatio = 4.5
+		}
+	}
+
+	controlFlowShape.SetStartOrientation(startOrientation)
+	controlFlowShape.SetEndOrientation(endOrientation)
+	controlFlowShape.SetCornerOffsetRatio(cornerOffsetRatio)
+	controlFlowShape.SetStartRatio(startRatio)
+	controlFlowShape.SetEndRatio(endRatio)
 }

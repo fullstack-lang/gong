@@ -625,7 +625,7 @@ func _(stage *models.Stage) {
 	__models__PlantAbstract__00000005_.Name = `Vase Trapeze`
 	__models__PlantAbstract__00000005_.N = 2
 	__models__PlantAbstract__00000005_.M = 3
-	__models__PlantAbstract__00000005_.StackHeight = 6
+	__models__PlantAbstract__00000005_.StackHeight = 4
 	__models__PlantAbstract__00000005_.RhombusInsideAngle = 130.000000
 	__models__PlantAbstract__00000005_.RhombusSideLength = 120.000000
 	__models__PlantAbstract__00000005_.PlantType = models.VaseTrapeze
@@ -714,12 +714,12 @@ func _(stage *models.Stage) {
 	__models__Rendered3DShape__00000009_.TargetZ = 0.000000
 	__models__Rendered3DShape__00000009_.Fov = 50.000000
 	__models__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__models__Rendered3DShape__00000010_.ViewX = -857.757443
-	__models__Rendered3DShape__00000010_.ViewY = 2356.653880
-	__models__Rendered3DShape__00000010_.ViewZ = -1058.862621
-	__models__Rendered3DShape__00000010_.TargetX = 59.867023
-	__models__Rendered3DShape__00000010_.TargetY = 1638.944599
-	__models__Rendered3DShape__00000010_.TargetZ = -0.637028
+	__models__Rendered3DShape__00000010_.ViewX = -1423.212855
+	__models__Rendered3DShape__00000010_.ViewY = 2152.168897
+	__models__Rendered3DShape__00000010_.ViewZ = -363.524679
+	__models__Rendered3DShape__00000010_.TargetX = -53.603328
+	__models__Rendered3DShape__00000010_.TargetY = 1495.513363
+	__models__Rendered3DShape__00000010_.TargetZ = 48.732439
 	__models__Rendered3DShape__00000010_.Fov = 50.000000
 	__models__SampledPoints3DShape__00000000_.Name = `New Plant - Diagram-SampledPoints3DShape`
 	__models__SampledPoints3DShape__00000001_.Name = `New Plant - Diagram-SampledPoints3DShape`

@@ -11,6 +11,7 @@ type Task struct {
 
 	IsStartTask bool
 	IsEndTask   bool
+	IsForkJoin  bool
 
 	outControlFlows []*ControlFlow
 	inControlFlows  []*ControlFlow
