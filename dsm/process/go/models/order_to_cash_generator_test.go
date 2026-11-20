@@ -1068,3 +1068,56 @@ func TestIssue1528_ParticipantResourceAndDataSVGIcons(t *testing.T) {
 		t.Errorf("expected svgObj.GenerateString() to output valid SVG with scaled icon paths")
 	}
 }
+
+func TestIssue1545_ProcessNameInTopHeader(t *testing.T) {
+	stack := level1stack.NewLevel1StackDelta("process", "../cmd/process/data/stage.go", "", true, true, true)
+	stager := models.NewStager(stack.R, stack.Stage, stack.Probe)
+
+	svgObj := stager.GetSvgObject()
+	if svgObj == nil || len(svgObj.Layers) == 0 {
+		t.Fatalf("expected SVG object with at least 1 layer")
+	}
+	layer := svgObj.Layers[0]
+
+	var processRect *svg.Rect
+	var salesLaneRect *svg.Rect
+	for _, r := range layer.Rects {
+		if r.Name == "Order to Cash" {
+			processRect = r
+		}
+		if r.Name == "Sales & Order Desk-Order to Cash - Full Process" {
+			salesLaneRect = r
+		}
+	}
+	if processRect == nil {
+		t.Fatalf("expected to find process svg.Rect named 'Order to Cash'")
+	}
+	if salesLaneRect == nil {
+		t.Fatalf("expected to find swimlane svg.Rect for 'Sales & Order Desk'")
+	}
+	if len(processRect.RectAnchoredTexts) == 0 {
+		t.Fatalf("expected process svg.Rect to have a title RectAnchoredText")
+	}
+
+	title := processRect.RectAnchoredTexts[0]
+	if title.Content != "Order to Cash" {
+		t.Errorf("expected process title Content 'Order to Cash', got %q", title.Content)
+	}
+	if title.RectAnchorType != svg.RECT_TOP {
+		t.Errorf("expected process title RectAnchorType %q, got %q", svg.RECT_TOP, title.RectAnchorType)
+	}
+	if title.Y_Offset != 30 {
+		t.Errorf("expected process title Y_Offset 30, got %v", title.Y_Offset)
+	}
+
+	// Ensure the title anchor Y sits strictly inside the top header band above the swimlane title boxes
+	titleAnchorY := processRect.Y + title.Y_Offset
+	laneTitleTopY := salesLaneRect.Y // swimlane titleBox has Y_Offset = -60
+	if len(salesLaneRect.RectAnchoredRects) > 0 {
+		laneTitleTopY = salesLaneRect.Y + salesLaneRect.RectAnchoredRects[0].Y_Offset
+	}
+	if titleAnchorY <= processRect.Y || titleAnchorY >= laneTitleTopY {
+		t.Errorf("expected process title anchor Y (%v) to be inside top header band (%v, %v)",
+			titleAnchorY, processRect.Y, laneTitleTopY)
+	}
+}

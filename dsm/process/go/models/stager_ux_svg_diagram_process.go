@@ -108,10 +108,33 @@ func (stager *Stager) drawProcessShapes(diagramProcess *DiagramProcess, layer *s
 
 		if len(rect.RectAnchoredTexts) > 0 {
 			title := rect.RectAnchoredTexts[0]
+			title.RectAnchorType = svg.RECT_TOP
+			title.Y_Offset = 30
 			title.FontWeight = "500"
 			title.FontSize = "18px"
 		}
 		syncRectPresentation(processShape, rect)
+		if processShape.Process != nil && processShape.Process.SVG != "" {
+			iconColor := "#333333"
+			if len(rect.RectAnchoredTexts) > 0 && rect.RectAnchoredTexts[0].Color != "" {
+				iconColor = rect.RectAnchoredTexts[0].Color
+			}
+			const processIconSize = 24.0
+			const processHeaderHeight = 50.0
+			iconPaths := buildSVGRectAnchoredPaths(
+				processShape.Process.GetName(),
+				processShape.Process.SVG,
+				svg.RECT_TOP_LEFT,
+				12.0,
+				(processHeaderHeight-processIconSize)/2.0,
+				processIconSize,
+				iconColor,
+			)
+			if len(iconPaths) > 0 {
+				rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, iconPaths...)
+				AdjustRectTitleForLeftIcon(stager, diagramProcess, processShape, rect, 44.0)
+			}
+		}
 
 		// override default behavior, we need to commit when the rect is moved
 		// we need to update the position of the participants shapes and task shapes that are within the process

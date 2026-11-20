@@ -625,7 +625,7 @@ func _(stage *models.Stage) {
 	__models__PlantAbstract__00000005_.Name = `Vase Trapeze`
 	__models__PlantAbstract__00000005_.N = 2
 	__models__PlantAbstract__00000005_.M = 3
-	__models__PlantAbstract__00000005_.StackHeight = 4
+	__models__PlantAbstract__00000005_.StackHeight = 6
 	__models__PlantAbstract__00000005_.RhombusInsideAngle = 130.000000
 	__models__PlantAbstract__00000005_.RhombusSideLength = 120.000000
 	__models__PlantAbstract__00000005_.PlantType = models.VaseTrapeze
@@ -714,12 +714,12 @@ func _(stage *models.Stage) {
 	__models__Rendered3DShape__00000009_.TargetZ = 0.000000
 	__models__Rendered3DShape__00000009_.Fov = 50.000000
 	__models__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__models__Rendered3DShape__00000010_.ViewX = 626.099976
-	__models__Rendered3DShape__00000010_.ViewY = 1964.587297
-	__models__Rendered3DShape__00000010_.ViewZ = 285.750954
-	__models__Rendered3DShape__00000010_.TargetX = -24.801487
-	__models__Rendered3DShape__00000010_.TargetY = 1507.540669
-	__models__Rendered3DShape__00000010_.TargetZ = -125.129383
+	__models__Rendered3DShape__00000010_.ViewX = -857.757443
+	__models__Rendered3DShape__00000010_.ViewY = 2356.653880
+	__models__Rendered3DShape__00000010_.ViewZ = -1058.862621
+	__models__Rendered3DShape__00000010_.TargetX = 59.867023
+	__models__Rendered3DShape__00000010_.TargetY = 1638.944599
+	__models__Rendered3DShape__00000010_.TargetZ = -0.637028
 	__models__Rendered3DShape__00000010_.Fov = 50.000000
 	__models__SampledPoints3DShape__00000000_.Name = `New Plant - Diagram-SampledPoints3DShape`
 	__models__SampledPoints3DShape__00000001_.Name = `New Plant - Diagram-SampledPoints3DShape`
@@ -830,8 +830,8 @@ func _(stage *models.Stage) {
 	__models__TubeVase3DDiagram__00000001_.IsHiddenCarvedOutVaseTrapezeRingShape = true
 	__models__TubeVase3DDiagram__00000001_.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = false
 	__models__TubeVase3DDiagram__00000001_.IsHiddenVaseTrapezeBasePlateShape = true
-	__models__TubeVase3DDiagram__00000001_.AmbientLightLevel = 0.250000
-	__models__TubeVase3DDiagram__00000001_.IsCutoffEnabled = true
+	__models__TubeVase3DDiagram__00000001_.AmbientLightLevel = 0.050000
+	__models__TubeVase3DDiagram__00000001_.IsCutoffEnabled = false
 	__models__TubeVase3DDiagram__00000001_.IsCutoffHelperVisible = false
 	__models__TubeVase3DDiagram__00000001_.IsCutoffFlipped = false
 	__models__TubeVase3DDiagram__00000001_.CutoffAxis = models.CutoffAxisY
@@ -900,7 +900,7 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000
 	__models__TubeVaseAbstract__00000001_.RelativeCuttedStackFloorHeight = 0.000000
 	__models__TubeVaseAbstract__00000001_.RelativeRotatedTorusSeparation = 0.000000
-	__models__TubeVaseAbstract__00000001_.RotationRatio = 0.995000
+	__models__TubeVaseAbstract__00000001_.RotationRatio = 1.000000
 	__models__TubeVaseAbstract__00000001_.RadialRepetitions = 1
 	__models__TubeVaseAbstract__00000001_.Transparency = 0.000000
 	__models__TubeVaseAbstract__00000001_.ColorCombination = 5
