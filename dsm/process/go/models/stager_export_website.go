@@ -35,7 +35,7 @@ func (stager *Stager) exportWebsite() {
 
 	var exportedTasks []*Task
 	for _, t := range stager.stage.GetInstancesSorted[*Task]() {
-		if !t.IsForkJoin {
+		if !t.IsForkJoin && !t.IsDecisionNode {
 			exportedTasks = append(exportedTasks, t)
 		}
 	}
@@ -136,7 +136,7 @@ func (process *Process) GeneratePage(stager *Stager) *ssg.Page {
 	var allControlFlows []*ControlFlow
 	for _, p := range process.Participants {
 		for _, t := range p.Tasks {
-			if !t.IsForkJoin {
+			if !t.IsForkJoin && !t.IsDecisionNode {
 				allTasks = append(allTasks, t)
 			}
 		}
@@ -150,7 +150,7 @@ func (process *Process) GeneratePage(stager *Stager) *ssg.Page {
 		}
 		for _, p := range process.Participants {
 			for _, t := range p.Tasks {
-				if t.IsForkJoin {
+				if t.IsForkJoin || t.IsDecisionNode {
 					continue
 				}
 				page.MardownContent += fmt.Sprintf("| %s | %s |\n", t.Name, p.Name)
@@ -162,7 +162,7 @@ func (process *Process) GeneratePage(stager *Stager) *ssg.Page {
 	if len(allControlFlows) > 0 {
 		page := &ssg.Section{
 			Name:           "Control Flows",
-			MardownContent: "### Control Flows\n\n| Name | Start | End |\n|---|---|---|\n",
+			MardownContent: "### Control Flows\n\n| Name | Start | End | Guard |\n|---|---|---|---|\n",
 		}
 		for _, c := range allControlFlows {
 			start := ""
@@ -173,7 +173,7 @@ func (process *Process) GeneratePage(stager *Stager) *ssg.Page {
 			if c.End != nil {
 				end = c.End.Name
 			}
-			page.MardownContent += fmt.Sprintf("| %s | %s | %s |\n", c.Name, start, end)
+			page.MardownContent += fmt.Sprintf("| %s | %s | %s | %s |\n", c.Name, start, end, c.Guard)
 		}
 		processPage.Sections = append(processPage.Sections, page)
 	}

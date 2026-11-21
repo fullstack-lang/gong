@@ -9,6 +9,7 @@ const (
 	ForkJoinBarThickness  = 8.0
 	ForkJoinDefaultLength = 120.0
 	ForkJoinMinLength     = 24.0
+	DecisionDiamondSize   = 50.0
 )
 
 type TaskShape struct {
@@ -19,26 +20,33 @@ type TaskShape struct {
 	IsExpanded bool
 
 	// Used when Task.IsForkJoin is true
-	IsVertical      bool
+	IsVertical bool
+
+	// Used when Task.IsForkJoin or Task.IsDecisionNode is true
 	IsNameDisplayed bool
 
 	RectShape
 }
 
 func (s *TaskShape) FillUpExtraShapeAppearanceForm(formStage *form.Stage, formGroup *form.FormGroup) {
-	if s.Task == nil || !s.Task.IsForkJoin {
+	if s.Task == nil || (!s.Task.IsForkJoin && !s.Task.IsDecisionNode) {
 		return
 	}
-	gongprobe.BasicFieldtoForm("IsVertical", s.IsVertical, formStage, formGroup, false, false, 0, false, 0, false)
+	if s.Task.IsForkJoin {
+		gongprobe.BasicFieldtoForm("IsVertical", s.IsVertical, formStage, formGroup, false, false, 0, false, 0, false)
+	}
 	gongprobe.BasicFieldtoForm("IsNameDisplayed", s.IsNameDisplayed, formStage, formGroup, false, false, 0, false, 0, false)
 }
 
 func (s *TaskShape) SaveExtraShapeAppearanceForm(formDiv *form.FormDiv) {
-	if s.Task == nil || !s.Task.IsForkJoin {
+	if s.Task == nil || (!s.Task.IsForkJoin && !s.Task.IsDecisionNode) {
 		return
 	}
 	switch formDiv.Name {
 	case "IsVertical":
+		if !s.Task.IsForkJoin {
+			return
+		}
 		prevVertical := s.IsVertical
 		gongprobe.FormDivBasicFieldToField(&s.IsVertical, formDiv)
 		if prevVertical != s.IsVertical {

@@ -2607,6 +2607,9 @@ func (controlflow *ControlFlow) GongDiff(stage *Stage, controlflowOther *Control
 	if controlflow.Description != controlflowOther.Description {
 		diffs = append(diffs, controlflow.GongMarshallField(stage, "Description"))
 	}
+	if controlflow.Guard != controlflowOther.Guard {
+		diffs = append(diffs, controlflow.GongMarshallField(stage, "Guard"))
+	}
 	if controlflow.ComputedPrefix != controlflowOther.ComputedPrefix {
 		diffs = append(diffs, controlflow.GongMarshallField(stage, "ComputedPrefix"))
 	}
@@ -3753,6 +3756,9 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	}
 	if task.IsForkJoin != taskOther.IsForkJoin {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsForkJoin"))
+	}
+	if task.IsDecisionNode != taskOther.IsDecisionNode {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsDecisionNode"))
 	}
 	if task.Type != taskOther.Type {
 		diffs = append(diffs, task.GongMarshallField(stage, "Type"))

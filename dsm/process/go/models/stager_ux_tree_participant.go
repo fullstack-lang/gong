@@ -100,7 +100,8 @@ func (stager *Stager) treeParticipants(
 	}
 	node.OnClick = onNodeClicked(stager, participant)
 
-	// Menu buttons on participant node: Add Task & Add Fork/Join
+	// Menu buttons on participant node: Add Task, Add Fork/Join & Add Decision Node
+	stager.addCreateDecisionNodeButton(diagramProcess, participant, node, true)
 	stager.addCreateForkJoinButton(diagramProcess, participant, node, true)
 	confParticipantTaskMenu := ItemAndShapeButtonConfiguration[
 		Task, *Task,
@@ -180,6 +181,7 @@ func (stager *Stager) treeParticipants(
 		sliceForNewAddedShape: &diagramProcess.Task_Shapes,
 	}
 	addCreateItemAndShapeButton(stager, conf)
+	stager.addCreateDecisionNodeButton(diagramProcess, participant, tasksNode, true)
 	stager.addCreateForkJoinButton(diagramProcess, participant, tasksNode, true)
 	confTasksMenu := conf
 	confTasksMenu.IsButtonInMenu = true
@@ -243,6 +245,54 @@ func (stager *Stager) addCreateForkJoinButton(
 			if lastShape.Task == newForkJoin {
 				lastShape.SetWidth(ForkJoinDefaultLength)
 				lastShape.SetHeight(ForkJoinBarThickness)
+			}
+		}
+	}
+}
+
+func (stager *Stager) addCreateDecisionNodeButton(
+	diagramProcess *DiagramProcess,
+	participant *Participant,
+	parentNode *tree.Node,
+	isButtonInMenu bool,
+) {
+	confDecision := ItemAndShapeButtonConfiguration[
+		Task, *Task,
+		Participant, *Participant,
+		TaskShape, *TaskShape,
+	]{
+		ItemButtonConfiguration: ItemButtonConfiguration[
+			Task, *Task,
+			Participant, *Participant,
+		]{
+			parentNode:                         parentNode,
+			sliceForNewAddedItem:               &participant.Tasks,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &participant.IsTasksNodeExpanded,
+			parentElement:                      participant,
+			IsButtonInMenu:                     isButtonInMenu,
+		},
+		receivingDiagram:      diagramProcess,
+		sliceForNewAddedShape: &diagramProcess.Task_Shapes,
+	}
+	callbacksDecision := addCreateItemAndShapeButton(stager, confDecision)
+	callbacksDecision.button.Name = "Add Decision Node"
+	callbacksDecision.button.Icon = string(buttons.BUTTON_diamond)
+	callbacksDecision.button.ToolTipText = "Add a Decision Node to \"" + participant.Name + "\""
+	callbacksDecision.OnBeforeCommit = func() {
+		participant.IsTasksNodeExpanded = true
+		if !slices.Contains(diagramProcess.ParticipantWhoseNodeIsExpanded, participant) {
+			diagramProcess.ParticipantWhoseNodeIsExpanded = append(diagramProcess.ParticipantWhoseNodeIsExpanded, participant)
+		}
+		newDecision := callbacksDecision.createdItem
+		newDecision.IsDecisionNode = true
+		if len(diagramProcess.Task_Shapes) > 0 {
+			lastShape := diagramProcess.Task_Shapes[len(diagramProcess.Task_Shapes)-1]
+			if lastShape.Task == newDecision {
+				lastShape.IsNameDisplayed = true
+				lastShape.SetWidth(DecisionDiamondSize)
+				lastShape.SetHeight(DecisionDiamondSize)
 			}
 		}
 	}

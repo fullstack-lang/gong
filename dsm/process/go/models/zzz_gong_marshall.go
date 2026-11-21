@@ -430,6 +430,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", controlflowIdent, __gong__toRawStringLiteral(controlflow.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", controlflowIdent, __gong__toRawStringLiteral(controlflow.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Guard = %s", controlflowIdent, __gong__toRawStringLiteral(controlflow.Guard)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", controlflowIdent, __gong__toRawStringLiteral(controlflow.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", controlflowIdent, controlflow.IsExpanded))
 			if controlflow.Start != nil {
@@ -1892,6 +1893,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.IsStartTask = %t", taskIdent, task.IsStartTask))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsEndTask = %t", taskIdent, task.IsEndTask))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsForkJoin = %t", taskIdent, task.IsForkJoin))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDecisionNode = %t", taskIdent, task.IsDecisionNode))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsTaskNameNotProcessName = %t", taskIdent, task.IsTaskNameNotProcessName))
 			if task.Type != nil {
 				if lastStagePtr != "Stage" {
@@ -2086,6 +2088,8 @@ func (controlflow *ControlFlow) GongMarshallField(stage *Stage, fieldName string
 		res = __gong__marshallString(ident, "Name", controlflow.Name)
 	case "Description":
 		res = __gong__marshallString(ident, "Description", controlflow.Description)
+	case "Guard":
+		res = __gong__marshallString(ident, "Guard", controlflow.Guard)
 	case "ComputedPrefix":
 		res = __gong__marshallString(ident, "ComputedPrefix", controlflow.ComputedPrefix)
 	case "IsExpanded":
@@ -3288,6 +3292,8 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = __gong__marshallBool(ident, "IsEndTask", task.IsEndTask)
 	case "IsForkJoin":
 		res = __gong__marshallBool(ident, "IsForkJoin", task.IsForkJoin)
+	case "IsDecisionNode":
+		res = __gong__marshallBool(ident, "IsDecisionNode", task.IsDecisionNode)
 	case "IsTaskNameNotProcessName":
 		res = __gong__marshallBool(ident, "IsTaskNameNotProcessName", task.IsTaskNameNotProcessName)
 
@@ -3395,6 +3401,7 @@ func (controlflow *ControlFlow) GongMarshallAllFields(stage *Stage) (initRes str
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "Guard"))
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "Start"))
@@ -3924,6 +3931,7 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsStartTask"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsEndTask"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsForkJoin"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsDecisionNode"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Type"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsTaskNameNotProcessName"))
 	}

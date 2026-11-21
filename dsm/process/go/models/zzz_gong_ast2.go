@@ -248,6 +248,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Name = GongExtractString(rhs)
 					case "Description":
 						inst.Description = GongExtractString(rhs)
+					case "Guard":
+						inst.Guard = GongExtractString(rhs)
 					case "ComputedPrefix":
 						inst.ComputedPrefix = GongExtractString(rhs)
 					case "IsExpanded":
@@ -966,6 +968,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.IsEndTask = GongExtractBool(rhs)
 					case "IsForkJoin":
 						inst.IsForkJoin = GongExtractBool(rhs)
+					case "IsDecisionNode":
+						inst.IsDecisionNode = GongExtractBool(rhs)
 					case "Type":
 						__gong__assignPointer(&inst.Type, rhs, identifierMap)
 					case "IsTaskNameNotProcessName":
@@ -1254,6 +1258,8 @@ func (u *ControlFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.Name = GongExtractString(valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
+	case "Guard":
+		instance.Guard = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
@@ -2212,6 +2218,8 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsEndTask = GongExtractBool(valueExpr)
 	case "IsForkJoin":
 		instance.IsForkJoin = GongExtractBool(valueExpr)
+	case "IsDecisionNode":
+		instance.IsDecisionNode = GongExtractBool(valueExpr)
 	case "Type":
 		GongUnmarshallPointer(&instance.Type, valueExpr, identifierMap)
 	case "IsTaskNameNotProcessName":

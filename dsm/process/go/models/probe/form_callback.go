@@ -189,6 +189,8 @@ func saveControlFlowFields(
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(_instance.Description), formDiv)
+		case "Guard":
+			FormDivBasicFieldToField(&(_instance.Guard), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
 		case "IsExpanded":
@@ -1489,6 +1491,8 @@ func saveTaskFields(
 			FormDivBasicFieldToField(&(_instance.IsEndTask), formDiv)
 		case "IsForkJoin":
 			FormDivBasicFieldToField(&(_instance.IsForkJoin), formDiv)
+		case "IsDecisionNode":
+			FormDivBasicFieldToField(&(_instance.IsDecisionNode), formDiv)
 		case "Type":
 			FormDivSelectFieldToField(&(_instance.Type), probe.stageOfInterest, formDiv)
 		case "IsTaskNameNotProcessName":

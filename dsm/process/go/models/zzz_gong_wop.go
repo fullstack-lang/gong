@@ -36,6 +36,8 @@ type ControlFlow_WOP struct {
 
 	Description string
 
+	Guard string
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -45,6 +47,7 @@ func (from *ControlFlow) GongCopyBasicFields(to *ControlFlow) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
+	to.Guard = from.Guard
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 }
@@ -925,6 +928,8 @@ type Task_WOP struct {
 
 	IsForkJoin bool
 
+	IsDecisionNode bool
+
 	IsTaskNameNotProcessName bool
 }
 
@@ -937,6 +942,7 @@ func (from *Task) GongCopyBasicFields(to *Task) {
 	to.IsStartTask = from.IsStartTask
 	to.IsEndTask = from.IsEndTask
 	to.IsForkJoin = from.IsForkJoin
+	to.IsDecisionNode = from.IsDecisionNode
 	to.IsTaskNameNotProcessName = from.IsTaskNameNotProcessName
 }
 

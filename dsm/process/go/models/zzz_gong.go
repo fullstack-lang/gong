@@ -4851,6 +4851,10 @@ func (controlflow *ControlFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Guard",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -6399,6 +6403,10 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsDecisionNode",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "Type",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Process",
@@ -6617,6 +6625,8 @@ func (controlflow *ControlFlow) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = controlflow.Name
 	case "Description":
 		res.valueString = controlflow.Description
+	case "Guard":
+		res.valueString = controlflow.Guard
 	case "ComputedPrefix":
 		res.valueString = controlflow.ComputedPrefix
 	case "IsExpanded":
@@ -8269,6 +8279,10 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "IsForkJoin":
 		res.valueString = fmt.Sprintf("%t", task.IsForkJoin)
 		res.valueBool = task.IsForkJoin
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsDecisionNode":
+		res.valueString = fmt.Sprintf("%t", task.IsDecisionNode)
+		res.valueBool = task.IsDecisionNode
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Type":
 		res.GongFieldValueType = GongFieldValueTypePointer

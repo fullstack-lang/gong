@@ -564,7 +564,7 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 			layer)
 		diagramProcess.map_SvgRect_TaskShape[rect] = taskShape
 
-		if !task.IsForkJoin {
+		if !task.IsForkJoin && !task.IsDecisionNode {
 			rect.URLPath = "../../../References/Tasks/" + task.GetReferencePath() + "/index.html"
 			rect.URLTarget = svg.LINK_TARGET_BLANK
 
@@ -600,7 +600,7 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 			rect.RectAnchoredTexts[0].FontFamily = "sans-serif"
 			rect.RectAnchoredTexts[0].Color = "#333333"
 		}
-		if !task.IsStartTask && !task.IsEndTask && !task.IsForkJoin {
+		if !task.IsStartTask && !task.IsEndTask && !task.IsForkJoin && !task.IsDecisionNode {
 			syncRectPresentation(taskShape, rect)
 		}
 
@@ -762,6 +762,76 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 				rect.RectAnchoredTexts = nil
 			}
 		}
+
+		if task.IsDecisionNode {
+			halfSize := DecisionDiamondSize / 2.0
+
+			rect.Width = DecisionDiamondSize
+			rect.Height = DecisionDiamondSize
+			rect.Color = "#E3F2FD"
+			rect.FillOpacity = 1.0
+			rect.Stroke = "#90CAF9"
+			rect.StrokeWidth = 2.0
+			rect.StrokeOpacity = 1.0
+			rect.RX = 0.0
+
+			if diagramProcess.IsEditable() {
+				rect.CanHaveLeftHandle = false
+				rect.CanHaveRightHandle = false
+				rect.CanHaveTopHandle = false
+				rect.CanHaveBottomHandle = false
+			}
+
+			stateTitleText.Stroke = ""
+			stateTitleText.StrokeWidth = 0
+			stateTitleText.StrokeOpacity = 0
+			stateTitleText.Color = "#333333"
+			stateTitleText.FillOpacity = 1.0
+			stateTitleText.FontSize = "14px"
+			stateTitleText.WhiteSpace = svg.WhiteSpaceEnumPre
+			stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
+			stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_END
+			stateTitleText.DominantBaseline = svg.DominantBaselineAuto
+			stateTitleText.X_Offset = 18
+			stateTitleText.Y_Offset = -8
+
+			content := task.GetName()
+			if diagramProcess.GetIsShowPrefix() && task.GetComputedPrefix() != "" {
+				content = task.GetComputedPrefix() + " " + content
+			}
+			stateTitleText.Content = content
+
+			syncRectPresentation(taskShape, rect)
+
+			diamond := &svg.RectAnchoredPath{
+				Name:                task.GetName() + "_diamond",
+				Definition:          fmt.Sprintf("M %f 0 L %f %f L %f %f L 0 %f Z", halfSize, DecisionDiamondSize, halfSize, halfSize, DecisionDiamondSize, halfSize),
+				RectAnchorType:      svg.RECT_TOP_LEFT,
+				X_Offset:            0,
+				Y_Offset:            0,
+				ScalePropotionnally: true,
+				AppliedScaling:      1.0,
+				Presentation: svg.Presentation{
+					Color:           rect.Color,
+					FillOpacity:     rect.FillOpacity,
+					Stroke:          rect.Stroke,
+					StrokeWidth:     rect.StrokeWidth,
+					StrokeOpacity:   rect.StrokeOpacity,
+					StrokeDashArray: rect.StrokeDashArray,
+				},
+			}
+			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, diamond)
+
+			rect.FillOpacity = 0.0
+			rect.StrokeOpacity = 0.0
+
+			stateTitleText.StrokeWidth = 0
+			stateTitleText.StrokeOpacity = 0
+
+			if !taskShape.IsNameDisplayed {
+				rect.RectAnchoredTexts = nil
+			}
+		}
 		diagramProcess.map_Task_Rect[taskShape.Task] = rect
 	}
 }
@@ -799,7 +869,39 @@ func (stager *Stager) drawControlFlowShapes(diagramProcess *DiagramProcess, laye
 
 		link.Stroke = "#333333"
 		link.StrokeWidth = 1.5
+		link.StrokeOpacity = 1.0
+
+		if cf.Guard != "" {
+			guardText := &svg.LinkAnchoredText{
+				Name:            cf.Name + "_guard",
+				Content:         "[" + cf.Guard + "]",
+				AutomaticLayout: true,
+				LinkAnchorType:  svg.LINK_LEFT_OR_TOP,
+				Presentation: svg.Presentation{
+					Color:         "#333333",
+					FillOpacity:   1.0,
+					Stroke:        "",
+					StrokeWidth:   0,
+					StrokeOpacity: 0,
+				},
+				TextAttributes: svg.TextAttributes{
+					FontSize:   "13px",
+					FontFamily: "sans-serif",
+				},
+			}
+			if link.StartOrientation == svg.ORIENTATION_HORIZONTAL {
+				guardText.Y_Offset = 4
+			} else {
+				guardText.Y_Offset = -4
+			}
+			link.TextAtArrowStart = append(link.TextAtArrowStart, guardText)
+		}
+
 		syncLinkPresentation(controlFlowShape, link)
+		for _, txt := range link.TextAtArrowStart {
+			txt.StrokeWidth = 0
+			txt.StrokeOpacity = 0
+		}
 		map_ControlFlow_Link[cf] = link
 	}
 	return map_ControlFlow_Link

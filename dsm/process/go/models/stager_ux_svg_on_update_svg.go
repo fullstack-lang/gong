@@ -1,6 +1,7 @@
 package models
 
 import (
+	"math"
 	"slices"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
@@ -225,6 +226,12 @@ func configureDefaultControlFlowShape(
 	startOrientation := ORIENTATION_VERTICAL
 	if startTask.IsForkJoin && startShape != nil && startShape.IsVertical {
 		startOrientation = ORIENTATION_HORIZONTAL
+	} else if startTask.IsDecisionNode && startShape != nil && endShape != nil {
+		startCenterX := startShape.X + startShape.Width/2.0
+		endCenterX := endShape.X + endShape.Width/2.0
+		if math.Abs(endCenterX-startCenterX) > 60.0 {
+			startOrientation = ORIENTATION_HORIZONTAL
+		}
 	}
 
 	endOrientation := ORIENTATION_VERTICAL

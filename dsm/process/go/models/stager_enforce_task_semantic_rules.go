@@ -6,8 +6,8 @@ import (
 )
 
 // enforceTaskSemanticRules checks
-// - task cannot combine start, end, and fork/join roles
-// - fork/join task cannot reference a process Type
+// - task cannot combine start, end, fork/join, and decision node roles
+// - fork/join and decision node tasks cannot reference a process Type
 // - per participant, cannot have more than one start task
 func (stager *Stager) enforceTaskSemanticRules() (needCommit bool) {
 
@@ -40,11 +40,38 @@ func (stager *Stager) enforceTaskSemanticRules() (needCommit bool) {
 			}
 		}
 
-		if task.IsForkJoin && task.Type != nil {
+		if task.IsStartTask && task.IsDecisionNode {
+			needCommit = true
+			task.IsDecisionNode = false
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task \"%s\" cannot be both start and decision node",
+					task.GetName()))
+			}
+		}
+
+		if task.IsEndTask && task.IsDecisionNode {
+			needCommit = true
+			task.IsDecisionNode = false
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task \"%s\" cannot be both end and decision node",
+					task.GetName()))
+			}
+		}
+
+		if task.IsForkJoin && task.IsDecisionNode {
+			needCommit = true
+			task.IsDecisionNode = false
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task \"%s\" cannot be both fork/join and decision node",
+					task.GetName()))
+			}
+		}
+
+		if (task.IsForkJoin || task.IsDecisionNode) && task.Type != nil {
 			needCommit = true
 			task.Type = nil
 			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task \"%s\" is a fork/join and cannot have a process type",
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task \"%s\" is a pseudo-node and cannot have a process type",
 					task.GetName()))
 			}
 		}

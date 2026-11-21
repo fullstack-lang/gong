@@ -6,6 +6,8 @@ type ControlFlow struct {
 	//gong:text width:300 height:300
 	Description string
 
+	Guard string
+
 	LibraryAbstractFields
 	AbstractTypeFields
 

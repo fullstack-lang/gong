@@ -9,9 +9,10 @@ type Task struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
-	IsStartTask bool
-	IsEndTask   bool
-	IsForkJoin  bool
+	IsStartTask    bool
+	IsEndTask      bool
+	IsForkJoin     bool
+	IsDecisionNode bool
 
 	outControlFlows []*ControlFlow
 	inControlFlows  []*ControlFlow

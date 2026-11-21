@@ -108,6 +108,18 @@ func (stager *Stager) enforceTaskShapeWithinParticipant() (needCommit bool) {
 				}
 			}
 
+			// Enforce Decision Node fixed 50x50 diamond dimensions
+			if taskShape.Task != nil && taskShape.Task.IsDecisionNode {
+				if taskShape.Width != DecisionDiamondSize {
+					taskShape.Width = DecisionDiamondSize
+					modified = true
+				}
+				if taskShape.Height != DecisionDiamondSize {
+					taskShape.Height = DecisionDiamondSize
+					modified = true
+				}
+			}
+
 			// 1. Enforce maximum dimensions first
 			maxWidth := boundingWidth - 2*margin
 			if maxWidth < 10.0 { // arbitrary minimum width to prevent negative/invisible shapes
