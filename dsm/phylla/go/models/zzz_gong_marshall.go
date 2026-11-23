@@ -1514,6 +1514,12 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.HasLip = %t", tubevaseabstractIdent, tubevaseabstract.HasLip))
 			values.WriteString(fmt.Sprintf("\n\t%s.LipHeight = %f", tubevaseabstractIdent, tubevaseabstract.LipHeight))
 			values.WriteString(fmt.Sprintf("\n\t%s.LipWidth = %f", tubevaseabstractIdent, tubevaseabstract.LipWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasFillLevelLine = %t", tubevaseabstractIdent, tubevaseabstract.HasFillLevelLine))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasDrainageHole = %t", tubevaseabstractIdent, tubevaseabstract.HasDrainageHole))
+			values.WriteString(fmt.Sprintf("\n\t%s.DrainageHoleRadius = %f", tubevaseabstractIdent, tubevaseabstract.DrainageHoleRadius))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasFootRim = %t", tubevaseabstractIdent, tubevaseabstract.HasFootRim))
+			values.WriteString(fmt.Sprintf("\n\t%s.FootRimHeight = %f", tubevaseabstractIdent, tubevaseabstract.FootRimHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.FootRimWidth = %f", tubevaseabstractIdent, tubevaseabstract.FootRimWidth))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeVerticalThickness = %f", tubevaseabstractIdent, tubevaseabstract.RelativeVerticalThickness))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeRadialThickness = %f", tubevaseabstractIdent, tubevaseabstract.RelativeRadialThickness))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeCuttedStackFloorHeight = %f", tubevaseabstractIdent, tubevaseabstract.RelativeCuttedStackFloorHeight))
@@ -5156,6 +5162,18 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallField(stage *Stage, fieldN
 		res = __gong__marshallFloat(ident, "LipHeight", tubevaseabstract.LipHeight)
 	case "LipWidth":
 		res = __gong__marshallFloat(ident, "LipWidth", tubevaseabstract.LipWidth)
+	case "HasFillLevelLine":
+		res = __gong__marshallBool(ident, "HasFillLevelLine", tubevaseabstract.HasFillLevelLine)
+	case "HasDrainageHole":
+		res = __gong__marshallBool(ident, "HasDrainageHole", tubevaseabstract.HasDrainageHole)
+	case "DrainageHoleRadius":
+		res = __gong__marshallFloat(ident, "DrainageHoleRadius", tubevaseabstract.DrainageHoleRadius)
+	case "HasFootRim":
+		res = __gong__marshallBool(ident, "HasFootRim", tubevaseabstract.HasFootRim)
+	case "FootRimHeight":
+		res = __gong__marshallFloat(ident, "FootRimHeight", tubevaseabstract.FootRimHeight)
+	case "FootRimWidth":
+		res = __gong__marshallFloat(ident, "FootRimWidth", tubevaseabstract.FootRimWidth)
 	case "RelativeVerticalThickness":
 		res = __gong__marshallFloat(ident, "RelativeVerticalThickness", tubevaseabstract.RelativeVerticalThickness)
 	case "RelativeRadialThickness":
@@ -7661,6 +7679,12 @@ func (tubevaseabstract *TubeVaseAbstract) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "HasLip"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "LipHeight"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "LipWidth"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "HasFillLevelLine"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "HasDrainageHole"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "DrainageHoleRadius"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "HasFootRim"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "FootRimHeight"))
+		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "FootRimWidth"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))
 		initializerStatements.WriteString(tubevaseabstract.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))

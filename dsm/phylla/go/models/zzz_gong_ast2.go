@@ -909,6 +909,18 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.LipHeight = GongExtractFloat(rhs)
 					case "LipWidth":
 						inst.LipWidth = GongExtractFloat(rhs)
+					case "HasFillLevelLine":
+						inst.HasFillLevelLine = GongExtractBool(rhs)
+					case "HasDrainageHole":
+						inst.HasDrainageHole = GongExtractBool(rhs)
+					case "DrainageHoleRadius":
+						inst.DrainageHoleRadius = GongExtractFloat(rhs)
+					case "HasFootRim":
+						inst.HasFootRim = GongExtractBool(rhs)
+					case "FootRimHeight":
+						inst.FootRimHeight = GongExtractFloat(rhs)
+					case "FootRimWidth":
+						inst.FootRimWidth = GongExtractFloat(rhs)
 					case "RelativeVerticalThickness":
 						inst.RelativeVerticalThickness = GongExtractFloat(rhs)
 					case "RelativeRadialThickness":
@@ -5339,6 +5351,18 @@ func (u *TubeVaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.LipHeight = GongExtractFloat(valueExpr)
 	case "LipWidth":
 		instance.LipWidth = GongExtractFloat(valueExpr)
+	case "HasFillLevelLine":
+		instance.HasFillLevelLine = GongExtractBool(valueExpr)
+	case "HasDrainageHole":
+		instance.HasDrainageHole = GongExtractBool(valueExpr)
+	case "DrainageHoleRadius":
+		instance.DrainageHoleRadius = GongExtractFloat(valueExpr)
+	case "HasFootRim":
+		instance.HasFootRim = GongExtractBool(valueExpr)
+	case "FootRimHeight":
+		instance.FootRimHeight = GongExtractFloat(valueExpr)
+	case "FootRimWidth":
+		instance.FootRimWidth = GongExtractFloat(valueExpr)
 	case "RelativeVerticalThickness":
 		instance.RelativeVerticalThickness = GongExtractFloat(valueExpr)
 	case "RelativeRadialThickness":

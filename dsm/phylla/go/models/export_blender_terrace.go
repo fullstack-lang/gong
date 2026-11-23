@@ -410,12 +410,33 @@ func GenerateVaseTrapezeTerraceBlenderPy(plant *PlantAbstract) string {
 	cInnerP1 := computeCarvedOut(cInnerUncarvedP1, cInnerFloorStraight, carvedParam)
 	cOuterP2 := offsetCurve(cOuterStraightP2)
 
+	apparatus := computeRingBottomApparatusVec3(
+		plant, cOuterStraightP2, cOuterUncarvedP1, cInnerPlancher,
+		p2H, ringHeight, hRingBottom, 0.0, isCurvedWall, ringDeltaR,
+	)
+	cOuterWallBot := cOuterP2
+	if apparatus.activeFootRim {
+		cOuterWallBot = apparatus.cOuterWallBot
+	}
+
+	yFillLocal, grooveDepth, grooveHalfH, hasFillLine := ComputeVaseTrapezeFillLevelLineParams(
+		plant, p1H, p2H, hRingBottom, hasTrapezeConstantThickness,
+	)
+	var grooveRows [][]vector3
+	if hasFillLine {
+		yContact := p1H - deltaYContact
+		_, grooveRows, _ = computeInnerFillGrooveGridVec3(
+			cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, cOuterStraightP2, cOuterUncarvedP1,
+			p2H, ringHeight, 0.0, yContact, yFillLocal, grooveDepth, grooveHalfH, sWall, isCurvedWall, ringDeltaR,
+		)
+	}
+
 	cWallLipBot := cOuterP1
 	cLipBot := cOuterP1
 	cLipTop := cOuterP1
 	if hasLip {
 		cWallLipBot, cLipBot, cLipTop = computeVaseTrapezeLipCurvesVec3(
-			cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1,
+			cOuterWallBot, cOuterP1, cOuterStraightP2, cOuterUncarvedP1,
 			p2H, ringHeight, 0.0, lipHeight, lipWidth, isCurvedWall, ringDeltaR,
 		)
 	}
@@ -539,6 +560,13 @@ DELTA_Y_CONTACT_MM = %.6f
 WALL_SUBDIVISIONS = %d
 IS_CURVED_WALL = %s
 HAS_LIP = %s
+HAS_FILL_LEVEL_LINE = %s
+Y_FILL_LOCAL_MM = %.6f
+HAS_DRAINAGE_HOLE = %s
+HAS_FOOT_RIM = %s
+Y_RECESS_MM = %.6f
+FLOOR_CENTER_X_MM = %.6f
+FLOOR_CENTER_Z_MM = %.6f
 HAS_REF_CAMERA = %s
 REF_CAM_DX = %.6f
 REF_CAM_DZ = %.6f
@@ -547,7 +575,11 @@ REF_CAM_DZ = %.6f
 		plant.Name, plant.N, plant.M, len(upperLayers), plant.RhombusInsideAngle, sideLength,
 		plant.Name, slug,
 		globalR, p1H, p2H, ringHeight, hRingBottom, deltaYContact, sWall,
-		pyBool(isCurvedWall), pyBool(hasLip), pyBool(hasRefCamera), refCamDX, refCamDZ,
+		pyBool(isCurvedWall), pyBool(hasLip),
+		pyBool(hasFillLine), yFillLocal,
+		pyBool(apparatus.activeHole), pyBool(apparatus.activeFootRim),
+		apparatus.yRecess, apparatus.centerX, apparatus.centerZ,
+		pyBool(hasRefCamera), refCamDX, refCamDZ,
 	))
 
 	// Emit DELTA_R_LUT
@@ -605,6 +637,50 @@ REF_CAM_DZ = %.6f
 			rInStP2, rInStP1, rInPl, yInPl, rInTop, yInTop,
 			rWallLipBot, yLipBot, rLipBot, rLipTop,
 		))
+	}
+	sb.WriteString("]\n\n")
+
+	// Emit FILL_GROOVE_PROFILE: (y_lo, y_mid, r_mid, y_hi) per azimuth when HAS_FILL_LEVEL_LINE
+	sb.WriteString("FILL_GROOVE_PROFILE = [\n")
+	if hasFillLine && len(grooveRows) == 3 {
+		for i := range M {
+			rMid := math.Hypot(grooveRows[1][i].X, grooveRows[1][i].Z)
+			sb.WriteString(fmt.Sprintf(
+				"    (%.3f, %.3f, %.3f, %.3f),\n",
+				grooveRows[0][i].Y, grooveRows[1][i].Y, rMid, grooveRows[2][i].Y,
+			))
+		}
+	}
+	sb.WriteString("]\n\n")
+
+	// Emit FOOT_RIM_PROFILE: (ow_x, ow_y, ow_z, fo_x, fo_y, fo_z, fi_x, fi_y, fi_z, ro_x, ro_y, ro_z) when HAS_FOOT_RIM
+	sb.WriteString("FOOT_RIM_PROFILE = [\n")
+	if apparatus.activeFootRim {
+		for i := range M {
+			ow := apparatus.cOuterWallBot[i]
+			fo := apparatus.cFootOut[i]
+			fi := apparatus.cFootIn[i]
+			ro := apparatus.cRecessOut[i]
+			sb.WriteString(fmt.Sprintf(
+				"    (%.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f),\n",
+				ow.X, ow.Y, ow.Z, fo.X, fo.Y, fo.Z, fi.X, fi.Y, fi.Z, ro.X, ro.Y, ro.Z,
+			))
+		}
+	}
+	sb.WriteString("]\n\n")
+
+	// Emit DRAINAGE_HOLE_PROFILE: (hc_x, hc_y, hc_z, ht_x, ht_y, ht_z, hb_x, hb_y, hb_z) when HAS_DRAINAGE_HOLE
+	sb.WriteString("DRAINAGE_HOLE_PROFILE = [\n")
+	if apparatus.activeHole {
+		for i := range M {
+			hc := apparatus.cHoleChamfer[i]
+			ht := apparatus.cHoleTop[i]
+			hb := apparatus.cHoleBot[i]
+			sb.WriteString(fmt.Sprintf(
+				"    (%.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f),\n",
+				hc.X, hc.Y, hc.Z, ht.X, ht.Y, ht.Z, hb.X, hb.Y, hb.Z,
+			))
+		}
 	}
 	sb.WriteString("]\n\n")
 
@@ -1393,11 +1469,14 @@ def ring_wall_sample_y_mm(s, s_wall, y_bot, y_top, y_contact):
     if s_wall < 3 or y_top <= y_bot + 1e-6:
         return y_bot + (float(s) / float(s_wall)) * (y_top - y_bot)
     s_split = s_wall // 3
-    min_span = (y_top - y_bot) / float(s_wall)
-    y_mid = max(y_bot + min_span, min(y_top - min_span, y_contact))
+    span = y_top - y_bot
+    min_bot = y_bot + 0.25 * span * (float(s_split) / float(s_wall))
+    max_top = y_top - 0.25 * span * (float(s_wall - s_split) / float(s_wall))
+    if y_contact <= min_bot or y_contact >= max_top:
+        return y_bot + (float(s) / float(s_wall)) * span
     if s <= s_split:
-        return y_bot + (float(s) / float(s_split)) * (y_mid - y_bot)
-    return y_mid + (float(s - s_split) / float(s_wall - s_split)) * (y_top - y_mid)
+        return y_bot + (float(s) / float(s_split)) * (y_contact - y_bot)
+    return y_contact + (float(s - s_split) / float(s_wall - s_split)) * (y_top - y_contact)
 
 
 def build_stacked_pots(col_pots, cam_xy):
@@ -1450,6 +1529,27 @@ def build_stacked_pots(col_pots, cam_xy):
         profiles_xyz = []
         floor_outer_ring = []
         plancher_inner_ring = []
+        outer_wall_bot_ring = []
+        foot_out_ring = []
+        foot_in_ring = []
+        recess_out_ring = []
+        hole_chamfer_ring = []
+        hole_top_ring = []
+        hole_bot_ring = []
+
+        use_fill_groove = HAS_FILL_LEVEL_LINE and len(FILL_GROOVE_PROFILE) == m_pts
+        use_foot_rim = HAS_FOOT_RIM and len(FOOT_RIM_PROFILE) == m_pts
+        use_drainage_hole = HAS_DRAINAGE_HOLE and len(DRAINAGE_HOLE_PROFILE) == m_pts
+
+        def go_pt_to_blender(x_mm, y_local_mm, z_mm):
+            r = math.hypot(x_mm, z_mm)
+            th = math.atan2(z_mm, x_mm)
+            phi = -(th + theta_off) + delta_alpha
+            return (
+                r * math.cos(phi) * scale,
+                r * math.sin(phi) * scale,
+                (y_local_mm - P2_H_MM + dy_rel_mm) * scale,
+            )
 
         # 360-bin polar lookup tables in Blender world coordinates (1-degree bins)
         bins_in_r_rim = [0.0] * 360
@@ -1493,25 +1593,46 @@ def build_stacked_pots(col_pots, cam_xy):
 
             sec = []
 
-            # 1. Outer wall from P2 up to lip underside (or outer top)
+            # 1. Outer wall from bottom (or raised ceramic foot bevel top) up to lip underside (or outer top)
             y_wall_end = y_lip_bot if HAS_LIP else y_out_top
             r_wall_end = r_wall_lip_bot if HAS_LIP else r_out_top
-            foot_bev_mm = min(1.6, 0.08 * max(1.0, y_wall_end - P2_H_MM))
+            if use_foot_rim:
+                ow_x, ow_y, ow_z, fo_x, fo_y, fo_z, fi_x, fi_y, fi_z, ro_x, ro_y, ro_z = FOOT_RIM_PROFILE[i]
+                pt_ow = go_pt_to_blender(ow_x, ow_y, ow_z)
+                outer_wall_bot_ring.append(pt_ow)
+                foot_out_ring.append(go_pt_to_blender(fo_x, fo_y, fo_z))
+                foot_in_ring.append(go_pt_to_blender(fi_x, fi_y, fi_z))
+                recess_out_ring.append(go_pt_to_blender(ro_x, ro_y, ro_z))
+                y_wall_start = ow_y
+                for s in range(s_wall + 1):
+                    if s == 0:
+                        sec.append(pt_ow)
+                        continue
+                    elif s == s_wall:
+                        yl = y_wall_end
+                        rl = r_wall_end
+                    else:
+                        yl = ring_wall_sample_y_mm(s, s_wall, y_wall_start, y_wall_end, y_contact_local)
+                        u = (yl - P2_H_MM) / max(1e-6, RING_HEIGHT_MM)
+                        rl = (1.0 - u) * r_out_st_p2 + u * r_out_st_p1 + eval_ring_delta_r_mm(yl)
+                    sec.append(pt_out(rl, yl))
+            else:
+                foot_bev_mm = min(1.6, 0.08 * max(1.0, y_wall_end - P2_H_MM))
 
-            sec.append(pt_out(max(1.0, r_out_p2 - 0.8 * foot_bev_mm), P2_H_MM))
-            for s in range(s_wall + 1):
-                if s == 0:
-                    yl = P2_H_MM + foot_bev_mm
-                elif s == s_wall:
-                    yl = y_wall_end
-                else:
-                    yl = ring_wall_sample_y_mm(s, s_wall, P2_H_MM + foot_bev_mm, y_wall_end, y_contact_local)
-                if s == s_wall:
-                    rl = r_wall_end
-                else:
-                    u = (yl - P2_H_MM) / max(1e-6, RING_HEIGHT_MM)
-                    rl = (1.0 - u) * r_out_st_p2 + u * r_out_st_p1 + eval_ring_delta_r_mm(yl)
-                sec.append(pt_out(rl, yl))
+                sec.append(pt_out(max(1.0, r_out_p2 - 0.8 * foot_bev_mm), P2_H_MM))
+                for s in range(s_wall + 1):
+                    if s == 0:
+                        yl = P2_H_MM + foot_bev_mm
+                    elif s == s_wall:
+                        yl = y_wall_end
+                    else:
+                        yl = ring_wall_sample_y_mm(s, s_wall, P2_H_MM + foot_bev_mm, y_wall_end, y_contact_local)
+                    if s == s_wall:
+                        rl = r_wall_end
+                    else:
+                        u = (yl - P2_H_MM) / max(1e-6, RING_HEIGHT_MM)
+                        rl = (1.0 - u) * r_out_st_p2 + u * r_out_st_p1 + eval_ring_delta_r_mm(yl)
+                    sec.append(pt_out(rl, yl))
 
             # 2. Load-bearing outer stacking lip + sponge-rounded top outer & inner rim edges
             if HAS_LIP:
@@ -1569,20 +1690,51 @@ def build_stacked_pots(col_pots, cam_xy):
             sec.append(pt_in(r_in_top + b_in, y_in_top))
             sec.append(pt_in(r_in_top + 0.28 * b_in, y_in_top - 0.28 * b_in))
 
-            # 4. Inner wall down to plancher
-            for s in range(s_wall, -1, -1):
-                if s == s_wall:
-                    yl = y_in_top - b_in
-                elif s == 0:
-                    yl = y_in_pl
-                else:
-                    yl = ring_wall_sample_y_mm(s, s_wall, y_in_pl, y_in_top - b_in, y_contact_local)
-                if s == 0:
-                    rl = r_in_pl
-                else:
+            # 4. Inner wall down to plancher (with optional recessed fill-level V-groove)
+            if use_fill_groove:
+                y_g_lo, y_g_mid, r_g_mid, y_g_hi = FILL_GROOVE_PROFILE[i]
+                y_in_start = y_in_top - b_in
+                y_g_hi_c = max(y_in_pl + 0.5, min(y_in_start - 0.5, y_g_hi))
+                y_g_lo_c = max(y_in_pl + 0.25, min(y_g_hi_c - 0.25, y_g_lo))
+                y_g_mid_c = 0.5 * (y_g_lo_c + y_g_hi_c)
+                if y_g_lo_c < y_g_mid < y_g_hi_c:
+                    y_g_mid_c = y_g_mid
+                s_up = max(2, s_wall // 2)
+                s_lo = max(2, s_wall - s_up)
+                for s in range(s_up, -1, -1):
+                    yl = y_g_hi_c + (s / s_up) * (y_in_start - y_g_hi_c)
                     u = (yl - P2_H_MM) / max(1e-6, RING_HEIGHT_MM)
                     rl = (1.0 - u) * r_in_st_p2 + u * r_in_st_p1 + eval_ring_delta_r_mm(yl)
-                sec.append(pt_in(rl, yl))
+                    sec.append(pt_in(rl, yl))
+                sec.append(pt_in(r_g_mid, y_g_mid_c))
+                for s in range(s_lo, -1, -1):
+                    yl = y_in_pl + (s / s_lo) * (y_g_lo_c - y_in_pl)
+                    if s == 0:
+                        rl = r_in_pl
+                    else:
+                        u = (yl - P2_H_MM) / max(1e-6, RING_HEIGHT_MM)
+                        rl = (1.0 - u) * r_in_st_p2 + u * r_in_st_p1 + eval_ring_delta_r_mm(yl)
+                    sec.append(pt_in(rl, yl))
+            else:
+                for s in range(s_wall, -1, -1):
+                    if s == s_wall:
+                        yl = y_in_top - b_in
+                    elif s == 0:
+                        yl = y_in_pl
+                    else:
+                        yl = ring_wall_sample_y_mm(s, s_wall, y_in_pl, y_in_top - b_in, y_contact_local)
+                    if s == 0:
+                        rl = r_in_pl
+                    else:
+                        u = (yl - P2_H_MM) / max(1e-6, RING_HEIGHT_MM)
+                        rl = (1.0 - u) * r_in_st_p2 + u * r_in_st_p1 + eval_ring_delta_r_mm(yl)
+                    sec.append(pt_in(rl, yl))
+
+            if use_drainage_hole:
+                hc_x, hc_y, hc_z, ht_x, ht_y, ht_z, hb_x, hb_y, hb_z = DRAINAGE_HOLE_PROFILE[i]
+                hole_chamfer_ring.append(go_pt_to_blender(hc_x, hc_y, hc_z))
+                hole_top_ring.append(go_pt_to_blender(ht_x, ht_y, ht_z))
+                hole_bot_ring.append(go_pt_to_blender(hb_x, hb_y, hb_z))
 
             profiles_xyz.append(sec)
             floor_outer_ring.append(sec[0])
@@ -1644,29 +1796,58 @@ def build_stacked_pots(col_pots, cam_xy):
             for s in range(p_len - 1):
                 faces.append((b0 + s, b0 + s + 1, b1 + s + 1, b1 + s))
 
-        # Dedicated flat-normal rings for interior plancher disk (+Z) & exterior bottom foot disk (-Z)
-        pl_base = len(verts)
-        verts.extend(plancher_inner_ring)
-        cx_pl = sum(p[0] for p in plancher_inner_ring) / m_pts
-        cy_pl = sum(p[1] for p in plancher_inner_ring) / m_pts
+        def add_quad_strip(ring_a, ring_b):
+            base_a = len(verts)
+            verts.extend(ring_a)
+            base_b = len(verts)
+            verts.extend(ring_b)
+            for idx in range(m_pts):
+                nidx = (idx + 1) % m_pts
+                faces.append((base_a + idx, base_b + idx, base_b + nidx, base_a + nidx))
+
+        # Foot rim bevels & 3-notched standing ceramic foot ring
+        if use_foot_rim:
+            add_quad_strip(foot_out_ring, outer_wall_bot_ring)
+            add_quad_strip(foot_in_ring, foot_out_ring)
+            add_quad_strip(recess_out_ring, foot_in_ring)
+
+        underside_outer_ring = recess_out_ring if use_foot_rim else floor_outer_ring
         cz_pl = sum(p[2] for p in plancher_inner_ring) / m_pts
-        pl_center = len(verts)
-        verts.append((cx_pl, cy_pl, cz_pl))
 
-        fl_base = len(verts)
-        verts.extend(floor_outer_ring)
-        cx_fl = sum(p[0] for p in floor_outer_ring) / m_pts
-        cy_fl = sum(p[1] for p in floor_outer_ring) / m_pts
-        cz_fl = sum(p[2] for p in floor_outer_ring) / m_pts
-        fl_center = len(verts)
-        verts.append((cx_fl, cy_fl, cz_fl))
+        if use_drainage_hole:
+            # Gently sloped (2°) interior plancher, 45° hole chamfer, cylindrical bore, and recessed underside
+            add_quad_strip(plancher_inner_ring, hole_chamfer_ring)
+            add_quad_strip(hole_chamfer_ring, hole_top_ring)
+            add_quad_strip(hole_top_ring, hole_bot_ring)
+            add_quad_strip(hole_bot_ring, underside_outer_ring)
+        else:
+            # Dedicated flat-normal rings for interior plancher disk (+Z) & exterior bottom foot disk (-Z)
+            pl_base = len(verts)
+            verts.extend(plancher_inner_ring)
+            cx_pl = sum(p[0] for p in plancher_inner_ring) / m_pts
+            cy_pl = sum(p[1] for p in plancher_inner_ring) / m_pts
+            pl_center = len(verts)
+            verts.append((cx_pl, cy_pl, cz_pl))
 
-        for i in range(m_pts):
-            ni = (i + 1) % m_pts
-            # Plancher top disk (+Z)
-            faces.append((pl_center, pl_base + ni, pl_base + i))
-            # Exterior bottom disk (-Z)
-            faces.append((fl_center, fl_base + i, fl_base + ni))
+            fl_base = len(verts)
+            verts.extend(underside_outer_ring)
+            if use_foot_rim:
+                fl_center_pt = go_pt_to_blender(FLOOR_CENTER_X_MM, Y_RECESS_MM, FLOOR_CENTER_Z_MM)
+            else:
+                fl_center_pt = (
+                    sum(p[0] for p in underside_outer_ring) / m_pts,
+                    sum(p[1] for p in underside_outer_ring) / m_pts,
+                    sum(p[2] for p in underside_outer_ring) / m_pts,
+                )
+            fl_center = len(verts)
+            verts.append(fl_center_pt)
+
+            for i in range(m_pts):
+                ni = (i + 1) % m_pts
+                # Plancher top disk (+Z)
+                faces.append((pl_center, pl_base + ni, pl_base + i))
+                # Exterior bottom disk (-Z)
+                faces.append((fl_center, fl_base + i, fl_base + ni))
 
         add_mesh_object(f"TerraCotta_Pot_{pot_idx + 1:02d}", verts, faces, col_pots, material=mat, smooth=True)
 
@@ -1674,6 +1855,7 @@ def build_stacked_pots(col_pots, cam_xy):
             "index": pot_idx,
             "z_bot": z_bot_m,
             "z_plancher": cz_pl,
+            "z_fill": (Y_FILL_LOCAL_MM - P2_H_MM + dy_rel_mm) * scale if use_fill_groove else None,
             "in_r_rim": bins_in_r_rim,
             "in_z_rim": bins_in_z_rim,
             "in_r_plancher": bins_in_r_plancher,
@@ -1770,6 +1952,8 @@ def find_pot_planting_stations(pot_infos, pot_idx):
     # Lower / middle pot: pot_above sits stacked inside it, leaving crescent lobe pockets
     p_above = pot_infos[pot_idx + 1]
     z_soil_ref = z_pl + 0.84 * max(0.02, min_z_rim - z_pl)
+    if p.get("z_fill") is not None:
+        z_soil_ref = max(z_pl + 0.015, min(p["z_fill"], min_z_rim - 0.018))
 
     gaps = [0.0] * 360
     for b in range(360):
@@ -1847,7 +2031,7 @@ def find_pot_planting_stations(pot_infos, pot_idx):
             phi = math.radians(cand_deg)
             z_local_soil = min(z_soil_ref + 0.008, p["in_z_rim"][cand_deg] - 0.018)
             r_in = pot_inner_radius_at(p, phi, z_local_soil)
-            r_ab = pot_outer_radius_at(p_above, phi, z_local_soil)
+            r_ab = pot_outer_radius_at(p_above, phi, max(z_local_soil, p_above["z_bot"] + 0.015))
             r_mid = r_ab + 0.58 * (r_in - r_ab)
             # Ensure comfortable margin inside rim and outside pot above
             r_mid = min(r_in - 0.016, max(r_ab + 0.014, r_mid))
@@ -1915,7 +2099,7 @@ def build_soil_mesh_for_pot(pot_infos, pot_idx, z_soil_base, stations, col_earth
     # Center vertex (safely below pot_above's floor if an upper pot sits inside this pot)
     z_center = z_soil_base + 0.010
     if has_above:
-        z_center = min(z_center, p_above["z_plancher"] - 0.008)
+        z_center = min(z_center, p_above["z_bot"] - 0.004)
     verts.append((0.0, 0.0, z_center))
 
     seed_off = 3.7 * pot_idx + 1.1
@@ -1944,9 +2128,9 @@ def build_soil_mesh_for_pot(pot_infos, pot_idx, z_soil_base, stations, col_earth
             edge_atten = 0.25 if u > 0.96 else 1.0
             z = z_edge + mound + edge_atten * soil_noise(x, y, seed_off)
 
-            # Never let lower pot soil poke into the interior bowl of the pot stacked above
+            # Never let lower pot soil poke into the bottom or interior bowl of the pot stacked above
             if has_above and r < r_ab_floor + 0.004:
-                z = min(z, p_above["z_plancher"] - 0.006)
+                z = min(z, p_above["z_bot"] - 0.004)
 
             verts.append((x, y, z))
 
@@ -1986,7 +2170,7 @@ def build_soil_mesh_for_pot(pot_infos, pot_idx, z_soil_base, stations, col_earth
             z_rim_h = lookup_polar(p["in_z_rim"], ang)
             z_s = min(z_soil_base, z_rim_h - 0.018)
             r_max = pot_inner_radius_at(p, ang, z_s) - 0.008
-            r_min = pot_outer_radius_at(p_above, ang, z_s) + 0.008 if has_above else 0.01
+            r_min = pot_outer_radius_at(p_above, ang, max(z_s, p_above["z_bot"] + 0.015)) + 0.008 if has_above else 0.01
             if r_max <= r_min:
                 continue
             rr = max(r_min, min(r_max, rr))

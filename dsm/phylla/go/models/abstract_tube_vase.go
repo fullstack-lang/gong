@@ -68,6 +68,27 @@ type TubeVaseAbstract struct {
 	// LipWidth x RhombusSideLength is the outward horizontal width of the outer lip when HasLip is true.
 	LipWidth float64
 
+	// HasFillLevelLine when true carves a subtle recessed V-groove along the interior wall of closed-bottom
+	// Vase Trapeze rings marking the maximum soil fill level that preserves rotated stacking clearance.
+	HasFillLevelLine bool
+
+	// HasDrainageHole when true punches a central vertical drainage hole (with a gentle 2° interior funnel
+	// slope and 45° countersink chamfer) through the bottom slab of closed-bottom Vase Trapeze rings.
+	HasDrainageHole bool
+
+	// DrainageHoleRadius x RhombusSideLength is the radius of the central drainage hole when HasDrainageHole is true.
+	DrainageHoleRadius float64
+
+	// HasFootRim when true recesses the exterior underside of closed-bottom Vase Trapeze rings to leave
+	// a thin ceramic-cup-style raised foot rim with 3 subtle drainage breather notches.
+	HasFootRim bool
+
+	// FootRimHeight x RhombusSideLength is the upward underside recess / foot rim height when HasFootRim is true.
+	FootRimHeight float64
+
+	// FootRimWidth x RhombusSideLength is the horizontal perpendicular width of the standing foot rim when HasFootRim is true.
+	FootRimWidth float64
+
 	// RelativeVerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next
 	// the vertical thickness is RelativeVerticalThickness x RhombusSideLength
 	RelativeVerticalThickness float64

@@ -102,10 +102,43 @@ func TestPhyllaMergedFormSlidersCheckboxesSelectAndAccordions(t *testing.T) {
 		}
 	}
 
-	for _, expectedAcc := range []string{"Plant Lattice", "Vase Core", "Ribbon & Planes", "Bulbous, Wall & Lip", "Lighting", "Cutoff Plane"} {
+	for _, expectedAcc := range []string{"Plant Lattice", "Vase Core", "Ribbon & Planes", "Bulbous, Wall & Lip", "Fill Line & Drainage", "Lighting", "Cutoff Plane"} {
 		if !accordions[expectedAcc] {
 			t.Fatalf("expected accordion %q in VaseTrapeze 3D controls, got %v", expectedAcc, accordions)
 		}
+	}
+
+	var fillLineCB, drainageHoleCB, footRimCB *form.CheckBox
+	var holeRadiusSlider, footHeightSlider, footWidthSlider *form.FormFieldFloat64
+	for _, div := range fg3D.FormDivs {
+		for _, cb := range div.CheckBoxs {
+			switch cb.Name {
+			case "Fill Level Line":
+				fillLineCB = cb
+			case "Drainage Hole":
+				drainageHoleCB = cb
+			case "Foot Rim":
+				footRimCB = cb
+			}
+		}
+		for _, ff := range div.FormFields {
+			if ff.FormFieldFloat64 != nil && ff.FormFieldFloat64.IsSlider {
+				switch ff.Name {
+				case "Drainage Hole Radius":
+					holeRadiusSlider = ff.FormFieldFloat64
+				case "Foot Rim Height":
+					footHeightSlider = ff.FormFieldFloat64
+				case "Foot Rim Width":
+					footWidthSlider = ff.FormFieldFloat64
+				}
+			}
+		}
+	}
+	if fillLineCB == nil || drainageHoleCB == nil || footRimCB == nil ||
+		holeRadiusSlider == nil || footHeightSlider == nil || footWidthSlider == nil {
+		t.Fatalf("missing Fill Line & Drainage controls: fill=%v hole=%v foot=%v r=%v h=%v w=%v",
+			fillLineCB != nil, drainageHoleCB != nil, footRimCB != nil,
+			holeRadiusSlider != nil, footHeightSlider != nil, footWidthSlider != nil)
 	}
 	if curvedWallCB == nil {
 		t.Fatalf("expected real CheckBox for 'Curved Wall' instead of 0..1 slider")

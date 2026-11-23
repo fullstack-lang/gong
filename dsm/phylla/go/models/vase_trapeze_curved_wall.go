@@ -484,12 +484,16 @@ func RingWallSampleY(s, sWall int, yBot, yTop, yContactGlobal float64) float64 {
 		return yBot + (float64(s)/float64(sWall))*(yTop-yBot)
 	}
 	sSplit := sWall / 3
-	minSpan := (yTop - yBot) / float64(sWall)
-	yMid := math.Max(yBot+minSpan, math.Min(yTop-minSpan, yContactGlobal))
-	if s <= sSplit {
-		return yBot + (float64(s)/float64(sSplit))*(yMid-yBot)
+	span := yTop - yBot
+	minBot := yBot + 0.25*span*(float64(sSplit)/float64(sWall))
+	maxTop := yTop - 0.25*span*(float64(sWall-sSplit)/float64(sWall))
+	if yContactGlobal <= minBot || yContactGlobal >= maxTop {
+		return yBot + (float64(s)/float64(sWall))*span
 	}
-	return yMid + (float64(s-sSplit)/float64(sWall-sSplit))*(yTop-yMid)
+	if s <= sSplit {
+		return yBot + (float64(s)/float64(sSplit))*(yContactGlobal-yBot)
+	}
+	return yContactGlobal + (float64(s-sSplit)/float64(sWall-sSplit))*(yTop-yContactGlobal)
 }
 
 // OffsetRadialPoint shifts a 3D point (X, Y, Z) horizontally in cylindrical radius by deltaR.
@@ -682,6 +686,13 @@ func ComputeVaseTrapezeUnrotatedStepDYs(
 		hRingBottom = math.Min(basePlateHeight, ringHeight)
 	}
 	yFloorRing := p2H + hRingBottom
+	footHRing := ComputeVaseTrapezeFootRimHeight(plant, hRingBottom, hasRingBottom)
+	hasFootRim := footHRing > 1e-4
+	yOuterWallBotRing := p2H + footHRing
+	footInsetRing := 0.0
+	if hasFootRim {
+		footInsetRing = math.Min(DefaultVaseTrapezeFootRimInsetRatio*sideLength, 0.75*footHRing)
+	}
 
 	deltaYContact := ComputeVaseTrapezeContactStepDYForCurves(plant, hasConstantThickness, baseBottomY, baseTopY)
 	yContact := p1H - deltaYContact
@@ -820,7 +831,7 @@ func ComputeVaseTrapezeUnrotatedStepDYs(
 				cOut = carvedParam * (rMaxOutP1 - rStOut(idx, p1H)) / rRangeOut
 			}
 			ytRing := (1.0-cOut)*p1H + cOut*yFloorRing
-			ylRing := VaseTrapezeLipBottomY(p2H, ytRing, lipHeight)
+			ylRing := VaseTrapezeLipBottomY(yOuterWallBotRing, ytRing, lipHeight)
 			rRingBotLip[idx] = math.Max(0.0, rStOut(idx, ylRing)+ringDR(ylRing))
 			rRingTop[idx] = math.Max(0.0, rStOut(idx, ytRing)+ringDR(ytRing))
 			if hasBasePlate {
@@ -859,16 +870,20 @@ func ComputeVaseTrapezeUnrotatedStepDYs(
 		polyRing = polyRing[:0]
 		yWallTopRing := yTopOutRing
 		if hasLip {
-			yWallTopRing = VaseTrapezeLipBottomY(p2H, yTopOutRing, lipHeight)
+			yWallTopRing = VaseTrapezeLipBottomY(yOuterWallBotRing, yTopOutRing, lipHeight)
+		}
+		if hasFootRim {
+			rFootOut := math.Max(0.0, rStOut(i, yOuterWallBotRing)+ringDR(yOuterWallBotRing)-footInsetRing)
+			polyRing = append(polyRing, meridianPt{r: rFootOut, y: p2H})
 		}
 		for s := 0; s <= sWall; s++ {
 			var y float64
 			if s == 0 {
-				y = p2H
+				y = yOuterWallBotRing
 			} else if s == sWall {
 				y = yWallTopRing
 			} else {
-				y = RingWallSampleY(s, sWall, p2H, yWallTopRing, yContact)
+				y = RingWallSampleY(s, sWall, yOuterWallBotRing, yWallTopRing, yContact)
 			}
 			r := math.Max(0.0, rStOut(i, y)+ringDR(y))
 			polyRing = append(polyRing, meridianPt{r: r, y: y})
@@ -904,10 +919,20 @@ func ComputeVaseTrapezeUnrotatedStepDYs(
 				r := math.Max(0.0, rStIn(i, y)+ringDR(y))
 				polyRing = append(polyRing, meridianPt{r: r, y: y})
 			}
-			polyRing = append(polyRing,
-				meridianPt{r: 0.0, y: yFloorRing},
-				meridianPt{r: 0.0, y: p2H},
-			)
+			if hasFootRim {
+				rRecOut := math.Max(0.0, rStOut(i, yOuterWallBotRing)+ringDR(yOuterWallBotRing)-footInsetRing-vase.FootRimWidth*sideLength)
+				polyRing = append(polyRing,
+					meridianPt{r: 0.0, y: yFloorRing},
+					meridianPt{r: 0.0, y: yOuterWallBotRing},
+					meridianPt{r: rRecOut, y: yOuterWallBotRing},
+					meridianPt{r: rRecOut, y: p2H},
+				)
+			} else {
+				polyRing = append(polyRing,
+					meridianPt{r: 0.0, y: yFloorRing},
+					meridianPt{r: 0.0, y: p2H},
+				)
+			}
 		} else {
 			for s := sWall; s >= 0; s-- {
 				var y float64

@@ -5783,6 +5783,36 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *Probe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "HasFillLevelLine"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "HasDrainageHole"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "DrainageHoleRadius"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "HasFootRim"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FootRimHeight"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "FootRimWidth"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "RelativeVerticalThickness"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -6165,6 +6195,42 @@ func updateStageSetTable_TubeVaseAbstract_Stage(probe *Probe) {
 		{
 			cell := &table_models.Cell{Name: "LipWidth"}
 			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.LipWidth)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "HasFillLevelLine"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.HasFillLevelLine}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "HasDrainageHole"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.HasDrainageHole}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "DrainageHoleRadius"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.DrainageHoleRadius)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "HasFootRim"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.HasFootRim}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FootRimHeight"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.FootRimHeight)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "FootRimWidth"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.FootRimWidth)}
 			row.Cells = append(row.Cells, cell)
 		}
 

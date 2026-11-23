@@ -1062,9 +1062,21 @@ func writeVaseTrapezeSTL(
 		cOuterP2 := offsetCurveSTL(cOuterStraightP2, ringDeltaR)
 		cInnerP2 := offsetCurveSTL(cInnerStraightP2, ringDeltaR)
 
+		var apparatus ringBottomApparatusVec3
+		cOuterWallBot := cOuterP2
+		if hasRingBottom {
+			apparatus = computeRingBottomApparatusVec3(
+				plant, cOuterStraightP2, cOuterUncarvedP1, cInnerPlancher,
+				p2H, ringHeight, hRingBottom, 0.0, isCurvedWall, ringDeltaR,
+			)
+			if apparatus.activeFootRim {
+				cOuterWallBot = apparatus.cOuterWallBot
+			}
+		}
+
 		if hasLip {
 			cWallLipBot, collarRows := computeVaseTrapezeLipGridVec3(
-				cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1,
+				cOuterWallBot, cOuterP1, cOuterStraightP2, cOuterUncarvedP1,
 				p2H, ringHeight, 0.0, lipHeight, lipWidth, sWall, isCurvedWall, ringDeltaR,
 			)
 			cLipBot := collarRows[0]
@@ -1078,36 +1090,81 @@ func writeVaseTrapezeSTL(
 			// 2b. Lip horizontal underside step (normal -Y)
 			writeQuadStripSTL(sb, cWallLipBot, cLipBot)
 			// 2c. Lower outer wall of ring (normal +r)
-			writeSubdividedWallSTL(cOuterP2, cWallLipBot, cOuterStraightP2, cOuterUncarvedP1, ringHeight, p2H, ringDeltaR, true, false)
+			writeSubdividedWallSTL(cOuterWallBot, cWallLipBot, cOuterStraightP2, cOuterUncarvedP1, ringHeight, p2H, ringDeltaR, true, false)
 		} else {
 			// 1. Plane 1 annular face (top of ring, normal +Y)
 			writeQuadStripSTL(sb, cOuterP1, cInnerP1)
 			// 2. Outer wall of ring (normal +r)
-			writeSubdividedWallSTL(cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1, ringHeight, p2H, ringDeltaR, true, false)
+			writeSubdividedWallSTL(cOuterWallBot, cOuterP1, cOuterStraightP2, cOuterUncarvedP1, ringHeight, p2H, ringDeltaR, true, false)
 		}
 
 		if hasRingBottom {
-			// 3. Inner wall of ring down to plancher (normal -r)
-			writeSubdividedWallSTL(cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, ringHeight, p2H, ringDeltaR, true, true)
-
-			var sumOuterX, sumOuterY, sumOuterZ float64
-			var sumInnerX, sumInnerY, sumInnerZ float64
-			for i := range M {
-				sumInnerX += cInnerPlancher[i].X
-				sumInnerY += cInnerPlancher[i].Y
-				sumInnerZ += cInnerPlancher[i].Z
-				sumOuterX += cOuterP2[i].X
-				sumOuterY += cOuterP2[i].Y
-				sumOuterZ += cOuterP2[i].Z
+			// 3. Inner wall of ring down to plancher (normal -r), with optional recessed fill-level V-groove
+			if yFillLocal, grooveDepth, grooveHalfH, hasFillLine := ComputeVaseTrapezeFillLevelLineParams(
+				plant, p1H, p2H, hRingBottom, hasTrapezeConstantThickness,
+			); hasFillLine {
+				yContact := p1H - deltaYContact
+				lowerRows, grooveRows, upperRows := computeInnerFillGrooveGridVec3(
+					cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, cOuterStraightP2, cOuterUncarvedP1,
+					p2H, ringHeight, 0.0, yContact, yFillLocal, grooveDepth, grooveHalfH, sWall, isCurvedWall, ringDeltaR,
+				)
+				for s := range len(lowerRows) - 1 {
+					writeQuadStripSTL(sb, lowerRows[s+1], lowerRows[s])
+				}
+				writeQuadStripSTL(sb, grooveRows[1], grooveRows[0])
+				writeQuadStripSTL(sb, grooveRows[2], grooveRows[1])
+				for s := range len(upperRows) - 1 {
+					writeQuadStripSTL(sb, upperRows[s+1], upperRows[s])
+				}
+			} else {
+				writeSubdividedWallSTL(cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, ringHeight, p2H, ringDeltaR, true, true)
 			}
-			plancherCenter := vector3{X: sumInnerX / float64(M), Y: sumInnerY / float64(M), Z: sumInnerZ / float64(M)}
-			floorCenter := vector3{X: sumOuterX / float64(M), Y: sumOuterY / float64(M), Z: sumOuterZ / float64(M)}
-			for i := range M {
-				nextI := (i + 1) % M
-				// 4. Interior plancher top disk (normal +Y)
-				writeFacet(sb, plancherCenter, cInnerPlancher[nextI], cInnerPlancher[i])
-				// 5. Exterior bottom floor disk (normal -Y)
-				writeFacet(sb, floorCenter, cOuterP2[i], cOuterP2[nextI])
+
+			// 4. Foot rim bevels & notched standing band (if active)
+			if apparatus.activeFootRim {
+				writeQuadStripSTL(sb, apparatus.cFootOut, cOuterWallBot)
+				writeQuadStripSTL(sb, apparatus.cFootIn, apparatus.cFootOut)
+				writeQuadStripSTL(sb, apparatus.cRecessOut, apparatus.cFootIn)
+			}
+
+			undersideOuter := cOuterWallBot
+			if apparatus.activeFootRim {
+				undersideOuter = apparatus.cRecessOut
+			}
+
+			if apparatus.activeHole {
+				// 5a. Gently sloped (2°) interior plancher annular face (normal +Y)
+				writeQuadStripSTL(sb, cInnerPlancher, apparatus.cHoleChamfer)
+				// 5b. 45° countersink chamfer at interior hole lip
+				writeQuadStripSTL(sb, apparatus.cHoleChamfer, apparatus.cHoleTop)
+				// 5c. Vertical cylindrical drainage bore wall
+				writeQuadStripSTL(sb, apparatus.cHoleTop, apparatus.cHoleBot)
+				// 5d. Exterior floor / recessed underside annular face (normal -Y)
+				writeQuadStripSTL(sb, apparatus.cHoleBot, undersideOuter)
+			} else {
+				var sumOuterX, sumOuterY, sumOuterZ float64
+				var sumInnerX, sumInnerY, sumInnerZ float64
+				for i := range M {
+					sumInnerX += cInnerPlancher[i].X
+					sumInnerY += cInnerPlancher[i].Y
+					sumInnerZ += cInnerPlancher[i].Z
+					sumOuterX += undersideOuter[i].X
+					sumOuterY += undersideOuter[i].Y
+					sumOuterZ += undersideOuter[i].Z
+				}
+				plancherCenter := vector3{X: sumInnerX / float64(M), Y: sumInnerY / float64(M), Z: sumInnerZ / float64(M)}
+				floorCenter := vector3{X: sumOuterX / float64(M), Y: sumOuterY / float64(M), Z: sumOuterZ / float64(M)}
+				if apparatus.activeFootRim {
+					plancherCenter = vector3{X: apparatus.centerX, Y: sumInnerY / float64(M), Z: apparatus.centerZ}
+					floorCenter = vector3{X: apparatus.centerX, Y: apparatus.yRecess, Z: apparatus.centerZ}
+				}
+				for i := range M {
+					nextI := (i + 1) % M
+					// Interior plancher top disk (normal +Y)
+					writeFacet(sb, plancherCenter, cInnerPlancher[nextI], cInnerPlancher[i])
+					// Exterior bottom floor / recessed underside disk (normal -Y)
+					writeFacet(sb, floorCenter, undersideOuter[i], undersideOuter[nextI])
+				}
 			}
 		} else {
 			// 3. Inner wall of ring (normal -r)

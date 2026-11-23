@@ -878,9 +878,22 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 			name:     fmt.Sprintf("Ring_%d", h),
 			colorHex: GetVaseRingColor(vase.ColorCombination, h),
 		}
+
+		var apparatus ringBottomApparatusVec3
+		cOuterWallBot := cOuterP2
+		if hasRingBottom {
+			apparatus = computeRingBottomApparatusVec3(
+				plant, cOuterStraightP2, cOuterUncarvedP1, cInnerPlancher,
+				p2H, ringHeight, hRingBottom, dy, isCurvedWall, ringDeltaR,
+			)
+			if apparatus.activeFootRim {
+				cOuterWallBot = apparatus.cOuterWallBot
+			}
+		}
+
 		if hasLip {
 			cWallLipBot, collarRows := computeVaseTrapezeLipGridVec3(
-				cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1,
+				cOuterWallBot, cOuterP1, cOuterStraightP2, cOuterUncarvedP1,
 				p2H+dy, ringHeight, dy, lipHeight, lipWidth, sWall, isCurvedWall, ringDeltaR,
 			)
 			cLipBot := collarRows[0]
@@ -892,50 +905,89 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 			// 2b. Lip horizontal underside step (normal -Y)
 			ringMesh.addQuadStrip(cWallLipBot, cLipBot)
 			// 2c. Lower outer wall (normal +r)
-			addSubdividedRingWallGLB(ringMesh, cOuterP2, cWallLipBot, cOuterStraightP2, cOuterUncarvedP1, false)
+			addSubdividedRingWallGLB(ringMesh, cOuterWallBot, cWallLipBot, cOuterStraightP2, cOuterUncarvedP1, false)
 		} else {
 			// 1. Top carved rim face (normal +Y)
 			ringMesh.addQuadStrip(cOuterP1, cInnerP1)
 			// 2. Outer wall (normal +r)
-			addSubdividedRingWallGLB(ringMesh, cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1, false)
+			addSubdividedRingWallGLB(ringMesh, cOuterWallBot, cOuterP1, cOuterStraightP2, cOuterUncarvedP1, false)
 		}
 		if hasRingBottom {
-			// 3. Inner wall down to plancher (normal -r)
-			addSubdividedRingWallGLB(ringMesh, cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, true)
-
-			var sumOuterX, sumOuterY, sumOuterZ float64
-			var sumInnerX, sumInnerY, sumInnerZ float64
-			idxCapInnerPlancher := make([]uint32, M)
-			idxCapOuterFloor := make([]uint32, M)
-			for i := range M {
-				sumInnerX += cInnerPlancher[i].X
-				sumInnerY += cInnerPlancher[i].Y
-				sumInnerZ += cInnerPlancher[i].Z
-				idxCapInnerPlancher[i] = uint32(len(ringMesh.positions))
-				ringMesh.positions = append(ringMesh.positions, cInnerPlancher[i])
-
-				sumOuterX += cOuterP2[i].X
-				sumOuterY += cOuterP2[i].Y
-				sumOuterZ += cOuterP2[i].Z
-				idxCapOuterFloor[i] = uint32(len(ringMesh.positions))
-				ringMesh.positions = append(ringMesh.positions, cOuterP2[i])
-			}
-			idxPlancherCenter := uint32(len(ringMesh.positions))
-			ringMesh.positions = append(ringMesh.positions, vector3{
-				X: sumInnerX / float64(M), Y: sumInnerY / float64(M), Z: sumInnerZ / float64(M),
-			})
-			idxFloorCenter := uint32(len(ringMesh.positions))
-			ringMesh.positions = append(ringMesh.positions, vector3{
-				X: sumOuterX / float64(M), Y: sumOuterY / float64(M), Z: sumOuterZ / float64(M),
-			})
-			for i := range M {
-				nextI := (i + 1) % M
-				ringMesh.indices = append(ringMesh.indices,
-					// 4. Interior plancher top disk (normal +Y)
-					[3]uint32{idxPlancherCenter, idxCapInnerPlancher[nextI], idxCapInnerPlancher[i]},
-					// 5. Exterior bottom floor disk (normal -Y)
-					[3]uint32{idxFloorCenter, idxCapOuterFloor[i], idxCapOuterFloor[nextI]},
+			// 3. Inner wall down to plancher (normal -r), with optional recessed fill-level V-groove
+			if yFillLocal, grooveDepth, grooveHalfH, hasFillLine := ComputeVaseTrapezeFillLevelLineParams(
+				plant, p1H, p2H, hRingBottom, hasTrapezeConstantThickness,
+			); hasFillLine {
+				yContactGlobal := (p1H - deltaYContact) + dy
+				lowerRows, grooveRows, upperRows := computeInnerFillGrooveGridVec3(
+					cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, cOuterStraightP2, cOuterUncarvedP1,
+					p2H, ringHeight, dy, yContactGlobal, yFillLocal, grooveDepth, grooveHalfH, sWall, isCurvedWall, ringDeltaR,
 				)
+				ringMesh.addWallGrid(lowerRows, true)
+				ringMesh.addQuadStrip(grooveRows[1], grooveRows[0])
+				ringMesh.addQuadStrip(grooveRows[2], grooveRows[1])
+				ringMesh.addWallGrid(upperRows, true)
+			} else {
+				addSubdividedRingWallGLB(ringMesh, cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, true)
+			}
+
+			// 4. Foot rim bevels & notched standing band (if active)
+			if apparatus.activeFootRim {
+				ringMesh.addQuadStrip(apparatus.cFootOut, cOuterWallBot)
+				ringMesh.addQuadStrip(apparatus.cFootIn, apparatus.cFootOut)
+				ringMesh.addQuadStrip(apparatus.cRecessOut, apparatus.cFootIn)
+			}
+
+			undersideOuter := cOuterWallBot
+			if apparatus.activeFootRim {
+				undersideOuter = apparatus.cRecessOut
+			}
+
+			if apparatus.activeHole {
+				// 5a. Gently sloped (2°) interior plancher annular face (normal +Y)
+				ringMesh.addQuadStrip(cInnerPlancher, apparatus.cHoleChamfer)
+				// 5b. 45° countersink hole lip chamfer
+				ringMesh.addQuadStrip(apparatus.cHoleChamfer, apparatus.cHoleTop)
+				// 5c. Vertical cylindrical drainage bore wall
+				ringMesh.addQuadStrip(apparatus.cHoleTop, apparatus.cHoleBot)
+				// 5d. Exterior floor / recessed underside annular face (normal -Y)
+				ringMesh.addQuadStrip(apparatus.cHoleBot, undersideOuter)
+			} else {
+				var sumOuterX, sumOuterY, sumOuterZ float64
+				var sumInnerX, sumInnerY, sumInnerZ float64
+				idxCapInnerPlancher := make([]uint32, M)
+				idxCapOuterFloor := make([]uint32, M)
+				for i := range M {
+					sumInnerX += cInnerPlancher[i].X
+					sumInnerY += cInnerPlancher[i].Y
+					sumInnerZ += cInnerPlancher[i].Z
+					idxCapInnerPlancher[i] = uint32(len(ringMesh.positions))
+					ringMesh.positions = append(ringMesh.positions, cInnerPlancher[i])
+
+					sumOuterX += undersideOuter[i].X
+					sumOuterY += undersideOuter[i].Y
+					sumOuterZ += undersideOuter[i].Z
+					idxCapOuterFloor[i] = uint32(len(ringMesh.positions))
+					ringMesh.positions = append(ringMesh.positions, undersideOuter[i])
+				}
+				plancherCenter := vector3{X: sumInnerX / float64(M), Y: sumInnerY / float64(M), Z: sumInnerZ / float64(M)}
+				floorCenter := vector3{X: sumOuterX / float64(M), Y: sumOuterY / float64(M), Z: sumOuterZ / float64(M)}
+				if apparatus.activeFootRim {
+					plancherCenter = vector3{X: apparatus.centerX, Y: sumInnerY / float64(M), Z: apparatus.centerZ}
+					floorCenter = vector3{X: apparatus.centerX, Y: apparatus.yRecess, Z: apparatus.centerZ}
+				}
+				idxPlancherCenter := uint32(len(ringMesh.positions))
+				ringMesh.positions = append(ringMesh.positions, plancherCenter)
+				idxFloorCenter := uint32(len(ringMesh.positions))
+				ringMesh.positions = append(ringMesh.positions, floorCenter)
+				for i := range M {
+					nextI := (i + 1) % M
+					ringMesh.indices = append(ringMesh.indices,
+						// Interior plancher top disk (normal +Y)
+						[3]uint32{idxPlancherCenter, idxCapInnerPlancher[nextI], idxCapInnerPlancher[i]},
+						// Exterior bottom floor / recessed underside disk (normal -Y)
+						[3]uint32{idxFloorCenter, idxCapOuterFloor[i], idxCapOuterFloor[nextI]},
+					)
+				}
 			}
 		} else {
 			// 3. Bottom annular face (normal -Y)

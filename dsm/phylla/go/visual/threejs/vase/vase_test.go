@@ -485,6 +485,9 @@ func TestVaseTrapezeRingBottom(t *testing.T) {
 		}
 	}
 
+	targetPlant.TubeVaseAbstract.HasFillLevelLine = false
+	targetPlant.TubeVaseAbstract.HasDrainageHole = false
+	targetPlant.TubeVaseAbstract.HasFootRim = false
 	targetPlant.TubeVaseAbstract.HasRingBottom = false
 	threejsStageNoBot := threejs.NewStage("threejs_no_bot")
 	stager.SetThreejsStage(threejsStageNoBot)
@@ -941,6 +944,9 @@ func TestVaseTrapezeCurvedWall(t *testing.T) {
 	}
 
 	// 3. Carved-out top + HasRingBottom (plancher) + STL & GLB export validation
+	vase.HasFillLevelLine = false
+	vase.HasDrainageHole = false
+	vase.HasFootRim = false
 	vase.HasCurvedWall = true
 	vase.WallCurvature = -0.5
 	vase.CarvedOutTopRingsParameter = 0.5
@@ -1779,6 +1785,315 @@ func TestVaseTrapezeLip(t *testing.T) {
 	y200, r200 := measureBounds(200.0)
 	if math.Abs(y200/y100-2.0) > 1e-4 || math.Abs(r200/r100-2.0) > 1e-4 {
 		t.Errorf("expected 2.0x scaling with HasLip=true (100->200): Y %.2f->%.2f, R %.2f->%.2f",
+			y100, y200, r100, r200)
+	}
+}
+
+func TestVaseTrapezeFillLineDrainageAndFootRim(t *testing.T) {
+	stagePath := filepath.Join("..", "..", "..", "cmd", "phylla", "data", "stage.go")
+	stage := models.NewStage("test_fill_drainage_foot")
+	if err := stage.ParseAstFile(stagePath, true); err != nil {
+		t.Fatalf("failed to parse stage.go: %v", err)
+	}
+	stage.ComputeReverseMaps()
+	stage.ComputeInstancesNb()
+	stage.ComputeReferenceAndOrders()
+
+	var targetPlant *models.PlantAbstract
+	for plant := range stage.PlantAbstracts {
+		if plant.Name == "Vase Trapeze" {
+			plant.IsSelected = true
+			targetPlant = plant
+		} else {
+			plant.IsSelected = false
+		}
+	}
+	if targetPlant == nil || targetPlant.TubeVaseAbstract == nil {
+		t.Fatalf("Vase Trapeze not found")
+	}
+	vase := targetPlant.TubeVaseAbstract
+
+	// Verify stage.go has the planter details enabled by default
+	if !vase.HasFillLevelLine || !vase.HasDrainageHole || !vase.HasFootRim {
+		t.Fatalf("expected stage.go Vase Trapeze to enable fill line, drainage hole, and foot rim by default")
+	}
+
+	for d := range stage.TubeVase3DDiagrams {
+		if d.Name == "Vase Trapeze-TubeVase3DDiagram" {
+			d.IsChecked = true
+			d.IsHiddenTiledFloor3DShape = true
+			d.IsHiddenVaseTrapezeRingShape = false
+			d.IsHiddenCarvedOutVaseTrapezeRingShape = false
+			d.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = false
+			d.IsHiddenVaseTrapezeBasePlateShape = false
+		}
+	}
+
+	buildScene := func() map[string]*threejs.Mesh {
+		stager := models.NewStagerForTest(stage)
+		stager.EnforceSemanticForTest()
+		stager.SetCurrentPlant(targetPlant)
+		threejsStage := threejs.NewStage("threejs_pot_details")
+		stager.SetThreejsStage(threejsStage)
+		updater := NewThreeJSStageUpdater()
+		updater.UpdateThreeJSStage(stager)
+
+		meshes := make(map[string]*threejs.Mesh)
+		for m := range threejsStage.Meshs {
+			meshes[m.Name] = m
+		}
+		return meshes
+	}
+
+	// 1. Default values enforcement when zeroed
+	vase.HasFillLevelLine = false
+	vase.HasDrainageHole = false
+	vase.HasFootRim = false
+	vase.DrainageHoleRadius = 0.0
+	vase.FootRimHeight = 0.0
+	vase.FootRimWidth = 0.0
+	baseOff := buildScene()
+	if math.Abs(vase.DrainageHoleRadius-models.DefaultVaseTrapezeDrainageHoleRadiusRatio) > 1e-6 ||
+		math.Abs(vase.FootRimHeight-models.DefaultVaseTrapezeFootRimHeightRatio) > 1e-6 ||
+		math.Abs(vase.FootRimWidth-models.DefaultVaseTrapezeFootRimWidthRatio) > 1e-6 {
+		t.Fatalf("unexpected default planter detail ratios: r=%.4f h=%.4f w=%.4f",
+			vase.DrainageHoleRadius, vase.FootRimHeight, vase.FootRimWidth)
+	}
+
+	basePlateOff := baseOff["Vase Trapeze Vase Trapeze Base Plate Mesh"]
+	stlBaseOff := models.GenerateVaseTrapezeBaseAndFirstRingSTL(targetPlant)
+
+	// 2. Enable all three features on HasRingBottom rings; verify Base Plate stays 100% sealed & unchanged
+	vase.HasRingBottom = true
+	vase.HasCurvedWall = true
+	vase.WallCurvature = -0.18
+	vase.HasLip = true
+	vase.HasFillLevelLine = true
+	vase.HasDrainageHole = true
+	vase.HasFootRim = true
+	vase.RotationRatio = 1.0
+	vase.RelativeRotatedTorusSeparation = 0.0
+
+	sceneOn := buildScene()
+	basePlateOn := sceneOn["Vase Trapeze Vase Trapeze Base Plate Mesh"]
+	if len(basePlateOn.BufferGeometry.Faces) != len(basePlateOff.BufferGeometry.Faces) ||
+		len(basePlateOn.BufferGeometry.Vertices) != len(basePlateOff.BufferGeometry.Vertices) {
+		t.Errorf("expected sealed Base Plate mesh to stay unchanged when upper-ring planter details are enabled")
+	}
+	if models.GenerateVaseTrapezeBaseAndFirstRingSTL(targetPlant) != stlBaseOff {
+		t.Errorf("expected BaseAndFirstRingSTL to stay unchanged (sealed Base Plate)")
+	}
+
+	// 3. Verify fill line height, independence from RotationRatio & 3D Separation, and face normals
+	side := targetPlant.RhombusSideLength
+	scaleY := vase.RibbonVerticalScale
+	p1H := (vase.Z_Ribbon + vase.TopPlaneHeight*scaleY) * side
+	p2H := (vase.Z_Ribbon + vase.BottomPlaneHeight*scaleY) * side
+	hRingBottom := vase.BasePlateHeight * side
+	yFillExpected, _, _, okFill := models.ComputeVaseTrapezeFillLevelLineParams(targetPlant, p1H, p2H, hRingBottom, true)
+	if !okFill {
+		t.Fatalf("expected active fill level line params")
+	}
+
+	ringMesh := sceneOn["Vase Trapeze Vase Trapeze Ring Mesh"]
+	if ringMesh == nil || ringMesh.BufferGeometry == nil {
+		t.Fatalf("expected Vase Trapeze Ring Mesh")
+	}
+
+	// Verify groove is positioned at yFillExpected and below stacked Ring h1 bottom by ~5mm clearance
+	ringH1 := sceneOn["Vase Trapeze Stack Of Rotated Carved Out Vase Trapeze Rings h1 Mesh"]
+	minYH1 := math.MaxFloat64
+	for _, v := range ringH1.BufferGeometry.Vertices {
+		if v.Y < minYH1 {
+			minYH1 = v.Y
+		}
+	}
+	expectedClearance := models.DefaultVaseTrapezeFillLineClearanceRatio * side
+	if math.Abs((minYH1-yFillExpected)-expectedClearance) > 0.05 {
+		t.Errorf("expected fill line to sit %.2f mm below Ring h1 bottom (%.2f vs %.2f, diff=%.2f)",
+			expectedClearance, yFillExpected, minYH1, minYH1-yFillExpected)
+	}
+
+	// Verify fill line does not drift when scrubbing RotationRatio or 3D Separation
+	vase.RotationRatio = 0.0
+	vase.RelativeRotatedTorusSeparation = 0.35
+	yFillPreview, _, _, okPreview := models.ComputeVaseTrapezeFillLevelLineParams(targetPlant, p1H, p2H, hRingBottom, true)
+	if !okPreview || math.Abs(yFillPreview-yFillExpected) > 1e-6 {
+		t.Errorf("expected fill line height to remain constant across preview sliders: %.4f vs %.4f", yFillPreview, yFillExpected)
+	}
+	vase.RotationRatio = 1.0
+	vase.RelativeRotatedTorusSeparation = 0.0
+
+	// Verify foot rim resting plane, 3 drainage breather notches, and underside recess
+	minStandY := math.MaxFloat64
+	maxStandY := -math.MaxFloat64
+	nNotchedVerts := 0
+	for _, v := range ringMesh.BufferGeometry.Vertices {
+		if strings.Contains(v.Name, "Foot Rim Standing Face") {
+			if v.Y < minStandY {
+				minStandY = v.Y
+			}
+			if v.Y > maxStandY {
+				maxStandY = v.Y
+			}
+			if v.Y > p2H+0.5 {
+				nNotchedVerts++
+			}
+		}
+	}
+	expectedFootH := models.ComputeVaseTrapezeFootRimHeight(targetPlant, hRingBottom, true)
+	if math.Abs(minStandY-p2H) > 1e-3 {
+		t.Errorf("expected foot rim standing surface at p2H=%.3f, got %.3f", p2H, minStandY)
+	}
+	if maxStandY < p2H+0.80*expectedFootH || nNotchedVerts < 12 {
+		t.Errorf("expected 3 drainage breather notches rising to ~%.2f (got maxY=%.2f, notchedVerts=%d)",
+			p2H+0.88*expectedFootH, maxStandY, nNotchedVerts)
+	}
+
+	// Verify face normals on groove, foot rim, sloped plancher, countersink chamfer, drainage bore, and recessed underside
+	verts := ringMesh.BufferGeometry.Vertices
+	counts := map[string]int{}
+	for _, f := range ringMesh.BufferGeometry.Faces {
+		v1, v2, v3 := verts[f.V1], verts[f.V2], verts[f.V3]
+		ux, uy, uz := v2.X-v1.X, v2.Y-v1.Y, v2.Z-v1.Z
+		wx, wy, wz := v3.X-v1.X, v3.Y-v1.Y, v3.Z-v1.Z
+		nx, ny, nz := uy*wz-uz*wy, uz*wx-ux*wz, ux*wy-uy*wx
+		nLen := math.Sqrt(nx*nx + ny*ny + nz*nz)
+		if nLen < 1e-9 {
+			t.Fatalf("degenerate triangle %q", f.Name)
+		}
+		nx, ny, nz = nx/nLen, ny/nLen, nz/nLen
+		switch {
+		case strings.Contains(f.Name, "Fill Line Lower Groove Face"):
+			counts["fill_lo"]++
+			if ny <= 0.1 {
+				t.Errorf("%q: expected upward-tilted lower groove normal ny > 0.1, got %.4f", f.Name, ny)
+				return
+			}
+		case strings.Contains(f.Name, "Fill Line Upper Groove Face"):
+			counts["fill_hi"]++
+			if ny >= -0.1 {
+				t.Errorf("%q: expected downward-tilted upper groove normal ny < -0.1, got %.4f", f.Name, ny)
+				return
+			}
+		case strings.Contains(f.Name, "Plancher Sloped Face"):
+			counts["plancher"]++
+			if ny < 0.98 {
+				t.Errorf("%q: expected +Y sloped plancher normal ny >= 0.98, got %.4f", f.Name, ny)
+				return
+			}
+		case strings.Contains(f.Name, "Drainage Hole Chamfer Face"):
+			counts["chamfer"]++
+			if ny < 0.4 || ny > 0.95 {
+				t.Errorf("%q: expected ~45° chamfer normal ny in [0.4,0.95], got %.4f", f.Name, ny)
+				return
+			}
+		case strings.Contains(f.Name, "Drainage Hole Bore Face"):
+			counts["bore"]++
+			if math.Abs(ny) > 1e-3 {
+				t.Errorf("%q: expected horizontal bore normal |ny| < 1e-3, got %.4f", f.Name, ny)
+				return
+			}
+		case strings.Contains(f.Name, "Floor Recessed Face"):
+			counts["recess"]++
+			if ny > -0.99 {
+				t.Errorf("%q: expected downward recessed underside normal ny < -0.99, got %.4f", f.Name, ny)
+				return
+			}
+		case strings.Contains(f.Name, "Foot Rim Outer Bevel Face"):
+			counts["foot_out"]++
+			if ny >= 0 {
+				t.Errorf("%q: expected downward-outward foot outer bevel normal ny < 0, got %.4f", f.Name, ny)
+				return
+			}
+		case strings.Contains(f.Name, "Foot Rim Inner Bevel Face"):
+			counts["foot_in"]++
+			if ny >= 0 {
+				t.Errorf("%q: expected downward-inward foot inner bevel normal ny < 0, got %.4f", f.Name, ny)
+				return
+			}
+		case strings.Contains(f.Name, "Foot Rim Standing Face"):
+			counts["foot_stand"]++
+			if ny > -0.5 {
+				t.Errorf("%q: expected downward foot standing normal ny < -0.5, got %.4f", f.Name, ny)
+				return
+			}
+		}
+	}
+	for _, k := range []string{"fill_lo", "fill_hi", "plancher", "chamfer", "bore", "recess", "foot_out", "foot_in", "foot_stand"} {
+		if counts[k] == 0 {
+			t.Errorf("expected non-zero face count for %q", k)
+		}
+	}
+
+	// 4. Watertight 2-manifold STL checks across all feature combinations
+	cases := []struct {
+		name             string
+		curved, lip      bool
+		carved           float64
+		fill, hole, foot bool
+		holeR, footH, fw float64
+	}{
+		{"FullCurvedLip", true, true, 0.0, true, true, true, 0.085, 0.035, 0.045},
+		{"FullCurvedCarvedLip", true, true, 0.35, true, true, true, 0.085, 0.035, 0.045},
+		{"FullStraight", false, false, 0.0, true, true, true, 0.085, 0.035, 0.045},
+		{"FillLineOnly", true, true, 0.20, true, false, false, 0.085, 0.035, 0.045},
+		{"DrainageHoleOnly", true, true, 0.0, false, true, false, 0.085, 0.035, 0.045},
+		{"FootRimOnly", true, true, 0.0, false, false, true, 0.085, 0.035, 0.045},
+		{"ExtremeClampedSliders", true, true, 0.40, true, true, true, 0.30, 0.15, 0.20},
+	}
+	for _, tc := range cases {
+		vase.HasCurvedWall = tc.curved
+		vase.HasLip = tc.lip
+		vase.CarvedOutTopRingsParameter = tc.carved
+		vase.HasFillLevelLine = tc.fill
+		vase.HasDrainageHole = tc.hole
+		vase.HasFootRim = tc.foot
+		vase.DrainageHoleRadius = tc.holeR
+		vase.FootRimHeight = tc.footH
+		vase.FootRimWidth = tc.fw
+		stl := models.GenerateVaseTrapezeOneRingSTL(targetPlant)
+		assertWatertightASCIISTL(t, "OneRingSTL("+tc.name+")", stl, true)
+	}
+
+	// 5. GLB export & 2.0x proportional scaling with all planter details active
+	vase.HasCurvedWall = true
+	vase.HasLip = true
+	vase.CarvedOutTopRingsParameter = 0.0
+	vase.HasFillLevelLine = true
+	vase.HasDrainageHole = true
+	vase.HasFootRim = true
+	vase.DrainageHoleRadius = models.DefaultVaseTrapezeDrainageHoleRadiusRatio
+	vase.FootRimHeight = models.DefaultVaseTrapezeFootRimHeightRatio
+	vase.FootRimWidth = models.DefaultVaseTrapezeFootRimWidthRatio
+
+	glb := models.GenerateVaseTrapezeGLB(targetPlant)
+	if len(glb) < 28 || string(glb[:4]) != "glTF" || !strings.Contains(string(glb), "Ring_1") {
+		t.Errorf("expected valid GLB with planter details enabled")
+	}
+
+	measureBounds := func(sideVal float64) (maxY, maxR float64) {
+		targetPlant.RhombusSideLength = sideVal
+		ms := buildScene()
+		for _, m := range ms {
+			if m.BufferGeometry == nil {
+				continue
+			}
+			for _, v := range m.BufferGeometry.Vertices {
+				if v.Y > maxY {
+					maxY = v.Y
+				}
+				if r := math.Hypot(v.X, v.Z); r > maxR {
+					maxR = r
+				}
+			}
+		}
+		return
+	}
+	y100, r100 := measureBounds(100.0)
+	y200, r200 := measureBounds(200.0)
+	if math.Abs(y200/y100-2.0) > 1e-4 || math.Abs(r200/r100-2.0) > 1e-4 {
+		t.Errorf("expected exact 2.0x scaling with planter details (100->200): Y %.2f->%.2f, R %.2f->%.2f",
 			y100, y200, r100, r200)
 	}
 }

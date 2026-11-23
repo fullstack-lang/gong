@@ -861,6 +861,18 @@ func saveStageSet_TubeVaseAbstract_Stage(
 			FormDivBasicFieldToField(&inst.LipHeight, formDiv)
 		case "LipWidth":
 			FormDivBasicFieldToField(&inst.LipWidth, formDiv)
+		case "HasFillLevelLine":
+			FormDivBasicFieldToField(&inst.HasFillLevelLine, formDiv)
+		case "HasDrainageHole":
+			FormDivBasicFieldToField(&inst.HasDrainageHole, formDiv)
+		case "DrainageHoleRadius":
+			FormDivBasicFieldToField(&inst.DrainageHoleRadius, formDiv)
+		case "HasFootRim":
+			FormDivBasicFieldToField(&inst.HasFootRim, formDiv)
+		case "FootRimHeight":
+			FormDivBasicFieldToField(&inst.FootRimHeight, formDiv)
+		case "FootRimWidth":
+			FormDivBasicFieldToField(&inst.FootRimWidth, formDiv)
 		case "RelativeVerticalThickness":
 			FormDivBasicFieldToField(&inst.RelativeVerticalThickness, formDiv)
 		case "RelativeRadialThickness":

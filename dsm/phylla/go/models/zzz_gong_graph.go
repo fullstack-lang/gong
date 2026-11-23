@@ -13953,6 +13953,24 @@ func (tubevaseabstract *TubeVaseAbstract) GongDiff(stage *Stage, tubevaseabstrac
 	if tubevaseabstract.LipWidth != tubevaseabstractOther.LipWidth {
 		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "LipWidth"))
 	}
+	if tubevaseabstract.HasFillLevelLine != tubevaseabstractOther.HasFillLevelLine {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "HasFillLevelLine"))
+	}
+	if tubevaseabstract.HasDrainageHole != tubevaseabstractOther.HasDrainageHole {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "HasDrainageHole"))
+	}
+	if tubevaseabstract.DrainageHoleRadius != tubevaseabstractOther.DrainageHoleRadius {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "DrainageHoleRadius"))
+	}
+	if tubevaseabstract.HasFootRim != tubevaseabstractOther.HasFootRim {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "HasFootRim"))
+	}
+	if tubevaseabstract.FootRimHeight != tubevaseabstractOther.FootRimHeight {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "FootRimHeight"))
+	}
+	if tubevaseabstract.FootRimWidth != tubevaseabstractOther.FootRimWidth {
+		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "FootRimWidth"))
+	}
 	if tubevaseabstract.RelativeVerticalThickness != tubevaseabstractOther.RelativeVerticalThickness {
 		diffs = append(diffs, tubevaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
 	}

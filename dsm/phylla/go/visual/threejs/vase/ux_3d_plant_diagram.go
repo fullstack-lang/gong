@@ -686,9 +686,112 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			cOuterB := offsetCurveAtLocalY(cOuterStraightB, dy, ringDeltaR, fmt.Sprintf("%s %s Outer P2 Curved", plant.Name, ringName))
 			cInnerB := offsetCurveAtLocalY(cInnerStraightB, dy, ringDeltaR, fmt.Sprintf("%s %s Inner P2 Curved", plant.Name, ringName))
 
+			unpackCurve := func(c *threejs.Curve) (xs, ys, zs []float64) {
+				xs = make([]float64, M)
+				ys = make([]float64, M)
+				zs = make([]float64, M)
+				for i := 0; i < M; i++ {
+					pt := c.Points[i]
+					xs[i], ys[i], zs[i] = pt.X, pt.Y, pt.Z
+				}
+				return xs, ys, zs
+			}
+			packCurve := func(xs, ys, zs []float64) *threejs.Curve {
+				n := min(len(xs), len(ys), len(zs))
+				if n == 0 {
+					return nil
+				}
+				pts := make([]*threejs.Vector3, n)
+				for i := 0; i < n; i++ {
+					pts[i] = &threejs.Vector3{X: xs[i], Y: ys[i], Z: zs[i]}
+				}
+				return &threejs.Curve{Points: pts}
+			}
+			addRowGrid := func(rx, ry, rz [][]float64, stripName string, inward bool) {
+				nRows := len(rx)
+				if nRows < 2 {
+					return
+				}
+				idxGrid := make([][]int, nRows)
+				for s := 0; s < nRows; s++ {
+					idxGrid[s] = make([]int, M)
+					for i := 0; i < M; i++ {
+						idxGrid[s][i] = len(volGeom.Vertices)
+						volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
+							Name: fmt.Sprintf("%s %s %s s%d %d", plant.Name, ringName, stripName, s, i),
+							X:    rx[s][i], Y: ry[s][i], Z: rz[s][i],
+						}).Stage(threejsStage))
+					}
+				}
+				for s := 0; s < nRows-1; s++ {
+					for i := 0; i < M; i++ {
+						nextI := (i + 1) % M
+						var v1_1, v2_1, v3_1, v1_2, v2_2, v3_2 int
+						if inward {
+							v1_1, v2_1, v3_1 = idxGrid[s+1][i], idxGrid[s][i], idxGrid[s][nextI]
+							v1_2, v2_2, v3_2 = idxGrid[s+1][i], idxGrid[s][nextI], idxGrid[s+1][nextI]
+						} else {
+							v1_1, v2_1, v3_1 = idxGrid[s][i], idxGrid[s+1][i], idxGrid[s+1][nextI]
+							v1_2, v2_2, v3_2 = idxGrid[s][i], idxGrid[s+1][nextI], idxGrid[s][nextI]
+						}
+						volGeom.Faces = append(volGeom.Faces,
+							(&threejs.Triangle{
+								Name: fmt.Sprintf("%s %s %s T1 s%d %d", plant.Name, ringName, stripName, s, i),
+								V1:   v1_1, V2: v2_1, V3: v3_1,
+							}).Stage(threejsStage),
+							(&threejs.Triangle{
+								Name: fmt.Sprintf("%s %s %s T2 s%d %d", plant.Name, ringName, stripName, s, i),
+								V1:   v1_2, V2: v2_2, V3: v3_2,
+							}).Stage(threejsStage),
+						)
+					}
+				}
+			}
+
+			cOuterWallBot := cOuterB
+			var cFootOut, cFootIn, cRecessOut *threejs.Curve
+			var cHoleChamfer, cHoleTop, cHoleBot *threejs.Curve
+			var floorCenterX, floorCenterZ, yRecess float64
+			var activeFootRim, activeHole bool
+
+			if withBottom {
+				oP2X, _, oP2Z := unpackCurve(cOuterStraightB)
+				oP1X, _, oP1Z := unpackCurve(cOuterUncarvedP1)
+				iPlX, iPlY, iPlZ := unpackCurve(cInnerPlancher)
+
+				owX, owY, owZ,
+					foX, foY, foZ,
+					fiX, fiY, fiZ,
+					roX, roY, roZ,
+					hcX, hcY, hcZ,
+					htX, htY, htZ,
+					hbX, hbY, hbZ,
+					cx, cz, yRec,
+					hasFoot, hasHole := models.ComputeVaseTrapezeRingBottomApparatus(
+					plant,
+					oP2X, oP2Z, oP1X, oP1Z,
+					iPlX, iPlY, iPlZ,
+					p2H, ringHeight, hRingBottom, dy,
+					isCurvedWall, ringDeltaR,
+				)
+				floorCenterX, floorCenterZ, yRecess = cx, cz, yRec
+				activeFootRim, activeHole = hasFoot, hasHole
+				if activeFootRim {
+					cOuterWallBot = packCurve(owX, owY, owZ)
+					cFootOut = packCurve(foX, foY, foZ)
+					cFootIn = packCurve(fiX, fiY, fiZ)
+					cRecessOut = packCurve(roX, roY, roZ)
+				}
+				if activeHole {
+					cHoleChamfer = packCurve(hcX, hcY, hcZ)
+					cHoleTop = packCurve(htX, htY, htZ)
+					cHoleBot = packCurve(hbX, hbY, hbZ)
+				}
+			}
+
 			if hasLip {
 				cWallLipBot, collarRows := computeLipGrid3D(
-					cOuterB, cOuterA, cOuterStraightB, cOuterUncarvedP1,
+					cOuterWallBot, cOuterA, cOuterStraightB, cOuterUncarvedP1,
 					M, p2H+dy, ringHeight, dy, ringDeltaR,
 				)
 				cLipBot := collarRows[0]
@@ -733,74 +836,133 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				// 2b. Lip horizontal underside step (normal -Y)
 				addQuadStrip(cWallLipBot, cLipBot, "Lip Underside Face", false)
 
-				// 2c. Lower outer wall from Plane 2 up to lip bottom (normal +r)
-				addSubdividedRingWall(cOuterB, cWallLipBot, cOuterStraightB, cOuterUncarvedP1, "Outer Wall Face", false)
+				// 2c. Lower outer wall from bottom (or foot bevel top) up to lip bottom (normal +r)
+				addSubdividedRingWall(cOuterWallBot, cWallLipBot, cOuterStraightB, cOuterUncarvedP1, "Outer Wall Face", false)
 			} else {
 				// 1. Plane 1 annular face (top of ring, normal +Y)
 				addQuadStrip(cOuterA, cInnerA, "Plane 1 Face", false)
 
-				// 2. Outer wall from Plane 2 to Plane 1 (normal +r)
-				addSubdividedRingWall(cOuterB, cOuterA, cOuterStraightB, cOuterUncarvedP1, "Outer Wall Face", false)
+				// 2. Outer wall from bottom (or foot bevel top) to Plane 1 (normal +r)
+				addSubdividedRingWall(cOuterWallBot, cOuterA, cOuterStraightB, cOuterUncarvedP1, "Outer Wall Face", false)
 			}
 
 			if withBottom {
-				// 3. Inner wall from Plane 1 down to plancher (normal -r)
-				addSubdividedRingWall(cInnerPlancher, cInnerA, cInnerStraightB, cInnerUncarvedP1, "Inner Wall Face", true)
+				// 3. Inner wall from Plane 1 down to plancher (normal -r), with optional recessed fill-level V-groove
+				if yFillLocal, grooveDepth, grooveHalfH, hasFillLine := models.ComputeVaseTrapezeFillLevelLineParams(
+					plant, p1H, p2H, hRingBottom, hasTrapezeConstantThickness,
+				); hasFillLine {
+					ibX, ibY, ibZ := unpackCurve(cInnerPlancher)
+					itX, itY, itZ := unpackCurve(cInnerA)
+					isbX, _, isbZ := unpackCurve(cInnerStraightB)
+					istX, _, istZ := unpackCurve(cInnerUncarvedP1)
+					osbX, _, osbZ := unpackCurve(cOuterStraightB)
+					ostX, _, ostZ := unpackCurve(cOuterUncarvedP1)
+					yContactGlobal := (p1H - deltaYContact) + dy
 
-				var sumOuterX, sumOuterY, sumOuterZ float64
-				var sumInnerX, sumInnerY, sumInnerZ float64
-				idxCapInnerPlancher := make([]int, M)
-				idxCapOuterFloor := make([]int, M)
-				for i := 0; i < M; i++ {
-					ptIn := cInnerPlancher.Points[i]
-					sumInnerX += ptIn.X
-					sumInnerY += ptIn.Y
-					sumInnerZ += ptIn.Z
-					idxCapInnerPlancher[i] = len(volGeom.Vertices)
-					volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
-						Name: fmt.Sprintf("%s %s Cap Inner Plancher %d", plant.Name, ringName, i),
-						X:    ptIn.X, Y: ptIn.Y, Z: ptIn.Z,
-					}).Stage(threejsStage))
-
-					ptOut := cOuterB.Points[i]
-					sumOuterX += ptOut.X
-					sumOuterY += ptOut.Y
-					sumOuterZ += ptOut.Z
-					idxCapOuterFloor[i] = len(volGeom.Vertices)
-					volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
-						Name: fmt.Sprintf("%s %s Cap Outer Floor %d", plant.Name, ringName, i),
-						X:    ptOut.X, Y: ptOut.Y, Z: ptOut.Z,
-					}).Stage(threejsStage))
+					lX, lY, lZ, gX, gY, gZ, uX, uY, uZ := models.ComputeVaseTrapezeInnerFillGrooveGrid(
+						ibX, ibY, ibZ,
+						itX, itY, itZ,
+						isbX, isbZ, istX, istZ,
+						osbX, osbZ, ostX, ostZ,
+						p2H, ringHeight, dy, yContactGlobal,
+						yFillLocal, grooveDepth, grooveHalfH,
+						sWall, isCurvedWall, ringDeltaR,
+					)
+					addRowGrid(lX, lY, lZ, "Inner Wall Lower Face", true)
+					gRow0 := packCurve(gX[0], gY[0], gZ[0])
+					gRow1 := packCurve(gX[1], gY[1], gZ[1])
+					gRow2 := packCurve(gX[2], gY[2], gZ[2])
+					addQuadStrip(gRow1, gRow0, "Fill Line Lower Groove Face", false)
+					addQuadStrip(gRow2, gRow1, "Fill Line Upper Groove Face", false)
+					addRowGrid(uX, uY, uZ, "Inner Wall Upper Face", true)
+				} else {
+					addSubdividedRingWall(cInnerPlancher, cInnerA, cInnerStraightB, cInnerUncarvedP1, "Inner Wall Face", true)
 				}
 
-				idxPlancherCenter := len(volGeom.Vertices)
-				volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
-					Name: fmt.Sprintf("%s %s Plancher Center", plant.Name, ringName),
-					X:    sumInnerX / float64(M), Y: sumInnerY / float64(M), Z: sumInnerZ / float64(M),
-				}).Stage(threejsStage))
+				// 4. Foot rim bevels & standing rim (if active)
+				if activeFootRim {
+					addQuadStrip(cFootOut, cOuterWallBot, "Foot Rim Outer Bevel Face", false)
+					addQuadStrip(cFootIn, cFootOut, "Foot Rim Standing Face", false)
+					addQuadStrip(cRecessOut, cFootIn, "Foot Rim Inner Bevel Face", false)
+				}
 
-				idxFloorCenter := len(volGeom.Vertices)
-				volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
-					Name: fmt.Sprintf("%s %s Floor Center", plant.Name, ringName),
-					X:    sumOuterX / float64(M), Y: sumOuterY / float64(M), Z: sumOuterZ / float64(M),
-				}).Stage(threejsStage))
+				cUndersideOuter := cOuterWallBot
+				if activeFootRim {
+					cUndersideOuter = cRecessOut
+				}
 
-				for i := 0; i < M; i++ {
-					nextI := (i + 1) % M
-					// 4. Interior plancher top disk (normal +Y)
-					volGeom.Faces = append(volGeom.Faces,
-						(&threejs.Triangle{
-							Name: fmt.Sprintf("%s %s Plancher Face %d", plant.Name, ringName, i),
-							V1:   idxPlancherCenter, V2: idxCapInnerPlancher[nextI], V3: idxCapInnerPlancher[i],
-						}).Stage(threejsStage),
-					)
-					// 5. Exterior bottom floor disk (normal -Y)
-					volGeom.Faces = append(volGeom.Faces,
-						(&threejs.Triangle{
-							Name: fmt.Sprintf("%s %s Floor Face %d", plant.Name, ringName, i),
-							V1:   idxFloorCenter, V2: idxCapOuterFloor[i], V3: idxCapOuterFloor[nextI],
-						}).Stage(threejsStage),
-					)
+				if activeHole {
+					// 5a. Gently sloped (2°) interior plancher annular face (normal +Y)
+					addQuadStrip(cInnerPlancher, cHoleChamfer, "Plancher Sloped Face", false)
+					// 5b. 45° countersink hole chamfer (normal +Y, -r)
+					addQuadStrip(cHoleChamfer, cHoleTop, "Drainage Hole Chamfer Face", false)
+					// 5c. Vertical cylindrical drainage bore wall (normal facing bore axis)
+					addQuadStrip(cHoleTop, cHoleBot, "Drainage Hole Bore Face", false)
+					// 5d. Exterior recessed underside annular face (normal -Y)
+					addQuadStrip(cHoleBot, cUndersideOuter, "Floor Recessed Face", false)
+				} else {
+					var sumOuterX, sumOuterY, sumOuterZ float64
+					var sumInnerX, sumInnerY, sumInnerZ float64
+					idxCapInnerPlancher := make([]int, M)
+					idxCapOuterFloor := make([]int, M)
+					for i := 0; i < M; i++ {
+						ptIn := cInnerPlancher.Points[i]
+						sumInnerX += ptIn.X
+						sumInnerY += ptIn.Y
+						sumInnerZ += ptIn.Z
+						idxCapInnerPlancher[i] = len(volGeom.Vertices)
+						volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
+							Name: fmt.Sprintf("%s %s Cap Inner Plancher %d", plant.Name, ringName, i),
+							X:    ptIn.X, Y: ptIn.Y, Z: ptIn.Z,
+						}).Stage(threejsStage))
+
+						ptOut := cUndersideOuter.Points[i]
+						sumOuterX += ptOut.X
+						sumOuterY += ptOut.Y
+						sumOuterZ += ptOut.Z
+						idxCapOuterFloor[i] = len(volGeom.Vertices)
+						volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
+							Name: fmt.Sprintf("%s %s Cap Outer Floor %d", plant.Name, ringName, i),
+							X:    ptOut.X, Y: ptOut.Y, Z: ptOut.Z,
+						}).Stage(threejsStage))
+					}
+
+					plancherCX, plancherCZ := sumInnerX/float64(M), sumInnerZ/float64(M)
+					floorCX, floorCY, floorCZ := sumOuterX/float64(M), sumOuterY/float64(M), sumOuterZ/float64(M)
+					if activeFootRim {
+						plancherCX, plancherCZ = floorCenterX, floorCenterZ
+						floorCX, floorCY, floorCZ = floorCenterX, yRecess, floorCenterZ
+					}
+
+					idxPlancherCenter := len(volGeom.Vertices)
+					volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
+						Name: fmt.Sprintf("%s %s Plancher Center", plant.Name, ringName),
+						X:    plancherCX, Y: sumInnerY / float64(M), Z: plancherCZ,
+					}).Stage(threejsStage))
+
+					idxFloorCenter := len(volGeom.Vertices)
+					volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
+						Name: fmt.Sprintf("%s %s Floor Center", plant.Name, ringName),
+						X:    floorCX, Y: floorCY, Z: floorCZ,
+					}).Stage(threejsStage))
+
+					for i := 0; i < M; i++ {
+						nextI := (i + 1) % M
+						// Interior plancher top disk (normal +Y)
+						volGeom.Faces = append(volGeom.Faces,
+							(&threejs.Triangle{
+								Name: fmt.Sprintf("%s %s Plancher Face %d", plant.Name, ringName, i),
+								V1:   idxPlancherCenter, V2: idxCapInnerPlancher[nextI], V3: idxCapInnerPlancher[i],
+							}).Stage(threejsStage),
+						)
+						// Exterior bottom floor / recessed underside disk (normal -Y)
+						volGeom.Faces = append(volGeom.Faces,
+							(&threejs.Triangle{
+								Name: fmt.Sprintf("%s %s Floor Face %d", plant.Name, ringName, i),
+								V1:   idxFloorCenter, V2: idxCapOuterFloor[i], V3: idxCapOuterFloor[nextI],
+							}).Stage(threejsStage),
+						)
+					}
 				}
 			} else {
 				// 3. Plane 2 annular face (bottom of ring, normal -Y)

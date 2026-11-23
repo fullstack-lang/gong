@@ -117,6 +117,21 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				vase.LipWidth = 0.12
 				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: default LipWidth set to 0.12", plant.Name))
 			}
+			if vase.DrainageHoleRadius <= 0.0 {
+				needCommit = true
+				vase.DrainageHoleRadius = DefaultVaseTrapezeDrainageHoleRadiusRatio
+				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: default DrainageHoleRadius set to %.3f", plant.Name, DefaultVaseTrapezeDrainageHoleRadiusRatio))
+			}
+			if vase.FootRimHeight <= 0.0 {
+				needCommit = true
+				vase.FootRimHeight = DefaultVaseTrapezeFootRimHeightRatio
+				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: default FootRimHeight set to %.3f", plant.Name, DefaultVaseTrapezeFootRimHeightRatio))
+			}
+			if vase.FootRimWidth <= 0.0 {
+				needCommit = true
+				vase.FootRimWidth = DefaultVaseTrapezeFootRimWidthRatio
+				stager.logAndNotify(fmt.Sprintf("Plant %s TubeVase: default FootRimWidth set to %.3f", plant.Name, DefaultVaseTrapezeFootRimWidthRatio))
+			}
 		}
 		if stool := plant.StoolAbstract; stool != nil {
 			if stool.RadialRepetitions < 1 {

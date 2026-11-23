@@ -125,6 +125,14 @@ func (stager *Stager) ux_slider() {
 			form.AppendCheckBox(stager.sliderStage, formGroup, "Lip", &plant.TubeVaseAbstract.HasLip, onUpdate)
 			form.AppendSlider(stager.sliderStage, formGroup, "Lip Extra Height", 0.002, 0.50, 0.002, &plant.TubeVaseAbstract.LipHeight, onUpdate)
 			form.AppendSlider(stager.sliderStage, formGroup, "Lip Width", 0.01, 1.0, 0.01, &plant.TubeVaseAbstract.LipWidth, onUpdate)
+
+			form.StartAccordion(stager.sliderStage, formGroup, "Fill Line & Drainage", true)
+			form.AppendCheckBox(stager.sliderStage, formGroup, "Fill Level Line", &plant.TubeVaseAbstract.HasFillLevelLine, onUpdate)
+			form.AppendCheckBox(stager.sliderStage, formGroup, "Drainage Hole", &plant.TubeVaseAbstract.HasDrainageHole, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Drainage Hole Radius", 0.02, 0.30, 0.005, &plant.TubeVaseAbstract.DrainageHoleRadius, onUpdate)
+			form.AppendCheckBox(stager.sliderStage, formGroup, "Foot Rim", &plant.TubeVaseAbstract.HasFootRim, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Foot Rim Height", 0.005, 0.15, 0.005, &plant.TubeVaseAbstract.FootRimHeight, onUpdate)
+			form.AppendSlider(stager.sliderStage, formGroup, "Foot Rim Width", 0.01, 0.20, 0.005, &plant.TubeVaseAbstract.FootRimWidth, onUpdate)
 		}
 
 		if plant.PlantType == TubeVase {

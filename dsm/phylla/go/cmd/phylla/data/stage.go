@@ -714,9 +714,9 @@ func _(stage *models.Stage) {
 	__models__Rendered3DShape__00000009_.TargetZ = 0.000000
 	__models__Rendered3DShape__00000009_.Fov = 50.000000
 	__models__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__models__Rendered3DShape__00000010_.ViewX = -1423.212855
-	__models__Rendered3DShape__00000010_.ViewY = 2152.168897
-	__models__Rendered3DShape__00000010_.ViewZ = -363.524679
+	__models__Rendered3DShape__00000010_.ViewX = -1425.081200
+	__models__Rendered3DShape__00000010_.ViewY = 2022.114230
+	__models__Rendered3DShape__00000010_.ViewZ = -515.822831
 	__models__Rendered3DShape__00000010_.TargetX = -53.603328
 	__models__Rendered3DShape__00000010_.TargetY = 1495.513363
 	__models__Rendered3DShape__00000010_.TargetZ = 48.732439
@@ -896,6 +896,12 @@ func _(stage *models.Stage) {
 	__models__TubeVaseAbstract__00000001_.HasLip = true
 	__models__TubeVaseAbstract__00000001_.LipHeight = 0.042000
 	__models__TubeVaseAbstract__00000001_.LipWidth = 0.060000
+	__models__TubeVaseAbstract__00000001_.HasFillLevelLine = true
+	__models__TubeVaseAbstract__00000001_.HasDrainageHole = true
+	__models__TubeVaseAbstract__00000001_.DrainageHoleRadius = 0.085000
+	__models__TubeVaseAbstract__00000001_.HasFootRim = true
+	__models__TubeVaseAbstract__00000001_.FootRimHeight = 0.035000
+	__models__TubeVaseAbstract__00000001_.FootRimWidth = 0.045000
 	__models__TubeVaseAbstract__00000001_.RelativeVerticalThickness = 0.060000
 	__models__TubeVaseAbstract__00000001_.RelativeRadialThickness = 0.010000
 	__models__TubeVaseAbstract__00000001_.RelativeCuttedStackFloorHeight = 0.000000

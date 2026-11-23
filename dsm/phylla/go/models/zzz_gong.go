@@ -25436,6 +25436,30 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "HasFillLevelLine",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "HasDrainageHole",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "DrainageHoleRadius",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "HasFootRim",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "FootRimHeight",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "FootRimWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "RelativeVerticalThickness",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -30933,6 +30957,30 @@ func (tubevaseabstract *TubeVaseAbstract) GongGetFieldValue(fieldName string, st
 	case "LipWidth":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.LipWidth)
 		res.valueFloat = tubevaseabstract.LipWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "HasFillLevelLine":
+		res.valueString = fmt.Sprintf("%t", tubevaseabstract.HasFillLevelLine)
+		res.valueBool = tubevaseabstract.HasFillLevelLine
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "HasDrainageHole":
+		res.valueString = fmt.Sprintf("%t", tubevaseabstract.HasDrainageHole)
+		res.valueBool = tubevaseabstract.HasDrainageHole
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "DrainageHoleRadius":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.DrainageHoleRadius)
+		res.valueFloat = tubevaseabstract.DrainageHoleRadius
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "HasFootRim":
+		res.valueString = fmt.Sprintf("%t", tubevaseabstract.HasFootRim)
+		res.valueBool = tubevaseabstract.HasFootRim
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "FootRimHeight":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.FootRimHeight)
+		res.valueFloat = tubevaseabstract.FootRimHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "FootRimWidth":
+		res.valueString = fmt.Sprintf("%f", tubevaseabstract.FootRimWidth)
+		res.valueFloat = tubevaseabstract.FootRimWidth
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RelativeVerticalThickness":
 		res.valueString = fmt.Sprintf("%f", tubevaseabstract.RelativeVerticalThickness)
