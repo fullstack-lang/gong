@@ -1976,6 +1976,8 @@ func TestVaseTrapezeFillLineDrainageAndFootRim(t *testing.T) {
 				t.Errorf("%q: expected downward-tilted upper groove normal ny < -0.1, got %.4f", f.Name, ny)
 				return
 			}
+		case strings.Contains(f.Name, "Inner Wall Face"):
+			counts["inner_smooth_pocket"]++
 		case strings.Contains(f.Name, "Plancher Sloped Face"):
 			counts["plancher"]++
 			if ny < 0.98 {
@@ -2020,11 +2022,63 @@ func TestVaseTrapezeFillLineDrainageAndFootRim(t *testing.T) {
 			}
 		}
 	}
-	for _, k := range []string{"fill_lo", "fill_hi", "plancher", "chamfer", "bore", "recess", "foot_out", "foot_in", "foot_stand"} {
+	for _, k := range []string{"fill_lo", "fill_hi", "inner_smooth_pocket", "plancher", "chamfer", "bore", "recess", "foot_out", "foot_in", "foot_stand"} {
 		if counts[k] == 0 {
 			t.Errorf("expected non-zero face count for %q", k)
 		}
 	}
+
+	// Verify fill-level groove stops cleanly along the open planting pocket (where there is no pot above):
+	// out of M=720 azimuthal columns (1440 triangles for a full-circle strip), the groove should cover the
+	// ~65% occupied arc under the upper pot (~850..1050 triangles) and stop completely across the ~30% open pocket.
+	if counts["fill_lo"] < 600 || counts["fill_lo"] > 1150 {
+		t.Errorf("expected partial-arc fill-level groove stopping in open pocket (600..1150 tris), got %d", counts["fill_lo"])
+	}
+	if counts["fill_hi"] != counts["fill_lo"] {
+		t.Errorf("expected matching lower and upper groove face counts, got %d vs %d", counts["fill_lo"], counts["fill_hi"])
+	}
+
+	// Verify every emitted groove vertex sits inside the covered arc (never deep inside the open pocket at ~290°)
+	openPocketRad := 290.0 * math.Pi / 180.0
+	for _, v := range verts {
+		if strings.Contains(v.Name, "Fill Line Lower Groove Face") || strings.Contains(v.Name, "Fill Line Upper Groove Face") {
+			th := math.Atan2(v.Z, v.X)
+			diff := math.Mod(th-openPocketRad+3.0*math.Pi, 2.0*math.Pi) - math.Pi
+			if math.Abs(diff) < 35.0*math.Pi/180.0 {
+				t.Fatalf("unexpected fill-level groove vertex %q inside open planting pocket (angle=%.1f°)",
+					v.Name, math.Mod(th*180.0/math.Pi+360.0, 360.0))
+			}
+		}
+	}
+
+	// Verify partial groove arc is exact-invariant to 3D Separation and stable (<2°) across RotationRatio morphing
+	vase.RelativeRotatedTorusSeparation = 0.35
+	sceneSep := buildScene()
+	sepFillLo := 0
+	for _, f := range sceneSep["Vase Trapeze Vase Trapeze Ring Mesh"].BufferGeometry.Faces {
+		if strings.Contains(f.Name, "Fill Line Lower Groove Face") {
+			sepFillLo++
+		}
+	}
+	if sepFillLo != counts["fill_lo"] {
+		t.Errorf("expected partial fill-level groove count to remain exact-invariant under 3D Separation: %d vs %d",
+			sepFillLo, counts["fill_lo"])
+	}
+
+	vase.RotationRatio = 0.0
+	scenePreview := buildScene()
+	previewFillLo := 0
+	for _, f := range scenePreview["Vase Trapeze Vase Trapeze Ring Mesh"].BufferGeometry.Faces {
+		if strings.Contains(f.Name, "Fill Line Lower Groove Face") {
+			previewFillLo++
+		}
+	}
+	if diff := previewFillLo - counts["fill_lo"]; diff < -8 || diff > 8 {
+		t.Errorf("expected partial fill-level groove count to stay stable under RotationRatio=0: %d vs %d",
+			previewFillLo, counts["fill_lo"])
+	}
+	vase.RotationRatio = 1.0
+	vase.RelativeRotatedTorusSeparation = 0.0
 
 	// 4. Watertight 2-manifold STL checks across all feature combinations
 	cases := []struct {

@@ -1104,9 +1104,10 @@ func writeVaseTrapezeSTL(
 				plant, p1H, p2H, hRingBottom, hasTrapezeConstantThickness,
 			); hasFillLine {
 				yContact := p1H - deltaYContact
-				lowerRows, grooveRows, upperRows := computeInnerFillGrooveGridVec3(
+				lowerRows, grooveRows, upperRows, _ := computeInnerFillGrooveGridVec3(
+					plant,
 					cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, cOuterStraightP2, cOuterUncarvedP1,
-					p2H, ringHeight, 0.0, yContact, yFillLocal, grooveDepth, grooveHalfH, sWall, isCurvedWall, ringDeltaR,
+					p2H, ringHeight, 0.0, yContact, yFillLocal, grooveDepth, grooveHalfH, sWall, isCurvedWall, hasTrapezeConstantThickness, ringDeltaR,
 				)
 				for s := range len(lowerRows) - 1 {
 					writeQuadStripSTL(sb, lowerRows[s+1], lowerRows[s])

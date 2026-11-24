@@ -1,6 +1,10 @@
 package models
 
-import "math"
+import (
+	"cmp"
+	"math"
+	"slices"
+)
 
 const (
 	// DefaultVaseTrapezeFillLineClearanceRatio is the fixed safety clearance below the seated rotated
@@ -14,6 +18,21 @@ const (
 	// DefaultVaseTrapezeFillLineHeightRatio is the total vertical height of the interior recessed
 	// V-groove (~3.0 mm at RhombusSideLength = 120 mm, giving ~46° support-free bevel faces).
 	DefaultVaseTrapezeFillLineHeightRatio = 0.025
+
+	// DefaultVaseTrapezeFillLinePocketGapStartRatio is the radial contact-gap threshold (as a fraction
+	// of RhombusSideLength) where the interior fill-level V-groove begins tapering off as the rotated
+	// upper pot steps inward away from the lower pot's rim (~5.4 mm at RhombusSideLength = 120 mm).
+	DefaultVaseTrapezeFillLinePocketGapStartRatio = 0.045
+
+	// DefaultVaseTrapezeFillLinePocketGapEndRatio is the radial contact-gap threshold (as a fraction
+	// of RhombusSideLength) beyond which the interior fill-level V-groove stops completely in the open
+	// planting pocket where there is no pot above (~18.0 mm at RhombusSideLength = 120 mm).
+	DefaultVaseTrapezeFillLinePocketGapEndRatio = 0.150
+
+	// VaseTrapezeSharpGrooveFadeThreshold is the minimum combined groove fade for emitting detached
+	// sharp-creased V-groove quads in smooth-shaded meshes (ThreeJS / GLB); below this threshold
+	// columns transition smoothly into the single-grid inner wall with zero specular seam.
+	VaseTrapezeSharpGrooveFadeThreshold = 0.85
 
 	// DefaultVaseTrapezeDrainageHoleRadiusRatio is the default central drainage hole radius ratio
 	// (~10.2 mm radius / ~Ø 20.4 mm at RhombusSideLength = 120 mm).
@@ -136,15 +155,190 @@ func ComputeVaseTrapezeFootRimHeight(plant *PlantAbstract, hRingBottom float64, 
 	return h
 }
 
+// ComputeVaseTrapezeRotatedStepTheta returns the seated rotated angular stacking step (in radians)
+// between consecutive VaseTrapeze pots, independent of RotationRatio and preview separation.
+func ComputeVaseTrapezeRotatedStepTheta(plant *PlantAbstract, hasConstantThickness bool) float64 {
+	if plant == nil || plant.TubeVaseAbstract == nil {
+		return 0.0
+	}
+	vase := plant.TubeVaseAbstract
+	circumference := 10.0
+	if plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil && plant.RhombusStuff.PlantCircumferenceShape.Length > 0 {
+		circumference = plant.RhombusStuff.PlantCircumferenceShape.Length
+	} else if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
+		pGrid := plant.PerpendicularVectorGrid
+		span := pGrid.PerpendicularVectors[len(pGrid.PerpendicularVectors)-1].StartX - pGrid.PerpendicularVectors[0].StartX
+		if span > 0 {
+			circumference = span
+		}
+	}
+	radialRepetitions := max(vase.RadialRepetitions, 1)
+	globalR := circumference * float64(radialRepetitions) / (2.0 * math.Pi)
+	if globalR <= 1e-6 {
+		return 0.0
+	}
+
+	var growthVectorX float64
+	if plant.GrowthVectorShape != nil {
+		growthVectorX = plant.GrowthVectorShape.X
+	}
+	rotatedStepDX := growthVectorX
+	if !hasConstantThickness {
+		var vx float64
+		if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
+			vFirst := plant.PerpendicularVectorGrid.PerpendicularVectors[0]
+			dx := vFirst.EndX - vFirst.StartX
+			dy := vFirst.EndY - vFirst.StartY
+			if vLen := math.Hypot(dx, dy); vLen > 0 {
+				vx = dx / vLen
+			}
+		}
+		verticalThickness := vase.RelativeVerticalThickness * plant.RhombusSideLength
+		rotatedStepDX = growthVectorX + verticalThickness*vx
+	}
+	return rotatedStepDX / globalR
+}
+
+type angRadiusSample struct {
+	theta float64
+	r     float64
+}
+
+// ComputeVaseTrapezeFillLineAzimuthalFades computes per-azimuth fade weights in [0, 1] that keep
+// the interior soil fill-level line active (1.0) beneath the seated rotated upper pot and smoothly
+// stop it (0.0) across the open planting pocket(s) where there is no pot above.
+func ComputeVaseTrapezeFillLineAzimuthalFades(
+	plant *PlantAbstract,
+	cInStTopX, cInStTopZ []float64,
+	cOutStBotX, cOutStBotZ, cOutStTopX, cOutStTopZ []float64,
+	ringHeight float64,
+	hasConstantThickness bool,
+) []float64 {
+	M := min(
+		len(cInStTopX), len(cInStTopZ),
+		len(cOutStBotX), len(cOutStBotZ),
+		len(cOutStTopX), len(cOutStTopZ),
+	)
+	horizFades := make([]float64, M)
+	for i := range M {
+		horizFades[i] = 1.0
+	}
+	if M < 3 || plant == nil || plant.TubeVaseAbstract == nil || ringHeight <= 1e-6 || plant.RhombusSideLength <= 1e-9 {
+		return horizFades
+	}
+
+	rotContact := ComputeVaseTrapezeRotatedContactStepDY(plant, hasConstantThickness)
+	if rotContact <= 1e-6 {
+		return horizFades
+	}
+	rotStepTheta := ComputeVaseTrapezeRotatedStepTheta(plant, hasConstantThickness)
+	uContact := (ringHeight - rotContact) / ringHeight
+
+	const twoPi = 2.0 * math.Pi
+	normTwoPi := func(th float64) float64 {
+		th = math.Mod(th, twoPi)
+		if th < 0 {
+			th += twoPi
+		}
+		return th
+	}
+
+	raw := make([]angRadiusSample, M)
+	for j := range M {
+		thOut := normTwoPi(math.Atan2(cOutStTopZ[j], cOutStTopX[j]))
+		sx := (1.0-uContact)*cOutStBotX[j] + uContact*cOutStTopX[j]
+		sz := (1.0-uContact)*cOutStBotZ[j] + uContact*cOutStTopZ[j]
+		raw[j] = angRadiusSample{
+			theta: thOut,
+			r:     math.Hypot(sx, sz),
+		}
+	}
+	slices.SortFunc(raw, func(a, b angRadiusSample) int {
+		return cmp.Compare(a.theta, b.theta)
+	})
+
+	samples := make([]angRadiusSample, 0, M)
+	for _, s := range raw {
+		if len(samples) > 0 && s.theta-samples[len(samples)-1].theta < 1e-9 {
+			samples[len(samples)-1].r = 0.5 * (samples[len(samples)-1].r + s.r)
+			continue
+		}
+		samples = append(samples, s)
+	}
+	if len(samples) > 1 && (samples[0].theta+twoPi)-samples[len(samples)-1].theta < 1e-9 {
+		samples[0].r = 0.5 * (samples[0].r + samples[len(samples)-1].r)
+		samples = samples[:len(samples)-1]
+	}
+	if len(samples) < 3 {
+		return horizFades
+	}
+
+	interpPeriodic := func(th float64) float64 {
+		lo, hi := 0, len(samples)
+		for lo < hi {
+			mid := (lo + hi) / 2
+			if samples[mid].theta < th {
+				lo = mid + 1
+			} else {
+				hi = mid
+			}
+		}
+		var th0, r0, th1, r1 float64
+		n := len(samples)
+		switch lo {
+		case 0:
+			th0, r0 = samples[n-1].theta-twoPi, samples[n-1].r
+			th1, r1 = samples[0].theta, samples[0].r
+		case n:
+			th0, r0 = samples[n-1].theta, samples[n-1].r
+			th1, r1 = samples[0].theta+twoPi, samples[0].r
+		default:
+			th0, r0 = samples[lo-1].theta, samples[lo-1].r
+			th1, r1 = samples[lo].theta, samples[lo].r
+		}
+		span := th1 - th0
+		if span <= 1e-12 {
+			return r0
+		}
+		t := (th - th0) / span
+		return r0 + t*(r1-r0)
+	}
+
+	side := plant.RhombusSideLength
+	gapStart := DefaultVaseTrapezeFillLinePocketGapStartRatio * side
+	gapEnd := DefaultVaseTrapezeFillLinePocketGapEndRatio * side
+	invSpan := 1.0 / math.Max(1e-9, gapEnd-gapStart)
+
+	for i := range M {
+		thIn := math.Atan2(cInStTopZ[i], cInStTopX[i])
+		rInTop := math.Hypot(cInStTopX[i], cInStTopZ[i])
+		rUpperContact := interpPeriodic(normTwoPi(thIn - rotStepTheta))
+		gap := rInTop - rUpperContact
+		switch {
+		case gap <= gapStart:
+			horizFades[i] = 1.0
+		case gap >= gapEnd:
+			horizFades[i] = 0.0
+		default:
+			t := (gap - gapStart) * invSpan
+			horizFades[i] = 1.0 - t*t*(3.0-2.0*t)
+		}
+	}
+	return horizFades
+}
+
 // ComputeVaseTrapezeInnerFillGrooveGrid builds the subdivided inner wall geometry split into
 // three contiguous bands sharing exact boundary coordinates:
 //   - lowerRows (sLower+1 rows): from cInBot up to the lower groove lip yLo
 //   - grooveRows (3 rows): [0] = yLo, [1] = yMid (recessed outward V-groove apex), [2] = yHi
 //   - upperRows (sUpper+1 rows): from the upper groove lip yHi up to cInTop
+//   - grooveFades (M values in [0, 1]): effective groove fade at each azimuth (0 in open pockets)
 //
 // Splitting into dedicated bands lets renderers (ThreeJS/GLB) keep razor-sharp creases along the
-// V-groove while preserving 100% identical shared coordinates for watertight 2-manifold STLs.
+// active V-groove arc while transitioning smoothly into a single crease-free inner wall across
+// open planting pockets and preserving 100% shared coordinates for watertight 2-manifold STLs.
 func ComputeVaseTrapezeInnerFillGrooveGrid(
+	plant *PlantAbstract,
 	cInBotX, cInBotY, cInBotZ []float64,
 	cInTopX, cInTopY, cInTopZ []float64,
 	cInStBotX, cInStBotZ, cInStTopX, cInStTopZ []float64,
@@ -153,11 +347,13 @@ func ComputeVaseTrapezeInnerFillGrooveGrid(
 	yFillLocal, grooveDepth, grooveHalfH float64,
 	sWall int,
 	isCurvedWall bool,
+	hasConstantThickness bool,
 	ringDeltaR func(float64) float64,
 ) (
 	lowerX, lowerY, lowerZ [][]float64,
 	grooveX, grooveY, grooveZ [][]float64,
 	upperX, upperY, upperZ [][]float64,
+	grooveFades []float64,
 ) {
 	M := min(
 		len(cInBotX), len(cInBotY), len(cInBotZ),
@@ -168,6 +364,13 @@ func ComputeVaseTrapezeInnerFillGrooveGrid(
 	if M < 3 {
 		return
 	}
+
+	horizFades := ComputeVaseTrapezeFillLineAzimuthalFades(
+		plant,
+		cInStTopX, cInStTopZ,
+		cOutStBotX, cOutStBotZ, cOutStTopX, cOutStTopZ,
+		ringHeight, hasConstantThickness,
+	)
 
 	sLower := 1
 	sUpper := 1
@@ -250,7 +453,7 @@ func ComputeVaseTrapezeInnerFillGrooveGrid(
 		yLos[i] = yLo
 		yMids[i] = yMid
 		yHis[i] = yHi
-		fades[i] = fade
+		fades[i] = fade * horizFades[i]
 
 		ix, _, iz := evalInnerWall(i, yMid)
 		ox, _, oz := evalOuterWall(i, yMid)
@@ -322,7 +525,7 @@ func ComputeVaseTrapezeInnerFillGrooveGrid(
 		}
 	}
 
-	return lowerX, lowerY, lowerZ, grooveX, grooveY, grooveZ, upperX, upperY, upperZ
+	return lowerX, lowerY, lowerZ, grooveX, grooveY, grooveZ, upperX, upperY, upperZ, fades
 }
 
 // computeSafeFloorCenter returns the centroid (cx, cz) of the interior plancher contour, pulled
@@ -769,13 +972,15 @@ func computeRingBottomApparatusVec3(
 }
 
 func computeInnerFillGrooveGridVec3(
+	plant *PlantAbstract,
 	cInBot, cInTop, cInStBot, cInStTop, cOutStBot, cOutStTop []vector3,
 	p2H, ringHeight, dy, yContactGlobal float64,
 	yFillLocal, grooveDepth, grooveHalfH float64,
 	sWall int,
 	isCurvedWall bool,
+	hasConstantThickness bool,
 	ringDeltaR func(float64) float64,
-) (lowerRows, grooveRows, upperRows [][]vector3) {
+) (lowerRows, grooveRows, upperRows [][]vector3, grooveFades []float64) {
 	ibX, ibY, ibZ := unpackVec3Coords(cInBot)
 	itX, itY, itZ := unpackVec3Coords(cInTop)
 	isbX, _, isbZ := unpackVec3Coords(cInStBot)
@@ -783,14 +988,15 @@ func computeInnerFillGrooveGridVec3(
 	osbX, _, osbZ := unpackVec3Coords(cOutStBot)
 	ostX, _, ostZ := unpackVec3Coords(cOutStTop)
 
-	lx, ly, lz, gx, gy, gz, ux, uy, uz := ComputeVaseTrapezeInnerFillGrooveGrid(
+	lx, ly, lz, gx, gy, gz, ux, uy, uz, fades := ComputeVaseTrapezeInnerFillGrooveGrid(
+		plant,
 		ibX, ibY, ibZ,
 		itX, itY, itZ,
 		isbX, isbZ, istX, istZ,
 		osbX, osbZ, ostX, ostZ,
 		p2H, ringHeight, dy, yContactGlobal,
 		yFillLocal, grooveDepth, grooveHalfH,
-		sWall, isCurvedWall, ringDeltaR,
+		sWall, isCurvedWall, hasConstantThickness, ringDeltaR,
 	)
-	return packVec3Grid(lx, ly, lz), packVec3Grid(gx, gy, gz), packVec3Grid(ux, uy, uz)
+	return packVec3Grid(lx, ly, lz), packVec3Grid(gx, gy, gz), packVec3Grid(ux, uy, uz), fades
 }

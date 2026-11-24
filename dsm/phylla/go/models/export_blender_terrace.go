@@ -425,9 +425,10 @@ func GenerateVaseTrapezeTerraceBlenderPy(plant *PlantAbstract) string {
 	var grooveRows [][]vector3
 	if hasFillLine {
 		yContact := p1H - deltaYContact
-		_, grooveRows, _ = computeInnerFillGrooveGridVec3(
+		_, grooveRows, _, _ = computeInnerFillGrooveGridVec3(
+			plant,
 			cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, cOuterStraightP2, cOuterUncarvedP1,
-			p2H, ringHeight, 0.0, yContact, yFillLocal, grooveDepth, grooveHalfH, sWall, isCurvedWall, ringDeltaR,
+			p2H, ringHeight, 0.0, yContact, yFillLocal, grooveDepth, grooveHalfH, sWall, isCurvedWall, hasTrapezeConstantThickness, ringDeltaR,
 		)
 	}
 
@@ -1949,11 +1950,11 @@ def find_pot_planting_stations(pot_infos, pot_idx):
             })
         return stations, z_soil_center
 
-    # Lower / middle pot: pot_above sits stacked inside it, leaving crescent lobe pockets
+    # Lower / middle pot: pot_above sits stacked inside it, leaving crescent lobe pockets.
+    # Underneath pot_above soil stays at or below z_fill, while in open sunlit pockets (where there
+    # is no pot above) soil can be filled higher above the line toward the rim.
     p_above = pot_infos[pot_idx + 1]
     z_soil_ref = z_pl + 0.84 * max(0.02, min_z_rim - z_pl)
-    if p.get("z_fill") is not None:
-        z_soil_ref = max(z_pl + 0.015, min(p["z_fill"], min_z_rim - 0.018))
 
     gaps = [0.0] * 360
     for b in range(360):
@@ -2096,10 +2097,17 @@ def build_soil_mesh_for_pot(pot_infos, pot_idx, z_soil_base, stations, col_earth
     verts = []
     faces = []
 
-    # Center vertex (safely below pot_above's floor if an upper pot sits inside this pot)
+    # Underneath pot_above soil stays at or below z_fill; in open pockets with no pot above it can mound higher.
+    z_under_cap = z_soil_base
+    if has_above:
+        z_under_cap = min(z_under_cap, p_above["z_bot"] - 0.004)
+        if p.get("z_fill") is not None:
+            z_under_cap = min(z_under_cap, p["z_fill"])
+
+    # Center vertex (safely below pot_above's floor / fill line if an upper pot sits inside this pot)
     z_center = z_soil_base + 0.010
     if has_above:
-        z_center = min(z_center, p_above["z_bot"] - 0.004)
+        z_center = min(z_center, z_under_cap)
     verts.append((0.0, 0.0, z_center))
 
     seed_off = 3.7 * pot_idx + 1.1
@@ -2107,7 +2115,16 @@ def build_soil_mesh_for_pot(pot_infos, pot_idx, z_soil_base, stations, col_earth
         phi = 2.0 * math.pi * ia / n_ang
         co, si = math.cos(phi), math.sin(phi)
         z_rim_here = lookup_polar(p["in_z_rim"], phi)
-        z_edge = min(z_soil_base, z_rim_here - 0.018)
+        z_open_edge = min(z_soil_base, z_rim_here - 0.018)
+        if has_above:
+            r_in_rim = lookup_polar(p["in_r_rim"], phi)
+            r_ab_rim = pot_outer_radius_at(p_above, phi, z_rim_here)
+            gap_rim = max(0.0, r_in_rim - r_ab_rim)
+            az_open = max(0.0, min(1.0, (gap_rim - 0.006) / 0.024))
+            az_open = az_open * az_open * (3.0 - 2.0 * az_open)
+            z_edge = z_under_cap + az_open * max(0.0, z_open_edge - z_under_cap)
+        else:
+            z_edge = z_open_edge
         z_edge = max(p["z_plancher"] + 0.010, z_edge)
         r_edge = max(0.015, pot_inner_radius_at(p, phi, z_edge) - 0.0015)
 
@@ -2128,9 +2145,15 @@ def build_soil_mesh_for_pot(pot_infos, pot_idx, z_soil_base, stations, col_earth
             edge_atten = 0.25 if u > 0.96 else 1.0
             z = z_edge + mound + edge_atten * soil_noise(x, y, seed_off)
 
-            # Never let lower pot soil poke into the bottom or interior bowl of the pot stacked above
-            if has_above and r < r_ab_floor + 0.004:
-                z = min(z, p_above["z_bot"] - 0.004)
+            # Keep soil below z_fill under pot_above, transitioning smoothly upward into open pockets
+            if has_above:
+                r_ab_here = max(r_ab_floor, pot_outer_radius_at(p_above, phi, max(z, p_above["z_bot"] + 0.005)))
+                if r <= r_ab_here + 0.004:
+                    z = min(z, z_under_cap)
+                elif r < r_ab_here + 0.024:
+                    t_open = (r - (r_ab_here + 0.004)) / 0.020
+                    t_open = t_open * t_open * (3.0 - 2.0 * t_open)
+                    z = min(z, z_under_cap + t_open * max(0.0, z - z_under_cap))
 
             verts.append((x, y, z))
 

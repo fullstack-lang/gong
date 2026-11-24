@@ -707,47 +707,6 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 				}
 				return &threejs.Curve{Points: pts}
 			}
-			addRowGrid := func(rx, ry, rz [][]float64, stripName string, inward bool) {
-				nRows := len(rx)
-				if nRows < 2 {
-					return
-				}
-				idxGrid := make([][]int, nRows)
-				for s := 0; s < nRows; s++ {
-					idxGrid[s] = make([]int, M)
-					for i := 0; i < M; i++ {
-						idxGrid[s][i] = len(volGeom.Vertices)
-						volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
-							Name: fmt.Sprintf("%s %s %s s%d %d", plant.Name, ringName, stripName, s, i),
-							X:    rx[s][i], Y: ry[s][i], Z: rz[s][i],
-						}).Stage(threejsStage))
-					}
-				}
-				for s := 0; s < nRows-1; s++ {
-					for i := 0; i < M; i++ {
-						nextI := (i + 1) % M
-						var v1_1, v2_1, v3_1, v1_2, v2_2, v3_2 int
-						if inward {
-							v1_1, v2_1, v3_1 = idxGrid[s+1][i], idxGrid[s][i], idxGrid[s][nextI]
-							v1_2, v2_2, v3_2 = idxGrid[s+1][i], idxGrid[s][nextI], idxGrid[s+1][nextI]
-						} else {
-							v1_1, v2_1, v3_1 = idxGrid[s][i], idxGrid[s+1][i], idxGrid[s+1][nextI]
-							v1_2, v2_2, v3_2 = idxGrid[s][i], idxGrid[s+1][nextI], idxGrid[s][nextI]
-						}
-						volGeom.Faces = append(volGeom.Faces,
-							(&threejs.Triangle{
-								Name: fmt.Sprintf("%s %s %s T1 s%d %d", plant.Name, ringName, stripName, s, i),
-								V1:   v1_1, V2: v2_1, V3: v3_1,
-							}).Stage(threejsStage),
-							(&threejs.Triangle{
-								Name: fmt.Sprintf("%s %s %s T2 s%d %d", plant.Name, ringName, stripName, s, i),
-								V1:   v1_2, V2: v2_2, V3: v3_2,
-							}).Stage(threejsStage),
-						)
-					}
-				}
-			}
-
 			cOuterWallBot := cOuterB
 			var cFootOut, cFootIn, cRecessOut *threejs.Curve
 			var cHoleChamfer, cHoleTop, cHoleBot *threejs.Curve
@@ -859,22 +818,134 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 					ostX, _, ostZ := unpackCurve(cOuterUncarvedP1)
 					yContactGlobal := (p1H - deltaYContact) + dy
 
-					lX, lY, lZ, gX, gY, gZ, uX, uY, uZ := models.ComputeVaseTrapezeInnerFillGrooveGrid(
+					lX, lY, lZ, gX, gY, gZ, uX, uY, uZ, grooveFades := models.ComputeVaseTrapezeInnerFillGrooveGrid(
+						plant,
 						ibX, ibY, ibZ,
 						itX, itY, itZ,
 						isbX, isbZ, istX, istZ,
 						osbX, osbZ, ostX, ostZ,
 						p2H, ringHeight, dy, yContactGlobal,
 						yFillLocal, grooveDepth, grooveHalfH,
-						sWall, isCurvedWall, ringDeltaR,
+						sWall, isCurvedWall, hasTrapezeConstantThickness, ringDeltaR,
 					)
-					addRowGrid(lX, lY, lZ, "Inner Wall Lower Face", true)
-					gRow0 := packCurve(gX[0], gY[0], gZ[0])
-					gRow1 := packCurve(gX[1], gY[1], gZ[1])
-					gRow2 := packCurve(gX[2], gY[2], gZ[2])
-					addQuadStrip(gRow1, gRow0, "Fill Line Lower Groove Face", false)
-					addQuadStrip(gRow2, gRow1, "Fill Line Upper Groove Face", false)
-					addRowGrid(uX, uY, uZ, "Inner Wall Upper Face", true)
+					sLo := len(lX) - 1
+					sUp := len(uX) - 1
+					nSmoothRows := sLo + 2 + sUp + 1
+					smX := make([][]float64, nSmoothRows)
+					smY := make([][]float64, nSmoothRows)
+					smZ := make([][]float64, nSmoothRows)
+					for s := 0; s <= sLo; s++ {
+						smX[s], smY[s], smZ[s] = lX[s], lY[s], lZ[s]
+					}
+					smX[sLo+1], smY[sLo+1], smZ[sLo+1] = gX[1], gY[1], gZ[1]
+					for s := 0; s <= sUp; s++ {
+						smX[sLo+2+s], smY[sLo+2+s], smZ[sLo+2+s] = uX[s], uY[s], uZ[s]
+					}
+
+					allocIdxGrid := func(nRows int) [][]int {
+						grid := make([][]int, nRows)
+						for r := range nRows {
+							grid[r] = make([]int, M)
+							for i := range M {
+								grid[r][i] = -1
+							}
+						}
+						return grid
+					}
+					loIdx := allocIdxGrid(sLo + 1)
+					upIdx := allocIdxGrid(sUp + 1)
+					smIdx := allocIdxGrid(nSmoothRows)
+					gLoIdx0 := allocIdxGrid(1)[0]
+					gLoIdx1 := allocIdxGrid(1)[0]
+					gHiIdx1 := allocIdxGrid(1)[0]
+					gHiIdx2 := allocIdxGrid(1)[0]
+
+					getGridVert := func(idxGrid [][]int, rx, ry, rz [][]float64, s, i int, stripName string) int {
+						if idxGrid[s][i] >= 0 {
+							return idxGrid[s][i]
+						}
+						id := len(volGeom.Vertices)
+						volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
+							Name: fmt.Sprintf("%s %s %s s%d %d", plant.Name, ringName, stripName, s, i),
+							X:    rx[s][i], Y: ry[s][i], Z: rz[s][i],
+						}).Stage(threejsStage))
+						idxGrid[s][i] = id
+						return id
+					}
+					getRowVert := func(idxRow []int, rx, ry, rz []float64, i int, stripName, sideTag string) int {
+						if idxRow[i] >= 0 {
+							return idxRow[i]
+						}
+						id := len(volGeom.Vertices)
+						volGeom.Vertices = append(volGeom.Vertices, (&threejs.Vector3{
+							Name: fmt.Sprintf("%s %s %s %s %d", plant.Name, ringName, stripName, sideTag, i),
+							X:    rx[i], Y: ry[i], Z: rz[i],
+						}).Stage(threejsStage))
+						idxRow[i] = id
+						return id
+					}
+					emitInwardQuad := func(vBot0, vBot1, vTop0, vTop1 int, faceLabel string) {
+						volGeom.Faces = append(volGeom.Faces,
+							(&threejs.Triangle{
+								Name: fmt.Sprintf("%s %s %s T1", plant.Name, ringName, faceLabel),
+								V1:   vTop0, V2: vBot0, V3: vBot1,
+							}).Stage(threejsStage),
+							(&threejs.Triangle{
+								Name: fmt.Sprintf("%s %s %s T2", plant.Name, ringName, faceLabel),
+								V1:   vTop0, V2: vBot1, V3: vTop1,
+							}).Stage(threejsStage),
+						)
+					}
+
+					for i := 0; i < M; i++ {
+						nextI := (i + 1) % M
+						if i < len(grooveFades) && nextI < len(grooveFades) &&
+							grooveFades[i] >= models.VaseTrapezeSharpGrooveFadeThreshold &&
+							grooveFades[nextI] >= models.VaseTrapezeSharpGrooveFadeThreshold {
+							for s := 0; s < sLo; s++ {
+								emitInwardQuad(
+									getGridVert(loIdx, lX, lY, lZ, s, i, "Inner Wall Lower Face"),
+									getGridVert(loIdx, lX, lY, lZ, s, nextI, "Inner Wall Lower Face"),
+									getGridVert(loIdx, lX, lY, lZ, s+1, i, "Inner Wall Lower Face"),
+									getGridVert(loIdx, lX, lY, lZ, s+1, nextI, "Inner Wall Lower Face"),
+									fmt.Sprintf("Inner Wall Lower Face s%d %d", s, i),
+								)
+							}
+							emitInwardQuad(
+								getRowVert(gLoIdx0, gX[0], gY[0], gZ[0], i, "Fill Line Lower Groove Face", "B"),
+								getRowVert(gLoIdx0, gX[0], gY[0], gZ[0], nextI, "Fill Line Lower Groove Face", "B"),
+								getRowVert(gLoIdx1, gX[1], gY[1], gZ[1], i, "Fill Line Lower Groove Face", "A"),
+								getRowVert(gLoIdx1, gX[1], gY[1], gZ[1], nextI, "Fill Line Lower Groove Face", "A"),
+								fmt.Sprintf("Fill Line Lower Groove Face %d", i),
+							)
+							emitInwardQuad(
+								getRowVert(gHiIdx1, gX[1], gY[1], gZ[1], i, "Fill Line Upper Groove Face", "B"),
+								getRowVert(gHiIdx1, gX[1], gY[1], gZ[1], nextI, "Fill Line Upper Groove Face", "B"),
+								getRowVert(gHiIdx2, gX[2], gY[2], gZ[2], i, "Fill Line Upper Groove Face", "A"),
+								getRowVert(gHiIdx2, gX[2], gY[2], gZ[2], nextI, "Fill Line Upper Groove Face", "A"),
+								fmt.Sprintf("Fill Line Upper Groove Face %d", i),
+							)
+							for s := 0; s < sUp; s++ {
+								emitInwardQuad(
+									getGridVert(upIdx, uX, uY, uZ, s, i, "Inner Wall Upper Face"),
+									getGridVert(upIdx, uX, uY, uZ, s, nextI, "Inner Wall Upper Face"),
+									getGridVert(upIdx, uX, uY, uZ, s+1, i, "Inner Wall Upper Face"),
+									getGridVert(upIdx, uX, uY, uZ, s+1, nextI, "Inner Wall Upper Face"),
+									fmt.Sprintf("Inner Wall Upper Face s%d %d", s, i),
+								)
+							}
+						} else {
+							for s := 0; s < nSmoothRows-1; s++ {
+								emitInwardQuad(
+									getGridVert(smIdx, smX, smY, smZ, s, i, "Inner Wall Face"),
+									getGridVert(smIdx, smX, smY, smZ, s, nextI, "Inner Wall Face"),
+									getGridVert(smIdx, smX, smY, smZ, s+1, i, "Inner Wall Face"),
+									getGridVert(smIdx, smX, smY, smZ, s+1, nextI, "Inner Wall Face"),
+									fmt.Sprintf("Inner Wall Face s%d %d", s, i),
+								)
+							}
+						}
+					}
 				} else {
 					addSubdividedRingWall(cInnerPlancher, cInnerA, cInnerStraightB, cInnerUncarvedP1, "Inner Wall Face", true)
 				}

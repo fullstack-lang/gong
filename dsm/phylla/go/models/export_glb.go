@@ -918,14 +918,107 @@ func GenerateVaseTrapezeGLB(plant *PlantAbstract) []byte {
 				plant, p1H, p2H, hRingBottom, hasTrapezeConstantThickness,
 			); hasFillLine {
 				yContactGlobal := (p1H - deltaYContact) + dy
-				lowerRows, grooveRows, upperRows := computeInnerFillGrooveGridVec3(
+				lowerRows, grooveRows, upperRows, grooveFades := computeInnerFillGrooveGridVec3(
+					plant,
 					cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, cOuterStraightP2, cOuterUncarvedP1,
-					p2H, ringHeight, dy, yContactGlobal, yFillLocal, grooveDepth, grooveHalfH, sWall, isCurvedWall, ringDeltaR,
+					p2H, ringHeight, dy, yContactGlobal, yFillLocal, grooveDepth, grooveHalfH, sWall, isCurvedWall, hasTrapezeConstantThickness, ringDeltaR,
 				)
-				ringMesh.addWallGrid(lowerRows, true)
-				ringMesh.addQuadStrip(grooveRows[1], grooveRows[0])
-				ringMesh.addQuadStrip(grooveRows[2], grooveRows[1])
-				ringMesh.addWallGrid(upperRows, true)
+				sLo := len(lowerRows) - 1
+				sUp := len(upperRows) - 1
+				nSmoothRows := sLo + 2 + sUp + 1
+				smoothRows := make([][]vector3, nSmoothRows)
+				for s := 0; s <= sLo; s++ {
+					smoothRows[s] = lowerRows[s]
+				}
+				smoothRows[sLo+1] = grooveRows[1]
+				for s := 0; s <= sUp; s++ {
+					smoothRows[sLo+2+s] = upperRows[s]
+				}
+
+				allocGLBIdx := func(nRows int) [][]int {
+					g := make([][]int, nRows)
+					for r := range nRows {
+						g[r] = make([]int, M)
+						for i := range M {
+							g[r][i] = -1
+						}
+					}
+					return g
+				}
+				loIdx := allocGLBIdx(sLo + 1)
+				upIdx := allocGLBIdx(sUp + 1)
+				smIdx := allocGLBIdx(nSmoothRows)
+				gIdx := allocGLBIdx(4) // [0]=lo_0, [1]=lo_1, [2]=hi_1, [3]=hi_2
+
+				getGridV := func(idxGrid [][]int, rows [][]vector3, s, i int) uint32 {
+					if idxGrid[s][i] >= 0 {
+						return uint32(idxGrid[s][i])
+					}
+					id := len(ringMesh.positions)
+					ringMesh.positions = append(ringMesh.positions, rows[s][i])
+					idxGrid[s][i] = id
+					return uint32(id)
+				}
+				getRowV := func(slot int, row []vector3, i int) uint32 {
+					if gIdx[slot][i] >= 0 {
+						return uint32(gIdx[slot][i])
+					}
+					id := len(ringMesh.positions)
+					ringMesh.positions = append(ringMesh.positions, row[i])
+					gIdx[slot][i] = id
+					return uint32(id)
+				}
+				emitInwardGLB := func(vBot0, vBot1, vTop0, vTop1 uint32) {
+					ringMesh.indices = append(ringMesh.indices,
+						[3]uint32{vTop0, vBot0, vBot1},
+						[3]uint32{vTop0, vBot1, vTop1},
+					)
+				}
+
+				for i := range M {
+					nextI := (i + 1) % M
+					if i < len(grooveFades) && nextI < len(grooveFades) &&
+						grooveFades[i] >= VaseTrapezeSharpGrooveFadeThreshold &&
+						grooveFades[nextI] >= VaseTrapezeSharpGrooveFadeThreshold {
+						for s := range sLo {
+							emitInwardGLB(
+								getGridV(loIdx, lowerRows, s, i),
+								getGridV(loIdx, lowerRows, s, nextI),
+								getGridV(loIdx, lowerRows, s+1, i),
+								getGridV(loIdx, lowerRows, s+1, nextI),
+							)
+						}
+						emitInwardGLB(
+							getRowV(0, grooveRows[0], i),
+							getRowV(0, grooveRows[0], nextI),
+							getRowV(1, grooveRows[1], i),
+							getRowV(1, grooveRows[1], nextI),
+						)
+						emitInwardGLB(
+							getRowV(2, grooveRows[1], i),
+							getRowV(2, grooveRows[1], nextI),
+							getRowV(3, grooveRows[2], i),
+							getRowV(3, grooveRows[2], nextI),
+						)
+						for s := range sUp {
+							emitInwardGLB(
+								getGridV(upIdx, upperRows, s, i),
+								getGridV(upIdx, upperRows, s, nextI),
+								getGridV(upIdx, upperRows, s+1, i),
+								getGridV(upIdx, upperRows, s+1, nextI),
+							)
+						}
+					} else {
+						for s := range nSmoothRows - 1 {
+							emitInwardGLB(
+								getGridV(smIdx, smoothRows, s, i),
+								getGridV(smIdx, smoothRows, s, nextI),
+								getGridV(smIdx, smoothRows, s+1, i),
+								getGridV(smIdx, smoothRows, s+1, nextI),
+							)
+						}
+					}
+				}
 			} else {
 				addSubdividedRingWallGLB(ringMesh, cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, true)
 			}
