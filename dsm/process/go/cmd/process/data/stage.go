@@ -1325,7 +1325,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000007_.Name = `Customer to Receive & Validate Order-Customer to Receive & Validate Order-Order Fulfillment & Delivery`
 	__models__DataShape__00000007_.X = 127.914915
 	__models__DataShape__00000007_.Y = 262.008355
-	__models__DataShape__00000007_.Width = 195.000000
+	__models__DataShape__00000007_.Width = 93.000000
 	__models__DataShape__00000007_.Height = 24.000000
 	__models__DataShape__00000007_.IsHidden = false
 	__models__DataShape__00000007_.IsPresentationOverridden = false
@@ -1340,8 +1340,8 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000007_.FontWeight = `600`
 	__models__DataShape__00000007_.FontColor = `#333333`
 	__models__DataShape__00000008_.Name = `Confirm Sales Order to Customer-Confirm Sales Order to Customer-Order Fulfillment & Delivery`
-	__models__DataShape__00000008_.X = 122.914920
-	__models__DataShape__00000008_.Y = 515.000000
+	__models__DataShape__00000008_.X = 114.396880
+	__models__DataShape__00000008_.Y = 509.500000
 	__models__DataShape__00000008_.Width = 195.000000
 	__models__DataShape__00000008_.Height = 24.000000
 	__models__DataShape__00000008_.IsHidden = false
@@ -1357,8 +1357,8 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000008_.FontWeight = `600`
 	__models__DataShape__00000008_.FontColor = `#333333`
 	__models__DataShape__00000009_.Name = `"Confirm Sales Order" to "Check & Reserve Inventory"-"Confirm Sales Order" to "Check & Reserve Inventory"-Order Fulfillment & Delivery`
-	__models__DataShape__00000009_.X = 630.000000
-	__models__DataShape__00000009_.Y = 490.000000
+	__models__DataShape__00000009_.X = 533.353440
+	__models__DataShape__00000009_.Y = 509.500000
 	__models__DataShape__00000009_.Width = 195.000000
 	__models__DataShape__00000009_.Height = 24.000000
 	__models__DataShape__00000009_.IsHidden = false
@@ -1408,8 +1408,8 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000011_.FontWeight = `600`
 	__models__DataShape__00000011_.FontColor = `#333333`
 	__models__DataShape__00000012_.Name = `Confirm Sales Order to Customer-Confirm Sales Order to Customer-Invoicing & Payment Settlement`
-	__models__DataShape__00000012_.X = 149.753380
-	__models__DataShape__00000012_.Y = 510.000000
+	__models__DataShape__00000012_.X = 137.329320
+	__models__DataShape__00000012_.Y = 504.500000
 	__models__DataShape__00000012_.Width = 195.000000
 	__models__DataShape__00000012_.Height = 24.000000
 	__models__DataShape__00000012_.IsHidden = false
@@ -1442,7 +1442,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000013_.FontWeight = `600`
 	__models__DataShape__00000013_.FontColor = `#333333`
 	__models__DataShape__00000014_.Name = `Customer to Process Payment & Settle Account-Customer to Process Payment & Settle Account-Invoicing & Payment Settlement`
-	__models__DataShape__00000014_.X = 537.753420
+	__models__DataShape__00000014_.X = 392.753420
 	__models__DataShape__00000014_.Y = 584.008510
 	__models__DataShape__00000014_.Width = 195.000000
 	__models__DataShape__00000014_.Height = 24.000000
@@ -1462,7 +1462,7 @@ func _(stage *models.Stage) {
 	__models__DiagramProcess__00000000_.Description = `End-to-end view of the Order-to-Cash process across Sales, Logistics, and Finance with Customer and Carrier touchpoints.`
 	__models__DiagramProcess__00000000_.ComputedPrefix = ``
 	__models__DiagramProcess__00000000_.IsExpanded = false
-	__models__DiagramProcess__00000000_.IsChecked = true
+	__models__DiagramProcess__00000000_.IsChecked = false
 	__models__DiagramProcess__00000000_.IsEditable_ = true
 	__models__DiagramProcess__00000000_.IsShowPrefix = false
 	__models__DiagramProcess__00000000_.DefaultBoxWidth = 240.000000
@@ -1477,7 +1477,7 @@ func _(stage *models.Stage) {
 	__models__DiagramProcess__00000001_.Description = `Operational focus on sales order processing and warehouse dispatch.`
 	__models__DiagramProcess__00000001_.ComputedPrefix = ``
 	__models__DiagramProcess__00000001_.IsExpanded = false
-	__models__DiagramProcess__00000001_.IsChecked = false
+	__models__DiagramProcess__00000001_.IsChecked = true
 	__models__DiagramProcess__00000001_.IsEditable_ = true
 	__models__DiagramProcess__00000001_.IsShowPrefix = false
 	__models__DiagramProcess__00000001_.DefaultBoxWidth = 240.000000

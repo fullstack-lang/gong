@@ -27,6 +27,7 @@ func _(stage *models.Stage) {
 	// ------------------------------------------------------------------------
 	__models__ControlPointShape__00000001_ := (&models.ControlPointShape{Name: `Control Point Shape in Part 1x-P1-Part 2-P1-I/F A 0`}).Stage(stage)
 	__models__ControlPointShape__00000002_ := (&models.ControlPointShape{Name: `Control Point Shape in Sub System Part 2-P1-Part 1x-P2-I/F A 0`}).Stage(stage)
+	__models__ControlPointShape__00000003_ := (&models.ControlPointShape{Name: `Control Point Shape in Sub System Part 1-P1-Sub System Part 2-P1-I/F A 0`}).Stage(stage)
 	__models__Data__00000000_ := (&models.Data{Name: `D1`}).Stage(stage)
 	__models__DataFlow__00000001_ := (&models.DataFlow{Name: `Part 1x-P1-Part 2-P1-I/F A`}).Stage(stage)
 	__models__DataFlow__00000002_ := (&models.DataFlow{Name: `Part 1x-P2-Part 2-P1-I/F A`}).Stage(stage)
@@ -41,6 +42,7 @@ func _(stage *models.Stage) {
 	__models__DataFlowShape__00000008_ := (&models.DataFlowShape{Name: `Sub System Part 1-P2-Part 1x-P1-I/F A`}).Stage(stage)
 	__models__DataShape__00000000_ := (&models.DataShape{Name: `D1`}).Stage(stage)
 	__models__DataShape__00000001_ := (&models.DataShape{Name: `D1`}).Stage(stage)
+	__models__DataShape__00000002_ := (&models.DataShape{Name: `D1`}).Stage(stage)
 	__models__DiagramStructure__00000000_ := (&models.DiagramStructure{Name: `DiagramStructure`}).Stage(stage)
 	__models__DiagramStructure__00000001_ := (&models.DiagramStructure{Name: `DiagramStructure`}).Stage(stage)
 	__models__DiagramStructure__00000002_ := (&models.DiagramStructure{Name: `sdqsdqsd`}).Stage(stage)
@@ -108,6 +110,10 @@ func _(stage *models.Stage) {
 	__models__ControlPointShape__00000002_.X_Relative = 3.057191
 	__models__ControlPointShape__00000002_.Y_Relative = 2.427752
 	__models__ControlPointShape__00000002_.IsStartShapeTheClosestShape = true
+	__models__ControlPointShape__00000003_.Name = `Control Point Shape in Sub System Part 1-P1-Sub System Part 2-P1-I/F A 0`
+	__models__ControlPointShape__00000003_.X_Relative = 1.857199
+	__models__ControlPointShape__00000003_.Y_Relative = 0.752768
+	__models__ControlPointShape__00000003_.IsStartShapeTheClosestShape = true
 	__models__Data__00000000_.Name = `D1`
 	__models__Data__00000000_.Acronym = ``
 	__models__Data__00000000_.Description = ``
@@ -279,6 +285,23 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000001_.FontSize = `14px`
 	__models__DataShape__00000001_.FontWeight = `600`
 	__models__DataShape__00000001_.FontColor = `#333333`
+	__models__DataShape__00000002_.Name = `D1`
+	__models__DataShape__00000002_.X = 561.960996
+	__models__DataShape__00000002_.Y = 334.745449
+	__models__DataShape__00000002_.Width = 49.000000
+	__models__DataShape__00000002_.Height = 24.000000
+	__models__DataShape__00000002_.IsHidden = false
+	__models__DataShape__00000002_.IsPresentationOverridden = false
+	__models__DataShape__00000002_.Color = `#FFFFFF`
+	__models__DataShape__00000002_.FillOpacity = 0.850000
+	__models__DataShape__00000002_.Stroke = `#A5D6A7`
+	__models__DataShape__00000002_.StrokeWidth = 1.000000
+	__models__DataShape__00000002_.StrokeOpacity = 1.000000
+	__models__DataShape__00000002_.StrokeDashArray = ``
+	__models__DataShape__00000002_.RX = 3.000000
+	__models__DataShape__00000002_.FontSize = `14px`
+	__models__DataShape__00000002_.FontWeight = `600`
+	__models__DataShape__00000002_.FontColor = `#333333`
 	__models__DiagramStructure__00000000_.Name = `DiagramStructure`
 	__models__DiagramStructure__00000000_.Description = ``
 	__models__DiagramStructure__00000000_.ComputedPrefix = ``
@@ -353,7 +376,7 @@ func _(stage *models.Stage) {
 	__models__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__models__Library__00000000_.NbPixPerCharacter = 8.000000
 	__models__Library__00000000_.LogoSVGFile = ``
-	__models__Library__00000000_.IsSystemesNodeExpanded = true
+	__models__Library__00000000_.IsSystemesNodeExpanded = false
 	__models__Library__00000000_.IsDataFlowsNodeExpanded = false
 	__models__Library__00000000_.IsDatasNodeExpanded = false
 	__models__Library__00000000_.IsProtocolsNodeExpanded = false
@@ -884,8 +907,8 @@ func _(stage *models.Stage) {
 	__models__ProtocolLayer__00000002_.ComputedPrefix = ``
 	__models__ProtocolLayer__00000002_.IsExpanded = false
 	__models__ProtocolLayerShape__00000000_.Name = `Message Layer-Part 1-P1-Part2-P1-I/F A-DiagramStructure`
-	__models__ProtocolLayerShape__00000000_.X = 436.648934
-	__models__ProtocolLayerShape__00000000_.Y = 760.180714
+	__models__ProtocolLayerShape__00000000_.X = 436.648929
+	__models__ProtocolLayerShape__00000000_.Y = 760.180721
 	__models__ProtocolLayerShape__00000000_.Width = 42.000000
 	__models__ProtocolLayerShape__00000000_.Height = 34.000000
 	__models__ProtocolLayerShape__00000000_.IsHidden = false
@@ -901,8 +924,8 @@ func _(stage *models.Stage) {
 	__models__ProtocolLayerShape__00000000_.FontWeight = `400`
 	__models__ProtocolLayerShape__00000000_.FontColor = `#757575`
 	__models__ProtocolLayerShape__00000001_.Name = `REST-Part 1-P1-Part2-P1-I/F A-DiagramStructure`
-	__models__ProtocolLayerShape__00000001_.X = 436.648934
-	__models__ProtocolLayerShape__00000001_.Y = 796.180714
+	__models__ProtocolLayerShape__00000001_.X = 436.648929
+	__models__ProtocolLayerShape__00000001_.Y = 796.180721
 	__models__ProtocolLayerShape__00000001_.Width = 71.000000
 	__models__ProtocolLayerShape__00000001_.Height = 19.000000
 	__models__ProtocolLayerShape__00000001_.IsHidden = false
@@ -918,8 +941,8 @@ func _(stage *models.Stage) {
 	__models__ProtocolLayerShape__00000001_.FontWeight = `400`
 	__models__ProtocolLayerShape__00000001_.FontColor = `#757575`
 	__models__ProtocolLayerShape__00000002_.Name = `IP-Part 1-P1-Part2-P1-I/F A-DiagramStructure`
-	__models__ProtocolLayerShape__00000002_.X = 436.648934
-	__models__ProtocolLayerShape__00000002_.Y = 817.180714
+	__models__ProtocolLayerShape__00000002_.X = 436.648929
+	__models__ProtocolLayerShape__00000002_.Y = 817.180721
 	__models__ProtocolLayerShape__00000002_.Width = 59.000000
 	__models__ProtocolLayerShape__00000002_.Height = 19.000000
 	__models__ProtocolLayerShape__00000002_.IsHidden = false
@@ -935,8 +958,8 @@ func _(stage *models.Stage) {
 	__models__ProtocolLayerShape__00000002_.FontWeight = `400`
 	__models__ProtocolLayerShape__00000002_.FontColor = `#757575`
 	__models__ProtocolShape__00000000_.Name = `I/F A-Part 1-P1-Part2-P1-I/F A-DiagramStructure`
-	__models__ProtocolShape__00000000_.X = 436.648934
-	__models__ProtocolShape__00000000_.Y = 724.180714
+	__models__ProtocolShape__00000000_.X = 436.648929
+	__models__ProtocolShape__00000000_.Y = 724.180721
 	__models__ProtocolShape__00000000_.Width = 60.000000
 	__models__ProtocolShape__00000000_.Height = 34.000000
 	__models__ProtocolShape__00000000_.IsHidden = false
@@ -1060,6 +1083,7 @@ func _(stage *models.Stage) {
 	__models__DataFlow__00000002_.Protocol = __models__Protocol__00000000_
 	__models__DataFlow__00000003_.StartPort = __models__Port__00000004_
 	__models__DataFlow__00000003_.EndPort = __models__Port__00000006_
+	__models__DataFlow__00000003_.Datas = append(__models__DataFlow__00000003_.Datas, __models__Data__00000000_)
 	__models__DataFlow__00000003_.Protocol = __models__Protocol__00000000_
 	__models__DataFlow__00000004_.StartPort = __models__Port__00000006_
 	__models__DataFlow__00000004_.EndPort = __models__Port__00000001_
@@ -1075,6 +1099,7 @@ func _(stage *models.Stage) {
 	__models__DataFlowShape__00000006_.ParentPartShape = __models__PartShape__00000001_
 	__models__DataFlowShape__00000006_.StartPortShape = __models__PortShape__00000008_
 	__models__DataFlowShape__00000006_.EndPortShape = __models__PortShape__00000010_
+	__models__DataFlowShape__00000006_.ControlPointShapes = append(__models__DataFlowShape__00000006_.ControlPointShapes, __models__ControlPointShape__00000003_)
 	__models__DataFlowShape__00000007_.DataFlow = __models__DataFlow__00000004_
 	__models__DataFlowShape__00000007_.StartPortShape = __models__PortShape__00000010_
 	__models__DataFlowShape__00000007_.EndPortShape = __models__PortShape__00000001_
@@ -1085,6 +1110,9 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000000_.Data = __models__Data__00000000_
 	__models__DataShape__00000001_.Data = __models__Data__00000000_
 	__models__DataShape__00000001_.DataFlow = __models__DataFlow__00000001_
+	__models__DataShape__00000002_.Data = __models__Data__00000000_
+	__models__DataShape__00000002_.DataFlow = __models__DataFlow__00000003_
+	__models__DataShape__00000002_.DataFlowShape = __models__DataFlowShape__00000006_
 	__models__DiagramStructure__00000000_.System_Shapes = append(__models__DiagramStructure__00000000_.System_Shapes, __models__SystemShape__00000000_)
 	__models__DiagramStructure__00000000_.Part_Shapes = append(__models__DiagramStructure__00000000_.Part_Shapes, __models__PartShape__00000001_)
 	__models__DiagramStructure__00000000_.Part_Shapes = append(__models__DiagramStructure__00000000_.Part_Shapes, __models__PartShape__00000004_)
@@ -1108,6 +1136,7 @@ func _(stage *models.Stage) {
 	__models__DiagramStructure__00000000_.DataFlow_Shapes = append(__models__DiagramStructure__00000000_.DataFlow_Shapes, __models__DataFlowShape__00000007_)
 	__models__DiagramStructure__00000000_.DataFlow_Shapes = append(__models__DiagramStructure__00000000_.DataFlow_Shapes, __models__DataFlowShape__00000008_)
 	__models__DiagramStructure__00000000_.Data_Shapes = append(__models__DiagramStructure__00000000_.Data_Shapes, __models__DataShape__00000000_)
+	__models__DiagramStructure__00000000_.Data_Shapes = append(__models__DiagramStructure__00000000_.Data_Shapes, __models__DataShape__00000002_)
 	__models__DiagramStructure__00000000_.Protocol_Shapes = append(__models__DiagramStructure__00000000_.Protocol_Shapes, __models__ProtocolShape__00000000_)
 	__models__DiagramStructure__00000000_.ProtocolLayer_Shapes = append(__models__DiagramStructure__00000000_.ProtocolLayer_Shapes, __models__ProtocolLayerShape__00000000_)
 	__models__DiagramStructure__00000000_.ProtocolLayer_Shapes = append(__models__DiagramStructure__00000000_.ProtocolLayer_Shapes, __models__ProtocolLayerShape__00000001_)
@@ -1142,7 +1171,9 @@ func _(stage *models.Stage) {
 	__models__Library__00000000_.RootDataFlows = append(__models__Library__00000000_.RootDataFlows, __models__DataFlow__00000003_)
 	__models__Library__00000000_.RootDataFlows = append(__models__Library__00000000_.RootDataFlows, __models__DataFlow__00000004_)
 	__models__Library__00000000_.RootDataFlows = append(__models__Library__00000000_.RootDataFlows, __models__DataFlow__00000005_)
+	__models__Library__00000000_.DataFlowsWhoseNodeIsExpanded = append(__models__Library__00000000_.DataFlowsWhoseNodeIsExpanded, __models__DataFlow__00000001_)
 	__models__Library__00000000_.RootDatas = append(__models__Library__00000000_.RootDatas, __models__Data__00000000_)
+	__models__Library__00000000_.DatasWhoseNodeIsExpanded = append(__models__Library__00000000_.DatasWhoseNodeIsExpanded, __models__Data__00000000_)
 	__models__Library__00000000_.RootProtocols = append(__models__Library__00000000_.RootProtocols, __models__Protocol__00000000_)
 	__models__Library__00000000_.ProtocolsWhoseNodeIsExpanded = append(__models__Library__00000000_.ProtocolsWhoseNodeIsExpanded, __models__Protocol__00000000_)
 	__models__Library__00000000_.RootProtocolLayers = append(__models__Library__00000000_.RootProtocolLayers, __models__ProtocolLayer__00000000_)
