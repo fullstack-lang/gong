@@ -239,6 +239,9 @@ func (data *Data) GongStageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _data := range data.SubDatas {
+		stage.StageBranch(_data)
+	}
 
 }
 
@@ -976,6 +979,9 @@ func GongCopyBranchData(mapOrigCopy map[any]any, dataFrom *Data) (dataTo *Data) 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _data := range dataFrom.SubDatas {
+		dataTo.SubDatas = append(dataTo.SubDatas, GongCopyBranchData(mapOrigCopy, _data))
+	}
 
 	return
 }
@@ -1613,6 +1619,9 @@ func (data *Data) GongUnstageBranch(stage *Stage) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _data := range data.SubDatas {
+		stage.UnstageBranch(_data)
+	}
 
 }
 
@@ -2173,6 +2182,7 @@ func (reference *ControlFlowShape) GongReconstructPointersFromReferences(stage *
 func (reference *Data) GongReconstructPointersFromReferences(stage *Stage, instance *Data) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.SubDatas, stage.Datas_reference, instance.SubDatas)
 }
 
 func (reference *DataFlow) GongReconstructPointersFromReferences(stage *Stage, instance *DataFlow) {
@@ -2382,6 +2392,7 @@ func (reference *ControlFlowShape) GongReconstructPointersFromInstances(stage *S
 func (reference *Data) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.SubDatas, stage.Datas_instance)
 }
 
 func (reference *DataFlow) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2691,6 +2702,12 @@ func (data *Data) GongDiff(stage *Stage, dataOther *Data) (diffs []string) {
 	}
 	if data.Description != dataOther.Description {
 		diffs = append(diffs, data.GongMarshallField(stage, "Description"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, data, "SubDatas", dataOther.SubDatas, data.SubDatas); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if data.IsSubDatasNodeExpanded != dataOther.IsSubDatasNodeExpanded {
+		diffs = append(diffs, data.GongMarshallField(stage, "IsSubDatasNodeExpanded"))
 	}
 	if data.ComputedPrefix != dataOther.ComputedPrefix {
 		diffs = append(diffs, data.GongMarshallField(stage, "ComputedPrefix"))

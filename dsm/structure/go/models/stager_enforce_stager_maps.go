@@ -169,6 +169,11 @@ func (stager *Stager) enforceStagerMaps() {
 		stager.map_Note_PrevDataFlows[note] = slices.Clone(note.DataFlows)
 	}
 
+	stager.map_DataFlow_PrevDatas = make(map[*DataFlow][]*Data)
+	for _, dataFlow := range stager.stage.GetInstancesSorted[*DataFlow]() {
+		stager.map_DataFlow_PrevDatas[dataFlow] = slices.Clone(dataFlow.Datas)
+	}
+
 	stager.rm_Data_DataFlows = stager.stage.GetSliceOfPointersReverseMap[DataFlow, Data](GongGetAssociationName[DataFlow]().Datas[0].Name)
 	stager.rm_ProtocolLayer_Protocols = stager.stage.GetSliceOfPointersReverseMap[Protocol, ProtocolLayer](GongGetAssociationName[Protocol]().ProtocolLayers[0].Name)
 

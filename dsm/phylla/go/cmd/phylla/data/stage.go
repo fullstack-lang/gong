@@ -714,9 +714,9 @@ func _(stage *models.Stage) {
 	__models__Rendered3DShape__00000009_.TargetZ = 0.000000
 	__models__Rendered3DShape__00000009_.Fov = 50.000000
 	__models__Rendered3DShape__00000010_.Name = `Vase Trapeze-TubeVase3DDiagram-Rendered3DShape`
-	__models__Rendered3DShape__00000010_.ViewX = -216.371992
-	__models__Rendered3DShape__00000010_.ViewY = 2005.254480
-	__models__Rendered3DShape__00000010_.ViewZ = 537.070682
+	__models__Rendered3DShape__00000010_.ViewX = 242.089794
+	__models__Rendered3DShape__00000010_.ViewY = 1963.892977
+	__models__Rendered3DShape__00000010_.ViewZ = 464.032731
 	__models__Rendered3DShape__00000010_.TargetX = 13.533419
 	__models__Rendered3DShape__00000010_.TargetY = 1450.323562
 	__models__Rendered3DShape__00000010_.TargetZ = 59.275481

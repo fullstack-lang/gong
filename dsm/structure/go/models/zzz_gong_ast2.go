@@ -325,6 +325,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.Acronym = GongExtractString(rhs)
 					case "Description":
 						inst.Description = GongExtractString(rhs)
+					case "SubDatas":
+						__gong__assignSliceOfPointers(&inst.SubDatas, rhs, identifierMap)
+					case "IsSubDatasNodeExpanded":
+						inst.IsSubDatasNodeExpanded = GongExtractBool(rhs)
 					case "ComputedPrefix":
 						inst.ComputedPrefix = GongExtractString(rhs)
 					case "IsExpanded":
@@ -1579,6 +1583,10 @@ func (u *DataUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Acronym = GongExtractString(valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
+	case "SubDatas":
+		GongUnmarshallSliceOfPointers(&instance.SubDatas, valueExpr, identifierMap)
+	case "IsSubDatasNodeExpanded":
+		instance.IsSubDatasNodeExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":

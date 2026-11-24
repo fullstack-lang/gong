@@ -32,6 +32,16 @@ func (stager *Stager) enforceNodeShapeDuplicates() (needCommit bool) {
 			}
 			return dataFlowShapeKey{dataFlow: dfs.DataFlow, parentPartShape: dfs.ParentPartShape}, true
 		}) || needCommit
+		needCommit = removeDuplicateShapeByKey(stager, &diagram.Data_Shapes, func(ds *DataShape) (dataShapeKey, bool) {
+			if ds == nil || ds.Data == nil || ds.DataFlow == nil {
+				return dataShapeKey{}, false
+			}
+			return dataShapeKey{
+				dataFlow:      ds.DataFlow,
+				dataFlowShape: effectiveDataFlowShape(diagram, ds.DataFlow, ds.DataFlowShape),
+				data:          ds.Data,
+			}, true
+		}) || needCommit
 	}
 	return
 }

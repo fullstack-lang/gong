@@ -10,14 +10,15 @@ func (stager *Stager) computeDataFlowShapeFields() {
 		dataFlowShape.protocolLayerShapes = nil
 	}
 
-	// compute dataShapes, protocolShape, and protocolLayerShapes by iterating over diagrams and their maps
+	// compute dataShapes, protocolShape, and protocolLayerShapes by iterating over diagrams and their maps,
+	// walking each DataFlow's Datas and their SubDatas in pre-order DFS.
 	for _, diagram := range stage.GetInstancesSorted[*DiagramStructure]() {
 		for _, dataFlowShape := range diagram.DataFlow_Shapes {
 			df := dataFlowShape.DataFlow
 			if df == nil {
 				continue
 			}
-			for _, data := range df.Datas {
+			walkDatasPreOrder(df.Datas, func(data *Data) {
 				key := dataShapeKey{
 					dataFlow:      df,
 					dataFlowShape: dataFlowShape,
@@ -26,7 +27,7 @@ func (stager *Stager) computeDataFlowShapeFields() {
 				if dataShape, ok := diagram.map_DataShapeKey_DataShape[key]; ok {
 					dataFlowShape.dataShapes = append(dataFlowShape.dataShapes, dataShape)
 				}
-			}
+			})
 			if df.Protocol != nil {
 				protoKey := protocolShapeKey{
 					dataFlow:      df,

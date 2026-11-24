@@ -8,6 +8,7 @@ import (
 
 func (stager *Stager) refreshComputedState() {
 	stager.enforceOwningLibraryAndObjects()
+	stager.computeDataFields()
 	stager.computePartFields()
 	stager.computePortFields()
 	stager.enforceStagerMaps()
@@ -71,6 +72,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 			return cleaned
 		}},
 		{"Enforce default values", stager.enforceDefaultValues},
+		{"Enforce data semantic rules", stager.enforceDataSemanticRules},
 		{"Enforce orphans abstract element", stager.enforceOrphansAbstractElement},
 		{"Enforce port part consistency", stager.enforcePortPartConsistency},
 		{"Enforce protocol semantic rules", stager.enforceProtocolSemanticRules},

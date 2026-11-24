@@ -125,6 +125,8 @@ type Data_WOP struct {
 
 	Description string
 
+	IsSubDatasNodeExpanded bool
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -136,7 +138,14 @@ type Data_WOP struct {
 
 func (from *Data) GongCopyBasicFields(to *Data) {
 	// insertion point
-	*to = *from
+	to.Name = from.Name
+	to.Acronym = from.Acronym
+	to.Description = from.Description
+	to.IsSubDatasNodeExpanded = from.IsSubDatasNodeExpanded
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.SVG_Path = from.SVG_Path
+	to.InverseAppliedScaling = from.InverseAppliedScaling
 }
 
 type DataFlow_WOP struct {

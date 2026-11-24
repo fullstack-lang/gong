@@ -101,14 +101,24 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 			needCommit = true
 		}
 
-		// Ensure Data_Shapes with explicit DataFlowShape match an active DataFlowShape
+		// Ensure Data_Shapes match an active DataFlowShape and a Data reachable from DataFlow.Datas
 		var validDataShapes []*DataShape
 		for _, dataShape := range diagram.Data_Shapes {
-			if dataShape.DataFlowShape != nil && !validDataFlowShapeSet[dataShape.DataFlowShape] {
+			if dataShape == nil {
+				needCommit = true
+				continue
+			}
+			effDFS := effectiveDataFlowShape(diagram, dataShape.DataFlow, dataShape.DataFlowShape)
+			isActive := (dataShape.DataFlowShape != nil && validDataFlowShapeSet[dataShape.DataFlowShape]) ||
+				(dataShape.DataFlowShape == nil && ((effDFS != nil && validDataFlowShapeSet[effDFS]) || dataFlowsInDiagram[dataShape.DataFlow]))
+			if dataShape.DataFlow != nil &&
+				dataShape.Data != nil &&
+				isActive &&
+				isDataReachableFromDataFlow(dataShape.DataFlow, dataShape.Data) {
+				validDataShapes = append(validDataShapes, dataShape)
+			} else {
 				dataShape.UnstageVoid(stager.stage)
 				needCommit = true
-			} else {
-				validDataShapes = append(validDataShapes, dataShape)
 			}
 		}
 		if len(validDataShapes) != len(diagram.Data_Shapes) {

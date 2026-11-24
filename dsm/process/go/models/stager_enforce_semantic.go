@@ -12,6 +12,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	// computes fields that are not persisted
 	stager.enforceOwningLibraryAndObjects()
+	stager.computeDataFields()
 	stager.enforceStagerMaps()
 	stager.computeTaskFields()
 	stager.computeParticipantFields()
@@ -39,6 +40,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	// computes fields that are not persisted
 	stager.enforceOwningLibraryAndObjects()
+	stager.computeDataFields()
 	stager.enforceStagerMaps()
 	stager.computeTaskFields()
 	stager.computeParticipantFields()
@@ -66,6 +68,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		// with slices of pointer or pointer to unstaged instance
 		{"Clean stage", func() bool { return stage.Clean() }},
 		{"Enforce default values", stager.enforceDefaultValues},
+		{"Enforce data semantic rules", stager.enforceDataSemanticRules},
 		{"Enforce orphans abstract element", stager.enforceOrphansAbstractElement},
 		{"Enforce task participant consistency", stager.enforceTaskParticipantConsistency},
 		{"Enforce task semantic rules", stager.enforceTaskSemanticRules},

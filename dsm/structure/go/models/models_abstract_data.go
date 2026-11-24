@@ -11,6 +11,11 @@ type Data struct {
 	//gong:text width:300 height:300
 	Description string
 
+	parentData *Data
+
+	SubDatas               []*Data
+	IsSubDatasNodeExpanded bool
+
 	LibraryAbstractFields
 	AbstractTypeFields
 

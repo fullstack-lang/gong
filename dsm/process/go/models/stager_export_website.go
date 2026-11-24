@@ -243,7 +243,20 @@ func (inst *Data) GetReferencePath() string {
 }
 
 func (inst *Data) GeneratePage(stager *Stager) *ssg.Page {
-	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
+	content := fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)
+	if inst.parentData != nil {
+		content += fmt.Sprintf("\n\n**Parent Data:** [%s](../%s/index.html)", inst.parentData.Name, inst.parentData.GetReferencePath())
+	}
+	if len(inst.SubDatas) > 0 {
+		content += "\n\n##### Sub Datas\n\n| Name | Description |\n|---|---|\n"
+		for _, sub := range inst.SubDatas {
+			if sub != nil {
+				content += fmt.Sprintf("| [%s](../%s/index.html) | %s |\n",
+					sub.Name, sub.GetReferencePath(), strings.ReplaceAll(sub.Description, "\n", "<br>"))
+			}
+		}
+	}
+	return &ssg.Page{Name: inst.Name, MardownContent: content}
 }
 
 func (inst *Resource) GetDescription() string { return inst.Description }

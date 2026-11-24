@@ -37,7 +37,7 @@ func (stager *Stager) treeDataFlowWithinLibrary(
 	dataFlowNode.Children = append(dataFlowNode.Children, datasNode)
 	datasNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&dataFlow.IsDatasNodeExpanded)
 
-	for _, data := range dataFlow.Datas {
+	for _, data := range topLevelDatasInSlice(dataFlow.Datas) {
 		stager.treeData(library, data, datasNode)
 	}
 

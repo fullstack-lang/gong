@@ -524,9 +524,20 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dataIdent, __gong__toRawStringLiteral(data.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Acronym = %s", dataIdent, __gong__toRawStringLiteral(data.Acronym)))
 			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", dataIdent, __gong__toRawStringLiteral(data.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSubDatasNodeExpanded = %t", dataIdent, data.IsSubDatasNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", dataIdent, __gong__toRawStringLiteral(data.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", dataIdent, data.IsExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", dataIdent, __gong__toRawStringLiteral(data.SVG)))
+			for _, elem := range data.SubDatas {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubDatas = append(%s.SubDatas, %s)", dataIdent, dataIdent, targetIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -2168,6 +2179,8 @@ func (data *Data) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = __gong__marshallString(ident, "Acronym", data.Acronym)
 	case "Description":
 		res = __gong__marshallString(ident, "Description", data.Description)
+	case "IsSubDatasNodeExpanded":
+		res = __gong__marshallBool(ident, "IsSubDatasNodeExpanded", data.IsSubDatasNodeExpanded)
 	case "ComputedPrefix":
 		res = __gong__marshallString(ident, "ComputedPrefix", data.ComputedPrefix)
 	case "IsExpanded":
@@ -2175,6 +2188,12 @@ func (data *Data) GongMarshallField(stage *Stage, fieldName string) (res string)
 	case "SVG":
 		res = __gong__marshallString(ident, "SVG", data.SVG)
 
+	case "SubDatas":
+		var sb strings.Builder
+		for _, _data := range data.SubDatas {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "SubDatas", _data.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Data", fieldName)
 	}
@@ -3444,6 +3463,8 @@ func (data *Data) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(data.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "Acronym"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "Description"))
+		pointersInitializesStatements.WriteString(data.GongMarshallField(stage, "SubDatas"))
+		initializerStatements.WriteString(data.GongMarshallField(stage, "IsSubDatasNodeExpanded"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "SVG"))

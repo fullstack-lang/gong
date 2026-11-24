@@ -64,6 +64,9 @@ type Stager struct {
 	map_Participant_PrevResources         map[*Participant][]*Resource
 	map_ExternalParticipant_PrevResources map[*ExternalParticipant][]*Resource
 	map_ExternalParticipant_PrevProcesses map[*ExternalParticipant][]*Process
+
+	// previous Datas slice on DataFlow to detect newly added Datas in probe callbacks
+	map_DataFlow_PrevDatas map[*DataFlow][]*Data
 }
 
 func NewStager(

@@ -13,6 +13,40 @@ func (stager *Stager) enforceNodeShapeDuplicates() (needCommit bool) {
 		needCommit = removeDuplicateNodeShape(stager, &diagram.Task_Shapes) || needCommit
 		needCommit = removeDuplicateNodeShape(stager, &diagram.ControlFlow_Shapes) || needCommit
 		needCommit = removeDuplicateNodeShape(stager, &diagram.DataFlow_Shapes) || needCommit
+		needCommit = removeDuplicateShapeByKey(stager, &diagram.Data_Shapes, func(ds *DataShape) (dataShapeKey, bool) {
+			if ds == nil || ds.Data == nil || ds.DataFlow == nil {
+				return dataShapeKey{}, false
+			}
+			return dataShapeKey{dataFlow: ds.DataFlow, data: ds.Data}, true
+		}) || needCommit
+	}
+	return
+}
+
+func removeDuplicateShapeByKey[T ConcreteType, K comparable](
+	stager *Stager,
+	shapes *[]T,
+	keyFn func(T) (K, bool),
+) (needCommit bool) {
+	seen := make(map[K]bool)
+	var newShapes []T
+
+	for _, shape := range *shapes {
+		if key, ok := keyFn(shape); ok {
+			if seen[key] {
+				shape.UnstageVoid(stager.stage)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged duplicate shape %s", shape.GetName()))
+				}
+				needCommit = true
+				continue
+			}
+			seen[key] = true
+		}
+		newShapes = append(newShapes, shape)
+	}
+	if needCommit {
+		*shapes = newShapes
 	}
 	return
 }

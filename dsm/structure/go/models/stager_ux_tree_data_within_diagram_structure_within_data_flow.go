@@ -1,6 +1,8 @@
 package models
 
 import (
+	"slices"
+
 	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
@@ -13,6 +15,32 @@ func (stager *Stager) treeDataWithinDiagramStructureWithinDataFlow(
 	isDataFlowShapePresent bool,
 	data *Data,
 ) {
+	stager.treeDataWithinDiagramStructureWithinDataFlowVisited(
+		dataFlowNode,
+		diagramStructure,
+		dataFlow,
+		dataFlowShape,
+		isDataFlowShapePresent,
+		data,
+		make(map[*Data]bool),
+	)
+}
+
+func (stager *Stager) treeDataWithinDiagramStructureWithinDataFlowVisited(
+	parentNode *tree.Node,
+	diagramStructure *DiagramStructure,
+	dataFlow *DataFlow,
+	dataFlowShape *DataFlowShape,
+	isDataFlowShapePresent bool,
+	data *Data,
+	visited map[*Data]bool,
+) {
+	if data == nil || visited[data] {
+		return
+	}
+	visited[data] = true
+	defer delete(visited, data)
+
 	stage := stager.stage
 
 	key := dataShapeKey{
@@ -28,6 +56,7 @@ func (stager *Stager) treeDataWithinDiagramStructureWithinDataFlow(
 
 	dataNode := &tree.Node{
 		Name:                    data.GetName(),
+		IsExpanded:              slices.Contains(diagramStructure.DatasWhoseNodeIsExpanded, data),
 		IsNodeClickable:         true,
 		IsInEditMode:            data.GetIsInRenameMode(),
 		HasCheckboxButton:       true,
@@ -45,8 +74,59 @@ func (stager *Stager) treeDataWithinDiagramStructureWithinDataFlow(
 			return "Click to create a data shape for this data within this data flow"
 		}(),
 	}
-	dataFlowNode.Children = append(dataFlowNode.Children, dataNode)
+	parentNode.Children = append(parentNode.Children, dataNode)
 	addRenameButton(data, dataNode, stager)
+
+	if isDataFlowShapePresent && dataFlowShape != nil && len(data.SubDatas) > 0 {
+		if dataNode.Menu == nil {
+			dataNode.Menu = &tree.Menu{Name: "Menu"}
+		}
+		displayAllBtn := &tree.Button{
+			Name:            "Display data & sub-datas",
+			Icon:            string(buttons.BUTTON_add_circle),
+			ToolTipText:     "Display this data and all its sub-datas on this data flow",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				dfName := dataFlowShape.GetName()
+				walkDatasPreOrder([]*Data{data}, func(d *Data) {
+					k := dataShapeKey{dataFlow: dataFlow, dataFlowShape: dataFlowShape, data: d}
+					if _, exists := diagramStructure.map_DataShapeKey_DataShape[k]; !exists {
+						ds := (&DataShape{
+							Name:          d.GetName() + "-" + dfName + "-" + diagramStructure.GetName(),
+							Data:          d,
+							DataFlow:      dataFlow,
+							DataFlowShape: dataFlowShape,
+						}).Stage(stage)
+						diagramStructure.Data_Shapes = append(diagramStructure.Data_Shapes, ds)
+						diagramStructure.map_DataShapeKey_DataShape[k] = ds
+					}
+					if len(d.SubDatas) > 0 && !slices.Contains(diagramStructure.DatasWhoseNodeIsExpanded, d) {
+						diagramStructure.DatasWhoseNodeIsExpanded = append(diagramStructure.DatasWhoseNodeIsExpanded, d)
+					}
+				})
+				stage.Commit()
+			},
+		}
+		removeAllBtn := &tree.Button{
+			Name:            "Remove data & sub-datas",
+			Icon:            string(buttons.BUTTON_remove_circle),
+			ToolTipText:     "Remove this data and all its sub-datas from this data flow",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				walkDatasPreOrder([]*Data{data}, func(d *Data) {
+					k := dataShapeKey{dataFlow: dataFlow, dataFlowShape: dataFlowShape, data: d}
+					if ds, exists := diagramStructure.map_DataShapeKey_DataShape[k]; exists && ds != nil {
+						ds.UnstageVoid(stage)
+					}
+				})
+				stage.Commit()
+			},
+		}
+		dataNode.Menu.Buttons = append(dataNode.Menu.Buttons, displayAllBtn, removeAllBtn)
+		EnsureRenameIsFirst(dataNode)
+	}
 
 	if isDataShapePresent && dataShape != nil {
 		visibilityButton := &tree.Button{
@@ -68,16 +148,20 @@ func (stager *Stager) treeDataWithinDiagramStructureWithinDataFlow(
 	}
 
 	dataNode.OnNameChange = stager.onNameChange(data)
+	dataNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, data, &diagramStructure.DatasWhoseNodeIsExpanded)
 
 	dataNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !isDataShapePresent {
+			dfName := dataFlow.GetName()
+			if dataFlowShape != nil {
+				dfName = dataFlowShape.GetName()
+			}
 			newDataShape := (&DataShape{
-				Name:          dataFlow.Name + "-" + dataFlowShape.GetName() + "-" + diagramStructure.GetName(),
+				Name:          data.GetName() + "-" + dfName + "-" + diagramStructure.GetName(),
 				Data:          data,
 				DataFlow:      dataFlow,
 				DataFlowShape: dataFlowShape,
 			}).Stage(stager.stage)
-			newDataShape.SetWidth(180.0)
 			diagramStructure.Data_Shapes = append(diagramStructure.Data_Shapes, newDataShape)
 			stage.Commit()
 			return
@@ -96,5 +180,17 @@ func (stager *Stager) treeDataWithinDiagramStructureWithinDataFlow(
 			clearShapeAppearanceForm(stager)
 		}
 		stager.stage.CommitWithSuspendedCallbacks()
+	}
+
+	for _, subData := range data.SubDatas {
+		stager.treeDataWithinDiagramStructureWithinDataFlowVisited(
+			dataNode,
+			diagramStructure,
+			dataFlow,
+			dataFlowShape,
+			isDataFlowShapePresent,
+			subData,
+			visited,
+		)
 	}
 }

@@ -159,6 +159,9 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
 			true, false, 0, false, 0, false)
+		AssociationSliceToForm("SubDatas", instanceWithInferedType, &instanceWithInferedType.SubDatas, formGroup, probe)
+		BasicFieldtoForm("IsSubDatasNodeExpanded", instanceWithInferedType.IsSubDatasNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
@@ -170,6 +173,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"Data",
+			"SubDatas",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Data) []*models.Data {
+				return owner.SubDatas
+			})
 		AssociationReverseSliceToForm(
 			"DataFlow",
 			"Datas",

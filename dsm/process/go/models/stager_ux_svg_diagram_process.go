@@ -989,17 +989,29 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 		}
 
 		type preparedDataItem struct {
-			dataShape  *DataShape
-			content    string
-			leftMargin float64
-			width      float64
-			height     float64
-			iconPaths  []*svg.RectAnchoredPath
+			dataShape        *DataShape
+			content          string
+			leftMargin       float64
+			width            float64
+			height           float64
+			depth            int
+			visibleParentIdx int
+			rectY            float64
+			iconPaths        []*svg.RectAnchoredPath
 		}
 
 		const lineHeight = 18.0
+		const subLineHeight = 16.0
 		const verticalPadding = 6.0
+		const subVerticalPadding = 4.0
 		const stackGap = 2.0
+		const hierarchyIndent = 16.0
+		const minDefaultWidth = 100.0
+
+		visibleIndexByData := make(map[*Data]int, len(visibleDataShapes))
+		for idx, ds := range visibleDataShapes {
+			visibleIndexByData[ds.Data] = idx
+		}
 
 		var items []preparedDataItem
 		totalStackHeight := 0.0
@@ -1007,12 +1019,30 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 		for idx, dataShape := range visibleDataShapes {
 			data := dataShape.Data
 
+			depth := 0
+			visibleParentIdx := -1
+			visitedAnc := make(map[*Data]bool)
+			visitedAnc[data] = true
+			for anc := data.parentData; anc != nil && !visitedAnc[anc]; anc = anc.parentData {
+				visitedAnc[anc] = true
+				if pIdx, ok := visibleIndexByData[anc]; ok {
+					depth++
+					if visibleParentIdx == -1 {
+						visibleParentIdx = pIdx
+					}
+				}
+			}
+
 			width := dataShape.GetWidth()
 			if width <= 0 {
 				if data.SVG != "" {
 					width = 195.0
 				} else {
 					width = 180.0
+				}
+				width -= float64(depth) * hierarchyIndent
+				if width < minDefaultWidth {
+					width = minDefaultWidth
 				}
 				dataShape.SetWidth(width)
 			}
@@ -1040,17 +1070,25 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 				content = strutils.WrapStringPreservingNewlines(content, int(availableWidth/root.NbPixPerCharacter))
 			}
 
+			itemLineHeight := lineHeight
+			itemVerticalPadding := verticalPadding
+			if depth > 0 {
+				itemLineHeight = subLineHeight
+				itemVerticalPadding = subVerticalPadding
+			}
 			lines := strings.Split(content, "\n")
-			height := float64(len(lines))*lineHeight + verticalPadding
+			height := float64(len(lines))*itemLineHeight + itemVerticalPadding
 			dataShape.SetHeight(height)
 
 			items = append(items, preparedDataItem{
-				dataShape:  dataShape,
-				content:    content,
-				leftMargin: leftMargin,
-				width:      width,
-				height:     height,
-				iconPaths:  iconPaths,
+				dataShape:        dataShape,
+				content:          content,
+				leftMargin:       leftMargin,
+				width:            width,
+				height:           height,
+				depth:            depth,
+				visibleParentIdx: visibleParentIdx,
+				iconPaths:        iconPaths,
 			})
 			totalStackHeight += height
 			if idx > 0 {
@@ -1059,16 +1097,29 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 		}
 
 		currentY := cornerY - 4.0 - totalStackHeight
-		for _, item := range items {
+		for idx := range items {
+			item := &items[idx]
 			dataShape := item.dataShape
 			data := dataShape.Data
 
-			rectX := cornerX + 4.0
+			rectX := cornerX + 4.0 + float64(item.depth)*hierarchyIndent
 			rectY := currentY
+			item.rectY = rectY
 			currentY += item.height + stackGap
 
 			dataShape.SetX(rectX)
 			dataShape.SetY(rectY)
+
+			bgColor := "#FFFFFF"
+			strokeColor := "#A5D6A7"
+			fontWeight := "600"
+			fontSize := "14px"
+			if item.depth > 0 {
+				bgColor = "#FAFAFA"
+				strokeColor = "#C8E6C9"
+				fontWeight = "400"
+				fontSize = "13px"
+			}
 
 			dataRect := &svg.Rect{
 				Name:          data.GetName(),
@@ -1077,9 +1128,9 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 				Width:         item.width,
 				Height:        item.height,
 				RX:            3.0,
-				Color:         "#FFFFFF",
+				Color:         bgColor,
 				FillOpacity:   0.85,
-				Stroke:        "#A5D6A7",
+				Stroke:        strokeColor,
 				StrokeWidth:   1.0,
 				StrokeOpacity: 1.0,
 				IsSelectable:  true,
@@ -1093,8 +1144,8 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 				Stroke:           "#333333",
 				StrokeWidth:      0,
 				StrokeOpacity:    1.0,
-				FontWeight:       "600",
-				FontSize:         "14px",
+				FontWeight:       fontWeight,
+				FontSize:         fontSize,
 				X_Offset:         item.leftMargin,
 				Y_Offset:         0,
 				RectAnchorType:   svg.RECT_LEFT_MIDDLE,
@@ -1102,6 +1153,30 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 				DominantBaseline: svg.DominantBaselineCentral,
 			}
 			dataRect.RectAnchoredTexts = append(dataRect.RectAnchoredTexts, title)
+
+			if item.depth > 0 && item.visibleParentIdx >= 0 && item.visibleParentIdx < idx {
+				parentItem := items[item.visibleParentIdx]
+				parentBottomY := parentItem.rectY + parentItem.height
+				trunkOffsetX := -hierarchyIndent / 2.0
+				topRelY := parentBottomY - rectY
+				midRelY := item.height / 2.0
+				connectorPath := &svg.RectAnchoredPath{
+					Name:                data.GetName() + "_hierarchy_connector",
+					Definition:          fmt.Sprintf("M %g %g V %g H 0", trunkOffsetX, topRelY, midRelY),
+					X_Offset:            0,
+					Y_Offset:            0,
+					RectAnchorType:      svg.RECT_TOP_LEFT,
+					ScalePropotionnally: false,
+					Presentation: svg.Presentation{
+						Color:         "none",
+						FillOpacity:   0.0,
+						Stroke:        "#A5D6A7",
+						StrokeWidth:   1.0,
+						StrokeOpacity: 1.0,
+					},
+				}
+				dataRect.RectAnchoredPaths = append(dataRect.RectAnchoredPaths, connectorPath)
+			}
 
 			if len(item.iconPaths) > 0 {
 				dataRect.RectAnchoredPaths = append(dataRect.RectAnchoredPaths, item.iconPaths...)

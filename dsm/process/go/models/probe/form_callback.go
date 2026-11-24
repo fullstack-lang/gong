@@ -297,12 +297,18 @@ func saveDataFields(
 			FormDivBasicFieldToField(&(_instance.Acronym), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(_instance.Description), formDiv)
+		case "SubDatas":
+			FormDivSliceOfPointersToField(_instance, "SubDatas", &(_instance.SubDatas), formDiv, probe)
+		case "IsSubDatasNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsSubDatasNodeExpanded), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		case "SVG":
 			FormDivBasicFieldToField(&(_instance.SVG), formDiv)
+		case "Data:SubDatas":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SubDatas", func(owner *models.Data) *[]*models.Data { return &owner.SubDatas })
 		case "DataFlow:Datas":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Datas", func(owner *models.DataFlow) *[]*models.Data { return &owner.Datas })
 		case "DiagramProcess:DatasWhoseNodeIsExpanded":

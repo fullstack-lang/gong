@@ -26,6 +26,7 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 
 		// Check DataFlow_Shapes
 		var validDataFlowShapes []*DataFlowShape
+		dataFlowsInDiagram := make(map[*DataFlow]bool)
 		for _, dataFlowShape := range diagram.DataFlow_Shapes {
 			isValid := true
 			if dataFlowShape.DataFlow != nil {
@@ -55,6 +56,7 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 
 			if isValid {
 				validDataFlowShapes = append(validDataFlowShapes, dataFlowShape)
+				dataFlowsInDiagram[dataFlowShape.DataFlow] = true
 				if dataFlowShape.Name != dataFlowShape.DataFlow.Name {
 					dataFlowShape.Name = dataFlowShape.DataFlow.Name
 					needCommit = true
@@ -69,6 +71,25 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 		}
 		if len(validDataFlowShapes) != len(diagram.DataFlow_Shapes) {
 			diagram.DataFlow_Shapes = validDataFlowShapes
+			needCommit = true
+		}
+
+		// Ensure Data_Shapes match an active DataFlowShape and a Data reachable from DataFlow.Datas
+		var validDataShapes []*DataShape
+		for _, dataShape := range diagram.Data_Shapes {
+			if dataShape != nil &&
+				dataShape.Data != nil &&
+				dataShape.DataFlow != nil &&
+				dataFlowsInDiagram[dataShape.DataFlow] &&
+				isDataReachableFromDataFlow(dataShape.DataFlow, dataShape.Data) {
+				validDataShapes = append(validDataShapes, dataShape)
+			} else if dataShape != nil {
+				dataShape.UnstageVoid(stager.stage)
+				needCommit = true
+			}
+		}
+		if len(validDataShapes) != len(diagram.Data_Shapes) {
+			diagram.Data_Shapes = validDataShapes
 			needCommit = true
 		}
 	}

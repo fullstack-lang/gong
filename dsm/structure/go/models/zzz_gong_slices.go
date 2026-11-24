@@ -20,6 +20,16 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
+	// Compute reverse map for named struct Data
+	// insertion point per field
+	stage.Data_SubDatas_reverseMap = make(map[*Data]*Data)
+	for data := range stage.Datas {
+		_ = data
+		for _, _data := range data.SubDatas {
+			stage.Data_SubDatas_reverseMap[_data] = data
+		}
+	}
+
 	// Compute reverse map for named struct DataFlow
 	// insertion point per field
 	stage.DataFlow_Datas_reverseMap = make(map[*Data]*DataFlow)

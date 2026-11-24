@@ -186,7 +186,7 @@ func (stager *Stager) treeDataFlowsScoped(
 	}
 	dataFlowNode.OnClick = onNodeClicked(stager, dataFlow)
 
-	for _, data := range dataFlow.Datas {
+	for _, data := range topLevelDatasInSlice(dataFlow.Datas) {
 		stager.treeDataWithinDiagramStructureWithinDataFlow(dataFlowNode, diagramStructure, dataFlow, dataFlowShape, isShapePresent, data)
 	}
 	if dataFlow.Protocol != nil {

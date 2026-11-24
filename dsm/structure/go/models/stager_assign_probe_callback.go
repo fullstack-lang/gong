@@ -33,6 +33,9 @@ func (stager *Stager) assignProbeCallback() bool {
 }
 
 func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
+	reachableDatas := collectReachableDatas(dataFlow.Datas)
+	prevDatas, hasPrev := stager.map_DataFlow_PrevDatas[dataFlow]
+
 	// when a Data is added/removed to/from a DataFlow
 	// update all diagrams accordingly
 	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramStructure]() {
@@ -55,7 +58,7 @@ func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
 				if dataShape.DataFlow == dataFlow {
 					if dataShape.Data != nil {
 						effDFS := effectiveDataFlowShape(diagram, dataFlow, dataShape.DataFlowShape)
-						stillExists := slices.Contains(dataFlow.Datas, dataShape.Data) &&
+						stillExists := reachableDatas[dataShape.Data] &&
 							(effDFS != nil && slices.Contains(matchingDFShapes, effDFS))
 						if stillExists {
 							existingDataShapes[dfDataPair{dfShape: effDFS, data: dataShape.Data}] = dataShape
@@ -73,9 +76,15 @@ func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
 
 			diagram.Data_Shapes = validDataShapes
 
-			// add missing DataShapes for each active DataFlowShape of this dataFlow
+			// add missing DataShapes for newly added top-level Data entries on each active DataFlowShape
 			for _, dfShape := range matchingDFShapes {
 				for _, data := range dataFlow.Datas {
+					if data == nil {
+						continue
+					}
+					if hasPrev && slices.Contains(prevDatas, data) {
+						continue
+					}
 					pair := dfDataPair{dfShape: dfShape, data: data}
 					if _, ok := existingDataShapes[pair]; !ok {
 						newDataShape := new(DataShape).Stage(stager.stage)
@@ -89,6 +98,11 @@ func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
 			}
 		}
 	}
+
+	if stager.map_DataFlow_PrevDatas == nil {
+		stager.map_DataFlow_PrevDatas = make(map[*DataFlow][]*Data)
+	}
+	stager.map_DataFlow_PrevDatas[dataFlow] = slices.Clone(dataFlow.Datas)
 
 	log.Printf("Updated Data_Shapes for DataFlow %s", dataFlow.Name)
 }

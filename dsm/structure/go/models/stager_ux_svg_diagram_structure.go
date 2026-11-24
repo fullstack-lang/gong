@@ -284,10 +284,11 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 }
 
 func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure, layer *svg.Layer) {
+	root := stager.GetRootLibrary()
 
 	diagramStructure.map_ExternalPart_Rect = make(map[*Part]*svg.Rect)
 	for _, externalPartShape := range diagramStructure.ExternalPart_Shapes {
-		if externalPartShape.IsHidden {
+		if externalPartShape.IsHidden || externalPartShape.Part == nil {
 			continue
 		}
 
@@ -308,7 +309,56 @@ func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure,
 
 		rect.Color = "#F8F9FA"
 		rect.Stroke = "#E0E0E0"
+
+		{
+			title := new(svg.RectAnchoredText)
+			title.Name = externalPartShape.GetAbstractElement().GetName()
+
+			content := partDisplayLabel(externalPartShape.Part)
+			if diagramStructure.GetIsShowPrefix() && externalPartShape.GetAbstractElement().GetComputedPrefix() != "" {
+				content = externalPartShape.GetAbstractElement().GetComputedPrefix() + " " + content
+			}
+
+			if rect.Width > 0 && root != nil && root.NbPixPerCharacter > 0 {
+				content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/root.NbPixPerCharacter))
+			}
+			title.Content = content
+			title.StrokeWidth = 0
+			title.StrokeOpacity = 1.0
+			title.Color = "#333333"
+			title.FillOpacity = 1.0
+			title.FontSize = "15px"
+			title.FontWeight = "500"
+			title.X_Offset = 0
+			title.Y_Offset = 0
+			title.RectAnchorType = svg.RECT_CENTER_MIDDLE
+			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+
+			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
+		}
+
 		syncRectPresentation(externalPartShape, rect)
+
+		for _, path := range externalPartShape.Part.PartAnchoredPath {
+			rectAnchoredPath := &svg.RectAnchoredPath{
+				Name:                        path.Name,
+				Definition:                  path.Definition,
+				X_Offset:                    path.X_Offset,
+				Y_Offset:                    path.Y_Offset,
+				RectAnchorType:              svg.RectAnchorType(path.RectAnchorType),
+				ScalePropotionnally:         path.ScalePropotionnally,
+				AppliedScaling:              path.AppliedScaling,
+				Color:                       path.Color,
+				FillOpacity:                 path.FillOpacity,
+				Stroke:                      path.Stroke,
+				StrokeOpacity:               path.StrokeOpacity,
+				StrokeWidth:                 path.StrokeWidth,
+				StrokeDashArray:             path.StrokeDashArray,
+				StrokeDashArrayWhenSelected: path.StrokeDashArrayWhenSelected,
+				Transform:                   path.Transform,
+			}
+			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, rectAnchoredPath)
+		}
 
 		rect.OnSelect = onSelectRectShape(stager, externalPartShape.Part, externalPartShape)
 		if diagramStructure.IsEditable() {
@@ -766,16 +816,28 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 		}
 
 		type preparedDataItem struct {
-			dataShape  *DataShape
-			content    string
-			leftMargin float64
-			width      float64
-			height     float64
+			dataShape        *DataShape
+			content          string
+			leftMargin       float64
+			width            float64
+			height           float64
+			depth            int
+			visibleParentIdx int
+			rectY            float64
 		}
 
 		const lineHeight = 18.0
+		const subLineHeight = 16.0
 		const verticalPadding = 6.0
+		const subVerticalPadding = 4.0
 		const stackGap = 2.0
+		const hierarchyIndent = 16.0
+		const minDefaultWidth = 100.0
+
+		visibleIndexByData := make(map[*Data]int, len(visibleDataShapes))
+		for idx, ds := range visibleDataShapes {
+			visibleIndexByData[ds.Data] = idx
+		}
 
 		var items []preparedDataItem
 		totalStackHeight := 0.0
@@ -783,9 +845,26 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 		for idx, dataShape := range visibleDataShapes {
 			data := dataShape.Data
 
+			depth := 0
+			visibleParentIdx := -1
+			visitedAnc := make(map[*Data]bool)
+			visitedAnc[data] = true
+			for anc := data.parentData; anc != nil && !visitedAnc[anc]; anc = anc.parentData {
+				visitedAnc[anc] = true
+				if pIdx, ok := visibleIndexByData[anc]; ok {
+					depth++
+					if visibleParentIdx == -1 {
+						visibleParentIdx = pIdx
+					}
+				}
+			}
+
 			width := dataShape.GetWidth()
 			if width <= 0 {
-				width = 180.0
+				width = 180.0 - float64(depth)*hierarchyIndent
+				if width < minDefaultWidth {
+					width = minDefaultWidth
+				}
 				dataShape.SetWidth(width)
 			}
 
@@ -808,16 +887,24 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 				content = strutils.WrapStringPreservingNewlines(content, int(availableWidth/root.NbPixPerCharacter))
 			}
 
+			itemLineHeight := lineHeight
+			itemVerticalPadding := verticalPadding
+			if depth > 0 {
+				itemLineHeight = subLineHeight
+				itemVerticalPadding = subVerticalPadding
+			}
 			lines := strings.Split(content, "\n")
-			height := float64(len(lines))*lineHeight + verticalPadding
+			height := float64(len(lines))*itemLineHeight + itemVerticalPadding
 			dataShape.SetHeight(height)
 
 			items = append(items, preparedDataItem{
-				dataShape:  dataShape,
-				content:    content,
-				leftMargin: leftMargin,
-				width:      width,
-				height:     height,
+				dataShape:        dataShape,
+				content:          content,
+				leftMargin:       leftMargin,
+				width:            width,
+				height:           height,
+				depth:            depth,
+				visibleParentIdx: visibleParentIdx,
 			})
 			totalStackHeight += height
 			if idx > 0 {
@@ -826,16 +913,29 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 		}
 
 		currentY := anchorY - 4.0 - totalStackHeight
-		for _, item := range items {
+		for idx := range items {
+			item := &items[idx]
 			dataShape := item.dataShape
 			data := dataShape.Data
 
-			rectX := anchorX + 4.0
+			rectX := anchorX + 4.0 + float64(item.depth)*hierarchyIndent
 			rectY := currentY
+			item.rectY = rectY
 			currentY += item.height + stackGap
 
 			dataShape.SetX(rectX)
 			dataShape.SetY(rectY)
+
+			bgColor := "#FFFFFF"
+			strokeColor := "#A5D6A7"
+			fontWeight := "600"
+			fontSize := "14px"
+			if item.depth > 0 {
+				bgColor = "#FAFAFA"
+				strokeColor = "#C8E6C9"
+				fontWeight = "400"
+				fontSize = "13px"
+			}
 
 			dataRect := &svg.Rect{
 				Name:          data.GetName(),
@@ -844,9 +944,9 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 				Width:         item.width,
 				Height:        item.height,
 				RX:            3.0,
-				Color:         "#FFFFFF",
+				Color:         bgColor,
 				FillOpacity:   0.85,
-				Stroke:        "#A5D6A7",
+				Stroke:        strokeColor,
 				StrokeWidth:   1.0,
 				StrokeOpacity: 1.0,
 				IsSelectable:  true,
@@ -860,8 +960,8 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 				Stroke:           "#333333",
 				StrokeWidth:      0,
 				StrokeOpacity:    1.0,
-				FontWeight:       "600",
-				FontSize:         "14px",
+				FontWeight:       fontWeight,
+				FontSize:         fontSize,
 				X_Offset:         item.leftMargin,
 				Y_Offset:         0,
 				RectAnchorType:   svg.RECT_LEFT_MIDDLE,
@@ -869,6 +969,30 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 				DominantBaseline: svg.DominantBaselineCentral,
 			}
 			dataRect.RectAnchoredTexts = append(dataRect.RectAnchoredTexts, title)
+
+			if item.depth > 0 && item.visibleParentIdx >= 0 && item.visibleParentIdx < idx {
+				parentItem := items[item.visibleParentIdx]
+				parentBottomY := parentItem.rectY + parentItem.height
+				trunkOffsetX := -hierarchyIndent / 2.0
+				topRelY := parentBottomY - rectY
+				midRelY := item.height / 2.0
+				connectorPath := &svg.RectAnchoredPath{
+					Name:                data.GetName() + "_hierarchy_connector",
+					Definition:          fmt.Sprintf("M %g %g V %g H 0", trunkOffsetX, topRelY, midRelY),
+					X_Offset:            0,
+					Y_Offset:            0,
+					RectAnchorType:      svg.RECT_TOP_LEFT,
+					ScalePropotionnally: false,
+					Presentation: svg.Presentation{
+						Color:         "none",
+						FillOpacity:   0.0,
+						Stroke:        "#A5D6A7",
+						StrokeWidth:   1.0,
+						StrokeOpacity: 1.0,
+					},
+				}
+				dataRect.RectAnchoredPaths = append(dataRect.RectAnchoredPaths, connectorPath)
+			}
 
 			if data.SVG_Path != "" {
 				if data.InverseAppliedScaling == 0 {

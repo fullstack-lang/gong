@@ -154,7 +154,7 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 	}
 	dataFlowNode.OnClick = onNodeClicked(stager, dataFlow)
 
-	for _, data := range dataFlow.Datas {
+	for _, data := range topLevelDatasInSlice(dataFlow.Datas) {
 		stager.treeDataWithinDiagramProcessWithinDataFlow(dataFlowNode, diagramProcess, dataFlow, dataFlowShape, shapePresent, data)
 	}
 }

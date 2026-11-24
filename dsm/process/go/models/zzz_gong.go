@@ -183,6 +183,8 @@ type Stage struct {
 	Datas_referenceOrder map[*Data]uint
 
 	// insertion point for slice of pointers maps
+	Data_SubDatas_reverseMap map[*Data]*Data
+
 	OnAfterDataCreateCallback GongOnAfterCreateInterface[Data]
 	OnAfterDataUpdateCallback GongOnAfterUpdateInterface[Data]
 	OnAfterDataDeleteCallback GongOnAfterDeleteInterface[Data]
@@ -2967,6 +2969,7 @@ func (ControlFlowShape) GongGetAssociationName() any {
 
 func (Data) GongGetAssociationName() any {
 	return &Data{
+			SubDatas: []*Data{{Name: "SubDatas"}},
 	}
 }
 
@@ -3781,6 +3784,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	case Data:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "SubDatas":
+			res := make(map[*Data][]*Data)
+			for data := range stage.Datas {
+				for _, data_ := range data.SubDatas {
+					res[data_] = append(res[data_], data)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of DataFlow
 	case DataFlow:
@@ -4461,6 +4472,10 @@ func (*ControlFlowShape) GongGetReverseFields() []GongReverseField {
 func (*Data) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
 		{
+			GongstructName: "Data",
+			Fieldname: "SubDatas",
+		},
+		{
 			GongstructName: "DataFlow",
 			Fieldname: "Datas",
 		},
@@ -4960,6 +4975,15 @@ func (data *Data) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "SubDatas",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Data",
+		},
+		{
+			Name:               "IsSubDatasNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "ComputedPrefix",
@@ -6715,6 +6739,20 @@ func (data *Data) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = data.Acronym
 	case "Description":
 		res.valueString = data.Description
+	case "SubDatas":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range data.SubDatas {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsSubDatasNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", data.IsSubDatasNodeExpanded)
+		res.valueBool = data.IsSubDatasNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ComputedPrefix":
 		res.valueString = data.ComputedPrefix
 	case "IsExpanded":

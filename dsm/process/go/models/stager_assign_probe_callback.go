@@ -201,6 +201,9 @@ func (stager *Stager) onExternalParticipantProcessesUpdate(externalParticipant *
 }
 
 func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
+	reachableDatas := collectReachableDatas(dataFlow.Datas)
+	prevDatas, hasPrev := stager.map_DataFlow_PrevDatas[dataFlow]
+
 	// when a Data is added/removed to/from a DataFlow
 	// update all diagrams accordingly
 	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramProcess]() {
@@ -220,10 +223,8 @@ func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
 			for _, dataShape := range diagram.Data_Shapes {
 				if dataShape.DataFlow == dataFlow {
 					if dataShape.Data != nil {
-						existingDataShapes[dataShape.Data] = dataShape
-
-						stillExists := slices.Contains(dataFlow.Datas, dataShape.Data)
-						if stillExists {
+						if reachableDatas[dataShape.Data] {
+							existingDataShapes[dataShape.Data] = dataShape
 							validDataShapes = append(validDataShapes, dataShape)
 						} else {
 							dataShape.Unstage(stager.stage)
@@ -238,8 +239,14 @@ func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
 
 			diagram.Data_Shapes = validDataShapes
 
-			// add missing DataShapes
+			// add missing DataShapes for newly added top-level Data entries
 			for _, data := range dataFlow.Datas {
+				if data == nil {
+					continue
+				}
+				if hasPrev && slices.Contains(prevDatas, data) {
+					continue
+				}
 				if _, ok := existingDataShapes[data]; !ok {
 					// create a new DataShape
 					newDataShape := new(DataShape).Stage(stager.stage)
@@ -251,6 +258,11 @@ func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
 			}
 		}
 	}
+
+	if stager.map_DataFlow_PrevDatas == nil {
+		stager.map_DataFlow_PrevDatas = make(map[*DataFlow][]*Data)
+	}
+	stager.map_DataFlow_PrevDatas[dataFlow] = slices.Clone(dataFlow.Datas)
 
 	// The callback is invoked synchronously inside OnSave of the form,
 	// and OnSave calls commit *after* the callback. But in case it doesn't,

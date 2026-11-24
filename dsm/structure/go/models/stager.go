@@ -71,6 +71,9 @@ type Stager struct {
 	map_Note_PrevParts     map[*Note][]*Part
 	map_Note_PrevPorts     map[*Note][]*Port
 	map_Note_PrevDataFlows map[*Note][]*DataFlow
+
+	// previous Datas slice on DataFlow to detect newly added Datas in probe callbacks
+	map_DataFlow_PrevDatas map[*DataFlow][]*Data
 }
 
 func NewStager(

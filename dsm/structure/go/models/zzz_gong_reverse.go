@@ -101,6 +101,13 @@ func (inst *Data) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongR
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Data":
+		switch reverseField.Fieldname {
+		case "SubDatas":
+			if _data, ok := stage.Data_SubDatas_reverseMap[inst]; ok {
+				res = _data.Name
+			}
+		}
 	case "DataFlow":
 		switch reverseField.Fieldname {
 		case "Datas":

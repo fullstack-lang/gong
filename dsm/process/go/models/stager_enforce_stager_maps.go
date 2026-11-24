@@ -95,6 +95,11 @@ func (stager *Stager) enforceStagerMaps() {
 		stager.map_ExternalParticipant_PrevProcesses[externalParticipant] = slices.Clone(externalParticipant.Processes)
 	}
 
+	stager.map_DataFlow_PrevDatas = make(map[*DataFlow][]*Data)
+	for _, dataFlow := range stager.stage.GetInstancesSorted[*DataFlow]() {
+		stager.map_DataFlow_PrevDatas[dataFlow] = slices.Clone(dataFlow.Datas)
+	}
+
 	stager.rm_Data_DataFlows = stager.stage.GetSliceOfPointersReverseMap[DataFlow, Data](GongGetAssociationName[DataFlow]().Datas[0].Name)
 	stager.rm_Resource_Participants = stager.stage.GetSliceOfPointersReverseMap[Participant, Resource](GongGetAssociationName[Participant]().Resources[0].Name)
 	stager.rm_Resource_ExternalParticipants = stager.stage.GetSliceOfPointersReverseMap[ExternalParticipant, Resource](GongGetAssociationName[ExternalParticipant]().Resources[0].Name)
