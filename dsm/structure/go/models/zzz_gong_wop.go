@@ -187,6 +187,8 @@ type DataFlowShape_WOP struct {
 
 	IsProtocolNodeExpanded bool
 
+	IsOrthogonal bool
+
 	StartRatio float64
 
 	EndRatio float64
@@ -218,6 +220,7 @@ func (from *DataFlowShape) GongCopyBasicFields(to *DataFlowShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsProtocolNodeExpanded = from.IsProtocolNodeExpanded
+	to.IsOrthogonal = from.IsOrthogonal
 	to.StartRatio = from.StartRatio
 	to.EndRatio = from.EndRatio
 	to.StartOrientation = from.StartOrientation

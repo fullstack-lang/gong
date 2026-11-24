@@ -383,6 +383,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.EndPortShape, rhs, identifierMap)
 					case "IsProtocolNodeExpanded":
 						inst.IsProtocolNodeExpanded = GongExtractBool(rhs)
+					case "IsOrthogonal":
+						inst.IsOrthogonal = GongExtractBool(rhs)
 					case "StartRatio":
 						inst.StartRatio = GongExtractFloat(rhs)
 					case "EndRatio":
@@ -1665,6 +1667,8 @@ func (u *DataFlowShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		GongUnmarshallPointer(&instance.EndPortShape, valueExpr, identifierMap)
 	case "IsProtocolNodeExpanded":
 		instance.IsProtocolNodeExpanded = GongExtractBool(valueExpr)
+	case "IsOrthogonal":
+		instance.IsOrthogonal = GongExtractBool(valueExpr)
 	case "StartRatio":
 		instance.StartRatio = GongExtractFloat(valueExpr)
 	case "EndRatio":

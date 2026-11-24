@@ -3634,6 +3634,9 @@ func (dataflowshape *DataFlowShape) GongDiff(stage *Stage, dataflowshapeOther *D
 	if dataflowshape.IsProtocolNodeExpanded != dataflowshapeOther.IsProtocolNodeExpanded {
 		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "IsProtocolNodeExpanded"))
 	}
+	if dataflowshape.IsOrthogonal != dataflowshapeOther.IsOrthogonal {
+		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "IsOrthogonal"))
+	}
 	if dataflowshape.StartRatio != dataflowshapeOther.StartRatio {
 		diffs = append(diffs, dataflowshape.GongMarshallField(stage, "StartRatio"))
 	}

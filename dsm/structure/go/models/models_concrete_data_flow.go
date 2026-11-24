@@ -5,7 +5,9 @@ import (
 	"math"
 	"slices"
 
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
+	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
 )
 
 const controlPointDeletePixelThreshold = 5.0
@@ -198,12 +200,27 @@ type DataFlowShape struct {
 
 	IsProtocolNodeExpanded bool
 
+	// IsOrthogonal renders the data flow as a floating orthogonal (perpendicular) link
+	// instead of a polyline with control points.
+	IsOrthogonal bool
+
 	LinkShape
 	ControlPointShapes []*ControlPointShape
 
 	dataShapes          []*DataShape
 	protocolShape       *ProtocolShape
 	protocolLayerShapes []*ProtocolLayerShape
+}
+
+func (s *DataFlowShape) FillUpExtraShapeAppearanceForm(formStage *form.Stage, formGroup *form.FormGroup) {
+	gongprobe.BasicFieldtoForm("IsOrthogonal", s.IsOrthogonal, formStage, formGroup, false, false, 0, false, 0, false)
+}
+
+func (s *DataFlowShape) SaveExtraShapeAppearanceForm(formDiv *form.FormDiv) {
+	switch formDiv.Name {
+	case "IsOrthogonal":
+		gongprobe.FormDivBasicFieldToField(&s.IsOrthogonal, formDiv)
+	}
 }
 
 func (s *DataFlowShape) GetAbstractElement() AbstractType {

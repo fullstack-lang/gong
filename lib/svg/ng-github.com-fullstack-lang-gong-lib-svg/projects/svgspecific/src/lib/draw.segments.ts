@@ -175,9 +175,12 @@ export function drawSegmentsFromLink(link: svg.Link): Segment[] {
         const endOffset = hideLastSegment ? 0 : link.EndArrowOffset;
         // END: MODIFIED BLOCK
         
-        const startPos = getPosition(link.Start, link.StartAnchorType, link.End, startOffset);
+        const startTargetPoint = controlPointsAbs.length > 0 ? controlPointsAbs[0] : undefined;
+        const endTargetPoint = controlPointsAbs.length > 0 ? controlPointsAbs[controlPointsAbs.length - 1] : undefined;
+
+        const startPos = getPosition(link.Start, link.StartAnchorType, link.End, startOffset, startTargetPoint);
         // START: MODIFIED BLOCK
-        const endPos = getPosition(link.End, link.EndAnchorType, link.Start, endOffset);
+        const endPos = getPosition(link.End, link.EndAnchorType, link.Start, endOffset, endTargetPoint);
         // END: MODIFIED BLOCK
 
         allPoints.push(createPoint(startPos[0], startPos[1]))

@@ -62,15 +62,47 @@ func (stager *Stager) logVaseTrapezeUnoccupiedInteriorSurfaceProportion() bool {
 	if plant == nil || plant.PlantType != VaseTrapeze || plant.TubeVaseAbstract == nil {
 		return false
 	}
-	unoccupiedSurface, interiorSurface, proportion, ok := ComputeVaseTrapezeUnoccupiedInteriorSurfaceProportion(plant)
-	if !ok {
-		return false
+	notified := false
+	if unoccupiedSurface, interiorSurface, proportion, ok := ComputeVaseTrapezeUnoccupiedInteriorSurfaceProportion(plant); ok {
+		stager.logAndNotify(fmt.Sprintf(
+			"Plant %s: unoccupied : %.4f (%.2f%%) [unoccupied: %.2f mm², interior: %.2f mm²]",
+			plant.Name, proportion, proportion*100.0, unoccupiedSurface, interiorSurface,
+		))
+		notified = true
 	}
-	stager.logAndNotify(fmt.Sprintf(
-		"Plant %s: unoccupied : %.4f (%.2f%%) [unoccupied: %.2f mm², interior: %.2f mm²]",
-		plant.Name, proportion, proportion*100.0, unoccupiedSurface, interiorSurface,
-	))
-	return true
+	if m, ok := computeVaseTrapezePotMetrics(plant); ok {
+		potNote := ""
+		if !m.hasRingBottom {
+			potNote = ", open ring (no bottom)"
+		}
+		stager.logAndNotify(fmt.Sprintf(
+			"Plant %s: pot weight (terracotta %.2f g/cm³) : %.2f kg [solid: %.2f cm³ (%.2f L), Øout: %.1f mm, H: %.1f mm%s]",
+			plant.Name, StandardTerracottaDensityGPerCm3, m.weightKg,
+			m.solidVolumeCm3, m.solidVolumeCm3/1000.0, m.outerRimDiamMM, m.potHeightMM, potNote,
+		))
+
+		lipDetail := fmt.Sprintf("wall only: %.2f mm (std wall: %.2f mm), HasLip=false", m.wallThickMM, m.stdWallThickMM)
+		if m.hasLip {
+			lipDetail = fmt.Sprintf("wall: %.2f + lip: %.2f mm (std wall: %.2f mm), collarH: %.1f mm",
+				m.wallThickMM, m.lipOverhangMM, m.stdWallThickMM, m.lipCollarHeightMM)
+		}
+		stager.logAndNotify(fmt.Sprintf(
+			"Plant %s: lip thickness : %.2f mm vs %.2f mm std (%+.2f mm, %+.1f%%) [%s]",
+			plant.Name, m.lipThickMM, m.stdLipThickMM, m.lipDiffMM, m.lipDiffPct, lipDetail,
+		))
+
+		bottomDetail := "no floor (enable Ring Bottom for a working pot)"
+		if m.hasRingBottom {
+			bottomDetail = fmt.Sprintf("net slab: %.2f mm, at drain: %.2f mm, gross: %.2f mm",
+				m.bottomSlabMM, m.bottomDrainMM, m.bottomGrossMM)
+		}
+		stager.logAndNotify(fmt.Sprintf(
+			"Plant %s: bottom thickness : %.2f mm vs %.2f mm std (%+.2f mm, %+.1f%%) [%s]",
+			plant.Name, m.bottomSlabMM, m.stdBottomThickMM, m.bottomDiffMM, m.bottomDiffPct, bottomDetail,
+		))
+		notified = true
+	}
+	return notified
 }
 
 func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool {

@@ -464,6 +464,8 @@ func saveDataFlowShapeFields(
 			FormDivSelectFieldToField(&(_instance.EndPortShape), probe.stageOfInterest, formDiv)
 		case "IsProtocolNodeExpanded":
 			FormDivBasicFieldToField(&(_instance.IsProtocolNodeExpanded), formDiv)
+		case "IsOrthogonal":
+			FormDivBasicFieldToField(&(_instance.IsOrthogonal), formDiv)
 		case "StartRatio":
 			FormDivBasicFieldToField(&(_instance.StartRatio), formDiv)
 		case "EndRatio":

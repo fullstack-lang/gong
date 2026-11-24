@@ -774,7 +774,9 @@ func GenerateSTLWithPart(plant *PlantAbstract, part STLExportPart) string {
 	return sb.String()
 }
 
-func writeQuadStripSTL(sb *strings.Builder, curveA, curveB []vector3) {
+type facetSinkFunc func(v1, v2, v3 vector3)
+
+func emitQuadStripFacets(emit facetSinkFunc, curveA, curveB []vector3) {
 	M := min(len(curveA), len(curveB))
 	if M < 3 {
 		return
@@ -786,13 +788,32 @@ func writeQuadStripSTL(sb *strings.Builder, curveA, curveB []vector3) {
 		b0 := curveB[i]
 		b1 := curveB[nextI]
 
-		writeFacet(sb, a0, b0, b1)
-		writeFacet(sb, a0, b1, a1)
+		emit(a0, b0, b1)
+		emit(a0, b1, a1)
 	}
+}
+
+func writeQuadStripSTL(sb *strings.Builder, curveA, curveB []vector3) {
+	emitQuadStripFacets(func(v1, v2, v3 vector3) {
+		writeFacet(sb, v1, v2, v3)
+	}, curveA, curveB)
 }
 
 func writeVaseTrapezeSTL(
 	sb *strings.Builder,
+	plant *PlantAbstract,
+	resampledBaseBottom, resampledBaseTop []vector3,
+	radialRepetitions int,
+	part STLExportPart,
+	hasTrapezeConstantThickness bool,
+) {
+	emitVaseTrapezeFacets(func(v1, v2, v3 vector3) {
+		writeFacet(sb, v1, v2, v3)
+	}, plant, resampledBaseBottom, resampledBaseTop, radialRepetitions, part, hasTrapezeConstantThickness)
+}
+
+func emitVaseTrapezeFacets(
+	emit facetSinkFunc,
 	plant *PlantAbstract,
 	resampledBaseBottom, resampledBaseTop []vector3,
 	radialRepetitions int,
@@ -976,9 +997,9 @@ func writeVaseTrapezeSTL(
 	) {
 		if sWall <= 1 {
 			if inward {
-				writeQuadStripSTL(sb, cTopCurved, cBotCurved)
+				emitQuadStripFacets(emit, cTopCurved, cBotCurved)
 			} else {
-				writeQuadStripSTL(sb, cBotCurved, cTopCurved)
+				emitQuadStripFacets(emit, cBotCurved, cTopCurved)
 			}
 			return
 		}
@@ -1009,9 +1030,9 @@ func writeVaseTrapezeSTL(
 		}
 		for s := range sWall {
 			if inward {
-				writeQuadStripSTL(sb, rows[s+1], rows[s])
+				emitQuadStripFacets(emit, rows[s+1], rows[s])
 			} else {
-				writeQuadStripSTL(sb, rows[s], rows[s+1])
+				emitQuadStripFacets(emit, rows[s], rows[s+1])
 			}
 		}
 	}
@@ -1082,18 +1103,18 @@ func writeVaseTrapezeSTL(
 			cLipBot := collarRows[0]
 			cLipTop := collarRows[len(collarRows)-1]
 			// 1. Plane 1 annular face (top of ring + lip, normal +Y)
-			writeQuadStripSTL(sb, cLipTop, cInnerP1)
+			emitQuadStripFacets(emit, cLipTop, cInnerP1)
 			// 2a. Outer lip collar band (normal +r)
 			for s := range len(collarRows) - 1 {
-				writeQuadStripSTL(sb, collarRows[s], collarRows[s+1])
+				emitQuadStripFacets(emit, collarRows[s], collarRows[s+1])
 			}
 			// 2b. Lip horizontal underside step (normal -Y)
-			writeQuadStripSTL(sb, cWallLipBot, cLipBot)
+			emitQuadStripFacets(emit, cWallLipBot, cLipBot)
 			// 2c. Lower outer wall of ring (normal +r)
 			writeSubdividedWallSTL(cOuterWallBot, cWallLipBot, cOuterStraightP2, cOuterUncarvedP1, ringHeight, p2H, ringDeltaR, true, false)
 		} else {
 			// 1. Plane 1 annular face (top of ring, normal +Y)
-			writeQuadStripSTL(sb, cOuterP1, cInnerP1)
+			emitQuadStripFacets(emit, cOuterP1, cInnerP1)
 			// 2. Outer wall of ring (normal +r)
 			writeSubdividedWallSTL(cOuterWallBot, cOuterP1, cOuterStraightP2, cOuterUncarvedP1, ringHeight, p2H, ringDeltaR, true, false)
 		}
@@ -1110,12 +1131,12 @@ func writeVaseTrapezeSTL(
 					p2H, ringHeight, 0.0, yContact, yFillLocal, grooveDepth, grooveHalfH, sWall, isCurvedWall, hasTrapezeConstantThickness, ringDeltaR,
 				)
 				for s := range len(lowerRows) - 1 {
-					writeQuadStripSTL(sb, lowerRows[s+1], lowerRows[s])
+					emitQuadStripFacets(emit, lowerRows[s+1], lowerRows[s])
 				}
-				writeQuadStripSTL(sb, grooveRows[1], grooveRows[0])
-				writeQuadStripSTL(sb, grooveRows[2], grooveRows[1])
+				emitQuadStripFacets(emit, grooveRows[1], grooveRows[0])
+				emitQuadStripFacets(emit, grooveRows[2], grooveRows[1])
 				for s := range len(upperRows) - 1 {
-					writeQuadStripSTL(sb, upperRows[s+1], upperRows[s])
+					emitQuadStripFacets(emit, upperRows[s+1], upperRows[s])
 				}
 			} else {
 				writeSubdividedWallSTL(cInnerPlancher, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, ringHeight, p2H, ringDeltaR, true, true)
@@ -1123,9 +1144,9 @@ func writeVaseTrapezeSTL(
 
 			// 4. Foot rim bevels & notched standing band (if active)
 			if apparatus.activeFootRim {
-				writeQuadStripSTL(sb, apparatus.cFootOut, cOuterWallBot)
-				writeQuadStripSTL(sb, apparatus.cFootIn, apparatus.cFootOut)
-				writeQuadStripSTL(sb, apparatus.cRecessOut, apparatus.cFootIn)
+				emitQuadStripFacets(emit, apparatus.cFootOut, cOuterWallBot)
+				emitQuadStripFacets(emit, apparatus.cFootIn, apparatus.cFootOut)
+				emitQuadStripFacets(emit, apparatus.cRecessOut, apparatus.cFootIn)
 			}
 
 			undersideOuter := cOuterWallBot
@@ -1135,13 +1156,13 @@ func writeVaseTrapezeSTL(
 
 			if apparatus.activeHole {
 				// 5a. Gently sloped (2°) interior plancher annular face (normal +Y)
-				writeQuadStripSTL(sb, cInnerPlancher, apparatus.cHoleChamfer)
+				emitQuadStripFacets(emit, cInnerPlancher, apparatus.cHoleChamfer)
 				// 5b. 45° countersink chamfer at interior hole lip
-				writeQuadStripSTL(sb, apparatus.cHoleChamfer, apparatus.cHoleTop)
+				emitQuadStripFacets(emit, apparatus.cHoleChamfer, apparatus.cHoleTop)
 				// 5c. Vertical cylindrical drainage bore wall
-				writeQuadStripSTL(sb, apparatus.cHoleTop, apparatus.cHoleBot)
+				emitQuadStripFacets(emit, apparatus.cHoleTop, apparatus.cHoleBot)
 				// 5d. Exterior floor / recessed underside annular face (normal -Y)
-				writeQuadStripSTL(sb, apparatus.cHoleBot, undersideOuter)
+				emitQuadStripFacets(emit, apparatus.cHoleBot, undersideOuter)
 			} else {
 				var sumOuterX, sumOuterY, sumOuterZ float64
 				var sumInnerX, sumInnerY, sumInnerZ float64
@@ -1162,16 +1183,16 @@ func writeVaseTrapezeSTL(
 				for i := range M {
 					nextI := (i + 1) % M
 					// Interior plancher top disk (normal +Y)
-					writeFacet(sb, plancherCenter, cInnerPlancher[nextI], cInnerPlancher[i])
+					emit(plancherCenter, cInnerPlancher[nextI], cInnerPlancher[i])
 					// Exterior bottom floor / recessed underside disk (normal -Y)
-					writeFacet(sb, floorCenter, undersideOuter[i], undersideOuter[nextI])
+					emit(floorCenter, undersideOuter[i], undersideOuter[nextI])
 				}
 			}
 		} else {
 			// 3. Inner wall of ring (normal -r)
 			writeSubdividedWallSTL(cInnerP2, cInnerP1, cInnerStraightP2, cInnerUncarvedP1, ringHeight, p2H, ringDeltaR, true, true)
 			// 4. Close Plane 2 annular face (bottom of ring, normal -Y)
-			writeQuadStripSTL(sb, cInnerP2, cOuterP2)
+			emitQuadStripFacets(emit, cInnerP2, cOuterP2)
 		}
 		return
 	}
@@ -1197,18 +1218,18 @@ func writeVaseTrapezeSTL(
 		cLipBot := collarRows[0]
 		cLipTop := collarRows[len(collarRows)-1]
 		// 1. Plane 1 annular face (top of ring + lip, normal +Y)
-		writeQuadStripSTL(sb, cLipTop, cInnerP1)
+		emitQuadStripFacets(emit, cLipTop, cInnerP1)
 		// 2a. Outer lip collar band of Ring 0 (normal +r)
 		for s := range len(collarRows) - 1 {
-			writeQuadStripSTL(sb, collarRows[s], collarRows[s+1])
+			emitQuadStripFacets(emit, collarRows[s], collarRows[s+1])
 		}
 		// 2b. Lip horizontal underside step of Ring 0 (normal -Y)
-		writeQuadStripSTL(sb, cWallLipBot, cLipBot)
+		emitQuadStripFacets(emit, cWallLipBot, cLipBot)
 		// 2c. Lower outer wall of Ring 0 (normal +r)
 		writeSubdividedWallSTL(cOuterP2, cWallLipBot, cOuterStraightP2, cOuterUncarvedP1, ringHeight, pBottomH, baseOuterDeltaR, false, false)
 	} else {
 		// 1. Plane 1 annular face (top of ring, normal +Y)
-		writeQuadStripSTL(sb, cOuterP1, cInnerP1)
+		emitQuadStripFacets(emit, cOuterP1, cInnerP1)
 		// 2. Outer wall of Ring 0 (normal +r)
 		writeSubdividedWallSTL(cOuterP2, cOuterP1, cOuterStraightP2, cOuterUncarvedP1, ringHeight, pBottomH, baseOuterDeltaR, false, false)
 	}
@@ -1351,12 +1372,12 @@ func writeVaseTrapezeSTL(
 		for i := range M {
 			nextI := (i + 1) % M
 			// 1. Outer bulbous wall of base plate (normal +r)
-			writeFacet(sb, outerPts[s][i], outerPts[s][nextI], outerPts[s+1][nextI])
-			writeFacet(sb, outerPts[s][i], outerPts[s+1][nextI], outerPts[s+1][i])
+			emit(outerPts[s][i], outerPts[s][nextI], outerPts[s+1][nextI])
+			emit(outerPts[s][i], outerPts[s+1][nextI], outerPts[s+1][i])
 
 			// 2. Inner curved wall of base plate (normal -r)
-			writeFacet(sb, innerPts[s][i], innerPts[s+1][nextI], innerPts[s][nextI])
-			writeFacet(sb, innerPts[s][i], innerPts[s+1][i], innerPts[s+1][nextI])
+			emit(innerPts[s][i], innerPts[s+1][nextI], innerPts[s][nextI])
+			emit(innerPts[s][i], innerPts[s+1][i], innerPts[s+1][nextI])
 		}
 	}
 
@@ -1364,9 +1385,9 @@ func writeVaseTrapezeSTL(
 		nextI := (i + 1) % M
 
 		// 3. Plancher top disk (normal +Y)
-		writeFacet(sb, plancherCenter, innerPts[S][nextI], innerPts[S][i])
+		emit(plancherCenter, innerPts[S][nextI], innerPts[S][i])
 
 		// 4. Floor bottom disk (normal -Y)
-		writeFacet(sb, floorCenter, outerPts[S][i], outerPts[S][nextI])
+		emit(floorCenter, outerPts[S][i], outerPts[S][nextI])
 	}
 }

@@ -152,10 +152,6 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			dataFlowShape.SetName(dataFlow.StartPort.GetName() + " to " + dataFlow.EndPort.GetName())
 			dataFlowShape.SetAbstractStartElement(dataFlow.StartPort)
 			dataFlowShape.SetAbstractEndElement(dataFlow.EndPort)
-			dataFlowShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
-			dataFlowShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
-
-			dataFlowShape.SetCornerOffsetRatio(1.5)
 			dataFlowShape.SetStartRatio(0.5)
 			dataFlowShape.SetEndRatio(0.5)
 			diagramStructure.DataFlow_Shapes = append(diagramStructure.DataFlow_Shapes, dataFlowShape)
@@ -187,10 +183,6 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		dataFlowShape.SetName(dataFlow.StartExternalPart.GetName() + " to " + dataFlow.EndPort.GetName())
 		dataFlowShape.SetAbstractStartElement(dataFlow.StartExternalPart)
 		dataFlowShape.SetAbstractEndElement(dataFlow.EndPort)
-		dataFlowShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
-		dataFlowShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
-
-		dataFlowShape.SetCornerOffsetRatio(1.5)
 		dataFlowShape.SetStartRatio(0.5)
 		dataFlowShape.SetEndRatio(0.5)
 		diagramStructure.DataFlow_Shapes = append(diagramStructure.DataFlow_Shapes, dataFlowShape)
@@ -226,10 +218,6 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		dataFlowShape.SetName(dataFlow.StartPort.GetName() + " to " + dataFlow.EndExternalPart.GetName())
 		dataFlowShape.SetAbstractStartElement(dataFlow.StartPort)
 		dataFlowShape.SetAbstractEndElement(dataFlow.EndExternalPart)
-		dataFlowShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
-		dataFlowShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
-
-		dataFlowShape.SetCornerOffsetRatio(1.5)
 		dataFlowShape.SetStartRatio(0.5)
 		dataFlowShape.SetEndRatio(0.5)
 		diagramStructure.DataFlow_Shapes = append(diagramStructure.DataFlow_Shapes, dataFlowShape)

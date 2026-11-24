@@ -154,10 +154,6 @@ func (stager *Stager) treeDataFlowsScoped(
 			newDFShape.SetName(startName + " to " + endName)
 			newDFShape.SetAbstractStartElement(startElement)
 			newDFShape.SetAbstractEndElement(endElement)
-			newDFShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
-			newDFShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
-
-			newDFShape.SetCornerOffsetRatio(1.1)
 			newDFShape.SetStartRatio(0.5)
 			newDFShape.SetEndRatio(0.5)
 			diagramStructure.DataFlow_Shapes = append(diagramStructure.DataFlow_Shapes, newDFShape)
@@ -184,7 +180,15 @@ func (stager *Stager) treeDataFlowsScoped(
 			return
 		}
 	}
-	dataFlowNode.OnClick = onNodeClicked(stager, dataFlow)
+	dataFlowNode.OnClick = func(frontNode *tree.Node) {
+		stager.probeForm.FillUpFormFromGongstruct(dataFlow, "DataFlow")
+		if isShapePresent && dataFlowShape != nil {
+			fillUpShapeAppearanceForm(stager, dataFlowShape)
+		} else {
+			clearShapeAppearanceForm(stager)
+		}
+		stage.CommitWithSuspendedCallbacks()
+	}
 
 	for _, data := range topLevelDatasInSlice(dataFlow.Datas) {
 		stager.treeDataWithinDiagramStructureWithinDataFlow(dataFlowNode, diagramStructure, dataFlow, dataFlowShape, isShapePresent, data)

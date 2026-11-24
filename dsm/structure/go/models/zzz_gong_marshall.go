@@ -674,6 +674,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			}
 			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dataflowshapeIdent, __gong__toRawStringLiteral(dataflowshape.Name)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsProtocolNodeExpanded = %t", dataflowshapeIdent, dataflowshape.IsProtocolNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsOrthogonal = %t", dataflowshapeIdent, dataflowshape.IsOrthogonal))
 			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", dataflowshapeIdent, dataflowshape.StartRatio))
 			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", dataflowshapeIdent, dataflowshape.EndRatio))
 			if dataflowshape.StartOrientation.ToCodeString() != "" {
@@ -2786,6 +2787,8 @@ func (dataflowshape *DataFlowShape) GongMarshallField(stage *Stage, fieldName st
 		res = __gong__marshallString(ident, "Name", dataflowshape.Name)
 	case "IsProtocolNodeExpanded":
 		res = __gong__marshallBool(ident, "IsProtocolNodeExpanded", dataflowshape.IsProtocolNodeExpanded)
+	case "IsOrthogonal":
+		res = __gong__marshallBool(ident, "IsOrthogonal", dataflowshape.IsOrthogonal)
 	case "StartRatio":
 		res = __gong__marshallFloat(ident, "StartRatio", dataflowshape.StartRatio)
 	case "EndRatio":
@@ -4402,6 +4405,7 @@ func (dataflowshape *DataFlowShape) GongMarshallAllFields(stage *Stage) (initRes
 		pointersInitializesStatements.WriteString(dataflowshape.GongMarshallField(stage, "StartPortShape"))
 		pointersInitializesStatements.WriteString(dataflowshape.GongMarshallField(stage, "EndPortShape"))
 		initializerStatements.WriteString(dataflowshape.GongMarshallField(stage, "IsProtocolNodeExpanded"))
+		initializerStatements.WriteString(dataflowshape.GongMarshallField(stage, "IsOrthogonal"))
 		initializerStatements.WriteString(dataflowshape.GongMarshallField(stage, "StartRatio"))
 		initializerStatements.WriteString(dataflowshape.GongMarshallField(stage, "EndRatio"))
 		initializerStatements.WriteString(dataflowshape.GongMarshallField(stage, "StartOrientation"))

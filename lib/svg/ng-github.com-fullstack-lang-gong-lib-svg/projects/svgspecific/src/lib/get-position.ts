@@ -7,7 +7,8 @@ export function getPosition(
     startRect: svg.Rect | undefined,
     position: string | undefined,
     endRect: svg.Rect | undefined,
-    offset: number
+    offset: number,
+    targetPoint?: svg.Point
 ): Coordinate {
 
     let coordinate: Coordinate = [0, 0]
@@ -30,7 +31,10 @@ export function getPosition(
             coordinate = [startRect.X + startRect.Width, startRect.Y + startRect.Height / 2]
             break;
         case svg.AnchorType.ANCHOR_CENTER:
-            if (endRect == undefined) {
+            if (targetPoint != undefined) {
+                let borderPoint = drawLineFromRectToB(startRect, targetPoint, offset)
+                coordinate = [borderPoint.X, borderPoint.Y]
+            } else if (endRect == undefined) {
                 coordinate = [startRect.X + startRect.Width / 2, startRect.Y + startRect.Height / 2]
             } else {
                 let endRectCenter = createPoint(endRect.X + endRect.Width / 2, endRect.Y + endRect.Height / 2)

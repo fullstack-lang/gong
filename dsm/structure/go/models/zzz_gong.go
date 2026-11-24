@@ -6475,6 +6475,10 @@ func (dataflowshape *DataFlowShape) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsOrthogonal",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "StartRatio",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -8693,6 +8697,10 @@ func (dataflowshape *DataFlowShape) GongGetFieldValue(fieldName string, stage *S
 	case "IsProtocolNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", dataflowshape.IsProtocolNodeExpanded)
 		res.valueBool = dataflowshape.IsProtocolNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsOrthogonal":
+		res.valueString = fmt.Sprintf("%t", dataflowshape.IsOrthogonal)
+		res.valueBool = dataflowshape.IsOrthogonal
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "StartRatio":
 		res.valueString = fmt.Sprintf("%f", dataflowshape.StartRatio)

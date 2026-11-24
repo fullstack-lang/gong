@@ -743,6 +743,10 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 			continue
 		}
 
+		if dataFlowShape.IsOrthogonal {
+			ensureOrthogonalDataFlowDefaults(diagramStructure, dataFlowShape, startRect, endRect)
+		}
+
 		link := svgAssociationLinkAsCT[AbstractType](
 			stager,
 			startRect, endRect,
@@ -756,10 +760,6 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 		link.StrokeOpacity = 1.0
 		syncLinkPresentation(dataFlowShape, link)
 
-		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
-		link.StartAnchorType = svg.ANCHOR_CENTER
-		link.EndAnchorType = svg.ANCHOR_CENTER
-
 		link.StartArrowSize = link.EndArrowSize
 		switch dataFlowShape.DataFlow.Direction {
 		case Unspecified:
@@ -771,7 +771,17 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 			link.HasStartArrow = true
 		}
 
-		configureDataFlowLinkWithControlPoints(stager, diagramStructure, dataFlowShape, link, startRect, endRect)
+		if dataFlowShape.IsOrthogonal {
+			link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
+			if !diagramStructure.IsEditable() {
+				link.OnChange = nil
+			}
+		} else {
+			link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+			link.StartAnchorType = svg.ANCHOR_CENTER
+			link.EndAnchorType = svg.ANCHOR_CENTER
+			configureDataFlowLinkWithControlPoints(stager, diagramStructure, dataFlowShape, link, startRect, endRect)
+		}
 
 		map_DataFlow_Link[df] = link
 
@@ -798,7 +808,12 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 			continue
 		}
 
-		anchorX, anchorY := dataFlowPolylineMidpoint(startRect, endRect, dataFlowShape.ControlPointShapes)
+		var anchorX, anchorY float64
+		if dataFlowShape.IsOrthogonal {
+			anchorX, anchorY = dataFlowOrthogonalMidpoint(startRect, endRect, dataFlowShape)
+		} else {
+			anchorX, anchorY = dataFlowPolylineMidpoint(startRect, endRect, dataFlowShape.ControlPointShapes)
+		}
 
 		appendPeerUnique := func(host *svg.Rect, peer *svg.Rect) {
 			if host != nil && !slices.Contains(host.Peers, peer) {
@@ -1402,12 +1417,22 @@ func dataFlowPolylineMidpoint(startRect, endRect *svg.Rect, controlPointShapes [
 	pts = append(pts, exteriorBends...)
 	pts = append(pts, svg.Point{X: endBorderX, Y: endBorderY})
 
+	return polylineMidpointFromPoints(pts)
+}
+
+func polylineMidpointFromPoints(pts []svg.Point) (float64, float64) {
+	if len(pts) == 0 {
+		return 0, 0
+	}
+	if len(pts) == 1 {
+		return pts[0].X, pts[0].Y
+	}
 	totalLen := 0.0
 	for i := 0; i < len(pts)-1; i++ {
 		totalLen += math.Hypot(pts[i+1].X-pts[i].X, pts[i+1].Y-pts[i].Y)
 	}
 	if totalLen == 0 {
-		return startBorderX, startBorderY
+		return pts[0].X, pts[0].Y
 	}
 
 	halfLen := totalLen / 2.0
@@ -1421,5 +1446,144 @@ func dataFlowPolylineMidpoint(startRect, endRect *svg.Rect, controlPointShapes [
 		accum += segLen
 	}
 
-	return (startBorderX + endBorderX) / 2.0, (startBorderY + endBorderY) / 2.0
+	last := pts[len(pts)-1]
+	return (pts[0].X + last.X) / 2.0, (pts[0].Y + last.Y) / 2.0
+}
+
+func defaultEndpointOrientation(
+	diagramStructure *DiagramStructure,
+	endpointRect *svg.Rect,
+	otherRect *svg.Rect,
+) OrientationType {
+	if endpointRect != nil && endpointRect.AnchoredTo != nil {
+		parent := endpointRect.AnchoredTo
+		cx := endpointRect.X + endpointRect.Width/2.0
+		cy := endpointRect.Y + endpointRect.Height/2.0
+
+		distLeft := math.Abs(cx - parent.X)
+		distRight := math.Abs(cx - (parent.X + parent.Width))
+		distTop := math.Abs(cy - parent.Y)
+		distBottom := math.Abs(cy - (parent.Y + parent.Height))
+
+		if math.Min(distLeft, distRight) <= math.Min(distTop, distBottom) {
+			return ORIENTATION_HORIZONTAL
+		}
+		return ORIENTATION_VERTICAL
+	}
+	if diagramStructure != nil && diagramStructure.map_SvgRect_ExternalPartShape != nil {
+		if _, isExtTail := diagramStructure.map_SvgRect_ExternalPartShape[endpointRect]; isExtTail {
+			return ORIENTATION_HORIZONTAL
+		}
+	}
+	if endpointRect != nil && otherRect != nil {
+		dx := math.Abs((otherRect.X + otherRect.Width/2.0) - (endpointRect.X + endpointRect.Width/2.0))
+		dy := math.Abs((otherRect.Y + otherRect.Height/2.0) - (endpointRect.Y + endpointRect.Height/2.0))
+		if dy > dx {
+			return ORIENTATION_VERTICAL
+		}
+	}
+	return ORIENTATION_HORIZONTAL
+}
+
+func ensureOrthogonalDataFlowDefaults(
+	diagramStructure *DiagramStructure,
+	dataFlowShape *DataFlowShape,
+	startRect, endRect *svg.Rect,
+) {
+	if dataFlowShape.GetStartOrientation() != "" && dataFlowShape.GetEndOrientation() != "" {
+		return
+	}
+	startOrient := dataFlowShape.GetStartOrientation()
+	if startOrient == "" {
+		startOrient = defaultEndpointOrientation(diagramStructure, startRect, endRect)
+		dataFlowShape.SetStartOrientation(startOrient)
+	}
+	endOrient := dataFlowShape.GetEndOrientation()
+	if endOrient == "" {
+		endOrient = defaultEndpointOrientation(diagramStructure, endRect, startRect)
+		dataFlowShape.SetEndOrientation(endOrient)
+	}
+	if dataFlowShape.GetStartRatio() == 0 {
+		dataFlowShape.SetStartRatio(0.5)
+	}
+	if dataFlowShape.GetEndRatio() == 0 {
+		dataFlowShape.SetEndRatio(0.5)
+	}
+
+	startAnchorX := startRect.X + startRect.Width*dataFlowShape.GetStartRatio()
+	startAnchorY := startRect.Y + startRect.Height*dataFlowShape.GetStartRatio()
+	endAnchorX := endRect.X + endRect.Width*dataFlowShape.GetEndRatio()
+	endAnchorY := endRect.Y + endRect.Height*dataFlowShape.GetEndRatio()
+
+	if startOrient == ORIENTATION_HORIZONTAL && endOrient == ORIENTATION_HORIZONTAL {
+		midX := (startAnchorX + endAnchorX) / 2.0
+		if startRect.Width > 0 {
+			dataFlowShape.SetCornerOffsetRatio((midX - startRect.X) / startRect.Width)
+		} else {
+			dataFlowShape.SetCornerOffsetRatio(0.5)
+		}
+	} else if startOrient == ORIENTATION_VERTICAL && endOrient == ORIENTATION_VERTICAL {
+		midY := (startAnchorY + endAnchorY) / 2.0
+		if startRect.Height > 0 {
+			dataFlowShape.SetCornerOffsetRatio((midY - startRect.Y) / startRect.Height)
+		} else {
+			dataFlowShape.SetCornerOffsetRatio(0.5)
+		}
+	} else if dataFlowShape.GetCornerOffsetRatio() == 0 {
+		dataFlowShape.SetCornerOffsetRatio(1.5)
+	}
+}
+
+func rectOrthogonalBorderCoord(target, rectPos, rectSize float64) float64 {
+	if target < rectPos {
+		return rectPos
+	}
+	if target > rectPos+rectSize {
+		return rectPos + rectSize
+	}
+	return target
+}
+
+func dataFlowOrthogonalMidpoint(startRect, endRect *svg.Rect, dataFlowShape *DataFlowShape) (float64, float64) {
+	startOrient := dataFlowShape.GetStartOrientation()
+	endOrient := dataFlowShape.GetEndOrientation()
+	startRatio := dataFlowShape.GetStartRatio()
+	endRatio := dataFlowShape.GetEndRatio()
+	cornerOffsetRatio := dataFlowShape.GetCornerOffsetRatio()
+
+	if startOrient == ORIENTATION_HORIZONTAL && endOrient == ORIENTATION_HORIZONTAL {
+		c1X := startRect.X + cornerOffsetRatio*startRect.Width
+		c1Y := startRect.Y + startRatio*startRect.Height
+		c2Y := endRect.Y + endRatio*endRect.Height
+		return c1X, (c1Y + c2Y) / 2.0
+	}
+	if startOrient == ORIENTATION_VERTICAL && endOrient == ORIENTATION_VERTICAL {
+		c1X := startRect.X + startRatio*startRect.Width
+		c1Y := startRect.Y + cornerOffsetRatio*startRect.Height
+		c2X := endRect.X + endRatio*endRect.Width
+		return (c1X + c2X) / 2.0, c1Y
+	}
+	if startOrient == ORIENTATION_HORIZONTAL && endOrient == ORIENTATION_VERTICAL {
+		c1Y := startRect.Y + startRatio*startRect.Height
+		c1X := endRect.X + endRatio*endRect.Width
+		startX := rectOrthogonalBorderCoord(c1X, startRect.X, startRect.Width)
+		endY := rectOrthogonalBorderCoord(c1Y, endRect.Y, endRect.Height)
+		return polylineMidpointFromPoints([]svg.Point{
+			{X: startX, Y: c1Y},
+			{X: c1X, Y: c1Y},
+			{X: c1X, Y: endY},
+		})
+	}
+	if startOrient == ORIENTATION_VERTICAL && endOrient == ORIENTATION_HORIZONTAL {
+		c1X := startRect.X + startRatio*startRect.Width
+		c1Y := endRect.Y + endRatio*endRect.Height
+		startY := rectOrthogonalBorderCoord(c1Y, startRect.Y, startRect.Height)
+		endX := rectOrthogonalBorderCoord(c1X, endRect.X, endRect.Width)
+		return polylineMidpointFromPoints([]svg.Point{
+			{X: c1X, Y: startY},
+			{X: c1X, Y: c1Y},
+			{X: endX, Y: c1Y},
+		})
+	}
+	return dataFlowPolylineMidpoint(startRect, endRect, nil)
 }

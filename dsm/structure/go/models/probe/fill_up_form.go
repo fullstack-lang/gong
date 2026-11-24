@@ -354,6 +354,8 @@ func FillUpForm(
 		AssociationFieldToForm("EndPortShape", instanceWithInferedType.EndPortShape, formGroup, probe)
 		BasicFieldtoForm("IsProtocolNodeExpanded", instanceWithInferedType.IsProtocolNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsOrthogonal", instanceWithInferedType.IsOrthogonal, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("StartRatio", instanceWithInferedType.StartRatio, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("EndRatio", instanceWithInferedType.EndRatio, instanceWithInferedType, probe.formStage, formGroup,
