@@ -95,6 +95,8 @@ func (dataflow *DataFlow) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanPointer(&dataflow.EndTask) || modified
 	modified = stage.CleanPointer(&dataflow.StartParticipant) || modified
 	modified = stage.CleanPointer(&dataflow.EndParticipant) || modified
+	modified = stage.CleanPointer(&dataflow.StartDataStore) || modified
+	modified = stage.CleanPointer(&dataflow.EndDataStore) || modified
 	return
 }
 
@@ -112,6 +114,22 @@ func (datashape *DataShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanPointer(&datashape.Data) || modified
 	modified = stage.CleanPointer(&datashape.DataFlow) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by DataStore
+func (datastore *DataStore) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = stage.CleanSlice(&datastore.Datas) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by DataStoreShape
+func (datastoreshape *DataStoreShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = stage.CleanPointer(&datastoreshape.DataStore) || modified
 	return
 }
 
@@ -135,6 +153,10 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&diagramprocess.DatasWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagramprocess.Data_Shapes) || modified
 	modified = stage.CleanSlice(&diagramprocess.DataFlowsWhoseDataNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagramprocess.DataStore_Shapes) || modified
+	modified = stage.CleanSlice(&diagramprocess.DataStoresWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagramprocess.DataStoresWhoseOutDataFlowsNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagramprocess.DataStoresWhoseInDataFlowsNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagramprocess.AllocatedResourcesWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagramprocess.AllocatedResourceShapes) || modified
 	modified = stage.CleanSlice(&diagramprocess.AllocatedProcessesWhoseNodeIsExpanded) || modified
@@ -176,6 +198,8 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&library.DataFlowsWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&library.RootDatas) || modified
 	modified = stage.CleanSlice(&library.DatasWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&library.RootDataStores) || modified
+	modified = stage.CleanSlice(&library.DataStoresWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&library.RootResources) || modified
 	modified = stage.CleanSlice(&library.ResourcesWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&library.ParticipantsWhoseNodeIsExpanded) || modified

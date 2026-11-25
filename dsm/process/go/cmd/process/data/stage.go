@@ -100,6 +100,7 @@ func _(stage *models.Stage) {
 	__models__DataFlow__00000004_ := (&models.DataFlow{Name: `"Dispatch & Ship Goods" to "Generate Commercial Invoice"`}).Stage(stage)
 	__models__DataFlow__00000005_ := (&models.DataFlow{Name: `Generate Commercial Invoice to Customer`}).Stage(stage)
 	__models__DataFlow__00000006_ := (&models.DataFlow{Name: `Customer to Process Payment & Settle Account`}).Stage(stage)
+	__models__DataFlow__00000009_ := (&models.DataFlow{Name: `Confirm Sales Order to Data Store`}).Stage(stage)
 	__models__DataFlowShape__00000000_ := (&models.DataFlowShape{Name: `Customer to Receive & Validate Order`}).Stage(stage)
 	__models__DataFlowShape__00000001_ := (&models.DataFlowShape{Name: `Confirm Sales Order to Customer`}).Stage(stage)
 	__models__DataFlowShape__00000002_ := (&models.DataFlowShape{Name: `"Confirm Sales Order" to "Check & Reserve Inventory"`}).Stage(stage)
@@ -115,6 +116,7 @@ func _(stage *models.Stage) {
 	__models__DataFlowShape__00000012_ := (&models.DataFlowShape{Name: `Confirm Sales Order to Customer`}).Stage(stage)
 	__models__DataFlowShape__00000013_ := (&models.DataFlowShape{Name: `Generate Commercial Invoice to Customer`}).Stage(stage)
 	__models__DataFlowShape__00000014_ := (&models.DataFlowShape{Name: `Customer to Process Payment & Settle Account`}).Stage(stage)
+	__models__DataFlowShape__00000015_ := (&models.DataFlowShape{Name: `Confirm Sales Order to Data Store`}).Stage(stage)
 	__models__DataShape__00000000_ := (&models.DataShape{Name: `Customer to Receive & Validate Order-Customer to Receive & Validate Order-Order to Cash - Full Process`}).Stage(stage)
 	__models__DataShape__00000001_ := (&models.DataShape{Name: `Confirm Sales Order to Customer-Confirm Sales Order to Customer-Order to Cash - Full Process`}).Stage(stage)
 	__models__DataShape__00000002_ := (&models.DataShape{Name: `"Confirm Sales Order" to "Check & Reserve Inventory"-"Confirm Sales Order" to "Check & Reserve Inventory"-Order to Cash - Full Process`}).Stage(stage)
@@ -130,6 +132,9 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000012_ := (&models.DataShape{Name: `Confirm Sales Order to Customer-Confirm Sales Order to Customer-Invoicing & Payment Settlement`}).Stage(stage)
 	__models__DataShape__00000013_ := (&models.DataShape{Name: `Generate Commercial Invoice to Customer-Generate Commercial Invoice to Customer-Invoicing & Payment Settlement`}).Stage(stage)
 	__models__DataShape__00000014_ := (&models.DataShape{Name: `Customer to Process Payment & Settle Account-Customer to Process Payment & Settle Account-Invoicing & Payment Settlement`}).Stage(stage)
+	__models__DataShape__00000015_ := (&models.DataShape{Name: `Order Confirmation-Confirm Sales Order to Data Store-Order to Cash - Full Process`}).Stage(stage)
+	__models__DataStore__00000000_ := (&models.DataStore{Name: `Data Store`}).Stage(stage)
+	__models__DataStoreShape__00000000_ := (&models.DataStoreShape{Name: `Data Store-Order to Cash - Full Process`}).Stage(stage)
 	__models__DiagramProcess__00000000_ := (&models.DiagramProcess{Name: `Order to Cash - Full Process`}).Stage(stage)
 	__models__DiagramProcess__00000001_ := (&models.DiagramProcess{Name: `Order Fulfillment & Delivery`}).Stage(stage)
 	__models__DiagramProcess__00000002_ := (&models.DiagramProcess{Name: `Invoicing & Payment Settlement`}).Stage(stage)
@@ -887,8 +892,9 @@ func _(stage *models.Stage) {
 	__models__ControlFlowShape__00000043_.FontSize = ``
 	__models__ControlFlowShape__00000043_.FontColor = ``
 	__models__Data__00000000_.Name = `Purchase Order`
-	__models__Data__00000000_.Acronym = ``
+	__models__Data__00000000_.Acronym = `PO`
 	__models__Data__00000000_.Description = `Customer Purchase Order with line items and pricing`
+	__models__Data__00000000_.IsSubDatasNodeExpanded = false
 	__models__Data__00000000_.ComputedPrefix = ``
 	__models__Data__00000000_.IsExpanded = false
 	__models__Data__00000000_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="1.8">
@@ -900,6 +906,7 @@ func _(stage *models.Stage) {
 	__models__Data__00000001_.Name = `Order Confirmation`
 	__models__Data__00000001_.Acronym = ``
 	__models__Data__00000001_.Description = `Sales order confirmation with promised shipping schedule`
+	__models__Data__00000001_.IsSubDatasNodeExpanded = false
 	__models__Data__00000001_.ComputedPrefix = ``
 	__models__Data__00000001_.IsExpanded = false
 	__models__Data__00000001_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="1.8">
@@ -909,6 +916,7 @@ func _(stage *models.Stage) {
 	__models__Data__00000002_.Name = `Picking List`
 	__models__Data__00000002_.Acronym = ``
 	__models__Data__00000002_.Description = `Itemized warehouse pick and pack instruction slip`
+	__models__Data__00000002_.IsSubDatasNodeExpanded = false
 	__models__Data__00000002_.ComputedPrefix = ``
 	__models__Data__00000002_.IsExpanded = false
 	__models__Data__00000002_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#EF6C00" stroke-width="1.8">
@@ -921,6 +929,7 @@ func _(stage *models.Stage) {
 	__models__Data__00000003_.Name = `Bill of Lading`
 	__models__Data__00000003_.Acronym = ``
 	__models__Data__00000003_.Description = `Freight waybill and carrier consignment tracking record`
+	__models__Data__00000003_.IsSubDatasNodeExpanded = false
 	__models__Data__00000003_.ComputedPrefix = ``
 	__models__Data__00000003_.IsExpanded = false
 	__models__Data__00000003_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00796B" stroke-width="1.8">
@@ -932,6 +941,7 @@ func _(stage *models.Stage) {
 	__models__Data__00000004_.Name = `Commercial Invoice`
 	__models__Data__00000004_.Acronym = ``
 	__models__Data__00000004_.Description = `Tax and commercial invoice specifying payment terms`
+	__models__Data__00000004_.IsSubDatasNodeExpanded = false
 	__models__Data__00000004_.ComputedPrefix = ``
 	__models__Data__00000004_.IsExpanded = false
 	__models__Data__00000004_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6A1B9A" stroke-width="1.8">
@@ -943,6 +953,7 @@ func _(stage *models.Stage) {
 	__models__Data__00000005_.Name = `Payment Remittance`
 	__models__Data__00000005_.Acronym = ``
 	__models__Data__00000005_.Description = `Electronic funds transfer confirmation and remittance advice`
+	__models__Data__00000005_.IsSubDatasNodeExpanded = false
 	__models__Data__00000005_.ComputedPrefix = ``
 	__models__Data__00000005_.IsExpanded = false
 	__models__Data__00000005_.SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="1.8">
@@ -993,6 +1004,12 @@ func _(stage *models.Stage) {
 	__models__DataFlow__00000006_.IsExpanded = false
 	__models__DataFlow__00000006_.Type = models.DataFlow_ExternalParticipant2Task
 	__models__DataFlow__00000006_.IsDatasNodeExpanded = false
+	__models__DataFlow__00000009_.Name = `Confirm Sales Order to Data Store`
+	__models__DataFlow__00000009_.Description = ``
+	__models__DataFlow__00000009_.ComputedPrefix = ``
+	__models__DataFlow__00000009_.IsExpanded = false
+	__models__DataFlow__00000009_.Type = models.DataFlow_Task2DataStore
+	__models__DataFlow__00000009_.IsDatasNodeExpanded = false
 	__models__DataFlowShape__00000000_.Name = `Customer to Receive & Validate Order`
 	__models__DataFlowShape__00000000_.StartRatio = 0.080011
 	__models__DataFlowShape__00000000_.EndRatio = 0.507826
@@ -1023,10 +1040,10 @@ func _(stage *models.Stage) {
 	__models__DataFlowShape__00000001_.FontColor = ``
 	__models__DataFlowShape__00000002_.Name = `"Confirm Sales Order" to "Check & Reserve Inventory"`
 	__models__DataFlowShape__00000002_.StartRatio = 0.230903
-	__models__DataFlowShape__00000002_.EndRatio = 0.384749
+	__models__DataFlowShape__00000002_.EndRatio = 0.307826
 	__models__DataFlowShape__00000002_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__models__DataFlowShape__00000002_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__models__DataFlowShape__00000002_.CornerOffsetRatio = 1.230065
+	__models__DataFlowShape__00000002_.CornerOffsetRatio = 1.805855
 	__models__DataFlowShape__00000002_.IsHidden = false
 	__models__DataFlowShape__00000002_.IsPresentationOverridden = false
 	__models__DataFlowShape__00000002_.Stroke = `#4CAF50`
@@ -1149,7 +1166,7 @@ func _(stage *models.Stage) {
 	__models__DataFlowShape__00000010_.FontColor = ``
 	__models__DataFlowShape__00000011_.Name = `Customer to Receive & Validate Order`
 	__models__DataFlowShape__00000011_.StartRatio = 0.097451
-	__models__DataFlowShape__00000011_.EndRatio = 0.500000
+	__models__DataFlowShape__00000011_.EndRatio = 0.615518
 	__models__DataFlowShape__00000011_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__models__DataFlowShape__00000011_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__models__DataFlowShape__00000011_.CornerOffsetRatio = 12.650684
@@ -1180,7 +1197,7 @@ func _(stage *models.Stage) {
 	__models__DataFlowShape__00000013_.EndRatio = 0.417109
 	__models__DataFlowShape__00000013_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__models__DataFlowShape__00000013_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__models__DataFlowShape__00000013_.CornerOffsetRatio = -0.957594
+	__models__DataFlowShape__00000013_.CornerOffsetRatio = -0.472660
 	__models__DataFlowShape__00000013_.IsHidden = false
 	__models__DataFlowShape__00000013_.IsPresentationOverridden = false
 	__models__DataFlowShape__00000013_.Stroke = `#4CAF50`
@@ -1203,11 +1220,25 @@ func _(stage *models.Stage) {
 	__models__DataFlowShape__00000014_.StrokeDashArray = `5,5`
 	__models__DataFlowShape__00000014_.FontSize = ``
 	__models__DataFlowShape__00000014_.FontColor = ``
+	__models__DataFlowShape__00000015_.Name = `Confirm Sales Order to Data Store`
+	__models__DataFlowShape__00000015_.StartRatio = 0.878582
+	__models__DataFlowShape__00000015_.EndRatio = 0.488252
+	__models__DataFlowShape__00000015_.StartOrientation = models.ORIENTATION_VERTICAL
+	__models__DataFlowShape__00000015_.EndOrientation = models.ORIENTATION_VERTICAL
+	__models__DataFlowShape__00000015_.CornerOffsetRatio = 1.830903
+	__models__DataFlowShape__00000015_.IsHidden = false
+	__models__DataFlowShape__00000015_.IsPresentationOverridden = false
+	__models__DataFlowShape__00000015_.Stroke = `#4CAF50`
+	__models__DataFlowShape__00000015_.StrokeWidth = 1.500000
+	__models__DataFlowShape__00000015_.StrokeOpacity = 1.000000
+	__models__DataFlowShape__00000015_.StrokeDashArray = `5,5`
+	__models__DataFlowShape__00000015_.FontSize = ``
+	__models__DataFlowShape__00000015_.FontColor = ``
 	__models__DataShape__00000000_.Name = `Customer to Receive & Validate Order-Customer to Receive & Validate Order-Order to Cash - Full Process`
 	__models__DataShape__00000000_.X = 117.914915
-	__models__DataShape__00000000_.Y = 252.009075
+	__models__DataShape__00000000_.Y = 270.009075
 	__models__DataShape__00000000_.Width = 126.000000
-	__models__DataShape__00000000_.Height = 42.000000
+	__models__DataShape__00000000_.Height = 24.000000
 	__models__DataShape__00000000_.IsHidden = false
 	__models__DataShape__00000000_.IsPresentationOverridden = false
 	__models__DataShape__00000000_.Color = `#FFFFFF`
@@ -1238,10 +1269,10 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000001_.FontWeight = `600`
 	__models__DataShape__00000001_.FontColor = `#333333`
 	__models__DataShape__00000002_.Name = `"Confirm Sales Order" to "Check & Reserve Inventory"-"Confirm Sales Order" to "Check & Reserve Inventory"-Order to Cash - Full Process`
-	__models__DataShape__00000002_.X = 554.614300
-	__models__DataShape__00000002_.Y = 492.008695
-	__models__DataShape__00000002_.Width = 195.000000
-	__models__DataShape__00000002_.Height = 24.000000
+	__models__DataShape__00000002_.X = 723.288147
+	__models__DataShape__00000002_.Y = 474.008695
+	__models__DataShape__00000002_.Width = 76.000000
+	__models__DataShape__00000002_.Height = 42.000000
 	__models__DataShape__00000002_.IsHidden = false
 	__models__DataShape__00000002_.IsPresentationOverridden = false
 	__models__DataShape__00000002_.Color = `#FFFFFF`
@@ -1393,7 +1424,7 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000011_.Name = `Customer to Receive & Validate Order-Customer to Receive & Validate Order-Invoicing & Payment Settlement`
 	__models__DataShape__00000011_.X = 184.753420
 	__models__DataShape__00000011_.Y = 259.008835
-	__models__DataShape__00000011_.Width = 195.000000
+	__models__DataShape__00000011_.Width = 78.000000
 	__models__DataShape__00000011_.Height = 24.000000
 	__models__DataShape__00000011_.IsHidden = false
 	__models__DataShape__00000011_.IsPresentationOverridden = false
@@ -1425,10 +1456,10 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000012_.FontWeight = `600`
 	__models__DataShape__00000012_.FontColor = `#333333`
 	__models__DataShape__00000013_.Name = `Generate Commercial Invoice to Customer-Generate Commercial Invoice to Customer-Invoicing & Payment Settlement`
-	__models__DataShape__00000013_.X = 600.753380
-	__models__DataShape__00000013_.Y = 451.008645
-	__models__DataShape__00000013_.Width = 195.000000
-	__models__DataShape__00000013_.Height = 24.000000
+	__models__DataShape__00000013_.X = 712.288147
+	__models__DataShape__00000013_.Y = 433.008667
+	__models__DataShape__00000013_.Width = 102.000000
+	__models__DataShape__00000013_.Height = 42.000000
 	__models__DataShape__00000013_.IsHidden = false
 	__models__DataShape__00000013_.IsPresentationOverridden = false
 	__models__DataShape__00000013_.Color = `#FFFFFF`
@@ -1458,11 +1489,52 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000014_.FontSize = `14px`
 	__models__DataShape__00000014_.FontWeight = `600`
 	__models__DataShape__00000014_.FontColor = `#333333`
+	__models__DataShape__00000015_.Name = `Order Confirmation-Confirm Sales Order to Data Store-Order to Cash - Full Process`
+	__models__DataShape__00000015_.X = 477.288147
+	__models__DataShape__00000015_.Y = 578.008667
+	__models__DataShape__00000015_.Width = 93.000000
+	__models__DataShape__00000015_.Height = 42.000000
+	__models__DataShape__00000015_.IsHidden = false
+	__models__DataShape__00000015_.IsPresentationOverridden = false
+	__models__DataShape__00000015_.Color = `#FFFFFF`
+	__models__DataShape__00000015_.FillOpacity = 0.850000
+	__models__DataShape__00000015_.Stroke = `#A5D6A7`
+	__models__DataShape__00000015_.StrokeWidth = 1.000000
+	__models__DataShape__00000015_.StrokeOpacity = 1.000000
+	__models__DataShape__00000015_.StrokeDashArray = ``
+	__models__DataShape__00000015_.RX = 3.000000
+	__models__DataShape__00000015_.FontSize = `14px`
+	__models__DataShape__00000015_.FontWeight = `600`
+	__models__DataShape__00000015_.FontColor = `#333333`
+	__models__DataStore__00000000_.Name = `Data Store`
+	__models__DataStore__00000000_.Acronym = ``
+	__models__DataStore__00000000_.Description = ``
+	__models__DataStore__00000000_.IsDatasNodeExpanded = false
+	__models__DataStore__00000000_.ComputedPrefix = ``
+	__models__DataStore__00000000_.IsExpanded = false
+	__models__DataStore__00000000_.SVG = ``
+	__models__DataStoreShape__00000000_.Name = `Data Store-Order to Cash - Full Process`
+	__models__DataStoreShape__00000000_.X = 552.932884
+	__models__DataStoreShape__00000000_.Y = 640.000000
+	__models__DataStoreShape__00000000_.Width = 140.000000
+	__models__DataStoreShape__00000000_.Height = 80.000000
+	__models__DataStoreShape__00000000_.IsHidden = false
+	__models__DataStoreShape__00000000_.IsPresentationOverridden = false
+	__models__DataStoreShape__00000000_.Color = `#E8F5E9`
+	__models__DataStoreShape__00000000_.FillOpacity = 1.000000
+	__models__DataStoreShape__00000000_.Stroke = `#66BB6A`
+	__models__DataStoreShape__00000000_.StrokeWidth = 1.500000
+	__models__DataStoreShape__00000000_.StrokeOpacity = 1.000000
+	__models__DataStoreShape__00000000_.StrokeDashArray = ``
+	__models__DataStoreShape__00000000_.RX = 0.000000
+	__models__DataStoreShape__00000000_.FontSize = `15px`
+	__models__DataStoreShape__00000000_.FontWeight = `500`
+	__models__DataStoreShape__00000000_.FontColor = `#333333`
 	__models__DiagramProcess__00000000_.Name = `Order to Cash - Full Process`
 	__models__DiagramProcess__00000000_.Description = `End-to-end view of the Order-to-Cash process across Sales, Logistics, and Finance with Customer and Carrier touchpoints.`
 	__models__DiagramProcess__00000000_.ComputedPrefix = ``
 	__models__DiagramProcess__00000000_.IsExpanded = false
-	__models__DiagramProcess__00000000_.IsChecked = false
+	__models__DiagramProcess__00000000_.IsChecked = true
 	__models__DiagramProcess__00000000_.IsEditable_ = true
 	__models__DiagramProcess__00000000_.IsShowPrefix = false
 	__models__DiagramProcess__00000000_.DefaultBoxWidth = 240.000000
@@ -1472,12 +1544,13 @@ func _(stage *models.Stage) {
 	__models__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
 	__models__DiagramProcess__00000000_.IsParticipantsNodeExpanded = false
 	__models__DiagramProcess__00000000_.IsExternalParticipantsNodeExpanded = false
+	__models__DiagramProcess__00000000_.IsDataStoresNodeExpanded = true
 	__models__DiagramProcess__00000000_.IsNotesNodeExpanded = true
 	__models__DiagramProcess__00000001_.Name = `Order Fulfillment & Delivery`
 	__models__DiagramProcess__00000001_.Description = `Operational focus on sales order processing and warehouse dispatch.`
 	__models__DiagramProcess__00000001_.ComputedPrefix = ``
 	__models__DiagramProcess__00000001_.IsExpanded = false
-	__models__DiagramProcess__00000001_.IsChecked = true
+	__models__DiagramProcess__00000001_.IsChecked = false
 	__models__DiagramProcess__00000001_.IsEditable_ = true
 	__models__DiagramProcess__00000001_.IsShowPrefix = false
 	__models__DiagramProcess__00000001_.DefaultBoxWidth = 240.000000
@@ -1487,6 +1560,7 @@ func _(stage *models.Stage) {
 	__models__DiagramProcess__00000001_.IsProcesssNodeExpanded = false
 	__models__DiagramProcess__00000001_.IsParticipantsNodeExpanded = false
 	__models__DiagramProcess__00000001_.IsExternalParticipantsNodeExpanded = false
+	__models__DiagramProcess__00000001_.IsDataStoresNodeExpanded = false
 	__models__DiagramProcess__00000001_.IsNotesNodeExpanded = false
 	__models__DiagramProcess__00000002_.Name = `Invoicing & Payment Settlement`
 	__models__DiagramProcess__00000002_.Description = `Financial flow between customer billing and accounts receivable reconciliation.`
@@ -1502,6 +1576,7 @@ func _(stage *models.Stage) {
 	__models__DiagramProcess__00000002_.IsProcesssNodeExpanded = false
 	__models__DiagramProcess__00000002_.IsParticipantsNodeExpanded = false
 	__models__DiagramProcess__00000002_.IsExternalParticipantsNodeExpanded = false
+	__models__DiagramProcess__00000002_.IsDataStoresNodeExpanded = false
 	__models__DiagramProcess__00000002_.IsNotesNodeExpanded = false
 	__models__ExternalParticipant__00000000_.Name = `Customer`
 	__models__ExternalParticipant__00000000_.IsProcessResource = false
@@ -1631,8 +1706,9 @@ func _(stage *models.Stage) {
 	__models__Library__00000000_.NbPixPerCharacter = 9.000000
 	__models__Library__00000000_.LogoSVGFile = ``
 	__models__Library__00000000_.IsProcessesNodeExpanded = true
-	__models__Library__00000000_.IsDataFlowsNodeExpanded = false
-	__models__Library__00000000_.IsDatasNodeExpanded = false
+	__models__Library__00000000_.IsDataFlowsNodeExpanded = true
+	__models__Library__00000000_.IsDatasNodeExpanded = true
+	__models__Library__00000000_.IsDataStoresNodeExpanded = true
 	__models__Library__00000000_.IsResourcesNodeExpanded = false
 	__models__Library__00000000_.IsNotesNodeExpanded = true
 	__models__Library__00000000_.IsExpandedTmp = true
@@ -1647,6 +1723,7 @@ func _(stage *models.Stage) {
 	__models__Library__00000001_.IsProcessesNodeExpanded = false
 	__models__Library__00000001_.IsDataFlowsNodeExpanded = false
 	__models__Library__00000001_.IsDatasNodeExpanded = false
+	__models__Library__00000001_.IsDataStoresNodeExpanded = false
 	__models__Library__00000001_.IsResourcesNodeExpanded = true
 	__models__Library__00000001_.IsNotesNodeExpanded = false
 	__models__Library__00000001_.IsExpandedTmp = true
@@ -2670,8 +2747,8 @@ func _(stage *models.Stage) {
 	__models__TaskShape__00000023_.IsExpanded = false
 	__models__TaskShape__00000023_.IsVertical = false
 	__models__TaskShape__00000023_.IsNameDisplayed = false
-	__models__TaskShape__00000023_.X = 300.000000
-	__models__TaskShape__00000023_.Y = 245.000000
+	__models__TaskShape__00000023_.X = 303.000000
+	__models__TaskShape__00000023_.Y = 244.000000
 	__models__TaskShape__00000023_.Width = 220.000000
 	__models__TaskShape__00000023_.Height = 65.000000
 	__models__TaskShape__00000023_.IsHidden = false
@@ -3070,9 +3147,9 @@ func _(stage *models.Stage) {
 	__models__TaskShape__00000043_.IsExpanded = false
 	__models__TaskShape__00000043_.IsVertical = false
 	__models__TaskShape__00000043_.IsNameDisplayed = false
-	__models__TaskShape__00000043_.X = 535.000000
-	__models__TaskShape__00000043_.Y = 342.500000
-	__models__TaskShape__00000043_.Width = 180.000000
+	__models__TaskShape__00000043_.X = 542.000000
+	__models__TaskShape__00000043_.Y = 340.500000
+	__models__TaskShape__00000043_.Width = 117.000000
 	__models__TaskShape__00000043_.Height = 65.000000
 	__models__TaskShape__00000043_.IsHidden = false
 	__models__TaskShape__00000043_.IsPresentationOverridden = false
@@ -3090,8 +3167,8 @@ func _(stage *models.Stage) {
 	__models__TaskShape__00000044_.IsExpanded = false
 	__models__TaskShape__00000044_.IsVertical = false
 	__models__TaskShape__00000044_.IsNameDisplayed = false
-	__models__TaskShape__00000044_.X = 498.000000
-	__models__TaskShape__00000044_.Y = 442.000000
+	__models__TaskShape__00000044_.X = 473.000000
+	__models__TaskShape__00000044_.Y = 436.000000
 	__models__TaskShape__00000044_.Width = 145.000000
 	__models__TaskShape__00000044_.Height = 36.000000
 	__models__TaskShape__00000044_.IsHidden = false
@@ -3215,6 +3292,9 @@ func _(stage *models.Stage) {
 	__models__DataFlow__00000006_.Datas = append(__models__DataFlow__00000006_.Datas, __models__Data__00000005_)
 	__models__DataFlow__00000006_.EndTask = __models__Task__00000011_
 	__models__DataFlow__00000006_.StartParticipant = __models__ExternalParticipant__00000000_
+	__models__DataFlow__00000009_.Datas = append(__models__DataFlow__00000009_.Datas, __models__Data__00000001_)
+	__models__DataFlow__00000009_.StartTask = __models__Task__00000002_
+	__models__DataFlow__00000009_.EndDataStore = __models__DataStore__00000000_
 	__models__DataFlowShape__00000000_.DataFlow = __models__DataFlow__00000000_
 	__models__DataFlowShape__00000001_.DataFlow = __models__DataFlow__00000001_
 	__models__DataFlowShape__00000002_.DataFlow = __models__DataFlow__00000002_
@@ -3230,6 +3310,7 @@ func _(stage *models.Stage) {
 	__models__DataFlowShape__00000012_.DataFlow = __models__DataFlow__00000001_
 	__models__DataFlowShape__00000013_.DataFlow = __models__DataFlow__00000005_
 	__models__DataFlowShape__00000014_.DataFlow = __models__DataFlow__00000006_
+	__models__DataFlowShape__00000015_.DataFlow = __models__DataFlow__00000009_
 	__models__DataShape__00000000_.Data = __models__Data__00000000_
 	__models__DataShape__00000000_.DataFlow = __models__DataFlow__00000000_
 	__models__DataShape__00000001_.Data = __models__Data__00000001_
@@ -3260,6 +3341,9 @@ func _(stage *models.Stage) {
 	__models__DataShape__00000013_.DataFlow = __models__DataFlow__00000005_
 	__models__DataShape__00000014_.Data = __models__Data__00000005_
 	__models__DataShape__00000014_.DataFlow = __models__DataFlow__00000006_
+	__models__DataShape__00000015_.Data = __models__Data__00000001_
+	__models__DataShape__00000015_.DataFlow = __models__DataFlow__00000009_
+	__models__DataStoreShape__00000000_.DataStore = __models__DataStore__00000000_
 	__models__DiagramProcess__00000000_.Process_Shapes = append(__models__DiagramProcess__00000000_.Process_Shapes, __models__ProcessShape__00000000_)
 	__models__DiagramProcess__00000000_.Participant_Shapes = append(__models__DiagramProcess__00000000_.Participant_Shapes, __models__ParticipantShape__00000000_)
 	__models__DiagramProcess__00000000_.Participant_Shapes = append(__models__DiagramProcess__00000000_.Participant_Shapes, __models__ParticipantShape__00000001_)
@@ -3309,6 +3393,7 @@ func _(stage *models.Stage) {
 	__models__DiagramProcess__00000000_.DataFlow_Shapes = append(__models__DiagramProcess__00000000_.DataFlow_Shapes, __models__DataFlowShape__00000004_)
 	__models__DiagramProcess__00000000_.DataFlow_Shapes = append(__models__DiagramProcess__00000000_.DataFlow_Shapes, __models__DataFlowShape__00000005_)
 	__models__DiagramProcess__00000000_.DataFlow_Shapes = append(__models__DiagramProcess__00000000_.DataFlow_Shapes, __models__DataFlowShape__00000006_)
+	__models__DiagramProcess__00000000_.DataFlow_Shapes = append(__models__DiagramProcess__00000000_.DataFlow_Shapes, __models__DataFlowShape__00000015_)
 	__models__DiagramProcess__00000000_.Data_Shapes = append(__models__DiagramProcess__00000000_.Data_Shapes, __models__DataShape__00000000_)
 	__models__DiagramProcess__00000000_.Data_Shapes = append(__models__DiagramProcess__00000000_.Data_Shapes, __models__DataShape__00000001_)
 	__models__DiagramProcess__00000000_.Data_Shapes = append(__models__DiagramProcess__00000000_.Data_Shapes, __models__DataShape__00000002_)
@@ -3316,6 +3401,11 @@ func _(stage *models.Stage) {
 	__models__DiagramProcess__00000000_.Data_Shapes = append(__models__DiagramProcess__00000000_.Data_Shapes, __models__DataShape__00000004_)
 	__models__DiagramProcess__00000000_.Data_Shapes = append(__models__DiagramProcess__00000000_.Data_Shapes, __models__DataShape__00000005_)
 	__models__DiagramProcess__00000000_.Data_Shapes = append(__models__DiagramProcess__00000000_.Data_Shapes, __models__DataShape__00000006_)
+	__models__DiagramProcess__00000000_.Data_Shapes = append(__models__DiagramProcess__00000000_.Data_Shapes, __models__DataShape__00000015_)
+	__models__DiagramProcess__00000000_.DataFlowsWhoseDataNodeIsExpanded = append(__models__DiagramProcess__00000000_.DataFlowsWhoseDataNodeIsExpanded, __models__DataFlow__00000009_)
+	__models__DiagramProcess__00000000_.DataStore_Shapes = append(__models__DiagramProcess__00000000_.DataStore_Shapes, __models__DataStoreShape__00000000_)
+	__models__DiagramProcess__00000000_.DataStoresWhoseNodeIsExpanded = append(__models__DiagramProcess__00000000_.DataStoresWhoseNodeIsExpanded, __models__DataStore__00000000_)
+	__models__DiagramProcess__00000000_.DataStoresWhoseInDataFlowsNodeIsExpanded = append(__models__DiagramProcess__00000000_.DataStoresWhoseInDataFlowsNodeIsExpanded, __models__DataStore__00000000_)
 	__models__DiagramProcess__00000000_.AllocatedResourceShapes = append(__models__DiagramProcess__00000000_.AllocatedResourceShapes, __models__AllocatedResourceShape__00000000_)
 	__models__DiagramProcess__00000000_.AllocatedResourceShapes = append(__models__DiagramProcess__00000000_.AllocatedResourceShapes, __models__AllocatedResourceShape__00000001_)
 	__models__DiagramProcess__00000000_.AllocatedResourceShapes = append(__models__DiagramProcess__00000000_.AllocatedResourceShapes, __models__AllocatedResourceShape__00000002_)
@@ -3416,12 +3506,15 @@ func _(stage *models.Stage) {
 	__models__Library__00000000_.RootDataFlows = append(__models__Library__00000000_.RootDataFlows, __models__DataFlow__00000004_)
 	__models__Library__00000000_.RootDataFlows = append(__models__Library__00000000_.RootDataFlows, __models__DataFlow__00000005_)
 	__models__Library__00000000_.RootDataFlows = append(__models__Library__00000000_.RootDataFlows, __models__DataFlow__00000006_)
+	__models__Library__00000000_.RootDataFlows = append(__models__Library__00000000_.RootDataFlows, __models__DataFlow__00000009_)
+	__models__Library__00000000_.DataFlowsWhoseNodeIsExpanded = append(__models__Library__00000000_.DataFlowsWhoseNodeIsExpanded, __models__DataFlow__00000009_)
 	__models__Library__00000000_.RootDatas = append(__models__Library__00000000_.RootDatas, __models__Data__00000000_)
 	__models__Library__00000000_.RootDatas = append(__models__Library__00000000_.RootDatas, __models__Data__00000001_)
 	__models__Library__00000000_.RootDatas = append(__models__Library__00000000_.RootDatas, __models__Data__00000002_)
 	__models__Library__00000000_.RootDatas = append(__models__Library__00000000_.RootDatas, __models__Data__00000003_)
 	__models__Library__00000000_.RootDatas = append(__models__Library__00000000_.RootDatas, __models__Data__00000004_)
 	__models__Library__00000000_.RootDatas = append(__models__Library__00000000_.RootDatas, __models__Data__00000005_)
+	__models__Library__00000000_.RootDataStores = append(__models__Library__00000000_.RootDataStores, __models__DataStore__00000000_)
 	__models__Library__00000000_.RootResources = append(__models__Library__00000000_.RootResources, __models__Resource__00000000_)
 	__models__Library__00000000_.RootResources = append(__models__Library__00000000_.RootResources, __models__Resource__00000001_)
 	__models__Library__00000000_.RootResources = append(__models__Library__00000000_.RootResources, __models__Resource__00000002_)
@@ -3496,6 +3589,7 @@ func _(stage *models.Stage) {
 	__models__Process__00000000_.DiagramProcesss = append(__models__Process__00000000_.DiagramProcesss, __models__DiagramProcess__00000001_)
 	__models__Process__00000000_.DiagramProcesss = append(__models__Process__00000000_.DiagramProcesss, __models__DiagramProcess__00000002_)
 	__models__Process__00000000_.DiagramProcessWhoseNodeIsExpanded = append(__models__Process__00000000_.DiagramProcessWhoseNodeIsExpanded, __models__DiagramProcess__00000000_)
+	__models__Process__00000000_.DiagramProcessWhoseNodeIsExpanded = append(__models__Process__00000000_.DiagramProcessWhoseNodeIsExpanded, __models__DiagramProcess__00000001_)
 	__models__Process__00000000_.Participants = append(__models__Process__00000000_.Participants, __models__Participant__00000002_)
 	__models__Process__00000000_.Participants = append(__models__Process__00000000_.Participants, __models__Participant__00000003_)
 	__models__Process__00000000_.Participants = append(__models__Process__00000000_.Participants, __models__Participant__00000004_)
@@ -3506,6 +3600,7 @@ func _(stage *models.Stage) {
 	__models__Process__00000000_.DataFlows = append(__models__Process__00000000_.DataFlows, __models__DataFlow__00000004_)
 	__models__Process__00000000_.DataFlows = append(__models__Process__00000000_.DataFlows, __models__DataFlow__00000005_)
 	__models__Process__00000000_.DataFlows = append(__models__Process__00000000_.DataFlows, __models__DataFlow__00000006_)
+	__models__Process__00000000_.DataFlows = append(__models__Process__00000000_.DataFlows, __models__DataFlow__00000009_)
 	__models__Process__00000000_.ExternalParticipants = append(__models__Process__00000000_.ExternalParticipants, __models__ExternalParticipant__00000000_)
 	__models__Process__00000000_.ExternalParticipants = append(__models__Process__00000000_.ExternalParticipants, __models__ExternalParticipant__00000001_)
 	__models__ProcessShape__00000000_.Process = __models__Process__00000000_

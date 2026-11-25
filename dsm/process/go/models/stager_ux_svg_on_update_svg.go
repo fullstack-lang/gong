@@ -30,6 +30,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		ASSOCIATION_TYPE_TASK_TASK                 associationType = "TaskTask"
 		ASSOCIATION_TYPE_EXTERNAL_PARTICIPANT_TASK associationType = "ExternalParticipantTask"
 		ASSOCIATION_TYPE_TASK_EXTERNAL_PARTICIPANT associationType = "TaskExternalParticipant"
+		ASSOCIATION_TYPE_DATA_STORE_TASK           associationType = "DataStoreTask"
+		ASSOCIATION_TYPE_TASK_DATA_STORE           associationType = "TaskDataStore"
 		ASSOCIATION_TYPE_NOTE_TASK                 associationType = "NoteTask"
 	)
 
@@ -57,6 +59,20 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			assocType = ASSOCIATION_TYPE_EXTERNAL_PARTICIPANT_TASK
 			sourceAbstratctElement = startExternalParticipantShape.ExternalParticipant
 			targetAbstractElement = endTaskShape.Task
+		}
+	}
+	if startDataStoreShape, ok := diagramProcess.map_SvgRect_DataStoreShape[startRect]; ok {
+		if endTaskShape, ok := diagramProcess.map_SvgRect_TaskShape[endRect]; ok {
+			assocType = ASSOCIATION_TYPE_DATA_STORE_TASK
+			sourceAbstratctElement = startDataStoreShape.DataStore
+			targetAbstractElement = endTaskShape.Task
+		}
+	}
+	if startTaskShape, ok := diagramProcess.map_SvgRect_TaskShape[startRect]; ok {
+		if endDataStoreShape, ok := diagramProcess.map_SvgRect_DataStoreShape[endRect]; ok {
+			assocType = ASSOCIATION_TYPE_TASK_DATA_STORE
+			sourceAbstratctElement = startTaskShape.Task
+			targetAbstractElement = endDataStoreShape.DataStore
 		}
 	}
 	if startNoteShape, ok := diagramProcess.map_SvgRect_NoteShape[startRect]; ok {
@@ -179,6 +195,100 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		dataFlowShape.SetStartRatio(0.5)
 		dataFlowShape.SetEndRatio(0.5)
 		diagramProcess.DataFlow_Shapes = append(diagramProcess.DataFlow_Shapes, dataFlowShape)
+	case ASSOCIATION_TYPE_DATA_STORE_TASK:
+		startDataStore := sourceAbstratctElement.(*DataStore)
+		endTask := targetAbstractElement.(*Task)
+
+		var dataFlow *DataFlow
+		for _, existing := range stage.GetInstancesSorted[*DataFlow]() {
+			if existing.Type == DataFlow_DataStore2Task && existing.StartDataStore == startDataStore && existing.EndTask == endTask {
+				dataFlow = existing
+				break
+			}
+		}
+		if dataFlow == nil {
+			dataFlow = (&DataFlow{
+				Type:           DataFlow_DataStore2Task,
+				StartDataStore: startDataStore,
+				EndTask:        endTask,
+			})
+			if endTask.owningParticipant != nil && endTask.owningParticipant.owningProcess != nil {
+				endTask.owningParticipant.owningProcess.DataFlows = append(endTask.owningParticipant.owningProcess.DataFlows, dataFlow)
+			}
+			owningLib := startDataStore.GetOwningLibrary()
+			if owningLib == nil {
+				owningLib = stager.GetRootLibrary()
+			}
+			if owningLib != nil {
+				owningLib.RootDataFlows = append(owningLib.RootDataFlows, dataFlow)
+			}
+			dataFlow.Name = dataFlow.StartDataStore.GetName() + " to " + dataFlow.EndTask.GetName()
+			dataFlow.Stage(stage)
+		}
+
+		if _, exists := diagramProcess.map_DataFlow_DataFlowShape[dataFlow]; !exists {
+			dataFlowShape := (&DataFlowShape{
+				DataFlow: dataFlow,
+			}).Stage(stager.stage)
+
+			dataFlowShape.SetName(dataFlow.StartDataStore.GetName() + " to " + dataFlow.EndTask.GetName())
+			dataFlowShape.SetAbstractStartElement(dataFlow.StartDataStore)
+			dataFlowShape.SetAbstractEndElement(dataFlow.EndTask)
+			dataFlowShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
+			dataFlowShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
+
+			dataFlowShape.SetCornerOffsetRatio(1.5)
+			dataFlowShape.SetStartRatio(0.5)
+			dataFlowShape.SetEndRatio(0.5)
+			diagramProcess.DataFlow_Shapes = append(diagramProcess.DataFlow_Shapes, dataFlowShape)
+		}
+	case ASSOCIATION_TYPE_TASK_DATA_STORE:
+		startTask := sourceAbstratctElement.(*Task)
+		endDataStore := targetAbstractElement.(*DataStore)
+
+		var dataFlow *DataFlow
+		for _, existing := range stage.GetInstancesSorted[*DataFlow]() {
+			if existing.Type == DataFlow_Task2DataStore && existing.StartTask == startTask && existing.EndDataStore == endDataStore {
+				dataFlow = existing
+				break
+			}
+		}
+		if dataFlow == nil {
+			dataFlow = (&DataFlow{
+				Type:         DataFlow_Task2DataStore,
+				StartTask:    startTask,
+				EndDataStore: endDataStore,
+			})
+			if startTask.owningParticipant != nil && startTask.owningParticipant.owningProcess != nil {
+				startTask.owningParticipant.owningProcess.DataFlows = append(startTask.owningParticipant.owningProcess.DataFlows, dataFlow)
+			}
+			owningLib := endDataStore.GetOwningLibrary()
+			if owningLib == nil {
+				owningLib = stager.GetRootLibrary()
+			}
+			if owningLib != nil {
+				owningLib.RootDataFlows = append(owningLib.RootDataFlows, dataFlow)
+			}
+			dataFlow.Name = dataFlow.StartTask.GetName() + " to " + dataFlow.EndDataStore.GetName()
+			dataFlow.Stage(stage)
+		}
+
+		if _, exists := diagramProcess.map_DataFlow_DataFlowShape[dataFlow]; !exists {
+			dataFlowShape := (&DataFlowShape{
+				DataFlow: dataFlow,
+			}).Stage(stager.stage)
+
+			dataFlowShape.SetName(dataFlow.StartTask.GetName() + " to " + dataFlow.EndDataStore.GetName())
+			dataFlowShape.SetAbstractStartElement(dataFlow.StartTask)
+			dataFlowShape.SetAbstractEndElement(dataFlow.EndDataStore)
+			dataFlowShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
+			dataFlowShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
+
+			dataFlowShape.SetCornerOffsetRatio(1.5)
+			dataFlowShape.SetStartRatio(0.5)
+			dataFlowShape.SetEndRatio(0.5)
+			diagramProcess.DataFlow_Shapes = append(diagramProcess.DataFlow_Shapes, dataFlowShape)
+		}
 	case ASSOCIATION_TYPE_NOTE_TASK:
 		note := sourceAbstratctElement.(*Note)
 		task := targetAbstractElement.(*Task)

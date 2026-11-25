@@ -58,6 +58,25 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 
 	if reattachToLibraryRoots(
 		stager,
+		func() []*DataStore {
+			roots := make([]*DataStore, 0)
+			for _, library := range stager.stage.GetInstancesSorted[*Library]() {
+				roots = append(roots, library.RootDataStores...)
+			}
+			return roots
+		},
+		func(dataStore *DataStore) {
+			dataStore.GetOwningLibrary().RootDataStores = append(dataStore.GetOwningLibrary().RootDataStores, dataStore)
+		},
+		func(dataStore *DataStore) []*DataStore {
+			return []*DataStore{}
+		},
+	) {
+		needCommit = true
+	}
+
+	if reattachToLibraryRoots(
+		stager,
 		func() []*Library {
 			return stager.getRootLibrary().SubLibraries
 		},

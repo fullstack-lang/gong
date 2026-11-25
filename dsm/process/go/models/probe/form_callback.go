@@ -311,6 +311,8 @@ func saveDataFields(
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SubDatas", func(owner *models.Data) *[]*models.Data { return &owner.SubDatas })
 		case "DataFlow:Datas":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Datas", func(owner *models.DataFlow) *[]*models.Data { return &owner.Datas })
+		case "DataStore:Datas":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Datas", func(owner *models.DataStore) *[]*models.Data { return &owner.Datas })
 		case "DiagramProcess:DatasWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DatasWhoseNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.Data { return &owner.DatasWhoseNodeIsExpanded })
 		case "Library:RootDatas":
@@ -364,6 +366,10 @@ func saveDataFlowFields(
 			FormDivSelectFieldToField(&(_instance.StartParticipant), probe.stageOfInterest, formDiv)
 		case "EndParticipant":
 			FormDivSelectFieldToField(&(_instance.EndParticipant), probe.stageOfInterest, formDiv)
+		case "StartDataStore":
+			FormDivSelectFieldToField(&(_instance.StartDataStore), probe.stageOfInterest, formDiv)
+		case "EndDataStore":
+			FormDivSelectFieldToField(&(_instance.EndDataStore), probe.stageOfInterest, formDiv)
 		case "IsDatasNodeExpanded":
 			FormDivBasicFieldToField(&(_instance.IsDatasNodeExpanded), formDiv)
 		case "DiagramProcess:DataFlowsWhoseNodeIsExpanded":
@@ -508,6 +514,124 @@ func saveDataShapeFields(
 	}
 }
 
+func __gong__New__DataStoreFormCallback(
+	_instance *models.DataStore,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (datastoreFormCallback *FormCallback[*models.DataStore]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveDataStoreFields,
+	)
+}
+
+type DataStoreFormCallback = FormCallback[*models.DataStore]
+
+func saveDataStoreFields(
+	_instance *models.DataStore,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Acronym":
+			FormDivBasicFieldToField(&(_instance.Acronym), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(_instance.Description), formDiv)
+		case "Datas":
+			FormDivSliceOfPointersToField(_instance, "Datas", &(_instance.Datas), formDiv, probe)
+		case "IsDatasNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsDatasNodeExpanded), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(_instance.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
+		case "SVG":
+			FormDivBasicFieldToField(&(_instance.SVG), formDiv)
+		case "DiagramProcess:DataStoresWhoseNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DataStoresWhoseNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.DataStore { return &owner.DataStoresWhoseNodeIsExpanded })
+		case "DiagramProcess:DataStoresWhoseOutDataFlowsNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DataStoresWhoseOutDataFlowsNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.DataStore { return &owner.DataStoresWhoseOutDataFlowsNodeIsExpanded })
+		case "DiagramProcess:DataStoresWhoseInDataFlowsNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DataStoresWhoseInDataFlowsNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.DataStore { return &owner.DataStoresWhoseInDataFlowsNodeIsExpanded })
+		case "Library:RootDataStores":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "RootDataStores", func(owner *models.Library) *[]*models.DataStore { return &owner.RootDataStores })
+		case "Library:DataStoresWhoseNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DataStoresWhoseNodeIsExpanded", func(owner *models.Library) *[]*models.DataStore { return &owner.DataStoresWhoseNodeIsExpanded })
+		}
+	}
+}
+
+func __gong__New__DataStoreShapeFormCallback(
+	_instance *models.DataStoreShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (datastoreshapeFormCallback *FormCallback[*models.DataStoreShape]) {
+	return NewFormCallback(
+		_instance,
+		probe,
+		formGroup,
+		saveDataStoreShapeFields,
+	)
+}
+
+type DataStoreShapeFormCallback = FormCallback[*models.DataStoreShape]
+
+func saveDataStoreShapeFields(
+	_instance *models.DataStoreShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) {
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "DataStore":
+			FormDivSelectFieldToField(&(_instance.DataStore), probe.stageOfInterest, formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(_instance.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(_instance.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(_instance.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(_instance.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(_instance.IsHidden), formDiv)
+		case "IsPresentationOverridden":
+			FormDivBasicFieldToField(&(_instance.IsPresentationOverridden), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(_instance.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(_instance.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(_instance.Stroke), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(_instance.StrokeWidth), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(_instance.StrokeOpacity), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(_instance.StrokeDashArray), formDiv)
+		case "RX":
+			FormDivBasicFieldToField(&(_instance.RX), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(_instance.FontSize), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(_instance.FontWeight), formDiv)
+		case "FontColor":
+			FormDivBasicFieldToField(&(_instance.FontColor), formDiv)
+		case "DiagramProcess:DataStore_Shapes":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "DataStore_Shapes", func(owner *models.DiagramProcess) *[]*models.DataStoreShape { return &owner.DataStore_Shapes })
+		}
+	}
+}
+
 func __gong__New__DiagramProcessFormCallback(
 	_instance *models.DiagramProcess,
 	probe *Probe,
@@ -593,6 +717,16 @@ func saveDiagramProcessFields(
 			FormDivSliceOfPointersToField(_instance, "Data_Shapes", &(_instance.Data_Shapes), formDiv, probe)
 		case "DataFlowsWhoseDataNodeIsExpanded":
 			FormDivSliceOfPointersToField(_instance, "DataFlowsWhoseDataNodeIsExpanded", &(_instance.DataFlowsWhoseDataNodeIsExpanded), formDiv, probe)
+		case "DataStore_Shapes":
+			FormDivSliceOfPointersToField(_instance, "DataStore_Shapes", &(_instance.DataStore_Shapes), formDiv, probe)
+		case "DataStoresWhoseNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "DataStoresWhoseNodeIsExpanded", &(_instance.DataStoresWhoseNodeIsExpanded), formDiv, probe)
+		case "IsDataStoresNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsDataStoresNodeExpanded), formDiv)
+		case "DataStoresWhoseOutDataFlowsNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "DataStoresWhoseOutDataFlowsNodeIsExpanded", &(_instance.DataStoresWhoseOutDataFlowsNodeIsExpanded), formDiv, probe)
+		case "DataStoresWhoseInDataFlowsNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "DataStoresWhoseInDataFlowsNodeIsExpanded", &(_instance.DataStoresWhoseInDataFlowsNodeIsExpanded), formDiv, probe)
 		case "AllocatedResourcesWhoseNodeIsExpanded":
 			FormDivSliceOfPointersToField(_instance, "AllocatedResourcesWhoseNodeIsExpanded", &(_instance.AllocatedResourcesWhoseNodeIsExpanded), formDiv, probe)
 		case "AllocatedResourceShapes":
@@ -810,6 +944,12 @@ func saveLibraryFields(
 			FormDivBasicFieldToField(&(_instance.IsDatasNodeExpanded), formDiv)
 		case "DatasWhoseNodeIsExpanded":
 			FormDivSliceOfPointersToField(_instance, "DatasWhoseNodeIsExpanded", &(_instance.DatasWhoseNodeIsExpanded), formDiv, probe)
+		case "RootDataStores":
+			FormDivSliceOfPointersToField(_instance, "RootDataStores", &(_instance.RootDataStores), formDiv, probe)
+		case "IsDataStoresNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsDataStoresNodeExpanded), formDiv)
+		case "DataStoresWhoseNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "DataStoresWhoseNodeIsExpanded", &(_instance.DataStoresWhoseNodeIsExpanded), formDiv, probe)
 		case "RootResources":
 			FormDivSliceOfPointersToField(_instance, "RootResources", &(_instance.RootResources), formDiv, probe)
 		case "IsResourcesNodeExpanded":

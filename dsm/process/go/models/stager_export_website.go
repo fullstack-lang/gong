@@ -47,6 +47,7 @@ func (stager *Stager) exportWebsite() {
 	appendWebExportableChapter(stager, refChapter, "Control Flows", stager.stage.GetInstancesSorted[*ControlFlow]())
 	appendWebExportableChapter(stager, refChapter, "Data Flows", stager.stage.GetInstancesSorted[*DataFlow]())
 	appendWebExportableChapter(stager, refChapter, "Datas", stager.stage.GetInstancesSorted[*Data]())
+	appendWebExportableChapter(stager, refChapter, "DataStores", stager.stage.GetInstancesSorted[*DataStore]())
 	appendWebExportableChapter(stager, refChapter, "Resources", stager.stage.GetInstancesSorted[*Resource]())
 	appendWebExportableChapter(stager, refChapter, "Notes", stager.stage.GetInstancesSorted[*Note]())
 	appendWebExportableChapter(stager, refChapter, "Libraries", stager.stage.GetInstancesSorted[*Library]())
@@ -284,4 +285,23 @@ func (inst *Library) GetReferencePath() string {
 
 func (inst *Library) GeneratePage(stager *Stager) *ssg.Page {
 	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
+}
+
+func (inst *DataStore) GetDescription() string { return inst.Description }
+func (inst *DataStore) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
+}
+
+func (inst *DataStore) GeneratePage(stager *Stager) *ssg.Page {
+	content := fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)
+	if len(inst.Datas) > 0 {
+		content += "\n\n##### Stored Data\n\n| Name | Description |\n|---|---|\n"
+		for _, d := range inst.Datas {
+			if d != nil {
+				content += fmt.Sprintf("| [%s](../../Datas/%s/index.html) | %s |\n",
+					d.Name, d.GetReferencePath(), strings.ReplaceAll(d.Description, "\n", "<br>"))
+			}
+		}
+	}
+	return &ssg.Page{Name: inst.Name, MardownContent: content}
 }

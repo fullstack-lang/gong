@@ -55,6 +55,16 @@ func (datashape *DataShape) GongIsStaged(stage *Stage) bool {
 	return ok
 }
 
+func (datastore *DataStore) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DataStores[datastore]
+	return ok
+}
+
+func (datastoreshape *DataStoreShape) GongIsStaged(stage *Stage) bool {
+	_, ok := stage.DataStoreShapes[datastoreshape]
+	return ok
+}
+
 func (diagramprocess *DiagramProcess) GongIsStaged(stage *Stage) bool {
 	_, ok := stage.DiagramProcesss[diagramprocess]
 	return ok
@@ -267,6 +277,12 @@ func (dataflow *DataFlow) GongStageBranch(stage *Stage) {
 	if dataflow.EndParticipant != nil {
 		stage.StageBranch(dataflow.EndParticipant)
 	}
+	if dataflow.StartDataStore != nil {
+		stage.StageBranch(dataflow.StartDataStore)
+	}
+	if dataflow.EndDataStore != nil {
+		stage.StageBranch(dataflow.EndDataStore)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _data := range dataflow.Datas {
@@ -308,6 +324,42 @@ func (datashape *DataShape) GongStageBranch(stage *Stage) {
 	}
 	if datashape.DataFlow != nil {
 		stage.StageBranch(datashape.DataFlow)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (datastore *DataStore) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(datastore) {
+		return
+	}
+
+	datastore.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _data := range datastore.Datas {
+		stage.StageBranch(_data)
+	}
+
+}
+
+func (datastoreshape *DataStoreShape) GongStageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if stage.IsStaged(datastoreshape) {
+		return
+	}
+
+	datastoreshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if datastoreshape.DataStore != nil {
+		stage.StageBranch(datastoreshape.DataStore)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -376,6 +428,18 @@ func (diagramprocess *DiagramProcess) GongStageBranch(stage *Stage) {
 	}
 	for _, _dataflow := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
 		stage.StageBranch(_dataflow)
+	}
+	for _, _datastoreshape := range diagramprocess.DataStore_Shapes {
+		stage.StageBranch(_datastoreshape)
+	}
+	for _, _datastore := range diagramprocess.DataStoresWhoseNodeIsExpanded {
+		stage.StageBranch(_datastore)
+	}
+	for _, _datastore := range diagramprocess.DataStoresWhoseOutDataFlowsNodeIsExpanded {
+		stage.StageBranch(_datastore)
+	}
+	for _, _datastore := range diagramprocess.DataStoresWhoseInDataFlowsNodeIsExpanded {
+		stage.StageBranch(_datastore)
 	}
 	for _, _resource := range diagramprocess.AllocatedResourcesWhoseNodeIsExpanded {
 		stage.StageBranch(_resource)
@@ -481,6 +545,12 @@ func (library *Library) GongStageBranch(stage *Stage) {
 	}
 	for _, _data := range library.DatasWhoseNodeIsExpanded {
 		stage.StageBranch(_data)
+	}
+	for _, _datastore := range library.RootDataStores {
+		stage.StageBranch(_datastore)
+	}
+	for _, _datastore := range library.DataStoresWhoseNodeIsExpanded {
+		stage.StageBranch(_datastore)
 	}
 	for _, _resource := range library.RootResources {
 		stage.StageBranch(_resource)
@@ -813,6 +883,14 @@ func GongCopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := GongCopyBranchDataShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *DataStore:
+		toT := GongCopyBranchDataStore(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *DataStoreShape:
+		toT := GongCopyBranchDataStoreShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *DiagramProcess:
 		toT := GongCopyBranchDiagramProcess(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -1007,6 +1085,12 @@ func GongCopyBranchDataFlow(mapOrigCopy map[any]any, dataflowFrom *DataFlow) (da
 	if dataflowFrom.EndParticipant != nil {
 		dataflowTo.EndParticipant = GongCopyBranchExternalParticipant(mapOrigCopy, dataflowFrom.EndParticipant)
 	}
+	if dataflowFrom.StartDataStore != nil {
+		dataflowTo.StartDataStore = GongCopyBranchDataStore(mapOrigCopy, dataflowFrom.StartDataStore)
+	}
+	if dataflowFrom.EndDataStore != nil {
+		dataflowTo.EndDataStore = GongCopyBranchDataStore(mapOrigCopy, dataflowFrom.EndDataStore)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _data := range dataflowFrom.Datas {
@@ -1048,6 +1132,42 @@ func GongCopyBranchDataShape(mapOrigCopy map[any]any, datashapeFrom *DataShape) 
 	}
 	if datashapeFrom.DataFlow != nil {
 		datashapeTo.DataFlow = GongCopyBranchDataFlow(mapOrigCopy, datashapeFrom.DataFlow)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func GongCopyBranchDataStore(mapOrigCopy map[any]any, datastoreFrom *DataStore) (datastoreTo *DataStore) {
+	var alreadyCopied bool
+	datastoreTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, datastoreFrom)
+	if alreadyCopied {
+		return
+	}
+	datastoreFrom.GongCopyBasicFields(datastoreTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _data := range datastoreFrom.Datas {
+		datastoreTo.Datas = append(datastoreTo.Datas, GongCopyBranchData(mapOrigCopy, _data))
+	}
+
+	return
+}
+
+func GongCopyBranchDataStoreShape(mapOrigCopy map[any]any, datastoreshapeFrom *DataStoreShape) (datastoreshapeTo *DataStoreShape) {
+	var alreadyCopied bool
+	datastoreshapeTo, alreadyCopied = __gong__copyBranchCheck(mapOrigCopy, datastoreshapeFrom)
+	if alreadyCopied {
+		return
+	}
+	datastoreshapeFrom.GongCopyBasicFields(datastoreshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if datastoreshapeFrom.DataStore != nil {
+		datastoreshapeTo.DataStore = GongCopyBranchDataStore(mapOrigCopy, datastoreshapeFrom.DataStore)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1116,6 +1236,18 @@ func GongCopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *D
 	}
 	for _, _dataflow := range diagramprocessFrom.DataFlowsWhoseDataNodeIsExpanded {
 		diagramprocessTo.DataFlowsWhoseDataNodeIsExpanded = append(diagramprocessTo.DataFlowsWhoseDataNodeIsExpanded, GongCopyBranchDataFlow(mapOrigCopy, _dataflow))
+	}
+	for _, _datastoreshape := range diagramprocessFrom.DataStore_Shapes {
+		diagramprocessTo.DataStore_Shapes = append(diagramprocessTo.DataStore_Shapes, GongCopyBranchDataStoreShape(mapOrigCopy, _datastoreshape))
+	}
+	for _, _datastore := range diagramprocessFrom.DataStoresWhoseNodeIsExpanded {
+		diagramprocessTo.DataStoresWhoseNodeIsExpanded = append(diagramprocessTo.DataStoresWhoseNodeIsExpanded, GongCopyBranchDataStore(mapOrigCopy, _datastore))
+	}
+	for _, _datastore := range diagramprocessFrom.DataStoresWhoseOutDataFlowsNodeIsExpanded {
+		diagramprocessTo.DataStoresWhoseOutDataFlowsNodeIsExpanded = append(diagramprocessTo.DataStoresWhoseOutDataFlowsNodeIsExpanded, GongCopyBranchDataStore(mapOrigCopy, _datastore))
+	}
+	for _, _datastore := range diagramprocessFrom.DataStoresWhoseInDataFlowsNodeIsExpanded {
+		diagramprocessTo.DataStoresWhoseInDataFlowsNodeIsExpanded = append(diagramprocessTo.DataStoresWhoseInDataFlowsNodeIsExpanded, GongCopyBranchDataStore(mapOrigCopy, _datastore))
 	}
 	for _, _resource := range diagramprocessFrom.AllocatedResourcesWhoseNodeIsExpanded {
 		diagramprocessTo.AllocatedResourcesWhoseNodeIsExpanded = append(diagramprocessTo.AllocatedResourcesWhoseNodeIsExpanded, GongCopyBranchResource(mapOrigCopy, _resource))
@@ -1221,6 +1353,12 @@ func GongCopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libra
 	}
 	for _, _data := range libraryFrom.DatasWhoseNodeIsExpanded {
 		libraryTo.DatasWhoseNodeIsExpanded = append(libraryTo.DatasWhoseNodeIsExpanded, GongCopyBranchData(mapOrigCopy, _data))
+	}
+	for _, _datastore := range libraryFrom.RootDataStores {
+		libraryTo.RootDataStores = append(libraryTo.RootDataStores, GongCopyBranchDataStore(mapOrigCopy, _datastore))
+	}
+	for _, _datastore := range libraryFrom.DataStoresWhoseNodeIsExpanded {
+		libraryTo.DataStoresWhoseNodeIsExpanded = append(libraryTo.DataStoresWhoseNodeIsExpanded, GongCopyBranchDataStore(mapOrigCopy, _datastore))
 	}
 	for _, _resource := range libraryFrom.RootResources {
 		libraryTo.RootResources = append(libraryTo.RootResources, GongCopyBranchResource(mapOrigCopy, _resource))
@@ -1647,6 +1785,12 @@ func (dataflow *DataFlow) GongUnstageBranch(stage *Stage) {
 	if dataflow.EndParticipant != nil {
 		stage.UnstageBranch(dataflow.EndParticipant)
 	}
+	if dataflow.StartDataStore != nil {
+		stage.UnstageBranch(dataflow.StartDataStore)
+	}
+	if dataflow.EndDataStore != nil {
+		stage.UnstageBranch(dataflow.EndDataStore)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _data := range dataflow.Datas {
@@ -1688,6 +1832,42 @@ func (datashape *DataShape) GongUnstageBranch(stage *Stage) {
 	}
 	if datashape.DataFlow != nil {
 		stage.UnstageBranch(datashape.DataFlow)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (datastore *DataStore) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(datastore) {
+		return
+	}
+
+	datastore.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _data := range datastore.Datas {
+		stage.UnstageBranch(_data)
+	}
+
+}
+
+func (datastoreshape *DataStoreShape) GongUnstageBranch(stage *Stage) {
+
+	// check if instance is already staged
+	if !stage.IsStaged(datastoreshape) {
+		return
+	}
+
+	datastoreshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if datastoreshape.DataStore != nil {
+		stage.UnstageBranch(datastoreshape.DataStore)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1756,6 +1936,18 @@ func (diagramprocess *DiagramProcess) GongUnstageBranch(stage *Stage) {
 	}
 	for _, _dataflow := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
 		stage.UnstageBranch(_dataflow)
+	}
+	for _, _datastoreshape := range diagramprocess.DataStore_Shapes {
+		stage.UnstageBranch(_datastoreshape)
+	}
+	for _, _datastore := range diagramprocess.DataStoresWhoseNodeIsExpanded {
+		stage.UnstageBranch(_datastore)
+	}
+	for _, _datastore := range diagramprocess.DataStoresWhoseOutDataFlowsNodeIsExpanded {
+		stage.UnstageBranch(_datastore)
+	}
+	for _, _datastore := range diagramprocess.DataStoresWhoseInDataFlowsNodeIsExpanded {
+		stage.UnstageBranch(_datastore)
 	}
 	for _, _resource := range diagramprocess.AllocatedResourcesWhoseNodeIsExpanded {
 		stage.UnstageBranch(_resource)
@@ -1861,6 +2053,12 @@ func (library *Library) GongUnstageBranch(stage *Stage) {
 	}
 	for _, _data := range library.DatasWhoseNodeIsExpanded {
 		stage.UnstageBranch(_data)
+	}
+	for _, _datastore := range library.RootDataStores {
+		stage.UnstageBranch(_datastore)
+	}
+	for _, _datastore := range library.DataStoresWhoseNodeIsExpanded {
+		stage.UnstageBranch(_datastore)
 	}
 	for _, _resource := range library.RootResources {
 		stage.UnstageBranch(_resource)
@@ -2191,6 +2389,8 @@ func (reference *DataFlow) GongReconstructPointersFromReferences(stage *Stage, i
 	__gong__reconstructPointer(&reference.EndTask, stage.Tasks_reference, instance.EndTask)
 	__gong__reconstructPointer(&reference.StartParticipant, stage.ExternalParticipants_reference, instance.StartParticipant)
 	__gong__reconstructPointer(&reference.EndParticipant, stage.ExternalParticipants_reference, instance.EndParticipant)
+	__gong__reconstructPointer(&reference.StartDataStore, stage.DataStores_reference, instance.StartDataStore)
+	__gong__reconstructPointer(&reference.EndDataStore, stage.DataStores_reference, instance.EndDataStore)
 	// insertion point for slice of pointers field
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Datas, stage.Datas_reference, instance.Datas)
 }
@@ -2205,6 +2405,18 @@ func (reference *DataShape) GongReconstructPointersFromReferences(stage *Stage, 
 	// insertion point for pointers field
 	__gong__reconstructPointer(&reference.Data, stage.Datas_reference, instance.Data)
 	__gong__reconstructPointer(&reference.DataFlow, stage.DataFlows_reference, instance.DataFlow)
+	// insertion point for slice of pointers field
+}
+
+func (reference *DataStore) GongReconstructPointersFromReferences(stage *Stage, instance *DataStore) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	__gong__reconstructSliceOfPointersFromReferences(&reference.Datas, stage.Datas_reference, instance.Datas)
+}
+
+func (reference *DataStoreShape) GongReconstructPointersFromReferences(stage *Stage, instance *DataStoreShape) {
+	// insertion point for pointers field
+	__gong__reconstructPointer(&reference.DataStore, stage.DataStores_reference, instance.DataStore)
 	// insertion point for slice of pointers field
 }
 
@@ -2228,6 +2440,10 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DatasWhoseNodeIsExpanded, stage.Datas_reference, instance.DatasWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.Data_Shapes, stage.DataShapes_reference, instance.Data_Shapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DataFlowsWhoseDataNodeIsExpanded, stage.DataFlows_reference, instance.DataFlowsWhoseDataNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DataStore_Shapes, stage.DataStoreShapes_reference, instance.DataStore_Shapes)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DataStoresWhoseNodeIsExpanded, stage.DataStores_reference, instance.DataStoresWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DataStoresWhoseOutDataFlowsNodeIsExpanded, stage.DataStores_reference, instance.DataStoresWhoseOutDataFlowsNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DataStoresWhoseInDataFlowsNodeIsExpanded, stage.DataStores_reference, instance.DataStoresWhoseInDataFlowsNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.AllocatedResourcesWhoseNodeIsExpanded, stage.Resources_reference, instance.AllocatedResourcesWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.AllocatedResourceShapes, stage.AllocatedResourceShapes_reference, instance.AllocatedResourceShapes)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.AllocatedProcessesWhoseNodeIsExpanded, stage.Processs_reference, instance.AllocatedProcessesWhoseNodeIsExpanded)
@@ -2263,6 +2479,8 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DataFlowsWhoseNodeIsExpanded, stage.DataFlows_reference, instance.DataFlowsWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.RootDatas, stage.Datas_reference, instance.RootDatas)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.DatasWhoseNodeIsExpanded, stage.Datas_reference, instance.DatasWhoseNodeIsExpanded)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.RootDataStores, stage.DataStores_reference, instance.RootDataStores)
+	__gong__reconstructSliceOfPointersFromReferences(&reference.DataStoresWhoseNodeIsExpanded, stage.DataStores_reference, instance.DataStoresWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.RootResources, stage.Resources_reference, instance.RootResources)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ResourcesWhoseNodeIsExpanded, stage.Resources_reference, instance.ResourcesWhoseNodeIsExpanded)
 	__gong__reconstructSliceOfPointersFromReferences(&reference.ParticipantsWhoseNodeIsExpanded, stage.Participants_reference, instance.ParticipantsWhoseNodeIsExpanded)
@@ -2401,6 +2619,8 @@ func (reference *DataFlow) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructPointerFromInstance(&reference.EndTask, stage.Tasks_instance)
 	__gong__reconstructPointerFromInstance(&reference.StartParticipant, stage.ExternalParticipants_instance)
 	__gong__reconstructPointerFromInstance(&reference.EndParticipant, stage.ExternalParticipants_instance)
+	__gong__reconstructPointerFromInstance(&reference.StartDataStore, stage.DataStores_instance)
+	__gong__reconstructPointerFromInstance(&reference.EndDataStore, stage.DataStores_instance)
 	// insertion point for slice of pointers fields
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Datas, stage.Datas_instance)
 }
@@ -2415,6 +2635,18 @@ func (reference *DataShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	__gong__reconstructPointerFromInstance(&reference.Data, stage.Datas_instance)
 	__gong__reconstructPointerFromInstance(&reference.DataFlow, stage.DataFlows_instance)
+	// insertion point for slice of pointers fields
+}
+
+func (reference *DataStore) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	__gong__reconstructSliceOfPointersFromInstances(&reference.Datas, stage.Datas_instance)
+}
+
+func (reference *DataStoreShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	__gong__reconstructPointerFromInstance(&reference.DataStore, stage.DataStores_instance)
 	// insertion point for slice of pointers fields
 }
 
@@ -2438,6 +2670,10 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DatasWhoseNodeIsExpanded, stage.Datas_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.Data_Shapes, stage.DataShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DataFlowsWhoseDataNodeIsExpanded, stage.DataFlows_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DataStore_Shapes, stage.DataStoreShapes_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DataStoresWhoseNodeIsExpanded, stage.DataStores_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DataStoresWhoseOutDataFlowsNodeIsExpanded, stage.DataStores_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DataStoresWhoseInDataFlowsNodeIsExpanded, stage.DataStores_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.AllocatedResourcesWhoseNodeIsExpanded, stage.Resources_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.AllocatedResourceShapes, stage.AllocatedResourceShapes_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.AllocatedProcessesWhoseNodeIsExpanded, stage.Processs_instance)
@@ -2473,6 +2709,8 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DataFlowsWhoseNodeIsExpanded, stage.DataFlows_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.RootDatas, stage.Datas_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.DatasWhoseNodeIsExpanded, stage.Datas_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.RootDataStores, stage.DataStores_instance)
+	__gong__reconstructSliceOfPointersFromInstances(&reference.DataStoresWhoseNodeIsExpanded, stage.DataStores_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.RootResources, stage.Resources_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ResourcesWhoseNodeIsExpanded, stage.Resources_instance)
 	__gong__reconstructSliceOfPointersFromInstances(&reference.ParticipantsWhoseNodeIsExpanded, stage.Participants_instance)
@@ -2756,6 +2994,12 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 	if dataflow.EndParticipant != dataflowOther.EndParticipant {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "EndParticipant"))
 	}
+	if dataflow.StartDataStore != dataflowOther.StartDataStore {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "StartDataStore"))
+	}
+	if dataflow.EndDataStore != dataflowOther.EndDataStore {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "EndDataStore"))
+	}
 	if dataflow.IsDatasNodeExpanded != dataflowOther.IsDatasNodeExpanded {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
 	}
@@ -2883,6 +3127,100 @@ func (datashape *DataShape) GongDiff(stage *Stage, datashapeOther *DataShape) (d
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (datastore *DataStore) GongDiff(stage *Stage, datastoreOther *DataStore) (diffs []string) {
+	// insertion point for field diffs
+	if datastore.Name != datastoreOther.Name {
+		diffs = append(diffs, datastore.GongMarshallField(stage, "Name"))
+	}
+	if datastore.Acronym != datastoreOther.Acronym {
+		diffs = append(diffs, datastore.GongMarshallField(stage, "Acronym"))
+	}
+	if datastore.Description != datastoreOther.Description {
+		diffs = append(diffs, datastore.GongMarshallField(stage, "Description"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, datastore, "Datas", datastoreOther.Datas, datastore.Datas); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if datastore.IsDatasNodeExpanded != datastoreOther.IsDatasNodeExpanded {
+		diffs = append(diffs, datastore.GongMarshallField(stage, "IsDatasNodeExpanded"))
+	}
+	if datastore.ComputedPrefix != datastoreOther.ComputedPrefix {
+		diffs = append(diffs, datastore.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if datastore.IsExpanded != datastoreOther.IsExpanded {
+		diffs = append(diffs, datastore.GongMarshallField(stage, "IsExpanded"))
+	}
+	if datastore.SVG != datastoreOther.SVG {
+		diffs = append(diffs, datastore.GongMarshallField(stage, "SVG"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (datastoreshape *DataStoreShape) GongDiff(stage *Stage, datastoreshapeOther *DataStoreShape) (diffs []string) {
+	// insertion point for field diffs
+	if datastoreshape.Name != datastoreshapeOther.Name {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "Name"))
+	}
+	if datastoreshape.DataStore != datastoreshapeOther.DataStore {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "DataStore"))
+	}
+	if datastoreshape.X != datastoreshapeOther.X {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "X"))
+	}
+	if datastoreshape.Y != datastoreshapeOther.Y {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "Y"))
+	}
+	if datastoreshape.Width != datastoreshapeOther.Width {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "Width"))
+	}
+	if datastoreshape.Height != datastoreshapeOther.Height {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "Height"))
+	}
+	if datastoreshape.IsHidden != datastoreshapeOther.IsHidden {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if datastoreshape.IsPresentationOverridden != datastoreshapeOther.IsPresentationOverridden {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "IsPresentationOverridden"))
+	}
+	if datastoreshape.Color != datastoreshapeOther.Color {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "Color"))
+	}
+	if datastoreshape.FillOpacity != datastoreshapeOther.FillOpacity {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "FillOpacity"))
+	}
+	if datastoreshape.Stroke != datastoreshapeOther.Stroke {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "Stroke"))
+	}
+	if datastoreshape.StrokeWidth != datastoreshapeOther.StrokeWidth {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if datastoreshape.StrokeOpacity != datastoreshapeOther.StrokeOpacity {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if datastoreshape.StrokeDashArray != datastoreshapeOther.StrokeDashArray {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if datastoreshape.RX != datastoreshapeOther.RX {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "RX"))
+	}
+	if datastoreshape.FontSize != datastoreshapeOther.FontSize {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "FontSize"))
+	}
+	if datastoreshape.FontWeight != datastoreshapeOther.FontWeight {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "FontWeight"))
+	}
+	if datastoreshape.FontColor != datastoreshapeOther.FontColor {
+		diffs = append(diffs, datastoreshape.GongMarshallField(stage, "FontColor"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther *DiagramProcess) (diffs []string) {
 	// insertion point for field diffs
 	if diagramprocess.Name != diagramprocessOther.Name {
@@ -2976,6 +3314,21 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, diagramprocess, "DataFlowsWhoseDataNodeIsExpanded", diagramprocessOther.DataFlowsWhoseDataNodeIsExpanded, diagramprocess.DataFlowsWhoseDataNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagramprocess, "DataStore_Shapes", diagramprocessOther.DataStore_Shapes, diagramprocess.DataStore_Shapes); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagramprocess, "DataStoresWhoseNodeIsExpanded", diagramprocessOther.DataStoresWhoseNodeIsExpanded, diagramprocess.DataStoresWhoseNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if diagramprocess.IsDataStoresNodeExpanded != diagramprocessOther.IsDataStoresNodeExpanded {
+		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "IsDataStoresNodeExpanded"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagramprocess, "DataStoresWhoseOutDataFlowsNodeIsExpanded", diagramprocessOther.DataStoresWhoseOutDataFlowsNodeIsExpanded, diagramprocess.DataStoresWhoseOutDataFlowsNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, diagramprocess, "DataStoresWhoseInDataFlowsNodeIsExpanded", diagramprocessOther.DataStoresWhoseInDataFlowsNodeIsExpanded, diagramprocess.DataStoresWhoseInDataFlowsNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, diagramprocess, "AllocatedResourcesWhoseNodeIsExpanded", diagramprocessOther.AllocatedResourcesWhoseNodeIsExpanded, diagramprocess.AllocatedResourcesWhoseNodeIsExpanded); ops != "" {
@@ -3177,6 +3530,15 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		diffs = append(diffs, library.GongMarshallField(stage, "IsDatasNodeExpanded"))
 	}
 	if ops := __gong__diffSliceOfPointers(stage, library, "DatasWhoseNodeIsExpanded", libraryOther.DatasWhoseNodeIsExpanded, library.DatasWhoseNodeIsExpanded); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if ops := __gong__diffSliceOfPointers(stage, library, "RootDataStores", libraryOther.RootDataStores, library.RootDataStores); ops != "" {
+		diffs = append(diffs, ops)
+	}
+	if library.IsDataStoresNodeExpanded != libraryOther.IsDataStoresNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsDataStoresNodeExpanded"))
+	}
+	if ops := __gong__diffSliceOfPointers(stage, library, "DataStoresWhoseNodeIsExpanded", libraryOther.DataStoresWhoseNodeIsExpanded, library.DataStoresWhoseNodeIsExpanded); ops != "" {
 		diffs = append(diffs, ops)
 	}
 	if ops := __gong__diffSliceOfPointers(stage, library, "RootResources", libraryOther.RootResources, library.RootResources); ops != "" {

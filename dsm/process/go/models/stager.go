@@ -52,6 +52,7 @@ type Stager struct {
 
 	// reverse map to navigate
 	rm_Data_DataFlows                map[*Data][]*DataFlow
+	rm_Data_DataStores               map[*Data][]*DataStore
 	rm_Resource_Participants         map[*Resource][]*Participant
 	rm_Resource_ExternalParticipants map[*Resource][]*ExternalParticipant
 

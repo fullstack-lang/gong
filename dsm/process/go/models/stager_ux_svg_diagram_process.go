@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"log"
+	"math"
 	"slices"
 	"strings"
 
@@ -52,6 +53,8 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	diagramProcess.map_SvgRect_TaskShape = make(map[*svg.Rect]*TaskShape)
 	diagramProcess.map_SvgRect_ExternalParticipantShape = map[*svg.Rect]*ExternalParticipantShape{}
 	diagramProcess.map_SvgRect_Participant = map[*svg.Rect]*Participant{}
+	diagramProcess.map_SvgRect_DataStoreShape = make(map[*svg.Rect]*DataStoreShape)
+	diagramProcess.map_DataStore_Rect = make(map[*DataStore]*svg.Rect)
 	diagramProcess.map_SvgRect_NoteShape = make(map[*svg.Rect]*NoteShape)
 	diagramProcess.map_Note_Rect = make(map[*Note]*svg.Rect)
 
@@ -77,6 +80,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	}
 	stager.drawExternalParticipantShapes(diagramProcess, layer)
 	stager.drawTaskShapes(diagramProcess, layer)
+	stager.drawDataStoreShapes(diagramProcess, layer)
 	map_ControlFlow_Link := stager.drawControlFlowShapes(diagramProcess, layer)
 	map_DataFlow_Link := stager.drawDataFlowShapes(diagramProcess, layer)
 	map_Note_Rect := stager.drawNoteShapes(diagramProcess, layer)
@@ -836,6 +840,180 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 	}
 }
 
+func (stager *Stager) drawDataStoreShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
+	root := stager.GetRootLibrary()
+	diagramProcess.map_DataStore_Rect = make(map[*DataStore]*svg.Rect)
+
+	for _, dataStoreShape := range diagramProcess.DataStore_Shapes {
+		if dataStoreShape == nil || dataStoreShape.GetIsHidden() || dataStoreShape.DataStore == nil {
+			continue
+		}
+		dataStore := dataStoreShape.DataStore
+
+		if dataStoreShape.Width <= 0 {
+			dataStoreShape.Width = DataStoreDefaultWidth
+		} else if dataStoreShape.Width < DataStoreMinWidth {
+			dataStoreShape.Width = DataStoreMinWidth
+		}
+		if dataStoreShape.Height <= 0 {
+			dataStoreShape.Height = DataStoreDefaultHeight
+		} else if dataStoreShape.Height < DataStoreMinHeight {
+			dataStoreShape.Height = DataStoreMinHeight
+		}
+
+		rect := svgRect(
+			stager,
+			diagramProcess,
+			dataStoreShape,
+			layer)
+
+		diagramProcess.map_DataStore_Rect[dataStore] = rect
+		diagramProcess.map_SvgRect_DataStoreShape[rect] = dataStoreShape
+
+		rect.URLPath = "../../../References/DataStores/" + dataStore.GetReferencePath() + "/index.html"
+		rect.URLTarget = svg.LINK_TARGET_BLANK
+
+		rect.Color = "#E8F5E9"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#66BB6A"
+		rect.StrokeWidth = 1.5
+		rect.StrokeOpacity = 1.0
+		rect.RX = 0.0
+
+		var title *svg.RectAnchoredText
+		if len(rect.RectAnchoredTexts) > 0 {
+			title = rect.RectAnchoredTexts[0]
+			title.FontFamily = "sans-serif"
+			title.FontSize = "15px"
+			title.FontWeight = "500"
+			title.Color = "#333333"
+			title.Stroke = ""
+			title.StrokeWidth = 0
+			title.StrokeOpacity = 0
+			title.URLPath = rect.URLPath
+			title.URLTarget = svg.LINK_TARGET_BLANK
+		}
+
+		syncRectPresentation(dataStoreShape, rect)
+
+		w := rect.Width
+		h := rect.Height
+		rx := w / 2.0
+		ry := math.Min(11.0, math.Max(5.5, h*0.13))
+		bandGap := math.Min(4.5, ry*0.42)
+
+		strokeOpacity := rect.StrokeOpacity
+		if strokeOpacity == 0 {
+			strokeOpacity = 1.0
+		}
+		fillOpacity := rect.FillOpacity
+		if fillOpacity == 0 {
+			fillOpacity = 1.0
+		}
+
+		// BPMN 2.0 3D Cylinder outer silhouette (top cap + vertical walls + curved bottom)
+		cylinderBody := &svg.RectAnchoredPath{
+			Name: dataStore.GetName() + "_cylinder_body",
+			Definition: fmt.Sprintf(
+				"M 0 %g A %g %g 0 0 1 %g %g L %g %g A %g %g 0 0 1 0 %g Z",
+				ry, rx, ry, w, ry, w, h-ry, rx, ry, h-ry,
+			),
+			RectAnchorType:      svg.RECT_TOP_LEFT,
+			X_Offset:            0,
+			Y_Offset:            0,
+			ScalePropotionnally: false,
+			Presentation: svg.Presentation{
+				Color:           rect.Color,
+				FillOpacity:     fillOpacity,
+				Stroke:          rect.Stroke,
+				StrokeWidth:     rect.StrokeWidth,
+				StrokeOpacity:   strokeOpacity,
+				StrokeDashArray: rect.StrokeDashArray,
+			},
+		}
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, cylinderBody)
+
+		// BPMN 2.0 top lid front ellipse arc + two concentric database drum rim lines
+		y1 := ry + bandGap
+		y2 := ry + 2.0*bandGap
+		cylinderRim := &svg.RectAnchoredPath{
+			Name: dataStore.GetName() + "_cylinder_rim",
+			Definition: fmt.Sprintf(
+				"M 0 %g A %g %g 0 0 0 %g %g M 0 %g A %g %g 0 0 0 %g %g M 0 %g A %g %g 0 0 0 %g %g",
+				ry, rx, ry, w, ry,
+				y1, rx, ry, w, y1,
+				y2, rx, ry, w, y2,
+			),
+			RectAnchorType:      svg.RECT_TOP_LEFT,
+			X_Offset:            0,
+			Y_Offset:            0,
+			ScalePropotionnally: false,
+			Presentation: svg.Presentation{
+				Color:           "none",
+				FillOpacity:     0.0,
+				Stroke:          rect.Stroke,
+				StrokeWidth:     rect.StrokeWidth,
+				StrokeOpacity:   strokeOpacity,
+				StrokeDashArray: rect.StrokeDashArray,
+			},
+		}
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, cylinderRim)
+
+		topFaceY := 2.0*ry + 2.0*bandGap
+		bottomFaceY := h - ry*0.3
+		faceCenterY := (topFaceY + bottomFaceY) / 2.0
+
+		leftMargin := 10.0
+		rightMargin := 10.0
+		if dataStore.SVG != "" {
+			iconColor := "#333333"
+			if title != nil && title.Color != "" {
+				iconColor = title.Color
+			}
+			const dataStoreIconSize = 20.0
+			iconPaths := buildSVGRectAnchoredPaths(
+				dataStore.GetName(),
+				dataStore.SVG,
+				svg.RECT_TOP_LEFT,
+				10.0,
+				faceCenterY-dataStoreIconSize/2.0,
+				dataStoreIconSize,
+				iconColor,
+			)
+			if len(iconPaths) > 0 {
+				rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, iconPaths...)
+				leftMargin = 36.0
+			}
+		}
+
+		if title != nil {
+			content := dataStore.GetName()
+			if dataStore.Acronym != "" {
+				content = dataStore.Acronym
+			}
+			if diagramProcess.GetIsShowPrefix() && dataStore.GetComputedPrefix() != "" {
+				content = dataStore.GetComputedPrefix() + " " + content
+			}
+			availableWidth := w - (leftMargin + rightMargin)
+			if availableWidth > 0 && root != nil && root.NbPixPerCharacter > 0 {
+				content = strutils.WrapStringPreservingNewlines(content, int(availableWidth/root.NbPixPerCharacter))
+			}
+			title.Content = content
+			title.RectAnchorType = svg.RECT_CENTER_MIDDLE
+			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+			title.X_Offset = (leftMargin - rightMargin) / 2.0
+			title.Y_Offset = faceCenterY - h/2.0
+			title.Stroke = ""
+			title.StrokeWidth = 0
+			title.StrokeOpacity = 0
+		}
+
+		// Hide the underlying rectangular hit-box so only the BPMN cylinder is rendered
+		rect.FillOpacity = 0.0
+		rect.StrokeOpacity = 0.0
+	}
+}
+
 func (stager *Stager) drawControlFlowShapes(diagramProcess *DiagramProcess, layer *svg.Layer) map[*ControlFlow]*svg.Link {
 	map_ControlFlow_Link := make(map[*ControlFlow]*svg.Link)
 	for _, controlFlowShape := range diagramProcess.ControlFlow_Shapes {
@@ -938,6 +1116,18 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 			}
 			startRect = diagramProcess.map_Task_Rect[df.StartTask]
 			endRect = diagramProcess.map_ExternalParticipant_Rect[df.EndParticipant]
+		case DataFlow_DataStore2Task:
+			if df.StartDataStore == nil || df.EndTask == nil {
+				continue
+			}
+			startRect = diagramProcess.map_DataStore_Rect[df.StartDataStore]
+			endRect = diagramProcess.map_Task_Rect[df.EndTask]
+		case DataFlow_Task2DataStore:
+			if df.StartTask == nil || df.EndDataStore == nil {
+				continue
+			}
+			startRect = diagramProcess.map_Task_Rect[df.StartTask]
+			endRect = diagramProcess.map_DataStore_Rect[df.EndDataStore]
 		}
 
 		if startRect == nil || endRect == nil {

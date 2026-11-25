@@ -16,6 +16,10 @@ func (dataflowtype DataFlowType) ToString() (res string) {
 		res = "DataFlow_ExternalParticipant2Task"
 	case DataFlow_Task2ExternalParticipant:
 		res = "DataFlow_Task2ExternalParticipant"
+	case DataFlow_DataStore2Task:
+		res = "DataFlow_DataStore2Task"
+	case DataFlow_Task2DataStore:
+		res = "DataFlow_Task2DataStore"
 	}
 	return
 }
@@ -33,6 +37,12 @@ func (dataflowtype *DataFlowType) FromString(input string) (err error) {
 	case "DataFlow_Task2ExternalParticipant":
 		*dataflowtype = DataFlow_Task2ExternalParticipant
 		return
+	case "DataFlow_DataStore2Task":
+		*dataflowtype = DataFlow_DataStore2Task
+		return
+	case "DataFlow_Task2DataStore":
+		*dataflowtype = DataFlow_Task2DataStore
+		return
 	default:
 		return errUnkownEnum
 	}
@@ -48,6 +58,10 @@ func (dataflowtype *DataFlowType) FromCodeString(input string) (err error) {
 		*dataflowtype = DataFlow_ExternalParticipant2Task
 	case "DataFlow_Task2ExternalParticipant":
 		*dataflowtype = DataFlow_Task2ExternalParticipant
+	case "DataFlow_DataStore2Task":
+		*dataflowtype = DataFlow_DataStore2Task
+	case "DataFlow_Task2DataStore":
+		*dataflowtype = DataFlow_Task2DataStore
 	default:
 		err = errUnkownEnum
 	}
@@ -64,6 +78,10 @@ func (dataflowtype *DataFlowType) ToCodeString() (res string) {
 		res = "DataFlow_ExternalParticipant2Task"
 	case DataFlow_Task2ExternalParticipant:
 		res = "DataFlow_Task2ExternalParticipant"
+	case DataFlow_DataStore2Task:
+		res = "DataFlow_DataStore2Task"
+	case DataFlow_Task2DataStore:
+		res = "DataFlow_Task2DataStore"
 	}
 	return
 }
@@ -76,6 +94,8 @@ func (dataflowtype DataFlowType) Codes() (res []string) {
 	res = append(res, "DataFlow_Task2Task")
 	res = append(res, "DataFlow_ExternalParticipant2Task")
 	res = append(res, "DataFlow_Task2ExternalParticipant")
+	res = append(res, "DataFlow_DataStore2Task")
+	res = append(res, "DataFlow_Task2DataStore")
 
 	return
 }
@@ -88,6 +108,8 @@ func (dataflowtype DataFlowType) CodeValues() (res []string) {
 	res = append(res, "DataFlow_Task2Task")
 	res = append(res, "DataFlow_ExternalParticipant2Task")
 	res = append(res, "DataFlow_Task2ExternalParticipant")
+	res = append(res, "DataFlow_DataStore2Task")
+	res = append(res, "DataFlow_Task2DataStore")
 
 	return
 }

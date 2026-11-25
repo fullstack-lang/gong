@@ -16,6 +16,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stager.enforceStagerMaps()
 	stager.computeTaskFields()
 	stager.computeParticipantFields()
+	stager.computeDataStoreFields()
 	stager.computeDataFlowShapeFields()
 
 	pass := 0
@@ -44,6 +45,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stager.enforceStagerMaps()
 	stager.computeTaskFields()
 	stager.computeParticipantFields()
+	stager.computeDataStoreFields()
 	stager.computeDataFlowShapeFields()
 
 	if needCommit {
@@ -69,6 +71,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Clean stage", func() bool { return stage.Clean() }},
 		{"Enforce default values", stager.enforceDefaultValues},
 		{"Enforce data semantic rules", stager.enforceDataSemanticRules},
+		{"Enforce data store semantic rules", stager.enforceDataStoreSemanticRules},
 		{"Enforce orphans abstract element", stager.enforceOrphansAbstractElement},
 		{"Enforce task participant consistency", stager.enforceTaskParticipantConsistency},
 		{"Enforce task semantic rules", stager.enforceTaskSemanticRules},
@@ -84,6 +87,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce relation duplicates", stager.enforceRelationDuplicates},
 		{"Enforce shape orphans", stager.enforceShapeOrphans},
 		{"Enforce control flow shapes rules", stager.enforceControlFlowShapesRules},
+		{"Enforce data store shapes rules", stager.enforceDataStoreShapesRules},
 		{"Enforce data flow shapes rules", stager.enforceDataFlowShapesRules},
 		{"Enforce note shapes rules", stager.enforceNoteShapesRules},
 		{"Enforce allocated shapes rules", stager.enforceAllocatedShapesRules},

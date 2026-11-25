@@ -131,6 +131,41 @@ func (stager *Stager) treeDiagramProcess(
 	}
 
 	if process.GetOwningLibrary() != nil {
+		confDataStoresDiagram := ItemAndShapeButtonConfiguration[
+			DataStore, *DataStore,
+			Library, *Library,
+			DataStoreShape, *DataStoreShape,
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				DataStore, *DataStore,
+				Library, *Library,
+			]{
+				parentNode:                         diagramNode,
+				sliceForNewAddedItem:               &process.GetOwningLibrary().RootDataStores,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagramProcess.IsDataStoresNodeExpanded,
+				IsButtonInMenu:                     true,
+			},
+			receivingDiagram:      diagramProcess,
+			sliceForNewAddedShape: &diagramProcess.DataStore_Shapes,
+		}
+		callbacksDataStoresDiagram := addCreateItemAndShapeButton(stager, confDataStoresDiagram)
+		callbacksDataStoresDiagram.OnBeforeCommit = func() {
+			diagramProcess.IsDataStoresNodeExpanded = true
+			if len(diagramProcess.DataStore_Shapes) > 0 {
+				lastShape := diagramProcess.DataStore_Shapes[len(diagramProcess.DataStore_Shapes)-1]
+				if lastShape.DataStore == callbacksDataStoresDiagram.createdItem {
+					lastShape.SetWidth(DataStoreDefaultWidth)
+					lastShape.SetHeight(DataStoreDefaultHeight)
+				}
+			}
+		}
+		if callbacksDataStoresDiagram.button != nil {
+			callbacksDataStoresDiagram.button.Name = "Add Data Store"
+			callbacksDataStoresDiagram.button.ToolTipText = "Add a Data Store to \"" + diagramProcess.Name + "\""
+		}
+
 		confNotesDiagram := ItemAndShapeButtonConfiguration[
 			Note, *Note,
 			Library, *Library,
@@ -263,6 +298,81 @@ func (stager *Stager) treeDiagramProcess(
 
 		for _, dataFlow := range process.DataFlows {
 			stager.treeDataFlowsWithinProcessDiagram(diagramProcess, dataFlow, dataFlowsNode)
+		}
+	}
+
+	//
+	// Data Stores
+	//
+	var allDataStores []*DataStore
+	seenDataStores := make(map[*DataStore]bool)
+	if process.GetOwningLibrary() != nil {
+		for _, ds := range process.GetOwningLibrary().RootDataStores {
+			if ds != nil && !seenDataStores[ds] {
+				seenDataStores[ds] = true
+				allDataStores = append(allDataStores, ds)
+			}
+		}
+	}
+	for _, ds := range stager.stage.GetInstancesSorted[*DataStore]() {
+		if ds != nil && !seenDataStores[ds] {
+			seenDataStores[ds] = true
+			allDataStores = append(allDataStores, ds)
+		}
+	}
+	if len(allDataStores) > 0 {
+		dataStoresNode := &tree.Node{
+			Name:            "Data Stores",
+			FontStyle:       tree.ITALIC,
+			IsExpanded:      diagramProcess.IsDataStoresNodeExpanded,
+			IsNodeClickable: true,
+		}
+		diagramNode.Children = append(diagramNode.Children, dataStoresNode)
+		dataStoresNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagramProcess.IsDataStoresNodeExpanded)
+
+		targetLib := process.GetOwningLibrary()
+		if targetLib == nil {
+			targetLib = stager.GetRootLibrary()
+		}
+		if targetLib != nil {
+			confDataStoresNode := ItemAndShapeButtonConfiguration[
+				DataStore, *DataStore,
+				Library, *Library,
+				DataStoreShape, *DataStoreShape,
+			]{
+				ItemButtonConfiguration: ItemButtonConfiguration[
+					DataStore, *DataStore,
+					Library, *Library,
+				]{
+					parentNode:                         dataStoresNode,
+					sliceForNewAddedItem:               &targetLib.RootDataStores,
+					isParentNodeExpandedByAddOperation: true,
+					parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+					parentNodeExpansionBooleanValue:    &diagramProcess.IsDataStoresNodeExpanded,
+					IsButtonInMenu:                     true,
+				},
+				receivingDiagram:      diagramProcess,
+				sliceForNewAddedShape: &diagramProcess.DataStore_Shapes,
+			}
+			callbacksDataStoresNode := addCreateItemAndShapeButton(stager, confDataStoresNode)
+			callbacksDataStoresNode.OnBeforeCommit = func() {
+				diagramProcess.IsDataStoresNodeExpanded = true
+				if len(diagramProcess.DataStore_Shapes) > 0 {
+					lastShape := diagramProcess.DataStore_Shapes[len(diagramProcess.DataStore_Shapes)-1]
+					if lastShape.DataStore == callbacksDataStoresNode.createdItem {
+						lastShape.SetWidth(DataStoreDefaultWidth)
+						lastShape.SetHeight(DataStoreDefaultHeight)
+					}
+				}
+			}
+			if callbacksDataStoresNode.button != nil {
+				callbacksDataStoresNode.button.Name = "Add Data Store"
+				callbacksDataStoresNode.button.ToolTipText = "Add a Data Store to \"" + diagramProcess.Name + "\""
+			}
+		}
+
+		for _, dataStore := range allDataStores {
+			stager.treeDataStoreWithinDiagramProcess(diagramProcess, dataStore, dataStoresNode)
 		}
 	}
 

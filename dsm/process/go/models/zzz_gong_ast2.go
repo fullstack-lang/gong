@@ -176,6 +176,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					identifierMap[ident.Name] = __gong__stageSetInit(new(DataFlowShape), stage, ident.Name, instanceName, preserveOrder)
 				case "DataShape":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(DataShape), stage, ident.Name, instanceName, preserveOrder)
+				case "DataStore":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DataStore), stage, ident.Name, instanceName, preserveOrder)
+				case "DataStoreShape":
+					identifierMap[ident.Name] = __gong__stageSetInit(new(DataStoreShape), stage, ident.Name, instanceName, preserveOrder)
 				case "DiagramProcess":
 					identifierMap[ident.Name] = __gong__stageSetInit(new(DiagramProcess), stage, ident.Name, instanceName, preserveOrder)
 				case "ExternalParticipant":
@@ -333,6 +337,10 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.StartParticipant, rhs, identifierMap)
 					case "EndParticipant":
 						__gong__assignPointer(&inst.EndParticipant, rhs, identifierMap)
+					case "StartDataStore":
+						__gong__assignPointer(&inst.StartDataStore, rhs, identifierMap)
+					case "EndDataStore":
+						__gong__assignPointer(&inst.EndDataStore, rhs, identifierMap)
 					case "IsDatasNodeExpanded":
 						inst.IsDatasNodeExpanded = GongExtractBool(rhs)
 					}
@@ -377,6 +385,64 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Data, rhs, identifierMap)
 					case "DataFlow":
 						__gong__assignPointer(&inst.DataFlow, rhs, identifierMap)
+					case "X":
+						inst.X = GongExtractFloat(rhs)
+					case "Y":
+						inst.Y = GongExtractFloat(rhs)
+					case "Width":
+						inst.Width = GongExtractFloat(rhs)
+					case "Height":
+						inst.Height = GongExtractFloat(rhs)
+					case "IsHidden":
+						inst.IsHidden = GongExtractBool(rhs)
+					case "IsPresentationOverridden":
+						inst.IsPresentationOverridden = GongExtractBool(rhs)
+					case "Color":
+						inst.Color = GongExtractString(rhs)
+					case "FillOpacity":
+						inst.FillOpacity = GongExtractFloat(rhs)
+					case "Stroke":
+						inst.Stroke = GongExtractString(rhs)
+					case "StrokeWidth":
+						inst.StrokeWidth = GongExtractFloat(rhs)
+					case "StrokeOpacity":
+						inst.StrokeOpacity = GongExtractFloat(rhs)
+					case "StrokeDashArray":
+						inst.StrokeDashArray = GongExtractString(rhs)
+					case "RX":
+						inst.RX = GongExtractFloat(rhs)
+					case "FontSize":
+						inst.FontSize = GongExtractString(rhs)
+					case "FontWeight":
+						inst.FontWeight = GongExtractString(rhs)
+					case "FontColor":
+						inst.FontColor = GongExtractString(rhs)
+					}
+				case *DataStore:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "Acronym":
+						inst.Acronym = GongExtractString(rhs)
+					case "Description":
+						inst.Description = GongExtractString(rhs)
+					case "Datas":
+						__gong__assignSliceOfPointers(&inst.Datas, rhs, identifierMap)
+					case "IsDatasNodeExpanded":
+						inst.IsDatasNodeExpanded = GongExtractBool(rhs)
+					case "ComputedPrefix":
+						inst.ComputedPrefix = GongExtractString(rhs)
+					case "IsExpanded":
+						inst.IsExpanded = GongExtractBool(rhs)
+					case "SVG":
+						inst.SVG = GongExtractString(rhs)
+					}
+				case *DataStoreShape:
+					switch fieldName {
+					case "Name":
+						inst.Name = GongExtractString(rhs)
+					case "DataStore":
+						__gong__assignPointer(&inst.DataStore, rhs, identifierMap)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -474,6 +540,16 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignSliceOfPointers(&inst.Data_Shapes, rhs, identifierMap)
 					case "DataFlowsWhoseDataNodeIsExpanded":
 						__gong__assignSliceOfPointers(&inst.DataFlowsWhoseDataNodeIsExpanded, rhs, identifierMap)
+					case "DataStore_Shapes":
+						__gong__assignSliceOfPointers(&inst.DataStore_Shapes, rhs, identifierMap)
+					case "DataStoresWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.DataStoresWhoseNodeIsExpanded, rhs, identifierMap)
+					case "IsDataStoresNodeExpanded":
+						inst.IsDataStoresNodeExpanded = GongExtractBool(rhs)
+					case "DataStoresWhoseOutDataFlowsNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.DataStoresWhoseOutDataFlowsNodeIsExpanded, rhs, identifierMap)
+					case "DataStoresWhoseInDataFlowsNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.DataStoresWhoseInDataFlowsNodeIsExpanded, rhs, identifierMap)
 					case "AllocatedResourcesWhoseNodeIsExpanded":
 						__gong__assignSliceOfPointers(&inst.AllocatedResourcesWhoseNodeIsExpanded, rhs, identifierMap)
 					case "AllocatedResourceShapes":
@@ -601,6 +677,12 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.IsDatasNodeExpanded = GongExtractBool(rhs)
 					case "DatasWhoseNodeIsExpanded":
 						__gong__assignSliceOfPointers(&inst.DatasWhoseNodeIsExpanded, rhs, identifierMap)
+					case "RootDataStores":
+						__gong__assignSliceOfPointers(&inst.RootDataStores, rhs, identifierMap)
+					case "IsDataStoresNodeExpanded":
+						inst.IsDataStoresNodeExpanded = GongExtractBool(rhs)
+					case "DataStoresWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.DataStoresWhoseNodeIsExpanded, rhs, identifierMap)
 					case "RootResources":
 						__gong__assignSliceOfPointers(&inst.RootResources, rhs, identifierMap)
 					case "IsResourcesNodeExpanded":
@@ -1383,6 +1465,10 @@ func (u *DataFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		GongUnmarshallPointer(&instance.StartParticipant, valueExpr, identifierMap)
 	case "EndParticipant":
 		GongUnmarshallPointer(&instance.EndParticipant, valueExpr, identifierMap)
+	case "StartDataStore":
+		GongUnmarshallPointer(&instance.StartDataStore, valueExpr, identifierMap)
+	case "EndDataStore":
+		GongUnmarshallPointer(&instance.EndDataStore, valueExpr, identifierMap)
 	case "IsDatasNodeExpanded":
 		instance.IsDatasNodeExpanded = GongExtractBool(valueExpr)
 	}
@@ -1451,6 +1537,88 @@ func (u *DataShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		GongUnmarshallPointer(&instance.Data, valueExpr, identifierMap)
 	case "DataFlow":
 		GongUnmarshallPointer(&instance.DataFlow, valueExpr, identifierMap)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsPresentationOverridden":
+		instance.IsPresentationOverridden = GongExtractBool(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	case "FillOpacity":
+		instance.FillOpacity = GongExtractFloat(valueExpr)
+	case "Stroke":
+		instance.Stroke = GongExtractString(valueExpr)
+	case "StrokeWidth":
+		instance.StrokeWidth = GongExtractFloat(valueExpr)
+	case "StrokeOpacity":
+		instance.StrokeOpacity = GongExtractFloat(valueExpr)
+	case "StrokeDashArray":
+		instance.StrokeDashArray = GongExtractString(valueExpr)
+	case "RX":
+		instance.RX = GongExtractFloat(valueExpr)
+	case "FontSize":
+		instance.FontSize = GongExtractString(valueExpr)
+	case "FontWeight":
+		instance.FontWeight = GongExtractString(valueExpr)
+	case "FontColor":
+		instance.FontColor = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type DataStoreUnmarshaller struct{}
+
+func (u *DataStoreUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(DataStore), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *DataStoreUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*DataStore)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Acronym":
+		instance.Acronym = GongExtractString(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
+	case "Datas":
+		GongUnmarshallSliceOfPointers(&instance.Datas, valueExpr, identifierMap)
+	case "IsDatasNodeExpanded":
+		instance.IsDatasNodeExpanded = GongExtractBool(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "SVG":
+		instance.SVG = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type DataStoreShapeUnmarshaller struct{}
+
+func (u *DataStoreShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	return GongInitialize(new(DataStoreShape), stage, identifier, instanceName, preserveOrder)
+}
+
+func (u *DataStoreShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*DataStoreShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "DataStore":
+		GongUnmarshallPointer(&instance.DataStore, valueExpr, identifierMap)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -1560,6 +1728,16 @@ func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		GongUnmarshallSliceOfPointers(&instance.Data_Shapes, valueExpr, identifierMap)
 	case "DataFlowsWhoseDataNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.DataFlowsWhoseDataNodeIsExpanded, valueExpr, identifierMap)
+	case "DataStore_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.DataStore_Shapes, valueExpr, identifierMap)
+	case "DataStoresWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DataStoresWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsDataStoresNodeExpanded":
+		instance.IsDataStoresNodeExpanded = GongExtractBool(valueExpr)
+	case "DataStoresWhoseOutDataFlowsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DataStoresWhoseOutDataFlowsNodeIsExpanded, valueExpr, identifierMap)
+	case "DataStoresWhoseInDataFlowsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DataStoresWhoseInDataFlowsNodeIsExpanded, valueExpr, identifierMap)
 	case "AllocatedResourcesWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.AllocatedResourcesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "AllocatedResourceShapes":
@@ -1723,6 +1901,12 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsDatasNodeExpanded = GongExtractBool(valueExpr)
 	case "DatasWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.DatasWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "RootDataStores":
+		GongUnmarshallSliceOfPointers(&instance.RootDataStores, valueExpr, identifierMap)
+	case "IsDataStoresNodeExpanded":
+		instance.IsDataStoresNodeExpanded = GongExtractBool(valueExpr)
+	case "DataStoresWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DataStoresWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "RootResources":
 		GongUnmarshallSliceOfPointers(&instance.RootResources, valueExpr, identifierMap)
 	case "IsResourcesNodeExpanded":

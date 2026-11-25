@@ -235,6 +235,58 @@ func (datashape *DataShape) GongAfterDeleteFromFront(stage *Stage, front Gongstr
 	}
 }
 
+func (datastore *DataStore) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterDataStoreCreateCallback != nil {
+		stage.OnAfterDataStoreCreateCallback.OnAfterCreate(stage, datastore)
+	}
+}
+
+func (datastore *DataStore) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterDataStoreUpdateCallback != nil {
+		var frontDataStore *DataStore
+		if front != nil {
+			frontDataStore, _ = front.(*DataStore)
+		}
+		stage.OnAfterDataStoreUpdateCallback.OnAfterUpdate(stage, datastore, frontDataStore)
+	}
+}
+
+func (datastore *DataStore) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterDataStoreDeleteCallback != nil {
+		var frontDataStore *DataStore
+		if front != nil {
+			frontDataStore, _ = front.(*DataStore)
+		}
+		stage.OnAfterDataStoreDeleteCallback.OnAfterDelete(stage, datastore, frontDataStore)
+	}
+}
+
+func (datastoreshape *DataStoreShape) GongAfterCreateFromFront(stage *Stage) {
+	if stage.OnAfterDataStoreShapeCreateCallback != nil {
+		stage.OnAfterDataStoreShapeCreateCallback.OnAfterCreate(stage, datastoreshape)
+	}
+}
+
+func (datastoreshape *DataStoreShape) GongOnAfterUpdateFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterDataStoreShapeUpdateCallback != nil {
+		var frontDataStoreShape *DataStoreShape
+		if front != nil {
+			frontDataStoreShape, _ = front.(*DataStoreShape)
+		}
+		stage.OnAfterDataStoreShapeUpdateCallback.OnAfterUpdate(stage, datastoreshape, frontDataStoreShape)
+	}
+}
+
+func (datastoreshape *DataStoreShape) GongAfterDeleteFromFront(stage *Stage, front GongstructIF) {
+	if stage.OnAfterDataStoreShapeDeleteCallback != nil {
+		var frontDataStoreShape *DataStoreShape
+		if front != nil {
+			frontDataStoreShape, _ = front.(*DataStoreShape)
+		}
+		stage.OnAfterDataStoreShapeDeleteCallback.OnAfterDelete(stage, datastoreshape, frontDataStoreShape)
+	}
+}
+
 func (diagramprocess *DiagramProcess) GongAfterCreateFromFront(stage *Stage) {
 	if stage.OnAfterDiagramProcessCreateCallback != nil {
 		stage.OnAfterDiagramProcessCreateCallback.OnAfterCreate(stage, diagramprocess)

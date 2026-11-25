@@ -146,6 +146,32 @@ func FillUpFormFromGongstructName(
 		datashape := new(models.DataShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(datashape, formGroup, probe)
+	case "DataStore":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "DataStore Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DataStoreFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		datastore := new(models.DataStore)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(datastore, formGroup, probe)
+	case "DataStoreShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "DataStoreShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DataStoreShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		datastoreshape := new(models.DataStoreShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(datastoreshape, formGroup, probe)
 	case "DiagramProcess":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

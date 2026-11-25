@@ -81,6 +81,26 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		libraryNode.Menu.Buttons[0].ToolTipText = "Add a Data to \"" + library.Name + "\""
 	}
 
+	confDataStore := ItemButtonConfiguration[
+		DataStore, *DataStore,
+		Library, *Library,
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.RootDataStores,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpandedTmp,
+		IsButtonInMenu:                     true,
+	}
+	callbacksDataStore := addCreateItemButton(stager, confDataStore)
+	callbacksDataStore.OnBeforeCommit = func() {
+		library.IsDataStoresNodeExpanded = true
+	}
+	if callbacksDataStore.button != nil {
+		callbacksDataStore.button.Name = "Add Data Store"
+		callbacksDataStore.button.ToolTipText = "Add a Data Store to \"" + library.Name + "\""
+	}
+
 	confResource := ItemButtonConfiguration[
 		Resource, *Resource,
 		Library, *Library,
@@ -254,6 +274,45 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 
 		for _, data := range library.RootDatas {
 			stager.treeDataWithinLibrary(library, data, datasNode)
+		}
+	}
+
+	//
+	// Data Stores
+	//
+	if len(library.RootDataStores) > 0 {
+		dataStoresNode := &tree.Node{
+			Name:            "Data Stores",
+			FontStyle:       tree.ITALIC,
+			IsExpanded:      library.IsDataStoresNodeExpanded,
+			IsNodeClickable: true,
+		}
+		libraryNode.Children = append(libraryNode.Children, dataStoresNode)
+		dataStoresNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsDataStoresNodeExpanded)
+		dataStoresNode.OnClick = onNodeClicked(stager, library)
+
+		confDataStoreNode := ItemButtonConfiguration[
+			DataStore, *DataStore,
+			Library, *Library,
+		]{
+			parentNode:                         dataStoresNode,
+			sliceForNewAddedItem:               &library.RootDataStores,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &library.IsDataStoresNodeExpanded,
+			IsButtonInMenu:                     true,
+		}
+		callbacksDataStoreNode := addCreateItemButton(stager, confDataStoreNode)
+		callbacksDataStoreNode.OnBeforeCommit = func() {
+			library.IsDataStoresNodeExpanded = true
+		}
+		if callbacksDataStoreNode.button != nil {
+			callbacksDataStoreNode.button.Name = "Add Data Store"
+			callbacksDataStoreNode.button.ToolTipText = "Add a Data Store to \"" + library.Name + "\""
+		}
+
+		for _, dataStore := range library.RootDataStores {
+			stager.treeDataStoreWithinLibrary(library, dataStore, dataStoresNode)
 		}
 	}
 

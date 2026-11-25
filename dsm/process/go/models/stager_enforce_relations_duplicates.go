@@ -18,14 +18,18 @@ func removeDuplicateRelation[SourceAT AbstractType, TargetAT AbstractType, ACT A
 	stager *Stager,
 	relations []ACT,
 ) (needCommit bool) {
-	// Map to track unique source-target pairs
+	// Map to track unique source-target pairs, qualified by Gongstruct type name so
+	// polymorphic relations (e.g. DataFlowShape endpoints across Task, ExternalParticipant,
+	// and DataStore) never collide on per-type GongGetOrder values.
 	type key struct {
-		source uint
-		target uint
+		sourceType string
+		source     uint
+		targetType string
+		target     uint
 	}
 	seenPairs := make(map[key]bool)
 
-	// Iterate backwards to safely remove items
+	// Iterate through relations to remove true duplicates
 	for _, relation := range relations {
 		start := relation.GetAbstractStartElement()
 		end := relation.GetAbstractEndElement()
@@ -34,8 +38,10 @@ func removeDuplicateRelation[SourceAT AbstractType, TargetAT AbstractType, ACT A
 		}
 
 		pairKey := key{
-			source: start.GongGetOrder(stager.stage),
-			target: end.GongGetOrder(stager.stage),
+			sourceType: start.GongGetGongstructName(),
+			source:     start.GongGetOrder(stager.stage),
+			targetType: end.GongGetGongstructName(),
+			target:     end.GongGetOrder(stager.stage),
 		}
 
 		if seenPairs[pairKey] {

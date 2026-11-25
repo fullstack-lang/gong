@@ -192,6 +192,15 @@ func FillUpForm(
 				return owner.Datas
 			})
 		AssociationReverseSliceToForm(
+			"DataStore",
+			"Datas",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DataStore) []*models.Data {
+				return owner.Datas
+			})
+		AssociationReverseSliceToForm(
 			"DiagramProcess",
 			"DatasWhoseNodeIsExpanded",
 			instanceWithInferedType,
@@ -235,6 +244,8 @@ func FillUpForm(
 		AssociationFieldToForm("EndTask", instanceWithInferedType.EndTask, formGroup, probe)
 		AssociationFieldToForm("StartParticipant", instanceWithInferedType.StartParticipant, formGroup, probe)
 		AssociationFieldToForm("EndParticipant", instanceWithInferedType.EndParticipant, formGroup, probe)
+		AssociationFieldToForm("StartDataStore", instanceWithInferedType.StartDataStore, formGroup, probe)
+		AssociationFieldToForm("EndDataStore", instanceWithInferedType.EndDataStore, formGroup, probe)
 		BasicFieldtoForm("IsDatasNodeExpanded", instanceWithInferedType.IsDatasNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
@@ -394,6 +405,126 @@ func FillUpForm(
 				return owner.Data_Shapes
 			})
 
+	case *models.DataStore:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Acronym", instanceWithInferedType.Acronym, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
+			true, false, 0, false, 0, false)
+		AssociationSliceToForm("Datas", instanceWithInferedType, &instanceWithInferedType.Datas, formGroup, probe)
+		BasicFieldtoForm("IsDatasNodeExpanded", instanceWithInferedType.IsDatasNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("SVG", instanceWithInferedType.SVG, instanceWithInferedType, probe.formStage, formGroup,
+			true, true, 600, true, 300, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"DiagramProcess",
+			"DataStoresWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramProcess) []*models.DataStore {
+				return owner.DataStoresWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"DiagramProcess",
+			"DataStoresWhoseOutDataFlowsNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramProcess) []*models.DataStore {
+				return owner.DataStoresWhoseOutDataFlowsNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"DiagramProcess",
+			"DataStoresWhoseInDataFlowsNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramProcess) []*models.DataStore {
+				return owner.DataStoresWhoseInDataFlowsNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"RootDataStores",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.DataStore {
+				return owner.RootDataStores
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"DataStoresWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.DataStore {
+				return owner.DataStoresWhoseNodeIsExpanded
+			})
+
+	case *models.DataStoreShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("DataStore", instanceWithInferedType.DataStore, formGroup, probe)
+		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsPresentationOverridden", instanceWithInferedType.IsPresentationOverridden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FillOpacity", instanceWithInferedType.FillOpacity, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Stroke", instanceWithInferedType.Stroke, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeWidth", instanceWithInferedType.StrokeWidth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeOpacity", instanceWithInferedType.StrokeOpacity, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StrokeDashArray", instanceWithInferedType.StrokeDashArray, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RX", instanceWithInferedType.RX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FontSize", instanceWithInferedType.FontSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FontWeight", instanceWithInferedType.FontWeight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("FontColor", instanceWithInferedType.FontColor, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"DiagramProcess",
+			"DataStore_Shapes",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramProcess) []*models.DataStoreShape {
+				return owner.DataStore_Shapes
+			})
+
 	case *models.DiagramProcess:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -441,6 +572,12 @@ func FillUpForm(
 		AssociationSliceToForm("DatasWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DatasWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("Data_Shapes", instanceWithInferedType, &instanceWithInferedType.Data_Shapes, formGroup, probe)
 		AssociationSliceToForm("DataFlowsWhoseDataNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DataFlowsWhoseDataNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("DataStore_Shapes", instanceWithInferedType, &instanceWithInferedType.DataStore_Shapes, formGroup, probe)
+		AssociationSliceToForm("DataStoresWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DataStoresWhoseNodeIsExpanded, formGroup, probe)
+		BasicFieldtoForm("IsDataStoresNodeExpanded", instanceWithInferedType.IsDataStoresNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("DataStoresWhoseOutDataFlowsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DataStoresWhoseOutDataFlowsNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("DataStoresWhoseInDataFlowsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DataStoresWhoseInDataFlowsNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("AllocatedResourcesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.AllocatedResourcesWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("AllocatedResourceShapes", instanceWithInferedType, &instanceWithInferedType.AllocatedResourceShapes, formGroup, probe)
 		AssociationSliceToForm("AllocatedProcessesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.AllocatedProcessesWhoseNodeIsExpanded, formGroup, probe)
@@ -644,6 +781,10 @@ func FillUpForm(
 		BasicFieldtoForm("IsDatasNodeExpanded", instanceWithInferedType.IsDatasNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("DatasWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DatasWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("RootDataStores", instanceWithInferedType, &instanceWithInferedType.RootDataStores, formGroup, probe)
+		BasicFieldtoForm("IsDataStoresNodeExpanded", instanceWithInferedType.IsDataStoresNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("DataStoresWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DataStoresWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("RootResources", instanceWithInferedType, &instanceWithInferedType.RootResources, formGroup, probe)
 		BasicFieldtoForm("IsResourcesNodeExpanded", instanceWithInferedType.IsResourcesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)

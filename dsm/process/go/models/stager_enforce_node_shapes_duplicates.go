@@ -13,6 +13,7 @@ func (stager *Stager) enforceNodeShapeDuplicates() (needCommit bool) {
 		needCommit = removeDuplicateNodeShape(stager, &diagram.Task_Shapes) || needCommit
 		needCommit = removeDuplicateNodeShape(stager, &diagram.ControlFlow_Shapes) || needCommit
 		needCommit = removeDuplicateNodeShape(stager, &diagram.DataFlow_Shapes) || needCommit
+		needCommit = removeDuplicateNodeShape(stager, &diagram.DataStore_Shapes) || needCommit
 		needCommit = removeDuplicateShapeByKey(stager, &diagram.Data_Shapes, func(ds *DataShape) (dataShapeKey, bool) {
 			if ds == nil || ds.Data == nil || ds.DataFlow == nil {
 				return dataShapeKey{}, false

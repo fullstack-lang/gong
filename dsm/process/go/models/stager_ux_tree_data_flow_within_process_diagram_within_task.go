@@ -58,6 +58,28 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 			endName = dataFlow.EndParticipant.GetName()
 			endElement = dataFlow.EndParticipant
 		}
+	case DataFlow_DataStore2Task:
+		if dataFlow.StartDataStore != nil {
+			_, isStartShapePresent = diagramProcess.map_DataStore_DataStoreShape[dataFlow.StartDataStore]
+			startName = dataFlow.StartDataStore.GetName()
+			startElement = dataFlow.StartDataStore
+		}
+		if dataFlow.EndTask != nil {
+			_, isEndShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.EndTask]
+			endName = dataFlow.EndTask.GetName()
+			endElement = dataFlow.EndTask
+		}
+	case DataFlow_Task2DataStore:
+		if dataFlow.StartTask != nil {
+			_, isStartShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.StartTask]
+			startName = dataFlow.StartTask.GetName()
+			startElement = dataFlow.StartTask
+		}
+		if dataFlow.EndDataStore != nil {
+			_, isEndShapePresent = diagramProcess.map_DataStore_DataStoreShape[dataFlow.EndDataStore]
+			endName = dataFlow.EndDataStore.GetName()
+			endElement = dataFlow.EndDataStore
+		}
 	}
 	isCheckboxDisabled := !(isStartShapePresent && isEndShapePresent)
 

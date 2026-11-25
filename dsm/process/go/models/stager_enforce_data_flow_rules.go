@@ -108,6 +108,66 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 				needCommit = true
 				continue
 			}
+		case DataFlow_DataStore2Task:
+			if dataFlow.StartDataStore == nil {
+				dataFlow.UnstageVoid(stage)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no start data store, unstaging",
+						dataFlow.GetName()))
+				}
+				needCommit = true
+				continue
+			}
+			if dataFlow.EndTask == nil {
+				dataFlow.UnstageVoid(stage)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no end task, unstaging",
+						dataFlow.GetName()))
+				}
+				needCommit = true
+				continue
+			}
+			if dataFlow.Name == "" {
+				dataFlow.Name = dataFlow.StartDataStore.GetName() + " to " + dataFlow.EndTask.GetName()
+				needCommit = true
+			}
+			if dataFlow.EndTask.owningParticipant != nil && dataFlow.EndTask.owningParticipant.owningProcess != nil {
+				proc := dataFlow.EndTask.owningParticipant.owningProcess
+				if !slices.Contains(proc.DataFlows, dataFlow) {
+					proc.DataFlows = append(proc.DataFlows, dataFlow)
+					needCommit = true
+				}
+			}
+		case DataFlow_Task2DataStore:
+			if dataFlow.StartTask == nil {
+				dataFlow.UnstageVoid(stage)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no start task, unstaging",
+						dataFlow.GetName()))
+				}
+				needCommit = true
+				continue
+			}
+			if dataFlow.EndDataStore == nil {
+				dataFlow.UnstageVoid(stage)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no end data store, unstaging",
+						dataFlow.GetName()))
+				}
+				needCommit = true
+				continue
+			}
+			if dataFlow.Name == "" {
+				dataFlow.Name = dataFlow.StartTask.GetName() + " to " + dataFlow.EndDataStore.GetName()
+				needCommit = true
+			}
+			if dataFlow.StartTask.owningParticipant != nil && dataFlow.StartTask.owningParticipant.owningProcess != nil {
+				proc := dataFlow.StartTask.owningParticipant.owningProcess
+				if !slices.Contains(proc.DataFlows, dataFlow) {
+					proc.DataFlows = append(proc.DataFlows, dataFlow)
+					needCommit = true
+				}
+			}
 		default:
 			dataFlow.UnstageVoid(stage)
 			if stager.probeForm != nil {

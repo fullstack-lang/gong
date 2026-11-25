@@ -40,6 +40,16 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct DataStore
+	// insertion point per field
+	stage.DataStore_Datas_reverseMap = make(map[*Data]*DataStore)
+	for datastore := range stage.DataStores {
+		_ = datastore
+		for _, _data := range datastore.Datas {
+			stage.DataStore_Datas_reverseMap[_data] = datastore
+		}
+	}
+
 	// Compute reverse map for named struct DiagramProcess
 	// insertion point per field
 	stage.DiagramProcess_Process_Shapes_reverseMap = make(map[*ProcessShape]*DiagramProcess)
@@ -159,6 +169,34 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = diagramprocess
 		for _, _dataflow := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
 			stage.DiagramProcess_DataFlowsWhoseDataNodeIsExpanded_reverseMap[_dataflow] = diagramprocess
+		}
+	}
+	stage.DiagramProcess_DataStore_Shapes_reverseMap = make(map[*DataStoreShape]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _datastoreshape := range diagramprocess.DataStore_Shapes {
+			stage.DiagramProcess_DataStore_Shapes_reverseMap[_datastoreshape] = diagramprocess
+		}
+	}
+	stage.DiagramProcess_DataStoresWhoseNodeIsExpanded_reverseMap = make(map[*DataStore]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _datastore := range diagramprocess.DataStoresWhoseNodeIsExpanded {
+			stage.DiagramProcess_DataStoresWhoseNodeIsExpanded_reverseMap[_datastore] = diagramprocess
+		}
+	}
+	stage.DiagramProcess_DataStoresWhoseOutDataFlowsNodeIsExpanded_reverseMap = make(map[*DataStore]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _datastore := range diagramprocess.DataStoresWhoseOutDataFlowsNodeIsExpanded {
+			stage.DiagramProcess_DataStoresWhoseOutDataFlowsNodeIsExpanded_reverseMap[_datastore] = diagramprocess
+		}
+	}
+	stage.DiagramProcess_DataStoresWhoseInDataFlowsNodeIsExpanded_reverseMap = make(map[*DataStore]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _datastore := range diagramprocess.DataStoresWhoseInDataFlowsNodeIsExpanded {
+			stage.DiagramProcess_DataStoresWhoseInDataFlowsNodeIsExpanded_reverseMap[_datastore] = diagramprocess
 		}
 	}
 	stage.DiagramProcess_AllocatedResourcesWhoseNodeIsExpanded_reverseMap = make(map[*Resource]*DiagramProcess)
@@ -298,6 +336,20 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = library
 		for _, _data := range library.DatasWhoseNodeIsExpanded {
 			stage.Library_DatasWhoseNodeIsExpanded_reverseMap[_data] = library
+		}
+	}
+	stage.Library_RootDataStores_reverseMap = make(map[*DataStore]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _datastore := range library.RootDataStores {
+			stage.Library_RootDataStores_reverseMap[_datastore] = library
+		}
+	}
+	stage.Library_DataStoresWhoseNodeIsExpanded_reverseMap = make(map[*DataStore]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _datastore := range library.DataStoresWhoseNodeIsExpanded {
+			stage.Library_DataStoresWhoseNodeIsExpanded_reverseMap[_datastore] = library
 		}
 	}
 	stage.Library_RootResources_reverseMap = make(map[*Resource]*Library)
@@ -499,6 +551,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	res = __gong__appendInstances(res, stage.DataShapes)
 
+	res = __gong__appendInstances(res, stage.DataStores)
+
+	res = __gong__appendInstances(res, stage.DataStoreShapes)
+
 	res = __gong__appendInstances(res, stage.DiagramProcesss)
 
 	res = __gong__appendInstances(res, stage.ExternalParticipants)
@@ -580,6 +636,18 @@ func (dataflowshape *DataFlowShape) GongCopy() GongstructIF {
 func (datashape *DataShape) GongCopy() GongstructIF {
 	newInstance := new(DataShape)
 	datashape.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (datastore *DataStore) GongCopy() GongstructIF {
+	newInstance := new(DataStore)
+	datastore.GongCopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (datastoreshape *DataStoreShape) GongCopy() GongstructIF {
+	newInstance := new(DataStoreShape)
+	datastoreshape.GongCopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -710,6 +778,14 @@ func (dataflowshape *DataFlowShape) GongGetUUID(stage *Stage) string {
 
 func (datashape *DataShape) GongGetUUID(stage *Stage) string {
 	return __gong__getUUID(stage, datashape)
+}
+
+func (datastore *DataStore) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, datastore)
+}
+
+func (datastoreshape *DataStoreShape) GongGetUUID(stage *Stage) string {
+	return __gong__getUUID(stage, datastoreshape)
 }
 
 func (diagramprocess *DiagramProcess) GongGetUUID(stage *Stage) string {
@@ -1002,6 +1078,40 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		stage.DataShapes_reference,
 		&stage.DataShapes_referenceOrder,
 		stage.DataShapes_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.DataStores,
+		stage.DataStore_stagedOrder,
+		stage.DataStores_reference,
+		&stage.DataStores_referenceOrder,
+		stage.DataStores_instance,
+		&newInstancesSlice,
+		&fieldsEditSlice,
+		&deletedInstancesSlice,
+		&newInstancesReverseSlice,
+		&fieldsEditReverseSlice,
+		&deletedInstancesReverseSlice,
+		&lenNewInstances,
+		&lenDeletedInstances,
+		&lenModifiedInstances,
+	)
+	computeCommitsForType(
+		stage,
+		stage.DataStoreShapes,
+		stage.DataStoreShape_stagedOrder,
+		stage.DataStoreShapes_reference,
+		&stage.DataStoreShapes_referenceOrder,
+		stage.DataStoreShapes_instance,
 		&newInstancesSlice,
 		&fieldsEditSlice,
 		&deletedInstancesSlice,
@@ -1335,6 +1445,10 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	__gong__computeReferencePass1(stage, stage.DataShapes, &stage.DataShapes_reference, &stage.DataShapes_referenceOrder, &stage.DataShapes_instance)
 
+	__gong__computeReferencePass1(stage, stage.DataStores, &stage.DataStores_reference, &stage.DataStores_referenceOrder, &stage.DataStores_instance)
+
+	__gong__computeReferencePass1(stage, stage.DataStoreShapes, &stage.DataStoreShapes_reference, &stage.DataStoreShapes_referenceOrder, &stage.DataStoreShapes_instance)
+
 	__gong__computeReferencePass1(stage, stage.DiagramProcesss, &stage.DiagramProcesss_reference, &stage.DiagramProcesss_referenceOrder, &stage.DiagramProcesss_instance)
 
 	__gong__computeReferencePass1(stage, stage.ExternalParticipants, &stage.ExternalParticipants_reference, &stage.ExternalParticipants_referenceOrder, &stage.ExternalParticipants_instance)
@@ -1383,6 +1497,10 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	__gong__computeReferencePass2(stage.DataFlowShapes, stage.DataFlowShapes_reference, stage)
 
 	__gong__computeReferencePass2(stage.DataShapes, stage.DataShapes_reference, stage)
+
+	__gong__computeReferencePass2(stage.DataStores, stage.DataStores_reference, stage)
+
+	__gong__computeReferencePass2(stage.DataStoreShapes, stage.DataStoreShapes_reference, stage)
 
 	__gong__computeReferencePass2(stage.DiagramProcesss, stage.DiagramProcesss_reference, stage)
 
@@ -1456,6 +1574,14 @@ func (dataflowshape *DataFlowShape) GongGetOrder(stage *Stage) uint {
 
 func (datashape *DataShape) GongGetOrder(stage *Stage) uint {
 	return __gong__getOrder(stage.DataShape_stagedOrder, stage.DataShapes_referenceOrder, datashape, "DataShape")
+}
+
+func (datastore *DataStore) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.DataStore_stagedOrder, stage.DataStores_referenceOrder, datastore, "DataStore")
+}
+
+func (datastoreshape *DataStoreShape) GongGetOrder(stage *Stage) uint {
+	return __gong__getOrder(stage.DataStoreShape_stagedOrder, stage.DataStoreShapes_referenceOrder, datastoreshape, "DataStoreShape")
 }
 
 func (diagramprocess *DiagramProcess) GongGetOrder(stage *Stage) uint {
@@ -1597,6 +1723,24 @@ func (datashape *DataShape) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (datashape *DataShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return datashape.GongGetIdentifier(stage)
+}
+
+func (datastore *DataStore) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(datastore, datastore.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (datastore *DataStore) GongGetReferenceIdentifier(stage *Stage) string {
+	return datastore.GongGetIdentifier(stage)
+}
+
+func (datastoreshape *DataStoreShape) GongGetIdentifier(stage *Stage) string {
+	return __gong__formatIdentifier(datastoreshape, datastoreshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (datastoreshape *DataStoreShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return datastoreshape.GongGetIdentifier(stage)
 }
 
 func (diagramprocess *DiagramProcess) GongGetIdentifier(stage *Stage) string {
@@ -1778,6 +1922,14 @@ func (datashape *DataShape) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(datashape.GongGetIdentifier(stage), "DataShape", datashape.Name)
 }
 
+func (datastore *DataStore) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(datastore.GongGetIdentifier(stage), "DataStore", datastore.Name)
+}
+
+func (datastoreshape *DataStoreShape) GongMarshallIdentifier(stage *Stage) string {
+	return __gong__marshallIdentifier(datastoreshape.GongGetIdentifier(stage), "DataStoreShape", datastoreshape.Name)
+}
+
 func (diagramprocess *DiagramProcess) GongMarshallIdentifier(stage *Stage) string {
 	return __gong__marshallIdentifier(diagramprocess.GongGetIdentifier(stage), "DiagramProcess", diagramprocess.Name)
 }
@@ -1873,6 +2025,14 @@ func (dataflowshape *DataFlowShape) GongMarshallUnstaging(stage *Stage) string {
 
 func (datashape *DataShape) GongMarshallUnstaging(stage *Stage) string {
 	return __gong__marshallUnstaging(datashape.GongGetReferenceIdentifier(stage))
+}
+
+func (datastore *DataStore) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(datastore.GongGetReferenceIdentifier(stage))
+}
+
+func (datastoreshape *DataStoreShape) GongMarshallUnstaging(stage *Stage) string {
+	return __gong__marshallUnstaging(datastoreshape.GongGetReferenceIdentifier(stage))
 }
 
 func (diagramprocess *DiagramProcess) GongMarshallUnstaging(stage *Stage) string {

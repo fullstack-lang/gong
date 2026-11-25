@@ -616,6 +616,26 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := dataflow.EndParticipant.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.EndParticipant = %s", dataflowIdent, targetIdent))
 			}
+			if dataflow.StartDataStore != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := dataflow.StartDataStore.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartDataStore = %s", dataflowIdent, targetIdent))
+			}
+			if dataflow.EndDataStore != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := dataflow.EndDataStore.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndDataStore = %s", dataflowIdent, targetIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -724,6 +744,86 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 		}
 	}
 	if stage != nil {
+		for _, datastore := range __gong__sortStageSetInstances(stage.DataStores, stage.DataStore_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			datastoreIdent := datastore.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DataStore{Name: %s}).Stage(stage)", datastoreIdent, __gong__toRawStringLiteral(datastore.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", datastoreIdent, __gong__toRawStringLiteral(datastore.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Acronym = %s", datastoreIdent, __gong__toRawStringLiteral(datastore.Acronym)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", datastoreIdent, __gong__toRawStringLiteral(datastore.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDatasNodeExpanded = %t", datastoreIdent, datastore.IsDatasNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", datastoreIdent, __gong__toRawStringLiteral(datastore.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", datastoreIdent, datastore.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", datastoreIdent, __gong__toRawStringLiteral(datastore.SVG)))
+			for _, elem := range datastore.Datas {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Datas = append(%s.Datas, %s)", datastoreIdent, datastoreIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, datastoreshape := range __gong__sortStageSetInstances(stage.DataStoreShapes, stage.DataStoreShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			datastoreshapeIdent := datastoreshape.GongGetIdentifier(stage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&models.DataStoreShape{Name: %s}).Stage(stage)", datastoreshapeIdent, __gong__toRawStringLiteral(datastoreshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", datastoreshapeIdent, __gong__toRawStringLiteral(datastoreshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", datastoreshapeIdent, datastoreshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", datastoreshapeIdent, datastoreshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", datastoreshapeIdent, datastoreshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", datastoreshapeIdent, datastoreshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", datastoreshapeIdent, datastoreshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", datastoreshapeIdent, datastoreshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", datastoreshapeIdent, __gong__toRawStringLiteral(datastoreshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", datastoreshapeIdent, datastoreshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", datastoreshapeIdent, __gong__toRawStringLiteral(datastoreshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", datastoreshapeIdent, datastoreshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", datastoreshapeIdent, datastoreshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", datastoreshapeIdent, __gong__toRawStringLiteral(datastoreshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", datastoreshapeIdent, datastoreshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", datastoreshapeIdent, __gong__toRawStringLiteral(datastoreshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", datastoreshapeIdent, __gong__toRawStringLiteral(datastoreshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", datastoreshapeIdent, __gong__toRawStringLiteral(datastoreshape.FontColor)))
+			if datastoreshape.DataStore != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := datastoreshape.DataStore.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataStore = %s", datastoreshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
 		for _, diagramprocess := range __gong__sortStageSetInstances(stage.DiagramProcesss, stage.DiagramProcess_stagedOrder) {
 			if lastStageDecl != "Stage" {
 				if declarations.Len() > 0 {
@@ -753,6 +853,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.IsProcesssNodeExpanded = %t", diagramprocessIdent, diagramprocess.IsProcesssNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsParticipantsNodeExpanded = %t", diagramprocessIdent, diagramprocess.IsParticipantsNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExternalParticipantsNodeExpanded = %t", diagramprocessIdent, diagramprocess.IsExternalParticipantsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDataStoresNodeExpanded = %t", diagramprocessIdent, diagramprocess.IsDataStoresNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsNotesNodeExpanded = %t", diagramprocessIdent, diagramprocess.IsNotesNodeExpanded))
 			for _, elem := range diagramprocess.Process_Shapes {
 				if lastStagePtr != "Stage" {
@@ -923,6 +1024,46 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseDataNodeIsExpanded = append(%s.DataFlowsWhoseDataNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
+			}
+			for _, elem := range diagramprocess.DataStore_Shapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataStore_Shapes = append(%s.DataStore_Shapes, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
+			}
+			for _, elem := range diagramprocess.DataStoresWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataStoresWhoseNodeIsExpanded = append(%s.DataStoresWhoseNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
+			}
+			for _, elem := range diagramprocess.DataStoresWhoseOutDataFlowsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataStoresWhoseOutDataFlowsNodeIsExpanded = append(%s.DataStoresWhoseOutDataFlowsNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
+			}
+			for _, elem := range diagramprocess.DataStoresWhoseInDataFlowsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataStoresWhoseInDataFlowsNodeIsExpanded = append(%s.DataStoresWhoseInDataFlowsNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.AllocatedResourcesWhoseNodeIsExpanded {
 				if lastStagePtr != "Stage" {
@@ -1136,6 +1277,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.IsProcessesNodeExpanded = %t", libraryIdent, library.IsProcessesNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsDataFlowsNodeExpanded = %t", libraryIdent, library.IsDataFlowsNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsDatasNodeExpanded = %t", libraryIdent, library.IsDatasNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDataStoresNodeExpanded = %t", libraryIdent, library.IsDataStoresNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsResourcesNodeExpanded = %t", libraryIdent, library.IsResourcesNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsNotesNodeExpanded = %t", libraryIdent, library.IsNotesNodeExpanded))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpandedTmp = %t", libraryIdent, library.IsExpandedTmp))
@@ -1218,6 +1360,26 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DatasWhoseNodeIsExpanded = append(%s.DatasWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.RootDataStores {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RootDataStores = append(%s.RootDataStores, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.DataStoresWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataStoresWhoseNodeIsExpanded = append(%s.DataStoresWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootResources {
 				if lastStagePtr != "Stage" {
@@ -2247,6 +2409,18 @@ func (dataflow *DataFlow) GongMarshallField(stage *Stage, fieldName string) (res
 		} else {
 			res = __gong__marshallPointer(ident, "EndParticipant", "nil")
 		}
+	case "StartDataStore":
+		if dataflow.StartDataStore != nil {
+			res = __gong__marshallPointer(ident, "StartDataStore", dataflow.StartDataStore.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "StartDataStore", "nil")
+		}
+	case "EndDataStore":
+		if dataflow.EndDataStore != nil {
+			res = __gong__marshallPointer(ident, "EndDataStore", dataflow.EndDataStore.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "EndDataStore", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DataFlow", fieldName)
 	}
@@ -2355,6 +2529,88 @@ func (datashape *DataShape) GongMarshallField(stage *Stage, fieldName string) (r
 	return
 }
 
+func (datastore *DataStore) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := datastore.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", datastore.Name)
+	case "Acronym":
+		res = __gong__marshallString(ident, "Acronym", datastore.Acronym)
+	case "Description":
+		res = __gong__marshallString(ident, "Description", datastore.Description)
+	case "IsDatasNodeExpanded":
+		res = __gong__marshallBool(ident, "IsDatasNodeExpanded", datastore.IsDatasNodeExpanded)
+	case "ComputedPrefix":
+		res = __gong__marshallString(ident, "ComputedPrefix", datastore.ComputedPrefix)
+	case "IsExpanded":
+		res = __gong__marshallBool(ident, "IsExpanded", datastore.IsExpanded)
+	case "SVG":
+		res = __gong__marshallString(ident, "SVG", datastore.SVG)
+
+	case "Datas":
+		var sb strings.Builder
+		for _, _data := range datastore.Datas {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Datas", _data.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct DataStore", fieldName)
+	}
+	return
+}
+
+func (datastoreshape *DataStoreShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	ident := datastoreshape.GongGetIdentifier(stage)
+	_ = ident
+	switch fieldName {
+	case "Name":
+		res = __gong__marshallString(ident, "Name", datastoreshape.Name)
+	case "X":
+		res = __gong__marshallFloat(ident, "X", datastoreshape.X)
+	case "Y":
+		res = __gong__marshallFloat(ident, "Y", datastoreshape.Y)
+	case "Width":
+		res = __gong__marshallFloat(ident, "Width", datastoreshape.Width)
+	case "Height":
+		res = __gong__marshallFloat(ident, "Height", datastoreshape.Height)
+	case "IsHidden":
+		res = __gong__marshallBool(ident, "IsHidden", datastoreshape.IsHidden)
+	case "IsPresentationOverridden":
+		res = __gong__marshallBool(ident, "IsPresentationOverridden", datastoreshape.IsPresentationOverridden)
+	case "Color":
+		res = __gong__marshallString(ident, "Color", datastoreshape.Color)
+	case "FillOpacity":
+		res = __gong__marshallFloat(ident, "FillOpacity", datastoreshape.FillOpacity)
+	case "Stroke":
+		res = __gong__marshallString(ident, "Stroke", datastoreshape.Stroke)
+	case "StrokeWidth":
+		res = __gong__marshallFloat(ident, "StrokeWidth", datastoreshape.StrokeWidth)
+	case "StrokeOpacity":
+		res = __gong__marshallFloat(ident, "StrokeOpacity", datastoreshape.StrokeOpacity)
+	case "StrokeDashArray":
+		res = __gong__marshallString(ident, "StrokeDashArray", datastoreshape.StrokeDashArray)
+	case "RX":
+		res = __gong__marshallFloat(ident, "RX", datastoreshape.RX)
+	case "FontSize":
+		res = __gong__marshallString(ident, "FontSize", datastoreshape.FontSize)
+	case "FontWeight":
+		res = __gong__marshallString(ident, "FontWeight", datastoreshape.FontWeight)
+	case "FontColor":
+		res = __gong__marshallString(ident, "FontColor", datastoreshape.FontColor)
+
+	case "DataStore":
+		if datastoreshape.DataStore != nil {
+			res = __gong__marshallPointer(ident, "DataStore", datastoreshape.DataStore.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "DataStore", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct DataStoreShape", fieldName)
+	}
+	return
+}
+
 func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName string) (res string) {
 	ident := diagramprocess.GongGetIdentifier(stage)
 	_ = ident
@@ -2387,6 +2643,8 @@ func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName 
 		res = __gong__marshallBool(ident, "IsParticipantsNodeExpanded", diagramprocess.IsParticipantsNodeExpanded)
 	case "IsExternalParticipantsNodeExpanded":
 		res = __gong__marshallBool(ident, "IsExternalParticipantsNodeExpanded", diagramprocess.IsExternalParticipantsNodeExpanded)
+	case "IsDataStoresNodeExpanded":
+		res = __gong__marshallBool(ident, "IsDataStoresNodeExpanded", diagramprocess.IsDataStoresNodeExpanded)
 	case "IsNotesNodeExpanded":
 		res = __gong__marshallBool(ident, "IsNotesNodeExpanded", diagramprocess.IsNotesNodeExpanded)
 
@@ -2490,6 +2748,30 @@ func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName 
 		var sb strings.Builder
 		for _, _dataflow := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "DataFlowsWhoseDataNodeIsExpanded", _dataflow.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "DataStore_Shapes":
+		var sb strings.Builder
+		for _, _datastoreshape := range diagramprocess.DataStore_Shapes {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "DataStore_Shapes", _datastoreshape.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "DataStoresWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _datastore := range diagramprocess.DataStoresWhoseNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "DataStoresWhoseNodeIsExpanded", _datastore.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "DataStoresWhoseOutDataFlowsNodeIsExpanded":
+		var sb strings.Builder
+		for _, _datastore := range diagramprocess.DataStoresWhoseOutDataFlowsNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "DataStoresWhoseOutDataFlowsNodeIsExpanded", _datastore.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "DataStoresWhoseInDataFlowsNodeIsExpanded":
+		var sb strings.Builder
+		for _, _datastore := range diagramprocess.DataStoresWhoseInDataFlowsNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "DataStoresWhoseInDataFlowsNodeIsExpanded", _datastore.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "AllocatedResourcesWhoseNodeIsExpanded":
@@ -2672,6 +2954,8 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = __gong__marshallBool(ident, "IsDataFlowsNodeExpanded", library.IsDataFlowsNodeExpanded)
 	case "IsDatasNodeExpanded":
 		res = __gong__marshallBool(ident, "IsDatasNodeExpanded", library.IsDatasNodeExpanded)
+	case "IsDataStoresNodeExpanded":
+		res = __gong__marshallBool(ident, "IsDataStoresNodeExpanded", library.IsDataStoresNodeExpanded)
 	case "IsResourcesNodeExpanded":
 		res = __gong__marshallBool(ident, "IsResourcesNodeExpanded", library.IsResourcesNodeExpanded)
 	case "IsNotesNodeExpanded":
@@ -2725,6 +3009,18 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		var sb strings.Builder
 		for _, _data := range library.DatasWhoseNodeIsExpanded {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "DatasWhoseNodeIsExpanded", _data.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "RootDataStores":
+		var sb strings.Builder
+		for _, _datastore := range library.RootDataStores {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "RootDataStores", _datastore.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "DataStoresWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _datastore := range library.DataStoresWhoseNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "DataStoresWhoseNodeIsExpanded", _datastore.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "RootResources":
@@ -3488,6 +3784,8 @@ func (dataflow *DataFlow) GongMarshallAllFields(stage *Stage) (initRes string, p
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "EndTask"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "StartParticipant"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "EndParticipant"))
+		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "StartDataStore"))
+		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "EndDataStore"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
 	}
 	initRes = initializerStatements.String()
@@ -3548,6 +3846,52 @@ func (datashape *DataShape) GongMarshallAllFields(stage *Stage) (initRes string,
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (datastore *DataStore) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(datastore.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(datastore.GongMarshallField(stage, "Acronym"))
+		initializerStatements.WriteString(datastore.GongMarshallField(stage, "Description"))
+		pointersInitializesStatements.WriteString(datastore.GongMarshallField(stage, "Datas"))
+		initializerStatements.WriteString(datastore.GongMarshallField(stage, "IsDatasNodeExpanded"))
+		initializerStatements.WriteString(datastore.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(datastore.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(datastore.GongMarshallField(stage, "SVG"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (datastoreshape *DataStoreShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(datastoreshape.GongMarshallField(stage, "DataStore"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "IsPresentationOverridden"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "Color"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "FillOpacity"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "RX"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "FontSize"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "FontWeight"))
+		initializerStatements.WriteString(datastoreshape.GongMarshallField(stage, "FontColor"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -3584,6 +3928,11 @@ func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initR
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DatasWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "Data_Shapes"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataFlowsWhoseDataNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataStore_Shapes"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataStoresWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsDataStoresNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataStoresWhoseOutDataFlowsNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataStoresWhoseInDataFlowsNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "AllocatedResourcesWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "AllocatedResourceShapes"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "AllocatedProcessesWhoseNodeIsExpanded"))
@@ -3673,6 +4022,9 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootDatas"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsDatasNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "DatasWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootDataStores"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsDataStoresNodeExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "DataStoresWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootResources"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsResourcesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ResourcesWhoseNodeIsExpanded"))

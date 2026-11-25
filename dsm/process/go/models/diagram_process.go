@@ -98,6 +98,16 @@ type DiagramProcess struct {
 	map_DataShapeKey_DataShape       map[dataShapeKey]*DataShape
 	DataFlowsWhoseDataNodeIsExpanded []*DataFlow // within a diagram, at the data flow level, some some can be expanded or not
 
+	// DataStore
+	DataStore_Shapes                               []*DataStoreShape
+	map_DataStore_DataStoreShape                   map[*DataStore]*DataStoreShape
+	map_DataStore_Rect                             map[*DataStore]*svg.Rect
+	map_SvgRect_DataStoreShape                     map[*svg.Rect]*DataStoreShape
+	DataStoresWhoseNodeIsExpanded                  []*DataStore
+	IsDataStoresNodeExpanded                       bool
+	DataStoresWhoseOutDataFlowsNodeIsExpanded      []*DataStore
+	DataStoresWhoseInDataFlowsNodeIsExpanded       []*DataStore
+
 	// allocated resources
 	AllocatedResourcesWhoseNodeIsExpanded                []*Resource
 	AllocatedResourceShapes                              []*AllocatedResourceShape

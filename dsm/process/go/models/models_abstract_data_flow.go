@@ -6,6 +6,8 @@ var (
 	DataFlow_Task2Task                DataFlowType = "DataFlow_Task2Task"
 	DataFlow_ExternalParticipant2Task DataFlowType = "DataFlow_ExternalParticipant2Task"
 	DataFlow_Task2ExternalParticipant DataFlowType = "DataFlow_Task2ExternalParticipant"
+	DataFlow_DataStore2Task           DataFlowType = "DataFlow_DataStore2Task"
+	DataFlow_Task2DataStore           DataFlowType = "DataFlow_Task2DataStore"
 )
 
 type DataFlow struct {
@@ -26,6 +28,9 @@ type DataFlow struct {
 
 	StartParticipant *ExternalParticipant
 	EndParticipant   *ExternalParticipant
+
+	StartDataStore *DataStore
+	EndDataStore   *DataStore
 
 	IsDatasNodeExpanded bool
 }

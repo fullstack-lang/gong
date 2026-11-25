@@ -13,6 +13,7 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 		updateDiagramSize(diagram.Participant_Shapes, &width, &height)
 		updateDiagramSize(diagram.ExternalParticipant_Shapes, &width, &height)
 		updateDiagramSize(diagram.Task_Shapes, &width, &height)
+		updateDiagramSize(diagram.DataStore_Shapes, &width, &height)
 		updateDiagramSize(diagram.Note_Shapes, &width, &height)
 
 		// add a margin to the diagram size

@@ -14,6 +14,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	reachableControlFlowShapes := make(map[*ControlFlowShape]struct{})
 	reachableDataFlowShapes := make(map[*DataFlowShape]struct{})
 	reachableDataShapes := make(map[*DataShape]struct{})
+	reachableDataStoreShapes := make(map[*DataStoreShape]struct{})
 	reachableAllocatedResourceShapes := make(map[*AllocatedResourceShape]struct{})
 	reachableAllocatedProcessShapes := make(map[*AllocatedProcessShape]struct{})
 	reachableNoteShapes := make(map[*NoteShape]struct{})
@@ -29,6 +30,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 		collectShapes(diagram.ControlFlow_Shapes, reachableControlFlowShapes)
 		collectShapes(diagram.DataFlow_Shapes, reachableDataFlowShapes)
 		collectShapes(diagram.Data_Shapes, reachableDataShapes)
+		collectShapes(diagram.DataStore_Shapes, reachableDataStoreShapes)
 		collectShapes(diagram.AllocatedResourceShapes, reachableAllocatedResourceShapes)
 		collectShapes(diagram.AllocatedProcessShapes, reachableAllocatedProcessShapes)
 		collectShapes(diagram.Note_Shapes, reachableNoteShapes)
@@ -45,6 +47,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	needCommit = unstageUnreachableOrphans(stager, reachableControlFlowShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableDataFlowShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableDataShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableDataStoreShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableAllocatedResourceShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableAllocatedProcessShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteShapes) || needCommit

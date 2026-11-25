@@ -16,6 +16,7 @@ func (stager *Stager) enforceStagerMaps() {
 		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.Task_Shapes, &diagramProcess.map_Task_TaskShape)
 		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.ControlFlow_Shapes, &diagramProcess.map_ControlFlow_ControlFlowShape)
 		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.DataFlow_Shapes, &diagramProcess.map_DataFlow_DataFlowShape)
+		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.DataStore_Shapes, &diagramProcess.map_DataStore_DataStoreShape)
 		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.Note_Shapes, &diagramProcess.map_Note_NoteShape)
 
 		diagramProcess.map_DataShapeKey_DataShape = make(map[dataShapeKey]*DataShape)
@@ -101,6 +102,7 @@ func (stager *Stager) enforceStagerMaps() {
 	}
 
 	stager.rm_Data_DataFlows = stager.stage.GetSliceOfPointersReverseMap[DataFlow, Data](GongGetAssociationName[DataFlow]().Datas[0].Name)
+	stager.rm_Data_DataStores = stager.stage.GetSliceOfPointersReverseMap[DataStore, Data](GongGetAssociationName[DataStore]().Datas[0].Name)
 	stager.rm_Resource_Participants = stager.stage.GetSliceOfPointersReverseMap[Participant, Resource](GongGetAssociationName[Participant]().Resources[0].Name)
 	stager.rm_Resource_ExternalParticipants = stager.stage.GetSliceOfPointersReverseMap[ExternalParticipant, Resource](GongGetAssociationName[ExternalParticipant]().Resources[0].Name)
 }

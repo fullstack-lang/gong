@@ -266,6 +266,94 @@ func (from *DataShape) GongCopyBasicFields(to *DataShape) {
 	to.FontColor = from.FontColor
 }
 
+type DataStore_WOP struct {
+	// insertion point
+
+	Name string
+
+	Acronym string
+
+	Description string
+
+	IsDatasNodeExpanded bool
+
+	ComputedPrefix string
+
+	IsExpanded bool
+
+	SVG string
+}
+
+func (from *DataStore) GongCopyBasicFields(to *DataStore) {
+	// insertion point
+	to.Name = from.Name
+	to.Acronym = from.Acronym
+	to.Description = from.Description
+	to.IsDatasNodeExpanded = from.IsDatasNodeExpanded
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.SVG = from.SVG
+}
+
+type DataStoreShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+
+	IsPresentationOverridden bool
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeWidth float64
+
+	StrokeOpacity float64
+
+	StrokeDashArray string
+
+	RX float64
+
+	FontSize string
+
+	FontWeight string
+
+	FontColor string
+}
+
+func (from *DataStoreShape) GongCopyBasicFields(to *DataStoreShape) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
+	to.IsPresentationOverridden = from.IsPresentationOverridden
+	to.Color = from.Color
+	to.FillOpacity = from.FillOpacity
+	to.Stroke = from.Stroke
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeDashArray = from.StrokeDashArray
+	to.RX = from.RX
+	to.FontSize = from.FontSize
+	to.FontWeight = from.FontWeight
+	to.FontColor = from.FontColor
+}
+
 type DiagramProcess_WOP struct {
 	// insertion point
 
@@ -297,6 +385,8 @@ type DiagramProcess_WOP struct {
 
 	IsExternalParticipantsNodeExpanded bool
 
+	IsDataStoresNodeExpanded bool
+
 	IsNotesNodeExpanded bool
 }
 
@@ -316,6 +406,7 @@ func (from *DiagramProcess) GongCopyBasicFields(to *DiagramProcess) {
 	to.IsProcesssNodeExpanded = from.IsProcesssNodeExpanded
 	to.IsParticipantsNodeExpanded = from.IsParticipantsNodeExpanded
 	to.IsExternalParticipantsNodeExpanded = from.IsExternalParticipantsNodeExpanded
+	to.IsDataStoresNodeExpanded = from.IsDataStoresNodeExpanded
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 }
 
@@ -441,6 +532,8 @@ type Library_WOP struct {
 
 	IsDatasNodeExpanded bool
 
+	IsDataStoresNodeExpanded bool
+
 	IsResourcesNodeExpanded bool
 
 	IsNotesNodeExpanded bool
@@ -461,6 +554,7 @@ func (from *Library) GongCopyBasicFields(to *Library) {
 	to.IsProcessesNodeExpanded = from.IsProcessesNodeExpanded
 	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 	to.IsDatasNodeExpanded = from.IsDatasNodeExpanded
+	to.IsDataStoresNodeExpanded = from.IsDataStoresNodeExpanded
 	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 	to.IsExpandedTmp = from.IsExpandedTmp

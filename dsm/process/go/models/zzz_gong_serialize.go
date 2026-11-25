@@ -128,6 +128,26 @@ func (stage *Stage) SerializeStageCSVAsBytes(addIDs bool) ([]byte, error) {
 		}
 		{
 			var instances []GongstructIF
+			for instance := range stage.DataStores {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "DataStore", instances, (*DataStore)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DataStoreShapes {
+				instances = append(instances, instance)
+			}
+			if err := stage.SerializeCSVZip(zw, "DataStoreShape", instances, (*DataStoreShape)(nil).GongGetFieldHeaders(), addIDs); err != nil {
+				_ = zw.Close()
+				return nil, err
+			}
+		}
+		{
+			var instances []GongstructIF
 			for instance := range stage.DiagramProcesss {
 				instances = append(instances, instance)
 			}
@@ -352,6 +372,20 @@ func (stage *Stage) __gong__buildExcelizeFile(addIDs bool) *excelize.File {
 				instances = append(instances, instance)
 			}
 			stage.SerializeExcelize(f, "DataShape", instances, (*DataShape)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DataStores {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "DataStore", instances, (*DataStore)(nil).GongGetFieldHeaders(), addIDs)
+		}
+		{
+			var instances []GongstructIF
+			for instance := range stage.DataStoreShapes {
+				instances = append(instances, instance)
+			}
+			stage.SerializeExcelize(f, "DataStoreShape", instances, (*DataStoreShape)(nil).GongGetFieldHeaders(), addIDs)
 		}
 		{
 			var instances []GongstructIF

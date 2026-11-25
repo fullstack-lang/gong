@@ -409,6 +409,70 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
+		case "DataStore":
+			nodeGongstruct.Name = name
+			set := *probe.stageOfInterest.GetInstancesSet[*models.DataStore]()
+			count := 0
+			for _datastore := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _datastore.GetName(),
+					IsNodeClickable: true,
+					OnClick: func(frontNode *tree_models.Node) {
+						FillUpFormFromGongstruct(_datastore, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+				nodeGongstruct.IsExpanded = isExpanded
+				// no commit, it will be done in the refresh
+			}
+			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+				updateProbeTable[*models.DataStore](probe)
+				// set color for node and reset all other nodes color
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+					node.BackgroundColor = ""
+				}
+				nodeGongstruct.BackgroundColor = "lightgrey"
+				probe.treeStage.Commit()
+			}
+		case "DataStoreShape":
+			nodeGongstruct.Name = name
+			set := *probe.stageOfInterest.GetInstancesSet[*models.DataStoreShape]()
+			count := 0
+			for _datastoreshape := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _datastoreshape.GetName(),
+					IsNodeClickable: true,
+					OnClick: func(frontNode *tree_models.Node) {
+						FillUpFormFromGongstruct(_datastoreshape, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+				nodeGongstruct.IsExpanded = isExpanded
+				// no commit, it will be done in the refresh
+			}
+			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+				updateProbeTable[*models.DataStoreShape](probe)
+				// set color for node and reset all other nodes color
+				for node := range *probe.treeStage.GetInstancesSet[*tree_models.Node]() {
+					node.BackgroundColor = ""
+				}
+				nodeGongstruct.BackgroundColor = "lightgrey"
+				probe.treeStage.Commit()
+			}
 		case "DiagramProcess":
 			nodeGongstruct.Name = name
 			set := *probe.stageOfInterest.GetInstancesSet[*models.DiagramProcess]()

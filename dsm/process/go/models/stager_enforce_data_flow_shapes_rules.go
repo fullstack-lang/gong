@@ -24,6 +24,14 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 			}
 		}
 
+		// Build a set of data stores that have a shape in this diagram
+		dataStoresInDiagram := make(map[*DataStore]bool)
+		for _, dsShape := range diagram.DataStore_Shapes {
+			if dsShape.DataStore != nil {
+				dataStoresInDiagram[dsShape.DataStore] = true
+			}
+		}
+
 		// Check DataFlow_Shapes
 		var validDataFlowShapes []*DataFlowShape
 		dataFlowsInDiagram := make(map[*DataFlow]bool)
@@ -45,6 +53,16 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 				case DataFlow_Task2ExternalParticipant:
 					if df.StartTask == nil || !tasksInDiagram[df.StartTask] ||
 						df.EndParticipant == nil || !externalParticipantsInDiagram[df.EndParticipant] {
+						isValid = false
+					}
+				case DataFlow_DataStore2Task:
+					if df.StartDataStore == nil || !dataStoresInDiagram[df.StartDataStore] ||
+						df.EndTask == nil || !tasksInDiagram[df.EndTask] {
+						isValid = false
+					}
+				case DataFlow_Task2DataStore:
+					if df.StartTask == nil || !tasksInDiagram[df.StartTask] ||
+						df.EndDataStore == nil || !dataStoresInDiagram[df.EndDataStore] {
 						isValid = false
 					}
 				default:

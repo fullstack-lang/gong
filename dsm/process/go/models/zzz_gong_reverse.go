@@ -99,6 +99,13 @@ func (inst *Data) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongR
 				res = _dataflow.Name
 			}
 		}
+	case "DataStore":
+		switch reverseField.Fieldname {
+		case "Datas":
+			if _datastore, ok := stage.DataStore_Datas_reverseMap[inst]; ok {
+				res = _datastore.Name
+			}
+		}
 	case "DiagramProcess":
 		switch reverseField.Fieldname {
 		case "DatasWhoseNodeIsExpanded":
@@ -191,6 +198,57 @@ func (inst *DataShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 		switch reverseField.Fieldname {
 		case "Data_Shapes":
 			if _diagramprocess, ok := stage.DiagramProcess_Data_Shapes_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *DataStore) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "DataStoresWhoseNodeIsExpanded":
+			if _diagramprocess, ok := stage.DiagramProcess_DataStoresWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		case "DataStoresWhoseOutDataFlowsNodeIsExpanded":
+			if _diagramprocess, ok := stage.DiagramProcess_DataStoresWhoseOutDataFlowsNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		case "DataStoresWhoseInDataFlowsNodeIsExpanded":
+			if _diagramprocess, ok := stage.DiagramProcess_DataStoresWhoseInDataFlowsNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		}
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootDataStores":
+			if _library, ok := stage.Library_RootDataStores_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		case "DataStoresWhoseNodeIsExpanded":
+			if _library, ok := stage.Library_DataStoresWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *DataStoreShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *GongReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "DataStore_Shapes":
+			if _diagramprocess, ok := stage.DiagramProcess_DataStore_Shapes_reverseMap[inst]; ok {
 				res = _diagramprocess.Name
 			}
 		}
