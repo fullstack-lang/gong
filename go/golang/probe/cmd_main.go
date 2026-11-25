@@ -35,12 +35,15 @@ var (
 	marshallOnCommit   string
 )
 
-var editOut string
+var (
+	editOut string
+	editDir bool
+)
 
 var editCmd = &cobra.Command{
 	Use:     "edit [data/stage.go]",
 	Aliases: []string{"edit-stageset", "stageset", "edit-multistage"},
-	Short:   "Edit a stage file",
+	Short:   "Edit a stage file or directory",
 	Args:    cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
@@ -49,6 +52,9 @@ var editCmd = &cobra.Command{
 		}
 		if editOut != "" {
 			marshallOnCommit = editOut
+		}
+		if editDir && marshallOnCommit != "" {
+			_ = os.MkdirAll(marshallOnCommit, 0755)
 		}
 		executeServer()
 	},
@@ -85,11 +91,14 @@ func executeServer() {
 	}
 }
 
-var migrateOut string
+var (
+	migrateOut string
+	migrateDir bool
+)
 
 var migrateCmd = &cobra.Command{
 	Use:   "migrate [data/stage.go]",
-	Short: "Migrate a single-stage data file to multi-stage format",
+	Short: "Migrate a single-stage data file to multi-stage format or directory module",
 	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		inputFile := "data/stage.go"
@@ -98,14 +107,27 @@ var migrateCmd = &cobra.Command{
 		}
 		outputFile := migrateOut
 		if outputFile == "" {
-			outputFile = "data/stageset.go"
+			if migrateDir {
+				outputFile = "data_dir"
+			} else {
+				outputFile = "data/stageset.go"
+			}
 		}
 
 		stage := models.NewStage("")
 		if err := stage.ParseAstFile(inputFile, true); err != nil {
 			log.Fatalf("failed to parse input stage file: %%v", err)
 		}
-		stage.MarshallFile(outputFile, "main")
+		if migrateDir {
+			if err := os.MkdirAll(outputFile, 0755); err != nil {
+				log.Fatalf("failed to create output directory: %%v", err)
+			}
+			if err := stage.MarshallDirectory(outputFile); err != nil {
+				log.Fatalf("failed to marshall stage directory: %%v", err)
+			}
+		} else {
+			stage.MarshallFile(outputFile, "main")
+		}
 		log.Printf("Successfully migrated %%s to %%s", inputFile, outputFile)
 	},
 }
@@ -124,9 +146,11 @@ var rootCmd = &cobra.Command{
 }
 
 func main() {
-	editCmd.Flags().StringVar(&editOut, "out", "", "specify a different file to save commits to")
+	editCmd.Flags().StringVarP(&editOut, "out", "o", "", "specify a different file or directory to save commits to")
+	editCmd.Flags().BoolVarP(&editDir, "dir", "d", false, "persist stage data as a Go module directory")
 	rootCmd.AddCommand(editCmd)
-	migrateCmd.Flags().StringVar(&migrateOut, "out", "", "output file path (default: data/stageset.go)")
+	migrateCmd.Flags().StringVarP(&migrateOut, "out", "o", "", "output file or directory path (default: data/stageset.go or data_dir)")
+	migrateCmd.Flags().BoolVarP(&migrateDir, "dir", "d", false, "migrate into a Go module directory")
 	rootCmd.AddCommand(migrateCmd)
 	rootCmd.PersistentFlags().BoolVar(&embeddedDiagrams, "embedded-diagrams", true, "parse/analysis go/models and go/embeddedDiagrams")
 	rootCmd.PersistentFlags().IntVar(&port, "port", 8080, "port server")

@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -1073,6 +1084,786 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/dsm/barrgraph/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/dsm/barrgraph/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_barrgraph.go exposing StageBarrgraph.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_barrgraph.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageBarrgraph).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, artefacttype := range __gong__sortStageSetInstances(stage.ArtefactTypes, stage.ArtefactType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			artefacttypeIdent := strings.Replace(artefacttype.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&barrgraph.ArtefactType{Name: %s}).Stage(stage)", artefacttypeIdent, __gong__toRawStringLiteral(artefacttype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", artefacttypeIdent, __gong__toRawStringLiteral(artefacttype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", artefacttypeIdent, __gong__toRawStringLiteral(artefacttype.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", artefacttypeIdent, artefacttype.IsExpanded))
+		}
+	}
+	if stage != nil {
+		for _, artefacttypeshape := range __gong__sortStageSetInstances(stage.ArtefactTypeShapes, stage.ArtefactTypeShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			artefacttypeshapeIdent := strings.Replace(artefacttypeshape.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&barrgraph.ArtefactTypeShape{Name: %s}).Stage(stage)", artefacttypeshapeIdent, __gong__toRawStringLiteral(artefacttypeshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", artefacttypeshapeIdent, __gong__toRawStringLiteral(artefacttypeshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", artefacttypeshapeIdent, artefacttypeshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", artefacttypeshapeIdent, artefacttypeshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", artefacttypeshapeIdent, artefacttypeshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", artefacttypeshapeIdent, artefacttypeshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", artefacttypeshapeIdent, artefacttypeshape.IsHidden))
+			if artefacttypeshape.ArtefactType != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(artefacttypeshape.ArtefactType.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ArtefactType = %s", artefacttypeshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, artist := range __gong__sortStageSetInstances(stage.Artists, stage.Artist_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			artistIdent := strings.Replace(artist.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&barrgraph.Artist{Name: %s}).Stage(stage)", artistIdent, __gong__toRawStringLiteral(artist.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", artistIdent, __gong__toRawStringLiteral(artist.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", artistIdent, __gong__toRawStringLiteral(artist.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", artistIdent, artist.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDead = %t", artistIdent, artist.IsDead))
+			values.WriteString(fmt.Sprintf("\n\t%s.DateOfDeath, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", artistIdent, artist.DateOfDeath.String()))
+			if artist.Place != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(artist.Place.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Place = %s", artistIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, artistshape := range __gong__sortStageSetInstances(stage.ArtistShapes, stage.ArtistShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			artistshapeIdent := strings.Replace(artistshape.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&barrgraph.ArtistShape{Name: %s}).Stage(stage)", artistshapeIdent, __gong__toRawStringLiteral(artistshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", artistshapeIdent, __gong__toRawStringLiteral(artistshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", artistshapeIdent, artistshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", artistshapeIdent, artistshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", artistshapeIdent, artistshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", artistshapeIdent, artistshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", artistshapeIdent, artistshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.ImagePng_X = %f", artistshapeIdent, artistshape.ImagePng_X))
+			values.WriteString(fmt.Sprintf("\n\t%s.ImagePng_Y = %f", artistshapeIdent, artistshape.ImagePng_Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.ImagePng_Width = %f", artistshapeIdent, artistshape.ImagePng_Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.ImagePng_Height = %f", artistshapeIdent, artistshape.ImagePng_Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.ImagePng_X_Offset = %f", artistshapeIdent, artistshape.ImagePng_X_Offset))
+			values.WriteString(fmt.Sprintf("\n\t%s.ImagePng_Y_Offset = %f", artistshapeIdent, artistshape.ImagePng_Y_Offset))
+			if artistshape.ImagePng_RectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ImagePng_RectAnchorType = barrgraph.%s", artistshapeIdent, artistshape.ImagePng_RectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ImagePng_RectAnchorType = \"\"", artistshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.ImagePngBase64Content = %s", artistshapeIdent, __gong__toRawStringLiteral(artistshape.ImagePngBase64Content)))
+			if artistshape.Artist != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(artistshape.Artist.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Artist = %s", artistshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, controlpointshape := range __gong__sortStageSetInstances(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			controlpointshapeIdent := strings.Replace(controlpointshape.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&barrgraph.ControlPointShape{Name: %s}).Stage(stage)", controlpointshapeIdent, __gong__toRawStringLiteral(controlpointshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", controlpointshapeIdent, __gong__toRawStringLiteral(controlpointshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X_Relative = %f", controlpointshapeIdent, controlpointshape.X_Relative))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y_Relative = %f", controlpointshapeIdent, controlpointshape.Y_Relative))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsStartShapeTheClosestShape = %t", controlpointshapeIdent, controlpointshape.IsStartShapeTheClosestShape))
+		}
+	}
+	if stage != nil {
+		for _, desk := range __gong__sortStageSetInstances(stage.Desks, stage.Desk_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			deskIdent := strings.Replace(desk.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&barrgraph.Desk{Name: %s}).Stage(stage)", deskIdent, __gong__toRawStringLiteral(desk.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", deskIdent, __gong__toRawStringLiteral(desk.Name)))
+			if desk.SelectedDiagram != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(desk.SelectedDiagram.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SelectedDiagram = %s", deskIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, diagram := range __gong__sortStageSetInstances(stage.Diagrams, stage.Diagram_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			diagramIdent := strings.Replace(diagram.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&barrgraph.Diagram{Name: %s}).Stage(stage)", diagramIdent, __gong__toRawStringLiteral(diagram.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", diagramIdent, __gong__toRawStringLiteral(diagram.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", diagramIdent, diagram.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", diagramIdent, diagram.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsEditable = %t", diagramIdent, diagram.IsEditable))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsNodeExpanded = %t", diagramIdent, diagram.IsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsMovementCategoryNodeExpanded = %t", diagramIdent, diagram.IsMovementCategoryNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsArtefactTypeCategoryNodeExpanded = %t", diagramIdent, diagram.IsArtefactTypeCategoryNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsArtistCategoryNodeExpanded = %t", diagramIdent, diagram.IsArtistCategoryNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsInfluenceCategoryNodeExpanded = %t", diagramIdent, diagram.IsInfluenceCategoryNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsMovementCategoryHidden = %t", diagramIdent, diagram.IsMovementCategoryHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsArtefactTypeCategoryHidden = %t", diagramIdent, diagram.IsArtefactTypeCategoryHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsArtistCategoryHidden = %t", diagramIdent, diagram.IsArtistCategoryHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsInfluenceCategoryHidden = %t", diagramIdent, diagram.IsInfluenceCategoryHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartDate, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", diagramIdent, diagram.StartDate.String()))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndDate, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", diagramIdent, diagram.EndDate.String()))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbYearsForIntervals = %d", diagramIdent, diagram.NbYearsForIntervals))
+			values.WriteString(fmt.Sprintf("\n\t%s.XMargin = %f", diagramIdent, diagram.XMargin))
+			values.WriteString(fmt.Sprintf("\n\t%s.YMargin = %f", diagramIdent, diagram.YMargin))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", diagramIdent, diagram.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.NextVerticalDateXMargin = %f", diagramIdent, diagram.NextVerticalDateXMargin))
+			values.WriteString(fmt.Sprintf("\n\t%s.RedColorCode = %s", diagramIdent, __gong__toRawStringLiteral(diagram.RedColorCode)))
+			values.WriteString(fmt.Sprintf("\n\t%s.BackgroundGreyColorCode = %s", diagramIdent, __gong__toRawStringLiteral(diagram.BackgroundGreyColorCode)))
+			values.WriteString(fmt.Sprintf("\n\t%s.GrayColorCode = %s", diagramIdent, __gong__toRawStringLiteral(diagram.GrayColorCode)))
+			values.WriteString(fmt.Sprintf("\n\t%s.BottomBoxYOffset = %f", diagramIdent, diagram.BottomBoxYOffset))
+			values.WriteString(fmt.Sprintf("\n\t%s.BottomBoxWidth = %f", diagramIdent, diagram.BottomBoxWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.BottomBoxHeigth = %f", diagramIdent, diagram.BottomBoxHeigth))
+			values.WriteString(fmt.Sprintf("\n\t%s.BottomBoxFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.BottomBoxFontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.BottomBoxFontWeigth = %s", diagramIdent, __gong__toRawStringLiteral(diagram.BottomBoxFontWeigth)))
+			values.WriteString(fmt.Sprintf("\n\t%s.BottomBoxFontFamily = %s", diagramIdent, __gong__toRawStringLiteral(diagram.BottomBoxFontFamily)))
+			values.WriteString(fmt.Sprintf("\n\t%s.BottomBoxLetterSpacing = %s", diagramIdent, __gong__toRawStringLiteral(diagram.BottomBoxLetterSpacing)))
+			values.WriteString(fmt.Sprintf("\n\t%s.BottomBoxLetterColorCode = %s", diagramIdent, __gong__toRawStringLiteral(diagram.BottomBoxLetterColorCode)))
+			if diagram.MovementRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementRectAnchorType = barrgraph.%s", diagramIdent, diagram.MovementRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.MovementTextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementTextAnchorType = barrgraph.%s", diagramIdent, diagram.MovementTextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementTextAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.MovementDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDominantBaselineType = barrgraph.%s", diagramIdent, diagram.MovementDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDominantBaselineType = \"\"", diagramIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.MovementFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementFontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MajorMovementFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MajorMovementFontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MinorMovementFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MinorMovementFontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MovementFontWeigth = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementFontWeigth)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MovementFontFamily = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementFontFamily)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MovementLetterSpacing = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementLetterSpacing)))
+			values.WriteString(fmt.Sprintf("\n\t%s.AbstractMovementFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.AbstractMovementFontSize)))
+			if diagram.AbstractMovementRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.AbstractMovementRectAnchorType = barrgraph.%s", diagramIdent, diagram.AbstractMovementRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.AbstractMovementRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.AbstractMovementTextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.AbstractMovementTextAnchorType = barrgraph.%s", diagramIdent, diagram.AbstractMovementTextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.AbstractMovementTextAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.AbstractDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.AbstractDominantBaselineType = barrgraph.%s", diagramIdent, diagram.AbstractDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.AbstractDominantBaselineType = \"\"", diagramIdent))
+			}
+			if diagram.MovementDateRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDateRectAnchorType = barrgraph.%s", diagramIdent, diagram.MovementDateRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDateRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.MovementDateTextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDateTextAnchorType = barrgraph.%s", diagramIdent, diagram.MovementDateTextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDateTextAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.MovementDateTextDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDateTextDominantBaselineType = barrgraph.%s", diagramIdent, diagram.MovementDateTextDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementDateTextDominantBaselineType = \"\"", diagramIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.MovementDateAndPlacesFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementDateAndPlacesFontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MovementDateAndPlacesFontWeigth = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementDateAndPlacesFontWeigth)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MovementDateAndPlacesFontFamily = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementDateAndPlacesFontFamily)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MovementDateAndPlacesLetterSpacing = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MovementDateAndPlacesLetterSpacing)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MovementBelowArcY_Offset = %f", diagramIdent, diagram.MovementBelowArcY_Offset))
+			values.WriteString(fmt.Sprintf("\n\t%s.MovementBelowArcY_OffsetPerPlace = %f", diagramIdent, diagram.MovementBelowArcY_OffsetPerPlace))
+			if diagram.MovementPlacesRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesRectAnchorType = barrgraph.%s", diagramIdent, diagram.MovementPlacesRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.MovementPlacesTextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesTextAnchorType = barrgraph.%s", diagramIdent, diagram.MovementPlacesTextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesTextAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.MovementPlacesDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesDominantBaselineType = barrgraph.%s", diagramIdent, diagram.MovementPlacesDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MovementPlacesDominantBaselineType = \"\"", diagramIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtefactTypeFontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeFontWeigth = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtefactTypeFontWeigth)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeFontFamily = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtefactTypeFontFamily)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeLetterSpacing = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtefactTypeLetterSpacing)))
+			if diagram.ArtefactTypeRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeRectAnchorType = barrgraph.%s", diagramIdent, diagram.ArtefactTypeRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.ArtefactDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtefactDominantBaselineType = barrgraph.%s", diagramIdent, diagram.ArtefactDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtefactDominantBaselineType = \"\"", diagramIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeStrokeWidth = %f", diagramIdent, diagram.ArtefactTypeStrokeWidth))
+			if diagram.ArtistRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistRectAnchorType = barrgraph.%s", diagramIdent, diagram.ArtistRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.ArtistTextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistTextAnchorType = barrgraph.%s", diagramIdent, diagram.ArtistTextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistTextAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.ArtistDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDominantBaselineType = barrgraph.%s", diagramIdent, diagram.ArtistDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDominantBaselineType = \"\"", diagramIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.ArtistFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistFontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MajorArtistFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MajorArtistFontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MinorArtistFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.MinorArtistFontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ArtistFontWeigth = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistFontWeigth)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ArtistFontFamily = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistFontFamily)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ArtistLetterSpacing = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistLetterSpacing)))
+			if diagram.ArtistDateRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateRectAnchorType = barrgraph.%s", diagramIdent, diagram.ArtistDateRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.ArtistDateTextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateTextAnchorType = barrgraph.%s", diagramIdent, diagram.ArtistDateTextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateTextAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.ArtistDateDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateDominantBaselineType = barrgraph.%s", diagramIdent, diagram.ArtistDateDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateDominantBaselineType = \"\"", diagramIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateAndPlacesFontSize = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistDateAndPlacesFontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateAndPlacesFontWeigth = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistDateAndPlacesFontWeigth)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateAndPlacesFontFamily = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistDateAndPlacesFontFamily)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ArtistDateAndPlacesLetterSpacing = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ArtistDateAndPlacesLetterSpacing)))
+			if diagram.ArtistPlacesRectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesRectAnchorType = barrgraph.%s", diagramIdent, diagram.ArtistPlacesRectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesRectAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.ArtistPlacesTextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesTextAnchorType = barrgraph.%s", diagramIdent, diagram.ArtistPlacesTextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesTextAnchorType = \"\"", diagramIdent))
+			}
+			if diagram.ArtistPlacesDominantBaselineType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesDominantBaselineType = barrgraph.%s", diagramIdent, diagram.ArtistPlacesDominantBaselineType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ArtistPlacesDominantBaselineType = \"\"", diagramIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.InfluenceArrowSize = %f", diagramIdent, diagram.InfluenceArrowSize))
+			values.WriteString(fmt.Sprintf("\n\t%s.InfluenceArrowStartOffset = %f", diagramIdent, diagram.InfluenceArrowStartOffset))
+			values.WriteString(fmt.Sprintf("\n\t%s.InfluenceArrowEndOffset = %f", diagramIdent, diagram.InfluenceArrowEndOffset))
+			values.WriteString(fmt.Sprintf("\n\t%s.InfluenceCornerRadius = %f", diagramIdent, diagram.InfluenceCornerRadius))
+			values.WriteString(fmt.Sprintf("\n\t%s.InfluenceDashedLinePattern = %s", diagramIdent, __gong__toRawStringLiteral(diagram.InfluenceDashedLinePattern)))
+			for _, elem := range diagram.MovementShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MovementShapes = append(%s.MovementShapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ArtefactTypeShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ArtefactTypeShapes = append(%s.ArtefactTypeShapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ArtistShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ArtistShapes = append(%s.ArtistShapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.InfluenceShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.InfluenceShapes = append(%s.InfluenceShapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, influence := range __gong__sortStageSetInstances(stage.Influences, stage.Influence_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			influenceIdent := strings.Replace(influence.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&barrgraph.Influence{Name: %s}).Stage(stage)", influenceIdent, __gong__toRawStringLiteral(influence.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", influenceIdent, __gong__toRawStringLiteral(influence.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", influenceIdent, __gong__toRawStringLiteral(influence.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", influenceIdent, influence.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHypothtical = %t", influenceIdent, influence.IsHypothtical))
+			if influence.SourceMovement != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(influence.SourceMovement.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SourceMovement = %s", influenceIdent, targetIdent))
+			}
+			if influence.SourceArtefactType != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(influence.SourceArtefactType.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SourceArtefactType = %s", influenceIdent, targetIdent))
+			}
+			if influence.SourceArtist != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(influence.SourceArtist.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SourceArtist = %s", influenceIdent, targetIdent))
+			}
+			if influence.TargetMovement != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(influence.TargetMovement.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TargetMovement = %s", influenceIdent, targetIdent))
+			}
+			if influence.TargetArtefactType != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(influence.TargetArtefactType.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TargetArtefactType = %s", influenceIdent, targetIdent))
+			}
+			if influence.TargetArtist != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(influence.TargetArtist.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TargetArtist = %s", influenceIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, influenceshape := range __gong__sortStageSetInstances(stage.InfluenceShapes, stage.InfluenceShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			influenceshapeIdent := strings.Replace(influenceshape.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&barrgraph.InfluenceShape{Name: %s}).Stage(stage)", influenceshapeIdent, __gong__toRawStringLiteral(influenceshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", influenceshapeIdent, __gong__toRawStringLiteral(influenceshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", influenceshapeIdent, influenceshape.IsHidden))
+			if influenceshape.Influence != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(influenceshape.Influence.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Influence = %s", influenceshapeIdent, targetIdent))
+			}
+			for _, elem := range influenceshape.ControlPointShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlPointShapes = append(%s.ControlPointShapes, %s)", influenceshapeIdent, influenceshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, library := range __gong__sortStageSetInstances(stage.Librarys, stage.Library_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			libraryIdent := strings.Replace(library.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&barrgraph.Library{Name: %s}).Stage(stage)", libraryIdent, __gong__toRawStringLiteral(library.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", libraryIdent, __gong__toRawStringLiteral(library.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", libraryIdent, __gong__toRawStringLiteral(library.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", libraryIdent, __gong__toRawStringLiteral(library.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", libraryIdent, library.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsRootLibrary = %t", libraryIdent, library.IsRootLibrary))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSubLibrariesNodeExpanded = %t", libraryIdent, library.IsSubLibrariesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbPixPerCharacter = %f", libraryIdent, library.NbPixPerCharacter))
+			values.WriteString(fmt.Sprintf("\n\t%s.LogoSVGFile = %s", libraryIdent, __gong__toRawStringLiteral(library.LogoSVGFile)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpandedTmp = %t", libraryIdent, library.IsExpandedTmp))
+			for _, elem := range library.SubLibraries {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibraries = append(%s.SubLibraries, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.SubLibrariesWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibrariesWhoseNodeIsExpanded = append(%s.SubLibrariesWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, movement := range __gong__sortStageSetInstances(stage.Movements, stage.Movement_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			movementIdent := strings.Replace(movement.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&barrgraph.Movement{Name: %s}).Stage(stage)", movementIdent, __gong__toRawStringLiteral(movement.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", movementIdent, __gong__toRawStringLiteral(movement.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", movementIdent, __gong__toRawStringLiteral(movement.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", movementIdent, movement.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.Date, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", movementIdent, movement.Date.String()))
+			values.WriteString(fmt.Sprintf("\n\t%s.HideDate = %t", movementIdent, movement.HideDate))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasTaxonomicFilter = %t", movementIdent, movement.HasTaxonomicFilter))
+			values.WriteString(fmt.Sprintf("\n\t%s.TaxonomicFilter = %s", movementIdent, __gong__toRawStringLiteral(movement.TaxonomicFilter)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsFeatured = %t", movementIdent, movement.IsFeatured))
+			values.WriteString(fmt.Sprintf("\n\t%s.FeaturePrefix = %s", movementIdent, __gong__toRawStringLiteral(movement.FeaturePrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsMajor = %t", movementIdent, movement.IsMajor))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsMinor = %t", movementIdent, movement.IsMinor))
+			values.WriteString(fmt.Sprintf("\n\t%s.AdditionnalName = %s", movementIdent, __gong__toRawStringLiteral(movement.AdditionnalName)))
+			for _, elem := range movement.Places {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Places = append(%s.Places, %s)", movementIdent, movementIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, movementshape := range __gong__sortStageSetInstances(stage.MovementShapes, stage.MovementShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			movementshapeIdent := strings.Replace(movementshape.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&barrgraph.MovementShape{Name: %s}).Stage(stage)", movementshapeIdent, __gong__toRawStringLiteral(movementshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", movementshapeIdent, __gong__toRawStringLiteral(movementshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", movementshapeIdent, movementshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", movementshapeIdent, movementshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", movementshapeIdent, movementshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", movementshapeIdent, movementshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", movementshapeIdent, movementshape.IsHidden))
+			if movementshape.Movement != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(movementshape.Movement.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Movement = %s", movementshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, place := range __gong__sortStageSetInstances(stage.Places, stage.Place_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			placeIdent := strings.Replace(place.GongGetIdentifier(stage), "__models__", "__barrgraph__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&barrgraph.Place{Name: %s}).Stage(stage)", placeIdent, __gong__toRawStringLiteral(place.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", placeIdent, __gong__toRawStringLiteral(place.Name)))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	barrgraph "github.com/fullstack-lang/gong/dsm/barrgraph/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *barrgraph.Stage
+)%s
+
+// StageBarrgraph stages objects into stage
+func StageBarrgraph(stage *barrgraph.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -1712,6 +1723,1425 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/dsm/scenario/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/dsm/scenario/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_scenario.go exposing StageScenario.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_scenario.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageScenario).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, actorstate := range __gong__sortStageSetInstances(stage.ActorStates, stage.ActorState_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			actorstateIdent := strings.Replace(actorstate.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.ActorState{Name: %s}).Stage(stage)", actorstateIdent, __gong__toRawStringLiteral(actorstate.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", actorstateIdent, __gong__toRawStringLiteral(actorstate.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", actorstateIdent, __gong__toRawStringLiteral(actorstate.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsWithProbaility = %t", actorstateIdent, actorstate.IsWithProbaility))
+			if actorstate.Probability.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Probability = scenario.%s", actorstateIdent, actorstate.Probability.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Probability = \"\"", actorstateIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", actorstateIdent, __gong__toRawStringLiteral(actorstate.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", actorstateIdent, actorstate.IsExpanded))
+		}
+	}
+	if stage != nil {
+		for _, actorstateshape := range __gong__sortStageSetInstances(stage.ActorStateShapes, stage.ActorStateShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			actorstateshapeIdent := strings.Replace(actorstateshape.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.ActorStateShape{Name: %s}).Stage(stage)", actorstateshapeIdent, __gong__toRawStringLiteral(actorstateshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", actorstateshapeIdent, __gong__toRawStringLiteral(actorstateshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", actorstateshapeIdent, actorstateshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", actorstateshapeIdent, actorstateshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", actorstateshapeIdent, actorstateshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", actorstateshapeIdent, actorstateshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", actorstateshapeIdent, actorstateshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", actorstateshapeIdent, actorstateshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", actorstateshapeIdent, __gong__toRawStringLiteral(actorstateshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", actorstateshapeIdent, actorstateshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", actorstateshapeIdent, __gong__toRawStringLiteral(actorstateshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", actorstateshapeIdent, actorstateshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", actorstateshapeIdent, actorstateshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", actorstateshapeIdent, __gong__toRawStringLiteral(actorstateshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", actorstateshapeIdent, actorstateshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", actorstateshapeIdent, __gong__toRawStringLiteral(actorstateshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", actorstateshapeIdent, __gong__toRawStringLiteral(actorstateshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", actorstateshapeIdent, __gong__toRawStringLiteral(actorstateshape.FontColor)))
+			if actorstateshape.ActorState != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(actorstateshape.ActorState.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorState = %s", actorstateshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, actorstatetransition := range __gong__sortStageSetInstances(stage.ActorStateTransitions, stage.ActorStateTransition_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			actorstatetransitionIdent := strings.Replace(actorstatetransition.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.ActorStateTransition{Name: %s}).Stage(stage)", actorstatetransitionIdent, __gong__toRawStringLiteral(actorstatetransition.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", actorstatetransitionIdent, __gong__toRawStringLiteral(actorstatetransition.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", actorstatetransitionIdent, __gong__toRawStringLiteral(actorstatetransition.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", actorstatetransitionIdent, actorstatetransition.IsExpanded))
+			if actorstatetransition.StartState != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(actorstatetransition.StartState.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartState = %s", actorstatetransitionIdent, targetIdent))
+			}
+			if actorstatetransition.EndState != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(actorstatetransition.EndState.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndState = %s", actorstatetransitionIdent, targetIdent))
+			}
+			for _, elem := range actorstatetransition.Justifications {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Justifications = append(%s.Justifications, %s)", actorstatetransitionIdent, actorstatetransitionIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, actorstatetransitionshape := range __gong__sortStageSetInstances(stage.ActorStateTransitionShapes, stage.ActorStateTransitionShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			actorstatetransitionshapeIdent := strings.Replace(actorstatetransitionshape.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.ActorStateTransitionShape{Name: %s}).Stage(stage)", actorstatetransitionshapeIdent, __gong__toRawStringLiteral(actorstatetransitionshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", actorstatetransitionshapeIdent, __gong__toRawStringLiteral(actorstatetransitionshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", actorstatetransitionshapeIdent, actorstatetransitionshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", actorstatetransitionshapeIdent, actorstatetransitionshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", actorstatetransitionshapeIdent, actorstatetransitionshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", actorstatetransitionshapeIdent, actorstatetransitionshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", actorstatetransitionshapeIdent, actorstatetransitionshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", actorstatetransitionshapeIdent, actorstatetransitionshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", actorstatetransitionshapeIdent, __gong__toRawStringLiteral(actorstatetransitionshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", actorstatetransitionshapeIdent, actorstatetransitionshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", actorstatetransitionshapeIdent, __gong__toRawStringLiteral(actorstatetransitionshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", actorstatetransitionshapeIdent, actorstatetransitionshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", actorstatetransitionshapeIdent, actorstatetransitionshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", actorstatetransitionshapeIdent, __gong__toRawStringLiteral(actorstatetransitionshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", actorstatetransitionshapeIdent, actorstatetransitionshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", actorstatetransitionshapeIdent, __gong__toRawStringLiteral(actorstatetransitionshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", actorstatetransitionshapeIdent, __gong__toRawStringLiteral(actorstatetransitionshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", actorstatetransitionshapeIdent, __gong__toRawStringLiteral(actorstatetransitionshape.FontColor)))
+			if actorstatetransitionshape.ActorStateTransition != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(actorstatetransitionshape.ActorStateTransition.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorStateTransition = %s", actorstatetransitionshapeIdent, targetIdent))
+			}
+			if actorstatetransitionshape.Start != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(actorstatetransitionshape.Start.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Start = %s", actorstatetransitionshapeIdent, targetIdent))
+			}
+			if actorstatetransitionshape.End != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(actorstatetransitionshape.End.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.End = %s", actorstatetransitionshapeIdent, targetIdent))
+			}
+			for _, elem := range actorstatetransitionshape.ControlPointShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlPointShapes = append(%s.ControlPointShapes, %s)", actorstatetransitionshapeIdent, actorstatetransitionshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, analysis := range __gong__sortStageSetInstances(stage.Analysiss, stage.Analysis_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			analysisIdent := strings.Replace(analysis.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.Analysis{Name: %s}).Stage(stage)", analysisIdent, __gong__toRawStringLiteral(analysis.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", analysisIdent, __gong__toRawStringLiteral(analysis.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", analysisIdent, __gong__toRawStringLiteral(analysis.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsScenariosNodeExpanded = %t", analysisIdent, analysis.IsScenariosNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsGroupUseNodeExpanded = %t", analysisIdent, analysis.IsGroupUseNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsGeoObjectUseNodeExpanded = %t", analysisIdent, analysis.IsGeoObjectUseNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsMapUseNodeExpanded = %t", analysisIdent, analysis.IsMapUseNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", analysisIdent, __gong__toRawStringLiteral(analysis.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", analysisIdent, analysis.IsExpanded))
+			for _, elem := range analysis.Scenarios {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Scenarios = append(%s.Scenarios, %s)", analysisIdent, analysisIdent, targetIdent))
+			}
+			for _, elem := range analysis.GroupUse {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GroupUse = append(%s.GroupUse, %s)", analysisIdent, analysisIdent, targetIdent))
+			}
+			for _, elem := range analysis.GeoObjectUse {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GeoObjectUse = append(%s.GeoObjectUse, %s)", analysisIdent, analysisIdent, targetIdent))
+			}
+			for _, elem := range analysis.MapUse {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MapUse = append(%s.MapUse, %s)", analysisIdent, analysisIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, controlpointshape := range __gong__sortStageSetInstances(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			controlpointshapeIdent := strings.Replace(controlpointshape.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.ControlPointShape{Name: %s}).Stage(stage)", controlpointshapeIdent, __gong__toRawStringLiteral(controlpointshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", controlpointshapeIdent, __gong__toRawStringLiteral(controlpointshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X_Relative = %f", controlpointshapeIdent, controlpointshape.X_Relative))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y_Relative = %f", controlpointshapeIdent, controlpointshape.Y_Relative))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsStartShapeTheClosestShape = %t", controlpointshapeIdent, controlpointshape.IsStartShapeTheClosestShape))
+		}
+	}
+	if stage != nil {
+		for _, diagram := range __gong__sortStageSetInstances(stage.Diagrams, stage.Diagram_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			diagramIdent := strings.Replace(diagram.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.Diagram{Name: %s}).Stage(stage)", diagramIdent, __gong__toRawStringLiteral(diagram.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", diagramIdent, __gong__toRawStringLiteral(diagram.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", diagramIdent, __gong__toRawStringLiteral(diagram.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", diagramIdent, diagram.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", diagramIdent, diagram.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsShowPrefix = %t", diagramIdent, diagram.IsShowPrefix))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", diagramIdent, __gong__toRawStringLiteral(diagram.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsEvolutionDirectionsNodeExpanded = %t", diagramIdent, diagram.IsEvolutionDirectionsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsActorStatesNodeExpanded = %t", diagramIdent, diagram.IsActorStatesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsParametersNodeExpanded = %t", diagramIdent, diagram.IsParametersNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsParametersAggregatesNodeExpanded = %t", diagramIdent, diagram.IsParametersAggregatesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsActorStateTransitionsNodeExpanded = %t", diagramIdent, diagram.IsActorStateTransitionsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.AxisOrign_X = %f", diagramIdent, diagram.AxisOrign_X))
+			values.WriteString(fmt.Sprintf("\n\t%s.AxisOrign_Y = %f", diagramIdent, diagram.AxisOrign_Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.VerticalAxis_Top_Y = %f", diagramIdent, diagram.VerticalAxis_Top_Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.VerticalAxis_Bottom_Y = %f", diagramIdent, diagram.VerticalAxis_Bottom_Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.VerticalAxis_StrokeWidth = %f", diagramIdent, diagram.VerticalAxis_StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.HorizontalAxis_Right_X = %f", diagramIdent, diagram.HorizontalAxis_Right_X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Start, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", diagramIdent, diagram.Start.String()))
+			values.WriteString(fmt.Sprintf("\n\t%s.End, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", diagramIdent, diagram.End.String()))
+			values.WriteString(fmt.Sprintf("\n\t%s.NumberOfYearsBetweenTicks = %d", diagramIdent, diagram.NumberOfYearsBetweenTicks))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsInDrawMode = %t", diagramIdent, diagram.IsInDrawMode))
+			for _, elem := range diagram.EvolutionDirectionShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EvolutionDirectionShapes = append(%s.EvolutionDirectionShapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.EvolutionDirectionsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EvolutionDirectionsWhoseNodeIsExpanded = append(%s.EvolutionDirectionsWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ActorStateShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorStateShapes = append(%s.ActorStateShapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ActorStatesWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorStatesWhoseNodeIsExpanded = append(%s.ActorStatesWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ParameterShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParameterShapes = append(%s.ParameterShapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ParametersWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParametersWhoseNodeIsExpanded = append(%s.ParametersWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ScenarioParameterShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ScenarioParameterShapes = append(%s.ScenarioParameterShapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ParametersAggregatesWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParametersAggregatesWhoseNodeIsExpanded = append(%s.ParametersAggregatesWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ActorStateTransitionShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorStateTransitionShapes = append(%s.ActorStateTransitionShapes, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+			for _, elem := range diagram.ActorStateTransitionsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorStateTransitionsWhoseNodeIsExpanded = append(%s.ActorStateTransitionsWhoseNodeIsExpanded, %s)", diagramIdent, diagramIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, document := range __gong__sortStageSetInstances(stage.Documents, stage.Document_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			documentIdent := strings.Replace(document.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.Document{Name: %s}).Stage(stage)", documentIdent, __gong__toRawStringLiteral(document.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", documentIdent, __gong__toRawStringLiteral(document.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", documentIdent, __gong__toRawStringLiteral(document.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", documentIdent, document.IsExpanded))
+			for _, elem := range document.GeoObjectUse {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GeoObjectUse = append(%s.GeoObjectUse, %s)", documentIdent, documentIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, documentuse := range __gong__sortStageSetInstances(stage.DocumentUses, stage.DocumentUse_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			documentuseIdent := strings.Replace(documentuse.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.DocumentUse{Name: %s}).Stage(stage)", documentuseIdent, __gong__toRawStringLiteral(documentuse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", documentuseIdent, __gong__toRawStringLiteral(documentuse.Name)))
+			if documentuse.Document != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(documentuse.Document.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Document = %s", documentuseIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, evolutiondirection := range __gong__sortStageSetInstances(stage.EvolutionDirections, stage.EvolutionDirection_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			evolutiondirectionIdent := strings.Replace(evolutiondirection.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.EvolutionDirection{Name: %s}).Stage(stage)", evolutiondirectionIdent, __gong__toRawStringLiteral(evolutiondirection.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", evolutiondirectionIdent, __gong__toRawStringLiteral(evolutiondirection.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", evolutiondirectionIdent, __gong__toRawStringLiteral(evolutiondirection.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", evolutiondirectionIdent, __gong__toRawStringLiteral(evolutiondirection.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", evolutiondirectionIdent, evolutiondirection.IsExpanded))
+		}
+	}
+	if stage != nil {
+		for _, evolutiondirectionshape := range __gong__sortStageSetInstances(stage.EvolutionDirectionShapes, stage.EvolutionDirectionShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			evolutiondirectionshapeIdent := strings.Replace(evolutiondirectionshape.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.EvolutionDirectionShape{Name: %s}).Stage(stage)", evolutiondirectionshapeIdent, __gong__toRawStringLiteral(evolutiondirectionshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", evolutiondirectionshapeIdent, __gong__toRawStringLiteral(evolutiondirectionshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", evolutiondirectionshapeIdent, evolutiondirectionshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", evolutiondirectionshapeIdent, evolutiondirectionshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", evolutiondirectionshapeIdent, evolutiondirectionshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", evolutiondirectionshapeIdent, evolutiondirectionshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", evolutiondirectionshapeIdent, evolutiondirectionshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", evolutiondirectionshapeIdent, evolutiondirectionshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", evolutiondirectionshapeIdent, __gong__toRawStringLiteral(evolutiondirectionshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", evolutiondirectionshapeIdent, evolutiondirectionshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", evolutiondirectionshapeIdent, __gong__toRawStringLiteral(evolutiondirectionshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", evolutiondirectionshapeIdent, evolutiondirectionshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", evolutiondirectionshapeIdent, evolutiondirectionshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", evolutiondirectionshapeIdent, __gong__toRawStringLiteral(evolutiondirectionshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", evolutiondirectionshapeIdent, evolutiondirectionshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", evolutiondirectionshapeIdent, __gong__toRawStringLiteral(evolutiondirectionshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", evolutiondirectionshapeIdent, __gong__toRawStringLiteral(evolutiondirectionshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", evolutiondirectionshapeIdent, __gong__toRawStringLiteral(evolutiondirectionshape.FontColor)))
+			if evolutiondirectionshape.EvolutionDirection != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(evolutiondirectionshape.EvolutionDirection.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EvolutionDirection = %s", evolutiondirectionshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, foo := range __gong__sortStageSetInstances(stage.Foos, stage.Foo_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			fooIdent := strings.Replace(foo.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.Foo{Name: %s}).Stage(stage)", fooIdent, __gong__toRawStringLiteral(foo.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", fooIdent, __gong__toRawStringLiteral(foo.Name)))
+		}
+	}
+	if stage != nil {
+		for _, geoobject := range __gong__sortStageSetInstances(stage.GeoObjects, stage.GeoObject_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			geoobjectIdent := strings.Replace(geoobject.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.GeoObject{Name: %s}).Stage(stage)", geoobjectIdent, __gong__toRawStringLiteral(geoobject.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", geoobjectIdent, __gong__toRawStringLiteral(geoobject.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", geoobjectIdent, __gong__toRawStringLiteral(geoobject.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", geoobjectIdent, geoobject.IsExpanded))
+		}
+	}
+	if stage != nil {
+		for _, geoobjectuse := range __gong__sortStageSetInstances(stage.GeoObjectUses, stage.GeoObjectUse_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			geoobjectuseIdent := strings.Replace(geoobjectuse.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.GeoObjectUse{Name: %s}).Stage(stage)", geoobjectuseIdent, __gong__toRawStringLiteral(geoobjectuse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", geoobjectuseIdent, __gong__toRawStringLiteral(geoobjectuse.Name)))
+			if geoobjectuse.GeoObject != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(geoobjectuse.GeoObject.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GeoObject = %s", geoobjectuseIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, group := range __gong__sortStageSetInstances(stage.Groups, stage.Group_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			groupIdent := strings.Replace(group.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.Group{Name: %s}).Stage(stage)", groupIdent, __gong__toRawStringLiteral(group.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", groupIdent, __gong__toRawStringLiteral(group.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", groupIdent, __gong__toRawStringLiteral(group.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", groupIdent, group.IsExpanded))
+			for _, elem := range group.UserUse {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.UserUse = append(%s.UserUse, %s)", groupIdent, groupIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, groupuse := range __gong__sortStageSetInstances(stage.GroupUses, stage.GroupUse_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			groupuseIdent := strings.Replace(groupuse.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.GroupUse{Name: %s}).Stage(stage)", groupuseIdent, __gong__toRawStringLiteral(groupuse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", groupuseIdent, __gong__toRawStringLiteral(groupuse.Name)))
+			if groupuse.Group != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(groupuse.Group.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Group = %s", groupuseIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, library := range __gong__sortStageSetInstances(stage.Librarys, stage.Library_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			libraryIdent := strings.Replace(library.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.Library{Name: %s}).Stage(stage)", libraryIdent, __gong__toRawStringLiteral(library.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", libraryIdent, __gong__toRawStringLiteral(library.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", libraryIdent, __gong__toRawStringLiteral(library.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", libraryIdent, __gong__toRawStringLiteral(library.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", libraryIdent, library.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsRootLibrary = %t", libraryIdent, library.IsRootLibrary))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsAnalysesNodeExpanded = %t", libraryIdent, library.IsAnalysesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSubLibrariesNodeExpanded = %t", libraryIdent, library.IsSubLibrariesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbPixPerCharacter = %f", libraryIdent, library.NbPixPerCharacter))
+			values.WriteString(fmt.Sprintf("\n\t%s.LogoSVGFile = %s", libraryIdent, __gong__toRawStringLiteral(library.LogoSVGFile)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpandedTmp = %t", libraryIdent, library.IsExpandedTmp))
+			for _, elem := range library.Analyses {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Analyses = append(%s.Analyses, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.SubLibraries {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibraries = append(%s.SubLibraries, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.SubLibrariesWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibrariesWhoseNodeIsExpanded = append(%s.SubLibrariesWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, mapobject := range __gong__sortStageSetInstances(stage.MapObjects, stage.MapObject_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			mapobjectIdent := strings.Replace(mapobject.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.MapObject{Name: %s}).Stage(stage)", mapobjectIdent, __gong__toRawStringLiteral(mapobject.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", mapobjectIdent, __gong__toRawStringLiteral(mapobject.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", mapobjectIdent, __gong__toRawStringLiteral(mapobject.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", mapobjectIdent, mapobject.IsExpanded))
+		}
+	}
+	if stage != nil {
+		for _, mapobjectuse := range __gong__sortStageSetInstances(stage.MapObjectUses, stage.MapObjectUse_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			mapobjectuseIdent := strings.Replace(mapobjectuse.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.MapObjectUse{Name: %s}).Stage(stage)", mapobjectuseIdent, __gong__toRawStringLiteral(mapobjectuse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", mapobjectuseIdent, __gong__toRawStringLiteral(mapobjectuse.Name)))
+			if mapobjectuse.Map != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(mapobjectuse.Map.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Map = %s", mapobjectuseIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, parameter := range __gong__sortStageSetInstances(stage.Parameters, stage.Parameter_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			parameterIdent := strings.Replace(parameter.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.Parameter{Name: %s}).Stage(stage)", parameterIdent, __gong__toRawStringLiteral(parameter.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parameterIdent, __gong__toRawStringLiteral(parameter.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", parameterIdent, __gong__toRawStringLiteral(parameter.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsResponse = %t", parameterIdent, parameter.IsResponse))
+			values.WriteString(fmt.Sprintf("\n\t%s.Start, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", parameterIdent, parameter.Start.String()))
+			values.WriteString(fmt.Sprintf("\n\t%s.End, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", parameterIdent, parameter.End.String()))
+			values.WriteString(fmt.Sprintf("\n\t%s.Force = %f", parameterIdent, parameter.Force))
+			values.WriteString(fmt.Sprintf("\n\t%s.Tag = %s", parameterIdent, __gong__toRawStringLiteral(parameter.Tag)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", parameterIdent, __gong__toRawStringLiteral(parameter.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", parameterIdent, parameter.IsExpanded))
+			for _, elem := range parameter.GroupUse {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GroupUse = append(%s.GroupUse, %s)", parameterIdent, parameterIdent, targetIdent))
+			}
+			for _, elem := range parameter.DocumentUse {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DocumentUse = append(%s.DocumentUse, %s)", parameterIdent, parameterIdent, targetIdent))
+			}
+			for _, elem := range parameter.GeoObjectUse {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GeoObjectUse = append(%s.GeoObjectUse, %s)", parameterIdent, parameterIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, parametercategory := range __gong__sortStageSetInstances(stage.ParameterCategorys, stage.ParameterCategory_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			parametercategoryIdent := strings.Replace(parametercategory.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.ParameterCategory{Name: %s}).Stage(stage)", parametercategoryIdent, __gong__toRawStringLiteral(parametercategory.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parametercategoryIdent, __gong__toRawStringLiteral(parametercategory.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", parametercategoryIdent, __gong__toRawStringLiteral(parametercategory.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", parametercategoryIdent, parametercategory.IsExpanded))
+			for _, elem := range parametercategory.ParameterUse {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParameterUse = append(%s.ParameterUse, %s)", parametercategoryIdent, parametercategoryIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, parametercategoryuse := range __gong__sortStageSetInstances(stage.ParameterCategoryUses, stage.ParameterCategoryUse_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			parametercategoryuseIdent := strings.Replace(parametercategoryuse.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.ParameterCategoryUse{Name: %s}).Stage(stage)", parametercategoryuseIdent, __gong__toRawStringLiteral(parametercategoryuse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parametercategoryuseIdent, __gong__toRawStringLiteral(parametercategoryuse.Name)))
+			if parametercategoryuse.ParameterCategory != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(parametercategoryuse.ParameterCategory.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParameterCategory = %s", parametercategoryuseIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, parametershape := range __gong__sortStageSetInstances(stage.ParameterShapes, stage.ParameterShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			parametershapeIdent := strings.Replace(parametershape.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.ParameterShape{Name: %s}).Stage(stage)", parametershapeIdent, __gong__toRawStringLiteral(parametershape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parametershapeIdent, __gong__toRawStringLiteral(parametershape.Name)))
+			if parametershape.Direction.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = scenario.%s", parametershapeIdent, parametershape.Direction.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = \"\"", parametershapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.ShapeIsComputedFromModel = %t", parametershapeIdent, parametershape.ShapeIsComputedFromModel))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", parametershapeIdent, parametershape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", parametershapeIdent, parametershape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", parametershapeIdent, parametershape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", parametershapeIdent, parametershape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", parametershapeIdent, parametershape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", parametershapeIdent, parametershape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", parametershapeIdent, __gong__toRawStringLiteral(parametershape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", parametershapeIdent, parametershape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", parametershapeIdent, __gong__toRawStringLiteral(parametershape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", parametershapeIdent, parametershape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", parametershapeIdent, parametershape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", parametershapeIdent, __gong__toRawStringLiteral(parametershape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", parametershapeIdent, parametershape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", parametershapeIdent, __gong__toRawStringLiteral(parametershape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", parametershapeIdent, __gong__toRawStringLiteral(parametershape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", parametershapeIdent, __gong__toRawStringLiteral(parametershape.FontColor)))
+			if parametershape.Parameter != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(parametershape.Parameter.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Parameter = %s", parametershapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, parametersaggregate := range __gong__sortStageSetInstances(stage.ParametersAggregates, stage.ParametersAggregate_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			parametersaggregateIdent := strings.Replace(parametersaggregate.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.ParametersAggregate{Name: %s}).Stage(stage)", parametersaggregateIdent, __gong__toRawStringLiteral(parametersaggregate.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parametersaggregateIdent, __gong__toRawStringLiteral(parametersaggregate.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Tag = %s", parametersaggregateIdent, __gong__toRawStringLiteral(parametersaggregate.Tag)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", parametersaggregateIdent, __gong__toRawStringLiteral(parametersaggregate.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", parametersaggregateIdent, __gong__toRawStringLiteral(parametersaggregate.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", parametersaggregateIdent, parametersaggregate.IsExpanded))
+			for _, elem := range parametersaggregate.Parameters {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Parameters = append(%s.Parameters, %s)", parametersaggregateIdent, parametersaggregateIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, parametersaggregateshape := range __gong__sortStageSetInstances(stage.ParametersAggregateShapes, stage.ParametersAggregateShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			parametersaggregateshapeIdent := strings.Replace(parametersaggregateshape.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.ParametersAggregateShape{Name: %s}).Stage(stage)", parametersaggregateshapeIdent, __gong__toRawStringLiteral(parametersaggregateshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parametersaggregateshapeIdent, __gong__toRawStringLiteral(parametersaggregateshape.Name)))
+			if parametersaggregateshape.Direction.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = scenario.%s", parametersaggregateshapeIdent, parametersaggregateshape.Direction.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = \"\"", parametersaggregateshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", parametersaggregateshapeIdent, parametersaggregateshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", parametersaggregateshapeIdent, parametersaggregateshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", parametersaggregateshapeIdent, parametersaggregateshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", parametersaggregateshapeIdent, parametersaggregateshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", parametersaggregateshapeIdent, parametersaggregateshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", parametersaggregateshapeIdent, parametersaggregateshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", parametersaggregateshapeIdent, __gong__toRawStringLiteral(parametersaggregateshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", parametersaggregateshapeIdent, parametersaggregateshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", parametersaggregateshapeIdent, __gong__toRawStringLiteral(parametersaggregateshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", parametersaggregateshapeIdent, parametersaggregateshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", parametersaggregateshapeIdent, parametersaggregateshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", parametersaggregateshapeIdent, __gong__toRawStringLiteral(parametersaggregateshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", parametersaggregateshapeIdent, parametersaggregateshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", parametersaggregateshapeIdent, __gong__toRawStringLiteral(parametersaggregateshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", parametersaggregateshapeIdent, __gong__toRawStringLiteral(parametersaggregateshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", parametersaggregateshapeIdent, __gong__toRawStringLiteral(parametersaggregateshape.FontColor)))
+			if parametersaggregateshape.ScenarioParameter != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(parametersaggregateshape.ScenarioParameter.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ScenarioParameter = %s", parametersaggregateshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, position := range __gong__sortStageSetInstances(stage.Positions, stage.Position_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			positionIdent := strings.Replace(position.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.Position{Name: %s}).Stage(stage)", positionIdent, __gong__toRawStringLiteral(position.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", positionIdent, __gong__toRawStringLiteral(position.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Date, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", positionIdent, position.Date.String()))
+			values.WriteString(fmt.Sprintf("\n\t%s.Ordinate = %f", positionIdent, position.Ordinate))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", positionIdent, __gong__toRawStringLiteral(position.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", positionIdent, position.IsExpanded))
+		}
+	}
+	if stage != nil {
+		for _, repository := range __gong__sortStageSetInstances(stage.Repositorys, stage.Repository_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			repositoryIdent := strings.Replace(repository.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.Repository{Name: %s}).Stage(stage)", repositoryIdent, __gong__toRawStringLiteral(repository.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", repositoryIdent, __gong__toRawStringLiteral(repository.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", repositoryIdent, __gong__toRawStringLiteral(repository.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", repositoryIdent, repository.IsExpanded))
+			for _, elem := range repository.ParameterUse {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParameterUse = append(%s.ParameterUse, %s)", repositoryIdent, repositoryIdent, targetIdent))
+			}
+			for _, elem := range repository.GroupUse {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GroupUse = append(%s.GroupUse, %s)", repositoryIdent, repositoryIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, scenario := range __gong__sortStageSetInstances(stage.Scenarios, stage.Scenario_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			scenarioIdent := strings.Replace(scenario.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.Scenario{Name: %s}).Stage(stage)", scenarioIdent, __gong__toRawStringLiteral(scenario.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", scenarioIdent, __gong__toRawStringLiteral(scenario.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", scenarioIdent, __gong__toRawStringLiteral(scenario.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDiagramsNodeExpanded = %t", scenarioIdent, scenario.IsDiagramsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsActorStatesNodeExpanded = %t", scenarioIdent, scenario.IsActorStatesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsActorStateTransitionsNodeExpanded = %t", scenarioIdent, scenario.IsActorStateTransitionsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsEvolutionDirectionsNodeExpanded = %t", scenarioIdent, scenario.IsEvolutionDirectionsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsParametersNodeExpanded = %t", scenarioIdent, scenario.IsParametersNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsParametersAggretatesNodeExpanded = %t", scenarioIdent, scenario.IsParametersAggretatesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", scenarioIdent, __gong__toRawStringLiteral(scenario.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", scenarioIdent, scenario.IsExpanded))
+			for _, elem := range scenario.Diagrams {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Diagrams = append(%s.Diagrams, %s)", scenarioIdent, scenarioIdent, targetIdent))
+			}
+			for _, elem := range scenario.ActorStates {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorStates = append(%s.ActorStates, %s)", scenarioIdent, scenarioIdent, targetIdent))
+			}
+			for _, elem := range scenario.ActorStateTransitions {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ActorStateTransitions = append(%s.ActorStateTransitions, %s)", scenarioIdent, scenarioIdent, targetIdent))
+			}
+			for _, elem := range scenario.EvolutionDirections {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EvolutionDirections = append(%s.EvolutionDirections, %s)", scenarioIdent, scenarioIdent, targetIdent))
+			}
+			for _, elem := range scenario.Parameters {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Parameters = append(%s.Parameters, %s)", scenarioIdent, scenarioIdent, targetIdent))
+			}
+			for _, elem := range scenario.ParametersAggretates {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParametersAggretates = append(%s.ParametersAggretates, %s)", scenarioIdent, scenarioIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, user := range __gong__sortStageSetInstances(stage.Users, stage.User_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			userIdent := strings.Replace(user.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.User{Name: %s}).Stage(stage)", userIdent, __gong__toRawStringLiteral(user.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", userIdent, __gong__toRawStringLiteral(user.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", userIdent, __gong__toRawStringLiteral(user.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", userIdent, user.IsExpanded))
+		}
+	}
+	if stage != nil {
+		for _, useruse := range __gong__sortStageSetInstances(stage.UserUses, stage.UserUse_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			useruseIdent := strings.Replace(useruse.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.UserUse{Name: %s}).Stage(stage)", useruseIdent, __gong__toRawStringLiteral(useruse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", useruseIdent, __gong__toRawStringLiteral(useruse.Name)))
+			if useruse.User != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(useruse.User.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.User = %s", useruseIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, workspace := range __gong__sortStageSetInstances(stage.Workspaces, stage.Workspace_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			workspaceIdent := strings.Replace(workspace.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&scenario.Workspace{Name: %s}).Stage(stage)", workspaceIdent, __gong__toRawStringLiteral(workspace.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", workspaceIdent, __gong__toRawStringLiteral(workspace.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", workspaceIdent, __gong__toRawStringLiteral(workspace.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", workspaceIdent, workspace.IsExpanded))
+			if workspace.SelectedDiagram != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(workspace.SelectedDiagram.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SelectedDiagram = %s", workspaceIdent, targetIdent))
+			}
+			if workspace.Default_EvolutionDirectionShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(workspace.Default_EvolutionDirectionShape.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Default_EvolutionDirectionShape = %s", workspaceIdent, targetIdent))
+			}
+			if workspace.Default_ParameterShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(workspace.Default_ParameterShape.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Default_ParameterShape = %s", workspaceIdent, targetIdent))
+			}
+			if workspace.Default_ScenarioParameterShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(workspace.Default_ScenarioParameterShape.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Default_ScenarioParameterShape = %s", workspaceIdent, targetIdent))
+			}
+			if workspace.Default_ActorStateShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(workspace.Default_ActorStateShape.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Default_ActorStateShape = %s", workspaceIdent, targetIdent))
+			}
+			if workspace.Default_ActorStateTransitionShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(workspace.Default_ActorStateTransitionShape.GongGetIdentifier(stage), "__models__", "__scenario__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Default_ActorStateTransitionShape = %s", workspaceIdent, targetIdent))
+			}
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	scenario "github.com/fullstack-lang/gong/dsm/scenario/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *scenario.Stage
+)%s
+
+// StageScenario stages objects into stage
+func StageScenario(stage *scenario.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

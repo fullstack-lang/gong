@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -332,7 +343,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				lastStageDecl = "ModelStage"
 			}
-			submodelIdent := submodel.GongGetIdentifier(stage.ModelStage)
+			submodelIdent := strings.Replace(submodel.GongGetIdentifier(stage.ModelStage), "__models__", "__model__", 1)
 			declarations.WriteString(fmt.Sprintf("\n\t%s := (&model.SubModel{Name: %s}).Stage(stage.ModelStage)", submodelIdent, __gong__toRawStringLiteral(submodel.Name)))
 			if lastStageVal != "ModelStage" {
 				if values.Len() > 0 {
@@ -367,7 +378,7 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 					}
 					lastStagePtr = "YStage"
 				}
-				targetIdent := y.SubModel.GongGetIdentifier(stage.ModelStage)
+				targetIdent := strings.Replace(y.SubModel.GongGetIdentifier(stage.ModelStage), "__models__", "__model__", 1)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.SubModel = %s", yIdent, targetIdent))
 			}
 		}
@@ -543,6 +554,256 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/test/test2/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/test/test2/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_test2.go exposing StageTest2.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_test2.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageTest2).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage.ModelStage != nil {
+		for _, submodel := range __gong__sortStageSetInstances(stage.ModelStage.SubModels, stage.ModelStage.SubModel_stagedOrder) {
+			if lastStageDecl != "ModelStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "ModelStage"
+			}
+			submodelIdent := strings.Replace(submodel.GongGetIdentifier(stage.ModelStage), "__models__", "__model__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&model.SubModel{Name: %s}).Stage(stage.ModelStage)", submodelIdent, __gong__toRawStringLiteral(submodel.Name)))
+			if lastStageVal != "ModelStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "ModelStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", submodelIdent, __gong__toRawStringLiteral(submodel.Name)))
+		}
+	}
+	if stage.YStage != nil {
+		for _, y := range __gong__sortStageSetInstances(stage.YStage.Ys, stage.YStage.Y_stagedOrder) {
+			if lastStageDecl != "YStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "YStage"
+			}
+			yIdent := y.GongGetIdentifier(stage.YStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&y.Y{Name: %s}).Stage(stage.YStage)", yIdent, __gong__toRawStringLiteral(y.Name)))
+			if lastStageVal != "YStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "YStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", yIdent, __gong__toRawStringLiteral(y.Name)))
+			if y.SubModel != nil {
+				if lastStagePtr != "YStage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "YStage"
+				}
+				targetIdent := strings.Replace(y.SubModel.GongGetIdentifier(stage.ModelStage), "__models__", "__model__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubModel = %s", yIdent, targetIdent))
+			}
+		}
+	}
+	if stage.XStage != nil {
+		for _, x := range __gong__sortStageSetInstances(stage.XStage.Xs, stage.XStage.X_stagedOrder) {
+			if lastStageDecl != "XStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "XStage"
+			}
+			xIdent := x.GongGetIdentifier(stage.XStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&x.X{Name: %s}).Stage(stage.XStage)", xIdent, __gong__toRawStringLiteral(x.Name)))
+			if lastStageVal != "XStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "XStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xIdent, __gong__toRawStringLiteral(x.Name)))
+			if x.Y != nil {
+				if lastStagePtr != "XStage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "XStage"
+				}
+				targetIdent := x.Y.GongGetIdentifier(stage.YStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Y = %s", xIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, a := range __gong__sortStageSetInstances(stage.As, stage.A_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			aIdent := strings.Replace(a.GongGetIdentifier(stage), "__models__", "__test2__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&test2.A{Name: %s}).Stage(stage)", aIdent, __gong__toRawStringLiteral(a.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", aIdent, __gong__toRawStringLiteral(a.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NumberField = %d", aIdent, a.NumberField))
+			values.WriteString(fmt.Sprintf("\n\t%s.Foo = %d", aIdent, a.Foo))
+			values.WriteString(fmt.Sprintf("\n\t%s.Bar = %f", aIdent, a.Bar))
+			values.WriteString(fmt.Sprintf("\n\t%s.Zorgh = %s", aIdent, __gong__toRawStringLiteral(a.Zorgh)))
+			if a.B != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(a.B.GongGetIdentifier(stage), "__models__", "__test2__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.B = %s", aIdent, targetIdent))
+			}
+			for _, elem := range a.Bs {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__test2__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Bs = append(%s.Bs, %s)", aIdent, aIdent, targetIdent))
+			}
+			if a.X != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := a.X.GongGetIdentifier(stage.XStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.X = %s", aIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, b := range __gong__sortStageSetInstances(stage.Bs, stage.B_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			bIdent := strings.Replace(b.GongGetIdentifier(stage), "__models__", "__test2__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&test2.B{Name: %s}).Stage(stage)", bIdent, __gong__toRawStringLiteral(b.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bIdent, __gong__toRawStringLiteral(b.Name)))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	test2 "github.com/fullstack-lang/gong/test/test2/go/models"
+	"github.com/fullstack-lang/gong/test/test2/go/models/x"
+	"github.com/fullstack-lang/gong/test/test2/go/models/y"
+	model "github.com/fullstack-lang/gong/test/test2/go/models/x/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *test2.Stage
+	_ *x.Stage
+	_ *y.Stage
+	_ *model.Stage
+)%s
+
+// StageTest2 stages objects into stage
+func StageTest2(stage *test2.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

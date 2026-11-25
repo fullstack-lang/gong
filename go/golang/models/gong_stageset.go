@@ -2,13 +2,61 @@ package models
 
 import (
 	"fmt"
+	"go/token"
 	"go/types"
 	"path/filepath"
 	"sort"
 	"strings"
+	"unicode"
 
 	"github.com/fullstack-lang/gong/go/models"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
+
+func sanitizeDirPkgAlias(raw string, used map[string]bool) string {
+	var b strings.Builder
+	for i, r := range raw {
+		if unicode.IsLetter(r) || r == '_' || (i > 0 && unicode.IsDigit(r)) {
+			b.WriteRune(unicode.ToLower(r))
+		} else if unicode.IsDigit(r) && i == 0 {
+			b.WriteString("m_")
+			b.WriteRune(r)
+		} else {
+			b.WriteByte('_')
+		}
+	}
+	alias := strings.Trim(b.String(), "_")
+	if alias == "" {
+		alias = "models"
+	}
+	if token.Lookup(alias).IsKeyword() || used[alias] {
+		alias = alias + "_models"
+	}
+	k := 1
+	base := alias
+	for used[alias] {
+		alias = fmt.Sprintf("%s_%d", base, k)
+		k++
+	}
+	return alias
+}
+
+func pascalCaseIdent(raw string) string {
+	caser := cases.Title(language.English)
+	parts := strings.FieldsFunc(raw, func(r rune) bool {
+		return !unicode.IsLetter(r) && !unicode.IsDigit(r)
+	})
+	var b strings.Builder
+	for _, p := range parts {
+		b.WriteString(caser.String(strings.ToLower(p)))
+	}
+	res := b.String()
+	if res == "" {
+		return "Models"
+	}
+	return res
+}
 
 type StageSetStructField struct {
 	Name              string
@@ -267,6 +315,13 @@ type ResolvedSubStages struct {
 	MainPkgImportAlias                  string
 	ProbePackageName                    string
 	MarshallBody                        string
+	ModPath                             string
+	DirMainPkgAlias                     string
+	DirStageFuncSuffix                  string
+	DirStageFileName                    string
+	DirSyntheticImports                 string
+	DirDummyDeclarations                string
+	DirMarshallBody                     string
 	ImportPathCases                     string
 	PrepopulateIdentifierMapStatements  string
 	DefineCases                         string
@@ -417,173 +472,242 @@ func ResolveSubStages(
 	}
 	probePackageName := mainPkgPath + "/probe/cmd/probe"
 
-	// Build code inside MarshallToString
-	var marshallBody strings.Builder
-	marshallBody.WriteString("\tvar declarations strings.Builder\n")
-	marshallBody.WriteString("\tvar values strings.Builder\n")
-	marshallBody.WriteString("\tvar pointers strings.Builder\n")
-	marshallBody.WriteString("\tvar lastStageDecl string\n")
-	marshallBody.WriteString("\tvar lastStageVal string\n")
-	marshallBody.WriteString("\tvar lastStagePtr string\n")
-	marshallBody.WriteString("\t_ = lastStageDecl\n")
-	marshallBody.WriteString("\t_ = lastStageVal\n")
-	marshallBody.WriteString("\t_ = lastStagePtr\n\n")
-
-	for _, f := range orderedFields {
-		mPkg := fieldToModelPkg[f]
-		if mPkg == nil {
-			continue
-		}
-
-		// Sort structs
-		var structNames []string
-		for sName, gs := range mPkg.GongStructs {
-			if gs.ModelPkg.PkgPath == mPkg.PkgPath && gs.HasNameField() && !gs.IsOmittedForMarshalling {
-				structNames = append(structNames, sName[len(mPkg.PkgPath)+1:])
-			}
-		}
-		sort.Strings(structNames)
-
-		stageExpr := "stage"
+	// Directory persistence metadata
+	dirUsedAliases := map[string]bool{
+		"time":   true,
+		"slices": true,
+	}
+	for _, f := range stageSet.Fields {
 		if !f.IsLocal {
-			stageExpr = "stage." + f.Name
-		}
-
-		for _, sName := range structNames {
-			sVar := strings.ToLower(sName)
-			sPlural := sName + "s"
-
-			fields := ExtractStructFields(mPkg, sName, pkgPathToField)
-
-			marshallBody.WriteString(fmt.Sprintf("\tif %s != nil {\n", stageExpr))
-			marshallBody.WriteString(fmt.Sprintf("\t\tfor _, %s := range __gong__sortStageSetInstances(%s.%s, %s.%s_stagedOrder) {\n", sVar, stageExpr, sPlural, stageExpr, sName))
-			marshallBody.WriteString(fmt.Sprintf("\t\t\tif lastStageDecl != %q {\n", f.Name))
-			marshallBody.WriteString("\t\t\t\tif declarations.Len() > 0 {\n")
-			marshallBody.WriteString("\t\t\t\t\tdeclarations.WriteString(\"\\n\")\n")
-			marshallBody.WriteString("\t\t\t\t}\n")
-			marshallBody.WriteString(fmt.Sprintf("\t\t\t\tlastStageDecl = %q\n", f.Name))
-			marshallBody.WriteString("\t\t\t}\n")
-			marshallBody.WriteString(fmt.Sprintf("\t\t\t%sIdent := %s.GongGetIdentifier(%s)\n", sVar, sVar, stageExpr))
-			// Phase 1 declaration
-			marshallBody.WriteString(fmt.Sprintf("\t\t\tdeclarations.WriteString(fmt.Sprintf(\"\\n\\t%%s := (&%s.%s{Name: %%s}).Stage(%s)\", %sIdent, __gong__toRawStringLiteral(%s.Name)))\n", f.ImportAlias, sName, stageExpr, sVar, sVar))
-
-			// Phase 2 values
-			marshallBody.WriteString(fmt.Sprintf("\t\t\tif lastStageVal != %q {\n", f.Name))
-			marshallBody.WriteString("\t\t\t\tif values.Len() > 0 {\n")
-			marshallBody.WriteString("\t\t\t\t\tvalues.WriteString(\"\\n\")\n")
-			marshallBody.WriteString("\t\t\t\t}\n")
-			marshallBody.WriteString(fmt.Sprintf("\t\t\t\tlastStageVal = %q\n", f.Name))
-			marshallBody.WriteString("\t\t\t}\n")
-			for _, fld := range fields {
-				if fld.IsPointer || fld.IsSliceOfPointer {
-					continue
-				}
-				if fld.IsAny {
-					marshallBody.WriteString(fmt.Sprintf("\t\t\tif str, ok := %s.%s.(string); ok {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, str))\n\t\t\t}\n", sVar, fld.Name, fld.Name, sVar))
-					continue
-				}
-				if fld.IsGongEnum {
-					switch fld.BasicKind {
-					case types.Int, types.Int64, types.Int32, types.Int16, types.Int8, types.Uint, types.Uint64, types.Uint32, types.Uint16, types.Uint8:
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tif %s.%s.ToCodeString() != \"\" {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %s.%%s\", %sIdent, %s.%s.ToCodeString()))\n\t\t\t} else {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = 0\", %sIdent))\n\t\t\t}\n", sVar, fld.Name, fld.Name, fld.EnumPkgAlias, sVar, sVar, fld.Name, fld.Name, sVar))
-					default:
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tif %s.%s.ToCodeString() != \"\" {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %s.%%s\", %sIdent, %s.%s.ToCodeString()))\n\t\t\t} else {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = \\\"\\\"\", %sIdent))\n\t\t\t}\n", sVar, fld.Name, fld.Name, fld.EnumPkgAlias, sVar, sVar, fld.Name, fld.Name, sVar))
-					}
-					continue
-				}
-				switch fld.BasicKind {
-				case types.String:
-					if fld.IsEnum {
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, __gong__toRawStringLiteral(string(%s.%s))))\n", fld.Name, sVar, sVar, fld.Name))
-					} else {
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, __gong__toRawStringLiteral(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
-					}
-				case types.Int, types.Int64, types.Int32, types.Int16, types.Int8, types.Uint, types.Uint64, types.Uint32, types.Uint16, types.Uint8:
-					if fld.IsEnum {
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%d\", %sIdent, int(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
-					} else {
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%d\", %sIdent, %s.%s))\n", fld.Name, sVar, sVar, fld.Name))
-					}
-				case types.Float64, types.Float32:
-					if fld.IsEnum {
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%f\", %sIdent, float64(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
-					} else {
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%f\", %sIdent, %s.%s))\n", fld.Name, sVar, sVar, fld.Name))
-					}
-				case types.Bool:
-					if fld.IsEnum {
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%t\", %sIdent, bool(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
-					} else {
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%t\", %sIdent, %s.%s))\n", fld.Name, sVar, sVar, fld.Name))
-					}
-				default:
-					if fld.IsTime {
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s, _ = time.Parse(\\\"2006-01-02 15:04:05.999999999 -0700 MST\\\", \\\"%%s\\\")\", %sIdent, %s.%s.String()))\n", fld.Name, sVar, sVar, fld.Name))
-					} else if fld.IsDuration {
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = time.Duration(%%d)\", %sIdent, int64(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
-					} else if fld.IsEnum {
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, __gong__toRawStringLiteral(string(%s.%s))))\n", fld.Name, sVar, sVar, fld.Name))
-					}
-				}
-			}
-
-			// Phase 3 pointers
-			for _, fld := range fields {
-				if fld.IsPointer {
-					targetSSF := pkgPathToField[fld.TargetPackagePath]
-					if targetSSF != nil {
-						if targetPkg := fieldToModelPkg[targetSSF]; targetPkg != nil {
-							targetGS, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]
-							if !isGS || targetGS.IsOmittedForMarshalling {
-								continue
-							}
-						}
-						targetStageExpr := "stage"
-						if !targetSSF.IsLocal {
-							targetStageExpr = "stage." + targetSSF.Name
-						}
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tif %s.%s != nil {\n", sVar, fld.Name))
-						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tif lastStagePtr != %q {\n", f.Name))
-						marshallBody.WriteString("\t\t\t\t\tif pointers.Len() > 0 {\n")
-						marshallBody.WriteString("\t\t\t\t\t\tpointers.WriteString(\"\\n\")\n")
-						marshallBody.WriteString("\t\t\t\t\t}\n")
-						marshallBody.WriteString(fmt.Sprintf("\t\t\t\t\tlastStagePtr = %q\n", f.Name))
-						marshallBody.WriteString("\t\t\t\t}\n")
-						marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := %s.%s.GongGetIdentifier(%s)\n", sVar, fld.Name, targetStageExpr))
-						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tpointers.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, targetIdent))\n", fld.Name, sVar))
-						marshallBody.WriteString("\t\t\t}\n")
-					}
-				} else if fld.IsSliceOfPointer {
-					targetSSF := pkgPathToField[fld.TargetPackagePath]
-					if targetSSF != nil {
-						if targetPkg := fieldToModelPkg[targetSSF]; targetPkg != nil {
-							targetGS, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]
-							if !isGS || targetGS.IsOmittedForMarshalling {
-								continue
-							}
-						}
-						targetStageExpr := "stage"
-						if !targetSSF.IsLocal {
-							targetStageExpr = "stage." + targetSSF.Name
-						}
-						marshallBody.WriteString(fmt.Sprintf("\t\t\tfor _, elem := range %s.%s {\n", sVar, fld.Name))
-						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tif lastStagePtr != %q {\n", f.Name))
-						marshallBody.WriteString("\t\t\t\t\tif pointers.Len() > 0 {\n")
-						marshallBody.WriteString("\t\t\t\t\t\tpointers.WriteString(\"\\n\")\n")
-						marshallBody.WriteString("\t\t\t\t\t}\n")
-						marshallBody.WriteString(fmt.Sprintf("\t\t\t\t\tlastStagePtr = %q\n", f.Name))
-						marshallBody.WriteString("\t\t\t\t}\n")
-						marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := elem.GongGetIdentifier(%s)\n", targetStageExpr))
-						marshallBody.WriteString(fmt.Sprintf("\t\t\t\tpointers.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = append(%%s.%s, %%s)\", %sIdent, %sIdent, targetIdent))\n", fld.Name, fld.Name, sVar, sVar))
-						marshallBody.WriteString("\t\t\t}\n")
-					}
-				}
-			}
-
-			marshallBody.WriteString("\t\t}\n")
-			marshallBody.WriteString("\t}\n")
+			dirUsedAliases[f.ImportAlias] = true
 		}
 	}
+	rawDirName := modelPkg.Name
+	if rawDirName == "" {
+		rawDirName = rootPkgGoName
+	}
+	dirMainPkgAlias := sanitizeDirPkgAlias(rawDirName, dirUsedAliases)
+	dirStageFuncSuffix := pascalCaseIdent(rawDirName)
+	dirStageFileName := "stage_" + dirMainPkgAlias + ".go"
+
+	var dirSyntheticImports strings.Builder
+	var dirDummyDeclarations strings.Builder
+	for _, f := range stageSet.Fields {
+		alias := f.ImportAlias
+		if f.IsLocal {
+			alias = dirMainPkgAlias
+		}
+		if alias != f.PackageName {
+			dirSyntheticImports.WriteString(fmt.Sprintf("\n\t%s \"%s\"", alias, f.PackagePath))
+		} else {
+			dirSyntheticImports.WriteString(fmt.Sprintf("\n\t\"%s\"", f.PackagePath))
+		}
+		dirDummyDeclarations.WriteString(fmt.Sprintf("\n\t_ *%s.Stage", alias))
+	}
+
+	buildMarshallBody := func(localAliasOverride string) string {
+		var marshallBody strings.Builder
+		marshallBody.WriteString("\tvar declarations strings.Builder\n")
+		marshallBody.WriteString("\tvar values strings.Builder\n")
+		marshallBody.WriteString("\tvar pointers strings.Builder\n")
+		marshallBody.WriteString("\tvar lastStageDecl string\n")
+		marshallBody.WriteString("\tvar lastStageVal string\n")
+		marshallBody.WriteString("\tvar lastStagePtr string\n")
+		marshallBody.WriteString("\t_ = lastStageDecl\n")
+		marshallBody.WriteString("\t_ = lastStageVal\n")
+		marshallBody.WriteString("\t_ = lastStagePtr\n\n")
+
+		for _, f := range orderedFields {
+			mPkg := fieldToModelPkg[f]
+			if mPkg == nil {
+				continue
+			}
+
+			var structNames []string
+			for sName, gs := range mPkg.GongStructs {
+				if gs.ModelPkg.PkgPath == mPkg.PkgPath && gs.HasNameField() && !gs.IsOmittedForMarshalling {
+					structNames = append(structNames, sName[len(mPkg.PkgPath)+1:])
+				}
+			}
+			sort.Strings(structNames)
+
+			stageExpr := "stage"
+			if !f.IsLocal {
+				stageExpr = "stage." + f.Name
+			}
+
+			stageImportAlias := f.ImportAlias
+			if f.IsLocal && localAliasOverride != "" {
+				stageImportAlias = localAliasOverride
+			}
+			rewriteStageIdent := stageImportAlias != f.PackageName && f.PackageName != ""
+
+			for _, sName := range structNames {
+				sVar := strings.ToLower(sName)
+				sPlural := sName + "s"
+
+				fields := ExtractStructFields(mPkg, sName, pkgPathToField)
+
+				marshallBody.WriteString(fmt.Sprintf("\tif %s != nil {\n", stageExpr))
+				marshallBody.WriteString(fmt.Sprintf("\t\tfor _, %s := range __gong__sortStageSetInstances(%s.%s, %s.%s_stagedOrder) {\n", sVar, stageExpr, sPlural, stageExpr, sName))
+				marshallBody.WriteString(fmt.Sprintf("\t\t\tif lastStageDecl != %q {\n", f.Name))
+				marshallBody.WriteString("\t\t\t\tif declarations.Len() > 0 {\n")
+				marshallBody.WriteString("\t\t\t\t\tdeclarations.WriteString(\"\\n\")\n")
+				marshallBody.WriteString("\t\t\t\t}\n")
+				marshallBody.WriteString(fmt.Sprintf("\t\t\t\tlastStageDecl = %q\n", f.Name))
+				marshallBody.WriteString("\t\t\t}\n")
+				if rewriteStageIdent {
+					marshallBody.WriteString(fmt.Sprintf("\t\t\t%sIdent := strings.Replace(%s.GongGetIdentifier(%s), \"__%s__\", \"__%s__\", 1)\n", sVar, sVar, stageExpr, f.PackageName, stageImportAlias))
+				} else {
+					marshallBody.WriteString(fmt.Sprintf("\t\t\t%sIdent := %s.GongGetIdentifier(%s)\n", sVar, sVar, stageExpr))
+				}
+				// Phase 1 declaration
+				marshallBody.WriteString(fmt.Sprintf("\t\t\tdeclarations.WriteString(fmt.Sprintf(\"\\n\\t%%s := (&%s.%s{Name: %%s}).Stage(%s)\", %sIdent, __gong__toRawStringLiteral(%s.Name)))\n", stageImportAlias, sName, stageExpr, sVar, sVar))
+
+				// Phase 2 values
+				marshallBody.WriteString(fmt.Sprintf("\t\t\tif lastStageVal != %q {\n", f.Name))
+				marshallBody.WriteString("\t\t\t\tif values.Len() > 0 {\n")
+				marshallBody.WriteString("\t\t\t\t\tvalues.WriteString(\"\\n\")\n")
+				marshallBody.WriteString("\t\t\t\t}\n")
+				marshallBody.WriteString(fmt.Sprintf("\t\t\t\tlastStageVal = %q\n", f.Name))
+				marshallBody.WriteString("\t\t\t}\n")
+				for _, fld := range fields {
+					if fld.IsPointer || fld.IsSliceOfPointer {
+						continue
+					}
+					if fld.IsAny {
+						marshallBody.WriteString(fmt.Sprintf("\t\t\tif str, ok := %s.%s.(string); ok {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, str))\n\t\t\t}\n", sVar, fld.Name, fld.Name, sVar))
+						continue
+					}
+					if fld.IsGongEnum {
+						enumPkgAlias := fld.EnumPkgAlias
+						if localAliasOverride != "" && enumPkgAlias == mainPkgImportAlias {
+							enumPkgAlias = localAliasOverride
+						}
+						switch fld.BasicKind {
+						case types.Int, types.Int64, types.Int32, types.Int16, types.Int8, types.Uint, types.Uint64, types.Uint32, types.Uint16, types.Uint8:
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tif %s.%s.ToCodeString() != \"\" {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %s.%%s\", %sIdent, %s.%s.ToCodeString()))\n\t\t\t} else {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = 0\", %sIdent))\n\t\t\t}\n", sVar, fld.Name, fld.Name, enumPkgAlias, sVar, sVar, fld.Name, fld.Name, sVar))
+						default:
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tif %s.%s.ToCodeString() != \"\" {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %s.%%s\", %sIdent, %s.%s.ToCodeString()))\n\t\t\t} else {\n\t\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = \\\"\\\"\", %sIdent))\n\t\t\t}\n", sVar, fld.Name, fld.Name, enumPkgAlias, sVar, sVar, fld.Name, fld.Name, sVar))
+						}
+						continue
+					}
+					switch fld.BasicKind {
+					case types.String:
+						if fld.IsEnum {
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, __gong__toRawStringLiteral(string(%s.%s))))\n", fld.Name, sVar, sVar, fld.Name))
+						} else {
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, __gong__toRawStringLiteral(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
+						}
+					case types.Int, types.Int64, types.Int32, types.Int16, types.Int8, types.Uint, types.Uint64, types.Uint32, types.Uint16, types.Uint8:
+						if fld.IsEnum {
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%d\", %sIdent, int(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
+						} else {
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%d\", %sIdent, %s.%s))\n", fld.Name, sVar, sVar, fld.Name))
+						}
+					case types.Float64, types.Float32:
+						if fld.IsEnum {
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%f\", %sIdent, float64(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
+						} else {
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%f\", %sIdent, %s.%s))\n", fld.Name, sVar, sVar, fld.Name))
+						}
+					case types.Bool:
+						if fld.IsEnum {
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%t\", %sIdent, bool(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
+						} else {
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%t\", %sIdent, %s.%s))\n", fld.Name, sVar, sVar, fld.Name))
+						}
+					default:
+						if fld.IsTime {
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s, _ = time.Parse(\\\"2006-01-02 15:04:05.999999999 -0700 MST\\\", \\\"%%s\\\")\", %sIdent, %s.%s.String()))\n", fld.Name, sVar, sVar, fld.Name))
+						} else if fld.IsDuration {
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = time.Duration(%%d)\", %sIdent, int64(%s.%s)))\n", fld.Name, sVar, sVar, fld.Name))
+						} else if fld.IsEnum {
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tvalues.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, __gong__toRawStringLiteral(string(%s.%s))))\n", fld.Name, sVar, sVar, fld.Name))
+						}
+					}
+				}
+
+				// Phase 3 pointers
+				for _, fld := range fields {
+					if fld.IsPointer {
+						targetSSF := pkgPathToField[fld.TargetPackagePath]
+						if targetSSF != nil {
+							if targetPkg := fieldToModelPkg[targetSSF]; targetPkg != nil {
+								targetGS, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]
+								if !isGS || targetGS.IsOmittedForMarshalling {
+									continue
+								}
+							}
+							targetStageExpr := "stage"
+							if !targetSSF.IsLocal {
+								targetStageExpr = "stage." + targetSSF.Name
+							}
+							targetAlias := targetSSF.ImportAlias
+							if targetSSF.IsLocal && localAliasOverride != "" {
+								targetAlias = localAliasOverride
+							}
+							rewriteTargetIdent := targetAlias != targetSSF.PackageName && targetSSF.PackageName != ""
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tif %s.%s != nil {\n", sVar, fld.Name))
+							marshallBody.WriteString(fmt.Sprintf("\t\t\t\tif lastStagePtr != %q {\n", f.Name))
+							marshallBody.WriteString("\t\t\t\t\tif pointers.Len() > 0 {\n")
+							marshallBody.WriteString("\t\t\t\t\t\tpointers.WriteString(\"\\n\")\n")
+							marshallBody.WriteString("\t\t\t\t\t}\n")
+							marshallBody.WriteString(fmt.Sprintf("\t\t\t\t\tlastStagePtr = %q\n", f.Name))
+							marshallBody.WriteString("\t\t\t\t}\n")
+							if rewriteTargetIdent {
+								marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := strings.Replace(%s.%s.GongGetIdentifier(%s), \"__%s__\", \"__%s__\", 1)\n", sVar, fld.Name, targetStageExpr, targetSSF.PackageName, targetAlias))
+							} else {
+								marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := %s.%s.GongGetIdentifier(%s)\n", sVar, fld.Name, targetStageExpr))
+							}
+							marshallBody.WriteString(fmt.Sprintf("\t\t\t\tpointers.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = %%s\", %sIdent, targetIdent))\n", fld.Name, sVar))
+							marshallBody.WriteString("\t\t\t}\n")
+						}
+					} else if fld.IsSliceOfPointer {
+						targetSSF := pkgPathToField[fld.TargetPackagePath]
+						if targetSSF != nil {
+							if targetPkg := fieldToModelPkg[targetSSF]; targetPkg != nil {
+								targetGS, isGS := targetPkg.GongStructs[targetPkg.PkgPath+"."+fld.TargetStructName]
+								if !isGS || targetGS.IsOmittedForMarshalling {
+									continue
+								}
+							}
+							targetStageExpr := "stage"
+							if !targetSSF.IsLocal {
+								targetStageExpr = "stage." + targetSSF.Name
+							}
+							targetAlias := targetSSF.ImportAlias
+							if targetSSF.IsLocal && localAliasOverride != "" {
+								targetAlias = localAliasOverride
+							}
+							rewriteTargetIdent := targetAlias != targetSSF.PackageName && targetSSF.PackageName != ""
+							marshallBody.WriteString(fmt.Sprintf("\t\t\tfor _, elem := range %s.%s {\n", sVar, fld.Name))
+							marshallBody.WriteString(fmt.Sprintf("\t\t\t\tif lastStagePtr != %q {\n", f.Name))
+							marshallBody.WriteString("\t\t\t\t\tif pointers.Len() > 0 {\n")
+							marshallBody.WriteString("\t\t\t\t\t\tpointers.WriteString(\"\\n\")\n")
+							marshallBody.WriteString("\t\t\t\t\t}\n")
+							marshallBody.WriteString(fmt.Sprintf("\t\t\t\t\tlastStagePtr = %q\n", f.Name))
+							marshallBody.WriteString("\t\t\t\t}\n")
+							if rewriteTargetIdent {
+								marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := strings.Replace(elem.GongGetIdentifier(%s), \"__%s__\", \"__%s__\", 1)\n", targetStageExpr, targetSSF.PackageName, targetAlias))
+							} else {
+								marshallBody.WriteString(fmt.Sprintf("\t\t\t\ttargetIdent := elem.GongGetIdentifier(%s)\n", targetStageExpr))
+							}
+							marshallBody.WriteString(fmt.Sprintf("\t\t\t\tpointers.WriteString(fmt.Sprintf(\"\\n\\t%%s.%s = append(%%s.%s, %%s)\", %sIdent, %sIdent, targetIdent))\n", fld.Name, fld.Name, sVar, sVar))
+							marshallBody.WriteString("\t\t\t}\n")
+						}
+					}
+				}
+
+				marshallBody.WriteString("\t\t}\n")
+				marshallBody.WriteString("\t}\n")
+			}
+		}
+		return marshallBody.String()
+	}
+
+	marshallBodyStr := buildMarshallBody("")
+	dirMarshallBodyStr := buildMarshallBody(dirMainPkgAlias)
 
 	// Build AST Parsing (ParseAstFileFromAst)
 	var prepopulateIdentifierMap strings.Builder
@@ -798,7 +922,14 @@ func ResolveSubStages(
 		DummyDeclarations:                   dummyDeclarations.String(),
 		MainPkgImportAlias:                  mainPkgImportAlias,
 		ProbePackageName:                    probePackageName,
-		MarshallBody:                        marshallBody.String(),
+		MarshallBody:                        marshallBodyStr,
+		ModPath:                             modPath,
+		DirMainPkgAlias:                     dirMainPkgAlias,
+		DirStageFuncSuffix:                  dirStageFuncSuffix,
+		DirStageFileName:                    dirStageFileName,
+		DirSyntheticImports:                 dirSyntheticImports.String(),
+		DirDummyDeclarations:                dirDummyDeclarations.String(),
+		DirMarshallBody:                     dirMarshallBodyStr,
 		ImportPathCases:                     importPathCases.String(),
 		PrepopulateIdentifierMapStatements:  prepopulateIdentifierMap.String(),
 		DefineCases:                         defineCases.String(),

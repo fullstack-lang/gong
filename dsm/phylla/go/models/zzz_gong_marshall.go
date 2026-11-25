@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -1706,6 +1717,1419 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/dsm/phylla/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/dsm/phylla/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_phylla.go exposing StagePhylla.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_phylla.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StagePhylla).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage.ClockStage != nil {
+		for _, clockabstract := range __gong__sortStageSetInstances(stage.ClockStage.ClockAbstracts, stage.ClockStage.ClockAbstract_stagedOrder) {
+			if lastStageDecl != "ClockStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "ClockStage"
+			}
+			clockabstractIdent := clockabstract.GongGetIdentifier(stage.ClockStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&clock.ClockAbstract{Name: %s}).Stage(stage.ClockStage)", clockabstractIdent, __gong__toRawStringLiteral(clockabstract.Name)))
+			if lastStageVal != "ClockStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "ClockStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", clockabstractIdent, __gong__toRawStringLiteral(clockabstract.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RadialRepetitions = %d", clockabstractIdent, clockabstract.RadialRepetitions))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transparency = %f", clockabstractIdent, clockabstract.Transparency))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeTubeDiameter = %f", clockabstractIdent, clockabstract.RelativeTubeDiameter))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeHeight3DTorus = %f", clockabstractIdent, clockabstract.RelativeHeight3DTorus))
+			values.WriteString(fmt.Sprintf("\n\t%s.ClockTorusVerticalScale = %f", clockabstractIdent, clockabstract.ClockTorusVerticalScale))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeHeight = %f", clockabstractIdent, clockabstract.RelativeHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", clockabstractIdent, clockabstract.ProjectionAngle))
+		}
+	}
+	if stage.MusicStage != nil {
+		for _, musicabstract := range __gong__sortStageSetInstances(stage.MusicStage.MusicAbstracts, stage.MusicStage.MusicAbstract_stagedOrder) {
+			if lastStageDecl != "MusicStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "MusicStage"
+			}
+			musicabstractIdent := musicabstract.GongGetIdentifier(stage.MusicStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&music.MusicAbstract{Name: %s}).Stage(stage.MusicStage)", musicabstractIdent, __gong__toRawStringLiteral(musicabstract.Name)))
+			if lastStageVal != "MusicStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "MusicStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", musicabstractIdent, __gong__toRawStringLiteral(musicabstract.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", musicabstractIdent, musicabstract.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.PitchHeight = %f", musicabstractIdent, musicabstract.PitchHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbOfBeatsInTheme = %d", musicabstractIdent, musicabstract.NbOfBeatsInTheme))
+			values.WriteString(fmt.Sprintf("\n\t%s.BeatsPerSecond = %f", musicabstractIdent, musicabstract.BeatsPerSecond))
+			values.WriteString(fmt.Sprintf("\n\t%s.FirstVoiceShiftX = %f", musicabstractIdent, musicabstract.FirstVoiceShiftX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FirstVoiceShiftY = %f", musicabstractIdent, musicabstract.FirstVoiceShiftY))
+			values.WriteString(fmt.Sprintf("\n\t%s.PitchDifference = %d", musicabstractIdent, musicabstract.PitchDifference))
+			values.WriteString(fmt.Sprintf("\n\t%s.Level = %f", musicabstractIdent, musicabstract.Level))
+			values.WriteString(fmt.Sprintf("\n\t%s.ActualBeatsTemporalShift = %d", musicabstractIdent, musicabstract.ActualBeatsTemporalShift))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsMinor = %t", musicabstractIdent, musicabstract.IsMinor))
+			values.WriteString(fmt.Sprintf("\n\t%s.ThemeBinaryEncoding = %d", musicabstractIdent, musicabstract.ThemeBinaryEncoding))
+			values.WriteString(fmt.Sprintf("\n\t%s.BezierControlLengthRatio = %f", musicabstractIdent, musicabstract.BezierControlLengthRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbPitchLines = %d", musicabstractIdent, musicabstract.NbPitchLines))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbBeatLines = %d", musicabstractIdent, musicabstract.NbBeatLines))
+			values.WriteString(fmt.Sprintf("\n\t%s.OriginX = %f", musicabstractIdent, musicabstract.OriginX))
+			values.WriteString(fmt.Sprintf("\n\t%s.OriginY = %f", musicabstractIdent, musicabstract.OriginY))
+			values.WriteString(fmt.Sprintf("\n\t%s.ScoreScale = %f", musicabstractIdent, musicabstract.ScoreScale))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowFirstVoice = %t", musicabstractIdent, musicabstract.ShowFirstVoice))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowFirstVoiceShiftRight = %t", musicabstractIdent, musicabstract.ShowFirstVoiceShiftRight))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowSecondVoice = %t", musicabstractIdent, musicabstract.ShowSecondVoice))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowSecondVoiceShiftRight = %t", musicabstractIdent, musicabstract.ShowSecondVoiceShiftRight))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowFirstVoiceNotes = %t", musicabstractIdent, musicabstract.ShowFirstVoiceNotes))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowFirstVoiceNotesShiftRight = %t", musicabstractIdent, musicabstract.ShowFirstVoiceNotesShiftRight))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowSecondVoiceNotes = %t", musicabstractIdent, musicabstract.ShowSecondVoiceNotes))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowSecondVoiceNotesShiftRight = %t", musicabstractIdent, musicabstract.ShowSecondVoiceNotesShiftRight))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsComposerNodeExpanded = %t", musicabstractIdent, musicabstract.IsComposerNodeExpanded))
+		}
+	}
+	if stage.StoolStage != nil {
+		for _, stoolabstract := range __gong__sortStageSetInstances(stage.StoolStage.StoolAbstracts, stage.StoolStage.StoolAbstract_stagedOrder) {
+			if lastStageDecl != "StoolStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "StoolStage"
+			}
+			stoolabstractIdent := stoolabstract.GongGetIdentifier(stage.StoolStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&stool.StoolAbstract{Name: %s}).Stage(stage.StoolStage)", stoolabstractIdent, __gong__toRawStringLiteral(stoolabstract.Name)))
+			if lastStageVal != "StoolStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "StoolStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", stoolabstractIdent, __gong__toRawStringLiteral(stoolabstract.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RadialRepetitions = %d", stoolabstractIdent, stoolabstract.RadialRepetitions))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transparency = %f", stoolabstractIdent, stoolabstract.Transparency))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeTubeDiameter = %f", stoolabstractIdent, stoolabstract.RelativeTubeDiameter))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeHeight3DTorus = %f", stoolabstractIdent, stoolabstract.RelativeHeight3DTorus))
+			values.WriteString(fmt.Sprintf("\n\t%s.StoolTorusVerticalScale = %f", stoolabstractIdent, stoolabstract.StoolTorusVerticalScale))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeHeight = %f", stoolabstractIdent, stoolabstract.RelativeHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeSeatThickness = %f", stoolabstractIdent, stoolabstract.RelativeSeatThickness))
+			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", stoolabstractIdent, stoolabstract.ProjectionAngle))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeEyeSeparationCriteria = %f", stoolabstractIdent, stoolabstract.RelativeEyeSeparationCriteria))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeEyeCornerControlVectorStrength = %f", stoolabstractIdent, stoolabstract.RelativeEyeCornerControlVectorStrength))
+		}
+	}
+	if stage != nil {
+		for _, angle0shape := range __gong__sortStageSetInstances(stage.Angle0Shapes, stage.Angle0Shape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			angle0shapeIdent := strings.Replace(angle0shape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.Angle0Shape{Name: %s}).Stage(stage)", angle0shapeIdent, __gong__toRawStringLiteral(angle0shape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", angle0shapeIdent, __gong__toRawStringLiteral(angle0shape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, bottomcurveplane1shape := range __gong__sortStageSetInstances(stage.BottomCurvePlane1Shapes, stage.BottomCurvePlane1Shape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			bottomcurveplane1shapeIdent := strings.Replace(bottomcurveplane1shape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.BottomCurvePlane1Shape{Name: %s}).Stage(stage)", bottomcurveplane1shapeIdent, __gong__toRawStringLiteral(bottomcurveplane1shape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bottomcurveplane1shapeIdent, __gong__toRawStringLiteral(bottomcurveplane1shape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, bottomcurveplane2shape := range __gong__sortStageSetInstances(stage.BottomCurvePlane2Shapes, stage.BottomCurvePlane2Shape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			bottomcurveplane2shapeIdent := strings.Replace(bottomcurveplane2shape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.BottomCurvePlane2Shape{Name: %s}).Stage(stage)", bottomcurveplane2shapeIdent, __gong__toRawStringLiteral(bottomcurveplane2shape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bottomcurveplane2shapeIdent, __gong__toRawStringLiteral(bottomcurveplane2shape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, carvedoutbottomcurveplane1shape := range __gong__sortStageSetInstances(stage.CarvedOutBottomCurvePlane1Shapes, stage.CarvedOutBottomCurvePlane1Shape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			carvedoutbottomcurveplane1shapeIdent := strings.Replace(carvedoutbottomcurveplane1shape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.CarvedOutBottomCurvePlane1Shape{Name: %s}).Stage(stage)", carvedoutbottomcurveplane1shapeIdent, __gong__toRawStringLiteral(carvedoutbottomcurveplane1shape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", carvedoutbottomcurveplane1shapeIdent, __gong__toRawStringLiteral(carvedoutbottomcurveplane1shape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, carvedouttopcurveplane1shape := range __gong__sortStageSetInstances(stage.CarvedOutTopCurvePlane1Shapes, stage.CarvedOutTopCurvePlane1Shape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			carvedouttopcurveplane1shapeIdent := strings.Replace(carvedouttopcurveplane1shape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.CarvedOutTopCurvePlane1Shape{Name: %s}).Stage(stage)", carvedouttopcurveplane1shapeIdent, __gong__toRawStringLiteral(carvedouttopcurveplane1shape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", carvedouttopcurveplane1shapeIdent, __gong__toRawStringLiteral(carvedouttopcurveplane1shape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, carvedoutvasetrapezeringshape := range __gong__sortStageSetInstances(stage.CarvedOutVaseTrapezeRingShapes, stage.CarvedOutVaseTrapezeRingShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			carvedoutvasetrapezeringshapeIdent := strings.Replace(carvedoutvasetrapezeringshape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.CarvedOutVaseTrapezeRingShape{Name: %s}).Stage(stage)", carvedoutvasetrapezeringshapeIdent, __gong__toRawStringLiteral(carvedoutvasetrapezeringshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", carvedoutvasetrapezeringshapeIdent, __gong__toRawStringLiteral(carvedoutvasetrapezeringshape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, circumference3dshape := range __gong__sortStageSetInstances(stage.Circumference3DShapes, stage.Circumference3DShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			circumference3dshapeIdent := strings.Replace(circumference3dshape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.Circumference3DShape{Name: %s}).Stage(stage)", circumference3dshapeIdent, __gong__toRawStringLiteral(circumference3dshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", circumference3dshapeIdent, __gong__toRawStringLiteral(circumference3dshape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, clock2ddiagram := range __gong__sortStageSetInstances(stage.Clock2DDiagrams, stage.Clock2DDiagram_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			clock2ddiagramIdent := strings.Replace(clock2ddiagram.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.Clock2DDiagram{Name: %s}).Stage(stage)", clock2ddiagramIdent, __gong__toRawStringLiteral(clock2ddiagram.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", clock2ddiagramIdent, __gong__toRawStringLiteral(clock2ddiagram.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Zoom = %f", clock2ddiagramIdent, clock2ddiagram.Zoom))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenAxesShape = %t", clock2ddiagramIdent, clock2ddiagram.IsHiddenAxesShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", clock2ddiagramIdent, clock2ddiagram.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", clock2ddiagramIdent, __gong__toRawStringLiteral(clock2ddiagram.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", clock2ddiagramIdent, clock2ddiagram.IsExpanded))
+		}
+	}
+	if stage != nil {
+		for _, clock3ddiagram := range __gong__sortStageSetInstances(stage.Clock3DDiagrams, stage.Clock3DDiagram_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			clock3ddiagramIdent := strings.Replace(clock3ddiagram.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.Clock3DDiagram{Name: %s}).Stage(stage)", clock3ddiagramIdent, __gong__toRawStringLiteral(clock3ddiagram.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", clock3ddiagramIdent, __gong__toRawStringLiteral(clock3ddiagram.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenClockTopCurveShape = %t", clock3ddiagramIdent, clock3ddiagram.IsHiddenClockTopCurveShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTorus3DShape = %t", clock3ddiagramIdent, clock3ddiagram.IsHiddenTorus3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenSampledPoints3DShape = %t", clock3ddiagramIdent, clock3ddiagram.IsHiddenSampledPoints3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTiledFloor3DShape = %t", clock3ddiagramIdent, clock3ddiagram.IsHiddenTiledFloor3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", clock3ddiagramIdent, clock3ddiagram.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", clock3ddiagramIdent, __gong__toRawStringLiteral(clock3ddiagram.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", clock3ddiagramIdent, clock3ddiagram.IsExpanded))
+			if clock3ddiagram.SampledPoints3DShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(clock3ddiagram.SampledPoints3DShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SampledPoints3DShape = %s", clock3ddiagramIdent, targetIdent))
+			}
+			if clock3ddiagram.Rendered3DShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(clock3ddiagram.Rendered3DShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Rendered3DShape = %s", clock3ddiagramIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, cutline3dshape := range __gong__sortStageSetInstances(stage.CutLine3DShapes, stage.CutLine3DShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cutline3dshapeIdent := strings.Replace(cutline3dshape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.CutLine3DShape{Name: %s}).Stage(stage)", cutline3dshapeIdent, __gong__toRawStringLiteral(cutline3dshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cutline3dshapeIdent, __gong__toRawStringLiteral(cutline3dshape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, leaves3dshape := range __gong__sortStageSetInstances(stage.Leaves3DShapes, stage.Leaves3DShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			leaves3dshapeIdent := strings.Replace(leaves3dshape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.Leaves3DShape{Name: %s}).Stage(stage)", leaves3dshapeIdent, __gong__toRawStringLiteral(leaves3dshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", leaves3dshapeIdent, __gong__toRawStringLiteral(leaves3dshape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, library := range __gong__sortStageSetInstances(stage.Librarys, stage.Library_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			libraryIdent := strings.Replace(library.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.Library{Name: %s}).Stage(stage)", libraryIdent, __gong__toRawStringLiteral(library.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", libraryIdent, __gong__toRawStringLiteral(library.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbPixPerCharacter = %f", libraryIdent, library.NbPixPerCharacter))
+			values.WriteString(fmt.Sprintf("\n\t%s.LogoSVGFile = %s", libraryIdent, __gong__toRawStringLiteral(library.LogoSVGFile)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", libraryIdent, __gong__toRawStringLiteral(library.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", libraryIdent, library.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsRootLibrary = %t", libraryIdent, library.IsRootLibrary))
+			for _, elem := range library.Plants {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Plants = append(%s.Plants, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.SubLibraries {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibraries = append(%s.SubLibraries, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, originalpoints3dshape := range __gong__sortStageSetInstances(stage.OriginalPoints3DShapes, stage.OriginalPoints3DShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			originalpoints3dshapeIdent := strings.Replace(originalpoints3dshape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.OriginalPoints3DShape{Name: %s}).Stage(stage)", originalpoints3dshapeIdent, __gong__toRawStringLiteral(originalpoints3dshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", originalpoints3dshapeIdent, __gong__toRawStringLiteral(originalpoints3dshape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, parastichymcurves3dshape := range __gong__sortStageSetInstances(stage.ParastichyMCurves3DShapes, stage.ParastichyMCurves3DShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			parastichymcurves3dshapeIdent := strings.Replace(parastichymcurves3dshape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.ParastichyMCurves3DShape{Name: %s}).Stage(stage)", parastichymcurves3dshapeIdent, __gong__toRawStringLiteral(parastichymcurves3dshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parastichymcurves3dshapeIdent, __gong__toRawStringLiteral(parastichymcurves3dshape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, parastichyncurves3dshape := range __gong__sortStageSetInstances(stage.ParastichyNCurves3DShapes, stage.ParastichyNCurves3DShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			parastichyncurves3dshapeIdent := strings.Replace(parastichyncurves3dshape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.ParastichyNCurves3DShape{Name: %s}).Stage(stage)", parastichyncurves3dshapeIdent, __gong__toRawStringLiteral(parastichyncurves3dshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", parastichyncurves3dshapeIdent, __gong__toRawStringLiteral(parastichyncurves3dshape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, plant2ddiagram := range __gong__sortStageSetInstances(stage.Plant2DDiagrams, stage.Plant2DDiagram_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			plant2ddiagramIdent := strings.Replace(plant2ddiagram.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.Plant2DDiagram{Name: %s}).Stage(stage)", plant2ddiagramIdent, __gong__toRawStringLiteral(plant2ddiagram.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", plant2ddiagramIdent, __gong__toRawStringLiteral(plant2ddiagram.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.OriginX = %f", plant2ddiagramIdent, plant2ddiagram.OriginX))
+			values.WriteString(fmt.Sprintf("\n\t%s.OriginY = %f", plant2ddiagramIdent, plant2ddiagram.OriginY))
+			values.WriteString(fmt.Sprintf("\n\t%s.Zoom = %f", plant2ddiagramIdent, plant2ddiagram.Zoom))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsRhombusNodesExpanded = %t", plant2ddiagramIdent, plant2ddiagram.IsRhombusNodesExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsArcNodesExpanded = %t", plant2ddiagramIdent, plant2ddiagram.IsArcNodesExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenAxesShape = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenAxesShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenReferenceRhombus = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenReferenceRhombus))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenPlantCircumferenceShape = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenPlantCircumferenceShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenGridPathShape = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenGridPathShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenRhombusGridShape = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenRhombusGridShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenExplanationTextShape = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenExplanationTextShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenRotatedReferenceRhombus = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenRotatedReferenceRhombus))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenRotatedPlantCircumferenceShape = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenRotatedPlantCircumferenceShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenRotatedGridPathShape = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenRotatedGridPathShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenRotatedRhombusGridShape = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenRotatedRhombusGridShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenGrowthPathRhombusGridShape = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenGrowthPathRhombusGridShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenGrowthVectorShape = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenGrowthVectorShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenPerpendicularVectorGrid = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenPerpendicularVectorGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenBaseVectorShapeGrid = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenBaseVectorShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenArcNormalVectorShapeGrid = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenArcNormalVectorShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStartArcShapeGrid = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenStartArcShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenMidArcVectorShapeGrid = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenMidArcVectorShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenEndArcShapeGrid = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenEndArcShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenGrowthCurve2D = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenGrowthCurve2D))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStackOfGrowthCurve2DByGrowthVector = %t", plant2ddiagramIdent, plant2ddiagram.IsHiddenStackOfGrowthCurve2DByGrowthVector))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", plant2ddiagramIdent, plant2ddiagram.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", plant2ddiagramIdent, __gong__toRawStringLiteral(plant2ddiagram.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", plant2ddiagramIdent, plant2ddiagram.IsExpanded))
+		}
+	}
+	if stage != nil {
+		for _, plant3ddiagram := range __gong__sortStageSetInstances(stage.Plant3DDiagrams, stage.Plant3DDiagram_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			plant3ddiagramIdent := strings.Replace(plant3ddiagram.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.Plant3DDiagram{Name: %s}).Stage(stage)", plant3ddiagramIdent, __gong__toRawStringLiteral(plant3ddiagram.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", plant3ddiagramIdent, __gong__toRawStringLiteral(plant3ddiagram.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStemCylinder3DShape = %t", plant3ddiagramIdent, plant3ddiagram.IsHiddenStemCylinder3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenParastichyNCurves3DShape = %t", plant3ddiagramIdent, plant3ddiagram.IsHiddenParastichyNCurves3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenParastichyMCurves3DShape = %t", plant3ddiagramIdent, plant3ddiagram.IsHiddenParastichyMCurves3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenCutLine3DShape = %t", plant3ddiagramIdent, plant3ddiagram.IsHiddenCutLine3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenCircumference3DShape = %t", plant3ddiagramIdent, plant3ddiagram.IsHiddenCircumference3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTiledFloor3DShape = %t", plant3ddiagramIdent, plant3ddiagram.IsHiddenTiledFloor3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenLeaves3DShape = %t", plant3ddiagramIdent, plant3ddiagram.IsHiddenLeaves3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", plant3ddiagramIdent, plant3ddiagram.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", plant3ddiagramIdent, __gong__toRawStringLiteral(plant3ddiagram.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", plant3ddiagramIdent, plant3ddiagram.IsExpanded))
+			if plant3ddiagram.StemCylinder3DShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(plant3ddiagram.StemCylinder3DShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StemCylinder3DShape = %s", plant3ddiagramIdent, targetIdent))
+			}
+			if plant3ddiagram.ParastichyNCurves3DShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(plant3ddiagram.ParastichyNCurves3DShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParastichyNCurves3DShape = %s", plant3ddiagramIdent, targetIdent))
+			}
+			if plant3ddiagram.ParastichyMCurves3DShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(plant3ddiagram.ParastichyMCurves3DShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParastichyMCurves3DShape = %s", plant3ddiagramIdent, targetIdent))
+			}
+			if plant3ddiagram.CutLine3DShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(plant3ddiagram.CutLine3DShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CutLine3DShape = %s", plant3ddiagramIdent, targetIdent))
+			}
+			if plant3ddiagram.Circumference3DShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(plant3ddiagram.Circumference3DShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Circumference3DShape = %s", plant3ddiagramIdent, targetIdent))
+			}
+			if plant3ddiagram.Leaves3DShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(plant3ddiagram.Leaves3DShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Leaves3DShape = %s", plant3ddiagramIdent, targetIdent))
+			}
+			if plant3ddiagram.Rendered3DShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(plant3ddiagram.Rendered3DShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Rendered3DShape = %s", plant3ddiagramIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, plantabstract := range __gong__sortStageSetInstances(stage.PlantAbstracts, stage.PlantAbstract_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			plantabstractIdent := strings.Replace(plantabstract.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.PlantAbstract{Name: %s}).Stage(stage)", plantabstractIdent, __gong__toRawStringLiteral(plantabstract.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", plantabstractIdent, __gong__toRawStringLiteral(plantabstract.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.N = %d", plantabstractIdent, plantabstract.N))
+			values.WriteString(fmt.Sprintf("\n\t%s.M = %d", plantabstractIdent, plantabstract.M))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackHeight = %d", plantabstractIdent, plantabstract.StackHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.RhombusInsideAngle = %f", plantabstractIdent, plantabstract.RhombusInsideAngle))
+			values.WriteString(fmt.Sprintf("\n\t%s.RhombusSideLength = %f", plantabstractIdent, plantabstract.RhombusSideLength))
+			if plantabstract.PlantType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.PlantType = phylla.%s", plantabstractIdent, plantabstract.PlantType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.PlantType = \"\"", plantabstractIdent))
+			}
+			if plantabstract.CurrentView.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.CurrentView = phylla.%s", plantabstractIdent, plantabstract.CurrentView.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.CurrentView = \"\"", plantabstractIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", plantabstractIdent, __gong__toRawStringLiteral(plantabstract.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", plantabstractIdent, plantabstract.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSelected = %t", plantabstractIdent, plantabstract.IsSelected))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPlant2DDiagramsNodeExpanded = %t", plantabstractIdent, plantabstract.IsPlant2DDiagramsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPlant3DDiagramsNodeExpanded = %t", plantabstractIdent, plantabstract.IsPlant3DDiagramsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsVase2DDiagramsNodeExpanded = %t", plantabstractIdent, plantabstract.IsVase2DDiagramsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsTubeVase3DDiagramsNodeExpanded = %t", plantabstractIdent, plantabstract.IsTubeVase3DDiagramsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsStool2DDiagramsNodeExpanded = %t", plantabstractIdent, plantabstract.IsStool2DDiagramsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsStool3DDiagramsNodeExpanded = %t", plantabstractIdent, plantabstract.IsStool3DDiagramsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsClock2DDiagramsNodeExpanded = %t", plantabstractIdent, plantabstract.IsClock2DDiagramsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsClock3DDiagramsNodeExpanded = %t", plantabstractIdent, plantabstract.IsClock3DDiagramsNodeExpanded))
+			if plantabstract.TubeVaseAbstract != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(plantabstract.TubeVaseAbstract.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TubeVaseAbstract = %s", plantabstractIdent, targetIdent))
+			}
+			if plantabstract.StoolAbstract != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := plantabstract.StoolAbstract.GongGetIdentifier(stage.StoolStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StoolAbstract = %s", plantabstractIdent, targetIdent))
+			}
+			if plantabstract.ClockAbstract != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := plantabstract.ClockAbstract.GongGetIdentifier(stage.ClockStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ClockAbstract = %s", plantabstractIdent, targetIdent))
+			}
+			if plantabstract.MusicAbstract != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := plantabstract.MusicAbstract.GongGetIdentifier(stage.MusicStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MusicAbstract = %s", plantabstractIdent, targetIdent))
+			}
+			for _, elem := range plantabstract.Plant2DDiagrams {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Plant2DDiagrams = append(%s.Plant2DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
+			}
+			for _, elem := range plantabstract.Plant3DDiagrams {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Plant3DDiagrams = append(%s.Plant3DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
+			}
+			for _, elem := range plantabstract.Vase2DDiagrams {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Vase2DDiagrams = append(%s.Vase2DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
+			}
+			for _, elem := range plantabstract.TubeVase3DDiagrams {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TubeVase3DDiagrams = append(%s.TubeVase3DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
+			}
+			for _, elem := range plantabstract.Stool2DDiagrams {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Stool2DDiagrams = append(%s.Stool2DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
+			}
+			for _, elem := range plantabstract.Stool3DDiagrams {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Stool3DDiagrams = append(%s.Stool3DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
+			}
+			for _, elem := range plantabstract.Clock2DDiagrams {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Clock2DDiagrams = append(%s.Clock2DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
+			}
+			for _, elem := range plantabstract.Clock3DDiagrams {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Clock3DDiagrams = append(%s.Clock3DDiagrams, %s)", plantabstractIdent, plantabstractIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, rendered3dshape := range __gong__sortStageSetInstances(stage.Rendered3DShapes, stage.Rendered3DShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			rendered3dshapeIdent := strings.Replace(rendered3dshape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.Rendered3DShape{Name: %s}).Stage(stage)", rendered3dshapeIdent, __gong__toRawStringLiteral(rendered3dshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", rendered3dshapeIdent, __gong__toRawStringLiteral(rendered3dshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ViewX = %f", rendered3dshapeIdent, rendered3dshape.ViewX))
+			values.WriteString(fmt.Sprintf("\n\t%s.ViewY = %f", rendered3dshapeIdent, rendered3dshape.ViewY))
+			values.WriteString(fmt.Sprintf("\n\t%s.ViewZ = %f", rendered3dshapeIdent, rendered3dshape.ViewZ))
+			values.WriteString(fmt.Sprintf("\n\t%s.TargetX = %f", rendered3dshapeIdent, rendered3dshape.TargetX))
+			values.WriteString(fmt.Sprintf("\n\t%s.TargetY = %f", rendered3dshapeIdent, rendered3dshape.TargetY))
+			values.WriteString(fmt.Sprintf("\n\t%s.TargetZ = %f", rendered3dshapeIdent, rendered3dshape.TargetZ))
+			values.WriteString(fmt.Sprintf("\n\t%s.Fov = %f", rendered3dshapeIdent, rendered3dshape.Fov))
+		}
+	}
+	if stage != nil {
+		for _, sampledpoints3dshape := range __gong__sortStageSetInstances(stage.SampledPoints3DShapes, stage.SampledPoints3DShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			sampledpoints3dshapeIdent := strings.Replace(sampledpoints3dshape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.SampledPoints3DShape{Name: %s}).Stage(stage)", sampledpoints3dshapeIdent, __gong__toRawStringLiteral(sampledpoints3dshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", sampledpoints3dshapeIdent, __gong__toRawStringLiteral(sampledpoints3dshape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, stackofrotatedcarvedoutvasetrapezeringsshape := range __gong__sortStageSetInstances(stage.StackOfRotatedCarvedOutVaseTrapezeRingsShapes, stage.StackOfRotatedCarvedOutVaseTrapezeRingsShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			stackofrotatedcarvedoutvasetrapezeringsshapeIdent := strings.Replace(stackofrotatedcarvedoutvasetrapezeringsshape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.StackOfRotatedCarvedOutVaseTrapezeRingsShape{Name: %s}).Stage(stage)", stackofrotatedcarvedoutvasetrapezeringsshapeIdent, __gong__toRawStringLiteral(stackofrotatedcarvedoutvasetrapezeringsshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", stackofrotatedcarvedoutvasetrapezeringsshapeIdent, __gong__toRawStringLiteral(stackofrotatedcarvedoutvasetrapezeringsshape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, stemcylinder3dshape := range __gong__sortStageSetInstances(stage.StemCylinder3DShapes, stage.StemCylinder3DShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			stemcylinder3dshapeIdent := strings.Replace(stemcylinder3dshape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.StemCylinder3DShape{Name: %s}).Stage(stage)", stemcylinder3dshapeIdent, __gong__toRawStringLiteral(stemcylinder3dshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", stemcylinder3dshapeIdent, __gong__toRawStringLiteral(stemcylinder3dshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transparency = %f", stemcylinder3dshapeIdent, stemcylinder3dshape.Transparency))
+		}
+	}
+	if stage != nil {
+		for _, stool2ddiagram := range __gong__sortStageSetInstances(stage.Stool2DDiagrams, stage.Stool2DDiagram_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			stool2ddiagramIdent := strings.Replace(stool2ddiagram.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.Stool2DDiagram{Name: %s}).Stage(stage)", stool2ddiagramIdent, __gong__toRawStringLiteral(stool2ddiagram.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", stool2ddiagramIdent, __gong__toRawStringLiteral(stool2ddiagram.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Zoom = %f", stool2ddiagramIdent, stool2ddiagram.Zoom))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenAxesShape = %t", stool2ddiagramIdent, stool2ddiagram.IsHiddenAxesShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", stool2ddiagramIdent, stool2ddiagram.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", stool2ddiagramIdent, __gong__toRawStringLiteral(stool2ddiagram.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", stool2ddiagramIdent, stool2ddiagram.IsExpanded))
+		}
+	}
+	if stage != nil {
+		for _, stool3ddiagram := range __gong__sortStageSetInstances(stage.Stool3DDiagrams, stage.Stool3DDiagram_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			stool3ddiagramIdent := strings.Replace(stool3ddiagram.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.Stool3DDiagram{Name: %s}).Stage(stage)", stool3ddiagramIdent, __gong__toRawStringLiteral(stool3ddiagram.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", stool3ddiagramIdent, __gong__toRawStringLiteral(stool3ddiagram.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenSeatTopCurveShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenSeatTopCurveShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenRotatedSeatTopCurveShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenRotatedSeatTopCurveShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenSeatBottomCurveShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenSeatBottomCurveShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenRotatedSeatBottomCurveShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenRotatedSeatBottomCurveShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTorus3DShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenTorus3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenRotatedTorusShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenRotatedTorusShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenSampledPoints3DShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenSampledPoints3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenRotatedSampledPoints3DShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenRotatedSampledPoints3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenEyeSampledPoints3DShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenEyeSampledPoints3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenEyeCornersSampledPoints3DShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenEyeCornersSampledPoints3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenEye3DShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenEye3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenEyeSeatBottomCurveShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenEyeSeatBottomCurveShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenEyeStoolBottomCurveShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenEyeStoolBottomCurveShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenSeat3DShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenSeat3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenEyeVolume3DShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenEyeVolume3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenSeatAndLegs3DShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenSeatAndLegs3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenRotatedSeatAndLegs3DShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenRotatedSeatAndLegs3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTiledFloor3DShape = %t", stool3ddiagramIdent, stool3ddiagram.IsHiddenTiledFloor3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", stool3ddiagramIdent, stool3ddiagram.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", stool3ddiagramIdent, __gong__toRawStringLiteral(stool3ddiagram.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", stool3ddiagramIdent, stool3ddiagram.IsExpanded))
+			if stool3ddiagram.SampledPoints3DShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(stool3ddiagram.SampledPoints3DShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SampledPoints3DShape = %s", stool3ddiagramIdent, targetIdent))
+			}
+			if stool3ddiagram.Rendered3DShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(stool3ddiagram.Rendered3DShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Rendered3DShape = %s", stool3ddiagramIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, topcurveplane1shape := range __gong__sortStageSetInstances(stage.TopCurvePlane1Shapes, stage.TopCurvePlane1Shape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			topcurveplane1shapeIdent := strings.Replace(topcurveplane1shape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.TopCurvePlane1Shape{Name: %s}).Stage(stage)", topcurveplane1shapeIdent, __gong__toRawStringLiteral(topcurveplane1shape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", topcurveplane1shapeIdent, __gong__toRawStringLiteral(topcurveplane1shape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, topcurveplane2shape := range __gong__sortStageSetInstances(stage.TopCurvePlane2Shapes, stage.TopCurvePlane2Shape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			topcurveplane2shapeIdent := strings.Replace(topcurveplane2shape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.TopCurvePlane2Shape{Name: %s}).Stage(stage)", topcurveplane2shapeIdent, __gong__toRawStringLiteral(topcurveplane2shape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", topcurveplane2shapeIdent, __gong__toRawStringLiteral(topcurveplane2shape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, tubevase3ddiagram := range __gong__sortStageSetInstances(stage.TubeVase3DDiagrams, stage.TubeVase3DDiagram_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			tubevase3ddiagramIdent := strings.Replace(tubevase3ddiagram.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.TubeVase3DDiagram{Name: %s}).Stage(stage)", tubevase3ddiagramIdent, __gong__toRawStringLiteral(tubevase3ddiagram.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tubevase3ddiagramIdent, __gong__toRawStringLiteral(tubevase3ddiagram.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTorusStackShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenTorusStackShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenVerticalTorusStackShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenVerticalTorusStackShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenPartiallyRotatedTorusShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenPartiallyRotatedTorusShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStackOfPartiallyRotatedTorusShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenStackOfPartiallyRotatedTorusShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenPointsAndLines3DShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenPointsAndLines3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenKeyHole3DShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenKeyHole3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenKey3DShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenKey3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenVolumeKey3DShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenVolumeKey3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTorusEdge3DShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenTorusEdge3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenSampledPoints3DShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenSampledPoints3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenOriginalPoints3DShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenOriginalPoints3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenAngle0Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenAngle0Shape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTiledFloor3DShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenTiledFloor3DShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTopCurvePlane1Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenTopCurvePlane1Shape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenBottomCurvePlane1Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenBottomCurvePlane1Shape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTopCurvePlane2Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenTopCurvePlane2Shape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenBottomCurvePlane2Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenBottomCurvePlane2Shape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenCarvedOutTopCurvePlane1Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenCarvedOutTopCurvePlane1Shape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenCarvedOutBottomCurvePlane1Shape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenCarvedOutBottomCurvePlane1Shape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenVaseTrapezeRingShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenVaseTrapezeRingShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenCarvedOutVaseTrapezeRingShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenCarvedOutVaseTrapezeRingShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenStackOfRotatedCarvedOutVaseTrapezeRingsShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenVaseTrapezeBasePlateShape = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsHiddenVaseTrapezeBasePlateShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.AmbientLightLevel = %f", tubevase3ddiagramIdent, tubevase3ddiagram.AmbientLightLevel))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsCutoffEnabled = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsCutoffEnabled))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsCutoffHelperVisible = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsCutoffHelperVisible))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsCutoffFlipped = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsCutoffFlipped))
+			if tubevase3ddiagram.CutoffAxis.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.CutoffAxis = phylla.%s", tubevase3ddiagramIdent, tubevase3ddiagram.CutoffAxis.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.CutoffAxis = \"\"", tubevase3ddiagramIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CutoffOffset = %f", tubevase3ddiagramIdent, tubevase3ddiagram.CutoffOffset))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", tubevase3ddiagramIdent, __gong__toRawStringLiteral(tubevase3ddiagram.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", tubevase3ddiagramIdent, tubevase3ddiagram.IsExpanded))
+			if tubevase3ddiagram.Rendered3DShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubevase3ddiagram.Rendered3DShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Rendered3DShape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.SampledPoints3DShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubevase3ddiagram.SampledPoints3DShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SampledPoints3DShape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.OriginalPoints3DShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubevase3ddiagram.OriginalPoints3DShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.OriginalPoints3DShape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.Angle0Shape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubevase3ddiagram.Angle0Shape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Angle0Shape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.TopCurvePlane1Shape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubevase3ddiagram.TopCurvePlane1Shape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TopCurvePlane1Shape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.BottomCurvePlane1Shape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubevase3ddiagram.BottomCurvePlane1Shape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.BottomCurvePlane1Shape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.TopCurvePlane2Shape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubevase3ddiagram.TopCurvePlane2Shape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TopCurvePlane2Shape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.BottomCurvePlane2Shape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubevase3ddiagram.BottomCurvePlane2Shape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.BottomCurvePlane2Shape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.CarvedOutTopCurvePlane1Shape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubevase3ddiagram.CarvedOutTopCurvePlane1Shape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CarvedOutTopCurvePlane1Shape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.CarvedOutBottomCurvePlane1Shape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubevase3ddiagram.CarvedOutBottomCurvePlane1Shape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CarvedOutBottomCurvePlane1Shape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.VaseTrapezeRingShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubevase3ddiagram.VaseTrapezeRingShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.VaseTrapezeRingShape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.CarvedOutVaseTrapezeRingShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubevase3ddiagram.CarvedOutVaseTrapezeRingShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CarvedOutVaseTrapezeRingShape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubevase3ddiagram.StackOfRotatedCarvedOutVaseTrapezeRingsShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StackOfRotatedCarvedOutVaseTrapezeRingsShape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+			if tubevase3ddiagram.VaseTrapezeBasePlateShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubevase3ddiagram.VaseTrapezeBasePlateShape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.VaseTrapezeBasePlateShape = %s", tubevase3ddiagramIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, tubevaseabstract := range __gong__sortStageSetInstances(stage.TubeVaseAbstracts, stage.TubeVaseAbstract_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			tubevaseabstractIdent := strings.Replace(tubevaseabstract.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.TubeVaseAbstract{Name: %s}).Stage(stage)", tubevaseabstractIdent, __gong__toRawStringLiteral(tubevaseabstract.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tubevaseabstractIdent, __gong__toRawStringLiteral(tubevaseabstract.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Z_Ribbon = %f", tubevaseabstractIdent, tubevaseabstract.Z_Ribbon))
+			values.WriteString(fmt.Sprintf("\n\t%s.RibbonVerticalScale = %f", tubevaseabstractIdent, tubevaseabstract.RibbonVerticalScale))
+			values.WriteString(fmt.Sprintf("\n\t%s.TopPlaneHeight = %f", tubevaseabstractIdent, tubevaseabstract.TopPlaneHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.BottomPlaneHeight = %f", tubevaseabstractIdent, tubevaseabstract.BottomPlaneHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.BaseRingBottomPlaneHeight = %f", tubevaseabstractIdent, tubevaseabstract.BaseRingBottomPlaneHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", tubevaseabstractIdent, tubevaseabstract.ProjectionAngle))
+			values.WriteString(fmt.Sprintf("\n\t%s.BasePlateHeight = %f", tubevaseabstractIdent, tubevaseabstract.BasePlateHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.CarvedOutTopRingsParameter = %f", tubevaseabstractIdent, tubevaseabstract.CarvedOutTopRingsParameter))
+			values.WriteString(fmt.Sprintf("\n\t%s.BulbousStartTangentMagnitude = %f", tubevaseabstractIdent, tubevaseabstract.BulbousStartTangentMagnitude))
+			values.WriteString(fmt.Sprintf("\n\t%s.BulbousEndAngle = %f", tubevaseabstractIdent, tubevaseabstract.BulbousEndAngle))
+			values.WriteString(fmt.Sprintf("\n\t%s.BulbousEndTangentMagnitude = %f", tubevaseabstractIdent, tubevaseabstract.BulbousEndTangentMagnitude))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasConstantThickness = %t", tubevaseabstractIdent, tubevaseabstract.HasConstantThickness))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasRingBottom = %t", tubevaseabstractIdent, tubevaseabstract.HasRingBottom))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasCurvedWall = %t", tubevaseabstractIdent, tubevaseabstract.HasCurvedWall))
+			values.WriteString(fmt.Sprintf("\n\t%s.WallCurvature = %f", tubevaseabstractIdent, tubevaseabstract.WallCurvature))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasLip = %t", tubevaseabstractIdent, tubevaseabstract.HasLip))
+			values.WriteString(fmt.Sprintf("\n\t%s.LipHeight = %f", tubevaseabstractIdent, tubevaseabstract.LipHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.LipWidth = %f", tubevaseabstractIdent, tubevaseabstract.LipWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasFillLevelLine = %t", tubevaseabstractIdent, tubevaseabstract.HasFillLevelLine))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasDrainageHole = %t", tubevaseabstractIdent, tubevaseabstract.HasDrainageHole))
+			values.WriteString(fmt.Sprintf("\n\t%s.DrainageHoleRadius = %f", tubevaseabstractIdent, tubevaseabstract.DrainageHoleRadius))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasFootRim = %t", tubevaseabstractIdent, tubevaseabstract.HasFootRim))
+			values.WriteString(fmt.Sprintf("\n\t%s.FootRimHeight = %f", tubevaseabstractIdent, tubevaseabstract.FootRimHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.FootRimWidth = %f", tubevaseabstractIdent, tubevaseabstract.FootRimWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeVerticalThickness = %f", tubevaseabstractIdent, tubevaseabstract.RelativeVerticalThickness))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeRadialThickness = %f", tubevaseabstractIdent, tubevaseabstract.RelativeRadialThickness))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeCuttedStackFloorHeight = %f", tubevaseabstractIdent, tubevaseabstract.RelativeCuttedStackFloorHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeRotatedTorusSeparation = %f", tubevaseabstractIdent, tubevaseabstract.RelativeRotatedTorusSeparation))
+			values.WriteString(fmt.Sprintf("\n\t%s.RotationRatio = %f", tubevaseabstractIdent, tubevaseabstract.RotationRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.RadialRepetitions = %d", tubevaseabstractIdent, tubevaseabstract.RadialRepetitions))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transparency = %f", tubevaseabstractIdent, tubevaseabstract.Transparency))
+			values.WriteString(fmt.Sprintf("\n\t%s.ColorCombination = %d", tubevaseabstractIdent, tubevaseabstract.ColorCombination))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeTrajectoryOffsetX = %f", tubevaseabstractIdent, tubevaseabstract.RelativeTrajectoryOffsetX))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeTrajectoryOffsetY = %f", tubevaseabstractIdent, tubevaseabstract.RelativeTrajectoryOffsetY))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbStepP1P2 = %d", tubevaseabstractIdent, tubevaseabstract.NbStepP1P2))
+			values.WriteString(fmt.Sprintf("\n\t%s.ChosenStep = %d", tubevaseabstractIdent, tubevaseabstract.ChosenStep))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeHorizontalRingsHeight = %f", tubevaseabstractIdent, tubevaseabstract.RelativeHorizontalRingsHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.OffsetKeyX = %f", tubevaseabstractIdent, tubevaseabstract.OffsetKeyX))
+			values.WriteString(fmt.Sprintf("\n\t%s.OffsetKeyY = %f", tubevaseabstractIdent, tubevaseabstract.OffsetKeyY))
+			values.WriteString(fmt.Sprintf("\n\t%s.HeightKey = %f", tubevaseabstractIdent, tubevaseabstract.HeightKey))
+			values.WriteString(fmt.Sprintf("\n\t%s.WidthKey = %f", tubevaseabstractIdent, tubevaseabstract.WidthKey))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeKeySize = %f", tubevaseabstractIdent, tubevaseabstract.RelativeKeySize))
+			values.WriteString(fmt.Sprintf("\n\t%s.MovieNbFrames = %d", tubevaseabstractIdent, tubevaseabstract.MovieNbFrames))
+		}
+	}
+	if stage != nil {
+		for _, vase2ddiagram := range __gong__sortStageSetInstances(stage.Vase2DDiagrams, stage.Vase2DDiagram_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			vase2ddiagramIdent := strings.Replace(vase2ddiagram.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.Vase2DDiagram{Name: %s}).Stage(stage)", vase2ddiagramIdent, __gong__toRawStringLiteral(vase2ddiagram.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", vase2ddiagramIdent, __gong__toRawStringLiteral(vase2ddiagram.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Zoom = %f", vase2ddiagramIdent, vase2ddiagram.Zoom))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsVaseArcNodesExpanded = %t", vase2ddiagramIdent, vase2ddiagram.IsVaseArcNodesExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsVaseClampingNodesExpanded = %t", vase2ddiagramIdent, vase2ddiagram.IsVaseClampingNodesExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenAxesShape = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenAxesShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenBottomStartArcShapeGrid = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenBottomStartArcShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenBottomEndArcShapeGrid = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenBottomEndArcShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenBottomStackOfGrowthCurve = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenBottomStackOfGrowthCurve))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenShiftedLeftStackOfGrowthCurve = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenShiftedLeftStackOfGrowthCurve))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenShiftedLeftStackOfNormalVector = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenShiftedLeftStackOfNormalVector))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenPerpendicularVectorGridHalfway = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenPerpendicularVectorGridHalfway))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTopStartArcShapeGrid = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenTopStartArcShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenShiftedBottomTopStartArcShapeGrid = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenShiftedBottomTopStartArcShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTopMidArcVectorShapeGrid = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenTopMidArcVectorShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStartHalfwayArcShapeGrid = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenStartHalfwayArcShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTopStartHalfwayArcShapeGrid = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenTopStartHalfwayArcShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenEndHalfwayArcShapeGrid = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenEndHalfwayArcShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTopEndHalfwayArcShapeGrid = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenTopEndHalfwayArcShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTopEndArcShapeGrid = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenTopEndArcShapeGrid))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStackOfGrowthCurve = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenStackOfGrowthCurve))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTopStackOfGrowthCurve = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenTopStackOfGrowthCurve))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTopGrowthCurve2D = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenTopGrowthCurve2D))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStackOfGrowthCurve2D = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenStackOfGrowthCurve2D))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenTopStackOfGrowthCurve2D = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenTopStackOfGrowthCurve2D))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenGrowthCurve2DRibbon = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenGrowthCurve2DRibbon))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenShiftedRightGrowthCurve2DRibbon = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenShiftedRightGrowthCurve2DRibbon))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenShiftedLeftGrowthCurve2DRibbon = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStackOfGrowthCurve2DRibbon = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenStackOfGrowthCurve2DRibbon))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenStackOfRotatedGrowthCurve2DRibbon = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenPartiallyGrowthCurve2DRibbon = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenPartiallyGrowthCurve2DRibbon))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenPartiallyGrowthCurve2DTrajectory = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenPartiallyGrowthCurve2DTrajectory))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenPxShape = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenPxShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenChosenP1P2PairShape = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenChosenP1P2PairShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHiddenKeyHoleShape = %t", vase2ddiagramIdent, vase2ddiagram.IsHiddenKeyHoleShape))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", vase2ddiagramIdent, vase2ddiagram.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", vase2ddiagramIdent, __gong__toRawStringLiteral(vase2ddiagram.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", vase2ddiagramIdent, vase2ddiagram.IsExpanded))
+		}
+	}
+	if stage != nil {
+		for _, vasetrapezebaseplateshape := range __gong__sortStageSetInstances(stage.VaseTrapezeBasePlateShapes, stage.VaseTrapezeBasePlateShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			vasetrapezebaseplateshapeIdent := strings.Replace(vasetrapezebaseplateshape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.VaseTrapezeBasePlateShape{Name: %s}).Stage(stage)", vasetrapezebaseplateshapeIdent, __gong__toRawStringLiteral(vasetrapezebaseplateshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", vasetrapezebaseplateshapeIdent, __gong__toRawStringLiteral(vasetrapezebaseplateshape.Name)))
+		}
+	}
+	if stage != nil {
+		for _, vasetrapezeringshape := range __gong__sortStageSetInstances(stage.VaseTrapezeRingShapes, stage.VaseTrapezeRingShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			vasetrapezeringshapeIdent := strings.Replace(vasetrapezeringshape.GongGetIdentifier(stage), "__models__", "__phylla__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&phylla.VaseTrapezeRingShape{Name: %s}).Stage(stage)", vasetrapezeringshapeIdent, __gong__toRawStringLiteral(vasetrapezeringshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", vasetrapezeringshapeIdent, __gong__toRawStringLiteral(vasetrapezeringshape.Name)))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	phylla "github.com/fullstack-lang/gong/dsm/phylla/go/models"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/music"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/clock"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *phylla.Stage
+	_ *stool.Stage
+	_ *music.Stage
+	_ *clock.Stage
+)%s
+
+// StagePhylla stages objects into stage
+func StagePhylla(stage *phylla.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

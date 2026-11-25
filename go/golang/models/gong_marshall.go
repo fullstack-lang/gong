@@ -291,6 +291,13 @@ func CodeGeneratorModelGongMarshall(
 		"{{MainPkgImportAlias}}", resolved.MainPkgImportAlias,
 		"{{ProbePackageName}}", resolved.ProbePackageName,
 		"{{MarshallBody}}", resolved.MarshallBody,
+		"{{ModPath}}", resolved.ModPath,
+		"{{DirMainPkgAlias}}", resolved.DirMainPkgAlias,
+		"{{DirStageFuncSuffix}}", resolved.DirStageFuncSuffix,
+		"{{DirStageFileName}}", resolved.DirStageFileName,
+		"{{DirSyntheticImports}}", resolved.DirSyntheticImports,
+		"{{DirDummyDeclarations}}", resolved.DirDummyDeclarations,
+		"{{DirMarshallBody}}", resolved.DirMarshallBody,
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
 	)
 

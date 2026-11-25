@@ -10,6 +10,7 @@ import (
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models/probe"
 
 	embeddedgo "github.com/fullstack-lang/gong/dsm/phylla/go"
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 
 	"net/http"
 
@@ -25,6 +26,18 @@ type BeforeCommitImplementation struct {
 }
 
 func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
+	if gong_runtime.IsDirectoryPath(impl.marshallOnCommit) {
+		if impl.stage != nil {
+			targetPath := impl.marshallOnCommit
+			if !filepath.IsAbs(targetPath) && !strings.HasPrefix(targetPath, "./") && !strings.HasPrefix(targetPath, "../") {
+				targetPath = "./" + targetPath
+			}
+			if err := impl.stage.MarshallDirectory(targetPath); err != nil {
+				log.Println("Error marshalling directory: " + err.Error())
+			}
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == models.GongMarshallingAppendCommit {
 		stage.ComputeForwardAndBackwardCommits()
@@ -139,6 +152,15 @@ func newLevel1Stack(
 		hook.marshallOnCommit = marshallOnCommit
 		hook.stage = stage
 		stage.OnInitCommitCallback = hook
+		if gong_runtime.IsDirectoryPath(marshallOnCommit) {
+			targetPath := marshallOnCommit
+			if !filepath.IsAbs(targetPath) && !strings.HasPrefix(targetPath, "./") && !strings.HasPrefix(targetPath, "../") {
+				targetPath = "./" + targetPath
+			}
+			if err := stage.MarshallDirectory(targetPath); err != nil {
+				log.Println("Error initializing persistence directory: " + err.Error())
+			}
+		}
 	}
 
 	// add orchestration

@@ -2,6 +2,7 @@ package models
 
 import (
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -360,4 +361,66 @@ func TestStageSetMarshallFileAndParseAstFile(t *testing.T) {
 		t.Fatalf("expected File_A.X.Y.SubModel to link to File_Sub")
 	}
 }
+
+func TestStageSetDirectoryPersistence(t *testing.T) {
+	tmpDir := filepath.Join(t.TempDir(), "my_test2_data")
+	if err := os.MkdirAll(tmpDir, 0755); err != nil {
+		t.Fatalf("MkdirAll failed: %v", err)
+	}
+
+	stage := NewStage("stage_models")
+	subInst := (&model.SubModel{Name: "Dir_Sub"}).Stage(stage.ModelStage)
+	yInst := (&y.Y{Name: "Dir_Y", SubModel: subInst}).Stage(stage.YStage)
+	xInst := (&x.X{Name: "Dir_X", Y: yInst}).Stage(stage.XStage)
+	aInst := (&A{Name: "Dir_A", NumberField: 99, X: xInst}).Stage(stage)
+	_ = aInst
+
+	// MarshallFile delegates to MarshallDirectory automatically when path is a directory
+	stage.MarshallFile(tmpDir)
+
+	goModBytes, err := os.ReadFile(filepath.Join(tmpDir, "go.mod"))
+	if err != nil {
+		t.Fatalf("expected go.mod in %s: %v", tmpDir, err)
+	}
+	if !strings.Contains(string(goModBytes), "module my_test2_data") {
+		t.Errorf("unexpected go.mod content:\n%s", string(goModBytes))
+	}
+
+	stageBytes, err := os.ReadFile(filepath.Join(tmpDir, "stage_test2.go"))
+	if err != nil {
+		t.Fatalf("expected stage_test2.go in %s: %v", tmpDir, err)
+	}
+	stageContent := string(stageBytes)
+	if !strings.Contains(stageContent, "package data") || !strings.Contains(stageContent, "func StageTest2(stage *test2.Stage)") {
+		t.Errorf("expected package data and StageTest2 signature, got:\n%s", stageContent)
+	}
+
+	// Verify the generated directory compiles as a standalone Go module
+	buildCmd := exec.Command("go", "build", "./...")
+	buildCmd.Dir = tmpDir
+	if out, err := buildCmd.CombinedOutput(); err != nil {
+		t.Fatalf("go build ./... in generated directory failed: %v\n%s", err, string(out))
+	}
+
+	// Unmarshall back via ParseAstFile (auto-detecting directory)
+	restoredStage := NewStage("restored")
+	if err := restoredStage.ParseAstFile(tmpDir, true); err != nil {
+		t.Fatalf("ParseAstFile on directory failed: %v", err)
+	}
+
+	aMap := restoredStage.GetInstancesMapByName[*A]()
+	if len(aMap) != 1 || aMap["Dir_A"] == nil || aMap["Dir_A"].NumberField != 99 {
+		t.Fatalf("expected Dir_A with NumberField=99 in restoredStage")
+	}
+	if aMap["Dir_A"].X == nil || aMap["Dir_A"].X.Name != "Dir_X" {
+		t.Fatalf("expected Dir_A.X == Dir_X")
+	}
+	if aMap["Dir_A"].X.Y == nil || aMap["Dir_A"].X.Y.Name != "Dir_Y" {
+		t.Fatalf("expected Dir_A.X.Y == Dir_Y")
+	}
+	if aMap["Dir_A"].X.Y.SubModel == nil || aMap["Dir_A"].X.Y.SubModel.Name != "Dir_Sub" {
+		t.Fatalf("expected Dir_A.X.Y.SubModel == Dir_Sub")
+	}
+}
+
 

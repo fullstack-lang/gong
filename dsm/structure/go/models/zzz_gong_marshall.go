@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -2527,6 +2538,2240 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/dsm/structure/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/dsm/structure/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_structure.go exposing StageStructure.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_structure.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageStructure).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, allocatedresourceshape := range __gong__sortStageSetInstances(stage.AllocatedResourceShapes, stage.AllocatedResourceShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			allocatedresourceshapeIdent := strings.Replace(allocatedresourceshape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.AllocatedResourceShape{Name: %s}).Stage(stage)", allocatedresourceshapeIdent, __gong__toRawStringLiteral(allocatedresourceshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", allocatedresourceshapeIdent, __gong__toRawStringLiteral(allocatedresourceshape.Name)))
+			if allocatedresourceshape.Part != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(allocatedresourceshape.Part.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Part = %s", allocatedresourceshapeIdent, targetIdent))
+			}
+			if allocatedresourceshape.Resource != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(allocatedresourceshape.Resource.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Resource = %s", allocatedresourceshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, allocatedsystemshape := range __gong__sortStageSetInstances(stage.AllocatedSystemShapes, stage.AllocatedSystemShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			allocatedsystemshapeIdent := strings.Replace(allocatedsystemshape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.AllocatedSystemShape{Name: %s}).Stage(stage)", allocatedsystemshapeIdent, __gong__toRawStringLiteral(allocatedsystemshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", allocatedsystemshapeIdent, __gong__toRawStringLiteral(allocatedsystemshape.Name)))
+			if allocatedsystemshape.Part != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(allocatedsystemshape.Part.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Part = %s", allocatedsystemshapeIdent, targetIdent))
+			}
+			if allocatedsystemshape.System != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(allocatedsystemshape.System.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.System = %s", allocatedsystemshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, controlflow := range __gong__sortStageSetInstances(stage.ControlFlows, stage.ControlFlow_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			controlflowIdent := strings.Replace(controlflow.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.ControlFlow{Name: %s}).Stage(stage)", controlflowIdent, __gong__toRawStringLiteral(controlflow.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", controlflowIdent, __gong__toRawStringLiteral(controlflow.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", controlflowIdent, __gong__toRawStringLiteral(controlflow.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", controlflowIdent, __gong__toRawStringLiteral(controlflow.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", controlflowIdent, controlflow.IsExpanded))
+			if controlflow.Start != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(controlflow.Start.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Start = %s", controlflowIdent, targetIdent))
+			}
+			if controlflow.End != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(controlflow.End.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.End = %s", controlflowIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, controlflowshape := range __gong__sortStageSetInstances(stage.ControlFlowShapes, stage.ControlFlowShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			controlflowshapeIdent := strings.Replace(controlflowshape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.ControlFlowShape{Name: %s}).Stage(stage)", controlflowshapeIdent, __gong__toRawStringLiteral(controlflowshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", controlflowshapeIdent, __gong__toRawStringLiteral(controlflowshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", controlflowshapeIdent, controlflowshape.StartRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", controlflowshapeIdent, controlflowshape.EndRatio))
+			if controlflowshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = structure.%s", controlflowshapeIdent, controlflowshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", controlflowshapeIdent))
+			}
+			if controlflowshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = structure.%s", controlflowshapeIdent, controlflowshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", controlflowshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", controlflowshapeIdent, controlflowshape.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", controlflowshapeIdent, controlflowshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", controlflowshapeIdent, controlflowshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", controlflowshapeIdent, __gong__toRawStringLiteral(controlflowshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", controlflowshapeIdent, controlflowshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", controlflowshapeIdent, controlflowshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", controlflowshapeIdent, __gong__toRawStringLiteral(controlflowshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", controlflowshapeIdent, __gong__toRawStringLiteral(controlflowshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", controlflowshapeIdent, __gong__toRawStringLiteral(controlflowshape.FontColor)))
+			if controlflowshape.ControlFlow != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(controlflowshape.ControlFlow.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlow = %s", controlflowshapeIdent, targetIdent))
+			}
+			if controlflowshape.ParentPartShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(controlflowshape.ParentPartShape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParentPartShape = %s", controlflowshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, controlpointshape := range __gong__sortStageSetInstances(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			controlpointshapeIdent := strings.Replace(controlpointshape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.ControlPointShape{Name: %s}).Stage(stage)", controlpointshapeIdent, __gong__toRawStringLiteral(controlpointshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", controlpointshapeIdent, __gong__toRawStringLiteral(controlpointshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X_Relative = %f", controlpointshapeIdent, controlpointshape.X_Relative))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y_Relative = %f", controlpointshapeIdent, controlpointshape.Y_Relative))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsStartShapeTheClosestShape = %t", controlpointshapeIdent, controlpointshape.IsStartShapeTheClosestShape))
+		}
+	}
+	if stage != nil {
+		for _, data := range __gong__sortStageSetInstances(stage.Datas, stage.Data_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			dataIdent := strings.Replace(data.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.Data{Name: %s}).Stage(stage)", dataIdent, __gong__toRawStringLiteral(data.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dataIdent, __gong__toRawStringLiteral(data.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Acronym = %s", dataIdent, __gong__toRawStringLiteral(data.Acronym)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", dataIdent, __gong__toRawStringLiteral(data.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSubDatasNodeExpanded = %t", dataIdent, data.IsSubDatasNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", dataIdent, __gong__toRawStringLiteral(data.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", dataIdent, data.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG_Path = %s", dataIdent, __gong__toRawStringLiteral(data.SVG_Path)))
+			values.WriteString(fmt.Sprintf("\n\t%s.InverseAppliedScaling = %f", dataIdent, data.InverseAppliedScaling))
+			for _, elem := range data.SubDatas {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubDatas = append(%s.SubDatas, %s)", dataIdent, dataIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, dataflow := range __gong__sortStageSetInstances(stage.DataFlows, stage.DataFlow_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			dataflowIdent := strings.Replace(dataflow.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.DataFlow{Name: %s}).Stage(stage)", dataflowIdent, __gong__toRawStringLiteral(dataflow.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dataflowIdent, __gong__toRawStringLiteral(dataflow.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", dataflowIdent, __gong__toRawStringLiteral(dataflow.Description)))
+			if dataflow.Direction.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = structure.%s", dataflowIdent, dataflow.Direction.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = \"\"", dataflowIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDatasNodeExpanded = %t", dataflowIdent, dataflow.IsDatasNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsProtocolNodeExpanded = %t", dataflowIdent, dataflow.IsProtocolNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", dataflowIdent, __gong__toRawStringLiteral(dataflow.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", dataflowIdent, dataflow.IsExpanded))
+			if dataflow.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = structure.%s", dataflowIdent, dataflow.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", dataflowIdent))
+			}
+			if dataflow.StartPort != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(dataflow.StartPort.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartPort = %s", dataflowIdent, targetIdent))
+			}
+			if dataflow.EndPort != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(dataflow.EndPort.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndPort = %s", dataflowIdent, targetIdent))
+			}
+			if dataflow.StartExternalPart != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(dataflow.StartExternalPart.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartExternalPart = %s", dataflowIdent, targetIdent))
+			}
+			if dataflow.EndExternalPart != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(dataflow.EndExternalPart.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndExternalPart = %s", dataflowIdent, targetIdent))
+			}
+			for _, elem := range dataflow.Datas {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Datas = append(%s.Datas, %s)", dataflowIdent, dataflowIdent, targetIdent))
+			}
+			if dataflow.Protocol != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(dataflow.Protocol.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Protocol = %s", dataflowIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, dataflowshape := range __gong__sortStageSetInstances(stage.DataFlowShapes, stage.DataFlowShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			dataflowshapeIdent := strings.Replace(dataflowshape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.DataFlowShape{Name: %s}).Stage(stage)", dataflowshapeIdent, __gong__toRawStringLiteral(dataflowshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dataflowshapeIdent, __gong__toRawStringLiteral(dataflowshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsProtocolNodeExpanded = %t", dataflowshapeIdent, dataflowshape.IsProtocolNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsOrthogonal = %t", dataflowshapeIdent, dataflowshape.IsOrthogonal))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", dataflowshapeIdent, dataflowshape.StartRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", dataflowshapeIdent, dataflowshape.EndRatio))
+			if dataflowshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = structure.%s", dataflowshapeIdent, dataflowshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", dataflowshapeIdent))
+			}
+			if dataflowshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = structure.%s", dataflowshapeIdent, dataflowshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", dataflowshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", dataflowshapeIdent, dataflowshape.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", dataflowshapeIdent, dataflowshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", dataflowshapeIdent, dataflowshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", dataflowshapeIdent, __gong__toRawStringLiteral(dataflowshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", dataflowshapeIdent, dataflowshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", dataflowshapeIdent, dataflowshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", dataflowshapeIdent, __gong__toRawStringLiteral(dataflowshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", dataflowshapeIdent, __gong__toRawStringLiteral(dataflowshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", dataflowshapeIdent, __gong__toRawStringLiteral(dataflowshape.FontColor)))
+			if dataflowshape.DataFlow != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(dataflowshape.DataFlow.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", dataflowshapeIdent, targetIdent))
+			}
+			if dataflowshape.ParentPartShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(dataflowshape.ParentPartShape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParentPartShape = %s", dataflowshapeIdent, targetIdent))
+			}
+			if dataflowshape.StartPortShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(dataflowshape.StartPortShape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartPortShape = %s", dataflowshapeIdent, targetIdent))
+			}
+			if dataflowshape.EndPortShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(dataflowshape.EndPortShape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndPortShape = %s", dataflowshapeIdent, targetIdent))
+			}
+			for _, elem := range dataflowshape.ControlPointShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlPointShapes = append(%s.ControlPointShapes, %s)", dataflowshapeIdent, dataflowshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, datashape := range __gong__sortStageSetInstances(stage.DataShapes, stage.DataShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			datashapeIdent := strings.Replace(datashape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.DataShape{Name: %s}).Stage(stage)", datashapeIdent, __gong__toRawStringLiteral(datashape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", datashapeIdent, datashape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", datashapeIdent, datashape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", datashapeIdent, datashape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", datashapeIdent, datashape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", datashapeIdent, datashape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", datashapeIdent, datashape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", datashapeIdent, datashape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", datashapeIdent, datashape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", datashapeIdent, datashape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", datashapeIdent, datashape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", datashapeIdent, __gong__toRawStringLiteral(datashape.FontColor)))
+			if datashape.Data != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(datashape.Data.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Data = %s", datashapeIdent, targetIdent))
+			}
+			if datashape.DataFlow != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(datashape.DataFlow.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", datashapeIdent, targetIdent))
+			}
+			if datashape.DataFlowShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(datashape.DataFlowShape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowShape = %s", datashapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, diagramlayerstate := range __gong__sortStageSetInstances(stage.DiagramLayerStates, stage.DiagramLayerState_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			diagramlayerstateIdent := strings.Replace(diagramlayerstate.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.DiagramLayerState{Name: %s}).Stage(stage)", diagramlayerstateIdent, __gong__toRawStringLiteral(diagramlayerstate.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", diagramlayerstateIdent, __gong__toRawStringLiteral(diagramlayerstate.Name)))
+			if diagramlayerstate.DiagramStructure != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(diagramlayerstate.DiagramStructure.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DiagramStructure = %s", diagramlayerstateIdent, targetIdent))
+			}
+			if diagramlayerstate.LayerDefinition != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(diagramlayerstate.LayerDefinition.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.LayerDefinition = %s", diagramlayerstateIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, diagramstructure := range __gong__sortStageSetInstances(stage.DiagramStructures, stage.DiagramStructure_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			diagramstructureIdent := strings.Replace(diagramstructure.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.DiagramStructure{Name: %s}).Stage(stage)", diagramstructureIdent, __gong__toRawStringLiteral(diagramstructure.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", diagramstructureIdent, __gong__toRawStringLiteral(diagramstructure.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", diagramstructureIdent, __gong__toRawStringLiteral(diagramstructure.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", diagramstructureIdent, __gong__toRawStringLiteral(diagramstructure.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", diagramstructureIdent, diagramstructure.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", diagramstructureIdent, diagramstructure.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsEditable_ = %t", diagramstructureIdent, diagramstructure.IsEditable_))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsShowPrefix = %t", diagramstructureIdent, diagramstructure.IsShowPrefix))
+			values.WriteString(fmt.Sprintf("\n\t%s.DefaultBoxWidth = %f", diagramstructureIdent, diagramstructure.DefaultBoxWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.DefaultBoxHeigth = %f", diagramstructureIdent, diagramstructure.DefaultBoxHeigth))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsWithDiscretePorts = %t", diagramstructureIdent, diagramstructure.IsWithDiscretePorts))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", diagramstructureIdent, diagramstructure.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", diagramstructureIdent, diagramstructure.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSystemsNodeExpanded = %t", diagramstructureIdent, diagramstructure.IsSystemsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPartsNodeExpanded = %t", diagramstructureIdent, diagramstructure.IsPartsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExternalPartsNodeExpanded = %t", diagramstructureIdent, diagramstructure.IsExternalPartsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsNotesNodeExpanded = %t", diagramstructureIdent, diagramstructure.IsNotesNodeExpanded))
+			for _, elem := range diagramstructure.System_Shapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.System_Shapes = append(%s.System_Shapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.SystemsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SystemsWhoseNodeIsExpanded = append(%s.SystemsWhoseNodeIsExpanded, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.Part_Shapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Part_Shapes = append(%s.Part_Shapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.PartWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PartWhoseNodeIsExpanded = append(%s.PartWhoseNodeIsExpanded, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.ExternalPart_Shapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalPart_Shapes = append(%s.ExternalPart_Shapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.ExternalPartWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalPartWhoseNodeIsExpanded = append(%s.ExternalPartWhoseNodeIsExpanded, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalPartsWhoseOutDataFlowsNodeIsExpanded = append(%s.ExternalPartsWhoseOutDataFlowsNodeIsExpanded, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalPartsWhoseInDataFlowsNodeIsExpanded = append(%s.ExternalPartsWhoseInDataFlowsNodeIsExpanded, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.PortsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PortsWhoseNodeIsExpanded = append(%s.PortsWhoseNodeIsExpanded, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.Port_Shapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Port_Shapes = append(%s.Port_Shapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.ControlFlowsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlowsWhoseNodeIsExpanded = append(%s.ControlFlowsWhoseNodeIsExpanded, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.ControlFlow_Shapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlow_Shapes = append(%s.ControlFlow_Shapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.DataFlowsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseNodeIsExpanded = append(%s.DataFlowsWhoseNodeIsExpanded, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.DataFlow_Shapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow_Shapes = append(%s.DataFlow_Shapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.DatasWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DatasWhoseNodeIsExpanded = append(%s.DatasWhoseNodeIsExpanded, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.Data_Shapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Data_Shapes = append(%s.Data_Shapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.DataFlowsWhoseDataNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseDataNodeIsExpanded = append(%s.DataFlowsWhoseDataNodeIsExpanded, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.Protocol_Shapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Protocol_Shapes = append(%s.Protocol_Shapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.ProtocolLayer_Shapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ProtocolLayer_Shapes = append(%s.ProtocolLayer_Shapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.DataFlowsWhoseProtocolNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseProtocolNodeIsExpanded = append(%s.DataFlowsWhoseProtocolNodeIsExpanded, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.AllocatedResourcesWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AllocatedResourcesWhoseNodeIsExpanded = append(%s.AllocatedResourcesWhoseNodeIsExpanded, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.AllocatedResourceShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AllocatedResourceShapes = append(%s.AllocatedResourceShapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.AllocatedSystemesWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AllocatedSystemesWhoseNodeIsExpanded = append(%s.AllocatedSystemesWhoseNodeIsExpanded, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.AllocatedSystemShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AllocatedSystemShapes = append(%s.AllocatedSystemShapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.Note_Shapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Note_Shapes = append(%s.Note_Shapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.NotesWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.NotesWhoseNodeIsExpanded = append(%s.NotesWhoseNodeIsExpanded, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.NotePortShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.NotePortShapes = append(%s.NotePortShapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.NotePartShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.NotePartShapes = append(%s.NotePartShapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+			for _, elem := range diagramstructure.NoteDataFlowShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.NoteDataFlowShapes = append(%s.NoteDataFlowShapes, %s)", diagramstructureIdent, diagramstructureIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, externalpartshape := range __gong__sortStageSetInstances(stage.ExternalPartShapes, stage.ExternalPartShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			externalpartshapeIdent := strings.Replace(externalpartshape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.ExternalPartShape{Name: %s}).Stage(stage)", externalpartshapeIdent, __gong__toRawStringLiteral(externalpartshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", externalpartshapeIdent, __gong__toRawStringLiteral(externalpartshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", externalpartshapeIdent, externalpartshape.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", externalpartshapeIdent, externalpartshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", externalpartshapeIdent, externalpartshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", externalpartshapeIdent, externalpartshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", externalpartshapeIdent, externalpartshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", externalpartshapeIdent, externalpartshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", externalpartshapeIdent, externalpartshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", externalpartshapeIdent, __gong__toRawStringLiteral(externalpartshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", externalpartshapeIdent, externalpartshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", externalpartshapeIdent, __gong__toRawStringLiteral(externalpartshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", externalpartshapeIdent, externalpartshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", externalpartshapeIdent, externalpartshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", externalpartshapeIdent, __gong__toRawStringLiteral(externalpartshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", externalpartshapeIdent, externalpartshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", externalpartshapeIdent, __gong__toRawStringLiteral(externalpartshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", externalpartshapeIdent, __gong__toRawStringLiteral(externalpartshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", externalpartshapeIdent, __gong__toRawStringLiteral(externalpartshape.FontColor)))
+			values.WriteString(fmt.Sprintf("\n\t%s.TailHeigth = %f", externalpartshapeIdent, externalpartshape.TailHeigth))
+			if externalpartshape.Part != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(externalpartshape.Part.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Part = %s", externalpartshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, layerdefinition := range __gong__sortStageSetInstances(stage.LayerDefinitions, stage.LayerDefinition_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			layerdefinitionIdent := strings.Replace(layerdefinition.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.LayerDefinition{Name: %s}).Stage(stage)", layerdefinitionIdent, __gong__toRawStringLiteral(layerdefinition.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", layerdefinitionIdent, __gong__toRawStringLiteral(layerdefinition.Name)))
+			for _, elem := range layerdefinition.Query {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Query = append(%s.Query, %s)", layerdefinitionIdent, layerdefinitionIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, library := range __gong__sortStageSetInstances(stage.Librarys, stage.Library_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			libraryIdent := strings.Replace(library.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.Library{Name: %s}).Stage(stage)", libraryIdent, __gong__toRawStringLiteral(library.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", libraryIdent, __gong__toRawStringLiteral(library.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", libraryIdent, __gong__toRawStringLiteral(library.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", libraryIdent, __gong__toRawStringLiteral(library.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", libraryIdent, library.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsRootLibrary = %t", libraryIdent, library.IsRootLibrary))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPortAndDataFlowNamesAutoGenerated = %t", libraryIdent, library.IsPortAndDataFlowNamesAutoGenerated))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPortAndDataFlowProtocolConsistencyRelaxed = %t", libraryIdent, library.IsPortAndDataFlowProtocolConsistencyRelaxed))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSubLibrariesNodeExpanded = %t", libraryIdent, library.IsSubLibrariesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbPixPerCharacter = %f", libraryIdent, library.NbPixPerCharacter))
+			values.WriteString(fmt.Sprintf("\n\t%s.LogoSVGFile = %s", libraryIdent, __gong__toRawStringLiteral(library.LogoSVGFile)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSystemesNodeExpanded = %t", libraryIdent, library.IsSystemesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDataFlowsNodeExpanded = %t", libraryIdent, library.IsDataFlowsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDatasNodeExpanded = %t", libraryIdent, library.IsDatasNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsProtocolsNodeExpanded = %t", libraryIdent, library.IsProtocolsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsProtocolLayersNodeExpanded = %t", libraryIdent, library.IsProtocolLayersNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsResourcesNodeExpanded = %t", libraryIdent, library.IsResourcesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsNotesNodeExpanded = %t", libraryIdent, library.IsNotesNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpandedTmp = %t", libraryIdent, library.IsExpandedTmp))
+			for _, elem := range library.SubLibraries {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibraries = append(%s.SubLibraries, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.SubLibrariesWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubLibrariesWhoseNodeIsExpanded = append(%s.SubLibrariesWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.RootSystemes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RootSystemes = append(%s.RootSystemes, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.SystemsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SystemsWhoseNodeIsExpanded = append(%s.SystemsWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.RootDataFlows {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RootDataFlows = append(%s.RootDataFlows, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.DataFlowsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseNodeIsExpanded = append(%s.DataFlowsWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.RootDatas {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RootDatas = append(%s.RootDatas, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.DatasWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DatasWhoseNodeIsExpanded = append(%s.DatasWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.RootProtocols {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RootProtocols = append(%s.RootProtocols, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.ProtocolsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ProtocolsWhoseNodeIsExpanded = append(%s.ProtocolsWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.RootProtocolLayers {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RootProtocolLayers = append(%s.RootProtocolLayers, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.ProtocolLayersWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ProtocolLayersWhoseNodeIsExpanded = append(%s.ProtocolLayersWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.RootResources {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RootResources = append(%s.RootResources, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.ResourcesWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ResourcesWhoseNodeIsExpanded = append(%s.ResourcesWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.PartsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PartsWhoseNodeIsExpanded = append(%s.PartsWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.RootNotes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RootNotes = append(%s.RootNotes, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.NotesWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.NotesWhoseNodeIsExpanded = append(%s.NotesWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, note := range __gong__sortStageSetInstances(stage.Notes, stage.Note_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			noteIdent := strings.Replace(note.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.Note{Name: %s}).Stage(stage)", noteIdent, __gong__toRawStringLiteral(note.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", noteIdent, __gong__toRawStringLiteral(note.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", noteIdent, __gong__toRawStringLiteral(note.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", noteIdent, __gong__toRawStringLiteral(note.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", noteIdent, note.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPartsNodeExpanded = %t", noteIdent, note.IsPartsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPortsNodeExpanded = %t", noteIdent, note.IsPortsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDataFlowsNodeExpanded = %t", noteIdent, note.IsDataFlowsNodeExpanded))
+			for _, elem := range note.Parts {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Parts = append(%s.Parts, %s)", noteIdent, noteIdent, targetIdent))
+			}
+			for _, elem := range note.Ports {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Ports = append(%s.Ports, %s)", noteIdent, noteIdent, targetIdent))
+			}
+			for _, elem := range note.DataFlows {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlows = append(%s.DataFlows, %s)", noteIdent, noteIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, notedataflowshape := range __gong__sortStageSetInstances(stage.NoteDataFlowShapes, stage.NoteDataFlowShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			notedataflowshapeIdent := strings.Replace(notedataflowshape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.NoteDataFlowShape{Name: %s}).Stage(stage)", notedataflowshapeIdent, __gong__toRawStringLiteral(notedataflowshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", notedataflowshapeIdent, __gong__toRawStringLiteral(notedataflowshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", notedataflowshapeIdent, notedataflowshape.StartRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", notedataflowshapeIdent, notedataflowshape.EndRatio))
+			if notedataflowshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = structure.%s", notedataflowshapeIdent, notedataflowshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", notedataflowshapeIdent))
+			}
+			if notedataflowshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = structure.%s", notedataflowshapeIdent, notedataflowshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", notedataflowshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", notedataflowshapeIdent, notedataflowshape.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", notedataflowshapeIdent, notedataflowshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", notedataflowshapeIdent, notedataflowshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", notedataflowshapeIdent, __gong__toRawStringLiteral(notedataflowshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", notedataflowshapeIdent, notedataflowshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", notedataflowshapeIdent, notedataflowshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", notedataflowshapeIdent, __gong__toRawStringLiteral(notedataflowshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", notedataflowshapeIdent, __gong__toRawStringLiteral(notedataflowshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", notedataflowshapeIdent, __gong__toRawStringLiteral(notedataflowshape.FontColor)))
+			if notedataflowshape.Note != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(notedataflowshape.Note.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", notedataflowshapeIdent, targetIdent))
+			}
+			if notedataflowshape.DataFlow != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(notedataflowshape.DataFlow.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", notedataflowshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, notepartshape := range __gong__sortStageSetInstances(stage.NotePartShapes, stage.NotePartShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			notepartshapeIdent := strings.Replace(notepartshape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.NotePartShape{Name: %s}).Stage(stage)", notepartshapeIdent, __gong__toRawStringLiteral(notepartshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", notepartshapeIdent, __gong__toRawStringLiteral(notepartshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", notepartshapeIdent, notepartshape.StartRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", notepartshapeIdent, notepartshape.EndRatio))
+			if notepartshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = structure.%s", notepartshapeIdent, notepartshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", notepartshapeIdent))
+			}
+			if notepartshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = structure.%s", notepartshapeIdent, notepartshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", notepartshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", notepartshapeIdent, notepartshape.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", notepartshapeIdent, notepartshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", notepartshapeIdent, notepartshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", notepartshapeIdent, __gong__toRawStringLiteral(notepartshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", notepartshapeIdent, notepartshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", notepartshapeIdent, notepartshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", notepartshapeIdent, __gong__toRawStringLiteral(notepartshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", notepartshapeIdent, __gong__toRawStringLiteral(notepartshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", notepartshapeIdent, __gong__toRawStringLiteral(notepartshape.FontColor)))
+			if notepartshape.Note != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(notepartshape.Note.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", notepartshapeIdent, targetIdent))
+			}
+			if notepartshape.Part != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(notepartshape.Part.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Part = %s", notepartshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, noteportshape := range __gong__sortStageSetInstances(stage.NotePortShapes, stage.NotePortShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			noteportshapeIdent := strings.Replace(noteportshape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.NotePortShape{Name: %s}).Stage(stage)", noteportshapeIdent, __gong__toRawStringLiteral(noteportshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", noteportshapeIdent, __gong__toRawStringLiteral(noteportshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", noteportshapeIdent, noteportshape.StartRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", noteportshapeIdent, noteportshape.EndRatio))
+			if noteportshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = structure.%s", noteportshapeIdent, noteportshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", noteportshapeIdent))
+			}
+			if noteportshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = structure.%s", noteportshapeIdent, noteportshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", noteportshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", noteportshapeIdent, noteportshape.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", noteportshapeIdent, noteportshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", noteportshapeIdent, noteportshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", noteportshapeIdent, __gong__toRawStringLiteral(noteportshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", noteportshapeIdent, noteportshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", noteportshapeIdent, noteportshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", noteportshapeIdent, __gong__toRawStringLiteral(noteportshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", noteportshapeIdent, __gong__toRawStringLiteral(noteportshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", noteportshapeIdent, __gong__toRawStringLiteral(noteportshape.FontColor)))
+			if noteportshape.Note != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(noteportshape.Note.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", noteportshapeIdent, targetIdent))
+			}
+			if noteportshape.Port != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(noteportshape.Port.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Port = %s", noteportshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, noteshape := range __gong__sortStageSetInstances(stage.NoteShapes, stage.NoteShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			noteshapeIdent := strings.Replace(noteshape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.NoteShape{Name: %s}).Stage(stage)", noteshapeIdent, __gong__toRawStringLiteral(noteshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", noteshapeIdent, noteshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", noteshapeIdent, noteshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", noteshapeIdent, noteshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", noteshapeIdent, noteshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", noteshapeIdent, noteshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", noteshapeIdent, noteshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", noteshapeIdent, noteshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", noteshapeIdent, noteshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", noteshapeIdent, noteshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", noteshapeIdent, noteshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", noteshapeIdent, __gong__toRawStringLiteral(noteshape.FontColor)))
+			if noteshape.Note != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(noteshape.Note.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", noteshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, part := range __gong__sortStageSetInstances(stage.Parts, stage.Part_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			partIdent := strings.Replace(part.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.Part{Name: %s}).Stage(stage)", partIdent, __gong__toRawStringLiteral(part.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", partIdent, __gong__toRawStringLiteral(part.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", partIdent, __gong__toRawStringLiteral(part.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsControlFlowsNodeExpanded = %t", partIdent, part.IsControlFlowsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDataFlowsNodeExpanded = %t", partIdent, part.IsDataFlowsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", partIdent, __gong__toRawStringLiteral(part.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", partIdent, part.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPortsNodeExpanded = %t", partIdent, part.IsPortsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsTypePartsNodeExpanded = %t", partIdent, part.IsTypePartsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsTypeDataFlowsNodeExpanded = %t", partIdent, part.IsTypeDataFlowsNodeExpanded))
+			for _, elem := range part.Ports {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Ports = append(%s.Ports, %s)", partIdent, partIdent, targetIdent))
+			}
+			if part.Type != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(part.Type.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Type = %s", partIdent, targetIdent))
+			}
+			for _, elem := range part.ControlFlows {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlows = append(%s.ControlFlows, %s)", partIdent, partIdent, targetIdent))
+			}
+			for _, elem := range part.PortWhoseOutControlFlowsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PortWhoseOutControlFlowsNodeIsExpanded = append(%s.PortWhoseOutControlFlowsNodeIsExpanded, %s)", partIdent, partIdent, targetIdent))
+			}
+			for _, elem := range part.PortWhoseInControlFlowsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PortWhoseInControlFlowsNodeIsExpanded = append(%s.PortWhoseInControlFlowsNodeIsExpanded, %s)", partIdent, partIdent, targetIdent))
+			}
+			for _, elem := range part.PortWhoseOutDataFlowsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PortWhoseOutDataFlowsNodeIsExpanded = append(%s.PortWhoseOutDataFlowsNodeIsExpanded, %s)", partIdent, partIdent, targetIdent))
+			}
+			for _, elem := range part.PortWhoseInDataFlowsNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PortWhoseInDataFlowsNodeIsExpanded = append(%s.PortWhoseInDataFlowsNodeIsExpanded, %s)", partIdent, partIdent, targetIdent))
+			}
+			for _, elem := range part.PartAnchoredPath {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PartAnchoredPath = append(%s.PartAnchoredPath, %s)", partIdent, partIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, partanchoredpath := range __gong__sortStageSetInstances(stage.PartAnchoredPaths, stage.PartAnchoredPath_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			partanchoredpathIdent := strings.Replace(partanchoredpath.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.PartAnchoredPath{Name: %s}).Stage(stage)", partanchoredpathIdent, __gong__toRawStringLiteral(partanchoredpath.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", partanchoredpathIdent, __gong__toRawStringLiteral(partanchoredpath.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Definition = %s", partanchoredpathIdent, __gong__toRawStringLiteral(partanchoredpath.Definition)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X_Offset = %f", partanchoredpathIdent, partanchoredpath.X_Offset))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y_Offset = %f", partanchoredpathIdent, partanchoredpath.Y_Offset))
+			if partanchoredpath.RectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = structure.%s", partanchoredpathIdent, partanchoredpath.RectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = \"\"", partanchoredpathIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.ScalePropotionnally = %t", partanchoredpathIdent, partanchoredpath.ScalePropotionnally))
+			values.WriteString(fmt.Sprintf("\n\t%s.AppliedScaling = %f", partanchoredpathIdent, partanchoredpath.AppliedScaling))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", partanchoredpathIdent, __gong__toRawStringLiteral(partanchoredpath.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", partanchoredpathIdent, partanchoredpath.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", partanchoredpathIdent, __gong__toRawStringLiteral(partanchoredpath.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", partanchoredpathIdent, partanchoredpath.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", partanchoredpathIdent, partanchoredpath.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", partanchoredpathIdent, __gong__toRawStringLiteral(partanchoredpath.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", partanchoredpathIdent, __gong__toRawStringLiteral(partanchoredpath.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", partanchoredpathIdent, __gong__toRawStringLiteral(partanchoredpath.Transform)))
+		}
+	}
+	if stage != nil {
+		for _, partshape := range __gong__sortStageSetInstances(stage.PartShapes, stage.PartShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			partshapeIdent := strings.Replace(partshape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.PartShape{Name: %s}).Stage(stage)", partshapeIdent, __gong__toRawStringLiteral(partshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", partshapeIdent, __gong__toRawStringLiteral(partshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", partshapeIdent, partshape.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPortsNodeExpanded = %t", partshapeIdent, partshape.IsPortsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsControlFlowsNodeExpanded = %t", partshapeIdent, partshape.IsControlFlowsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsTypePartsNodeExpanded = %t", partshapeIdent, partshape.IsTypePartsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsTypeDataFlowsNodeExpanded = %t", partshapeIdent, partshape.IsTypeDataFlowsNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", partshapeIdent, partshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", partshapeIdent, partshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", partshapeIdent, partshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", partshapeIdent, partshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", partshapeIdent, partshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", partshapeIdent, partshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", partshapeIdent, __gong__toRawStringLiteral(partshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", partshapeIdent, partshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", partshapeIdent, __gong__toRawStringLiteral(partshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", partshapeIdent, partshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", partshapeIdent, partshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", partshapeIdent, __gong__toRawStringLiteral(partshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", partshapeIdent, partshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", partshapeIdent, __gong__toRawStringLiteral(partshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", partshapeIdent, __gong__toRawStringLiteral(partshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", partshapeIdent, __gong__toRawStringLiteral(partshape.FontColor)))
+			if partshape.Part != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(partshape.Part.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Part = %s", partshapeIdent, targetIdent))
+			}
+			if partshape.ParentPartShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(partshape.ParentPartShape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParentPartShape = %s", partshapeIdent, targetIdent))
+			}
+			for _, elem := range partshape.SubPartsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubPartsWhoseNodeIsExpanded = append(%s.SubPartsWhoseNodeIsExpanded, %s)", partshapeIdent, partshapeIdent, targetIdent))
+			}
+			for _, elem := range partshape.PortsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PortsWhoseNodeIsExpanded = append(%s.PortsWhoseNodeIsExpanded, %s)", partshapeIdent, partshapeIdent, targetIdent))
+			}
+			for _, elem := range partshape.ControlFlowsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlowsWhoseNodeIsExpanded = append(%s.ControlFlowsWhoseNodeIsExpanded, %s)", partshapeIdent, partshapeIdent, targetIdent))
+			}
+			for _, elem := range partshape.DataFlowsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseNodeIsExpanded = append(%s.DataFlowsWhoseNodeIsExpanded, %s)", partshapeIdent, partshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, port := range __gong__sortStageSetInstances(stage.Ports, stage.Port_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			portIdent := strings.Replace(port.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.Port{Name: %s}).Stage(stage)", portIdent, __gong__toRawStringLiteral(port.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", portIdent, __gong__toRawStringLiteral(port.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", portIdent, __gong__toRawStringLiteral(port.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", portIdent, __gong__toRawStringLiteral(port.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", portIdent, port.IsExpanded))
+			if port.Protocol != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(port.Protocol.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Protocol = %s", portIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, portshape := range __gong__sortStageSetInstances(stage.PortShapes, stage.PortShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			portshapeIdent := strings.Replace(portshape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.PortShape{Name: %s}).Stage(stage)", portshapeIdent, __gong__toRawStringLiteral(portshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", portshapeIdent, __gong__toRawStringLiteral(portshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", portshapeIdent, portshape.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", portshapeIdent, portshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", portshapeIdent, portshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", portshapeIdent, portshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", portshapeIdent, portshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", portshapeIdent, portshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", portshapeIdent, portshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", portshapeIdent, __gong__toRawStringLiteral(portshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", portshapeIdent, portshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", portshapeIdent, __gong__toRawStringLiteral(portshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", portshapeIdent, portshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", portshapeIdent, portshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", portshapeIdent, __gong__toRawStringLiteral(portshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", portshapeIdent, portshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", portshapeIdent, __gong__toRawStringLiteral(portshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", portshapeIdent, __gong__toRawStringLiteral(portshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", portshapeIdent, __gong__toRawStringLiteral(portshape.FontColor)))
+			if portshape.Port != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(portshape.Port.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Port = %s", portshapeIdent, targetIdent))
+			}
+			if portshape.ParentPartShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(portshape.ParentPartShape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ParentPartShape = %s", portshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, protocol := range __gong__sortStageSetInstances(stage.Protocols, stage.Protocol_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			protocolIdent := strings.Replace(protocol.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.Protocol{Name: %s}).Stage(stage)", protocolIdent, __gong__toRawStringLiteral(protocol.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", protocolIdent, __gong__toRawStringLiteral(protocol.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Acronym = %s", protocolIdent, __gong__toRawStringLiteral(protocol.Acronym)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", protocolIdent, __gong__toRawStringLiteral(protocol.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsProtocolLayersNodeExpanded = %t", protocolIdent, protocol.IsProtocolLayersNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", protocolIdent, __gong__toRawStringLiteral(protocol.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", protocolIdent, protocol.IsExpanded))
+			for _, elem := range protocol.ProtocolLayers {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ProtocolLayers = append(%s.ProtocolLayers, %s)", protocolIdent, protocolIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, protocollayer := range __gong__sortStageSetInstances(stage.ProtocolLayers, stage.ProtocolLayer_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			protocollayerIdent := strings.Replace(protocollayer.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.ProtocolLayer{Name: %s}).Stage(stage)", protocollayerIdent, __gong__toRawStringLiteral(protocollayer.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", protocollayerIdent, __gong__toRawStringLiteral(protocollayer.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Acronym = %s", protocollayerIdent, __gong__toRawStringLiteral(protocollayer.Acronym)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", protocollayerIdent, __gong__toRawStringLiteral(protocollayer.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", protocollayerIdent, __gong__toRawStringLiteral(protocollayer.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", protocollayerIdent, protocollayer.IsExpanded))
+		}
+	}
+	if stage != nil {
+		for _, protocollayershape := range __gong__sortStageSetInstances(stage.ProtocolLayerShapes, stage.ProtocolLayerShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			protocollayershapeIdent := strings.Replace(protocollayershape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.ProtocolLayerShape{Name: %s}).Stage(stage)", protocollayershapeIdent, __gong__toRawStringLiteral(protocollayershape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", protocollayershapeIdent, __gong__toRawStringLiteral(protocollayershape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", protocollayershapeIdent, protocollayershape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", protocollayershapeIdent, protocollayershape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", protocollayershapeIdent, protocollayershape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", protocollayershapeIdent, protocollayershape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", protocollayershapeIdent, protocollayershape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", protocollayershapeIdent, protocollayershape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", protocollayershapeIdent, __gong__toRawStringLiteral(protocollayershape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", protocollayershapeIdent, protocollayershape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", protocollayershapeIdent, __gong__toRawStringLiteral(protocollayershape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", protocollayershapeIdent, protocollayershape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", protocollayershapeIdent, protocollayershape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", protocollayershapeIdent, __gong__toRawStringLiteral(protocollayershape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", protocollayershapeIdent, protocollayershape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", protocollayershapeIdent, __gong__toRawStringLiteral(protocollayershape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", protocollayershapeIdent, __gong__toRawStringLiteral(protocollayershape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", protocollayershapeIdent, __gong__toRawStringLiteral(protocollayershape.FontColor)))
+			if protocollayershape.ProtocolLayer != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(protocollayershape.ProtocolLayer.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ProtocolLayer = %s", protocollayershapeIdent, targetIdent))
+			}
+			if protocollayershape.DataFlow != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(protocollayershape.DataFlow.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", protocollayershapeIdent, targetIdent))
+			}
+			if protocollayershape.DataFlowShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(protocollayershape.DataFlowShape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowShape = %s", protocollayershapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, protocolshape := range __gong__sortStageSetInstances(stage.ProtocolShapes, stage.ProtocolShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			protocolshapeIdent := strings.Replace(protocolshape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.ProtocolShape{Name: %s}).Stage(stage)", protocolshapeIdent, __gong__toRawStringLiteral(protocolshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", protocolshapeIdent, __gong__toRawStringLiteral(protocolshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", protocolshapeIdent, protocolshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", protocolshapeIdent, protocolshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", protocolshapeIdent, protocolshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", protocolshapeIdent, protocolshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", protocolshapeIdent, protocolshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", protocolshapeIdent, protocolshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", protocolshapeIdent, __gong__toRawStringLiteral(protocolshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", protocolshapeIdent, protocolshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", protocolshapeIdent, __gong__toRawStringLiteral(protocolshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", protocolshapeIdent, protocolshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", protocolshapeIdent, protocolshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", protocolshapeIdent, __gong__toRawStringLiteral(protocolshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", protocolshapeIdent, protocolshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", protocolshapeIdent, __gong__toRawStringLiteral(protocolshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", protocolshapeIdent, __gong__toRawStringLiteral(protocolshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", protocolshapeIdent, __gong__toRawStringLiteral(protocolshape.FontColor)))
+			if protocolshape.Protocol != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(protocolshape.Protocol.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Protocol = %s", protocolshapeIdent, targetIdent))
+			}
+			if protocolshape.DataFlow != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(protocolshape.DataFlow.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", protocolshapeIdent, targetIdent))
+			}
+			if protocolshape.DataFlowShape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(protocolshape.DataFlowShape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowShape = %s", protocolshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, resource := range __gong__sortStageSetInstances(stage.Resources, stage.Resource_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			resourceIdent := strings.Replace(resource.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.Resource{Name: %s}).Stage(stage)", resourceIdent, __gong__toRawStringLiteral(resource.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", resourceIdent, __gong__toRawStringLiteral(resource.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Acronym = %s", resourceIdent, __gong__toRawStringLiteral(resource.Acronym)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", resourceIdent, __gong__toRawStringLiteral(resource.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", resourceIdent, __gong__toRawStringLiteral(resource.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", resourceIdent, resource.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG_Path = %s", resourceIdent, __gong__toRawStringLiteral(resource.SVG_Path)))
+			values.WriteString(fmt.Sprintf("\n\t%s.InverseAppliedScaling = %f", resourceIdent, resource.InverseAppliedScaling))
+		}
+	}
+	if stage != nil {
+		for _, semantictag := range __gong__sortStageSetInstances(stage.SemanticTags, stage.SemanticTag_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			semantictagIdent := strings.Replace(semantictag.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.SemanticTag{Name: %s}).Stage(stage)", semantictagIdent, __gong__toRawStringLiteral(semantictag.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", semantictagIdent, __gong__toRawStringLiteral(semantictag.Name)))
+			for _, elem := range semantictag.Parts {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Parts = append(%s.Parts, %s)", semantictagIdent, semantictagIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, system := range __gong__sortStageSetInstances(stage.Systems, stage.System_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			systemIdent := strings.Replace(system.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.System{Name: %s}).Stage(stage)", systemIdent, __gong__toRawStringLiteral(system.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", systemIdent, __gong__toRawStringLiteral(system.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", systemIdent, __gong__toRawStringLiteral(system.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", systemIdent, __gong__toRawStringLiteral(system.ComputedPrefix)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", systemIdent, system.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG_Path = %s", systemIdent, __gong__toRawStringLiteral(system.SVG_Path)))
+			values.WriteString(fmt.Sprintf("\n\t%s.InverseAppliedScaling = %f", systemIdent, system.InverseAppliedScaling))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSubSystemNodeExpanded = %t", systemIdent, system.IsSubSystemNodeExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDataFlowsNodeExpanded = %t", systemIdent, system.IsDataFlowsNodeExpanded))
+			for _, elem := range system.DiagramStructures {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DiagramStructures = append(%s.DiagramStructures, %s)", systemIdent, systemIdent, targetIdent))
+			}
+			for _, elem := range system.DiagramStructureWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DiagramStructureWhoseNodeIsExpanded = append(%s.DiagramStructureWhoseNodeIsExpanded, %s)", systemIdent, systemIdent, targetIdent))
+			}
+			for _, elem := range system.SubSystemes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubSystemes = append(%s.SubSystemes, %s)", systemIdent, systemIdent, targetIdent))
+			}
+			for _, elem := range system.Parts {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Parts = append(%s.Parts, %s)", systemIdent, systemIdent, targetIdent))
+			}
+			for _, elem := range system.PartWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PartWhoseNodeIsExpanded = append(%s.PartWhoseNodeIsExpanded, %s)", systemIdent, systemIdent, targetIdent))
+			}
+			for _, elem := range system.DataFlows {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlows = append(%s.DataFlows, %s)", systemIdent, systemIdent, targetIdent))
+			}
+			for _, elem := range system.ExternalParts {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalParts = append(%s.ExternalParts, %s)", systemIdent, systemIdent, targetIdent))
+			}
+			for _, elem := range system.ExternalPartWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExternalPartWhoseNodeIsExpanded = append(%s.ExternalPartWhoseNodeIsExpanded, %s)", systemIdent, systemIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, systemshape := range __gong__sortStageSetInstances(stage.SystemShapes, stage.SystemShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			systemshapeIdent := strings.Replace(systemshape.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&structure.SystemShape{Name: %s}).Stage(stage)", systemshapeIdent, __gong__toRawStringLiteral(systemshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", systemshapeIdent, __gong__toRawStringLiteral(systemshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", systemshapeIdent, systemshape.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", systemshapeIdent, systemshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", systemshapeIdent, systemshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", systemshapeIdent, systemshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", systemshapeIdent, systemshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", systemshapeIdent, systemshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsPresentationOverridden = %t", systemshapeIdent, systemshape.IsPresentationOverridden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", systemshapeIdent, __gong__toRawStringLiteral(systemshape.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", systemshapeIdent, systemshape.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", systemshapeIdent, __gong__toRawStringLiteral(systemshape.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", systemshapeIdent, systemshape.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", systemshapeIdent, systemshape.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", systemshapeIdent, __gong__toRawStringLiteral(systemshape.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", systemshapeIdent, systemshape.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", systemshapeIdent, __gong__toRawStringLiteral(systemshape.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", systemshapeIdent, __gong__toRawStringLiteral(systemshape.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontColor = %s", systemshapeIdent, __gong__toRawStringLiteral(systemshape.FontColor)))
+			if systemshape.System != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(systemshape.System.GongGetIdentifier(stage), "__models__", "__structure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.System = %s", systemshapeIdent, targetIdent))
+			}
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	structure "github.com/fullstack-lang/gong/dsm/structure/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *structure.Stage
+)%s
+
+// StageStructure stages objects into stage
+func StageStructure(stage *structure.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }
