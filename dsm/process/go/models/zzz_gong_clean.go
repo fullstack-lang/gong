@@ -64,6 +64,7 @@ func (allocatedresourceshape *AllocatedResourceShape) GongClean(stage *Stage) (m
 // Clean garbage collect unstaged instances that are referenced by ControlFlow
 func (controlflow *ControlFlow) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = stage.CleanSlice(&controlflow.Datas) || modified
 	// insertion point per field
 	modified = stage.CleanPointer(&controlflow.Start) || modified
 	modified = stage.CleanPointer(&controlflow.End) || modified
@@ -114,6 +115,7 @@ func (datashape *DataShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = stage.CleanPointer(&datashape.Data) || modified
 	modified = stage.CleanPointer(&datashape.DataFlow) || modified
+	modified = stage.CleanPointer(&datashape.ControlFlow) || modified
 	return
 }
 
@@ -153,6 +155,7 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&diagramprocess.DatasWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagramprocess.Data_Shapes) || modified
 	modified = stage.CleanSlice(&diagramprocess.DataFlowsWhoseDataNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&diagramprocess.ControlFlowsWhoseDataNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagramprocess.DataStore_Shapes) || modified
 	modified = stage.CleanSlice(&diagramprocess.DataStoresWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&diagramprocess.DataStoresWhoseOutDataFlowsNodeIsExpanded) || modified
@@ -196,6 +199,7 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = stage.CleanSlice(&library.ProcesssWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&library.RootDataFlows) || modified
 	modified = stage.CleanSlice(&library.DataFlowsWhoseNodeIsExpanded) || modified
+	modified = stage.CleanSlice(&library.ControlFlowsWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&library.RootDatas) || modified
 	modified = stage.CleanSlice(&library.DatasWhoseNodeIsExpanded) || modified
 	modified = stage.CleanSlice(&library.RootDataStores) || modified

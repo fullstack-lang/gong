@@ -226,7 +226,17 @@ func (inst *ControlFlow) GetReferencePath() string {
 }
 
 func (inst *ControlFlow) GeneratePage(stager *Stager) *ssg.Page {
-	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
+	content := fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)
+	if len(inst.Datas) > 0 {
+		content += "\n\n##### Carried Data\n\n| Name | Description |\n|---|---|\n"
+		for _, d := range inst.Datas {
+			if d != nil {
+				content += fmt.Sprintf("| [%s](../../Datas/%s/index.html) | %s |\n",
+					d.Name, d.GetReferencePath(), strings.ReplaceAll(d.Description, "\n", "<br>"))
+			}
+		}
+	}
+	return &ssg.Page{Name: inst.Name, MardownContent: content}
 }
 
 func (inst *DataFlow) GetDescription() string { return inst.Description }

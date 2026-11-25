@@ -433,6 +433,17 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.Guard = %s", controlflowIdent, __gong__toRawStringLiteral(controlflow.Guard)))
 			values.WriteString(fmt.Sprintf("\n\t%s.ComputedPrefix = %s", controlflowIdent, __gong__toRawStringLiteral(controlflow.ComputedPrefix)))
 			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", controlflowIdent, controlflow.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDatasNodeExpanded = %t", controlflowIdent, controlflow.IsDatasNodeExpanded))
+			for _, elem := range controlflow.Datas {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Datas = append(%s.Datas, %s)", controlflowIdent, controlflowIdent, targetIdent))
+			}
 			if controlflow.Start != nil {
 				if lastStagePtr != "Stage" {
 					if pointers.Len() > 0 {
@@ -741,6 +752,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				targetIdent := datashape.DataFlow.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlow = %s", datashapeIdent, targetIdent))
 			}
+			if datashape.ControlFlow != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := datashape.ControlFlow.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlow = %s", datashapeIdent, targetIdent))
+			}
 		}
 	}
 	if stage != nil {
@@ -1024,6 +1045,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseDataNodeIsExpanded = append(%s.DataFlowsWhoseDataNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
+			}
+			for _, elem := range diagramprocess.ControlFlowsWhoseDataNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlowsWhoseDataNodeIsExpanded = append(%s.ControlFlowsWhoseDataNodeIsExpanded, %s)", diagramprocessIdent, diagramprocessIdent, targetIdent))
 			}
 			for _, elem := range diagramprocess.DataStore_Shapes {
 				if lastStagePtr != "Stage" {
@@ -1340,6 +1371,16 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 				}
 				targetIdent := elem.GongGetIdentifier(stage)
 				pointers.WriteString(fmt.Sprintf("\n\t%s.DataFlowsWhoseNodeIsExpanded = append(%s.DataFlowsWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
+			}
+			for _, elem := range library.ControlFlowsWhoseNodeIsExpanded {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlFlowsWhoseNodeIsExpanded = append(%s.ControlFlowsWhoseNodeIsExpanded, %s)", libraryIdent, libraryIdent, targetIdent))
 			}
 			for _, elem := range library.RootDatas {
 				if lastStagePtr != "Stage" {
@@ -2267,7 +2308,15 @@ func (controlflow *ControlFlow) GongMarshallField(stage *Stage, fieldName string
 		res = __gong__marshallString(ident, "ComputedPrefix", controlflow.ComputedPrefix)
 	case "IsExpanded":
 		res = __gong__marshallBool(ident, "IsExpanded", controlflow.IsExpanded)
+	case "IsDatasNodeExpanded":
+		res = __gong__marshallBool(ident, "IsDatasNodeExpanded", controlflow.IsDatasNodeExpanded)
 
+	case "Datas":
+		var sb strings.Builder
+		for _, _data := range controlflow.Datas {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "Datas", _data.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
 	case "Start":
 		if controlflow.Start != nil {
 			res = __gong__marshallPointer(ident, "Start", controlflow.Start.GongGetIdentifier(stage))
@@ -2523,6 +2572,12 @@ func (datashape *DataShape) GongMarshallField(stage *Stage, fieldName string) (r
 		} else {
 			res = __gong__marshallPointer(ident, "DataFlow", "nil")
 		}
+	case "ControlFlow":
+		if datashape.ControlFlow != nil {
+			res = __gong__marshallPointer(ident, "ControlFlow", datashape.ControlFlow.GongGetIdentifier(stage))
+		} else {
+			res = __gong__marshallPointer(ident, "ControlFlow", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DataShape", fieldName)
 	}
@@ -2748,6 +2803,12 @@ func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName 
 		var sb strings.Builder
 		for _, _dataflow := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "DataFlowsWhoseDataNodeIsExpanded", _dataflow.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "ControlFlowsWhoseDataNodeIsExpanded":
+		var sb strings.Builder
+		for _, _controlflow := range diagramprocess.ControlFlowsWhoseDataNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ControlFlowsWhoseDataNodeIsExpanded", _controlflow.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "DataStore_Shapes":
@@ -2997,6 +3058,12 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		var sb strings.Builder
 		for _, _dataflow := range library.DataFlowsWhoseNodeIsExpanded {
 			sb.WriteString(__gong__marshallSliceOfPointers(ident, "DataFlowsWhoseNodeIsExpanded", _dataflow.GongGetIdentifier(stage)))
+		}
+		res = sb.String()
+	case "ControlFlowsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _controlflow := range library.ControlFlowsWhoseNodeIsExpanded {
+			sb.WriteString(__gong__marshallSliceOfPointers(ident, "ControlFlowsWhoseNodeIsExpanded", _controlflow.GongGetIdentifier(stage)))
 		}
 		res = sb.String()
 	case "RootDatas":
@@ -3715,12 +3782,14 @@ func (controlflow *ControlFlow) GongMarshallAllFields(stage *Stage) (initRes str
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "Datas"))
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "Guard"))
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "Start"))
 		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3825,6 +3894,7 @@ func (datashape *DataShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(datashape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(datashape.GongMarshallField(stage, "Data"))
 		pointersInitializesStatements.WriteString(datashape.GongMarshallField(stage, "DataFlow"))
+		pointersInitializesStatements.WriteString(datashape.GongMarshallField(stage, "ControlFlow"))
 		initializerStatements.WriteString(datashape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(datashape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(datashape.GongMarshallField(stage, "Width"))
@@ -3928,6 +3998,7 @@ func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initR
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DatasWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "Data_Shapes"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataFlowsWhoseDataNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlowsWhoseDataNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataStore_Shapes"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataStoresWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsDataStoresNodeExpanded"))
@@ -4019,6 +4090,7 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootDataFlows"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsDataFlowsNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "DataFlowsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ControlFlowsWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootDatas"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsDatasNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "DatasWhoseNodeIsExpanded"))

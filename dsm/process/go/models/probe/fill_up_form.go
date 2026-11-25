@@ -64,6 +64,7 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Datas", instanceWithInferedType, &instanceWithInferedType.Datas, formGroup, probe)
 		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
 			true, false, 0, false, 0, false)
 		BasicFieldtoForm("Guard", instanceWithInferedType.Guard, instanceWithInferedType, probe.formStage, formGroup,
@@ -74,6 +75,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Start", instanceWithInferedType.Start, formGroup, probe)
 		AssociationFieldToForm("End", instanceWithInferedType.End, formGroup, probe)
+		BasicFieldtoForm("IsDatasNodeExpanded", instanceWithInferedType.IsDatasNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -86,6 +89,24 @@ func FillUpForm(
 			formGroup,
 			probe,
 			func(owner *models.DiagramProcess) []*models.ControlFlow {
+				return owner.ControlFlowsWhoseNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"DiagramProcess",
+			"ControlFlowsWhoseDataNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.DiagramProcess) []*models.ControlFlow {
+				return owner.ControlFlowsWhoseDataNodeIsExpanded
+			})
+		AssociationReverseSliceToForm(
+			"Library",
+			"ControlFlowsWhoseNodeIsExpanded",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.Library) []*models.ControlFlow {
 				return owner.ControlFlowsWhoseNodeIsExpanded
 			})
 		AssociationReverseSliceToForm(
@@ -173,6 +194,15 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		AssociationReverseSliceToForm(
+			"ControlFlow",
+			"Datas",
+			instanceWithInferedType,
+			formGroup,
+			probe,
+			func(owner *models.ControlFlow) []*models.Data {
+				return owner.Datas
+			})
 		AssociationReverseSliceToForm(
 			"Data",
 			"SubDatas",
@@ -358,6 +388,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Data", instanceWithInferedType.Data, formGroup, probe)
 		AssociationFieldToForm("DataFlow", instanceWithInferedType.DataFlow, formGroup, probe)
+		AssociationFieldToForm("ControlFlow", instanceWithInferedType.ControlFlow, formGroup, probe)
 		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
@@ -572,6 +603,7 @@ func FillUpForm(
 		AssociationSliceToForm("DatasWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DatasWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("Data_Shapes", instanceWithInferedType, &instanceWithInferedType.Data_Shapes, formGroup, probe)
 		AssociationSliceToForm("DataFlowsWhoseDataNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DataFlowsWhoseDataNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("ControlFlowsWhoseDataNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ControlFlowsWhoseDataNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("DataStore_Shapes", instanceWithInferedType, &instanceWithInferedType.DataStore_Shapes, formGroup, probe)
 		AssociationSliceToForm("DataStoresWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DataStoresWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsDataStoresNodeExpanded", instanceWithInferedType.IsDataStoresNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
@@ -777,6 +809,7 @@ func FillUpForm(
 		BasicFieldtoForm("IsDataFlowsNodeExpanded", instanceWithInferedType.IsDataFlowsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("DataFlowsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DataFlowsWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("ControlFlowsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ControlFlowsWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("RootDatas", instanceWithInferedType, &instanceWithInferedType.RootDatas, formGroup, probe)
 		BasicFieldtoForm("IsDatasNodeExpanded", instanceWithInferedType.IsDatasNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)

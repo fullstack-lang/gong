@@ -22,8 +22,9 @@ func (stager *Stager) enforceStagerMaps() {
 		diagramProcess.map_DataShapeKey_DataShape = make(map[dataShapeKey]*DataShape)
 		for _, dataShape := range diagramProcess.Data_Shapes {
 			key := dataShapeKey{
-				dataFlow: dataShape.DataFlow,
-				data:     dataShape.Data,
+				dataFlow:    dataShape.DataFlow,
+				controlFlow: dataShape.ControlFlow,
+				data:        dataShape.Data,
 			}
 			diagramProcess.map_DataShapeKey_DataShape[key] = dataShape
 		}
@@ -101,7 +102,13 @@ func (stager *Stager) enforceStagerMaps() {
 		stager.map_DataFlow_PrevDatas[dataFlow] = slices.Clone(dataFlow.Datas)
 	}
 
+	stager.map_ControlFlow_PrevDatas = make(map[*ControlFlow][]*Data)
+	for _, controlFlow := range stager.stage.GetInstancesSorted[*ControlFlow]() {
+		stager.map_ControlFlow_PrevDatas[controlFlow] = slices.Clone(controlFlow.Datas)
+	}
+
 	stager.rm_Data_DataFlows = stager.stage.GetSliceOfPointersReverseMap[DataFlow, Data](GongGetAssociationName[DataFlow]().Datas[0].Name)
+	stager.rm_Data_ControlFlows = stager.stage.GetSliceOfPointersReverseMap[ControlFlow, Data](GongGetAssociationName[ControlFlow]().Datas[0].Name)
 	stager.rm_Data_DataStores = stager.stage.GetSliceOfPointersReverseMap[DataStore, Data](GongGetAssociationName[DataStore]().Datas[0].Name)
 	stager.rm_Resource_Participants = stager.stage.GetSliceOfPointersReverseMap[Participant, Resource](GongGetAssociationName[Participant]().Resources[0].Name)
 	stager.rm_Resource_ExternalParticipants = stager.stage.GetSliceOfPointersReverseMap[ExternalParticipant, Resource](GongGetAssociationName[ExternalParticipant]().Resources[0].Name)

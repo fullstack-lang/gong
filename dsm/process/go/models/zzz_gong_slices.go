@@ -20,6 +20,16 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
+	// Compute reverse map for named struct ControlFlow
+	// insertion point per field
+	stage.ControlFlow_Datas_reverseMap = make(map[*Data]*ControlFlow)
+	for controlflow := range stage.ControlFlows {
+		_ = controlflow
+		for _, _data := range controlflow.Datas {
+			stage.ControlFlow_Datas_reverseMap[_data] = controlflow
+		}
+	}
+
 	// Compute reverse map for named struct Data
 	// insertion point per field
 	stage.Data_SubDatas_reverseMap = make(map[*Data]*Data)
@@ -169,6 +179,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = diagramprocess
 		for _, _dataflow := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
 			stage.DiagramProcess_DataFlowsWhoseDataNodeIsExpanded_reverseMap[_dataflow] = diagramprocess
+		}
+	}
+	stage.DiagramProcess_ControlFlowsWhoseDataNodeIsExpanded_reverseMap = make(map[*ControlFlow]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _controlflow := range diagramprocess.ControlFlowsWhoseDataNodeIsExpanded {
+			stage.DiagramProcess_ControlFlowsWhoseDataNodeIsExpanded_reverseMap[_controlflow] = diagramprocess
 		}
 	}
 	stage.DiagramProcess_DataStore_Shapes_reverseMap = make(map[*DataStoreShape]*DiagramProcess)
@@ -322,6 +339,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = library
 		for _, _dataflow := range library.DataFlowsWhoseNodeIsExpanded {
 			stage.Library_DataFlowsWhoseNodeIsExpanded_reverseMap[_dataflow] = library
+		}
+	}
+	stage.Library_ControlFlowsWhoseNodeIsExpanded_reverseMap = make(map[*ControlFlow]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _controlflow := range library.ControlFlowsWhoseNodeIsExpanded {
+			stage.Library_ControlFlowsWhoseNodeIsExpanded_reverseMap[_controlflow] = library
 		}
 	}
 	stage.Library_RootDatas_reverseMap = make(map[*Data]*Library)

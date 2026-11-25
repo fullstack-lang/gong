@@ -30,9 +30,10 @@ type Library struct {
 	IsProcessesNodeExpanded     bool
 	ProcesssWhoseNodeIsExpanded []*Process
 
-	RootDataFlows                []*DataFlow
-	IsDataFlowsNodeExpanded      bool
-	DataFlowsWhoseNodeIsExpanded []*DataFlow
+	RootDataFlows                   []*DataFlow
+	IsDataFlowsNodeExpanded         bool
+	DataFlowsWhoseNodeIsExpanded    []*DataFlow
+	ControlFlowsWhoseNodeIsExpanded []*ControlFlow
 
 	RootDatas                []*Data
 	IsDatasNodeExpanded      bool

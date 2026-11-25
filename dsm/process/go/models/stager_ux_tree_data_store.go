@@ -6,6 +6,27 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
+func setDataStoreNodeAcronymPrefix(dataStore *DataStore, node *tree.Node, diagramProcess *DiagramProcess) {
+	if dataStore == nil || node == nil {
+		return
+	}
+	prefix := ""
+	if diagramProcess != nil && diagramProcess.GetIsShowPrefix() && dataStore.GetComputedPrefix() != "" {
+		prefix = dataStore.GetComputedPrefix()
+	}
+	if dataStore.Acronym != "" {
+		if prefix != "" {
+			prefix = prefix + " " + dataStore.Acronym + " /"
+		} else {
+			prefix = dataStore.Acronym + " /"
+		}
+	}
+	if prefix != "" {
+		node.IsWithPrefix = true
+		node.Prefix = prefix
+	}
+}
+
 func (stager *Stager) treeDataStoreWithinLibrary(
 	library *Library,
 	dataStore *DataStore,
@@ -17,6 +38,7 @@ func (stager *Stager) treeDataStoreWithinLibrary(
 		IsNodeClickable: true,
 		IsInEditMode:    dataStore.GetIsInRenameMode(),
 	}
+	setDataStoreNodeAcronymPrefix(dataStore, dataStoreNode, nil)
 	parentNode.Children = append(parentNode.Children, dataStoreNode)
 
 	addRenameButton(dataStore, dataStoreNode, stager)

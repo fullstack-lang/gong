@@ -187,6 +187,8 @@ func saveControlFlowFields(
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(_instance.Name), formDiv)
+		case "Datas":
+			FormDivSliceOfPointersToField(_instance, "Datas", &(_instance.Datas), formDiv, probe)
 		case "Description":
 			FormDivBasicFieldToField(&(_instance.Description), formDiv)
 		case "Guard":
@@ -199,8 +201,14 @@ func saveControlFlowFields(
 			FormDivSelectFieldToField(&(_instance.Start), probe.stageOfInterest, formDiv)
 		case "End":
 			FormDivSelectFieldToField(&(_instance.End), probe.stageOfInterest, formDiv)
+		case "IsDatasNodeExpanded":
+			FormDivBasicFieldToField(&(_instance.IsDatasNodeExpanded), formDiv)
 		case "DiagramProcess:ControlFlowsWhoseNodeIsExpanded":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlFlowsWhoseNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.ControlFlow { return &owner.ControlFlowsWhoseNodeIsExpanded })
+		case "DiagramProcess:ControlFlowsWhoseDataNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlFlowsWhoseDataNodeIsExpanded", func(owner *models.DiagramProcess) *[]*models.ControlFlow { return &owner.ControlFlowsWhoseDataNodeIsExpanded })
+		case "Library:ControlFlowsWhoseNodeIsExpanded":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlFlowsWhoseNodeIsExpanded", func(owner *models.Library) *[]*models.ControlFlow { return &owner.ControlFlowsWhoseNodeIsExpanded })
 		case "Note:ControlFlows":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "ControlFlows", func(owner *models.Note) *[]*models.ControlFlow { return &owner.ControlFlows })
 		case "Participant:ControlFlows":
@@ -307,6 +315,8 @@ func saveDataFields(
 			FormDivBasicFieldToField(&(_instance.IsExpanded), formDiv)
 		case "SVG":
 			FormDivBasicFieldToField(&(_instance.SVG), formDiv)
+		case "ControlFlow:Datas":
+			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "Datas", func(owner *models.ControlFlow) *[]*models.Data { return &owner.Datas })
 		case "Data:SubDatas":
 			FormDivReverseSliceOfPointersToField(_instance, formDiv, probe, "SubDatas", func(owner *models.Data) *[]*models.Data { return &owner.SubDatas })
 		case "DataFlow:Datas":
@@ -476,6 +486,8 @@ func saveDataShapeFields(
 			FormDivSelectFieldToField(&(_instance.Data), probe.stageOfInterest, formDiv)
 		case "DataFlow":
 			FormDivSelectFieldToField(&(_instance.DataFlow), probe.stageOfInterest, formDiv)
+		case "ControlFlow":
+			FormDivSelectFieldToField(&(_instance.ControlFlow), probe.stageOfInterest, formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(_instance.X), formDiv)
 		case "Y":
@@ -717,6 +729,8 @@ func saveDiagramProcessFields(
 			FormDivSliceOfPointersToField(_instance, "Data_Shapes", &(_instance.Data_Shapes), formDiv, probe)
 		case "DataFlowsWhoseDataNodeIsExpanded":
 			FormDivSliceOfPointersToField(_instance, "DataFlowsWhoseDataNodeIsExpanded", &(_instance.DataFlowsWhoseDataNodeIsExpanded), formDiv, probe)
+		case "ControlFlowsWhoseDataNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "ControlFlowsWhoseDataNodeIsExpanded", &(_instance.ControlFlowsWhoseDataNodeIsExpanded), formDiv, probe)
 		case "DataStore_Shapes":
 			FormDivSliceOfPointersToField(_instance, "DataStore_Shapes", &(_instance.DataStore_Shapes), formDiv, probe)
 		case "DataStoresWhoseNodeIsExpanded":
@@ -938,6 +952,8 @@ func saveLibraryFields(
 			FormDivBasicFieldToField(&(_instance.IsDataFlowsNodeExpanded), formDiv)
 		case "DataFlowsWhoseNodeIsExpanded":
 			FormDivSliceOfPointersToField(_instance, "DataFlowsWhoseNodeIsExpanded", &(_instance.DataFlowsWhoseNodeIsExpanded), formDiv, probe)
+		case "ControlFlowsWhoseNodeIsExpanded":
+			FormDivSliceOfPointersToField(_instance, "ControlFlowsWhoseNodeIsExpanded", &(_instance.ControlFlowsWhoseNodeIsExpanded), formDiv, probe)
 		case "RootDatas":
 			FormDivSliceOfPointersToField(_instance, "RootDatas", &(_instance.RootDatas), formDiv, probe)
 		case "IsDatasNodeExpanded":

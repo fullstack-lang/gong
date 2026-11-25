@@ -5,12 +5,13 @@ import (
 	gongprobe "github.com/fullstack-lang/gong/pkg/runtime/probe"
 )
 
-// A DataShape is the concrete for a Data that is carried by a DataFlow.
+// A DataShape is the concrete for a Data that is carried by a DataFlow or a ControlFlow.
 type DataShape struct {
 	Name string
 
-	Data     *Data
-	DataFlow *DataFlow
+	Data        *Data
+	DataFlow    *DataFlow
+	ControlFlow *ControlFlow
 
 	RectShape
 }

@@ -52,6 +52,7 @@ type Stager struct {
 
 	// reverse map to navigate
 	rm_Data_DataFlows                map[*Data][]*DataFlow
+	rm_Data_ControlFlows             map[*Data][]*ControlFlow
 	rm_Data_DataStores               map[*Data][]*DataStore
 	rm_Resource_Participants         map[*Resource][]*Participant
 	rm_Resource_ExternalParticipants map[*Resource][]*ExternalParticipant
@@ -66,8 +67,9 @@ type Stager struct {
 	map_ExternalParticipant_PrevResources map[*ExternalParticipant][]*Resource
 	map_ExternalParticipant_PrevProcesses map[*ExternalParticipant][]*Process
 
-	// previous Datas slice on DataFlow to detect newly added Datas in probe callbacks
-	map_DataFlow_PrevDatas map[*DataFlow][]*Data
+	// previous Datas slice on DataFlow and ControlFlow to detect newly added Datas in probe callbacks
+	map_DataFlow_PrevDatas    map[*DataFlow][]*Data
+	map_ControlFlow_PrevDatas map[*ControlFlow][]*Data
 }
 
 func NewStager(

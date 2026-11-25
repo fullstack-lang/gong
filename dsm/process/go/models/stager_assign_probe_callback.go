@@ -18,6 +18,10 @@ func (stager *Stager) assignProbeCallback() bool {
 			if slicePtr == &inst.Datas {
 				stager.onDataFlowDatasUpdate(inst)
 			}
+		case *ControlFlow:
+			if slicePtr == &inst.Datas {
+				stager.onControlFlowDatasUpdate(inst)
+			}
 		case *Note:
 			switch slicePtr {
 			case &inst.Tasks:
@@ -269,6 +273,76 @@ func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
 	// we do not need to call commit explicitly if the form is saving.
 	// However, if we modified diagram.Data_Shapes, we might want to log it.
 	log.Printf("Updated Data_Shapes for DataFlow %s", dataFlow.Name)
+}
+
+func (stager *Stager) onControlFlowDatasUpdate(controlFlow *ControlFlow) {
+	reachableDatas := collectReachableDatas(controlFlow.Datas)
+	prevDatas, hasPrev := stager.map_ControlFlow_PrevDatas[controlFlow]
+
+	// when a Data is added/removed to/from a ControlFlow
+	// update all diagrams accordingly
+	for _, diagram := range stager.stage.GetInstancesSorted[*DiagramProcess]() {
+		var hasControlFlowShape bool
+		cfShapeName := controlFlow.GetName()
+		for _, controlFlowShape := range diagram.ControlFlow_Shapes {
+			if controlFlowShape.ControlFlow == controlFlow {
+				hasControlFlowShape = true
+				if controlFlowShape.GetName() != "" {
+					cfShapeName = controlFlowShape.GetName()
+				}
+				break
+			}
+		}
+
+		if hasControlFlowShape {
+			existingDataShapes := make(map[*Data]*DataShape)
+			var validDataShapes []*DataShape
+
+			for _, dataShape := range diagram.Data_Shapes {
+				if dataShape.ControlFlow == controlFlow {
+					if dataShape.Data != nil {
+						if reachableDatas[dataShape.Data] {
+							existingDataShapes[dataShape.Data] = dataShape
+							validDataShapes = append(validDataShapes, dataShape)
+						} else {
+							dataShape.Unstage(stager.stage)
+						}
+					} else {
+						dataShape.Unstage(stager.stage)
+					}
+				} else {
+					validDataShapes = append(validDataShapes, dataShape)
+				}
+			}
+
+			diagram.Data_Shapes = validDataShapes
+
+			// add missing DataShapes for newly added top-level Data entries
+			for _, data := range controlFlow.Datas {
+				if data == nil {
+					continue
+				}
+				if hasPrev && slices.Contains(prevDatas, data) {
+					continue
+				}
+				if _, ok := existingDataShapes[data]; !ok {
+					newDataShape := (&DataShape{
+						Name:        data.GetName() + "-" + cfShapeName + "-" + diagram.GetName(),
+						Data:        data,
+						ControlFlow: controlFlow,
+					}).Stage(stager.stage)
+					diagram.Data_Shapes = append(diagram.Data_Shapes, newDataShape)
+				}
+			}
+		}
+	}
+
+	if stager.map_ControlFlow_PrevDatas == nil {
+		stager.map_ControlFlow_PrevDatas = make(map[*ControlFlow][]*Data)
+	}
+	stager.map_ControlFlow_PrevDatas[controlFlow] = slices.Clone(controlFlow.Datas)
+
+	log.Printf("Updated Data_Shapes for ControlFlow %s", controlFlow.Name)
 }
 
 func (stager *Stager) onNoteTasksUpdate(note *Note) {

@@ -74,6 +74,7 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlowVisited(
 			return "Click to create a data shape for this data within this data flow"
 		}(),
 	}
+	setDataNodeAcronymPrefix(data, dataNode, diagramProcess)
 	parentNode.Children = append(parentNode.Children, dataNode)
 	addRenameButton(data, dataNode, stager)
 

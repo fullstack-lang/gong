@@ -30,7 +30,7 @@ func (stager *Stager) treeControlFlowsWithinTask(
 
 	node := &tree.Node{
 		Name:                    controlFlow.GetName(),
-		IsExpanded:              false,
+		IsExpanded:              slices.Contains(diagramProcess.ControlFlowsWhoseDataNodeIsExpanded, controlFlow),
 		IsNodeClickable:         true,
 		IsInEditMode:            controlFlow.GetIsInRenameMode(),
 		HasCheckboxButton:       true,
@@ -78,6 +78,7 @@ func (stager *Stager) treeControlFlowsWithinTask(
 	}
 
 	node.OnNameChange = stager.onNameChange(controlFlow)
+	node.OnIsExpandedChange = onIsExpandedChangeSlice(stager, controlFlow, &diagramProcess.ControlFlowsWhoseDataNodeIsExpanded)
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !isShapePresent {
 			isShapePresent = isChecked
@@ -110,4 +111,8 @@ func (stager *Stager) treeControlFlowsWithinTask(
 		}
 	}
 	node.OnClick = onNodeClicked(stager, controlFlow)
+
+	for _, data := range topLevelDatasInSlice(controlFlow.Datas) {
+		stager.treeDataWithinDiagramProcessWithinControlFlow(node, diagramProcess, controlFlow, shape, isShapePresent, data)
+	}
 }

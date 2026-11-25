@@ -70,6 +70,7 @@ func (stager *Stager) treeDataStoreWithinDiagramProcess(
 			return "Click to create a data store shape for this data store within this diagram"
 		}(),
 	}
+	setDataStoreNodeAcronymPrefix(dataStore, node, diagramProcess)
 	parentNode.Children = append(parentNode.Children, node)
 	addRenameButton(dataStore, node, stager)
 

@@ -26,10 +26,10 @@ func collectReachableDatas(roots []*Data) map[*Data]bool {
 	return reachable
 }
 
-// isDataReachableFromDataFlow returns true if target is in dataFlow.Datas or is
-// a descendant of any Data in dataFlow.Datas via SubDatas.
-func isDataReachableFromDataFlow(dataFlow *DataFlow, target *Data) bool {
-	if dataFlow == nil || target == nil {
+// isDataReachableFromDatas returns true if target is in roots or is
+// a descendant of any Data in roots via SubDatas.
+func isDataReachableFromDatas(roots []*Data, target *Data) bool {
+	if target == nil {
 		return false
 	}
 	visited := make(map[*Data]bool)
@@ -49,12 +49,30 @@ func isDataReachableFromDataFlow(dataFlow *DataFlow, target *Data) bool {
 		}
 		return false
 	}
-	for _, root := range dataFlow.Datas {
+	for _, root := range roots {
 		if visit(root) {
 			return true
 		}
 	}
 	return false
+}
+
+// isDataReachableFromDataFlow returns true if target is in dataFlow.Datas or is
+// a descendant of any Data in dataFlow.Datas via SubDatas.
+func isDataReachableFromDataFlow(dataFlow *DataFlow, target *Data) bool {
+	if dataFlow == nil || target == nil {
+		return false
+	}
+	return isDataReachableFromDatas(dataFlow.Datas, target)
+}
+
+// isDataReachableFromControlFlow returns true if target is in controlFlow.Datas or is
+// a descendant of any Data in controlFlow.Datas via SubDatas.
+func isDataReachableFromControlFlow(controlFlow *ControlFlow, target *Data) bool {
+	if controlFlow == nil || target == nil {
+		return false
+	}
+	return isDataReachableFromDatas(controlFlow.Datas, target)
 }
 
 // topLevelDatasInSlice filters datas to preserve order while omitting elements

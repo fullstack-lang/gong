@@ -6,6 +6,27 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
+func setDataNodeAcronymPrefix(data *Data, dataNode *tree.Node, diagramProcess *DiagramProcess) {
+	if data == nil || dataNode == nil {
+		return
+	}
+	prefix := ""
+	if diagramProcess != nil && diagramProcess.GetIsShowPrefix() && data.GetComputedPrefix() != "" {
+		prefix = data.GetComputedPrefix()
+	}
+	if data.Acronym != "" {
+		if prefix != "" {
+			prefix = prefix + " " + data.Acronym + " /"
+		} else {
+			prefix = data.Acronym + " /"
+		}
+	}
+	if prefix != "" {
+		dataNode.IsWithPrefix = true
+		dataNode.Prefix = prefix
+	}
+}
+
 func (stager *Stager) treeDataWithinLibrary(
 	library *Library,
 	data *Data,
@@ -32,6 +53,7 @@ func (stager *Stager) treeDataWithinLibraryVisited(
 		IsNodeClickable: true,
 		IsInEditMode:    data.GetIsInRenameMode(),
 	}
+	setDataNodeAcronymPrefix(data, dataNode, nil)
 	parentNode.Children = append(parentNode.Children, dataNode)
 
 	addRenameButton(data, dataNode, stager)
@@ -105,6 +127,9 @@ func (stager *Stager) treeDataWithinLibraryVisited(
 	for _, dataFlow := range stager.rm_Data_DataFlows[data] {
 		stager.treeDataFlowWithinLibrary(library, dataFlow, dataNode)
 	}
+	for _, controlFlow := range stager.rm_Data_ControlFlows[data] {
+		stager.treeControlFlowWithinLibrary(library, controlFlow, dataNode)
+	}
 }
 
 func (stager *Stager) treeData(
@@ -133,6 +158,7 @@ func (stager *Stager) treeDataVisited(
 		IsNodeClickable: true,
 		IsInEditMode:    data.GetIsInRenameMode(),
 	}
+	setDataNodeAcronymPrefix(data, dataNode, nil)
 	parentNode.Children = append(parentNode.Children, dataNode)
 
 	addRenameButton(data, dataNode, stager)

@@ -877,8 +877,8 @@ func TestLoadAndVerifyStage(t *testing.T) {
 
 	// Verify data flows
 	dataFlows := stage.GetInstancesSorted[*models.DataFlow]()
-	if len(dataFlows) != 7 {
-		t.Errorf("expected 7 data flows, got %d", len(dataFlows))
+	if len(dataFlows) != 8 {
+		t.Errorf("expected 8 data flows, got %d", len(dataFlows))
 	}
 }
 

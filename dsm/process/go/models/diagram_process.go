@@ -2,10 +2,11 @@ package models
 
 import svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 
-// dataShapeKey is used to track the presence of a data shape for a given data flow and data.
+// dataShapeKey is used to track the presence of a data shape for a given data flow or control flow and data.
 type dataShapeKey struct {
-	dataFlow *DataFlow
-	data     *Data
+	dataFlow    *DataFlow
+	controlFlow *ControlFlow
+	data        *Data
 }
 
 type allocatedResourceShapeKey struct {
@@ -93,10 +94,11 @@ type DiagramProcess struct {
 	map_DataFlow_DataFlowShape   map[*DataFlow]*DataFlowShape
 
 	// Data
-	DatasWhoseNodeIsExpanded         []*Data
-	Data_Shapes                      []*DataShape
-	map_DataShapeKey_DataShape       map[dataShapeKey]*DataShape
-	DataFlowsWhoseDataNodeIsExpanded []*DataFlow // within a diagram, at the data flow level, some some can be expanded or not
+	DatasWhoseNodeIsExpanded            []*Data
+	Data_Shapes                         []*DataShape
+	map_DataShapeKey_DataShape          map[dataShapeKey]*DataShape
+	DataFlowsWhoseDataNodeIsExpanded    []*DataFlow // within a diagram, at the data flow level, some some can be expanded or not
+	ControlFlowsWhoseDataNodeIsExpanded []*ControlFlow
 
 	// DataStore
 	DataStore_Shapes                               []*DataStoreShape

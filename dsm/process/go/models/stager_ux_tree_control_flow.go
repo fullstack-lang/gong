@@ -101,4 +101,8 @@ func (stager *Stager) treeControlFlows(
 		}
 	}
 	node.OnClick = onNodeClicked(stager, controlFlow)
+
+	for _, data := range topLevelDatasInSlice(controlFlow.Datas) {
+		stager.treeDataWithinDiagramProcessWithinControlFlow(node, diagramProcess, controlFlow, shape, isShapePresent, data)
+	}
 }

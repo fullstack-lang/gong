@@ -6,6 +6,8 @@ type ControlFlowShape struct {
 	ControlFlow *ControlFlow
 
 	LinkShape
+
+	dataShapes []*DataShape
 }
 
 func (s *ControlFlowShape) GetAbstractElement() AbstractType {

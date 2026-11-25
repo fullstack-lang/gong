@@ -250,6 +250,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 					switch fieldName {
 					case "Name":
 						inst.Name = GongExtractString(rhs)
+					case "Datas":
+						__gong__assignSliceOfPointers(&inst.Datas, rhs, identifierMap)
 					case "Description":
 						inst.Description = GongExtractString(rhs)
 					case "Guard":
@@ -262,6 +264,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Start, rhs, identifierMap)
 					case "End":
 						__gong__assignPointer(&inst.End, rhs, identifierMap)
+					case "IsDatasNodeExpanded":
+						inst.IsDatasNodeExpanded = GongExtractBool(rhs)
 					}
 				case *ControlFlowShape:
 					switch fieldName {
@@ -385,6 +389,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignPointer(&inst.Data, rhs, identifierMap)
 					case "DataFlow":
 						__gong__assignPointer(&inst.DataFlow, rhs, identifierMap)
+					case "ControlFlow":
+						__gong__assignPointer(&inst.ControlFlow, rhs, identifierMap)
 					case "X":
 						inst.X = GongExtractFloat(rhs)
 					case "Y":
@@ -540,6 +546,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						__gong__assignSliceOfPointers(&inst.Data_Shapes, rhs, identifierMap)
 					case "DataFlowsWhoseDataNodeIsExpanded":
 						__gong__assignSliceOfPointers(&inst.DataFlowsWhoseDataNodeIsExpanded, rhs, identifierMap)
+					case "ControlFlowsWhoseDataNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.ControlFlowsWhoseDataNodeIsExpanded, rhs, identifierMap)
 					case "DataStore_Shapes":
 						__gong__assignSliceOfPointers(&inst.DataStore_Shapes, rhs, identifierMap)
 					case "DataStoresWhoseNodeIsExpanded":
@@ -671,6 +679,8 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.IsDataFlowsNodeExpanded = GongExtractBool(rhs)
 					case "DataFlowsWhoseNodeIsExpanded":
 						__gong__assignSliceOfPointers(&inst.DataFlowsWhoseNodeIsExpanded, rhs, identifierMap)
+					case "ControlFlowsWhoseNodeIsExpanded":
+						__gong__assignSliceOfPointers(&inst.ControlFlowsWhoseNodeIsExpanded, rhs, identifierMap)
 					case "RootDatas":
 						__gong__assignSliceOfPointers(&inst.RootDatas, rhs, identifierMap)
 					case "IsDatasNodeExpanded":
@@ -1342,6 +1352,8 @@ func (u *ControlFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Datas":
+		GongUnmarshallSliceOfPointers(&instance.Datas, valueExpr, identifierMap)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "Guard":
@@ -1354,6 +1366,8 @@ func (u *ControlFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallPointer(&instance.Start, valueExpr, identifierMap)
 	case "End":
 		GongUnmarshallPointer(&instance.End, valueExpr, identifierMap)
+	case "IsDatasNodeExpanded":
+		instance.IsDatasNodeExpanded = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -1537,6 +1551,8 @@ func (u *DataShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		GongUnmarshallPointer(&instance.Data, valueExpr, identifierMap)
 	case "DataFlow":
 		GongUnmarshallPointer(&instance.DataFlow, valueExpr, identifierMap)
+	case "ControlFlow":
+		GongUnmarshallPointer(&instance.ControlFlow, valueExpr, identifierMap)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -1728,6 +1744,8 @@ func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		GongUnmarshallSliceOfPointers(&instance.Data_Shapes, valueExpr, identifierMap)
 	case "DataFlowsWhoseDataNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.DataFlowsWhoseDataNodeIsExpanded, valueExpr, identifierMap)
+	case "ControlFlowsWhoseDataNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ControlFlowsWhoseDataNodeIsExpanded, valueExpr, identifierMap)
 	case "DataStore_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.DataStore_Shapes, valueExpr, identifierMap)
 	case "DataStoresWhoseNodeIsExpanded":
@@ -1895,6 +1913,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsDataFlowsNodeExpanded = GongExtractBool(valueExpr)
 	case "DataFlowsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.DataFlowsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ControlFlowsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ControlFlowsWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "RootDatas":
 		GongUnmarshallSliceOfPointers(&instance.RootDatas, valueExpr, identifierMap)
 	case "IsDatasNodeExpanded":

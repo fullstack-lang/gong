@@ -41,6 +41,8 @@ type ControlFlow_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
+
+	IsDatasNodeExpanded bool
 }
 
 func (from *ControlFlow) GongCopyBasicFields(to *ControlFlow) {
@@ -50,6 +52,7 @@ func (from *ControlFlow) GongCopyBasicFields(to *ControlFlow) {
 	to.Guard = from.Guard
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
+	to.IsDatasNodeExpanded = from.IsDatasNodeExpanded
 }
 
 type ControlFlowShape_WOP struct {

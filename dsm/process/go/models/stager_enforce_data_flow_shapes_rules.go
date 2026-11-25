@@ -92,16 +92,35 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 			needCommit = true
 		}
 
-		// Ensure Data_Shapes match an active DataFlowShape and a Data reachable from DataFlow.Datas
+		controlFlowsInDiagram := make(map[*ControlFlow]bool)
+		for _, cfShape := range diagram.ControlFlow_Shapes {
+			if cfShape != nil && cfShape.ControlFlow != nil {
+				controlFlowsInDiagram[cfShape.ControlFlow] = true
+			}
+		}
+
+		// Ensure Data_Shapes match either an active DataFlowShape or an active ControlFlowShape
+		// (exclusively) and a Data reachable from that flow's Datas.
 		var validDataShapes []*DataShape
 		for _, dataShape := range diagram.Data_Shapes {
-			if dataShape != nil &&
-				dataShape.Data != nil &&
+			if dataShape == nil {
+				needCommit = true
+				continue
+			}
+			hasValidDataFlow := dataShape.Data != nil &&
 				dataShape.DataFlow != nil &&
+				dataShape.ControlFlow == nil &&
 				dataFlowsInDiagram[dataShape.DataFlow] &&
-				isDataReachableFromDataFlow(dataShape.DataFlow, dataShape.Data) {
+				isDataReachableFromDataFlow(dataShape.DataFlow, dataShape.Data)
+			hasValidControlFlow := dataShape.Data != nil &&
+				dataShape.ControlFlow != nil &&
+				dataShape.DataFlow == nil &&
+				controlFlowsInDiagram[dataShape.ControlFlow] &&
+				isDataReachableFromControlFlow(dataShape.ControlFlow, dataShape.Data)
+
+			if hasValidDataFlow || hasValidControlFlow {
 				validDataShapes = append(validDataShapes, dataShape)
-			} else if dataShape != nil {
+			} else {
 				dataShape.UnstageVoid(stager.stage)
 				needCommit = true
 			}

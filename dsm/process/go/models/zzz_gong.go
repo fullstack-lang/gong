@@ -155,6 +155,8 @@ type Stage struct {
 	ControlFlows_referenceOrder map[*ControlFlow]uint
 
 	// insertion point for slice of pointers maps
+	ControlFlow_Datas_reverseMap map[*Data]*ControlFlow
+
 	OnAfterControlFlowCreateCallback GongOnAfterCreateInterface[ControlFlow]
 	OnAfterControlFlowUpdateCallback GongOnAfterUpdateInterface[ControlFlow]
 	OnAfterControlFlowDeleteCallback GongOnAfterDeleteInterface[ControlFlow]
@@ -307,6 +309,8 @@ type Stage struct {
 
 	DiagramProcess_DataFlowsWhoseDataNodeIsExpanded_reverseMap map[*DataFlow]*DiagramProcess
 
+	DiagramProcess_ControlFlowsWhoseDataNodeIsExpanded_reverseMap map[*ControlFlow]*DiagramProcess
+
 	DiagramProcess_DataStore_Shapes_reverseMap map[*DataStoreShape]*DiagramProcess
 
 	DiagramProcess_DataStoresWhoseNodeIsExpanded_reverseMap map[*DataStore]*DiagramProcess
@@ -390,6 +394,8 @@ type Stage struct {
 	Library_RootDataFlows_reverseMap map[*DataFlow]*Library
 
 	Library_DataFlowsWhoseNodeIsExpanded_reverseMap map[*DataFlow]*Library
+
+	Library_ControlFlowsWhoseNodeIsExpanded_reverseMap map[*ControlFlow]*Library
 
 	Library_RootDatas_reverseMap map[*Data]*Library
 
@@ -3150,6 +3156,7 @@ func (AllocatedResourceShape) GongGetAssociationName() any {
 
 func (ControlFlow) GongGetAssociationName() any {
 	return &ControlFlow{
+			Datas: []*Data{{Name: "Datas"}},
 			Start: &Task{Name: "Start"},
 			End: &Task{Name: "End"},
 	}
@@ -3189,6 +3196,7 @@ func (DataShape) GongGetAssociationName() any {
 	return &DataShape{
 			Data: &Data{Name: "Data"},
 			DataFlow: &DataFlow{Name: "DataFlow"},
+			ControlFlow: &ControlFlow{Name: "ControlFlow"},
 	}
 }
 
@@ -3223,6 +3231,7 @@ func (DiagramProcess) GongGetAssociationName() any {
 			DatasWhoseNodeIsExpanded: []*Data{{Name: "DatasWhoseNodeIsExpanded"}},
 			Data_Shapes: []*DataShape{{Name: "Data_Shapes"}},
 			DataFlowsWhoseDataNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseDataNodeIsExpanded"}},
+			ControlFlowsWhoseDataNodeIsExpanded: []*ControlFlow{{Name: "ControlFlowsWhoseDataNodeIsExpanded"}},
 			DataStore_Shapes: []*DataStoreShape{{Name: "DataStore_Shapes"}},
 			DataStoresWhoseNodeIsExpanded: []*DataStore{{Name: "DataStoresWhoseNodeIsExpanded"}},
 			DataStoresWhoseOutDataFlowsNodeIsExpanded: []*DataStore{{Name: "DataStoresWhoseOutDataFlowsNodeIsExpanded"}},
@@ -3260,6 +3269,7 @@ func (Library) GongGetAssociationName() any {
 			ProcesssWhoseNodeIsExpanded: []*Process{{Name: "ProcesssWhoseNodeIsExpanded"}},
 			RootDataFlows: []*DataFlow{{Name: "RootDataFlows"}},
 			DataFlowsWhoseNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseNodeIsExpanded"}},
+			ControlFlowsWhoseNodeIsExpanded: []*ControlFlow{{Name: "ControlFlowsWhoseNodeIsExpanded"}},
 			RootDatas: []*Data{{Name: "RootDatas"}},
 			DatasWhoseNodeIsExpanded: []*Data{{Name: "DatasWhoseNodeIsExpanded"}},
 			RootDataStores: []*DataStore{{Name: "RootDataStores"}},
@@ -3713,6 +3723,23 @@ func (stage *Stage) GetPointerReverseMap[Start, End Gongstruct](fieldname string
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ControlFlow":
+			res := make(map[*ControlFlow][]*DataShape)
+			for datashape := range stage.DataShapes {
+				if datashape.ControlFlow != nil {
+					controlflow_ := datashape.ControlFlow
+					var datashapes []*DataShape
+					_, ok := res[controlflow_]
+					if ok {
+						datashapes = res[controlflow_]
+					} else {
+						datashapes = make([]*DataShape, 0)
+					}
+					datashapes = append(datashapes, datashape)
+					res[controlflow_] = datashapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of DataStore
 	case DataStore:
@@ -4049,6 +4076,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 	case ControlFlow:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Datas":
+			res := make(map[*Data][]*ControlFlow)
+			for controlflow := range stage.ControlFlows {
+				for _, data_ := range controlflow.Datas {
+					res[data_] = append(res[data_], controlflow)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ControlFlowShape
 	case ControlFlowShape:
@@ -4249,6 +4284,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ControlFlowsWhoseDataNodeIsExpanded":
+			res := make(map[*ControlFlow][]*DiagramProcess)
+			for diagramprocess := range stage.DiagramProcesss {
+				for _, controlflow_ := range diagramprocess.ControlFlowsWhoseDataNodeIsExpanded {
+					res[controlflow_] = append(res[controlflow_], diagramprocess)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "DataStore_Shapes":
 			res := make(map[*DataStoreShape][]*DiagramProcess)
 			for diagramprocess := range stage.DiagramProcesss {
@@ -4429,6 +4472,14 @@ func (stage *Stage) GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldnam
 			for library := range stage.Librarys {
 				for _, dataflow_ := range library.DataFlowsWhoseNodeIsExpanded {
 					res[dataflow_] = append(res[dataflow_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ControlFlowsWhoseNodeIsExpanded":
+			res := make(map[*ControlFlow][]*Library)
+			for library := range stage.Librarys {
+				for _, controlflow_ := range library.ControlFlowsWhoseNodeIsExpanded {
+					res[controlflow_] = append(res[controlflow_], library)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4791,6 +4842,14 @@ func (*ControlFlow) GongGetReverseFields() []GongReverseField {
 			Fieldname: "ControlFlowsWhoseNodeIsExpanded",
 		},
 		{
+			GongstructName: "DiagramProcess",
+			Fieldname: "ControlFlowsWhoseDataNodeIsExpanded",
+		},
+		{
+			GongstructName: "Library",
+			Fieldname: "ControlFlowsWhoseNodeIsExpanded",
+		},
+		{
 			GongstructName: "Note",
 			Fieldname: "ControlFlows",
 		},
@@ -4812,6 +4871,10 @@ func (*ControlFlowShape) GongGetReverseFields() []GongReverseField {
 
 func (*Data) GongGetReverseFields() []GongReverseField {
 	return []GongReverseField{ 
+		{
+			GongstructName: "ControlFlow",
+			Fieldname: "Datas",
+		},
 		{
 			GongstructName: "Data",
 			Fieldname: "SubDatas",
@@ -5241,6 +5304,11 @@ func (controlflow *ControlFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:                 "Datas",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Data",
+		},
+		{
 			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -5265,6 +5333,10 @@ func (controlflow *ControlFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "End",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Task",
+		},
+		{
+			Name:               "IsDatasNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -5533,6 +5605,11 @@ func (datashape *DataShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "DataFlow",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "DataFlow",
+		},
+		{
+			Name:                 "ControlFlow",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ControlFlow",
 		},
 		{
 			Name:               "X",
@@ -5867,6 +5944,11 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 			TargetGongstructName: "DataFlow",
 		},
 		{
+			Name:                 "ControlFlowsWhoseDataNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlFlow",
+		},
+		{
 			Name:                 "DataStore_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "DataStoreShape",
@@ -6152,6 +6234,11 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "DataFlowsWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "DataFlow",
+		},
+		{
+			Name:                 "ControlFlowsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlFlow",
 		},
 		{
 			Name:                 "RootDatas",
@@ -7194,6 +7281,16 @@ func (controlflow *ControlFlow) GongGetFieldValue(fieldName string, stage *Stage
 	// string value of fields
 	case "Name":
 		res.valueString = controlflow.Name
+	case "Datas":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range controlflow.Datas {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "Description":
 		res.valueString = controlflow.Description
 	case "Guard":
@@ -7216,6 +7313,10 @@ func (controlflow *ControlFlow) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString = controlflow.End.Name
 			res.ids = controlflow.End.GongGetUUID(stage)
 		}
+	case "IsDatasNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", controlflow.IsDatasNodeExpanded)
+		res.valueBool = controlflow.IsDatasNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -7455,6 +7556,12 @@ func (datashape *DataShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		if datashape.DataFlow != nil {
 			res.valueString = datashape.DataFlow.Name
 			res.ids = datashape.DataFlow.GongGetUUID(stage)
+		}
+	case "ControlFlow":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if datashape.ControlFlow != nil {
+			res.valueString = datashape.ControlFlow.Name
+			res.ids = datashape.ControlFlow.GongGetUUID(stage)
 		}
 	case "X":
 		res.valueString = fmt.Sprintf("%f", datashape.X)
@@ -7837,6 +7944,16 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "ControlFlowsWhoseDataNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramprocess.ControlFlowsWhoseDataNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "DataStore_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagramprocess.DataStore_Shapes {
@@ -8193,6 +8310,16 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "DataFlowsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.DataFlowsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ControlFlowsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.ControlFlowsWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
