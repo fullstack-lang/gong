@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -684,6 +695,397 @@ func _(stage *aixmabstractgmlobjecttypes.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models/aixmabstractgmlobjecttypes" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models/aixmabstractgmlobjecttypes\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_airspace.go exposing StageAirspace.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_airspace.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageAirspace).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, abstractaixmfeaturebasetype := range __gong__sortStageSetInstances(stage.AbstractAIXMFeatureBaseTypes, stage.AbstractAIXMFeatureBaseType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractaixmfeaturebasetypeIdent := strings.Replace(abstractaixmfeaturebasetype.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AbstractAIXMFeatureBaseType{Name: %s}).Stage(stage)", abstractaixmfeaturebasetypeIdent, __gong__toRawStringLiteral(abstractaixmfeaturebasetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractaixmfeaturebasetypeIdent, __gong__toRawStringLiteral(abstractaixmfeaturebasetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", abstractaixmfeaturebasetypeIdent, __gong__toRawStringLiteral(abstractaixmfeaturebasetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", abstractaixmfeaturebasetypeIdent, __gong__toRawStringLiteral(abstractaixmfeaturebasetype.Description)))
+		}
+	}
+	if stage != nil {
+		for _, abstractaixmfeaturetype := range __gong__sortStageSetInstances(stage.AbstractAIXMFeatureTypes, stage.AbstractAIXMFeatureType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractaixmfeaturetypeIdent := strings.Replace(abstractaixmfeaturetype.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AbstractAIXMFeatureType{Name: %s}).Stage(stage)", abstractaixmfeaturetypeIdent, __gong__toRawStringLiteral(abstractaixmfeaturetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractaixmfeaturetypeIdent, __gong__toRawStringLiteral(abstractaixmfeaturetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", abstractaixmfeaturetypeIdent, __gong__toRawStringLiteral(abstractaixmfeaturetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", abstractaixmfeaturetypeIdent, __gong__toRawStringLiteral(abstractaixmfeaturetype.Description)))
+			if abstractaixmfeaturetype.FeatureMetadata != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(abstractaixmfeaturetype.FeatureMetadata.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FeatureMetadata = %s", abstractaixmfeaturetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, abstractaixmmessagebasetype := range __gong__sortStageSetInstances(stage.AbstractAIXMMessageBaseTypes, stage.AbstractAIXMMessageBaseType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractaixmmessagebasetypeIdent := strings.Replace(abstractaixmmessagebasetype.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AbstractAIXMMessageBaseType{Name: %s}).Stage(stage)", abstractaixmmessagebasetypeIdent, __gong__toRawStringLiteral(abstractaixmmessagebasetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractaixmmessagebasetypeIdent, __gong__toRawStringLiteral(abstractaixmmessagebasetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", abstractaixmmessagebasetypeIdent, __gong__toRawStringLiteral(abstractaixmmessagebasetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", abstractaixmmessagebasetypeIdent, __gong__toRawStringLiteral(abstractaixmmessagebasetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", abstractaixmmessagebasetypeIdent, abstractaixmmessagebasetype.SequenceNumber))
+			if abstractaixmmessagebasetype.MessageMetadata != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(abstractaixmmessagebasetype.MessageMetadata.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MessageMetadata = %s", abstractaixmmessagebasetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, abstractaixmmessagetype := range __gong__sortStageSetInstances(stage.AbstractAIXMMessageTypes, stage.AbstractAIXMMessageType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractaixmmessagetypeIdent := strings.Replace(abstractaixmmessagetype.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AbstractAIXMMessageType{Name: %s}).Stage(stage)", abstractaixmmessagetypeIdent, __gong__toRawStringLiteral(abstractaixmmessagetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractaixmmessagetypeIdent, __gong__toRawStringLiteral(abstractaixmmessagetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", abstractaixmmessagetypeIdent, __gong__toRawStringLiteral(abstractaixmmessagetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", abstractaixmmessagetypeIdent, __gong__toRawStringLiteral(abstractaixmmessagetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", abstractaixmmessagetypeIdent, abstractaixmmessagetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.AggregationType = %s", abstractaixmmessagetypeIdent, __gong__toRawStringLiteral(abstractaixmmessagetype.AggregationType)))
+			if abstractaixmmessagetype.MessageMetadata != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(abstractaixmmessagetype.MessageMetadata.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MessageMetadata = %s", abstractaixmmessagetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, abstractaixmobjecttype := range __gong__sortStageSetInstances(stage.AbstractAIXMObjectTypes, stage.AbstractAIXMObjectType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractaixmobjecttypeIdent := strings.Replace(abstractaixmobjecttype.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AbstractAIXMObjectType{Name: %s}).Stage(stage)", abstractaixmobjecttypeIdent, __gong__toRawStringLiteral(abstractaixmobjecttype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractaixmobjecttypeIdent, __gong__toRawStringLiteral(abstractaixmobjecttype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", abstractaixmobjecttypeIdent, __gong__toRawStringLiteral(abstractaixmobjecttype.Id)))
+		}
+	}
+	if stage != nil {
+		for _, abstractaixmpropertytype := range __gong__sortStageSetInstances(stage.AbstractAIXMPropertyTypes, stage.AbstractAIXMPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractaixmpropertytypeIdent := strings.Replace(abstractaixmpropertytype.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AbstractAIXMPropertyType{Name: %s}).Stage(stage)", abstractaixmpropertytypeIdent, __gong__toRawStringLiteral(abstractaixmpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractaixmpropertytypeIdent, __gong__toRawStringLiteral(abstractaixmpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", abstractaixmpropertytypeIdent, __gong__toRawStringLiteral(abstractaixmpropertytype.NilReason)))
+		}
+	}
+	if stage != nil {
+		for _, abstractaixmtimeslicebasetype := range __gong__sortStageSetInstances(stage.AbstractAIXMTimeSliceBaseTypes, stage.AbstractAIXMTimeSliceBaseType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractaixmtimeslicebasetypeIdent := strings.Replace(abstractaixmtimeslicebasetype.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AbstractAIXMTimeSliceBaseType{Name: %s}).Stage(stage)", abstractaixmtimeslicebasetypeIdent, __gong__toRawStringLiteral(abstractaixmtimeslicebasetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractaixmtimeslicebasetypeIdent, __gong__toRawStringLiteral(abstractaixmtimeslicebasetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", abstractaixmtimeslicebasetypeIdent, __gong__toRawStringLiteral(abstractaixmtimeslicebasetype.Id)))
+		}
+	}
+	if stage != nil {
+		for _, abstractaixmtimeslicetype := range __gong__sortStageSetInstances(stage.AbstractAIXMTimeSliceTypes, stage.AbstractAIXMTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractaixmtimeslicetypeIdent := strings.Replace(abstractaixmtimeslicetype.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AbstractAIXMTimeSliceType{Name: %s}).Stage(stage)", abstractaixmtimeslicetypeIdent, __gong__toRawStringLiteral(abstractaixmtimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractaixmtimeslicetypeIdent, __gong__toRawStringLiteral(abstractaixmtimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", abstractaixmtimeslicetypeIdent, __gong__toRawStringLiteral(abstractaixmtimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", abstractaixmtimeslicetypeIdent, __gong__toRawStringLiteral(abstractaixmtimeslicetype.Description)))
+			if abstractaixmtimeslicetype.Interpretation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = airspace.%s", abstractaixmtimeslicetypeIdent, abstractaixmtimeslicetype.Interpretation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = \"\"", abstractaixmtimeslicetypeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", abstractaixmtimeslicetypeIdent, abstractaixmtimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", abstractaixmtimeslicetypeIdent, abstractaixmtimeslicetype.CorrectionNumber))
+			if abstractaixmtimeslicetype.TimeSliceMetadata != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(abstractaixmtimeslicetype.TimeSliceMetadata.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSliceMetadata = %s", abstractaixmtimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, abstractextensiontype := range __gong__sortStageSetInstances(stage.AbstractExtensionTypes, stage.AbstractExtensionType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractextensiontypeIdent := strings.Replace(abstractextensiontype.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AbstractExtensionType{Name: %s}).Stage(stage)", abstractextensiontypeIdent, __gong__toRawStringLiteral(abstractextensiontype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractextensiontypeIdent, __gong__toRawStringLiteral(abstractextensiontype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", abstractextensiontypeIdent, __gong__toRawStringLiteral(abstractextensiontype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", abstractextensiontypeIdent, __gong__toRawStringLiteral(abstractextensiontype.Description)))
+		}
+	}
+	if stage != nil {
+		for _, featuremetadatapropertytype := range __gong__sortStageSetInstances(stage.FeatureMetadataPropertyTypes, stage.FeatureMetadataPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			featuremetadatapropertytypeIdent := strings.Replace(featuremetadatapropertytype.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.FeatureMetadataPropertyType{Name: %s}).Stage(stage)", featuremetadatapropertytypeIdent, __gong__toRawStringLiteral(featuremetadatapropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", featuremetadatapropertytypeIdent, __gong__toRawStringLiteral(featuremetadatapropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", featuremetadatapropertytypeIdent, featuremetadatapropertytype.Owns))
+		}
+	}
+	if stage != nil {
+		for _, featuretimeslicemetadatapropertytype := range __gong__sortStageSetInstances(stage.FeatureTimeSliceMetadataPropertyTypes, stage.FeatureTimeSliceMetadataPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			featuretimeslicemetadatapropertytypeIdent := strings.Replace(featuretimeslicemetadatapropertytype.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.FeatureTimeSliceMetadataPropertyType{Name: %s}).Stage(stage)", featuretimeslicemetadatapropertytypeIdent, __gong__toRawStringLiteral(featuretimeslicemetadatapropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", featuretimeslicemetadatapropertytypeIdent, __gong__toRawStringLiteral(featuretimeslicemetadatapropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", featuretimeslicemetadatapropertytypeIdent, featuretimeslicemetadatapropertytype.Owns))
+		}
+	}
+	if stage != nil {
+		for _, messagemetadatapropertytype := range __gong__sortStageSetInstances(stage.MessageMetadataPropertyTypes, stage.MessageMetadataPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			messagemetadatapropertytypeIdent := strings.Replace(messagemetadatapropertytype.GongGetIdentifier(stage), "__aixmabstractgmlobjecttypes__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.MessageMetadataPropertyType{Name: %s}).Stage(stage)", messagemetadatapropertytypeIdent, __gong__toRawStringLiteral(messagemetadatapropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", messagemetadatapropertytypeIdent, __gong__toRawStringLiteral(messagemetadatapropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", messagemetadatapropertytypeIdent, messagemetadatapropertytype.Owns))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	airspace "github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models/aixmabstractgmlobjecttypes"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *airspace.Stage
+)%s
+
+// StageAirspace stages objects into stage
+func StageAirspace(stage *airspace.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

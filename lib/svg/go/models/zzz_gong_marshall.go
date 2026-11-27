@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -1661,6 +1672,1374 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/lib/svg/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/lib/svg/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_svg.go exposing StageSvg.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_svg.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageSvg).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, animate := range __gong__sortStageSetInstances(stage.Animates, stage.Animate_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			animateIdent := strings.Replace(animate.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.Animate{Name: %s}).Stage(stage)", animateIdent, __gong__toRawStringLiteral(animate.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", animateIdent, __gong__toRawStringLiteral(animate.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.AttributeName = %s", animateIdent, __gong__toRawStringLiteral(animate.AttributeName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Values = %s", animateIdent, __gong__toRawStringLiteral(animate.Values)))
+			values.WriteString(fmt.Sprintf("\n\t%s.From = %s", animateIdent, __gong__toRawStringLiteral(animate.From)))
+			values.WriteString(fmt.Sprintf("\n\t%s.To = %s", animateIdent, __gong__toRawStringLiteral(animate.To)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Dur = %s", animateIdent, __gong__toRawStringLiteral(animate.Dur)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RepeatCount = %s", animateIdent, __gong__toRawStringLiteral(animate.RepeatCount)))
+		}
+	}
+	if stage != nil {
+		for _, circle := range __gong__sortStageSetInstances(stage.Circles, stage.Circle_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			circleIdent := strings.Replace(circle.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.Circle{Name: %s}).Stage(stage)", circleIdent, __gong__toRawStringLiteral(circle.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", circleIdent, __gong__toRawStringLiteral(circle.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.CX = %f", circleIdent, circle.CX))
+			values.WriteString(fmt.Sprintf("\n\t%s.CY = %f", circleIdent, circle.CY))
+			values.WriteString(fmt.Sprintf("\n\t%s.Radius = %f", circleIdent, circle.Radius))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", circleIdent, __gong__toRawStringLiteral(circle.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", circleIdent, circle.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", circleIdent, __gong__toRawStringLiteral(circle.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", circleIdent, circle.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", circleIdent, circle.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", circleIdent, __gong__toRawStringLiteral(circle.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", circleIdent, __gong__toRawStringLiteral(circle.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", circleIdent, __gong__toRawStringLiteral(circle.Transform)))
+			for _, elem := range circle.Animations {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Animations = append(%s.Animations, %s)", circleIdent, circleIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, condition := range __gong__sortStageSetInstances(stage.Conditions, stage.Condition_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			conditionIdent := strings.Replace(condition.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.Condition{Name: %s}).Stage(stage)", conditionIdent, __gong__toRawStringLiteral(condition.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", conditionIdent, __gong__toRawStringLiteral(condition.Name)))
+		}
+	}
+	if stage != nil {
+		for _, controlpoint := range __gong__sortStageSetInstances(stage.ControlPoints, stage.ControlPoint_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			controlpointIdent := strings.Replace(controlpoint.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.ControlPoint{Name: %s}).Stage(stage)", controlpointIdent, __gong__toRawStringLiteral(controlpoint.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", controlpointIdent, __gong__toRawStringLiteral(controlpoint.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X_Relative = %f", controlpointIdent, controlpoint.X_Relative))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y_Relative = %f", controlpointIdent, controlpoint.Y_Relative))
+			if controlpoint.ClosestRect != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(controlpoint.ClosestRect.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ClosestRect = %s", controlpointIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, ellipse := range __gong__sortStageSetInstances(stage.Ellipses, stage.Ellipse_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			ellipseIdent := strings.Replace(ellipse.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.Ellipse{Name: %s}).Stage(stage)", ellipseIdent, __gong__toRawStringLiteral(ellipse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", ellipseIdent, __gong__toRawStringLiteral(ellipse.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.CX = %f", ellipseIdent, ellipse.CX))
+			values.WriteString(fmt.Sprintf("\n\t%s.CY = %f", ellipseIdent, ellipse.CY))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", ellipseIdent, ellipse.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.RY = %f", ellipseIdent, ellipse.RY))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", ellipseIdent, __gong__toRawStringLiteral(ellipse.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", ellipseIdent, ellipse.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", ellipseIdent, __gong__toRawStringLiteral(ellipse.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", ellipseIdent, ellipse.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", ellipseIdent, ellipse.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", ellipseIdent, __gong__toRawStringLiteral(ellipse.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", ellipseIdent, __gong__toRawStringLiteral(ellipse.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", ellipseIdent, __gong__toRawStringLiteral(ellipse.Transform)))
+			for _, elem := range ellipse.Animates {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Animates = append(%s.Animates, %s)", ellipseIdent, ellipseIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, filetodownload := range __gong__sortStageSetInstances(stage.FileToDownloads, stage.FileToDownload_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			filetodownloadIdent := strings.Replace(filetodownload.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.FileToDownload{Name: %s}).Stage(stage)", filetodownloadIdent, __gong__toRawStringLiteral(filetodownload.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", filetodownloadIdent, __gong__toRawStringLiteral(filetodownload.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Base64EncodedContent = %s", filetodownloadIdent, __gong__toRawStringLiteral(filetodownload.Base64EncodedContent)))
+		}
+	}
+	if stage != nil {
+		for _, layer := range __gong__sortStageSetInstances(stage.Layers, stage.Layer_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			layerIdent := strings.Replace(layer.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.Layer{Name: %s}).Stage(stage)", layerIdent, __gong__toRawStringLiteral(layer.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", layerIdent, __gong__toRawStringLiteral(layer.Name)))
+			for _, elem := range layer.Rects {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Rects = append(%s.Rects, %s)", layerIdent, layerIdent, targetIdent))
+			}
+			for _, elem := range layer.Texts {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Texts = append(%s.Texts, %s)", layerIdent, layerIdent, targetIdent))
+			}
+			for _, elem := range layer.Circles {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Circles = append(%s.Circles, %s)", layerIdent, layerIdent, targetIdent))
+			}
+			for _, elem := range layer.Lines {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Lines = append(%s.Lines, %s)", layerIdent, layerIdent, targetIdent))
+			}
+			for _, elem := range layer.Ellipses {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Ellipses = append(%s.Ellipses, %s)", layerIdent, layerIdent, targetIdent))
+			}
+			for _, elem := range layer.Polylines {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Polylines = append(%s.Polylines, %s)", layerIdent, layerIdent, targetIdent))
+			}
+			for _, elem := range layer.Polygones {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Polygones = append(%s.Polygones, %s)", layerIdent, layerIdent, targetIdent))
+			}
+			for _, elem := range layer.Paths {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Paths = append(%s.Paths, %s)", layerIdent, layerIdent, targetIdent))
+			}
+			for _, elem := range layer.Links {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Links = append(%s.Links, %s)", layerIdent, layerIdent, targetIdent))
+			}
+			for _, elem := range layer.RectLinkLinks {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RectLinkLinks = append(%s.RectLinkLinks, %s)", layerIdent, layerIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, line := range __gong__sortStageSetInstances(stage.Lines, stage.Line_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			lineIdent := strings.Replace(line.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.Line{Name: %s}).Stage(stage)", lineIdent, __gong__toRawStringLiteral(line.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", lineIdent, __gong__toRawStringLiteral(line.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X1 = %f", lineIdent, line.X1))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y1 = %f", lineIdent, line.Y1))
+			values.WriteString(fmt.Sprintf("\n\t%s.X2 = %f", lineIdent, line.X2))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y2 = %f", lineIdent, line.Y2))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", lineIdent, __gong__toRawStringLiteral(line.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", lineIdent, line.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", lineIdent, __gong__toRawStringLiteral(line.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", lineIdent, line.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", lineIdent, line.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", lineIdent, __gong__toRawStringLiteral(line.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", lineIdent, __gong__toRawStringLiteral(line.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", lineIdent, __gong__toRawStringLiteral(line.Transform)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MouseClickX = %f", lineIdent, line.MouseClickX))
+			values.WriteString(fmt.Sprintf("\n\t%s.MouseClickY = %f", lineIdent, line.MouseClickY))
+			for _, elem := range line.Animates {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Animates = append(%s.Animates, %s)", lineIdent, lineIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, link := range __gong__sortStageSetInstances(stage.Links, stage.Link_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			linkIdent := strings.Replace(link.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.Link{Name: %s}).Stage(stage)", linkIdent, __gong__toRawStringLiteral(link.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", linkIdent, __gong__toRawStringLiteral(link.Name)))
+			if link.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = svg.%s", linkIdent, link.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", linkIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.IsBezierCurve = %t", linkIdent, link.IsBezierCurve))
+			if link.StartAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartAnchorType = svg.%s", linkIdent, link.StartAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartAnchorType = \"\"", linkIdent))
+			}
+			if link.EndAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndAnchorType = svg.%s", linkIdent, link.EndAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndAnchorType = \"\"", linkIdent))
+			}
+			if link.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = svg.%s", linkIdent, link.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", linkIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", linkIdent, link.StartRatio))
+			if link.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = svg.%s", linkIdent, link.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", linkIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", linkIdent, link.EndRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", linkIdent, link.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerRadius = %f", linkIdent, link.CornerRadius))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasEndArrow = %t", linkIdent, link.HasEndArrow))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndArrowSize = %f", linkIdent, link.EndArrowSize))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndArrowOffset = %f", linkIdent, link.EndArrowOffset))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasStartArrow = %t", linkIdent, link.HasStartArrow))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartArrowSize = %f", linkIdent, link.StartArrowSize))
+			values.WriteString(fmt.Sprintf("\n\t%s.StartArrowOffset = %f", linkIdent, link.StartArrowOffset))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", linkIdent, __gong__toRawStringLiteral(link.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", linkIdent, link.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", linkIdent, __gong__toRawStringLiteral(link.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", linkIdent, link.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", linkIdent, link.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", linkIdent, __gong__toRawStringLiteral(link.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", linkIdent, __gong__toRawStringLiteral(link.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", linkIdent, __gong__toRawStringLiteral(link.Transform)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MouseX = %f", linkIdent, link.MouseX))
+			values.WriteString(fmt.Sprintf("\n\t%s.MouseY = %f", linkIdent, link.MouseY))
+			if link.MouseEventKey.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MouseEventKey = svg.%s", linkIdent, link.MouseEventKey.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MouseEventKey = \"\"", linkIdent))
+			}
+			if link.Start != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(link.Start.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Start = %s", linkIdent, targetIdent))
+			}
+			if link.End != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(link.End.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.End = %s", linkIdent, targetIdent))
+			}
+			for _, elem := range link.TextAtArrowStart {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TextAtArrowStart = append(%s.TextAtArrowStart, %s)", linkIdent, linkIdent, targetIdent))
+			}
+			for _, elem := range link.TextAtArrowEnd {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TextAtArrowEnd = append(%s.TextAtArrowEnd, %s)", linkIdent, linkIdent, targetIdent))
+			}
+			for _, elem := range link.TextAtCorner {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TextAtCorner = append(%s.TextAtCorner, %s)", linkIdent, linkIdent, targetIdent))
+			}
+			for _, elem := range link.PathAtArrowStart {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PathAtArrowStart = append(%s.PathAtArrowStart, %s)", linkIdent, linkIdent, targetIdent))
+			}
+			for _, elem := range link.PathAtArrowEnd {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PathAtArrowEnd = append(%s.PathAtArrowEnd, %s)", linkIdent, linkIdent, targetIdent))
+			}
+			for _, elem := range link.PathAtCorner {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PathAtCorner = append(%s.PathAtCorner, %s)", linkIdent, linkIdent, targetIdent))
+			}
+			for _, elem := range link.ControlPoints {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ControlPoints = append(%s.ControlPoints, %s)", linkIdent, linkIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, linkanchoredpath := range __gong__sortStageSetInstances(stage.LinkAnchoredPaths, stage.LinkAnchoredPath_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			linkanchoredpathIdent := strings.Replace(linkanchoredpath.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.LinkAnchoredPath{Name: %s}).Stage(stage)", linkanchoredpathIdent, __gong__toRawStringLiteral(linkanchoredpath.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", linkanchoredpathIdent, __gong__toRawStringLiteral(linkanchoredpath.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Definition = %s", linkanchoredpathIdent, __gong__toRawStringLiteral(linkanchoredpath.Definition)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X_Offset = %f", linkanchoredpathIdent, linkanchoredpath.X_Offset))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y_Offset = %f", linkanchoredpathIdent, linkanchoredpath.Y_Offset))
+			values.WriteString(fmt.Sprintf("\n\t%s.ScalePropotionnally = %t", linkanchoredpathIdent, linkanchoredpath.ScalePropotionnally))
+			values.WriteString(fmt.Sprintf("\n\t%s.AppliedScaling = %f", linkanchoredpathIdent, linkanchoredpath.AppliedScaling))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", linkanchoredpathIdent, __gong__toRawStringLiteral(linkanchoredpath.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", linkanchoredpathIdent, linkanchoredpath.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", linkanchoredpathIdent, __gong__toRawStringLiteral(linkanchoredpath.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", linkanchoredpathIdent, linkanchoredpath.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", linkanchoredpathIdent, linkanchoredpath.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", linkanchoredpathIdent, __gong__toRawStringLiteral(linkanchoredpath.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", linkanchoredpathIdent, __gong__toRawStringLiteral(linkanchoredpath.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", linkanchoredpathIdent, __gong__toRawStringLiteral(linkanchoredpath.Transform)))
+		}
+	}
+	if stage != nil {
+		for _, linkanchoredtext := range __gong__sortStageSetInstances(stage.LinkAnchoredTexts, stage.LinkAnchoredText_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			linkanchoredtextIdent := strings.Replace(linkanchoredtext.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.LinkAnchoredText{Name: %s}).Stage(stage)", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.Content)))
+			values.WriteString(fmt.Sprintf("\n\t%s.AutomaticLayout = %t", linkanchoredtextIdent, linkanchoredtext.AutomaticLayout))
+			if linkanchoredtext.LinkAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.LinkAnchorType = svg.%s", linkanchoredtextIdent, linkanchoredtext.LinkAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.LinkAnchorType = \"\"", linkanchoredtextIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.X_Offset = %f", linkanchoredtextIdent, linkanchoredtext.X_Offset))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y_Offset = %f", linkanchoredtextIdent, linkanchoredtext.Y_Offset))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontStyle = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.FontStyle)))
+			values.WriteString(fmt.Sprintf("\n\t%s.LetterSpacing = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.LetterSpacing)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontFamily = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.FontFamily)))
+			if linkanchoredtext.WhiteSpace.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = svg.%s", linkanchoredtextIdent, linkanchoredtext.WhiteSpace.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = \"\"", linkanchoredtextIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", linkanchoredtextIdent, linkanchoredtext.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", linkanchoredtextIdent, linkanchoredtext.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", linkanchoredtextIdent, linkanchoredtext.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", linkanchoredtextIdent, __gong__toRawStringLiteral(linkanchoredtext.Transform)))
+			for _, elem := range linkanchoredtext.Animates {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Animates = append(%s.Animates, %s)", linkanchoredtextIdent, linkanchoredtextIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, path := range __gong__sortStageSetInstances(stage.Paths, stage.Path_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			pathIdent := strings.Replace(path.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.Path{Name: %s}).Stage(stage)", pathIdent, __gong__toRawStringLiteral(path.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", pathIdent, __gong__toRawStringLiteral(path.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Definition = %s", pathIdent, __gong__toRawStringLiteral(path.Definition)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", pathIdent, __gong__toRawStringLiteral(path.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", pathIdent, path.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", pathIdent, __gong__toRawStringLiteral(path.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", pathIdent, path.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", pathIdent, path.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", pathIdent, __gong__toRawStringLiteral(path.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", pathIdent, __gong__toRawStringLiteral(path.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", pathIdent, __gong__toRawStringLiteral(path.Transform)))
+			for _, elem := range path.Animates {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Animates = append(%s.Animates, %s)", pathIdent, pathIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, point := range __gong__sortStageSetInstances(stage.Points, stage.Point_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			pointIdent := strings.Replace(point.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.Point{Name: %s}).Stage(stage)", pointIdent, __gong__toRawStringLiteral(point.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", pointIdent, __gong__toRawStringLiteral(point.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", pointIdent, point.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", pointIdent, point.Y))
+		}
+	}
+	if stage != nil {
+		for _, polygone := range __gong__sortStageSetInstances(stage.Polygones, stage.Polygone_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			polygoneIdent := strings.Replace(polygone.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.Polygone{Name: %s}).Stage(stage)", polygoneIdent, __gong__toRawStringLiteral(polygone.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", polygoneIdent, __gong__toRawStringLiteral(polygone.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Points = %s", polygoneIdent, __gong__toRawStringLiteral(polygone.Points)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", polygoneIdent, __gong__toRawStringLiteral(polygone.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", polygoneIdent, polygone.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", polygoneIdent, __gong__toRawStringLiteral(polygone.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", polygoneIdent, polygone.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", polygoneIdent, polygone.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", polygoneIdent, __gong__toRawStringLiteral(polygone.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", polygoneIdent, __gong__toRawStringLiteral(polygone.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", polygoneIdent, __gong__toRawStringLiteral(polygone.Transform)))
+			for _, elem := range polygone.Animates {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Animates = append(%s.Animates, %s)", polygoneIdent, polygoneIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, polyline := range __gong__sortStageSetInstances(stage.Polylines, stage.Polyline_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			polylineIdent := strings.Replace(polyline.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.Polyline{Name: %s}).Stage(stage)", polylineIdent, __gong__toRawStringLiteral(polyline.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", polylineIdent, __gong__toRawStringLiteral(polyline.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Points = %s", polylineIdent, __gong__toRawStringLiteral(polyline.Points)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", polylineIdent, __gong__toRawStringLiteral(polyline.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", polylineIdent, polyline.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", polylineIdent, __gong__toRawStringLiteral(polyline.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", polylineIdent, polyline.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", polylineIdent, polyline.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", polylineIdent, __gong__toRawStringLiteral(polyline.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", polylineIdent, __gong__toRawStringLiteral(polyline.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", polylineIdent, __gong__toRawStringLiteral(polyline.Transform)))
+			for _, elem := range polyline.Animates {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Animates = append(%s.Animates, %s)", polylineIdent, polylineIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, rect := range __gong__sortStageSetInstances(stage.Rects, stage.Rect_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			rectIdent := strings.Replace(rect.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.Rect{Name: %s}).Stage(stage)", rectIdent, __gong__toRawStringLiteral(rect.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", rectIdent, __gong__toRawStringLiteral(rect.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", rectIdent, rect.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", rectIdent, rect.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", rectIdent, rect.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", rectIdent, rect.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", rectIdent, rect.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", rectIdent, __gong__toRawStringLiteral(rect.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", rectIdent, rect.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", rectIdent, __gong__toRawStringLiteral(rect.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", rectIdent, rect.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", rectIdent, rect.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", rectIdent, __gong__toRawStringLiteral(rect.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", rectIdent, __gong__toRawStringLiteral(rect.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", rectIdent, __gong__toRawStringLiteral(rect.Transform)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSelectable = %t", rectIdent, rect.IsSelectable))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSelected = %t", rectIdent, rect.IsSelected))
+			values.WriteString(fmt.Sprintf("\n\t%s.CanHaveLeftHandle = %t", rectIdent, rect.CanHaveLeftHandle))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasLeftHandle = %t", rectIdent, rect.HasLeftHandle))
+			values.WriteString(fmt.Sprintf("\n\t%s.CanHaveRightHandle = %t", rectIdent, rect.CanHaveRightHandle))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasRightHandle = %t", rectIdent, rect.HasRightHandle))
+			values.WriteString(fmt.Sprintf("\n\t%s.CanHaveTopHandle = %t", rectIdent, rect.CanHaveTopHandle))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasTopHandle = %t", rectIdent, rect.HasTopHandle))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsScalingProportionally = %t", rectIdent, rect.IsScalingProportionally))
+			values.WriteString(fmt.Sprintf("\n\t%s.CanHaveBottomHandle = %t", rectIdent, rect.CanHaveBottomHandle))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasBottomHandle = %t", rectIdent, rect.HasBottomHandle))
+			values.WriteString(fmt.Sprintf("\n\t%s.CanMoveHorizontaly = %t", rectIdent, rect.CanMoveHorizontaly))
+			values.WriteString(fmt.Sprintf("\n\t%s.CanMoveVerticaly = %t", rectIdent, rect.CanMoveVerticaly))
+			values.WriteString(fmt.Sprintf("\n\t%s.ChangeColorWhenHovered = %t", rectIdent, rect.ChangeColorWhenHovered))
+			values.WriteString(fmt.Sprintf("\n\t%s.ColorWhenHovered = %s", rectIdent, __gong__toRawStringLiteral(rect.ColorWhenHovered)))
+			values.WriteString(fmt.Sprintf("\n\t%s.OriginalColor = %s", rectIdent, __gong__toRawStringLiteral(rect.OriginalColor)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacityWhenHovered = %f", rectIdent, rect.FillOpacityWhenHovered))
+			values.WriteString(fmt.Sprintf("\n\t%s.OriginalFillOpacity = %f", rectIdent, rect.OriginalFillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasToolTip = %t", rectIdent, rect.HasToolTip))
+			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipText = %s", rectIdent, __gong__toRawStringLiteral(rect.ToolTipText)))
+			if rect.ToolTipPosition.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = svg.%s", rectIdent, rect.ToolTipPosition.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = \"\"", rectIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.MouseX = %f", rectIdent, rect.MouseX))
+			values.WriteString(fmt.Sprintf("\n\t%s.MouseY = %f", rectIdent, rect.MouseY))
+			if rect.MouseEventKey.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.MouseEventKey = svg.%s", rectIdent, rect.MouseEventKey.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.MouseEventKey = \"\"", rectIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.URLPath = %s", rectIdent, __gong__toRawStringLiteral(rect.URLPath)))
+			if rect.URLTarget.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.URLTarget = svg.%s", rectIdent, rect.URLTarget.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.URLTarget = \"\"", rectIdent))
+			}
+			for _, elem := range rect.Peers {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Peers = append(%s.Peers, %s)", rectIdent, rectIdent, targetIdent))
+			}
+			if rect.EnclosingRect != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(rect.EnclosingRect.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EnclosingRect = %s", rectIdent, targetIdent))
+			}
+			for _, elem := range rect.Obstacles {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Obstacles = append(%s.Obstacles, %s)", rectIdent, rectIdent, targetIdent))
+			}
+			if rect.AnchoredTo != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(rect.AnchoredTo.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AnchoredTo = %s", rectIdent, targetIdent))
+			}
+			for _, elem := range rect.HoveringTrigger {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.HoveringTrigger = append(%s.HoveringTrigger, %s)", rectIdent, rectIdent, targetIdent))
+			}
+			for _, elem := range rect.DisplayConditions {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DisplayConditions = append(%s.DisplayConditions, %s)", rectIdent, rectIdent, targetIdent))
+			}
+			for _, elem := range rect.Animations {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Animations = append(%s.Animations, %s)", rectIdent, rectIdent, targetIdent))
+			}
+			for _, elem := range rect.RectAnchoredTexts {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RectAnchoredTexts = append(%s.RectAnchoredTexts, %s)", rectIdent, rectIdent, targetIdent))
+			}
+			for _, elem := range rect.RectAnchoredRects {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RectAnchoredRects = append(%s.RectAnchoredRects, %s)", rectIdent, rectIdent, targetIdent))
+			}
+			for _, elem := range rect.RectAnchoredPaths {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RectAnchoredPaths = append(%s.RectAnchoredPaths, %s)", rectIdent, rectIdent, targetIdent))
+			}
+			for _, elem := range rect.RectAnchoredPngImages {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RectAnchoredPngImages = append(%s.RectAnchoredPngImages, %s)", rectIdent, rectIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, rectanchoredpath := range __gong__sortStageSetInstances(stage.RectAnchoredPaths, stage.RectAnchoredPath_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			rectanchoredpathIdent := strings.Replace(rectanchoredpath.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.RectAnchoredPath{Name: %s}).Stage(stage)", rectanchoredpathIdent, __gong__toRawStringLiteral(rectanchoredpath.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", rectanchoredpathIdent, __gong__toRawStringLiteral(rectanchoredpath.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Definition = %s", rectanchoredpathIdent, __gong__toRawStringLiteral(rectanchoredpath.Definition)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X_Offset = %f", rectanchoredpathIdent, rectanchoredpath.X_Offset))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y_Offset = %f", rectanchoredpathIdent, rectanchoredpath.Y_Offset))
+			if rectanchoredpath.RectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = svg.%s", rectanchoredpathIdent, rectanchoredpath.RectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = \"\"", rectanchoredpathIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.ScalePropotionnally = %t", rectanchoredpathIdent, rectanchoredpath.ScalePropotionnally))
+			values.WriteString(fmt.Sprintf("\n\t%s.AppliedScaling = %f", rectanchoredpathIdent, rectanchoredpath.AppliedScaling))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", rectanchoredpathIdent, __gong__toRawStringLiteral(rectanchoredpath.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", rectanchoredpathIdent, rectanchoredpath.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", rectanchoredpathIdent, __gong__toRawStringLiteral(rectanchoredpath.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", rectanchoredpathIdent, rectanchoredpath.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", rectanchoredpathIdent, rectanchoredpath.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", rectanchoredpathIdent, __gong__toRawStringLiteral(rectanchoredpath.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", rectanchoredpathIdent, __gong__toRawStringLiteral(rectanchoredpath.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", rectanchoredpathIdent, __gong__toRawStringLiteral(rectanchoredpath.Transform)))
+		}
+	}
+	if stage != nil {
+		for _, rectanchoredpngimage := range __gong__sortStageSetInstances(stage.RectAnchoredPngImages, stage.RectAnchoredPngImage_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			rectanchoredpngimageIdent := strings.Replace(rectanchoredpngimage.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.RectAnchoredPngImage{Name: %s}).Stage(stage)", rectanchoredpngimageIdent, __gong__toRawStringLiteral(rectanchoredpngimage.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", rectanchoredpngimageIdent, __gong__toRawStringLiteral(rectanchoredpngimage.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", rectanchoredpngimageIdent, rectanchoredpngimage.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", rectanchoredpngimageIdent, rectanchoredpngimage.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", rectanchoredpngimageIdent, rectanchoredpngimage.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", rectanchoredpngimageIdent, rectanchoredpngimage.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", rectanchoredpngimageIdent, rectanchoredpngimage.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.X_Offset = %f", rectanchoredpngimageIdent, rectanchoredpngimage.X_Offset))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y_Offset = %f", rectanchoredpngimageIdent, rectanchoredpngimage.Y_Offset))
+			if rectanchoredpngimage.RectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = svg.%s", rectanchoredpngimageIdent, rectanchoredpngimage.RectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = \"\"", rectanchoredpngimageIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Base64Content = %s", rectanchoredpngimageIdent, __gong__toRawStringLiteral(rectanchoredpngimage.Base64Content)))
+		}
+	}
+	if stage != nil {
+		for _, rectanchoredrect := range __gong__sortStageSetInstances(stage.RectAnchoredRects, stage.RectAnchoredRect_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			rectanchoredrectIdent := strings.Replace(rectanchoredrect.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.RectAnchoredRect{Name: %s}).Stage(stage)", rectanchoredrectIdent, __gong__toRawStringLiteral(rectanchoredrect.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", rectanchoredrectIdent, __gong__toRawStringLiteral(rectanchoredrect.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", rectanchoredrectIdent, rectanchoredrect.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", rectanchoredrectIdent, rectanchoredrect.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", rectanchoredrectIdent, rectanchoredrect.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", rectanchoredrectIdent, rectanchoredrect.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.RX = %f", rectanchoredrectIdent, rectanchoredrect.RX))
+			values.WriteString(fmt.Sprintf("\n\t%s.X_Offset = %f", rectanchoredrectIdent, rectanchoredrect.X_Offset))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y_Offset = %f", rectanchoredrectIdent, rectanchoredrect.Y_Offset))
+			if rectanchoredrect.RectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = svg.%s", rectanchoredrectIdent, rectanchoredrect.RectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = \"\"", rectanchoredrectIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.WidthFollowRect = %t", rectanchoredrectIdent, rectanchoredrect.WidthFollowRect))
+			values.WriteString(fmt.Sprintf("\n\t%s.HeightFollowRect = %t", rectanchoredrectIdent, rectanchoredrect.HeightFollowRect))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasToolTip = %t", rectanchoredrectIdent, rectanchoredrect.HasToolTip))
+			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipText = %s", rectanchoredrectIdent, __gong__toRawStringLiteral(rectanchoredrect.ToolTipText)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", rectanchoredrectIdent, __gong__toRawStringLiteral(rectanchoredrect.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", rectanchoredrectIdent, rectanchoredrect.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", rectanchoredrectIdent, __gong__toRawStringLiteral(rectanchoredrect.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", rectanchoredrectIdent, rectanchoredrect.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", rectanchoredrectIdent, rectanchoredrect.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", rectanchoredrectIdent, __gong__toRawStringLiteral(rectanchoredrect.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", rectanchoredrectIdent, __gong__toRawStringLiteral(rectanchoredrect.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", rectanchoredrectIdent, __gong__toRawStringLiteral(rectanchoredrect.Transform)))
+		}
+	}
+	if stage != nil {
+		for _, rectanchoredtext := range __gong__sortStageSetInstances(stage.RectAnchoredTexts, stage.RectAnchoredText_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			rectanchoredtextIdent := strings.Replace(rectanchoredtext.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.RectAnchoredText{Name: %s}).Stage(stage)", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.Content)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontStyle = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.FontStyle)))
+			values.WriteString(fmt.Sprintf("\n\t%s.LetterSpacing = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.LetterSpacing)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontFamily = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.FontFamily)))
+			if rectanchoredtext.WhiteSpace.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = svg.%s", rectanchoredtextIdent, rectanchoredtext.WhiteSpace.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = \"\"", rectanchoredtextIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.X_Offset = %f", rectanchoredtextIdent, rectanchoredtext.X_Offset))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y_Offset = %f", rectanchoredtextIdent, rectanchoredtext.Y_Offset))
+			if rectanchoredtext.RectAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = svg.%s", rectanchoredtextIdent, rectanchoredtext.RectAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.RectAnchorType = \"\"", rectanchoredtextIdent))
+			}
+			if rectanchoredtext.TextAnchorType.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.TextAnchorType = svg.%s", rectanchoredtextIdent, rectanchoredtext.TextAnchorType.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.TextAnchorType = \"\"", rectanchoredtextIdent))
+			}
+			if rectanchoredtext.DominantBaseline.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.DominantBaseline = svg.%s", rectanchoredtextIdent, rectanchoredtext.DominantBaseline.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.DominantBaseline = \"\"", rectanchoredtextIdent))
+			}
+			if rectanchoredtext.WritingMode.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.WritingMode = svg.%s", rectanchoredtextIdent, rectanchoredtext.WritingMode.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.WritingMode = \"\"", rectanchoredtextIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", rectanchoredtextIdent, rectanchoredtext.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", rectanchoredtextIdent, rectanchoredtext.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", rectanchoredtextIdent, rectanchoredtext.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.Transform)))
+			values.WriteString(fmt.Sprintf("\n\t%s.URLPath = %s", rectanchoredtextIdent, __gong__toRawStringLiteral(rectanchoredtext.URLPath)))
+			if rectanchoredtext.URLTarget.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.URLTarget = svg.%s", rectanchoredtextIdent, rectanchoredtext.URLTarget.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.URLTarget = \"\"", rectanchoredtextIdent))
+			}
+			for _, elem := range rectanchoredtext.Animates {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Animates = append(%s.Animates, %s)", rectanchoredtextIdent, rectanchoredtextIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, rectlinklink := range __gong__sortStageSetInstances(stage.RectLinkLinks, stage.RectLinkLink_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			rectlinklinkIdent := strings.Replace(rectlinklink.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.RectLinkLink{Name: %s}).Stage(stage)", rectlinklinkIdent, __gong__toRawStringLiteral(rectlinklink.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", rectlinklinkIdent, __gong__toRawStringLiteral(rectlinklink.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.TargetAnchorPosition = %f", rectlinklinkIdent, rectlinklink.TargetAnchorPosition))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", rectlinklinkIdent, __gong__toRawStringLiteral(rectlinklink.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", rectlinklinkIdent, rectlinklink.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", rectlinklinkIdent, __gong__toRawStringLiteral(rectlinklink.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", rectlinklinkIdent, rectlinklink.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", rectlinklinkIdent, rectlinklink.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", rectlinklinkIdent, __gong__toRawStringLiteral(rectlinklink.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", rectlinklinkIdent, __gong__toRawStringLiteral(rectlinklink.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", rectlinklinkIdent, __gong__toRawStringLiteral(rectlinklink.Transform)))
+			if rectlinklink.Start != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(rectlinklink.Start.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Start = %s", rectlinklinkIdent, targetIdent))
+			}
+			if rectlinklink.End != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(rectlinklink.End.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.End = %s", rectlinklinkIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, svg := range __gong__sortStageSetInstances(stage.SVGs, stage.SVG_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			svgIdent := strings.Replace(svg.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.SVG{Name: %s}).Stage(stage)", svgIdent, __gong__toRawStringLiteral(svg.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", svgIdent, __gong__toRawStringLiteral(svg.Name)))
+			if svg.DrawingState.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.DrawingState = svg.%s", svgIdent, svg.DrawingState.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.DrawingState = \"\"", svgIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.IsEditable = %t", svgIdent, svg.IsEditable))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSVGFrontEndFileGenerated = %t", svgIdent, svg.IsSVGFrontEndFileGenerated))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSVGBackEndFileGenerated = %t", svgIdent, svg.IsSVGBackEndFileGenerated))
+			values.WriteString(fmt.Sprintf("\n\t%s.DefaultDirectoryForGeneratedImages = %s", svgIdent, __gong__toRawStringLiteral(svg.DefaultDirectoryForGeneratedImages)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsControlBannerHidden = %t", svgIdent, svg.IsControlBannerHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.PanX = %f", svgIdent, svg.PanX))
+			values.WriteString(fmt.Sprintf("\n\t%s.PanY = %f", svgIdent, svg.PanY))
+			values.WriteString(fmt.Sprintf("\n\t%s.Zoom = %f", svgIdent, svg.Zoom))
+			values.WriteString(fmt.Sprintf("\n\t%s.OverrideWidth = %t", svgIdent, svg.OverrideWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.OverriddenWidth = %f", svgIdent, svg.OverriddenWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.OverrideHeight = %t", svgIdent, svg.OverrideHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.OverriddenHeight = %f", svgIdent, svg.OverriddenHeight))
+			for _, elem := range svg.Layers {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Layers = append(%s.Layers, %s)", svgIdent, svgIdent, targetIdent))
+			}
+			if svg.StartRect != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(svg.StartRect.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartRect = %s", svgIdent, targetIdent))
+			}
+			if svg.EndRect != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(svg.EndRect.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndRect = %s", svgIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, svgtext := range __gong__sortStageSetInstances(stage.SvgTexts, stage.SvgText_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			svgtextIdent := strings.Replace(svgtext.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.SvgText{Name: %s}).Stage(stage)", svgtextIdent, __gong__toRawStringLiteral(svgtext.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", svgtextIdent, __gong__toRawStringLiteral(svgtext.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Text = %s", svgtextIdent, __gong__toRawStringLiteral(svgtext.Text)))
+		}
+	}
+	if stage != nil {
+		for _, text := range __gong__sortStageSetInstances(stage.Texts, stage.Text_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			textIdent := strings.Replace(text.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&svg.Text{Name: %s}).Stage(stage)", textIdent, __gong__toRawStringLiteral(text.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", textIdent, __gong__toRawStringLiteral(text.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", textIdent, text.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", textIdent, text.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", textIdent, __gong__toRawStringLiteral(text.Content)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", textIdent, __gong__toRawStringLiteral(text.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", textIdent, text.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Stroke = %s", textIdent, __gong__toRawStringLiteral(text.Stroke)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", textIdent, text.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", textIdent, text.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", textIdent, __gong__toRawStringLiteral(text.StrokeDashArray)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArrayWhenSelected = %s", textIdent, __gong__toRawStringLiteral(text.StrokeDashArrayWhenSelected)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transform = %s", textIdent, __gong__toRawStringLiteral(text.Transform)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontWeight = %s", textIdent, __gong__toRawStringLiteral(text.FontWeight)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontSize = %s", textIdent, __gong__toRawStringLiteral(text.FontSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontStyle = %s", textIdent, __gong__toRawStringLiteral(text.FontStyle)))
+			values.WriteString(fmt.Sprintf("\n\t%s.LetterSpacing = %s", textIdent, __gong__toRawStringLiteral(text.LetterSpacing)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FontFamily = %s", textIdent, __gong__toRawStringLiteral(text.FontFamily)))
+			if text.WhiteSpace.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = svg.%s", textIdent, text.WhiteSpace.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = \"\"", textIdent))
+			}
+			for _, elem := range text.Animates {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__svg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Animates = append(%s.Animates, %s)", textIdent, textIdent, targetIdent))
+			}
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *svg.Stage
+)%s
+
+// StageSvg stages objects into stage
+func StageSvg(stage *svg.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

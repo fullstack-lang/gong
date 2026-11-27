@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -608,6 +619,321 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/lib/tree/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/lib/tree/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_tree.go exposing StageTree.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_tree.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageTree).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, button := range __gong__sortStageSetInstances(stage.Buttons, stage.Button_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			buttonIdent := strings.Replace(button.GongGetIdentifier(stage), "__models__", "__tree__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&tree.Button{Name: %s}).Stage(stage)", buttonIdent, __gong__toRawStringLiteral(button.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", buttonIdent, __gong__toRawStringLiteral(button.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Icon = %s", buttonIdent, __gong__toRawStringLiteral(button.Icon)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDisabled = %t", buttonIdent, button.IsDisabled))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasToolTip = %t", buttonIdent, button.HasToolTip))
+			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipText = %s", buttonIdent, __gong__toRawStringLiteral(button.ToolTipText)))
+			if button.ToolTipPosition.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = tree.%s", buttonIdent, button.ToolTipPosition.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = \"\"", buttonIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.ClientOnX = %f", buttonIdent, button.ClientOnX))
+			values.WriteString(fmt.Sprintf("\n\t%s.ClientOnY = %f", buttonIdent, button.ClientOnY))
+			if button.SVGIcon != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(button.SVGIcon.GongGetIdentifier(stage), "__models__", "__tree__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SVGIcon = %s", buttonIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, menu := range __gong__sortStageSetInstances(stage.Menus, stage.Menu_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			menuIdent := strings.Replace(menu.GongGetIdentifier(stage), "__models__", "__tree__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&tree.Menu{Name: %s}).Stage(stage)", menuIdent, __gong__toRawStringLiteral(menu.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", menuIdent, __gong__toRawStringLiteral(menu.Name)))
+			for _, elem := range menu.Buttons {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__tree__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Buttons = append(%s.Buttons, %s)", menuIdent, menuIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, node := range __gong__sortStageSetInstances(stage.Nodes, stage.Node_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			nodeIdent := strings.Replace(node.GongGetIdentifier(stage), "__models__", "__tree__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&tree.Node{Name: %s}).Stage(stage)", nodeIdent, __gong__toRawStringLiteral(node.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", nodeIdent, __gong__toRawStringLiteral(node.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsWithPrefix = %t", nodeIdent, node.IsWithPrefix))
+			values.WriteString(fmt.Sprintf("\n\t%s.Prefix = %s", nodeIdent, __gong__toRawStringLiteral(node.Prefix)))
+			if node.FontStyle.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.FontStyle = tree.%s", nodeIdent, node.FontStyle.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.FontStyle = \"\"", nodeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.BackgroundColor = %s", nodeIdent, __gong__toRawStringLiteral(node.BackgroundColor)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", nodeIdent, node.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasCheckboxButton = %t", nodeIdent, node.HasCheckboxButton))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", nodeIdent, node.IsChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsCheckboxDisabled = %t", nodeIdent, node.IsCheckboxDisabled))
+			values.WriteString(fmt.Sprintf("\n\t%s.CheckboxHasToolTip = %t", nodeIdent, node.CheckboxHasToolTip))
+			values.WriteString(fmt.Sprintf("\n\t%s.CheckboxToolTipText = %s", nodeIdent, __gong__toRawStringLiteral(node.CheckboxToolTipText)))
+			if node.CheckboxToolTipPosition.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.CheckboxToolTipPosition = tree.%s", nodeIdent, node.CheckboxToolTipPosition.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.CheckboxToolTipPosition = \"\"", nodeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.HasSecondCheckboxButton = %t", nodeIdent, node.HasSecondCheckboxButton))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSecondCheckboxChecked = %t", nodeIdent, node.IsSecondCheckboxChecked))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSecondCheckboxDisabled = %t", nodeIdent, node.IsSecondCheckboxDisabled))
+			values.WriteString(fmt.Sprintf("\n\t%s.SecondCheckboxHasToolTip = %t", nodeIdent, node.SecondCheckboxHasToolTip))
+			values.WriteString(fmt.Sprintf("\n\t%s.SecondCheckboxToolTipText = %s", nodeIdent, __gong__toRawStringLiteral(node.SecondCheckboxToolTipText)))
+			if node.SecondCheckboxToolTipPosition.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.SecondCheckboxToolTipPosition = tree.%s", nodeIdent, node.SecondCheckboxToolTipPosition.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.SecondCheckboxToolTipPosition = \"\"", nodeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.TextAfterSecondCheckbox = %s", nodeIdent, __gong__toRawStringLiteral(node.TextAfterSecondCheckbox)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasToolTip = %t", nodeIdent, node.HasToolTip))
+			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipText = %s", nodeIdent, __gong__toRawStringLiteral(node.ToolTipText)))
+			if node.ToolTipPosition.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = tree.%s", nodeIdent, node.ToolTipPosition.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = \"\"", nodeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.ClientOnY = %f", nodeIdent, node.ClientOnY))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsInEditMode = %t", nodeIdent, node.IsInEditMode))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsNodeClickable = %t", nodeIdent, node.IsNodeClickable))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsWithPreceedingIcon = %t", nodeIdent, node.IsWithPreceedingIcon))
+			values.WriteString(fmt.Sprintf("\n\t%s.PreceedingIcon = %s", nodeIdent, __gong__toRawStringLiteral(node.PreceedingIcon)))
+			if node.PreceedingSVGIcon != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(node.PreceedingSVGIcon.GongGetIdentifier(stage), "__models__", "__tree__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PreceedingSVGIcon = %s", nodeIdent, targetIdent))
+			}
+			for _, elem := range node.Children {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__tree__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Children = append(%s.Children, %s)", nodeIdent, nodeIdent, targetIdent))
+			}
+			for _, elem := range node.Buttons {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__tree__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Buttons = append(%s.Buttons, %s)", nodeIdent, nodeIdent, targetIdent))
+			}
+			if node.Menu != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(node.Menu.GongGetIdentifier(stage), "__models__", "__tree__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Menu = %s", nodeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, svgicon := range __gong__sortStageSetInstances(stage.SVGIcons, stage.SVGIcon_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			svgiconIdent := strings.Replace(svgicon.GongGetIdentifier(stage), "__models__", "__tree__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&tree.SVGIcon{Name: %s}).Stage(stage)", svgiconIdent, __gong__toRawStringLiteral(svgicon.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", svgiconIdent, __gong__toRawStringLiteral(svgicon.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", svgiconIdent, __gong__toRawStringLiteral(svgicon.SVG)))
+		}
+	}
+	if stage != nil {
+		for _, tree := range __gong__sortStageSetInstances(stage.Trees, stage.Tree_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			treeIdent := strings.Replace(tree.GongGetIdentifier(stage), "__models__", "__tree__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&tree.Tree{Name: %s}).Stage(stage)", treeIdent, __gong__toRawStringLiteral(tree.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", treeIdent, __gong__toRawStringLiteral(tree.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HaveSearch = %t", treeIdent, tree.HaveSearch))
+			for _, elem := range tree.RootNodes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__tree__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RootNodes = append(%s.RootNodes, %s)", treeIdent, treeIdent, targetIdent))
+			}
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	tree "github.com/fullstack-lang/gong/lib/tree/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *tree.Stage
+)%s
+
+// StageTree stages objects into stage
+func StageTree(stage *tree.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

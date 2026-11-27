@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -590,6 +601,303 @@ func _(stage *xlink.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/xlink" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/xlink\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_musicxml.go exposing StageMusicxml.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_musicxml.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageMusicxml).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, arctype := range __gong__sortStageSetInstances(stage.ArcTypes, stage.ArcType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			arctypeIdent := strings.Replace(arctype.GongGetIdentifier(stage), "__xlink__", "__musicxml__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&musicxml.ArcType{Name: %s}).Stage(stage)", arctypeIdent, __gong__toRawStringLiteral(arctype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.Actuate)))
+			values.WriteString(fmt.Sprintf("\n\t%s.From = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.From)))
+			values.WriteString(fmt.Sprintf("\n\t%s.To = %s", arctypeIdent, __gong__toRawStringLiteral(arctype.To)))
+			for _, elem := range arctype.Title_1 {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__xlink__", "__musicxml__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Title_1 = append(%s.Title_1, %s)", arctypeIdent, arctypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, extended := range __gong__sortStageSetInstances(stage.Extendeds, stage.Extended_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			extendedIdent := strings.Replace(extended.GongGetIdentifier(stage), "__xlink__", "__musicxml__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&musicxml.Extended{Name: %s}).Stage(stage)", extendedIdent, __gong__toRawStringLiteral(extended.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", extendedIdent, __gong__toRawStringLiteral(extended.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", extendedIdent, __gong__toRawStringLiteral(extended.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", extendedIdent, __gong__toRawStringLiteral(extended.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", extendedIdent, __gong__toRawStringLiteral(extended.Title)))
+			if extended.Title_1 != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(extended.Title_1.GongGetIdentifier(stage), "__xlink__", "__musicxml__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Title_1 = %s", extendedIdent, targetIdent))
+			}
+			if extended.Resource != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(extended.Resource.GongGetIdentifier(stage), "__xlink__", "__musicxml__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Resource = %s", extendedIdent, targetIdent))
+			}
+			if extended.Locator != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(extended.Locator.GongGetIdentifier(stage), "__xlink__", "__musicxml__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Locator = %s", extendedIdent, targetIdent))
+			}
+			if extended.Arc != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(extended.Arc.GongGetIdentifier(stage), "__xlink__", "__musicxml__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Arc = %s", extendedIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, locatortype := range __gong__sortStageSetInstances(stage.LocatorTypes, stage.LocatorType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			locatortypeIdent := strings.Replace(locatortype.GongGetIdentifier(stage), "__xlink__", "__musicxml__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&musicxml.LocatorType{Name: %s}).Stage(stage)", locatortypeIdent, __gong__toRawStringLiteral(locatortype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", locatortypeIdent, __gong__toRawStringLiteral(locatortype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", locatortypeIdent, __gong__toRawStringLiteral(locatortype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", locatortypeIdent, __gong__toRawStringLiteral(locatortype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", locatortypeIdent, __gong__toRawStringLiteral(locatortype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", locatortypeIdent, __gong__toRawStringLiteral(locatortype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Label = %s", locatortypeIdent, __gong__toRawStringLiteral(locatortype.Label)))
+			for _, elem := range locatortype.Title_1 {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__xlink__", "__musicxml__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Title_1 = append(%s.Title_1, %s)", locatortypeIdent, locatortypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, resourcetype := range __gong__sortStageSetInstances(stage.ResourceTypes, stage.ResourceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			resourcetypeIdent := strings.Replace(resourcetype.GongGetIdentifier(stage), "__xlink__", "__musicxml__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&musicxml.ResourceType{Name: %s}).Stage(stage)", resourcetypeIdent, __gong__toRawStringLiteral(resourcetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", resourcetypeIdent, __gong__toRawStringLiteral(resourcetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", resourcetypeIdent, __gong__toRawStringLiteral(resourcetype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", resourcetypeIdent, __gong__toRawStringLiteral(resourcetype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", resourcetypeIdent, __gong__toRawStringLiteral(resourcetype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Label = %s", resourcetypeIdent, __gong__toRawStringLiteral(resourcetype.Label)))
+		}
+	}
+	if stage != nil {
+		for _, simple := range __gong__sortStageSetInstances(stage.Simples, stage.Simple_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			simpleIdent := strings.Replace(simple.GongGetIdentifier(stage), "__xlink__", "__musicxml__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&musicxml.Simple{Name: %s}).Stage(stage)", simpleIdent, __gong__toRawStringLiteral(simple.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", simpleIdent, __gong__toRawStringLiteral(simple.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", simpleIdent, __gong__toRawStringLiteral(simple.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", simpleIdent, __gong__toRawStringLiteral(simple.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", simpleIdent, __gong__toRawStringLiteral(simple.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", simpleIdent, __gong__toRawStringLiteral(simple.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", simpleIdent, __gong__toRawStringLiteral(simple.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", simpleIdent, __gong__toRawStringLiteral(simple.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", simpleIdent, __gong__toRawStringLiteral(simple.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, titleelttype := range __gong__sortStageSetInstances(stage.TitleEltTypes, stage.TitleEltType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			titleelttypeIdent := strings.Replace(titleelttype.GongGetIdentifier(stage), "__xlink__", "__musicxml__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&musicxml.TitleEltType{Name: %s}).Stage(stage)", titleelttypeIdent, __gong__toRawStringLiteral(titleelttype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", titleelttypeIdent, __gong__toRawStringLiteral(titleelttype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", titleelttypeIdent, __gong__toRawStringLiteral(titleelttype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Lang = %s", titleelttypeIdent, __gong__toRawStringLiteral(titleelttype.Lang)))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	musicxml "github.com/fullstack-lang/gong/app/xsd/tests/musicxml/go/models/xlink"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *musicxml.Stage
+)%s
+
+// StageMusicxml stages objects into stage
+func StageMusicxml(stage *musicxml.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

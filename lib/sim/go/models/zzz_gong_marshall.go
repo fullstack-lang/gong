@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -560,6 +571,273 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/lib/sim/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/lib/sim/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_sim.go exposing StageSim.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_sim.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageSim).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, command := range __gong__sortStageSetInstances(stage.Commands, stage.Command_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			commandIdent := strings.Replace(command.GongGetIdentifier(stage), "__models__", "__sim__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&sim.Command{Name: %s}).Stage(stage)", commandIdent, __gong__toRawStringLiteral(command.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", commandIdent, __gong__toRawStringLiteral(command.Name)))
+			if command.Command.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Command = sim.%s", commandIdent, command.Command.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Command = \"\"", commandIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CommandDate = %s", commandIdent, __gong__toRawStringLiteral(command.CommandDate)))
+			if command.Engine != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(command.Engine.GongGetIdentifier(stage), "__models__", "__sim__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Engine = %s", commandIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, dummyagent := range __gong__sortStageSetInstances(stage.DummyAgents, stage.DummyAgent_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			dummyagentIdent := strings.Replace(dummyagent.GongGetIdentifier(stage), "__models__", "__sim__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&sim.DummyAgent{Name: %s}).Stage(stage)", dummyagentIdent, __gong__toRawStringLiteral(dummyagent.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.TechName = %s", dummyagentIdent, __gong__toRawStringLiteral(dummyagent.TechName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dummyagentIdent, __gong__toRawStringLiteral(dummyagent.Name)))
+			if dummyagent.Engine != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(dummyagent.Engine.GongGetIdentifier(stage), "__models__", "__sim__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Engine = %s", dummyagentIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, engine := range __gong__sortStageSetInstances(stage.Engines, stage.Engine_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			engineIdent := strings.Replace(engine.GongGetIdentifier(stage), "__models__", "__sim__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&sim.Engine{Name: %s}).Stage(stage)", engineIdent, __gong__toRawStringLiteral(engine.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", engineIdent, __gong__toRawStringLiteral(engine.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EndTime = %s", engineIdent, __gong__toRawStringLiteral(engine.EndTime)))
+			values.WriteString(fmt.Sprintf("\n\t%s.CurrentTime = %s", engineIdent, __gong__toRawStringLiteral(engine.CurrentTime)))
+			values.WriteString(fmt.Sprintf("\n\t%s.DisplayFormat = %s", engineIdent, __gong__toRawStringLiteral(engine.DisplayFormat)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SecondsSinceStart = %f", engineIdent, engine.SecondsSinceStart))
+			values.WriteString(fmt.Sprintf("\n\t%s.Fired = %d", engineIdent, engine.Fired))
+			if engine.ControlMode.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ControlMode = sim.%s", engineIdent, engine.ControlMode.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ControlMode = \"\"", engineIdent))
+			}
+			if engine.State.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.State = sim.%s", engineIdent, engine.State.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.State = \"\"", engineIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Speed = %f", engineIdent, engine.Speed))
+		}
+	}
+	if stage != nil {
+		for _, event := range __gong__sortStageSetInstances(stage.Events, stage.Event_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			eventIdent := strings.Replace(event.GongGetIdentifier(stage), "__models__", "__sim__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&sim.Event{Name: %s}).Stage(stage)", eventIdent, __gong__toRawStringLiteral(event.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", eventIdent, __gong__toRawStringLiteral(event.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Duration = time.Duration(%d)", eventIdent, int64(event.Duration)))
+		}
+	}
+	if stage != nil {
+		for _, status := range __gong__sortStageSetInstances(stage.Statuss, stage.Status_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			statusIdent := strings.Replace(status.GongGetIdentifier(stage), "__models__", "__sim__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&sim.Status{Name: %s}).Stage(stage)", statusIdent, __gong__toRawStringLiteral(status.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", statusIdent, __gong__toRawStringLiteral(status.Name)))
+			if status.CurrentCommand.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.CurrentCommand = sim.%s", statusIdent, status.CurrentCommand.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.CurrentCommand = \"\"", statusIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CompletionDate = %s", statusIdent, __gong__toRawStringLiteral(status.CompletionDate)))
+			if status.CurrentSpeedCommand.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.CurrentSpeedCommand = sim.%s", statusIdent, status.CurrentSpeedCommand.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.CurrentSpeedCommand = \"\"", statusIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.SpeedCommandCompletionDate = %s", statusIdent, __gong__toRawStringLiteral(status.SpeedCommandCompletionDate)))
+		}
+	}
+	if stage != nil {
+		for _, updatestate := range __gong__sortStageSetInstances(stage.UpdateStates, stage.UpdateState_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			updatestateIdent := strings.Replace(updatestate.GongGetIdentifier(stage), "__models__", "__sim__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&sim.UpdateState{Name: %s}).Stage(stage)", updatestateIdent, __gong__toRawStringLiteral(updatestate.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", updatestateIdent, __gong__toRawStringLiteral(updatestate.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Duration = time.Duration(%d)", updatestateIdent, int64(updatestate.Duration)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Period = time.Duration(%d)", updatestateIdent, int64(updatestate.Period)))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	sim "github.com/fullstack-lang/gong/lib/sim/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *sim.Stage
+)%s
+
+// StageSim stages objects into stage
+func StageSim(stage *sim.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

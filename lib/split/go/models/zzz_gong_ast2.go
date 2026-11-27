@@ -8,6 +8,7 @@ import (
 	"go/parser"
 	"go/token"
 	"log"
+	"os"
 	"path/filepath"
 	"slices"
 	"strings"
@@ -18,6 +19,7 @@ import (
 
 var (
 	_ = errors.New
+	_ = os.Stat
 	_ = parser.ParseFile
 	_ = filepath.Base
 	_ = slices.Index[[]int, int]
@@ -52,8 +54,24 @@ type GongModelUnmarshaller interface {
 
 type ModelUnmarshaller = GongModelUnmarshaller
 
-// ParseAstFile Parse pathToFile and stages all instances declared in the file
+// ParseAstDirectory parses the stage file for this model inside dirPath
+func (stage *Stage) ParseAstDirectory(dirPath string, preserveOrder bool) error {
+	stageFilePath := filepath.Join(dirPath, "stage_split.go")
+	if _, err := os.Stat(stageFilePath); os.IsNotExist(err) {
+		return nil
+	}
+	inFile, fset, err := gong_runtime.ParseAstFile(stageFilePath)
+	if err != nil {
+		return err
+	}
+	return stage.ParseAstFileFromAst(inFile, fset, preserveOrder)
+}
+
+// ParseAstFile Parse pathToFile and stages all instances declared in the file (or directory)
 func (stage *Stage) ParseAstFile(pathToFile string, preserveOrder bool) error {
+	if gong_runtime.IsDirectoryPath(pathToFile) {
+		return stage.ParseAstDirectory(pathToFile, preserveOrder)
+	}
 	inFile, fset, err := gong_runtime.ParseAstFile(pathToFile)
 	if err != nil {
 		return err

@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -770,6 +781,483 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/test/test1/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/test/test1/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_test1.go exposing StageTest1.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_test1.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageTest1).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, astruct := range __gong__sortStageSetInstances(stage.Astructs, stage.Astruct_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			astructIdent := strings.Replace(astruct.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&test1.Astruct{Name: %s}).Stage(stage)", astructIdent, __gong__toRawStringLiteral(astruct.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", astructIdent, __gong__toRawStringLiteral(astruct.Name)))
+			if str, ok := astruct.Field.(string); ok {
+				values.WriteString(fmt.Sprintf("\n\t%s.Field = %s", astructIdent, str))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Date, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", astructIdent, astruct.Date.String()))
+			values.WriteString(fmt.Sprintf("\n\t%s.Date2, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", astructIdent, astruct.Date2.String()))
+			values.WriteString(fmt.Sprintf("\n\t%s.Booleanfield = %t", astructIdent, astruct.Booleanfield))
+			if astruct.Aenum.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Aenum = test1.%s", astructIdent, astruct.Aenum.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Aenum = \"\"", astructIdent))
+			}
+			if astruct.Aenum_2.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Aenum_2 = test1.%s", astructIdent, astruct.Aenum_2.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Aenum_2 = \"\"", astructIdent))
+			}
+			if astruct.Benum.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Benum = test1.%s", astructIdent, astruct.Benum.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Benum = \"\"", astructIdent))
+			}
+			if astruct.CEnum.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.CEnum = test1.%s", astructIdent, astruct.CEnum.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.CEnum = 0", astructIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CName = %s", astructIdent, __gong__toRawStringLiteral(astruct.CName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.CFloatfield = %f", astructIdent, astruct.CFloatfield))
+			values.WriteString(fmt.Sprintf("\n\t%s.Floatfield = %f", astructIdent, astruct.Floatfield))
+			values.WriteString(fmt.Sprintf("\n\t%s.Intfield = %d", astructIdent, astruct.Intfield))
+			values.WriteString(fmt.Sprintf("\n\t%s.Anotherbooleanfield = %t", astructIdent, astruct.Anotherbooleanfield))
+			values.WriteString(fmt.Sprintf("\n\t%s.Duration1 = time.Duration(%d)", astructIdent, int64(astruct.Duration1)))
+			values.WriteString(fmt.Sprintf("\n\t%s.TextFieldBespokeSize = %s", astructIdent, __gong__toRawStringLiteral(astruct.TextFieldBespokeSize)))
+			values.WriteString(fmt.Sprintf("\n\t%s.TextArea = %s", astructIdent, __gong__toRawStringLiteral(astruct.TextArea)))
+			if astruct.Associationtob != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(astruct.Associationtob.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Associationtob = %s", astructIdent, targetIdent))
+			}
+			for _, elem := range astruct.Anarrayofb {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Anarrayofb = append(%s.Anarrayofb, %s)", astructIdent, astructIdent, targetIdent))
+			}
+			if astruct.Anotherassociationtob_2 != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(astruct.Anotherassociationtob_2.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Anotherassociationtob_2 = %s", astructIdent, targetIdent))
+			}
+			if astruct.Bstruct != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(astruct.Bstruct.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Bstruct = %s", astructIdent, targetIdent))
+			}
+			if astruct.Bstruct2 != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(astruct.Bstruct2.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Bstruct2 = %s", astructIdent, targetIdent))
+			}
+			if astruct.Dstruct != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(astruct.Dstruct.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct = %s", astructIdent, targetIdent))
+			}
+			if astruct.Dstruct2 != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(astruct.Dstruct2.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct2 = %s", astructIdent, targetIdent))
+			}
+			if astruct.Dstruct3 != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(astruct.Dstruct3.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct3 = %s", astructIdent, targetIdent))
+			}
+			if astruct.Dstruct4 != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(astruct.Dstruct4.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct4 = %s", astructIdent, targetIdent))
+			}
+			for _, elem := range astruct.Dstruct4s {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Dstruct4s = append(%s.Dstruct4s, %s)", astructIdent, astructIdent, targetIdent))
+			}
+			for _, elem := range astruct.Anarrayofa {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Anarrayofa = append(%s.Anarrayofa, %s)", astructIdent, astructIdent, targetIdent))
+			}
+			for _, elem := range astruct.Anotherarrayofb {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Anotherarrayofb = append(%s.Anotherarrayofb, %s)", astructIdent, astructIdent, targetIdent))
+			}
+			for _, elem := range astruct.AnarrayofbUse {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AnarrayofbUse = append(%s.AnarrayofbUse, %s)", astructIdent, astructIdent, targetIdent))
+			}
+			for _, elem := range astruct.Anarrayofb2Use {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Anarrayofb2Use = append(%s.Anarrayofb2Use, %s)", astructIdent, astructIdent, targetIdent))
+			}
+			if astruct.AnAstruct != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(astruct.AnAstruct.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AnAstruct = %s", astructIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, astructbstruct2use := range __gong__sortStageSetInstances(stage.AstructBstruct2Uses, stage.AstructBstruct2Use_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			astructbstruct2useIdent := strings.Replace(astructbstruct2use.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&test1.AstructBstruct2Use{Name: %s}).Stage(stage)", astructbstruct2useIdent, __gong__toRawStringLiteral(astructbstruct2use.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", astructbstruct2useIdent, __gong__toRawStringLiteral(astructbstruct2use.Name)))
+			if astructbstruct2use.Bstrcut2 != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(astructbstruct2use.Bstrcut2.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Bstrcut2 = %s", astructbstruct2useIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, astructbstructuse := range __gong__sortStageSetInstances(stage.AstructBstructUses, stage.AstructBstructUse_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			astructbstructuseIdent := strings.Replace(astructbstructuse.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&test1.AstructBstructUse{Name: %s}).Stage(stage)", astructbstructuseIdent, __gong__toRawStringLiteral(astructbstructuse.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", astructbstructuseIdent, __gong__toRawStringLiteral(astructbstructuse.Name)))
+			if astructbstructuse.Bstruct2 != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(astructbstructuse.Bstruct2.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Bstruct2 = %s", astructbstructuseIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, bstruct := range __gong__sortStageSetInstances(stage.Bstructs, stage.Bstruct_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			bstructIdent := strings.Replace(bstruct.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&test1.Bstruct{Name: %s}).Stage(stage)", bstructIdent, __gong__toRawStringLiteral(bstruct.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", bstructIdent, __gong__toRawStringLiteral(bstruct.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Floatfield = %f", bstructIdent, bstruct.Floatfield))
+			values.WriteString(fmt.Sprintf("\n\t%s.Floatfield2 = %f", bstructIdent, bstruct.Floatfield2))
+			values.WriteString(fmt.Sprintf("\n\t%s.Intfield = %d", bstructIdent, bstruct.Intfield))
+			if str, ok := bstruct.Struct.(string); ok {
+				values.WriteString(fmt.Sprintf("\n\t%s.Struct = %s", bstructIdent, str))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.ToBeIgnored = %d", bstructIdent, bstruct.ToBeIgnored))
+		}
+	}
+	if stage != nil {
+		for _, dstruct := range __gong__sortStageSetInstances(stage.Dstructs, stage.Dstruct_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			dstructIdent := strings.Replace(dstruct.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&test1.Dstruct{Name: %s}).Stage(stage)", dstructIdent, __gong__toRawStringLiteral(dstruct.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dstructIdent, __gong__toRawStringLiteral(dstruct.Name)))
+			for _, elem := range dstruct.Anarrayofb {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Anarrayofb = append(%s.Anarrayofb, %s)", dstructIdent, dstructIdent, targetIdent))
+			}
+			if dstruct.Gstruct != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(dstruct.Gstruct.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Gstruct = %s", dstructIdent, targetIdent))
+			}
+			for _, elem := range dstruct.Gstructs {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Gstructs = append(%s.Gstructs, %s)", dstructIdent, dstructIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, f0123456789012345678901234567890 := range __gong__sortStageSetInstances(stage.F0123456789012345678901234567890s, stage.F0123456789012345678901234567890_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			f0123456789012345678901234567890Ident := strings.Replace(f0123456789012345678901234567890.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&test1.F0123456789012345678901234567890{Name: %s}).Stage(stage)", f0123456789012345678901234567890Ident, __gong__toRawStringLiteral(f0123456789012345678901234567890.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", f0123456789012345678901234567890Ident, __gong__toRawStringLiteral(f0123456789012345678901234567890.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Date, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", f0123456789012345678901234567890Ident, f0123456789012345678901234567890.Date.String()))
+		}
+	}
+	if stage != nil {
+		for _, gstruct := range __gong__sortStageSetInstances(stage.Gstructs, stage.Gstruct_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			gstructIdent := strings.Replace(gstruct.GongGetIdentifier(stage), "__models__", "__test1__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&test1.Gstruct{Name: %s}).Stage(stage)", gstructIdent, __gong__toRawStringLiteral(gstruct.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", gstructIdent, __gong__toRawStringLiteral(gstruct.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Floatfield = %f", gstructIdent, gstruct.Floatfield))
+			values.WriteString(fmt.Sprintf("\n\t%s.Floatfield2 = %f", gstructIdent, gstruct.Floatfield2))
+			values.WriteString(fmt.Sprintf("\n\t%s.Intfield = %d", gstructIdent, gstruct.Intfield))
+			if str, ok := gstruct.Struct.(string); ok {
+				values.WriteString(fmt.Sprintf("\n\t%s.Struct = %s", gstructIdent, str))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.ToBeIgnored = %d", gstructIdent, gstruct.ToBeIgnored))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	test1 "github.com/fullstack-lang/gong/test/test1/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *test1.Stage
+)%s
+
+// StageTest1 stages objects into stage
+func StageTest1(stage *test1.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

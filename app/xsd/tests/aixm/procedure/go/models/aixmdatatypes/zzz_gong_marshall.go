@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -2391,6 +2402,2104 @@ func _(stage *aixmdatatypes.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/app/xsd/tests/aixm/procedure/go/models/aixmdatatypes" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/app/xsd/tests/aixm/procedure/go/models/aixmdatatypes\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_procedure.go exposing StageProcedure.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_procedure.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageProcedure).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, codeatcreportingtype := range __gong__sortStageSetInstances(stage.CodeATCReportingTypes, stage.CodeATCReportingType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeatcreportingtypeIdent := strings.Replace(codeatcreportingtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeATCReportingType{Name: %s}).Stage(stage)", codeatcreportingtypeIdent, __gong__toRawStringLiteral(codeatcreportingtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeatcreportingtypeIdent, __gong__toRawStringLiteral(codeatcreportingtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeatcreportingtypeIdent, __gong__toRawStringLiteral(codeatcreportingtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeatcreportingtypeIdent, __gong__toRawStringLiteral(codeatcreportingtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeaerialrefuellingpointtype := range __gong__sortStageSetInstances(stage.CodeAerialRefuellingPointTypes, stage.CodeAerialRefuellingPointType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeaerialrefuellingpointtypeIdent := strings.Replace(codeaerialrefuellingpointtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeAerialRefuellingPointType{Name: %s}).Stage(stage)", codeaerialrefuellingpointtypeIdent, __gong__toRawStringLiteral(codeaerialrefuellingpointtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeaerialrefuellingpointtypeIdent, __gong__toRawStringLiteral(codeaerialrefuellingpointtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeaerialrefuellingpointtypeIdent, __gong__toRawStringLiteral(codeaerialrefuellingpointtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeaerialrefuellingpointtypeIdent, __gong__toRawStringLiteral(codeaerialrefuellingpointtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeaircraftcategorytype := range __gong__sortStageSetInstances(stage.CodeAircraftCategoryTypes, stage.CodeAircraftCategoryType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeaircraftcategorytypeIdent := strings.Replace(codeaircraftcategorytype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeAircraftCategoryType{Name: %s}).Stage(stage)", codeaircraftcategorytypeIdent, __gong__toRawStringLiteral(codeaircraftcategorytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeaircraftcategorytypeIdent, __gong__toRawStringLiteral(codeaircraftcategorytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeaircraftcategorytypeIdent, __gong__toRawStringLiteral(codeaircraftcategorytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeaircraftcategorytypeIdent, __gong__toRawStringLiteral(codeaircraftcategorytype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeaircraftenginenumbertype := range __gong__sortStageSetInstances(stage.CodeAircraftEngineNumberTypes, stage.CodeAircraftEngineNumberType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeaircraftenginenumbertypeIdent := strings.Replace(codeaircraftenginenumbertype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeAircraftEngineNumberType{Name: %s}).Stage(stage)", codeaircraftenginenumbertypeIdent, __gong__toRawStringLiteral(codeaircraftenginenumbertype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeaircraftenginenumbertypeIdent, __gong__toRawStringLiteral(codeaircraftenginenumbertype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeaircraftenginenumbertypeIdent, __gong__toRawStringLiteral(codeaircraftenginenumbertype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeaircraftenginenumbertypeIdent, __gong__toRawStringLiteral(codeaircraftenginenumbertype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeaircraftenginetype := range __gong__sortStageSetInstances(stage.CodeAircraftEngineTypes, stage.CodeAircraftEngineType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeaircraftenginetypeIdent := strings.Replace(codeaircraftenginetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeAircraftEngineType{Name: %s}).Stage(stage)", codeaircraftenginetypeIdent, __gong__toRawStringLiteral(codeaircraftenginetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeaircraftenginetypeIdent, __gong__toRawStringLiteral(codeaircraftenginetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeaircraftenginetypeIdent, __gong__toRawStringLiteral(codeaircraftenginetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeaircraftenginetypeIdent, __gong__toRawStringLiteral(codeaircraftenginetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeaircrafticaotype := range __gong__sortStageSetInstances(stage.CodeAircraftICAOTypes, stage.CodeAircraftICAOType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeaircrafticaotypeIdent := strings.Replace(codeaircrafticaotype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeAircraftICAOType{Name: %s}).Stage(stage)", codeaircrafticaotypeIdent, __gong__toRawStringLiteral(codeaircrafticaotype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeaircrafticaotypeIdent, __gong__toRawStringLiteral(codeaircrafticaotype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeaircrafticaotypeIdent, __gong__toRawStringLiteral(codeaircrafticaotype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeaircrafticaotypeIdent, __gong__toRawStringLiteral(codeaircrafticaotype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeaircrafttype := range __gong__sortStageSetInstances(stage.CodeAircraftTypes, stage.CodeAircraftType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeaircrafttypeIdent := strings.Replace(codeaircrafttype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeAircraftType{Name: %s}).Stage(stage)", codeaircrafttypeIdent, __gong__toRawStringLiteral(codeaircrafttype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeaircrafttypeIdent, __gong__toRawStringLiteral(codeaircrafttype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeaircrafttypeIdent, __gong__toRawStringLiteral(codeaircrafttype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeaircrafttypeIdent, __gong__toRawStringLiteral(codeaircrafttype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeaircraftwingspanclasstype := range __gong__sortStageSetInstances(stage.CodeAircraftWingspanClassTypes, stage.CodeAircraftWingspanClassType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeaircraftwingspanclasstypeIdent := strings.Replace(codeaircraftwingspanclasstype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeAircraftWingspanClassType{Name: %s}).Stage(stage)", codeaircraftwingspanclasstypeIdent, __gong__toRawStringLiteral(codeaircraftwingspanclasstype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeaircraftwingspanclasstypeIdent, __gong__toRawStringLiteral(codeaircraftwingspanclasstype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeaircraftwingspanclasstypeIdent, __gong__toRawStringLiteral(codeaircraftwingspanclasstype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeaircraftwingspanclasstypeIdent, __gong__toRawStringLiteral(codeaircraftwingspanclasstype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codealtitudeadjustmenttype := range __gong__sortStageSetInstances(stage.CodeAltitudeAdjustmentTypes, stage.CodeAltitudeAdjustmentType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codealtitudeadjustmenttypeIdent := strings.Replace(codealtitudeadjustmenttype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeAltitudeAdjustmentType{Name: %s}).Stage(stage)", codealtitudeadjustmenttypeIdent, __gong__toRawStringLiteral(codealtitudeadjustmenttype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codealtitudeadjustmenttypeIdent, __gong__toRawStringLiteral(codealtitudeadjustmenttype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codealtitudeadjustmenttypeIdent, __gong__toRawStringLiteral(codealtitudeadjustmenttype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codealtitudeadjustmenttypeIdent, __gong__toRawStringLiteral(codealtitudeadjustmenttype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codealtitudeusetype := range __gong__sortStageSetInstances(stage.CodeAltitudeUseTypes, stage.CodeAltitudeUseType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codealtitudeusetypeIdent := strings.Replace(codealtitudeusetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeAltitudeUseType{Name: %s}).Stage(stage)", codealtitudeusetypeIdent, __gong__toRawStringLiteral(codealtitudeusetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codealtitudeusetypeIdent, __gong__toRawStringLiteral(codealtitudeusetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codealtitudeusetypeIdent, __gong__toRawStringLiteral(codealtitudeusetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codealtitudeusetypeIdent, __gong__toRawStringLiteral(codealtitudeusetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeapproachequipmentadditionaltype := range __gong__sortStageSetInstances(stage.CodeApproachEquipmentAdditionalTypes, stage.CodeApproachEquipmentAdditionalType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeapproachequipmentadditionaltypeIdent := strings.Replace(codeapproachequipmentadditionaltype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeApproachEquipmentAdditionalType{Name: %s}).Stage(stage)", codeapproachequipmentadditionaltypeIdent, __gong__toRawStringLiteral(codeapproachequipmentadditionaltype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeapproachequipmentadditionaltypeIdent, __gong__toRawStringLiteral(codeapproachequipmentadditionaltype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeapproachequipmentadditionaltypeIdent, __gong__toRawStringLiteral(codeapproachequipmentadditionaltype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeapproachequipmentadditionaltypeIdent, __gong__toRawStringLiteral(codeapproachequipmentadditionaltype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeapproachguidancetype := range __gong__sortStageSetInstances(stage.CodeApproachGuidanceTypes, stage.CodeApproachGuidanceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeapproachguidancetypeIdent := strings.Replace(codeapproachguidancetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeApproachGuidanceType{Name: %s}).Stage(stage)", codeapproachguidancetypeIdent, __gong__toRawStringLiteral(codeapproachguidancetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeapproachguidancetypeIdent, __gong__toRawStringLiteral(codeapproachguidancetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeapproachguidancetypeIdent, __gong__toRawStringLiteral(codeapproachguidancetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeapproachguidancetypeIdent, __gong__toRawStringLiteral(codeapproachguidancetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeapproachprefixtype := range __gong__sortStageSetInstances(stage.CodeApproachPrefixTypes, stage.CodeApproachPrefixType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeapproachprefixtypeIdent := strings.Replace(codeapproachprefixtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeApproachPrefixType{Name: %s}).Stage(stage)", codeapproachprefixtypeIdent, __gong__toRawStringLiteral(codeapproachprefixtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeapproachprefixtypeIdent, __gong__toRawStringLiteral(codeapproachprefixtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeapproachprefixtypeIdent, __gong__toRawStringLiteral(codeapproachprefixtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeapproachprefixtypeIdent, __gong__toRawStringLiteral(codeapproachprefixtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeapproachtype := range __gong__sortStageSetInstances(stage.CodeApproachTypes, stage.CodeApproachType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeapproachtypeIdent := strings.Replace(codeapproachtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeApproachType{Name: %s}).Stage(stage)", codeapproachtypeIdent, __gong__toRawStringLiteral(codeapproachtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeapproachtypeIdent, __gong__toRawStringLiteral(codeapproachtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeapproachtypeIdent, __gong__toRawStringLiteral(codeapproachtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeapproachtypeIdent, __gong__toRawStringLiteral(codeapproachtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeapprovaltype := range __gong__sortStageSetInstances(stage.CodeApprovalTypes, stage.CodeApprovalType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeapprovaltypeIdent := strings.Replace(codeapprovaltype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeApprovalType{Name: %s}).Stage(stage)", codeapprovaltypeIdent, __gong__toRawStringLiteral(codeapprovaltype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeapprovaltypeIdent, __gong__toRawStringLiteral(codeapprovaltype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeapprovaltypeIdent, __gong__toRawStringLiteral(codeapprovaltype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeapprovaltypeIdent, __gong__toRawStringLiteral(codeapprovaltype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codearcdirectiontype := range __gong__sortStageSetInstances(stage.CodeArcDirectionTypes, stage.CodeArcDirectionType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codearcdirectiontypeIdent := strings.Replace(codearcdirectiontype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeArcDirectionType{Name: %s}).Stage(stage)", codearcdirectiontypeIdent, __gong__toRawStringLiteral(codearcdirectiontype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codearcdirectiontypeIdent, __gong__toRawStringLiteral(codearcdirectiontype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codearcdirectiontypeIdent, __gong__toRawStringLiteral(codearcdirectiontype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codearcdirectiontypeIdent, __gong__toRawStringLiteral(codearcdirectiontype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codebearingtype := range __gong__sortStageSetInstances(stage.CodeBearingTypes, stage.CodeBearingType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codebearingtypeIdent := strings.Replace(codebearingtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeBearingType{Name: %s}).Stage(stage)", codebearingtypeIdent, __gong__toRawStringLiteral(codebearingtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codebearingtypeIdent, __gong__toRawStringLiteral(codebearingtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codebearingtypeIdent, __gong__toRawStringLiteral(codebearingtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codebearingtypeIdent, __gong__toRawStringLiteral(codebearingtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codecommunicationmodetype := range __gong__sortStageSetInstances(stage.CodeCommunicationModeTypes, stage.CodeCommunicationModeType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codecommunicationmodetypeIdent := strings.Replace(codecommunicationmodetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeCommunicationModeType{Name: %s}).Stage(stage)", codecommunicationmodetypeIdent, __gong__toRawStringLiteral(codecommunicationmodetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codecommunicationmodetypeIdent, __gong__toRawStringLiteral(codecommunicationmodetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codecommunicationmodetypeIdent, __gong__toRawStringLiteral(codecommunicationmodetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codecommunicationmodetypeIdent, __gong__toRawStringLiteral(codecommunicationmodetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codecoursetype := range __gong__sortStageSetInstances(stage.CodeCourseTypes, stage.CodeCourseType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codecoursetypeIdent := strings.Replace(codecoursetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeCourseType{Name: %s}).Stage(stage)", codecoursetypeIdent, __gong__toRawStringLiteral(codecoursetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codecoursetypeIdent, __gong__toRawStringLiteral(codecoursetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codecoursetypeIdent, __gong__toRawStringLiteral(codecoursetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codecoursetypeIdent, __gong__toRawStringLiteral(codecoursetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codedaytype := range __gong__sortStageSetInstances(stage.CodeDayTypes, stage.CodeDayType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codedaytypeIdent := strings.Replace(codedaytype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeDayType{Name: %s}).Stage(stage)", codedaytypeIdent, __gong__toRawStringLiteral(codedaytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codedaytypeIdent, __gong__toRawStringLiteral(codedaytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codedaytypeIdent, __gong__toRawStringLiteral(codedaytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codedaytypeIdent, __gong__toRawStringLiteral(codedaytype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codedesignstandardtype := range __gong__sortStageSetInstances(stage.CodeDesignStandardTypes, stage.CodeDesignStandardType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codedesignstandardtypeIdent := strings.Replace(codedesignstandardtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeDesignStandardType{Name: %s}).Stage(stage)", codedesignstandardtypeIdent, __gong__toRawStringLiteral(codedesignstandardtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codedesignstandardtypeIdent, __gong__toRawStringLiteral(codedesignstandardtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codedesignstandardtypeIdent, __gong__toRawStringLiteral(codedesignstandardtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codedesignstandardtypeIdent, __gong__toRawStringLiteral(codedesignstandardtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codedesignatedpointdesignatortype := range __gong__sortStageSetInstances(stage.CodeDesignatedPointDesignatorTypes, stage.CodeDesignatedPointDesignatorType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codedesignatedpointdesignatortypeIdent := strings.Replace(codedesignatedpointdesignatortype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeDesignatedPointDesignatorType{Name: %s}).Stage(stage)", codedesignatedpointdesignatortypeIdent, __gong__toRawStringLiteral(codedesignatedpointdesignatortype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codedesignatedpointdesignatortypeIdent, __gong__toRawStringLiteral(codedesignatedpointdesignatortype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codedesignatedpointdesignatortypeIdent, __gong__toRawStringLiteral(codedesignatedpointdesignatortype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codedesignatedpointdesignatortypeIdent, __gong__toRawStringLiteral(codedesignatedpointdesignatortype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codedirectionreferencetype := range __gong__sortStageSetInstances(stage.CodeDirectionReferenceTypes, stage.CodeDirectionReferenceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codedirectionreferencetypeIdent := strings.Replace(codedirectionreferencetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeDirectionReferenceType{Name: %s}).Stage(stage)", codedirectionreferencetypeIdent, __gong__toRawStringLiteral(codedirectionreferencetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codedirectionreferencetypeIdent, __gong__toRawStringLiteral(codedirectionreferencetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codedirectionreferencetypeIdent, __gong__toRawStringLiteral(codedirectionreferencetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codedirectionreferencetypeIdent, __gong__toRawStringLiteral(codedirectionreferencetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codedirectionturntype := range __gong__sortStageSetInstances(stage.CodeDirectionTurnTypes, stage.CodeDirectionTurnType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codedirectionturntypeIdent := strings.Replace(codedirectionturntype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeDirectionTurnType{Name: %s}).Stage(stage)", codedirectionturntypeIdent, __gong__toRawStringLiteral(codedirectionturntype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codedirectionturntypeIdent, __gong__toRawStringLiteral(codedirectionturntype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codedirectionturntypeIdent, __gong__toRawStringLiteral(codedirectionturntype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codedirectionturntypeIdent, __gong__toRawStringLiteral(codedirectionturntype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeequipmentanticollisiontype := range __gong__sortStageSetInstances(stage.CodeEquipmentAntiCollisionTypes, stage.CodeEquipmentAntiCollisionType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeequipmentanticollisiontypeIdent := strings.Replace(codeequipmentanticollisiontype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeEquipmentAntiCollisionType{Name: %s}).Stage(stage)", codeequipmentanticollisiontypeIdent, __gong__toRawStringLiteral(codeequipmentanticollisiontype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeequipmentanticollisiontypeIdent, __gong__toRawStringLiteral(codeequipmentanticollisiontype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeequipmentanticollisiontypeIdent, __gong__toRawStringLiteral(codeequipmentanticollisiontype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeequipmentanticollisiontypeIdent, __gong__toRawStringLiteral(codeequipmentanticollisiontype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeequipmentunavailabletype := range __gong__sortStageSetInstances(stage.CodeEquipmentUnavailableTypes, stage.CodeEquipmentUnavailableType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeequipmentunavailabletypeIdent := strings.Replace(codeequipmentunavailabletype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeEquipmentUnavailableType{Name: %s}).Stage(stage)", codeequipmentunavailabletypeIdent, __gong__toRawStringLiteral(codeequipmentunavailabletype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeequipmentunavailabletypeIdent, __gong__toRawStringLiteral(codeequipmentunavailabletype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeequipmentunavailabletypeIdent, __gong__toRawStringLiteral(codeequipmentunavailabletype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeequipmentunavailabletypeIdent, __gong__toRawStringLiteral(codeequipmentunavailabletype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codefinalguidancetype := range __gong__sortStageSetInstances(stage.CodeFinalGuidanceTypes, stage.CodeFinalGuidanceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codefinalguidancetypeIdent := strings.Replace(codefinalguidancetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeFinalGuidanceType{Name: %s}).Stage(stage)", codefinalguidancetypeIdent, __gong__toRawStringLiteral(codefinalguidancetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codefinalguidancetypeIdent, __gong__toRawStringLiteral(codefinalguidancetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codefinalguidancetypeIdent, __gong__toRawStringLiteral(codefinalguidancetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codefinalguidancetypeIdent, __gong__toRawStringLiteral(codefinalguidancetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codefreeflighttype := range __gong__sortStageSetInstances(stage.CodeFreeFlightTypes, stage.CodeFreeFlightType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codefreeflighttypeIdent := strings.Replace(codefreeflighttype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeFreeFlightType{Name: %s}).Stage(stage)", codefreeflighttypeIdent, __gong__toRawStringLiteral(codefreeflighttype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codefreeflighttypeIdent, __gong__toRawStringLiteral(codefreeflighttype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codefreeflighttypeIdent, __gong__toRawStringLiteral(codefreeflighttype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codefreeflighttypeIdent, __gong__toRawStringLiteral(codefreeflighttype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeheightreferencetype := range __gong__sortStageSetInstances(stage.CodeHeightReferenceTypes, stage.CodeHeightReferenceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeheightreferencetypeIdent := strings.Replace(codeheightreferencetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeHeightReferenceType{Name: %s}).Stage(stage)", codeheightreferencetypeIdent, __gong__toRawStringLiteral(codeheightreferencetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeheightreferencetypeIdent, __gong__toRawStringLiteral(codeheightreferencetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeheightreferencetypeIdent, __gong__toRawStringLiteral(codeheightreferencetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeheightreferencetypeIdent, __gong__toRawStringLiteral(codeheightreferencetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeholdingusagetype := range __gong__sortStageSetInstances(stage.CodeHoldingUsageTypes, stage.CodeHoldingUsageType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeholdingusagetypeIdent := strings.Replace(codeholdingusagetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeHoldingUsageType{Name: %s}).Stage(stage)", codeholdingusagetypeIdent, __gong__toRawStringLiteral(codeholdingusagetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeholdingusagetypeIdent, __gong__toRawStringLiteral(codeholdingusagetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeholdingusagetypeIdent, __gong__toRawStringLiteral(codeholdingusagetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeholdingusagetypeIdent, __gong__toRawStringLiteral(codeholdingusagetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeholdingusetype := range __gong__sortStageSetInstances(stage.CodeHoldingUseTypes, stage.CodeHoldingUseType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeholdingusetypeIdent := strings.Replace(codeholdingusetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeHoldingUseType{Name: %s}).Stage(stage)", codeholdingusetypeIdent, __gong__toRawStringLiteral(codeholdingusetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeholdingusetypeIdent, __gong__toRawStringLiteral(codeholdingusetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeholdingusetypeIdent, __gong__toRawStringLiteral(codeholdingusetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeholdingusetypeIdent, __gong__toRawStringLiteral(codeholdingusetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeicaocountrytype := range __gong__sortStageSetInstances(stage.CodeICAOCountryTypes, stage.CodeICAOCountryType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeicaocountrytypeIdent := strings.Replace(codeicaocountrytype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeICAOCountryType{Name: %s}).Stage(stage)", codeicaocountrytypeIdent, __gong__toRawStringLiteral(codeicaocountrytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeicaocountrytypeIdent, __gong__toRawStringLiteral(codeicaocountrytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeicaocountrytypeIdent, __gong__toRawStringLiteral(codeicaocountrytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeicaocountrytypeIdent, __gong__toRawStringLiteral(codeicaocountrytype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codemilitaryroutepointtype := range __gong__sortStageSetInstances(stage.CodeMilitaryRoutePointTypes, stage.CodeMilitaryRoutePointType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codemilitaryroutepointtypeIdent := strings.Replace(codemilitaryroutepointtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeMilitaryRoutePointType{Name: %s}).Stage(stage)", codemilitaryroutepointtypeIdent, __gong__toRawStringLiteral(codemilitaryroutepointtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codemilitaryroutepointtypeIdent, __gong__toRawStringLiteral(codemilitaryroutepointtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codemilitaryroutepointtypeIdent, __gong__toRawStringLiteral(codemilitaryroutepointtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codemilitaryroutepointtypeIdent, __gong__toRawStringLiteral(codemilitaryroutepointtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeminimafinalapproachpathtype := range __gong__sortStageSetInstances(stage.CodeMinimaFinalApproachPathTypes, stage.CodeMinimaFinalApproachPathType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeminimafinalapproachpathtypeIdent := strings.Replace(codeminimafinalapproachpathtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeMinimaFinalApproachPathType{Name: %s}).Stage(stage)", codeminimafinalapproachpathtypeIdent, __gong__toRawStringLiteral(codeminimafinalapproachpathtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeminimafinalapproachpathtypeIdent, __gong__toRawStringLiteral(codeminimafinalapproachpathtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeminimafinalapproachpathtypeIdent, __gong__toRawStringLiteral(codeminimafinalapproachpathtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeminimafinalapproachpathtypeIdent, __gong__toRawStringLiteral(codeminimafinalapproachpathtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeminimumaltitudetype := range __gong__sortStageSetInstances(stage.CodeMinimumAltitudeTypes, stage.CodeMinimumAltitudeType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeminimumaltitudetypeIdent := strings.Replace(codeminimumaltitudetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeMinimumAltitudeType{Name: %s}).Stage(stage)", codeminimumaltitudetypeIdent, __gong__toRawStringLiteral(codeminimumaltitudetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeminimumaltitudetypeIdent, __gong__toRawStringLiteral(codeminimumaltitudetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeminimumaltitudetypeIdent, __gong__toRawStringLiteral(codeminimumaltitudetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeminimumaltitudetypeIdent, __gong__toRawStringLiteral(codeminimumaltitudetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeminimumheighttype := range __gong__sortStageSetInstances(stage.CodeMinimumHeightTypes, stage.CodeMinimumHeightType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeminimumheighttypeIdent := strings.Replace(codeminimumheighttype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeMinimumHeightType{Name: %s}).Stage(stage)", codeminimumheighttypeIdent, __gong__toRawStringLiteral(codeminimumheighttype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeminimumheighttypeIdent, __gong__toRawStringLiteral(codeminimumheighttype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeminimumheighttypeIdent, __gong__toRawStringLiteral(codeminimumheighttype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeminimumheighttypeIdent, __gong__toRawStringLiteral(codeminimumheighttype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codemissedapproachtype := range __gong__sortStageSetInstances(stage.CodeMissedApproachTypes, stage.CodeMissedApproachType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codemissedapproachtypeIdent := strings.Replace(codemissedapproachtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeMissedApproachType{Name: %s}).Stage(stage)", codemissedapproachtypeIdent, __gong__toRawStringLiteral(codemissedapproachtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codemissedapproachtypeIdent, __gong__toRawStringLiteral(codemissedapproachtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codemissedapproachtypeIdent, __gong__toRawStringLiteral(codemissedapproachtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codemissedapproachtypeIdent, __gong__toRawStringLiteral(codemissedapproachtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codenavigationarearestrictiontype := range __gong__sortStageSetInstances(stage.CodeNavigationAreaRestrictionTypes, stage.CodeNavigationAreaRestrictionType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codenavigationarearestrictiontypeIdent := strings.Replace(codenavigationarearestrictiontype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeNavigationAreaRestrictionType{Name: %s}).Stage(stage)", codenavigationarearestrictiontypeIdent, __gong__toRawStringLiteral(codenavigationarearestrictiontype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codenavigationarearestrictiontypeIdent, __gong__toRawStringLiteral(codenavigationarearestrictiontype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codenavigationarearestrictiontypeIdent, __gong__toRawStringLiteral(codenavigationarearestrictiontype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codenavigationarearestrictiontypeIdent, __gong__toRawStringLiteral(codenavigationarearestrictiontype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codenavigationareatype := range __gong__sortStageSetInstances(stage.CodeNavigationAreaTypes, stage.CodeNavigationAreaType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codenavigationareatypeIdent := strings.Replace(codenavigationareatype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeNavigationAreaType{Name: %s}).Stage(stage)", codenavigationareatypeIdent, __gong__toRawStringLiteral(codenavigationareatype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codenavigationareatypeIdent, __gong__toRawStringLiteral(codenavigationareatype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codenavigationareatypeIdent, __gong__toRawStringLiteral(codenavigationareatype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codenavigationareatypeIdent, __gong__toRawStringLiteral(codenavigationareatype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codenavigationequipmenttype := range __gong__sortStageSetInstances(stage.CodeNavigationEquipmentTypes, stage.CodeNavigationEquipmentType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codenavigationequipmenttypeIdent := strings.Replace(codenavigationequipmenttype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeNavigationEquipmentType{Name: %s}).Stage(stage)", codenavigationequipmenttypeIdent, __gong__toRawStringLiteral(codenavigationequipmenttype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codenavigationequipmenttypeIdent, __gong__toRawStringLiteral(codenavigationequipmenttype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codenavigationequipmenttypeIdent, __gong__toRawStringLiteral(codenavigationequipmenttype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codenavigationequipmenttypeIdent, __gong__toRawStringLiteral(codenavigationequipmenttype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codenavigationspecificationtype := range __gong__sortStageSetInstances(stage.CodeNavigationSpecificationTypes, stage.CodeNavigationSpecificationType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codenavigationspecificationtypeIdent := strings.Replace(codenavigationspecificationtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeNavigationSpecificationType{Name: %s}).Stage(stage)", codenavigationspecificationtypeIdent, __gong__toRawStringLiteral(codenavigationspecificationtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codenavigationspecificationtypeIdent, __gong__toRawStringLiteral(codenavigationspecificationtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codenavigationspecificationtypeIdent, __gong__toRawStringLiteral(codenavigationspecificationtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codenavigationspecificationtypeIdent, __gong__toRawStringLiteral(codenavigationspecificationtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codenotepurposetype := range __gong__sortStageSetInstances(stage.CodeNotePurposeTypes, stage.CodeNotePurposeType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codenotepurposetypeIdent := strings.Replace(codenotepurposetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeNotePurposeType{Name: %s}).Stage(stage)", codenotepurposetypeIdent, __gong__toRawStringLiteral(codenotepurposetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codenotepurposetypeIdent, __gong__toRawStringLiteral(codenotepurposetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codenotepurposetypeIdent, __gong__toRawStringLiteral(codenotepurposetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codenotepurposetypeIdent, __gong__toRawStringLiteral(codenotepurposetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeobstacleassessmentsurfacetype := range __gong__sortStageSetInstances(stage.CodeObstacleAssessmentSurfaceTypes, stage.CodeObstacleAssessmentSurfaceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeobstacleassessmentsurfacetypeIdent := strings.Replace(codeobstacleassessmentsurfacetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeObstacleAssessmentSurfaceType{Name: %s}).Stage(stage)", codeobstacleassessmentsurfacetypeIdent, __gong__toRawStringLiteral(codeobstacleassessmentsurfacetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeobstacleassessmentsurfacetypeIdent, __gong__toRawStringLiteral(codeobstacleassessmentsurfacetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeobstacleassessmentsurfacetypeIdent, __gong__toRawStringLiteral(codeobstacleassessmentsurfacetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeobstacleassessmentsurfacetypeIdent, __gong__toRawStringLiteral(codeobstacleassessmentsurfacetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeobstructionidsurfacezonetype := range __gong__sortStageSetInstances(stage.CodeObstructionIdSurfaceZoneTypes, stage.CodeObstructionIdSurfaceZoneType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeobstructionidsurfacezonetypeIdent := strings.Replace(codeobstructionidsurfacezonetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeObstructionIdSurfaceZoneType{Name: %s}).Stage(stage)", codeobstructionidsurfacezonetypeIdent, __gong__toRawStringLiteral(codeobstructionidsurfacezonetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeobstructionidsurfacezonetypeIdent, __gong__toRawStringLiteral(codeobstructionidsurfacezonetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeobstructionidsurfacezonetypeIdent, __gong__toRawStringLiteral(codeobstructionidsurfacezonetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeobstructionidsurfacezonetypeIdent, __gong__toRawStringLiteral(codeobstructionidsurfacezonetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeprocedureavailabilitytype := range __gong__sortStageSetInstances(stage.CodeProcedureAvailabilityTypes, stage.CodeProcedureAvailabilityType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeprocedureavailabilitytypeIdent := strings.Replace(codeprocedureavailabilitytype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeProcedureAvailabilityType{Name: %s}).Stage(stage)", codeprocedureavailabilitytypeIdent, __gong__toRawStringLiteral(codeprocedureavailabilitytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeprocedureavailabilitytypeIdent, __gong__toRawStringLiteral(codeprocedureavailabilitytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeprocedureavailabilitytypeIdent, __gong__toRawStringLiteral(codeprocedureavailabilitytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeprocedureavailabilitytypeIdent, __gong__toRawStringLiteral(codeprocedureavailabilitytype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeprocedurecodingstandardtype := range __gong__sortStageSetInstances(stage.CodeProcedureCodingStandardTypes, stage.CodeProcedureCodingStandardType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeprocedurecodingstandardtypeIdent := strings.Replace(codeprocedurecodingstandardtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeProcedureCodingStandardType{Name: %s}).Stage(stage)", codeprocedurecodingstandardtypeIdent, __gong__toRawStringLiteral(codeprocedurecodingstandardtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeprocedurecodingstandardtypeIdent, __gong__toRawStringLiteral(codeprocedurecodingstandardtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeprocedurecodingstandardtypeIdent, __gong__toRawStringLiteral(codeprocedurecodingstandardtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeprocedurecodingstandardtypeIdent, __gong__toRawStringLiteral(codeprocedurecodingstandardtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeproceduredistancetype := range __gong__sortStageSetInstances(stage.CodeProcedureDistanceTypes, stage.CodeProcedureDistanceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeproceduredistancetypeIdent := strings.Replace(codeproceduredistancetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeProcedureDistanceType{Name: %s}).Stage(stage)", codeproceduredistancetypeIdent, __gong__toRawStringLiteral(codeproceduredistancetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeproceduredistancetypeIdent, __gong__toRawStringLiteral(codeproceduredistancetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeproceduredistancetypeIdent, __gong__toRawStringLiteral(codeproceduredistancetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeproceduredistancetypeIdent, __gong__toRawStringLiteral(codeproceduredistancetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeprocedurefixroletype := range __gong__sortStageSetInstances(stage.CodeProcedureFixRoleTypes, stage.CodeProcedureFixRoleType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeprocedurefixroletypeIdent := strings.Replace(codeprocedurefixroletype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeProcedureFixRoleType{Name: %s}).Stage(stage)", codeprocedurefixroletypeIdent, __gong__toRawStringLiteral(codeprocedurefixroletype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeprocedurefixroletypeIdent, __gong__toRawStringLiteral(codeprocedurefixroletype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeprocedurefixroletypeIdent, __gong__toRawStringLiteral(codeprocedurefixroletype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeprocedurefixroletypeIdent, __gong__toRawStringLiteral(codeprocedurefixroletype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeprocedurephasetype := range __gong__sortStageSetInstances(stage.CodeProcedurePhaseTypes, stage.CodeProcedurePhaseType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeprocedurephasetypeIdent := strings.Replace(codeprocedurephasetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeProcedurePhaseType{Name: %s}).Stage(stage)", codeprocedurephasetypeIdent, __gong__toRawStringLiteral(codeprocedurephasetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeprocedurephasetypeIdent, __gong__toRawStringLiteral(codeprocedurephasetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeprocedurephasetypeIdent, __gong__toRawStringLiteral(codeprocedurephasetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeprocedurephasetypeIdent, __gong__toRawStringLiteral(codeprocedurephasetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codernptype := range __gong__sortStageSetInstances(stage.CodeRNPTypes, stage.CodeRNPType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codernptypeIdent := strings.Replace(codernptype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeRNPType{Name: %s}).Stage(stage)", codernptypeIdent, __gong__toRawStringLiteral(codernptype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codernptypeIdent, __gong__toRawStringLiteral(codernptype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codernptypeIdent, __gong__toRawStringLiteral(codernptype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codernptypeIdent, __gong__toRawStringLiteral(codernptype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codervsmpointroletype := range __gong__sortStageSetInstances(stage.CodeRVSMPointRoleTypes, stage.CodeRVSMPointRoleType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codervsmpointroletypeIdent := strings.Replace(codervsmpointroletype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeRVSMPointRoleType{Name: %s}).Stage(stage)", codervsmpointroletypeIdent, __gong__toRawStringLiteral(codervsmpointroletype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codervsmpointroletypeIdent, __gong__toRawStringLiteral(codervsmpointroletype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codervsmpointroletypeIdent, __gong__toRawStringLiteral(codervsmpointroletype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codervsmpointroletypeIdent, __gong__toRawStringLiteral(codervsmpointroletype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codervsmtype := range __gong__sortStageSetInstances(stage.CodeRVSMTypes, stage.CodeRVSMType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codervsmtypeIdent := strings.Replace(codervsmtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeRVSMType{Name: %s}).Stage(stage)", codervsmtypeIdent, __gong__toRawStringLiteral(codervsmtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codervsmtypeIdent, __gong__toRawStringLiteral(codervsmtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codervsmtypeIdent, __gong__toRawStringLiteral(codervsmtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codervsmtypeIdent, __gong__toRawStringLiteral(codervsmtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codereferencepathidentifiertype := range __gong__sortStageSetInstances(stage.CodeReferencePathIdentifierTypes, stage.CodeReferencePathIdentifierType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codereferencepathidentifiertypeIdent := strings.Replace(codereferencepathidentifiertype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeReferencePathIdentifierType{Name: %s}).Stage(stage)", codereferencepathidentifiertypeIdent, __gong__toRawStringLiteral(codereferencepathidentifiertype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codereferencepathidentifiertypeIdent, __gong__toRawStringLiteral(codereferencepathidentifiertype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codereferencepathidentifiertypeIdent, __gong__toRawStringLiteral(codereferencepathidentifiertype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codereferencepathidentifiertypeIdent, __gong__toRawStringLiteral(codereferencepathidentifiertype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codereferenceroletype := range __gong__sortStageSetInstances(stage.CodeReferenceRoleTypes, stage.CodeReferenceRoleType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codereferenceroletypeIdent := strings.Replace(codereferenceroletype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeReferenceRoleType{Name: %s}).Stage(stage)", codereferenceroletypeIdent, __gong__toRawStringLiteral(codereferenceroletype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codereferenceroletypeIdent, __gong__toRawStringLiteral(codereferenceroletype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codereferenceroletypeIdent, __gong__toRawStringLiteral(codereferenceroletype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codereferenceroletypeIdent, __gong__toRawStringLiteral(codereferenceroletype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, coderelativepositiontype := range __gong__sortStageSetInstances(stage.CodeRelativePositionTypes, stage.CodeRelativePositionType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			coderelativepositiontypeIdent := strings.Replace(coderelativepositiontype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeRelativePositionType{Name: %s}).Stage(stage)", coderelativepositiontypeIdent, __gong__toRawStringLiteral(coderelativepositiontype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", coderelativepositiontypeIdent, __gong__toRawStringLiteral(coderelativepositiontype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", coderelativepositiontypeIdent, __gong__toRawStringLiteral(coderelativepositiontype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", coderelativepositiontypeIdent, __gong__toRawStringLiteral(coderelativepositiontype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, coderouteindicatortype := range __gong__sortStageSetInstances(stage.CodeRouteIndicatorTypes, stage.CodeRouteIndicatorType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			coderouteindicatortypeIdent := strings.Replace(coderouteindicatortype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeRouteIndicatorType{Name: %s}).Stage(stage)", coderouteindicatortypeIdent, __gong__toRawStringLiteral(coderouteindicatortype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", coderouteindicatortypeIdent, __gong__toRawStringLiteral(coderouteindicatortype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", coderouteindicatortypeIdent, __gong__toRawStringLiteral(coderouteindicatortype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", coderouteindicatortypeIdent, __gong__toRawStringLiteral(coderouteindicatortype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codesafealtitudetype := range __gong__sortStageSetInstances(stage.CodeSafeAltitudeTypes, stage.CodeSafeAltitudeType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codesafealtitudetypeIdent := strings.Replace(codesafealtitudetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeSafeAltitudeType{Name: %s}).Stage(stage)", codesafealtitudetypeIdent, __gong__toRawStringLiteral(codesafealtitudetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codesafealtitudetypeIdent, __gong__toRawStringLiteral(codesafealtitudetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codesafealtitudetypeIdent, __gong__toRawStringLiteral(codesafealtitudetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codesafealtitudetypeIdent, __gong__toRawStringLiteral(codesafealtitudetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codesegmentpathtype := range __gong__sortStageSetInstances(stage.CodeSegmentPathTypes, stage.CodeSegmentPathType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codesegmentpathtypeIdent := strings.Replace(codesegmentpathtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeSegmentPathType{Name: %s}).Stage(stage)", codesegmentpathtypeIdent, __gong__toRawStringLiteral(codesegmentpathtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codesegmentpathtypeIdent, __gong__toRawStringLiteral(codesegmentpathtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codesegmentpathtypeIdent, __gong__toRawStringLiteral(codesegmentpathtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codesegmentpathtypeIdent, __gong__toRawStringLiteral(codesegmentpathtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codesegmentterminationtype := range __gong__sortStageSetInstances(stage.CodeSegmentTerminationTypes, stage.CodeSegmentTerminationType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codesegmentterminationtypeIdent := strings.Replace(codesegmentterminationtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeSegmentTerminationType{Name: %s}).Stage(stage)", codesegmentterminationtypeIdent, __gong__toRawStringLiteral(codesegmentterminationtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codesegmentterminationtypeIdent, __gong__toRawStringLiteral(codesegmentterminationtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codesegmentterminationtypeIdent, __gong__toRawStringLiteral(codesegmentterminationtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codesegmentterminationtypeIdent, __gong__toRawStringLiteral(codesegmentterminationtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codesidetype := range __gong__sortStageSetInstances(stage.CodeSideTypes, stage.CodeSideType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codesidetypeIdent := strings.Replace(codesidetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeSideType{Name: %s}).Stage(stage)", codesidetypeIdent, __gong__toRawStringLiteral(codesidetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codesidetypeIdent, __gong__toRawStringLiteral(codesidetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codesidetypeIdent, __gong__toRawStringLiteral(codesidetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codesidetypeIdent, __gong__toRawStringLiteral(codesidetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codespeedreferencetype := range __gong__sortStageSetInstances(stage.CodeSpeedReferenceTypes, stage.CodeSpeedReferenceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codespeedreferencetypeIdent := strings.Replace(codespeedreferencetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeSpeedReferenceType{Name: %s}).Stage(stage)", codespeedreferencetypeIdent, __gong__toRawStringLiteral(codespeedreferencetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codespeedreferencetypeIdent, __gong__toRawStringLiteral(codespeedreferencetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codespeedreferencetypeIdent, __gong__toRawStringLiteral(codespeedreferencetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codespeedreferencetypeIdent, __gong__toRawStringLiteral(codespeedreferencetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codetaatype := range __gong__sortStageSetInstances(stage.CodeTAATypes, stage.CodeTAAType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codetaatypeIdent := strings.Replace(codetaatype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeTAAType{Name: %s}).Stage(stage)", codetaatypeIdent, __gong__toRawStringLiteral(codetaatype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codetaatypeIdent, __gong__toRawStringLiteral(codetaatype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codetaatypeIdent, __gong__toRawStringLiteral(codetaatype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codetaatypeIdent, __gong__toRawStringLiteral(codetaatype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codetimeeventcombinationtype := range __gong__sortStageSetInstances(stage.CodeTimeEventCombinationTypes, stage.CodeTimeEventCombinationType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codetimeeventcombinationtypeIdent := strings.Replace(codetimeeventcombinationtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeTimeEventCombinationType{Name: %s}).Stage(stage)", codetimeeventcombinationtypeIdent, __gong__toRawStringLiteral(codetimeeventcombinationtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codetimeeventcombinationtypeIdent, __gong__toRawStringLiteral(codetimeeventcombinationtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codetimeeventcombinationtypeIdent, __gong__toRawStringLiteral(codetimeeventcombinationtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codetimeeventcombinationtypeIdent, __gong__toRawStringLiteral(codetimeeventcombinationtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codetimeeventtype := range __gong__sortStageSetInstances(stage.CodeTimeEventTypes, stage.CodeTimeEventType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codetimeeventtypeIdent := strings.Replace(codetimeeventtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeTimeEventType{Name: %s}).Stage(stage)", codetimeeventtypeIdent, __gong__toRawStringLiteral(codetimeeventtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codetimeeventtypeIdent, __gong__toRawStringLiteral(codetimeeventtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codetimeeventtypeIdent, __gong__toRawStringLiteral(codetimeeventtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codetimeeventtypeIdent, __gong__toRawStringLiteral(codetimeeventtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codetimereferencetype := range __gong__sortStageSetInstances(stage.CodeTimeReferenceTypes, stage.CodeTimeReferenceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codetimereferencetypeIdent := strings.Replace(codetimereferencetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeTimeReferenceType{Name: %s}).Stage(stage)", codetimereferencetypeIdent, __gong__toRawStringLiteral(codetimereferencetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codetimereferencetypeIdent, __gong__toRawStringLiteral(codetimereferencetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codetimereferencetypeIdent, __gong__toRawStringLiteral(codetimereferencetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codetimereferencetypeIdent, __gong__toRawStringLiteral(codetimereferencetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codetrajectorytype := range __gong__sortStageSetInstances(stage.CodeTrajectoryTypes, stage.CodeTrajectoryType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codetrajectorytypeIdent := strings.Replace(codetrajectorytype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeTrajectoryType{Name: %s}).Stage(stage)", codetrajectorytypeIdent, __gong__toRawStringLiteral(codetrajectorytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codetrajectorytypeIdent, __gong__toRawStringLiteral(codetrajectorytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codetrajectorytypeIdent, __gong__toRawStringLiteral(codetrajectorytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codetrajectorytypeIdent, __gong__toRawStringLiteral(codetrajectorytype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codetranspondertype := range __gong__sortStageSetInstances(stage.CodeTransponderTypes, stage.CodeTransponderType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codetranspondertypeIdent := strings.Replace(codetranspondertype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeTransponderType{Name: %s}).Stage(stage)", codetranspondertypeIdent, __gong__toRawStringLiteral(codetranspondertype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codetranspondertypeIdent, __gong__toRawStringLiteral(codetranspondertype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codetranspondertypeIdent, __gong__toRawStringLiteral(codetranspondertype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codetranspondertypeIdent, __gong__toRawStringLiteral(codetranspondertype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeupperalphatype := range __gong__sortStageSetInstances(stage.CodeUpperAlphaTypes, stage.CodeUpperAlphaType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeupperalphatypeIdent := strings.Replace(codeupperalphatype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeUpperAlphaType{Name: %s}).Stage(stage)", codeupperalphatypeIdent, __gong__toRawStringLiteral(codeupperalphatype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeupperalphatypeIdent, __gong__toRawStringLiteral(codeupperalphatype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeupperalphatypeIdent, __gong__toRawStringLiteral(codeupperalphatype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeupperalphatypeIdent, __gong__toRawStringLiteral(codeupperalphatype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codevalueinterpretationtype := range __gong__sortStageSetInstances(stage.CodeValueInterpretationTypes, stage.CodeValueInterpretationType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codevalueinterpretationtypeIdent := strings.Replace(codevalueinterpretationtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeValueInterpretationType{Name: %s}).Stage(stage)", codevalueinterpretationtypeIdent, __gong__toRawStringLiteral(codevalueinterpretationtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codevalueinterpretationtypeIdent, __gong__toRawStringLiteral(codevalueinterpretationtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codevalueinterpretationtypeIdent, __gong__toRawStringLiteral(codevalueinterpretationtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codevalueinterpretationtypeIdent, __gong__toRawStringLiteral(codevalueinterpretationtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeverticaldatumtype := range __gong__sortStageSetInstances(stage.CodeVerticalDatumTypes, stage.CodeVerticalDatumType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeverticaldatumtypeIdent := strings.Replace(codeverticaldatumtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeVerticalDatumType{Name: %s}).Stage(stage)", codeverticaldatumtypeIdent, __gong__toRawStringLiteral(codeverticaldatumtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeverticaldatumtypeIdent, __gong__toRawStringLiteral(codeverticaldatumtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeverticaldatumtypeIdent, __gong__toRawStringLiteral(codeverticaldatumtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeverticaldatumtypeIdent, __gong__toRawStringLiteral(codeverticaldatumtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeverticalreferencetype := range __gong__sortStageSetInstances(stage.CodeVerticalReferenceTypes, stage.CodeVerticalReferenceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeverticalreferencetypeIdent := strings.Replace(codeverticalreferencetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeVerticalReferenceType{Name: %s}).Stage(stage)", codeverticalreferencetypeIdent, __gong__toRawStringLiteral(codeverticalreferencetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeverticalreferencetypeIdent, __gong__toRawStringLiteral(codeverticalreferencetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeverticalreferencetypeIdent, __gong__toRawStringLiteral(codeverticalreferencetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeverticalreferencetypeIdent, __gong__toRawStringLiteral(codeverticalreferencetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codewaketurbulencetype := range __gong__sortStageSetInstances(stage.CodeWakeTurbulenceTypes, stage.CodeWakeTurbulenceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codewaketurbulencetypeIdent := strings.Replace(codewaketurbulencetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeWakeTurbulenceType{Name: %s}).Stage(stage)", codewaketurbulencetypeIdent, __gong__toRawStringLiteral(codewaketurbulencetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codewaketurbulencetypeIdent, __gong__toRawStringLiteral(codewaketurbulencetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codewaketurbulencetypeIdent, __gong__toRawStringLiteral(codewaketurbulencetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codewaketurbulencetypeIdent, __gong__toRawStringLiteral(codewaketurbulencetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, codeyesnotype := range __gong__sortStageSetInstances(stage.CodeYesNoTypes, stage.CodeYesNoType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			codeyesnotypeIdent := strings.Replace(codeyesnotype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CodeYesNoType{Name: %s}).Stage(stage)", codeyesnotypeIdent, __gong__toRawStringLiteral(codeyesnotype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", codeyesnotypeIdent, __gong__toRawStringLiteral(codeyesnotype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", codeyesnotypeIdent, __gong__toRawStringLiteral(codeyesnotype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", codeyesnotypeIdent, __gong__toRawStringLiteral(codeyesnotype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, datemonthdaytype := range __gong__sortStageSetInstances(stage.DateMonthDayTypes, stage.DateMonthDayType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			datemonthdaytypeIdent := strings.Replace(datemonthdaytype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.DateMonthDayType{Name: %s}).Stage(stage)", datemonthdaytypeIdent, __gong__toRawStringLiteral(datemonthdaytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", datemonthdaytypeIdent, __gong__toRawStringLiteral(datemonthdaytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", datemonthdaytypeIdent, __gong__toRawStringLiteral(datemonthdaytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", datemonthdaytypeIdent, __gong__toRawStringLiteral(datemonthdaytype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, nonumbertype := range __gong__sortStageSetInstances(stage.NoNumberTypes, stage.NoNumberType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			nonumbertypeIdent := strings.Replace(nonumbertype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.NoNumberType{Name: %s}).Stage(stage)", nonumbertypeIdent, __gong__toRawStringLiteral(nonumbertype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", nonumbertypeIdent, __gong__toRawStringLiteral(nonumbertype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", nonumbertypeIdent, __gong__toRawStringLiteral(nonumbertype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %d", nonumbertypeIdent, nonumbertype.EnclosedText))
+		}
+	}
+	if stage != nil {
+		for _, nosequencetype := range __gong__sortStageSetInstances(stage.NoSequenceTypes, stage.NoSequenceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			nosequencetypeIdent := strings.Replace(nosequencetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.NoSequenceType{Name: %s}).Stage(stage)", nosequencetypeIdent, __gong__toRawStringLiteral(nosequencetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", nosequencetypeIdent, __gong__toRawStringLiteral(nosequencetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", nosequencetypeIdent, __gong__toRawStringLiteral(nosequencetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %d", nosequencetypeIdent, nosequencetype.EnclosedText))
+		}
+	}
+	if stage != nil {
+		for _, textinstructiontype := range __gong__sortStageSetInstances(stage.TextInstructionTypes, stage.TextInstructionType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			textinstructiontypeIdent := strings.Replace(textinstructiontype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TextInstructionType{Name: %s}).Stage(stage)", textinstructiontypeIdent, __gong__toRawStringLiteral(textinstructiontype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", textinstructiontypeIdent, __gong__toRawStringLiteral(textinstructiontype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", textinstructiontypeIdent, __gong__toRawStringLiteral(textinstructiontype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", textinstructiontypeIdent, __gong__toRawStringLiteral(textinstructiontype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, textnametype := range __gong__sortStageSetInstances(stage.TextNameTypes, stage.TextNameType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			textnametypeIdent := strings.Replace(textnametype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TextNameType{Name: %s}).Stage(stage)", textnametypeIdent, __gong__toRawStringLiteral(textnametype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", textnametypeIdent, __gong__toRawStringLiteral(textnametype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", textnametypeIdent, __gong__toRawStringLiteral(textnametype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", textnametypeIdent, __gong__toRawStringLiteral(textnametype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, textnotetype := range __gong__sortStageSetInstances(stage.TextNoteTypes, stage.TextNoteType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			textnotetypeIdent := strings.Replace(textnotetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TextNoteType{Name: %s}).Stage(stage)", textnotetypeIdent, __gong__toRawStringLiteral(textnotetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", textnotetypeIdent, __gong__toRawStringLiteral(textnotetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", textnotetypeIdent, __gong__toRawStringLiteral(textnotetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Lang = %s", textnotetypeIdent, __gong__toRawStringLiteral(textnotetype.Lang)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", textnotetypeIdent, __gong__toRawStringLiteral(textnotetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, textpropertynametype := range __gong__sortStageSetInstances(stage.TextPropertyNameTypes, stage.TextPropertyNameType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			textpropertynametypeIdent := strings.Replace(textpropertynametype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TextPropertyNameType{Name: %s}).Stage(stage)", textpropertynametypeIdent, __gong__toRawStringLiteral(textpropertynametype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", textpropertynametypeIdent, __gong__toRawStringLiteral(textpropertynametype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", textpropertynametypeIdent, __gong__toRawStringLiteral(textpropertynametype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", textpropertynametypeIdent, __gong__toRawStringLiteral(textpropertynametype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, textsidstardesignatortype := range __gong__sortStageSetInstances(stage.TextSIDSTARDesignatorTypes, stage.TextSIDSTARDesignatorType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			textsidstardesignatortypeIdent := strings.Replace(textsidstardesignatortype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TextSIDSTARDesignatorType{Name: %s}).Stage(stage)", textsidstardesignatortypeIdent, __gong__toRawStringLiteral(textsidstardesignatortype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", textsidstardesignatortypeIdent, __gong__toRawStringLiteral(textsidstardesignatortype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", textsidstardesignatortypeIdent, __gong__toRawStringLiteral(textsidstardesignatortype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", textsidstardesignatortypeIdent, __gong__toRawStringLiteral(textsidstardesignatortype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, timetype := range __gong__sortStageSetInstances(stage.TimeTypes, stage.TimeType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			timetypeIdent := strings.Replace(timetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TimeType{Name: %s}).Stage(stage)", timetypeIdent, __gong__toRawStringLiteral(timetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", timetypeIdent, __gong__toRawStringLiteral(timetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", timetypeIdent, __gong__toRawStringLiteral(timetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", timetypeIdent, __gong__toRawStringLiteral(timetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, valalarmlimittype := range __gong__sortStageSetInstances(stage.ValAlarmLimitTypes, stage.ValAlarmLimitType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			valalarmlimittypeIdent := strings.Replace(valalarmlimittype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ValAlarmLimitType{Name: %s}).Stage(stage)", valalarmlimittypeIdent, __gong__toRawStringLiteral(valalarmlimittype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", valalarmlimittypeIdent, __gong__toRawStringLiteral(valalarmlimittype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", valalarmlimittypeIdent, __gong__toRawStringLiteral(valalarmlimittype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", valalarmlimittypeIdent, __gong__toRawStringLiteral(valalarmlimittype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, valangletype := range __gong__sortStageSetInstances(stage.ValAngleTypes, stage.ValAngleType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			valangletypeIdent := strings.Replace(valangletype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ValAngleType{Name: %s}).Stage(stage)", valangletypeIdent, __gong__toRawStringLiteral(valangletype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", valangletypeIdent, __gong__toRawStringLiteral(valangletype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", valangletypeIdent, __gong__toRawStringLiteral(valangletype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", valangletypeIdent, __gong__toRawStringLiteral(valangletype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, valbearingtype := range __gong__sortStageSetInstances(stage.ValBearingTypes, stage.ValBearingType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			valbearingtypeIdent := strings.Replace(valbearingtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ValBearingType{Name: %s}).Stage(stage)", valbearingtypeIdent, __gong__toRawStringLiteral(valbearingtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", valbearingtypeIdent, __gong__toRawStringLiteral(valbearingtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", valbearingtypeIdent, __gong__toRawStringLiteral(valbearingtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", valbearingtypeIdent, __gong__toRawStringLiteral(valbearingtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, valchannelnumbertype := range __gong__sortStageSetInstances(stage.ValChannelNumberTypes, stage.ValChannelNumberType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			valchannelnumbertypeIdent := strings.Replace(valchannelnumbertype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ValChannelNumberType{Name: %s}).Stage(stage)", valchannelnumbertypeIdent, __gong__toRawStringLiteral(valchannelnumbertype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", valchannelnumbertypeIdent, __gong__toRawStringLiteral(valchannelnumbertype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", valchannelnumbertypeIdent, __gong__toRawStringLiteral(valchannelnumbertype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", valchannelnumbertypeIdent, __gong__toRawStringLiteral(valchannelnumbertype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, valdistancesignedtype := range __gong__sortStageSetInstances(stage.ValDistanceSignedTypes, stage.ValDistanceSignedType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			valdistancesignedtypeIdent := strings.Replace(valdistancesignedtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ValDistanceSignedType{Name: %s}).Stage(stage)", valdistancesignedtypeIdent, __gong__toRawStringLiteral(valdistancesignedtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", valdistancesignedtypeIdent, __gong__toRawStringLiteral(valdistancesignedtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Uom = %s", valdistancesignedtypeIdent, __gong__toRawStringLiteral(valdistancesignedtype.Uom)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", valdistancesignedtypeIdent, __gong__toRawStringLiteral(valdistancesignedtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", valdistancesignedtypeIdent, __gong__toRawStringLiteral(valdistancesignedtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, valdistancetype := range __gong__sortStageSetInstances(stage.ValDistanceTypes, stage.ValDistanceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			valdistancetypeIdent := strings.Replace(valdistancetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ValDistanceType{Name: %s}).Stage(stage)", valdistancetypeIdent, __gong__toRawStringLiteral(valdistancetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", valdistancetypeIdent, __gong__toRawStringLiteral(valdistancetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Uom = %s", valdistancetypeIdent, __gong__toRawStringLiteral(valdistancetype.Uom)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", valdistancetypeIdent, __gong__toRawStringLiteral(valdistancetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", valdistancetypeIdent, __gong__toRawStringLiteral(valdistancetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, valdistanceverticaltype := range __gong__sortStageSetInstances(stage.ValDistanceVerticalTypes, stage.ValDistanceVerticalType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			valdistanceverticaltypeIdent := strings.Replace(valdistanceverticaltype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ValDistanceVerticalType{Name: %s}).Stage(stage)", valdistanceverticaltypeIdent, __gong__toRawStringLiteral(valdistanceverticaltype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", valdistanceverticaltypeIdent, __gong__toRawStringLiteral(valdistanceverticaltype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Uom = %s", valdistanceverticaltypeIdent, __gong__toRawStringLiteral(valdistanceverticaltype.Uom)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", valdistanceverticaltypeIdent, __gong__toRawStringLiteral(valdistanceverticaltype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", valdistanceverticaltypeIdent, __gong__toRawStringLiteral(valdistanceverticaltype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, valdurationtype := range __gong__sortStageSetInstances(stage.ValDurationTypes, stage.ValDurationType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			valdurationtypeIdent := strings.Replace(valdurationtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ValDurationType{Name: %s}).Stage(stage)", valdurationtypeIdent, __gong__toRawStringLiteral(valdurationtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", valdurationtypeIdent, __gong__toRawStringLiteral(valdurationtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Uom = %s", valdurationtypeIdent, __gong__toRawStringLiteral(valdurationtype.Uom)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", valdurationtypeIdent, __gong__toRawStringLiteral(valdurationtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", valdurationtypeIdent, __gong__toRawStringLiteral(valdurationtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, valhextype := range __gong__sortStageSetInstances(stage.ValHexTypes, stage.ValHexType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			valhextypeIdent := strings.Replace(valhextype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ValHexType{Name: %s}).Stage(stage)", valhextypeIdent, __gong__toRawStringLiteral(valhextype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", valhextypeIdent, __gong__toRawStringLiteral(valhextype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", valhextypeIdent, __gong__toRawStringLiteral(valhextype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", valhextypeIdent, __gong__toRawStringLiteral(valhextype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, valslopetype := range __gong__sortStageSetInstances(stage.ValSlopeTypes, stage.ValSlopeType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			valslopetypeIdent := strings.Replace(valslopetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ValSlopeType{Name: %s}).Stage(stage)", valslopetypeIdent, __gong__toRawStringLiteral(valslopetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", valslopetypeIdent, __gong__toRawStringLiteral(valslopetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", valslopetypeIdent, __gong__toRawStringLiteral(valslopetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", valslopetypeIdent, __gong__toRawStringLiteral(valslopetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, valspeedtype := range __gong__sortStageSetInstances(stage.ValSpeedTypes, stage.ValSpeedType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			valspeedtypeIdent := strings.Replace(valspeedtype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ValSpeedType{Name: %s}).Stage(stage)", valspeedtypeIdent, __gong__toRawStringLiteral(valspeedtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", valspeedtypeIdent, __gong__toRawStringLiteral(valspeedtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Uom = %s", valspeedtypeIdent, __gong__toRawStringLiteral(valspeedtype.Uom)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", valspeedtypeIdent, __gong__toRawStringLiteral(valspeedtype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", valspeedtypeIdent, __gong__toRawStringLiteral(valspeedtype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, valtemperaturetype := range __gong__sortStageSetInstances(stage.ValTemperatureTypes, stage.ValTemperatureType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			valtemperaturetypeIdent := strings.Replace(valtemperaturetype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ValTemperatureType{Name: %s}).Stage(stage)", valtemperaturetypeIdent, __gong__toRawStringLiteral(valtemperaturetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", valtemperaturetypeIdent, __gong__toRawStringLiteral(valtemperaturetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Uom = %s", valtemperaturetypeIdent, __gong__toRawStringLiteral(valtemperaturetype.Uom)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", valtemperaturetypeIdent, __gong__toRawStringLiteral(valtemperaturetype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", valtemperaturetypeIdent, __gong__toRawStringLiteral(valtemperaturetype.EnclosedText)))
+		}
+	}
+	if stage != nil {
+		for _, valweighttype := range __gong__sortStageSetInstances(stage.ValWeightTypes, stage.ValWeightType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			valweighttypeIdent := strings.Replace(valweighttype.GongGetIdentifier(stage), "__aixmdatatypes__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ValWeightType{Name: %s}).Stage(stage)", valweighttypeIdent, __gong__toRawStringLiteral(valweighttype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", valweighttypeIdent, __gong__toRawStringLiteral(valweighttype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Uom = %s", valweighttypeIdent, __gong__toRawStringLiteral(valweighttype.Uom)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", valweighttypeIdent, __gong__toRawStringLiteral(valweighttype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.EnclosedText = %s", valweighttypeIdent, __gong__toRawStringLiteral(valweighttype.EnclosedText)))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	procedure "github.com/fullstack-lang/gong/app/xsd/tests/aixm/procedure/go/models/aixmdatatypes"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *procedure.Stage
+)%s
+
+// StageProcedure stages objects into stage
+func StageProcedure(stage *procedure.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

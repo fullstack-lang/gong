@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -613,6 +624,326 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/lib/cesium/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/lib/cesium/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_cesium.go exposing StageCesium.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_cesium.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageCesium).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, coordinate := range __gong__sortStageSetInstances(stage.Coordinates, stage.Coordinate_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			coordinateIdent := strings.Replace(coordinate.GongGetIdentifier(stage), "__models__", "__cesium__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&cesium.Coordinate{Name: %s}).Stage(stage)", coordinateIdent, __gong__toRawStringLiteral(coordinate.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", coordinateIdent, __gong__toRawStringLiteral(coordinate.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Longitude = %f", coordinateIdent, coordinate.Longitude))
+			values.WriteString(fmt.Sprintf("\n\t%s.Latitude = %f", coordinateIdent, coordinate.Latitude))
+			values.WriteString(fmt.Sprintf("\n\t%s.Altitude = %f", coordinateIdent, coordinate.Altitude))
+		}
+	}
+	if stage != nil {
+		for _, layer := range __gong__sortStageSetInstances(stage.Layers, stage.Layer_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			layerIdent := strings.Replace(layer.GongGetIdentifier(stage), "__models__", "__cesium__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&cesium.Layer{Name: %s}).Stage(stage)", layerIdent, __gong__toRawStringLiteral(layer.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", layerIdent, __gong__toRawStringLiteral(layer.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsVisible = %t", layerIdent, layer.IsVisible))
+			for _, elem := range layer.Polygons {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__cesium__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Polygons = append(%s.Polygons, %s)", layerIdent, layerIdent, targetIdent))
+			}
+			for _, elem := range layer.Polylines {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__cesium__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Polylines = append(%s.Polylines, %s)", layerIdent, layerIdent, targetIdent))
+			}
+			for _, elem := range layer.Markers {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__cesium__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Markers = append(%s.Markers, %s)", layerIdent, layerIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, mapview := range __gong__sortStageSetInstances(stage.MapViews, stage.MapView_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			mapviewIdent := strings.Replace(mapview.GongGetIdentifier(stage), "__models__", "__cesium__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&cesium.MapView{Name: %s}).Stage(stage)", mapviewIdent, __gong__toRawStringLiteral(mapview.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", mapviewIdent, __gong__toRawStringLiteral(mapview.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StyleURL = %s", mapviewIdent, __gong__toRawStringLiteral(mapview.StyleURL)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Longitude = %f", mapviewIdent, mapview.Longitude))
+			values.WriteString(fmt.Sprintf("\n\t%s.Latitude = %f", mapviewIdent, mapview.Latitude))
+			values.WriteString(fmt.Sprintf("\n\t%s.Zoom = %f", mapviewIdent, mapview.Zoom))
+			values.WriteString(fmt.Sprintf("\n\t%s.Pitch = %f", mapviewIdent, mapview.Pitch))
+			values.WriteString(fmt.Sprintf("\n\t%s.Bearing = %f", mapviewIdent, mapview.Bearing))
+			for _, elem := range mapview.Layers {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__cesium__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Layers = append(%s.Layers, %s)", mapviewIdent, mapviewIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, marker := range __gong__sortStageSetInstances(stage.Markers, stage.Marker_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			markerIdent := strings.Replace(marker.GongGetIdentifier(stage), "__models__", "__cesium__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&cesium.Marker{Name: %s}).Stage(stage)", markerIdent, __gong__toRawStringLiteral(marker.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", markerIdent, __gong__toRawStringLiteral(marker.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Label = %s", markerIdent, __gong__toRawStringLiteral(marker.Label)))
+			values.WriteString(fmt.Sprintf("\n\t%s.PopupHTML = %s", markerIdent, __gong__toRawStringLiteral(marker.PopupHTML)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Longitude = %f", markerIdent, marker.Longitude))
+			values.WriteString(fmt.Sprintf("\n\t%s.Latitude = %f", markerIdent, marker.Latitude))
+			values.WriteString(fmt.Sprintf("\n\t%s.Altitude = %f", markerIdent, marker.Altitude))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", markerIdent, __gong__toRawStringLiteral(marker.SVG)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", markerIdent, __gong__toRawStringLiteral(marker.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Scale = %f", markerIdent, marker.Scale))
+			values.WriteString(fmt.Sprintf("\n\t%s.Rotation = %f", markerIdent, marker.Rotation))
+			if marker.RotationAlignment.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.RotationAlignment = cesium.%s", markerIdent, marker.RotationAlignment.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.RotationAlignment = \"\"", markerIdent))
+			}
+			if marker.PitchAlignment.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.PitchAlignment = cesium.%s", markerIdent, marker.PitchAlignment.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.PitchAlignment = \"\"", markerIdent))
+			}
+			if marker.Anchor.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Anchor = cesium.%s", markerIdent, marker.Anchor.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Anchor = \"\"", markerIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDraggable = %t", markerIdent, marker.IsDraggable))
+		}
+	}
+	if stage != nil {
+		for _, polygon := range __gong__sortStageSetInstances(stage.Polygons, stage.Polygon_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			polygonIdent := strings.Replace(polygon.GongGetIdentifier(stage), "__models__", "__cesium__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&cesium.Polygon{Name: %s}).Stage(stage)", polygonIdent, __gong__toRawStringLiteral(polygon.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", polygonIdent, __gong__toRawStringLiteral(polygon.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Label = %s", polygonIdent, __gong__toRawStringLiteral(polygon.Label)))
+			values.WriteString(fmt.Sprintf("\n\t%s.PopupHTML = %s", polygonIdent, __gong__toRawStringLiteral(polygon.PopupHTML)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillColor = %s", polygonIdent, __gong__toRawStringLiteral(polygon.FillColor)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FillOpacity = %f", polygonIdent, polygon.FillOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeColor = %s", polygonIdent, __gong__toRawStringLiteral(polygon.StrokeColor)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", polygonIdent, polygon.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", polygonIdent, polygon.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExtruded = %t", polygonIdent, polygon.IsExtruded))
+			values.WriteString(fmt.Sprintf("\n\t%s.BaseAltitude = %f", polygonIdent, polygon.BaseAltitude))
+			values.WriteString(fmt.Sprintf("\n\t%s.ExtrusionHeight = %f", polygonIdent, polygon.ExtrusionHeight))
+			for _, elem := range polygon.Coordinates {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__cesium__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Coordinates = append(%s.Coordinates, %s)", polygonIdent, polygonIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, polyline := range __gong__sortStageSetInstances(stage.Polylines, stage.Polyline_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			polylineIdent := strings.Replace(polyline.GongGetIdentifier(stage), "__models__", "__cesium__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&cesium.Polyline{Name: %s}).Stage(stage)", polylineIdent, __gong__toRawStringLiteral(polyline.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", polylineIdent, __gong__toRawStringLiteral(polyline.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Label = %s", polylineIdent, __gong__toRawStringLiteral(polyline.Label)))
+			values.WriteString(fmt.Sprintf("\n\t%s.PopupHTML = %s", polylineIdent, __gong__toRawStringLiteral(polyline.PopupHTML)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeColor = %s", polylineIdent, __gong__toRawStringLiteral(polyline.StrokeColor)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeOpacity = %f", polylineIdent, polyline.StrokeOpacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeWidth = %f", polylineIdent, polyline.StrokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.StrokeDashArray = %s", polylineIdent, __gong__toRawStringLiteral(polyline.StrokeDashArray)))
+			for _, elem := range polyline.Coordinates {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__cesium__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Coordinates = append(%s.Coordinates, %s)", polylineIdent, polylineIdent, targetIdent))
+			}
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	cesium "github.com/fullstack-lang/gong/lib/cesium/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *cesium.Stage
+)%s
+
+// StageCesium stages objects into stage
+func StageCesium(stage *cesium.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

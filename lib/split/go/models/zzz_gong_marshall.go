@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -1004,6 +1015,717 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/lib/split/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/lib/split/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_split.go exposing StageSplit.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_split.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageSplit).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, assplit := range __gong__sortStageSetInstances(stage.AsSplits, stage.AsSplit_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			assplitIdent := strings.Replace(assplit.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.AsSplit{Name: %s}).Stage(stage)", assplitIdent, __gong__toRawStringLiteral(assplit.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", assplitIdent, __gong__toRawStringLiteral(assplit.Name)))
+			if assplit.Direction.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = split.%s", assplitIdent, assplit.Direction.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = \"\"", assplitIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSizeInPixel = %t", assplitIdent, assplit.IsSizeInPixel))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsWithCustomGutterSize = %t", assplitIdent, assplit.IsWithCustomGutterSize))
+			values.WriteString(fmt.Sprintf("\n\t%s.GutterSize = %f", assplitIdent, assplit.GutterSize))
+			for _, elem := range assplit.AsSplitAreas {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AsSplitAreas = append(%s.AsSplitAreas, %s)", assplitIdent, assplitIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, assplitarea := range __gong__sortStageSetInstances(stage.AsSplitAreas, stage.AsSplitArea_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			assplitareaIdent := strings.Replace(assplitarea.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.AsSplitArea{Name: %s}).Stage(stage)", assplitareaIdent, __gong__toRawStringLiteral(assplitarea.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", assplitareaIdent, __gong__toRawStringLiteral(assplitarea.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowNameInHeader = %t", assplitareaIdent, assplitarea.ShowNameInHeader))
+			values.WriteString(fmt.Sprintf("\n\t%s.Size = %f", assplitareaIdent, assplitarea.Size))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsAny = %t", assplitareaIdent, assplitarea.IsAny))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasDiv = %t", assplitareaIdent, assplitarea.HasDiv))
+			values.WriteString(fmt.Sprintf("\n\t%s.DivStyle = %s", assplitareaIdent, __gong__toRawStringLiteral(assplitarea.DivStyle)))
+			if assplitarea.AsSplit != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.AsSplit.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AsSplit = %s", assplitareaIdent, targetIdent))
+			}
+			if assplitarea.Button != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.Button.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Button = %s", assplitareaIdent, targetIdent))
+			}
+			if assplitarea.Cesium != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.Cesium.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Cesium = %s", assplitareaIdent, targetIdent))
+			}
+			if assplitarea.Cursor != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.Cursor.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Cursor = %s", assplitareaIdent, targetIdent))
+			}
+			if assplitarea.Form != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.Form.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Form = %s", assplitareaIdent, targetIdent))
+			}
+			if assplitarea.Load != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.Load.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Load = %s", assplitareaIdent, targetIdent))
+			}
+			if assplitarea.Maplibre != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.Maplibre.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Maplibre = %s", assplitareaIdent, targetIdent))
+			}
+			if assplitarea.Markdown != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.Markdown.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Markdown = %s", assplitareaIdent, targetIdent))
+			}
+			if assplitarea.Split != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.Split.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Split = %s", assplitareaIdent, targetIdent))
+			}
+			if assplitarea.Svg != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.Svg.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Svg = %s", assplitareaIdent, targetIdent))
+			}
+			if assplitarea.Table != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.Table.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Table = %s", assplitareaIdent, targetIdent))
+			}
+			if assplitarea.Tone != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.Tone.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Tone = %s", assplitareaIdent, targetIdent))
+			}
+			if assplitarea.Tree != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.Tree.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Tree = %s", assplitareaIdent, targetIdent))
+			}
+			if assplitarea.Threejs != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.Threejs.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Threejs = %s", assplitareaIdent, targetIdent))
+			}
+			if assplitarea.Xlsx != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(assplitarea.Xlsx.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Xlsx = %s", assplitareaIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, button := range __gong__sortStageSetInstances(stage.Buttons, stage.Button_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			buttonIdent := strings.Replace(button.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Button{Name: %s}).Stage(stage)", buttonIdent, __gong__toRawStringLiteral(button.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", buttonIdent, __gong__toRawStringLiteral(button.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", buttonIdent, __gong__toRawStringLiteral(button.StackName)))
+		}
+	}
+	if stage != nil {
+		for _, cesium := range __gong__sortStageSetInstances(stage.Cesiums, stage.Cesium_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cesiumIdent := strings.Replace(cesium.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Cesium{Name: %s}).Stage(stage)", cesiumIdent, __gong__toRawStringLiteral(cesium.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cesiumIdent, __gong__toRawStringLiteral(cesium.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", cesiumIdent, __gong__toRawStringLiteral(cesium.StackName)))
+		}
+	}
+	if stage != nil {
+		for _, cursor := range __gong__sortStageSetInstances(stage.Cursors, stage.Cursor_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cursorIdent := strings.Replace(cursor.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Cursor{Name: %s}).Stage(stage)", cursorIdent, __gong__toRawStringLiteral(cursor.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cursorIdent, __gong__toRawStringLiteral(cursor.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", cursorIdent, __gong__toRawStringLiteral(cursor.StackName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Style = %s", cursorIdent, __gong__toRawStringLiteral(cursor.Style)))
+		}
+	}
+	if stage != nil {
+		for _, favicon := range __gong__sortStageSetInstances(stage.FavIcons, stage.FavIcon_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			faviconIdent := strings.Replace(favicon.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.FavIcon{Name: %s}).Stage(stage)", faviconIdent, __gong__toRawStringLiteral(favicon.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", faviconIdent, __gong__toRawStringLiteral(favicon.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", faviconIdent, __gong__toRawStringLiteral(favicon.SVG)))
+		}
+	}
+	if stage != nil {
+		for _, form := range __gong__sortStageSetInstances(stage.Forms, stage.Form_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			formIdent := strings.Replace(form.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Form{Name: %s}).Stage(stage)", formIdent, __gong__toRawStringLiteral(form.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formIdent, __gong__toRawStringLiteral(form.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", formIdent, __gong__toRawStringLiteral(form.StackName)))
+		}
+	}
+	if stage != nil {
+		for _, load := range __gong__sortStageSetInstances(stage.Loads, stage.Load_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			loadIdent := strings.Replace(load.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Load{Name: %s}).Stage(stage)", loadIdent, __gong__toRawStringLiteral(load.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", loadIdent, __gong__toRawStringLiteral(load.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", loadIdent, __gong__toRawStringLiteral(load.StackName)))
+		}
+	}
+	if stage != nil {
+		for _, logoontheleft := range __gong__sortStageSetInstances(stage.LogoOnTheLefts, stage.LogoOnTheLeft_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			logoontheleftIdent := strings.Replace(logoontheleft.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.LogoOnTheLeft{Name: %s}).Stage(stage)", logoontheleftIdent, __gong__toRawStringLiteral(logoontheleft.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", logoontheleftIdent, __gong__toRawStringLiteral(logoontheleft.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %d", logoontheleftIdent, logoontheleft.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %d", logoontheleftIdent, logoontheleft.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", logoontheleftIdent, __gong__toRawStringLiteral(logoontheleft.SVG)))
+		}
+	}
+	if stage != nil {
+		for _, logoontheright := range __gong__sortStageSetInstances(stage.LogoOnTheRights, stage.LogoOnTheRight_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			logoontherightIdent := strings.Replace(logoontheright.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.LogoOnTheRight{Name: %s}).Stage(stage)", logoontherightIdent, __gong__toRawStringLiteral(logoontheright.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", logoontherightIdent, __gong__toRawStringLiteral(logoontheright.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %d", logoontherightIdent, logoontheright.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %d", logoontherightIdent, logoontheright.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", logoontherightIdent, __gong__toRawStringLiteral(logoontheright.SVG)))
+		}
+	}
+	if stage != nil {
+		for _, maplibre := range __gong__sortStageSetInstances(stage.Maplibres, stage.Maplibre_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			maplibreIdent := strings.Replace(maplibre.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Maplibre{Name: %s}).Stage(stage)", maplibreIdent, __gong__toRawStringLiteral(maplibre.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", maplibreIdent, __gong__toRawStringLiteral(maplibre.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", maplibreIdent, __gong__toRawStringLiteral(maplibre.StackName)))
+		}
+	}
+	if stage != nil {
+		for _, markdown := range __gong__sortStageSetInstances(stage.Markdowns, stage.Markdown_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			markdownIdent := strings.Replace(markdown.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Markdown{Name: %s}).Stage(stage)", markdownIdent, __gong__toRawStringLiteral(markdown.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", markdownIdent, __gong__toRawStringLiteral(markdown.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", markdownIdent, __gong__toRawStringLiteral(markdown.StackName)))
+		}
+	}
+	if stage != nil {
+		for _, split := range __gong__sortStageSetInstances(stage.Splits, stage.Split_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			splitIdent := strings.Replace(split.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Split{Name: %s}).Stage(stage)", splitIdent, __gong__toRawStringLiteral(split.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", splitIdent, __gong__toRawStringLiteral(split.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", splitIdent, __gong__toRawStringLiteral(split.StackName)))
+		}
+	}
+	if stage != nil {
+		for _, svg := range __gong__sortStageSetInstances(stage.Svgs, stage.Svg_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			svgIdent := strings.Replace(svg.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Svg{Name: %s}).Stage(stage)", svgIdent, __gong__toRawStringLiteral(svg.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", svgIdent, __gong__toRawStringLiteral(svg.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", svgIdent, __gong__toRawStringLiteral(svg.StackName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Style = %s", svgIdent, __gong__toRawStringLiteral(svg.Style)))
+		}
+	}
+	if stage != nil {
+		for _, table := range __gong__sortStageSetInstances(stage.Tables, stage.Table_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			tableIdent := strings.Replace(table.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Table{Name: %s}).Stage(stage)", tableIdent, __gong__toRawStringLiteral(table.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tableIdent, __gong__toRawStringLiteral(table.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", tableIdent, __gong__toRawStringLiteral(table.StackName)))
+		}
+	}
+	if stage != nil {
+		for _, threejs := range __gong__sortStageSetInstances(stage.Threejss, stage.Threejs_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			threejsIdent := strings.Replace(threejs.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Threejs{Name: %s}).Stage(stage)", threejsIdent, __gong__toRawStringLiteral(threejs.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", threejsIdent, __gong__toRawStringLiteral(threejs.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", threejsIdent, __gong__toRawStringLiteral(threejs.StackName)))
+		}
+	}
+	if stage != nil {
+		for _, title := range __gong__sortStageSetInstances(stage.Titles, stage.Title_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			titleIdent := strings.Replace(title.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Title{Name: %s}).Stage(stage)", titleIdent, __gong__toRawStringLiteral(title.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", titleIdent, __gong__toRawStringLiteral(title.Name)))
+		}
+	}
+	if stage != nil {
+		for _, tone := range __gong__sortStageSetInstances(stage.Tones, stage.Tone_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			toneIdent := strings.Replace(tone.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Tone{Name: %s}).Stage(stage)", toneIdent, __gong__toRawStringLiteral(tone.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", toneIdent, __gong__toRawStringLiteral(tone.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", toneIdent, __gong__toRawStringLiteral(tone.StackName)))
+		}
+	}
+	if stage != nil {
+		for _, tree := range __gong__sortStageSetInstances(stage.Trees, stage.Tree_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			treeIdent := strings.Replace(tree.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Tree{Name: %s}).Stage(stage)", treeIdent, __gong__toRawStringLiteral(tree.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", treeIdent, __gong__toRawStringLiteral(tree.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", treeIdent, __gong__toRawStringLiteral(tree.StackName)))
+		}
+	}
+	if stage != nil {
+		for _, view := range __gong__sortStageSetInstances(stage.Views, stage.View_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			viewIdent := strings.Replace(view.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.View{Name: %s}).Stage(stage)", viewIdent, __gong__toRawStringLiteral(view.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", viewIdent, __gong__toRawStringLiteral(view.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowViewName = %t", viewIdent, view.ShowViewName))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSelectedView = %t", viewIdent, view.IsSelectedView))
+			if view.Direction.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = split.%s", viewIdent, view.Direction.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Direction = \"\"", viewIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSecondaryView = %t", viewIdent, view.IsSecondaryView))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSizeInPixel = %t", viewIdent, view.IsSizeInPixel))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsWithCustomGutterSize = %t", viewIdent, view.IsWithCustomGutterSize))
+			values.WriteString(fmt.Sprintf("\n\t%s.GutterSize = %f", viewIdent, view.GutterSize))
+			for _, elem := range view.RootAsSplitAreas {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__split__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RootAsSplitAreas = append(%s.RootAsSplitAreas, %s)", viewIdent, viewIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, xlsx := range __gong__sortStageSetInstances(stage.Xlsxs, stage.Xlsx_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			xlsxIdent := strings.Replace(xlsx.GongGetIdentifier(stage), "__models__", "__split__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&split.Xlsx{Name: %s}).Stage(stage)", xlsxIdent, __gong__toRawStringLiteral(xlsx.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xlsxIdent, __gong__toRawStringLiteral(xlsx.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StackName = %s", xlsxIdent, __gong__toRawStringLiteral(xlsx.StackName)))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	split "github.com/fullstack-lang/gong/lib/split/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *split.Stage
+)%s
+
+// StageSplit stages objects into stage
+func StageSplit(stage *split.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

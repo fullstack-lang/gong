@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -867,6 +878,580 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/lib/form/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/lib/form/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_form.go exposing StageForm.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_form.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageForm).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, checkbox := range __gong__sortStageSetInstances(stage.CheckBoxs, stage.CheckBox_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			checkboxIdent := strings.Replace(checkbox.GongGetIdentifier(stage), "__models__", "__form__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&form.CheckBox{Name: %s}).Stage(stage)", checkboxIdent, __gong__toRawStringLiteral(checkbox.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", checkboxIdent, __gong__toRawStringLiteral(checkbox.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %t", checkboxIdent, checkbox.Value))
+			values.WriteString(fmt.Sprintf("\n\t%s.LabelForTrue = %s", checkboxIdent, __gong__toRawStringLiteral(checkbox.LabelForTrue)))
+			values.WriteString(fmt.Sprintf("\n\t%s.LabelForFalse = %s", checkboxIdent, __gong__toRawStringLiteral(checkbox.LabelForFalse)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDisabled = %t", checkboxIdent, checkbox.IsDisabled))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLiveUpdate = %t", checkboxIdent, checkbox.IsLiveUpdate))
+		}
+	}
+	if stage != nil {
+		for _, formdiv := range __gong__sortStageSetInstances(stage.FormDivs, stage.FormDiv_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			formdivIdent := strings.Replace(formdiv.GongGetIdentifier(stage), "__models__", "__form__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&form.FormDiv{Name: %s}).Stage(stage)", formdivIdent, __gong__toRawStringLiteral(formdiv.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formdivIdent, __gong__toRawStringLiteral(formdiv.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsADivider = %t", formdivIdent, formdiv.IsADivider))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsAStartAccordionGroup = %t", formdivIdent, formdiv.IsAStartAccordionGroup))
+			values.WriteString(fmt.Sprintf("\n\t%s.AccordionGroupName = %s", formdivIdent, __gong__toRawStringLiteral(formdiv.AccordionGroupName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpandedInitially = %t", formdivIdent, formdiv.IsExpandedInitially))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsAEndAccordionGroup = %t", formdivIdent, formdiv.IsAEndAccordionGroup))
+			for _, elem := range formdiv.FormFields {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFields = append(%s.FormFields, %s)", formdivIdent, formdivIdent, targetIdent))
+			}
+			for _, elem := range formdiv.CheckBoxs {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CheckBoxs = append(%s.CheckBoxs, %s)", formdivIdent, formdivIdent, targetIdent))
+			}
+			if formdiv.FormEditAssocButton != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(formdiv.FormEditAssocButton.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FormEditAssocButton = %s", formdivIdent, targetIdent))
+			}
+			if formdiv.FormSortAssocButton != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(formdiv.FormSortAssocButton.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FormSortAssocButton = %s", formdivIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, formeditassocbutton := range __gong__sortStageSetInstances(stage.FormEditAssocButtons, stage.FormEditAssocButton_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			formeditassocbuttonIdent := strings.Replace(formeditassocbutton.GongGetIdentifier(stage), "__models__", "__form__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&form.FormEditAssocButton{Name: %s}).Stage(stage)", formeditassocbuttonIdent, __gong__toRawStringLiteral(formeditassocbutton.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formeditassocbuttonIdent, __gong__toRawStringLiteral(formeditassocbutton.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Label = %s", formeditassocbuttonIdent, __gong__toRawStringLiteral(formeditassocbutton.Label)))
+			values.WriteString(fmt.Sprintf("\n\t%s.AssociationStorage = %s", formeditassocbuttonIdent, __gong__toRawStringLiteral(formeditassocbutton.AssociationStorage)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasChanged = %t", formeditassocbuttonIdent, formeditassocbutton.HasChanged))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsForSavePurpose = %t", formeditassocbuttonIdent, formeditassocbutton.IsForSavePurpose))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasToolTip = %t", formeditassocbuttonIdent, formeditassocbutton.HasToolTip))
+			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipText = %s", formeditassocbuttonIdent, __gong__toRawStringLiteral(formeditassocbutton.ToolTipText)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MatTooltipShowDelay = %s", formeditassocbuttonIdent, __gong__toRawStringLiteral(formeditassocbutton.MatTooltipShowDelay)))
+		}
+	}
+	if stage != nil {
+		for _, formfield := range __gong__sortStageSetInstances(stage.FormFields, stage.FormField_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			formfieldIdent := strings.Replace(formfield.GongGetIdentifier(stage), "__models__", "__form__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&form.FormField{Name: %s}).Stage(stage)", formfieldIdent, __gong__toRawStringLiteral(formfield.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formfieldIdent, __gong__toRawStringLiteral(formfield.Name)))
+			if formfield.InputTypeEnum.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.InputTypeEnum = form.%s", formfieldIdent, formfield.InputTypeEnum.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.InputTypeEnum = \"\"", formfieldIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Label = %s", formfieldIdent, __gong__toRawStringLiteral(formfield.Label)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Placeholder = %s", formfieldIdent, __gong__toRawStringLiteral(formfield.Placeholder)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasBespokeWidth = %t", formfieldIdent, formfield.HasBespokeWidth))
+			values.WriteString(fmt.Sprintf("\n\t%s.BespokeWidthPx = %d", formfieldIdent, formfield.BespokeWidthPx))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasBespokeHeight = %t", formfieldIdent, formfield.HasBespokeHeight))
+			values.WriteString(fmt.Sprintf("\n\t%s.BespokeHeightPx = %d", formfieldIdent, formfield.BespokeHeightPx))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDisabled = %t", formfieldIdent, formfield.IsDisabled))
+			if formfield.FormFieldString != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(formfield.FormFieldString.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFieldString = %s", formfieldIdent, targetIdent))
+			}
+			if formfield.FormFieldFloat64 != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(formfield.FormFieldFloat64.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFieldFloat64 = %s", formfieldIdent, targetIdent))
+			}
+			if formfield.FormFieldInt != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(formfield.FormFieldInt.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFieldInt = %s", formfieldIdent, targetIdent))
+			}
+			if formfield.FormFieldDate != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(formfield.FormFieldDate.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFieldDate = %s", formfieldIdent, targetIdent))
+			}
+			if formfield.FormFieldTime != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(formfield.FormFieldTime.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFieldTime = %s", formfieldIdent, targetIdent))
+			}
+			if formfield.FormFieldDateTime != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(formfield.FormFieldDateTime.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFieldDateTime = %s", formfieldIdent, targetIdent))
+			}
+			if formfield.FormFieldSelect != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(formfield.FormFieldSelect.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FormFieldSelect = %s", formfieldIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, formfielddate := range __gong__sortStageSetInstances(stage.FormFieldDates, stage.FormFieldDate_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			formfielddateIdent := strings.Replace(formfielddate.GongGetIdentifier(stage), "__models__", "__form__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&form.FormFieldDate{Name: %s}).Stage(stage)", formfielddateIdent, __gong__toRawStringLiteral(formfielddate.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formfielddateIdent, __gong__toRawStringLiteral(formfielddate.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", formfielddateIdent, formfielddate.Value.String()))
+		}
+	}
+	if stage != nil {
+		for _, formfielddatetime := range __gong__sortStageSetInstances(stage.FormFieldDateTimes, stage.FormFieldDateTime_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			formfielddatetimeIdent := strings.Replace(formfielddatetime.GongGetIdentifier(stage), "__models__", "__form__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&form.FormFieldDateTime{Name: %s}).Stage(stage)", formfielddatetimeIdent, __gong__toRawStringLiteral(formfielddatetime.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formfielddatetimeIdent, __gong__toRawStringLiteral(formfielddatetime.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", formfielddatetimeIdent, formfielddatetime.Value.String()))
+		}
+	}
+	if stage != nil {
+		for _, formfieldfloat64 := range __gong__sortStageSetInstances(stage.FormFieldFloat64s, stage.FormFieldFloat64_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			formfieldfloat64Ident := strings.Replace(formfieldfloat64.GongGetIdentifier(stage), "__models__", "__form__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&form.FormFieldFloat64{Name: %s}).Stage(stage)", formfieldfloat64Ident, __gong__toRawStringLiteral(formfieldfloat64.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formfieldfloat64Ident, __gong__toRawStringLiteral(formfieldfloat64.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %f", formfieldfloat64Ident, formfieldfloat64.Value))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasMinValidator = %t", formfieldfloat64Ident, formfieldfloat64.HasMinValidator))
+			values.WriteString(fmt.Sprintf("\n\t%s.MinValue = %f", formfieldfloat64Ident, formfieldfloat64.MinValue))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasMaxValidator = %t", formfieldfloat64Ident, formfieldfloat64.HasMaxValidator))
+			values.WriteString(fmt.Sprintf("\n\t%s.MaxValue = %f", formfieldfloat64Ident, formfieldfloat64.MaxValue))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSlider = %t", formfieldfloat64Ident, formfieldfloat64.IsSlider))
+			values.WriteString(fmt.Sprintf("\n\t%s.Step = %f", formfieldfloat64Ident, formfieldfloat64.Step))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLiveUpdate = %t", formfieldfloat64Ident, formfieldfloat64.IsLiveUpdate))
+		}
+	}
+	if stage != nil {
+		for _, formfieldint := range __gong__sortStageSetInstances(stage.FormFieldInts, stage.FormFieldInt_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			formfieldintIdent := strings.Replace(formfieldint.GongGetIdentifier(stage), "__models__", "__form__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&form.FormFieldInt{Name: %s}).Stage(stage)", formfieldintIdent, __gong__toRawStringLiteral(formfieldint.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formfieldintIdent, __gong__toRawStringLiteral(formfieldint.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %d", formfieldintIdent, formfieldint.Value))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasMinValidator = %t", formfieldintIdent, formfieldint.HasMinValidator))
+			values.WriteString(fmt.Sprintf("\n\t%s.MinValue = %d", formfieldintIdent, formfieldint.MinValue))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasMaxValidator = %t", formfieldintIdent, formfieldint.HasMaxValidator))
+			values.WriteString(fmt.Sprintf("\n\t%s.MaxValue = %d", formfieldintIdent, formfieldint.MaxValue))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSlider = %t", formfieldintIdent, formfieldint.IsSlider))
+			values.WriteString(fmt.Sprintf("\n\t%s.Step = %d", formfieldintIdent, formfieldint.Step))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLiveUpdate = %t", formfieldintIdent, formfieldint.IsLiveUpdate))
+		}
+	}
+	if stage != nil {
+		for _, formfieldselect := range __gong__sortStageSetInstances(stage.FormFieldSelects, stage.FormFieldSelect_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			formfieldselectIdent := strings.Replace(formfieldselect.GongGetIdentifier(stage), "__models__", "__form__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&form.FormFieldSelect{Name: %s}).Stage(stage)", formfieldselectIdent, __gong__toRawStringLiteral(formfieldselect.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formfieldselectIdent, __gong__toRawStringLiteral(formfieldselect.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.CanBeEmpty = %t", formfieldselectIdent, formfieldselect.CanBeEmpty))
+			values.WriteString(fmt.Sprintf("\n\t%s.PreserveInitialOrder = %t", formfieldselectIdent, formfieldselect.PreserveInitialOrder))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLiveUpdate = %t", formfieldselectIdent, formfieldselect.IsLiveUpdate))
+			if formfieldselect.Value != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(formfieldselect.Value.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Value = %s", formfieldselectIdent, targetIdent))
+			}
+			for _, elem := range formfieldselect.Options {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Options = append(%s.Options, %s)", formfieldselectIdent, formfieldselectIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, formfieldstring := range __gong__sortStageSetInstances(stage.FormFieldStrings, stage.FormFieldString_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			formfieldstringIdent := strings.Replace(formfieldstring.GongGetIdentifier(stage), "__models__", "__form__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&form.FormFieldString{Name: %s}).Stage(stage)", formfieldstringIdent, __gong__toRawStringLiteral(formfieldstring.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formfieldstringIdent, __gong__toRawStringLiteral(formfieldstring.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", formfieldstringIdent, __gong__toRawStringLiteral(formfieldstring.Value)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsTextArea = %t", formfieldstringIdent, formfieldstring.IsTextArea))
+		}
+	}
+	if stage != nil {
+		for _, formfieldtime := range __gong__sortStageSetInstances(stage.FormFieldTimes, stage.FormFieldTime_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			formfieldtimeIdent := strings.Replace(formfieldtime.GongGetIdentifier(stage), "__models__", "__form__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&form.FormFieldTime{Name: %s}).Stage(stage)", formfieldtimeIdent, __gong__toRawStringLiteral(formfieldtime.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formfieldtimeIdent, __gong__toRawStringLiteral(formfieldtime.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", formfieldtimeIdent, formfieldtime.Value.String()))
+			values.WriteString(fmt.Sprintf("\n\t%s.Step = %f", formfieldtimeIdent, formfieldtime.Step))
+		}
+	}
+	if stage != nil {
+		for _, formgroup := range __gong__sortStageSetInstances(stage.FormGroups, stage.FormGroup_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			formgroupIdent := strings.Replace(formgroup.GongGetIdentifier(stage), "__models__", "__form__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&form.FormGroup{Name: %s}).Stage(stage)", formgroupIdent, __gong__toRawStringLiteral(formgroup.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formgroupIdent, __gong__toRawStringLiteral(formgroup.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Label = %s", formgroupIdent, __gong__toRawStringLiteral(formgroup.Label)))
+			values.WriteString(fmt.Sprintf("\n\t%s.TypeLabel = %s", formgroupIdent, __gong__toRawStringLiteral(formgroup.TypeLabel)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasSuppressButton = %t", formgroupIdent, formgroup.HasSuppressButton))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasSuppressButtonBeenPressed = %t", formgroupIdent, formgroup.HasSuppressButtonBeenPressed))
+			values.WriteString(fmt.Sprintf("\n\t%s.HideSubmitButton = %t", formgroupIdent, formgroup.HideSubmitButton))
+			for _, elem := range formgroup.FormDivs {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FormDivs = append(%s.FormDivs, %s)", formgroupIdent, formgroupIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, formsortassocbutton := range __gong__sortStageSetInstances(stage.FormSortAssocButtons, stage.FormSortAssocButton_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			formsortassocbuttonIdent := strings.Replace(formsortassocbutton.GongGetIdentifier(stage), "__models__", "__form__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&form.FormSortAssocButton{Name: %s}).Stage(stage)", formsortassocbuttonIdent, __gong__toRawStringLiteral(formsortassocbutton.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", formsortassocbuttonIdent, __gong__toRawStringLiteral(formsortassocbutton.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Label = %s", formsortassocbuttonIdent, __gong__toRawStringLiteral(formsortassocbutton.Label)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasToolTip = %t", formsortassocbuttonIdent, formsortassocbutton.HasToolTip))
+			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipText = %s", formsortassocbuttonIdent, __gong__toRawStringLiteral(formsortassocbutton.ToolTipText)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MatTooltipShowDelay = %s", formsortassocbuttonIdent, __gong__toRawStringLiteral(formsortassocbutton.MatTooltipShowDelay)))
+			if formsortassocbutton.FormEditAssocButton != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(formsortassocbutton.FormEditAssocButton.GongGetIdentifier(stage), "__models__", "__form__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FormEditAssocButton = %s", formsortassocbuttonIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, option := range __gong__sortStageSetInstances(stage.Options, stage.Option_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			optionIdent := strings.Replace(option.GongGetIdentifier(stage), "__models__", "__form__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&form.Option{Name: %s}).Stage(stage)", optionIdent, __gong__toRawStringLiteral(option.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", optionIdent, __gong__toRawStringLiteral(option.Name)))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	form "github.com/fullstack-lang/gong/lib/form/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *form.Stage
+)%s
+
+// StageForm stages objects into stage
+func StageForm(stage *form.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

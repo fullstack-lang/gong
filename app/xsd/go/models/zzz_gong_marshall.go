@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -2481,6 +2492,2194 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/app/xsd/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/app/xsd/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_xsd.go exposing StageXsd.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_xsd.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageXsd).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, all := range __gong__sortStageSetInstances(stage.Alls, stage.All_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			allIdent := strings.Replace(all.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.All{Name: %s}).Stage(stage)", allIdent, __gong__toRawStringLiteral(all.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", allIdent, __gong__toRawStringLiteral(all.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.OuterElementName = %s", allIdent, __gong__toRawStringLiteral(all.OuterElementName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", allIdent, all.Order))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", allIdent, all.Depth))
+			values.WriteString(fmt.Sprintf("\n\t%s.MinOccurs = %s", allIdent, __gong__toRawStringLiteral(all.MinOccurs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MaxOccurs = %s", allIdent, __gong__toRawStringLiteral(all.MaxOccurs)))
+			if all.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(all.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", allIdent, targetIdent))
+			}
+			for _, elem := range all.Sequences {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Sequences = append(%s.Sequences, %s)", allIdent, allIdent, targetIdent))
+			}
+			for _, elem := range all.Alls {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Alls = append(%s.Alls, %s)", allIdent, allIdent, targetIdent))
+			}
+			for _, elem := range all.Choices {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Choices = append(%s.Choices, %s)", allIdent, allIdent, targetIdent))
+			}
+			for _, elem := range all.Groups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", allIdent, allIdent, targetIdent))
+			}
+			for _, elem := range all.Elements {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", allIdent, allIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, annotation := range __gong__sortStageSetInstances(stage.Annotations, stage.Annotation_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			annotationIdent := strings.Replace(annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Annotation{Name: %s}).Stage(stage)", annotationIdent, __gong__toRawStringLiteral(annotation.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", annotationIdent, __gong__toRawStringLiteral(annotation.Name)))
+			for _, elem := range annotation.Documentations {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Documentations = append(%s.Documentations, %s)", annotationIdent, annotationIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, attribute := range __gong__sortStageSetInstances(stage.Attributes, stage.Attribute_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attributeIdent := strings.Replace(attribute.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Attribute{Name: %s}).Stage(stage)", attributeIdent, __gong__toRawStringLiteral(attribute.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attributeIdent, __gong__toRawStringLiteral(attribute.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", attributeIdent, __gong__toRawStringLiteral(attribute.NameXSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", attributeIdent, __gong__toRawStringLiteral(attribute.Type)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasNameConflict = %t", attributeIdent, attribute.HasNameConflict))
+			values.WriteString(fmt.Sprintf("\n\t%s.GoIdentifier = %s", attributeIdent, __gong__toRawStringLiteral(attribute.GoIdentifier)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Default = %s", attributeIdent, __gong__toRawStringLiteral(attribute.Default)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Use = %s", attributeIdent, __gong__toRawStringLiteral(attribute.Use)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Form = %s", attributeIdent, __gong__toRawStringLiteral(attribute.Form)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Fixed = %s", attributeIdent, __gong__toRawStringLiteral(attribute.Fixed)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Ref = %s", attributeIdent, __gong__toRawStringLiteral(attribute.Ref)))
+			values.WriteString(fmt.Sprintf("\n\t%s.TargetNamespace = %s", attributeIdent, __gong__toRawStringLiteral(attribute.TargetNamespace)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SimpleType = %s", attributeIdent, __gong__toRawStringLiteral(attribute.SimpleType)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IDXSD = %s", attributeIdent, __gong__toRawStringLiteral(attribute.IDXSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", attributeIdent, attribute.Order))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", attributeIdent, attribute.Depth))
+			if attribute.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(attribute.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", attributeIdent, targetIdent))
+			}
+			if attribute.InnerSimpleType != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(attribute.InnerSimpleType.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.InnerSimpleType = %s", attributeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, attributegroup := range __gong__sortStageSetInstances(stage.AttributeGroups, stage.AttributeGroup_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attributegroupIdent := strings.Replace(attributegroup.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.AttributeGroup{Name: %s}).Stage(stage)", attributegroupIdent, __gong__toRawStringLiteral(attributegroup.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attributegroupIdent, __gong__toRawStringLiteral(attributegroup.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", attributegroupIdent, __gong__toRawStringLiteral(attributegroup.NameXSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasNameConflict = %t", attributegroupIdent, attributegroup.HasNameConflict))
+			values.WriteString(fmt.Sprintf("\n\t%s.GoIdentifier = %s", attributegroupIdent, __gong__toRawStringLiteral(attributegroup.GoIdentifier)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Ref = %s", attributegroupIdent, __gong__toRawStringLiteral(attributegroup.Ref)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", attributegroupIdent, attributegroup.Order))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", attributegroupIdent, attributegroup.Depth))
+			if attributegroup.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(attributegroup.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", attributegroupIdent, targetIdent))
+			}
+			for _, elem := range attributegroup.AttributeGroups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AttributeGroups = append(%s.AttributeGroups, %s)", attributegroupIdent, attributegroupIdent, targetIdent))
+			}
+			for _, elem := range attributegroup.Attributes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Attributes = append(%s.Attributes, %s)", attributegroupIdent, attributegroupIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, choice := range __gong__sortStageSetInstances(stage.Choices, stage.Choice_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			choiceIdent := strings.Replace(choice.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Choice{Name: %s}).Stage(stage)", choiceIdent, __gong__toRawStringLiteral(choice.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", choiceIdent, __gong__toRawStringLiteral(choice.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.OuterElementName = %s", choiceIdent, __gong__toRawStringLiteral(choice.OuterElementName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", choiceIdent, choice.Order))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", choiceIdent, choice.Depth))
+			values.WriteString(fmt.Sprintf("\n\t%s.MinOccurs = %s", choiceIdent, __gong__toRawStringLiteral(choice.MinOccurs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MaxOccurs = %s", choiceIdent, __gong__toRawStringLiteral(choice.MaxOccurs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDuplicatedInXSD = %t", choiceIdent, choice.IsDuplicatedInXSD))
+			if choice.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(choice.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", choiceIdent, targetIdent))
+			}
+			for _, elem := range choice.Sequences {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Sequences = append(%s.Sequences, %s)", choiceIdent, choiceIdent, targetIdent))
+			}
+			for _, elem := range choice.Alls {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Alls = append(%s.Alls, %s)", choiceIdent, choiceIdent, targetIdent))
+			}
+			for _, elem := range choice.Choices {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Choices = append(%s.Choices, %s)", choiceIdent, choiceIdent, targetIdent))
+			}
+			for _, elem := range choice.Groups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", choiceIdent, choiceIdent, targetIdent))
+			}
+			for _, elem := range choice.Elements {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", choiceIdent, choiceIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, complexcontent := range __gong__sortStageSetInstances(stage.ComplexContents, stage.ComplexContent_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			complexcontentIdent := strings.Replace(complexcontent.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.ComplexContent{Name: %s}).Stage(stage)", complexcontentIdent, __gong__toRawStringLiteral(complexcontent.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", complexcontentIdent, __gong__toRawStringLiteral(complexcontent.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Mixed = %s", complexcontentIdent, __gong__toRawStringLiteral(complexcontent.Mixed)))
+			if complexcontent.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(complexcontent.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", complexcontentIdent, targetIdent))
+			}
+			if complexcontent.Extension != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(complexcontent.Extension.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = %s", complexcontentIdent, targetIdent))
+			}
+			if complexcontent.Restriction != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(complexcontent.Restriction.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Restriction = %s", complexcontentIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, complextype := range __gong__sortStageSetInstances(stage.ComplexTypes, stage.ComplexType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			complextypeIdent := strings.Replace(complextype.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.ComplexType{Name: %s}).Stage(stage)", complextypeIdent, __gong__toRawStringLiteral(complextype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", complextypeIdent, __gong__toRawStringLiteral(complextype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasNameConflict = %t", complextypeIdent, complextype.HasNameConflict))
+			values.WriteString(fmt.Sprintf("\n\t%s.GoIdentifier = %s", complextypeIdent, __gong__toRawStringLiteral(complextype.GoIdentifier)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsAnonymous = %t", complextypeIdent, complextype.IsAnonymous))
+			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", complextypeIdent, __gong__toRawStringLiteral(complextype.NameXSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.OuterElementName = %s", complextypeIdent, __gong__toRawStringLiteral(complextype.OuterElementName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", complextypeIdent, complextype.Order))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", complextypeIdent, complextype.Depth))
+			values.WriteString(fmt.Sprintf("\n\t%s.MinOccurs = %s", complextypeIdent, __gong__toRawStringLiteral(complextype.MinOccurs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MaxOccurs = %s", complextypeIdent, __gong__toRawStringLiteral(complextype.MaxOccurs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDuplicatedInXSD = %t", complextypeIdent, complextype.IsDuplicatedInXSD))
+			if complextype.OuterElement != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(complextype.OuterElement.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.OuterElement = %s", complextypeIdent, targetIdent))
+			}
+			if complextype.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(complextype.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", complextypeIdent, targetIdent))
+			}
+			for _, elem := range complextype.Sequences {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Sequences = append(%s.Sequences, %s)", complextypeIdent, complextypeIdent, targetIdent))
+			}
+			for _, elem := range complextype.Alls {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Alls = append(%s.Alls, %s)", complextypeIdent, complextypeIdent, targetIdent))
+			}
+			for _, elem := range complextype.Choices {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Choices = append(%s.Choices, %s)", complextypeIdent, complextypeIdent, targetIdent))
+			}
+			for _, elem := range complextype.Groups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", complextypeIdent, complextypeIdent, targetIdent))
+			}
+			for _, elem := range complextype.Elements {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", complextypeIdent, complextypeIdent, targetIdent))
+			}
+			if complextype.Extension != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(complextype.Extension.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = %s", complextypeIdent, targetIdent))
+			}
+			if complextype.SimpleContent != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(complextype.SimpleContent.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SimpleContent = %s", complextypeIdent, targetIdent))
+			}
+			if complextype.ComplexContent != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(complextype.ComplexContent.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ComplexContent = %s", complextypeIdent, targetIdent))
+			}
+			for _, elem := range complextype.Attributes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Attributes = append(%s.Attributes, %s)", complextypeIdent, complextypeIdent, targetIdent))
+			}
+			for _, elem := range complextype.AttributeGroups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AttributeGroups = append(%s.AttributeGroups, %s)", complextypeIdent, complextypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, documentation := range __gong__sortStageSetInstances(stage.Documentations, stage.Documentation_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			documentationIdent := strings.Replace(documentation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Documentation{Name: %s}).Stage(stage)", documentationIdent, __gong__toRawStringLiteral(documentation.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", documentationIdent, __gong__toRawStringLiteral(documentation.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Text = %s", documentationIdent, __gong__toRawStringLiteral(documentation.Text)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Source = %s", documentationIdent, __gong__toRawStringLiteral(documentation.Source)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Lang = %s", documentationIdent, __gong__toRawStringLiteral(documentation.Lang)))
+		}
+	}
+	if stage != nil {
+		for _, element := range __gong__sortStageSetInstances(stage.Elements, stage.Element_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			elementIdent := strings.Replace(element.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Element{Name: %s}).Stage(stage)", elementIdent, __gong__toRawStringLiteral(element.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", elementIdent, __gong__toRawStringLiteral(element.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", elementIdent, element.Order))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", elementIdent, element.Depth))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasNameConflict = %t", elementIdent, element.HasNameConflict))
+			values.WriteString(fmt.Sprintf("\n\t%s.GoIdentifier = %s", elementIdent, __gong__toRawStringLiteral(element.GoIdentifier)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", elementIdent, __gong__toRawStringLiteral(element.NameXSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type = %s", elementIdent, __gong__toRawStringLiteral(element.Type)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MinOccurs = %s", elementIdent, __gong__toRawStringLiteral(element.MinOccurs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MaxOccurs = %s", elementIdent, __gong__toRawStringLiteral(element.MaxOccurs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Default = %s", elementIdent, __gong__toRawStringLiteral(element.Default)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Fixed = %s", elementIdent, __gong__toRawStringLiteral(element.Fixed)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Nillable = %s", elementIdent, __gong__toRawStringLiteral(element.Nillable)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Ref = %s", elementIdent, __gong__toRawStringLiteral(element.Ref)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Abstract = %s", elementIdent, __gong__toRawStringLiteral(element.Abstract)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Form = %s", elementIdent, __gong__toRawStringLiteral(element.Form)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Block = %s", elementIdent, __gong__toRawStringLiteral(element.Block)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Final = %s", elementIdent, __gong__toRawStringLiteral(element.Final)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SubstitutionGroup = %s", elementIdent, __gong__toRawStringLiteral(element.SubstitutionGroup)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDuplicatedInXSD = %t", elementIdent, element.IsDuplicatedInXSD))
+			if element.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(element.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", elementIdent, targetIdent))
+			}
+			if element.SimpleType != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(element.SimpleType.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SimpleType = %s", elementIdent, targetIdent))
+			}
+			if element.ComplexType != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(element.ComplexType.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ComplexType = %s", elementIdent, targetIdent))
+			}
+			for _, elem := range element.Groups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", elementIdent, elementIdent, targetIdent))
+			}
+			for _, elem := range element.Keys {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Keys = append(%s.Keys, %s)", elementIdent, elementIdent, targetIdent))
+			}
+			for _, elem := range element.Uniques {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Uniques = append(%s.Uniques, %s)", elementIdent, elementIdent, targetIdent))
+			}
+			for _, elem := range element.KeyRefs {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.KeyRefs = append(%s.KeyRefs, %s)", elementIdent, elementIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, enumeration := range __gong__sortStageSetInstances(stage.Enumerations, stage.Enumeration_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			enumerationIdent := strings.Replace(enumeration.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Enumeration{Name: %s}).Stage(stage)", enumerationIdent, __gong__toRawStringLiteral(enumeration.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", enumerationIdent, __gong__toRawStringLiteral(enumeration.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", enumerationIdent, __gong__toRawStringLiteral(enumeration.Value)))
+			if enumeration.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(enumeration.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", enumerationIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, extension := range __gong__sortStageSetInstances(stage.Extensions, stage.Extension_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			extensionIdent := strings.Replace(extension.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Extension{Name: %s}).Stage(stage)", extensionIdent, __gong__toRawStringLiteral(extension.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", extensionIdent, __gong__toRawStringLiteral(extension.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.OuterElementName = %s", extensionIdent, __gong__toRawStringLiteral(extension.OuterElementName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", extensionIdent, extension.Order))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", extensionIdent, extension.Depth))
+			values.WriteString(fmt.Sprintf("\n\t%s.MinOccurs = %s", extensionIdent, __gong__toRawStringLiteral(extension.MinOccurs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MaxOccurs = %s", extensionIdent, __gong__toRawStringLiteral(extension.MaxOccurs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Base = %s", extensionIdent, __gong__toRawStringLiteral(extension.Base)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Ref = %s", extensionIdent, __gong__toRawStringLiteral(extension.Ref)))
+			for _, elem := range extension.Sequences {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Sequences = append(%s.Sequences, %s)", extensionIdent, extensionIdent, targetIdent))
+			}
+			for _, elem := range extension.Alls {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Alls = append(%s.Alls, %s)", extensionIdent, extensionIdent, targetIdent))
+			}
+			for _, elem := range extension.Choices {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Choices = append(%s.Choices, %s)", extensionIdent, extensionIdent, targetIdent))
+			}
+			for _, elem := range extension.Groups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", extensionIdent, extensionIdent, targetIdent))
+			}
+			for _, elem := range extension.Elements {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", extensionIdent, extensionIdent, targetIdent))
+			}
+			for _, elem := range extension.Attributes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Attributes = append(%s.Attributes, %s)", extensionIdent, extensionIdent, targetIdent))
+			}
+			for _, elem := range extension.AttributeGroups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AttributeGroups = append(%s.AttributeGroups, %s)", extensionIdent, extensionIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, fieldxpath := range __gong__sortStageSetInstances(stage.FieldXPaths, stage.FieldXPath_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			fieldxpathIdent := strings.Replace(fieldxpath.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.FieldXPath{Name: %s}).Stage(stage)", fieldxpathIdent, __gong__toRawStringLiteral(fieldxpath.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", fieldxpathIdent, __gong__toRawStringLiteral(fieldxpath.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.XPath = %s", fieldxpathIdent, __gong__toRawStringLiteral(fieldxpath.XPath)))
+		}
+	}
+	if stage != nil {
+		for _, fractiondigit := range __gong__sortStageSetInstances(stage.FractionDigits, stage.FractionDigit_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			fractiondigitIdent := strings.Replace(fractiondigit.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.FractionDigit{Name: %s}).Stage(stage)", fractiondigitIdent, __gong__toRawStringLiteral(fractiondigit.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", fractiondigitIdent, __gong__toRawStringLiteral(fractiondigit.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", fractiondigitIdent, __gong__toRawStringLiteral(fractiondigit.Value)))
+			if fractiondigit.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(fractiondigit.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", fractiondigitIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, group := range __gong__sortStageSetInstances(stage.Groups, stage.Group_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			groupIdent := strings.Replace(group.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Group{Name: %s}).Stage(stage)", groupIdent, __gong__toRawStringLiteral(group.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", groupIdent, __gong__toRawStringLiteral(group.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", groupIdent, __gong__toRawStringLiteral(group.NameXSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Ref = %s", groupIdent, __gong__toRawStringLiteral(group.Ref)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsAnonymous = %t", groupIdent, group.IsAnonymous))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasNameConflict = %t", groupIdent, group.HasNameConflict))
+			values.WriteString(fmt.Sprintf("\n\t%s.GoIdentifier = %s", groupIdent, __gong__toRawStringLiteral(group.GoIdentifier)))
+			values.WriteString(fmt.Sprintf("\n\t%s.OuterElementName = %s", groupIdent, __gong__toRawStringLiteral(group.OuterElementName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", groupIdent, group.Order))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", groupIdent, group.Depth))
+			values.WriteString(fmt.Sprintf("\n\t%s.MinOccurs = %s", groupIdent, __gong__toRawStringLiteral(group.MinOccurs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MaxOccurs = %s", groupIdent, __gong__toRawStringLiteral(group.MaxOccurs)))
+			if group.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(group.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", groupIdent, targetIdent))
+			}
+			if group.OuterElement != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(group.OuterElement.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.OuterElement = %s", groupIdent, targetIdent))
+			}
+			for _, elem := range group.Sequences {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Sequences = append(%s.Sequences, %s)", groupIdent, groupIdent, targetIdent))
+			}
+			for _, elem := range group.Alls {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Alls = append(%s.Alls, %s)", groupIdent, groupIdent, targetIdent))
+			}
+			for _, elem := range group.Choices {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Choices = append(%s.Choices, %s)", groupIdent, groupIdent, targetIdent))
+			}
+			for _, elem := range group.Groups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", groupIdent, groupIdent, targetIdent))
+			}
+			for _, elem := range group.Elements {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", groupIdent, groupIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, key := range __gong__sortStageSetInstances(stage.Keys, stage.Key_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			keyIdent := strings.Replace(key.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Key{Name: %s}).Stage(stage)", keyIdent, __gong__toRawStringLiteral(key.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", keyIdent, __gong__toRawStringLiteral(key.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", keyIdent, __gong__toRawStringLiteral(key.NameXSD)))
+			if key.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(key.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", keyIdent, targetIdent))
+			}
+			if key.Selector != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(key.Selector.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Selector = %s", keyIdent, targetIdent))
+			}
+			for _, elem := range key.Fields {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Fields = append(%s.Fields, %s)", keyIdent, keyIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, keyref := range __gong__sortStageSetInstances(stage.KeyRefs, stage.KeyRef_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			keyrefIdent := strings.Replace(keyref.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.KeyRef{Name: %s}).Stage(stage)", keyrefIdent, __gong__toRawStringLiteral(keyref.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", keyrefIdent, __gong__toRawStringLiteral(keyref.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", keyrefIdent, __gong__toRawStringLiteral(keyref.NameXSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Refer = %s", keyrefIdent, __gong__toRawStringLiteral(keyref.Refer)))
+			if keyref.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(keyref.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", keyrefIdent, targetIdent))
+			}
+			if keyref.Selector != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(keyref.Selector.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Selector = %s", keyrefIdent, targetIdent))
+			}
+			for _, elem := range keyref.Fields {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Fields = append(%s.Fields, %s)", keyrefIdent, keyrefIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, length := range __gong__sortStageSetInstances(stage.Lengths, stage.Length_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			lengthIdent := strings.Replace(length.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Length{Name: %s}).Stage(stage)", lengthIdent, __gong__toRawStringLiteral(length.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", lengthIdent, __gong__toRawStringLiteral(length.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", lengthIdent, __gong__toRawStringLiteral(length.Value)))
+			if length.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(length.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", lengthIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, list := range __gong__sortStageSetInstances(stage.Lists, stage.List_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			listIdent := strings.Replace(list.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.List{Name: %s}).Stage(stage)", listIdent, __gong__toRawStringLiteral(list.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", listIdent, __gong__toRawStringLiteral(list.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ItemType = %s", listIdent, __gong__toRawStringLiteral(list.ItemType)))
+			if list.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(list.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", listIdent, targetIdent))
+			}
+			if list.SimpleType != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(list.SimpleType.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SimpleType = %s", listIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, maxexclusive := range __gong__sortStageSetInstances(stage.MaxExclusives, stage.MaxExclusive_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			maxexclusiveIdent := strings.Replace(maxexclusive.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.MaxExclusive{Name: %s}).Stage(stage)", maxexclusiveIdent, __gong__toRawStringLiteral(maxexclusive.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", maxexclusiveIdent, __gong__toRawStringLiteral(maxexclusive.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", maxexclusiveIdent, __gong__toRawStringLiteral(maxexclusive.Value)))
+			if maxexclusive.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(maxexclusive.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", maxexclusiveIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, maxinclusive := range __gong__sortStageSetInstances(stage.MaxInclusives, stage.MaxInclusive_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			maxinclusiveIdent := strings.Replace(maxinclusive.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.MaxInclusive{Name: %s}).Stage(stage)", maxinclusiveIdent, __gong__toRawStringLiteral(maxinclusive.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", maxinclusiveIdent, __gong__toRawStringLiteral(maxinclusive.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", maxinclusiveIdent, __gong__toRawStringLiteral(maxinclusive.Value)))
+			if maxinclusive.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(maxinclusive.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", maxinclusiveIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, maxlength := range __gong__sortStageSetInstances(stage.MaxLengths, stage.MaxLength_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			maxlengthIdent := strings.Replace(maxlength.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.MaxLength{Name: %s}).Stage(stage)", maxlengthIdent, __gong__toRawStringLiteral(maxlength.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", maxlengthIdent, __gong__toRawStringLiteral(maxlength.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", maxlengthIdent, __gong__toRawStringLiteral(maxlength.Value)))
+			if maxlength.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(maxlength.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", maxlengthIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, minexclusive := range __gong__sortStageSetInstances(stage.MinExclusives, stage.MinExclusive_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			minexclusiveIdent := strings.Replace(minexclusive.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.MinExclusive{Name: %s}).Stage(stage)", minexclusiveIdent, __gong__toRawStringLiteral(minexclusive.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", minexclusiveIdent, __gong__toRawStringLiteral(minexclusive.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", minexclusiveIdent, __gong__toRawStringLiteral(minexclusive.Value)))
+			if minexclusive.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(minexclusive.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", minexclusiveIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, mininclusive := range __gong__sortStageSetInstances(stage.MinInclusives, stage.MinInclusive_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			mininclusiveIdent := strings.Replace(mininclusive.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.MinInclusive{Name: %s}).Stage(stage)", mininclusiveIdent, __gong__toRawStringLiteral(mininclusive.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", mininclusiveIdent, __gong__toRawStringLiteral(mininclusive.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", mininclusiveIdent, __gong__toRawStringLiteral(mininclusive.Value)))
+			if mininclusive.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(mininclusive.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", mininclusiveIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, minlength := range __gong__sortStageSetInstances(stage.MinLengths, stage.MinLength_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			minlengthIdent := strings.Replace(minlength.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.MinLength{Name: %s}).Stage(stage)", minlengthIdent, __gong__toRawStringLiteral(minlength.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", minlengthIdent, __gong__toRawStringLiteral(minlength.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", minlengthIdent, __gong__toRawStringLiteral(minlength.Value)))
+			if minlength.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(minlength.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", minlengthIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, pattern := range __gong__sortStageSetInstances(stage.Patterns, stage.Pattern_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			patternIdent := strings.Replace(pattern.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Pattern{Name: %s}).Stage(stage)", patternIdent, __gong__toRawStringLiteral(pattern.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", patternIdent, __gong__toRawStringLiteral(pattern.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", patternIdent, __gong__toRawStringLiteral(pattern.Value)))
+			if pattern.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(pattern.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", patternIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, restriction := range __gong__sortStageSetInstances(stage.Restrictions, stage.Restriction_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			restrictionIdent := strings.Replace(restriction.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Restriction{Name: %s}).Stage(stage)", restrictionIdent, __gong__toRawStringLiteral(restriction.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", restrictionIdent, __gong__toRawStringLiteral(restriction.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Base = %s", restrictionIdent, __gong__toRawStringLiteral(restriction.Base)))
+			values.WriteString(fmt.Sprintf("\n\t%s.OuterElementName = %s", restrictionIdent, __gong__toRawStringLiteral(restriction.OuterElementName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", restrictionIdent, restriction.Order))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", restrictionIdent, restriction.Depth))
+			values.WriteString(fmt.Sprintf("\n\t%s.MinOccurs = %s", restrictionIdent, __gong__toRawStringLiteral(restriction.MinOccurs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MaxOccurs = %s", restrictionIdent, __gong__toRawStringLiteral(restriction.MaxOccurs)))
+			if restriction.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(restriction.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", restrictionIdent, targetIdent))
+			}
+			if restriction.SimpleType != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(restriction.SimpleType.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SimpleType = %s", restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.Enumerations {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Enumerations = append(%s.Enumerations, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
+			if restriction.MinInclusive != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(restriction.MinInclusive.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MinInclusive = %s", restrictionIdent, targetIdent))
+			}
+			if restriction.MaxInclusive != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(restriction.MaxInclusive.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MaxInclusive = %s", restrictionIdent, targetIdent))
+			}
+			if restriction.MinExclusive != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(restriction.MinExclusive.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MinExclusive = %s", restrictionIdent, targetIdent))
+			}
+			if restriction.MaxExclusive != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(restriction.MaxExclusive.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MaxExclusive = %s", restrictionIdent, targetIdent))
+			}
+			if restriction.Pattern != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(restriction.Pattern.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Pattern = %s", restrictionIdent, targetIdent))
+			}
+			if restriction.WhiteSpace != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(restriction.WhiteSpace.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.WhiteSpace = %s", restrictionIdent, targetIdent))
+			}
+			if restriction.MinLength != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(restriction.MinLength.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MinLength = %s", restrictionIdent, targetIdent))
+			}
+			if restriction.MaxLength != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(restriction.MaxLength.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MaxLength = %s", restrictionIdent, targetIdent))
+			}
+			if restriction.Length != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(restriction.Length.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Length = %s", restrictionIdent, targetIdent))
+			}
+			if restriction.TotalDigit != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(restriction.TotalDigit.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TotalDigit = %s", restrictionIdent, targetIdent))
+			}
+			if restriction.FractionDigit != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(restriction.FractionDigit.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FractionDigit = %s", restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.Sequences {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Sequences = append(%s.Sequences, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.Alls {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Alls = append(%s.Alls, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.Choices {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Choices = append(%s.Choices, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.Groups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.Elements {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.Attributes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Attributes = append(%s.Attributes, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
+			for _, elem := range restriction.AttributeGroups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AttributeGroups = append(%s.AttributeGroups, %s)", restrictionIdent, restrictionIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, schema := range __gong__sortStageSetInstances(stage.Schemas, stage.Schema_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			schemaIdent := strings.Replace(schema.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Schema{Name: %s}).Stage(stage)", schemaIdent, __gong__toRawStringLiteral(schema.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", schemaIdent, __gong__toRawStringLiteral(schema.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Xs = %s", schemaIdent, __gong__toRawStringLiteral(schema.Xs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.TargetNamespace = %s", schemaIdent, __gong__toRawStringLiteral(schema.TargetNamespace)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ElementFormDefault = %s", schemaIdent, __gong__toRawStringLiteral(schema.ElementFormDefault)))
+			values.WriteString(fmt.Sprintf("\n\t%s.AttributeFormDefault = %s", schemaIdent, __gong__toRawStringLiteral(schema.AttributeFormDefault)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Version = %s", schemaIdent, __gong__toRawStringLiteral(schema.Version)))
+			values.WriteString(fmt.Sprintf("\n\t%s.FilePath = %s", schemaIdent, __gong__toRawStringLiteral(schema.FilePath)))
+			values.WriteString(fmt.Sprintf("\n\t%s.PackageName = %s", schemaIdent, __gong__toRawStringLiteral(schema.PackageName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.PackageRelDir = %s", schemaIdent, __gong__toRawStringLiteral(schema.PackageRelDir)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsRootSchema = %t", schemaIdent, schema.IsRootSchema))
+			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", schemaIdent, schema.Order))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", schemaIdent, schema.Depth))
+			if schema.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(schema.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.Imports {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Imports = append(%s.Imports, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.Includes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Includes = append(%s.Includes, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.Elements {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.Attributes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Attributes = append(%s.Attributes, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.SimpleTypes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SimpleTypes = append(%s.SimpleTypes, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.ComplexTypes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ComplexTypes = append(%s.ComplexTypes, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.AttributeGroups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AttributeGroups = append(%s.AttributeGroups, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.Groups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.Keys {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Keys = append(%s.Keys, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.Uniques {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Uniques = append(%s.Uniques, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+			for _, elem := range schema.KeyRefs {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.KeyRefs = append(%s.KeyRefs, %s)", schemaIdent, schemaIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, selector := range __gong__sortStageSetInstances(stage.Selectors, stage.Selector_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			selectorIdent := strings.Replace(selector.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Selector{Name: %s}).Stage(stage)", selectorIdent, __gong__toRawStringLiteral(selector.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", selectorIdent, __gong__toRawStringLiteral(selector.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.XPath = %s", selectorIdent, __gong__toRawStringLiteral(selector.XPath)))
+		}
+	}
+	if stage != nil {
+		for _, sequence := range __gong__sortStageSetInstances(stage.Sequences, stage.Sequence_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			sequenceIdent := strings.Replace(sequence.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Sequence{Name: %s}).Stage(stage)", sequenceIdent, __gong__toRawStringLiteral(sequence.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", sequenceIdent, __gong__toRawStringLiteral(sequence.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.OuterElementName = %s", sequenceIdent, __gong__toRawStringLiteral(sequence.OuterElementName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", sequenceIdent, sequence.Order))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", sequenceIdent, sequence.Depth))
+			values.WriteString(fmt.Sprintf("\n\t%s.MinOccurs = %s", sequenceIdent, __gong__toRawStringLiteral(sequence.MinOccurs)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MaxOccurs = %s", sequenceIdent, __gong__toRawStringLiteral(sequence.MaxOccurs)))
+			if sequence.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(sequence.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", sequenceIdent, targetIdent))
+			}
+			for _, elem := range sequence.Sequences {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Sequences = append(%s.Sequences, %s)", sequenceIdent, sequenceIdent, targetIdent))
+			}
+			for _, elem := range sequence.Alls {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Alls = append(%s.Alls, %s)", sequenceIdent, sequenceIdent, targetIdent))
+			}
+			for _, elem := range sequence.Choices {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Choices = append(%s.Choices, %s)", sequenceIdent, sequenceIdent, targetIdent))
+			}
+			for _, elem := range sequence.Groups {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Groups = append(%s.Groups, %s)", sequenceIdent, sequenceIdent, targetIdent))
+			}
+			for _, elem := range sequence.Elements {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Elements = append(%s.Elements, %s)", sequenceIdent, sequenceIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, simplecontent := range __gong__sortStageSetInstances(stage.SimpleContents, stage.SimpleContent_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			simplecontentIdent := strings.Replace(simplecontent.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.SimpleContent{Name: %s}).Stage(stage)", simplecontentIdent, __gong__toRawStringLiteral(simplecontent.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", simplecontentIdent, __gong__toRawStringLiteral(simplecontent.Name)))
+			if simplecontent.Extension != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(simplecontent.Extension.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = %s", simplecontentIdent, targetIdent))
+			}
+			if simplecontent.Restriction != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(simplecontent.Restriction.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Restriction = %s", simplecontentIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, simpletype := range __gong__sortStageSetInstances(stage.SimpleTypes, stage.SimpleType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			simpletypeIdent := strings.Replace(simpletype.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.SimpleType{Name: %s}).Stage(stage)", simpletypeIdent, __gong__toRawStringLiteral(simpletype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", simpletypeIdent, __gong__toRawStringLiteral(simpletype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", simpletypeIdent, __gong__toRawStringLiteral(simpletype.NameXSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasNameConflict = %t", simpletypeIdent, simpletype.HasNameConflict))
+			values.WriteString(fmt.Sprintf("\n\t%s.GoIdentifier = %s", simpletypeIdent, __gong__toRawStringLiteral(simpletype.GoIdentifier)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Order = %d", simpletypeIdent, simpletype.Order))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %d", simpletypeIdent, simpletype.Depth))
+			if simpletype.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(simpletype.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", simpletypeIdent, targetIdent))
+			}
+			if simpletype.Restriction != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(simpletype.Restriction.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Restriction = %s", simpletypeIdent, targetIdent))
+			}
+			if simpletype.Union != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(simpletype.Union.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Union = %s", simpletypeIdent, targetIdent))
+			}
+			if simpletype.List != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(simpletype.List.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.List = %s", simpletypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, totaldigit := range __gong__sortStageSetInstances(stage.TotalDigits, stage.TotalDigit_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			totaldigitIdent := strings.Replace(totaldigit.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.TotalDigit{Name: %s}).Stage(stage)", totaldigitIdent, __gong__toRawStringLiteral(totaldigit.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", totaldigitIdent, __gong__toRawStringLiteral(totaldigit.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", totaldigitIdent, __gong__toRawStringLiteral(totaldigit.Value)))
+			if totaldigit.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(totaldigit.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", totaldigitIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, union := range __gong__sortStageSetInstances(stage.Unions, stage.Union_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			unionIdent := strings.Replace(union.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Union{Name: %s}).Stage(stage)", unionIdent, __gong__toRawStringLiteral(union.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", unionIdent, __gong__toRawStringLiteral(union.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MemberTypes = %s", unionIdent, __gong__toRawStringLiteral(union.MemberTypes)))
+			if union.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(union.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", unionIdent, targetIdent))
+			}
+			for _, elem := range union.SimpleTypes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SimpleTypes = append(%s.SimpleTypes, %s)", unionIdent, unionIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, unique := range __gong__sortStageSetInstances(stage.Uniques, stage.Unique_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			uniqueIdent := strings.Replace(unique.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.Unique{Name: %s}).Stage(stage)", uniqueIdent, __gong__toRawStringLiteral(unique.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", uniqueIdent, __gong__toRawStringLiteral(unique.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NameXSD = %s", uniqueIdent, __gong__toRawStringLiteral(unique.NameXSD)))
+			if unique.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(unique.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", uniqueIdent, targetIdent))
+			}
+			if unique.Selector != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(unique.Selector.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Selector = %s", uniqueIdent, targetIdent))
+			}
+			for _, elem := range unique.Fields {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Fields = append(%s.Fields, %s)", uniqueIdent, uniqueIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, whitespace := range __gong__sortStageSetInstances(stage.WhiteSpaces, stage.WhiteSpace_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			whitespaceIdent := strings.Replace(whitespace.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.WhiteSpace{Name: %s}).Stage(stage)", whitespaceIdent, __gong__toRawStringLiteral(whitespace.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", whitespaceIdent, __gong__toRawStringLiteral(whitespace.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", whitespaceIdent, __gong__toRawStringLiteral(whitespace.Value)))
+			if whitespace.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(whitespace.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", whitespaceIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, xsdimport := range __gong__sortStageSetInstances(stage.XSDImports, stage.XSDImport_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			xsdimportIdent := strings.Replace(xsdimport.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.XSDImport{Name: %s}).Stage(stage)", xsdimportIdent, __gong__toRawStringLiteral(xsdimport.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xsdimportIdent, __gong__toRawStringLiteral(xsdimport.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Namespace = %s", xsdimportIdent, __gong__toRawStringLiteral(xsdimport.Namespace)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SchemaLocation = %s", xsdimportIdent, __gong__toRawStringLiteral(xsdimport.SchemaLocation)))
+			if xsdimport.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(xsdimport.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", xsdimportIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, xsdinclude := range __gong__sortStageSetInstances(stage.XSDIncludes, stage.XSDInclude_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			xsdincludeIdent := strings.Replace(xsdinclude.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&xsd.XSDInclude{Name: %s}).Stage(stage)", xsdincludeIdent, __gong__toRawStringLiteral(xsdinclude.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", xsdincludeIdent, __gong__toRawStringLiteral(xsdinclude.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SchemaLocation = %s", xsdincludeIdent, __gong__toRawStringLiteral(xsdinclude.SchemaLocation)))
+			if xsdinclude.Annotation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(xsdinclude.Annotation.GongGetIdentifier(stage), "__models__", "__xsd__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = %s", xsdincludeIdent, targetIdent))
+			}
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	xsd "github.com/fullstack-lang/gong/app/xsd/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *xsd.Stage
+)%s
+
+// StageXsd stages objects into stage
+func StageXsd(stage *xsd.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

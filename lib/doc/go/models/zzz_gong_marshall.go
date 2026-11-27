@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -749,6 +760,462 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/lib/doc/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/lib/doc/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_doc.go exposing StageDoc.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_doc.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageDoc).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, attributeshape := range __gong__sortStageSetInstances(stage.AttributeShapes, stage.AttributeShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			attributeshapeIdent := strings.Replace(attributeshape.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&doc.AttributeShape{Name: %s}).Stage(stage)", attributeshapeIdent, __gong__toRawStringLiteral(attributeshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", attributeshapeIdent, __gong__toRawStringLiteral(attributeshape.Name)))
+			if str, ok := attributeshape.IdentifierMeta.(string); ok {
+				values.WriteString(fmt.Sprintf("\n\t%s.IdentifierMeta = %s", attributeshapeIdent, str))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.FieldTypeAsString = %s", attributeshapeIdent, __gong__toRawStringLiteral(attributeshape.FieldTypeAsString)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Structname = %s", attributeshapeIdent, __gong__toRawStringLiteral(attributeshape.Structname)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Fieldtypename = %s", attributeshapeIdent, __gong__toRawStringLiteral(attributeshape.Fieldtypename)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", attributeshapeIdent, attributeshape.IsHidden))
+		}
+	}
+	if stage != nil {
+		for _, classdiagram := range __gong__sortStageSetInstances(stage.Classdiagrams, stage.Classdiagram_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			classdiagramIdent := strings.Replace(classdiagram.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&doc.Classdiagram{Name: %s}).Stage(stage)", classdiagramIdent, __gong__toRawStringLiteral(classdiagram.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", classdiagramIdent, __gong__toRawStringLiteral(classdiagram.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", classdiagramIdent, __gong__toRawStringLiteral(classdiagram.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsIncludedInStaticWebSite = %t", classdiagramIdent, classdiagram.IsIncludedInStaticWebSite))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowNbInstances = %t", classdiagramIdent, classdiagram.ShowNbInstances))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowMultiplicity = %t", classdiagramIdent, classdiagram.ShowMultiplicity))
+			values.WriteString(fmt.Sprintf("\n\t%s.ShowLinkNames = %t", classdiagramIdent, classdiagram.ShowLinkNames))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsInRenameMode = %t", classdiagramIdent, classdiagram.IsInRenameMode))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", classdiagramIdent, classdiagram.IsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.NodeGongStructsIsExpanded = %t", classdiagramIdent, classdiagram.NodeGongStructsIsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.NodeGongStructNodeExpansion = %s", classdiagramIdent, __gong__toRawStringLiteral(classdiagram.NodeGongStructNodeExpansion)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NodeGongEnumsIsExpanded = %t", classdiagramIdent, classdiagram.NodeGongEnumsIsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.NodeGongEnumNodeExpansion = %s", classdiagramIdent, __gong__toRawStringLiteral(classdiagram.NodeGongEnumNodeExpansion)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NodeGongNotesIsExpanded = %t", classdiagramIdent, classdiagram.NodeGongNotesIsExpanded))
+			values.WriteString(fmt.Sprintf("\n\t%s.NodeGongNoteNodeExpansion = %s", classdiagramIdent, __gong__toRawStringLiteral(classdiagram.NodeGongNoteNodeExpansion)))
+			for _, elem := range classdiagram.GongStructShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GongStructShapes = append(%s.GongStructShapes, %s)", classdiagramIdent, classdiagramIdent, targetIdent))
+			}
+			for _, elem := range classdiagram.GongEnumShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GongEnumShapes = append(%s.GongEnumShapes, %s)", classdiagramIdent, classdiagramIdent, targetIdent))
+			}
+			for _, elem := range classdiagram.GongNoteShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GongNoteShapes = append(%s.GongNoteShapes, %s)", classdiagramIdent, classdiagramIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, diagrampackage := range __gong__sortStageSetInstances(stage.DiagramPackages, stage.DiagramPackage_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			diagrampackageIdent := strings.Replace(diagrampackage.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&doc.DiagramPackage{Name: %s}).Stage(stage)", diagrampackageIdent, __gong__toRawStringLiteral(diagrampackage.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", diagrampackageIdent, __gong__toRawStringLiteral(diagrampackage.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Path = %s", diagrampackageIdent, __gong__toRawStringLiteral(diagrampackage.Path)))
+			values.WriteString(fmt.Sprintf("\n\t%s.GongModelPath = %s", diagrampackageIdent, __gong__toRawStringLiteral(diagrampackage.GongModelPath)))
+			values.WriteString(fmt.Sprintf("\n\t%s.AbsolutePathToDiagramPackage = %s", diagrampackageIdent, __gong__toRawStringLiteral(diagrampackage.AbsolutePathToDiagramPackage)))
+			for _, elem := range diagrampackage.Classdiagrams {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Classdiagrams = append(%s.Classdiagrams, %s)", diagrampackageIdent, diagrampackageIdent, targetIdent))
+			}
+			if diagrampackage.SelectedClassdiagram != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(diagrampackage.SelectedClassdiagram.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SelectedClassdiagram = %s", diagrampackageIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, gongenumshape := range __gong__sortStageSetInstances(stage.GongEnumShapes, stage.GongEnumShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			gongenumshapeIdent := strings.Replace(gongenumshape.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&doc.GongEnumShape{Name: %s}).Stage(stage)", gongenumshapeIdent, __gong__toRawStringLiteral(gongenumshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", gongenumshapeIdent, __gong__toRawStringLiteral(gongenumshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", gongenumshapeIdent, gongenumshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", gongenumshapeIdent, gongenumshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", gongenumshapeIdent, gongenumshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", gongenumshapeIdent, gongenumshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", gongenumshapeIdent, gongenumshape.IsHidden))
+			if str, ok := gongenumshape.IdentifierMeta.(string); ok {
+				values.WriteString(fmt.Sprintf("\n\t%s.IdentifierMeta = %s", gongenumshapeIdent, str))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", gongenumshapeIdent, gongenumshape.IsExpanded))
+			for _, elem := range gongenumshape.GongEnumValueShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GongEnumValueShapes = append(%s.GongEnumValueShapes, %s)", gongenumshapeIdent, gongenumshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, gongenumvalueshape := range __gong__sortStageSetInstances(stage.GongEnumValueShapes, stage.GongEnumValueShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			gongenumvalueshapeIdent := strings.Replace(gongenumvalueshape.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&doc.GongEnumValueShape{Name: %s}).Stage(stage)", gongenumvalueshapeIdent, __gong__toRawStringLiteral(gongenumvalueshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", gongenumvalueshapeIdent, __gong__toRawStringLiteral(gongenumvalueshape.Name)))
+			if str, ok := gongenumvalueshape.IdentifierMeta.(string); ok {
+				values.WriteString(fmt.Sprintf("\n\t%s.IdentifierMeta = %s", gongenumvalueshapeIdent, str))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", gongenumvalueshapeIdent, gongenumvalueshape.IsHidden))
+		}
+	}
+	if stage != nil {
+		for _, gongnotelinkshape := range __gong__sortStageSetInstances(stage.GongNoteLinkShapes, stage.GongNoteLinkShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			gongnotelinkshapeIdent := strings.Replace(gongnotelinkshape.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&doc.GongNoteLinkShape{Name: %s}).Stage(stage)", gongnotelinkshapeIdent, __gong__toRawStringLiteral(gongnotelinkshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", gongnotelinkshapeIdent, __gong__toRawStringLiteral(gongnotelinkshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Identifier = %s", gongnotelinkshapeIdent, __gong__toRawStringLiteral(gongnotelinkshape.Identifier)))
+			if gongnotelinkshape.Type.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = doc.%s", gongnotelinkshapeIdent, gongnotelinkshape.Type.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Type = \"\"", gongnotelinkshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", gongnotelinkshapeIdent, gongnotelinkshape.IsHidden))
+		}
+	}
+	if stage != nil {
+		for _, gongnoteshape := range __gong__sortStageSetInstances(stage.GongNoteShapes, stage.GongNoteShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			gongnoteshapeIdent := strings.Replace(gongnoteshape.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&doc.GongNoteShape{Name: %s}).Stage(stage)", gongnoteshapeIdent, __gong__toRawStringLiteral(gongnoteshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", gongnoteshapeIdent, __gong__toRawStringLiteral(gongnoteshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Identifier = %s", gongnoteshapeIdent, __gong__toRawStringLiteral(gongnoteshape.Identifier)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Body = %s", gongnoteshapeIdent, __gong__toRawStringLiteral(gongnoteshape.Body)))
+			values.WriteString(fmt.Sprintf("\n\t%s.BodyHTML = %s", gongnoteshapeIdent, __gong__toRawStringLiteral(gongnoteshape.BodyHTML)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", gongnoteshapeIdent, gongnoteshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", gongnoteshapeIdent, gongnoteshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", gongnoteshapeIdent, gongnoteshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", gongnoteshapeIdent, gongnoteshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", gongnoteshapeIdent, gongnoteshape.IsHidden))
+			values.WriteString(fmt.Sprintf("\n\t%s.Matched = %t", gongnoteshapeIdent, gongnoteshape.Matched))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsExpanded = %t", gongnoteshapeIdent, gongnoteshape.IsExpanded))
+			for _, elem := range gongnoteshape.GongNoteLinkShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GongNoteLinkShapes = append(%s.GongNoteLinkShapes, %s)", gongnoteshapeIdent, gongnoteshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, gongstructshape := range __gong__sortStageSetInstances(stage.GongStructShapes, stage.GongStructShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			gongstructshapeIdent := strings.Replace(gongstructshape.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&doc.GongStructShape{Name: %s}).Stage(stage)", gongstructshapeIdent, __gong__toRawStringLiteral(gongstructshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", gongstructshapeIdent, __gong__toRawStringLiteral(gongstructshape.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", gongstructshapeIdent, gongstructshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", gongstructshapeIdent, gongstructshape.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", gongstructshapeIdent, gongstructshape.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", gongstructshapeIdent, gongstructshape.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", gongstructshapeIdent, gongstructshape.IsHidden))
+			if str, ok := gongstructshape.IdentifierMeta.(string); ok {
+				values.WriteString(fmt.Sprintf("\n\t%s.IdentifierMeta = %s", gongstructshapeIdent, str))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.IsSelected = %t", gongstructshapeIdent, gongstructshape.IsSelected))
+			for _, elem := range gongstructshape.AttributeShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AttributeShapes = append(%s.AttributeShapes, %s)", gongstructshapeIdent, gongstructshapeIdent, targetIdent))
+			}
+			for _, elem := range gongstructshape.LinkShapes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.LinkShapes = append(%s.LinkShapes, %s)", gongstructshapeIdent, gongstructshapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, linkshape := range __gong__sortStageSetInstances(stage.LinkShapes, stage.LinkShape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			linkshapeIdent := strings.Replace(linkshape.GongGetIdentifier(stage), "__models__", "__doc__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&doc.LinkShape{Name: %s}).Stage(stage)", linkshapeIdent, __gong__toRawStringLiteral(linkshape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", linkshapeIdent, __gong__toRawStringLiteral(linkshape.Name)))
+			if str, ok := linkshape.IdentifierMeta.(string); ok {
+				values.WriteString(fmt.Sprintf("\n\t%s.IdentifierMeta = %s", linkshapeIdent, str))
+			}
+			if str, ok := linkshape.FieldTypeIdentifierMeta.(string); ok {
+				values.WriteString(fmt.Sprintf("\n\t%s.FieldTypeIdentifierMeta = %s", linkshapeIdent, str))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.FieldOffsetX = %f", linkshapeIdent, linkshape.FieldOffsetX))
+			values.WriteString(fmt.Sprintf("\n\t%s.FieldOffsetY = %f", linkshapeIdent, linkshape.FieldOffsetY))
+			if linkshape.TargetMultiplicity.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.TargetMultiplicity = doc.%s", linkshapeIdent, linkshape.TargetMultiplicity.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.TargetMultiplicity = \"\"", linkshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.TargetMultiplicityOffsetX = %f", linkshapeIdent, linkshape.TargetMultiplicityOffsetX))
+			values.WriteString(fmt.Sprintf("\n\t%s.TargetMultiplicityOffsetY = %f", linkshapeIdent, linkshape.TargetMultiplicityOffsetY))
+			if linkshape.SourceMultiplicity.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.SourceMultiplicity = doc.%s", linkshapeIdent, linkshape.SourceMultiplicity.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.SourceMultiplicity = \"\"", linkshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.SourceMultiplicityOffsetX = %f", linkshapeIdent, linkshape.SourceMultiplicityOffsetX))
+			values.WriteString(fmt.Sprintf("\n\t%s.SourceMultiplicityOffsetY = %f", linkshapeIdent, linkshape.SourceMultiplicityOffsetY))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", linkshapeIdent, linkshape.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", linkshapeIdent, linkshape.Y))
+			if linkshape.StartOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = doc.%s", linkshapeIdent, linkshape.StartOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.StartOrientation = \"\"", linkshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.StartRatio = %f", linkshapeIdent, linkshape.StartRatio))
+			if linkshape.EndOrientation.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = doc.%s", linkshapeIdent, linkshape.EndOrientation.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.EndOrientation = \"\"", linkshapeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.EndRatio = %f", linkshapeIdent, linkshape.EndRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.CornerOffsetRatio = %f", linkshapeIdent, linkshape.CornerOffsetRatio))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHidden = %t", linkshapeIdent, linkshape.IsHidden))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	doc "github.com/fullstack-lang/gong/lib/doc/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *doc.Stage
+)%s
+
+// StageDoc stages objects into stage
+func StageDoc(stage *doc.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

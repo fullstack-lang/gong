@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -503,6 +514,216 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/app/xsd/tests/complexrules/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/app/xsd/tests/complexrules/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_complexrules.go exposing StageComplexrules.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_complexrules.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageComplexrules).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage.CommonStage != nil {
+		for _, baseitemtype := range __gong__sortStageSetInstances(stage.CommonStage.BaseItemTypes, stage.CommonStage.BaseItemType_stagedOrder) {
+			if lastStageDecl != "CommonStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "CommonStage"
+			}
+			baseitemtypeIdent := baseitemtype.GongGetIdentifier(stage.CommonStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&common.BaseItemType{Name: %s}).Stage(stage.CommonStage)", baseitemtypeIdent, __gong__toRawStringLiteral(baseitemtype.Name)))
+			if lastStageVal != "CommonStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "CommonStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", baseitemtypeIdent, __gong__toRawStringLiteral(baseitemtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Code = %s", baseitemtypeIdent, __gong__toRawStringLiteral(baseitemtype.Code)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Score = %s", baseitemtypeIdent, __gong__toRawStringLiteral(baseitemtype.Score)))
+		}
+	}
+	if stage.RefsStage != nil {
+		for _, reftargettype := range __gong__sortStageSetInstances(stage.RefsStage.RefTargetTypes, stage.RefsStage.RefTargetType_stagedOrder) {
+			if lastStageDecl != "RefsStage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "RefsStage"
+			}
+			reftargettypeIdent := reftargettype.GongGetIdentifier(stage.RefsStage)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&refs.RefTargetType{Name: %s}).Stage(stage.RefsStage)", reftargettypeIdent, __gong__toRawStringLiteral(reftargettype.Name)))
+			if lastStageVal != "RefsStage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "RefsStage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", reftargettypeIdent, __gong__toRawStringLiteral(reftargettype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", reftargettypeIdent, __gong__toRawStringLiteral(reftargettype.Id)))
+			if reftargettype.Status.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Status = refs.%s", reftargettypeIdent, reftargettype.Status.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Status = \"\"", reftargettypeIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.CreatedBy = %s", reftargettypeIdent, __gong__toRawStringLiteral(reftargettype.CreatedBy)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Label = %s", reftargettypeIdent, __gong__toRawStringLiteral(reftargettype.Label)))
+		}
+	}
+	if stage != nil {
+		for _, catalog := range __gong__sortStageSetInstances(stage.Catalogs, stage.Catalog_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			catalogIdent := strings.Replace(catalog.GongGetIdentifier(stage), "__models__", "__complexrules__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&complexrules.Catalog{Name: %s}).Stage(stage)", catalogIdent, __gong__toRawStringLiteral(catalog.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", catalogIdent, __gong__toRawStringLiteral(catalog.Name)))
+			for _, elem := range catalog.Target {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := elem.GongGetIdentifier(stage.RefsStage)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Target = append(%s.Target, %s)", catalogIdent, catalogIdent, targetIdent))
+			}
+			for _, elem := range catalog.Item {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__complexrules__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Item = append(%s.Item, %s)", catalogIdent, catalogIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, deriveditemtype := range __gong__sortStageSetInstances(stage.DerivedItemTypes, stage.DerivedItemType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			deriveditemtypeIdent := strings.Replace(deriveditemtype.GongGetIdentifier(stage), "__models__", "__complexrules__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&complexrules.DerivedItemType{Name: %s}).Stage(stage)", deriveditemtypeIdent, __gong__toRawStringLiteral(deriveditemtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", deriveditemtypeIdent, __gong__toRawStringLiteral(deriveditemtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Code = %s", deriveditemtypeIdent, __gong__toRawStringLiteral(deriveditemtype.Code)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Score = %s", deriveditemtypeIdent, __gong__toRawStringLiteral(deriveditemtype.Score)))
+			values.WriteString(fmt.Sprintf("\n\t%s.TargetRef = %s", deriveditemtypeIdent, __gong__toRawStringLiteral(deriveditemtype.TargetRef)))
+			values.WriteString(fmt.Sprintf("\n\t%s.OptionA = %s", deriveditemtypeIdent, __gong__toRawStringLiteral(deriveditemtype.OptionA)))
+			values.WriteString(fmt.Sprintf("\n\t%s.OptionB = %d", deriveditemtypeIdent, deriveditemtype.OptionB))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	complexrules "github.com/fullstack-lang/gong/app/xsd/tests/complexrules/go/models"
+	"github.com/fullstack-lang/gong/app/xsd/tests/complexrules/go/models/refs"
+	"github.com/fullstack-lang/gong/app/xsd/tests/complexrules/go/models/common"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *complexrules.Stage
+	_ *refs.Stage
+	_ *common.Stage
+)%s
+
+// StageComplexrules stages objects into stage
+func StageComplexrules(stage *complexrules.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

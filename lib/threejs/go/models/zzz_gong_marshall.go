@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -1086,6 +1097,799 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/lib/threejs/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/lib/threejs/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_threejs.go exposing StageThreejs.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_threejs.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageThreejs).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, ambiantlight := range __gong__sortStageSetInstances(stage.AmbiantLights, stage.AmbiantLight_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			ambiantlightIdent := strings.Replace(ambiantlight.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.AmbiantLight{Name: %s}).Stage(stage)", ambiantlightIdent, __gong__toRawStringLiteral(ambiantlight.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", ambiantlightIdent, __gong__toRawStringLiteral(ambiantlight.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Intensity = %f", ambiantlightIdent, ambiantlight.Intensity))
+		}
+	}
+	if stage != nil {
+		for _, boxgeometry := range __gong__sortStageSetInstances(stage.BoxGeometrys, stage.BoxGeometry_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			boxgeometryIdent := strings.Replace(boxgeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.BoxGeometry{Name: %s}).Stage(stage)", boxgeometryIdent, __gong__toRawStringLiteral(boxgeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", boxgeometryIdent, __gong__toRawStringLiteral(boxgeometry.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", boxgeometryIdent, boxgeometry.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", boxgeometryIdent, boxgeometry.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.Depth = %f", boxgeometryIdent, boxgeometry.Depth))
+			values.WriteString(fmt.Sprintf("\n\t%s.WidthSegments = %d", boxgeometryIdent, boxgeometry.WidthSegments))
+			values.WriteString(fmt.Sprintf("\n\t%s.HeightSegments = %d", boxgeometryIdent, boxgeometry.HeightSegments))
+			values.WriteString(fmt.Sprintf("\n\t%s.DepthSegments = %d", boxgeometryIdent, boxgeometry.DepthSegments))
+		}
+	}
+	if stage != nil {
+		for _, buffergeometry := range __gong__sortStageSetInstances(stage.BufferGeometrys, stage.BufferGeometry_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			buffergeometryIdent := strings.Replace(buffergeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.BufferGeometry{Name: %s}).Stage(stage)", buffergeometryIdent, __gong__toRawStringLiteral(buffergeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", buffergeometryIdent, __gong__toRawStringLiteral(buffergeometry.Name)))
+			for _, elem := range buffergeometry.Vertices {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Vertices = append(%s.Vertices, %s)", buffergeometryIdent, buffergeometryIdent, targetIdent))
+			}
+			for _, elem := range buffergeometry.Faces {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Faces = append(%s.Faces, %s)", buffergeometryIdent, buffergeometryIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, camera := range __gong__sortStageSetInstances(stage.Cameras, stage.Camera_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cameraIdent := strings.Replace(camera.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.Camera{Name: %s}).Stage(stage)", cameraIdent, __gong__toRawStringLiteral(camera.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cameraIdent, __gong__toRawStringLiteral(camera.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", cameraIdent, camera.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", cameraIdent, camera.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Z = %f", cameraIdent, camera.Z))
+			values.WriteString(fmt.Sprintf("\n\t%s.TargetX = %f", cameraIdent, camera.TargetX))
+			values.WriteString(fmt.Sprintf("\n\t%s.TargetY = %f", cameraIdent, camera.TargetY))
+			values.WriteString(fmt.Sprintf("\n\t%s.TargetZ = %f", cameraIdent, camera.TargetZ))
+			values.WriteString(fmt.Sprintf("\n\t%s.Fov = %f", cameraIdent, camera.Fov))
+		}
+	}
+	if stage != nil {
+		for _, canvas := range __gong__sortStageSetInstances(stage.Canvass, stage.Canvas_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			canvasIdent := strings.Replace(canvas.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.Canvas{Name: %s}).Stage(stage)", canvasIdent, __gong__toRawStringLiteral(canvas.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", canvasIdent, __gong__toRawStringLiteral(canvas.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsWithLastRenderingUpdate = %t", canvasIdent, canvas.IsWithLastRenderingUpdate))
+			values.WriteString(fmt.Sprintf("\n\t%s.LastRendering, _ = time.Parse(\"2006-01-02 15:04:05.999999999 -0700 MST\", \"%s\")", canvasIdent, canvas.LastRendering.String()))
+			values.WriteString(fmt.Sprintf("\n\t%s.Frame64BitsEncoded = %s", canvasIdent, __gong__toRawStringLiteral(canvas.Frame64BitsEncoded)))
+			for _, elem := range canvas.DirectionalLights {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DirectionalLights = append(%s.DirectionalLights, %s)", canvasIdent, canvasIdent, targetIdent))
+			}
+			if canvas.AmbiantLight != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(canvas.AmbiantLight.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AmbiantLight = %s", canvasIdent, targetIdent))
+			}
+			for _, elem := range canvas.Meshs {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Meshs = append(%s.Meshs, %s)", canvasIdent, canvasIdent, targetIdent))
+			}
+			if canvas.Camera != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(canvas.Camera.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Camera = %s", canvasIdent, targetIdent))
+			}
+			for _, elem := range canvas.ClippingPlanes {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ClippingPlanes = append(%s.ClippingPlanes, %s)", canvasIdent, canvasIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, clippingplane := range __gong__sortStageSetInstances(stage.ClippingPlanes, stage.ClippingPlane_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			clippingplaneIdent := strings.Replace(clippingplane.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.ClippingPlane{Name: %s}).Stage(stage)", clippingplaneIdent, __gong__toRawStringLiteral(clippingplane.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", clippingplaneIdent, __gong__toRawStringLiteral(clippingplane.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsEnabled = %t", clippingplaneIdent, clippingplane.IsEnabled))
+			values.WriteString(fmt.Sprintf("\n\t%s.NormalX = %f", clippingplaneIdent, clippingplane.NormalX))
+			values.WriteString(fmt.Sprintf("\n\t%s.NormalY = %f", clippingplaneIdent, clippingplane.NormalY))
+			values.WriteString(fmt.Sprintf("\n\t%s.NormalZ = %f", clippingplaneIdent, clippingplane.NormalZ))
+			values.WriteString(fmt.Sprintf("\n\t%s.Constant = %f", clippingplaneIdent, clippingplane.Constant))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsHelperVisible = %t", clippingplaneIdent, clippingplane.IsHelperVisible))
+			values.WriteString(fmt.Sprintf("\n\t%s.HelperSize = %f", clippingplaneIdent, clippingplane.HelperSize))
+			values.WriteString(fmt.Sprintf("\n\t%s.HelperCenterX = %f", clippingplaneIdent, clippingplane.HelperCenterX))
+			values.WriteString(fmt.Sprintf("\n\t%s.HelperCenterY = %f", clippingplaneIdent, clippingplane.HelperCenterY))
+			values.WriteString(fmt.Sprintf("\n\t%s.HelperCenterZ = %f", clippingplaneIdent, clippingplane.HelperCenterZ))
+		}
+	}
+	if stage != nil {
+		for _, curve := range __gong__sortStageSetInstances(stage.Curves, stage.Curve_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			curveIdent := strings.Replace(curve.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.Curve{Name: %s}).Stage(stage)", curveIdent, __gong__toRawStringLiteral(curve.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", curveIdent, __gong__toRawStringLiteral(curve.Name)))
+			for _, elem := range curve.Points {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Points = append(%s.Points, %s)", curveIdent, curveIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, cylindergeometry := range __gong__sortStageSetInstances(stage.CylinderGeometrys, stage.CylinderGeometry_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cylindergeometryIdent := strings.Replace(cylindergeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.CylinderGeometry{Name: %s}).Stage(stage)", cylindergeometryIdent, __gong__toRawStringLiteral(cylindergeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cylindergeometryIdent, __gong__toRawStringLiteral(cylindergeometry.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.RadiusTop = %f", cylindergeometryIdent, cylindergeometry.RadiusTop))
+			values.WriteString(fmt.Sprintf("\n\t%s.RadiusBottom = %f", cylindergeometryIdent, cylindergeometry.RadiusBottom))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", cylindergeometryIdent, cylindergeometry.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.RadialSegments = %d", cylindergeometryIdent, cylindergeometry.RadialSegments))
+			values.WriteString(fmt.Sprintf("\n\t%s.HeightSegments = %d", cylindergeometryIdent, cylindergeometry.HeightSegments))
+			values.WriteString(fmt.Sprintf("\n\t%s.OpenEnded = %t", cylindergeometryIdent, cylindergeometry.OpenEnded))
+			values.WriteString(fmt.Sprintf("\n\t%s.ThetaStart = %f", cylindergeometryIdent, cylindergeometry.ThetaStart))
+			values.WriteString(fmt.Sprintf("\n\t%s.ThetaLength = %f", cylindergeometryIdent, cylindergeometry.ThetaLength))
+		}
+	}
+	if stage != nil {
+		for _, directionallight := range __gong__sortStageSetInstances(stage.DirectionalLights, stage.DirectionalLight_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			directionallightIdent := strings.Replace(directionallight.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.DirectionalLight{Name: %s}).Stage(stage)", directionallightIdent, __gong__toRawStringLiteral(directionallight.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", directionallightIdent, __gong__toRawStringLiteral(directionallight.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", directionallightIdent, directionallight.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", directionallightIdent, directionallight.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Z = %f", directionallightIdent, directionallight.Z))
+			values.WriteString(fmt.Sprintf("\n\t%s.Intensity = %f", directionallightIdent, directionallight.Intensity))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsWithCastShadow = %t", directionallightIdent, directionallight.IsWithCastShadow))
+		}
+	}
+	if stage != nil {
+		for _, extrudegeometry := range __gong__sortStageSetInstances(stage.ExtrudeGeometrys, stage.ExtrudeGeometry_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			extrudegeometryIdent := strings.Replace(extrudegeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.ExtrudeGeometry{Name: %s}).Stage(stage)", extrudegeometryIdent, __gong__toRawStringLiteral(extrudegeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", extrudegeometryIdent, __gong__toRawStringLiteral(extrudegeometry.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Steps = %d", extrudegeometryIdent, extrudegeometry.Steps))
+			if extrudegeometry.Shape != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(extrudegeometry.Shape.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Shape = %s", extrudegeometryIdent, targetIdent))
+			}
+			if extrudegeometry.ExtrudePath != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(extrudegeometry.ExtrudePath.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExtrudePath = %s", extrudegeometryIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, mesh := range __gong__sortStageSetInstances(stage.Meshs, stage.Mesh_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			meshIdent := strings.Replace(mesh.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.Mesh{Name: %s}).Stage(stage)", meshIdent, __gong__toRawStringLiteral(mesh.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", meshIdent, __gong__toRawStringLiteral(mesh.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", meshIdent, mesh.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", meshIdent, mesh.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Z = %f", meshIdent, mesh.Z))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsNotClipped = %t", meshIdent, mesh.IsNotClipped))
+			if mesh.MeshMaterialBasic != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(mesh.MeshMaterialBasic.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MeshMaterialBasic = %s", meshIdent, targetIdent))
+			}
+			if mesh.MeshPhysicalMaterial != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(mesh.MeshPhysicalMaterial.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MeshPhysicalMaterial = %s", meshIdent, targetIdent))
+			}
+			if mesh.CylinderGeometry != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(mesh.CylinderGeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CylinderGeometry = %s", meshIdent, targetIdent))
+			}
+			if mesh.BoxGeometry != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(mesh.BoxGeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.BoxGeometry = %s", meshIdent, targetIdent))
+			}
+			if mesh.SphereGeometry != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(mesh.SphereGeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SphereGeometry = %s", meshIdent, targetIdent))
+			}
+			if mesh.TorusGeometry != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(mesh.TorusGeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TorusGeometry = %s", meshIdent, targetIdent))
+			}
+			if mesh.PlaneGeometry != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(mesh.PlaneGeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PlaneGeometry = %s", meshIdent, targetIdent))
+			}
+			if mesh.TubeGeometry != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(mesh.TubeGeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TubeGeometry = %s", meshIdent, targetIdent))
+			}
+			if mesh.ExtrudeGeometry != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(mesh.ExtrudeGeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExtrudeGeometry = %s", meshIdent, targetIdent))
+			}
+			if mesh.BufferGeometry != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(mesh.BufferGeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.BufferGeometry = %s", meshIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, meshmaterialbasic := range __gong__sortStageSetInstances(stage.MeshMaterialBasics, stage.MeshMaterialBasic_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			meshmaterialbasicIdent := strings.Replace(meshmaterialbasic.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.MeshMaterialBasic{Name: %s}).Stage(stage)", meshmaterialbasicIdent, __gong__toRawStringLiteral(meshmaterialbasic.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", meshmaterialbasicIdent, __gong__toRawStringLiteral(meshmaterialbasic.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", meshmaterialbasicIdent, __gong__toRawStringLiteral(meshmaterialbasic.Color)))
+		}
+	}
+	if stage != nil {
+		for _, meshphysicalmaterial := range __gong__sortStageSetInstances(stage.MeshPhysicalMaterials, stage.MeshPhysicalMaterial_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			meshphysicalmaterialIdent := strings.Replace(meshphysicalmaterial.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.MeshPhysicalMaterial{Name: %s}).Stage(stage)", meshphysicalmaterialIdent, __gong__toRawStringLiteral(meshphysicalmaterial.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", meshphysicalmaterialIdent, __gong__toRawStringLiteral(meshphysicalmaterial.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Color = %s", meshphysicalmaterialIdent, __gong__toRawStringLiteral(meshphysicalmaterial.Color)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Wireframe = %t", meshphysicalmaterialIdent, meshphysicalmaterial.Wireframe))
+			values.WriteString(fmt.Sprintf("\n\t%s.Opacity = %f", meshphysicalmaterialIdent, meshphysicalmaterial.Opacity))
+			values.WriteString(fmt.Sprintf("\n\t%s.Transparent = %t", meshphysicalmaterialIdent, meshphysicalmaterial.Transparent))
+			values.WriteString(fmt.Sprintf("\n\t%s.Visible = %t", meshphysicalmaterialIdent, meshphysicalmaterial.Visible))
+		}
+	}
+	if stage != nil {
+		for _, planegeometry := range __gong__sortStageSetInstances(stage.PlaneGeometrys, stage.PlaneGeometry_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			planegeometryIdent := strings.Replace(planegeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.PlaneGeometry{Name: %s}).Stage(stage)", planegeometryIdent, __gong__toRawStringLiteral(planegeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", planegeometryIdent, __gong__toRawStringLiteral(planegeometry.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Width = %f", planegeometryIdent, planegeometry.Width))
+			values.WriteString(fmt.Sprintf("\n\t%s.Height = %f", planegeometryIdent, planegeometry.Height))
+			values.WriteString(fmt.Sprintf("\n\t%s.WidthSegments = %d", planegeometryIdent, planegeometry.WidthSegments))
+			values.WriteString(fmt.Sprintf("\n\t%s.HeightSegments = %d", planegeometryIdent, planegeometry.HeightSegments))
+		}
+	}
+	if stage != nil {
+		for _, shape := range __gong__sortStageSetInstances(stage.Shapes, stage.Shape_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			shapeIdent := strings.Replace(shape.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.Shape{Name: %s}).Stage(stage)", shapeIdent, __gong__toRawStringLiteral(shape.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", shapeIdent, __gong__toRawStringLiteral(shape.Name)))
+			for _, elem := range shape.Points {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Points = append(%s.Points, %s)", shapeIdent, shapeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, spheregeometry := range __gong__sortStageSetInstances(stage.SphereGeometrys, stage.SphereGeometry_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			spheregeometryIdent := strings.Replace(spheregeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.SphereGeometry{Name: %s}).Stage(stage)", spheregeometryIdent, __gong__toRawStringLiteral(spheregeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", spheregeometryIdent, __gong__toRawStringLiteral(spheregeometry.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Radius = %f", spheregeometryIdent, spheregeometry.Radius))
+			values.WriteString(fmt.Sprintf("\n\t%s.WidthSegments = %d", spheregeometryIdent, spheregeometry.WidthSegments))
+			values.WriteString(fmt.Sprintf("\n\t%s.HeightSegments = %d", spheregeometryIdent, spheregeometry.HeightSegments))
+			values.WriteString(fmt.Sprintf("\n\t%s.PhiStart = %f", spheregeometryIdent, spheregeometry.PhiStart))
+			values.WriteString(fmt.Sprintf("\n\t%s.PhiLength = %f", spheregeometryIdent, spheregeometry.PhiLength))
+			values.WriteString(fmt.Sprintf("\n\t%s.ThetaStart = %f", spheregeometryIdent, spheregeometry.ThetaStart))
+			values.WriteString(fmt.Sprintf("\n\t%s.ThetaLength = %f", spheregeometryIdent, spheregeometry.ThetaLength))
+		}
+	}
+	if stage != nil {
+		for _, torusgeometry := range __gong__sortStageSetInstances(stage.TorusGeometrys, stage.TorusGeometry_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			torusgeometryIdent := strings.Replace(torusgeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.TorusGeometry{Name: %s}).Stage(stage)", torusgeometryIdent, __gong__toRawStringLiteral(torusgeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", torusgeometryIdent, __gong__toRawStringLiteral(torusgeometry.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Radius = %f", torusgeometryIdent, torusgeometry.Radius))
+			values.WriteString(fmt.Sprintf("\n\t%s.Tube = %f", torusgeometryIdent, torusgeometry.Tube))
+			values.WriteString(fmt.Sprintf("\n\t%s.RadialSegments = %d", torusgeometryIdent, torusgeometry.RadialSegments))
+			values.WriteString(fmt.Sprintf("\n\t%s.TubularSegments = %d", torusgeometryIdent, torusgeometry.TubularSegments))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arc = %f", torusgeometryIdent, torusgeometry.Arc))
+		}
+	}
+	if stage != nil {
+		for _, triangle := range __gong__sortStageSetInstances(stage.Triangles, stage.Triangle_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			triangleIdent := strings.Replace(triangle.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.Triangle{Name: %s}).Stage(stage)", triangleIdent, __gong__toRawStringLiteral(triangle.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", triangleIdent, __gong__toRawStringLiteral(triangle.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.V1 = %d", triangleIdent, triangle.V1))
+			values.WriteString(fmt.Sprintf("\n\t%s.V2 = %d", triangleIdent, triangle.V2))
+			values.WriteString(fmt.Sprintf("\n\t%s.V3 = %d", triangleIdent, triangle.V3))
+		}
+	}
+	if stage != nil {
+		for _, tubegeometry := range __gong__sortStageSetInstances(stage.TubeGeometrys, stage.TubeGeometry_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			tubegeometryIdent := strings.Replace(tubegeometry.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.TubeGeometry{Name: %s}).Stage(stage)", tubegeometryIdent, __gong__toRawStringLiteral(tubegeometry.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tubegeometryIdent, __gong__toRawStringLiteral(tubegeometry.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.TubularSegments = %d", tubegeometryIdent, tubegeometry.TubularSegments))
+			values.WriteString(fmt.Sprintf("\n\t%s.Radius = %f", tubegeometryIdent, tubegeometry.Radius))
+			values.WriteString(fmt.Sprintf("\n\t%s.RadialSegments = %d", tubegeometryIdent, tubegeometry.RadialSegments))
+			values.WriteString(fmt.Sprintf("\n\t%s.Closed = %t", tubegeometryIdent, tubegeometry.Closed))
+			if tubegeometry.Path != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(tubegeometry.Path.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Path = %s", tubegeometryIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, vector2 := range __gong__sortStageSetInstances(stage.Vector2s, stage.Vector2_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			vector2Ident := strings.Replace(vector2.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.Vector2{Name: %s}).Stage(stage)", vector2Ident, __gong__toRawStringLiteral(vector2.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", vector2Ident, __gong__toRawStringLiteral(vector2.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", vector2Ident, vector2.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", vector2Ident, vector2.Y))
+		}
+	}
+	if stage != nil {
+		for _, vector3 := range __gong__sortStageSetInstances(stage.Vector3s, stage.Vector3_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			vector3Ident := strings.Replace(vector3.GongGetIdentifier(stage), "__models__", "__threejs__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&threejs.Vector3{Name: %s}).Stage(stage)", vector3Ident, __gong__toRawStringLiteral(vector3.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", vector3Ident, __gong__toRawStringLiteral(vector3.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.X = %f", vector3Ident, vector3.X))
+			values.WriteString(fmt.Sprintf("\n\t%s.Y = %f", vector3Ident, vector3.Y))
+			values.WriteString(fmt.Sprintf("\n\t%s.Z = %f", vector3Ident, vector3.Z))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *threejs.Stage
+)%s
+
+// StageThreejs stages objects into stage
+func StageThreejs(stage *threejs.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

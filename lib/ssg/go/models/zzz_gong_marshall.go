@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -654,6 +665,367 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/lib/ssg/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/lib/ssg/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_ssg.go exposing StageSsg.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_ssg.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageSsg).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, chapter := range __gong__sortStageSetInstances(stage.Chapters, stage.Chapter_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			chapterIdent := strings.Replace(chapter.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&ssg.Chapter{Name: %s}).Stage(stage)", chapterIdent, __gong__toRawStringLiteral(chapter.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", chapterIdent, __gong__toRawStringLiteral(chapter.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MardownContent = %s", chapterIdent, __gong__toRawStringLiteral(chapter.MardownContent)))
+			for _, elem := range chapter.Sections {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Sections = append(%s.Sections, %s)", chapterIdent, chapterIdent, targetIdent))
+			}
+			for _, elem := range chapter.Pages {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Pages = append(%s.Pages, %s)", chapterIdent, chapterIdent, targetIdent))
+			}
+			for _, elem := range chapter.SubChapters {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SubChapters = append(%s.SubChapters, %s)", chapterIdent, chapterIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, content := range __gong__sortStageSetInstances(stage.Contents, stage.Content_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			contentIdent := strings.Replace(content.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&ssg.Content{Name: %s}).Stage(stage)", contentIdent, __gong__toRawStringLiteral(content.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", contentIdent, __gong__toRawStringLiteral(content.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MardownContent = %s", contentIdent, __gong__toRawStringLiteral(content.MardownContent)))
+			values.WriteString(fmt.Sprintf("\n\t%s.ContentPath = %s", contentIdent, __gong__toRawStringLiteral(content.ContentPath)))
+			values.WriteString(fmt.Sprintf("\n\t%s.OutputPath = %s", contentIdent, __gong__toRawStringLiteral(content.OutputPath)))
+			values.WriteString(fmt.Sprintf("\n\t%s.StaticPath = %s", contentIdent, __gong__toRawStringLiteral(content.StaticPath)))
+			values.WriteString(fmt.Sprintf("\n\t%s.LogoSVGFile = %s", contentIdent, __gong__toRawStringLiteral(content.LogoSVGFile)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsBespokeLogoFileName = %t", contentIdent, content.IsBespokeLogoFileName))
+			values.WriteString(fmt.Sprintf("\n\t%s.BespokeLogoFileName = %s", contentIdent, __gong__toRawStringLiteral(content.BespokeLogoFileName)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsBespokePageTileLogoFileName = %t", contentIdent, content.IsBespokePageTileLogoFileName))
+			values.WriteString(fmt.Sprintf("\n\t%s.BespokePageTileLogoFileName = %s", contentIdent, __gong__toRawStringLiteral(content.BespokePageTileLogoFileName)))
+			if content.Target.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.Target = ssg.%s", contentIdent, content.Target.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.Target = \"\"", contentIdent))
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.VersionInfo = %s", contentIdent, __gong__toRawStringLiteral(content.VersionInfo)))
+			for _, elem := range content.Chapters {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Chapters = append(%s.Chapters, %s)", contentIdent, contentIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, downloadablefile := range __gong__sortStageSetInstances(stage.DownloadableFiles, stage.DownloadableFile_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			downloadablefileIdent := strings.Replace(downloadablefile.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&ssg.DownloadableFile{Name: %s}).Stage(stage)", downloadablefileIdent, __gong__toRawStringLiteral(downloadablefile.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", downloadablefileIdent, __gong__toRawStringLiteral(downloadablefile.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Base64Content = %s", downloadablefileIdent, __gong__toRawStringLiteral(downloadablefile.Base64Content)))
+		}
+	}
+	if stage != nil {
+		for _, jpgimage := range __gong__sortStageSetInstances(stage.JpgImages, stage.JpgImage_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			jpgimageIdent := strings.Replace(jpgimage.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&ssg.JpgImage{Name: %s}).Stage(stage)", jpgimageIdent, __gong__toRawStringLiteral(jpgimage.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", jpgimageIdent, __gong__toRawStringLiteral(jpgimage.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Base64Content = %s", jpgimageIdent, __gong__toRawStringLiteral(jpgimage.Base64Content)))
+		}
+	}
+	if stage != nil {
+		for _, page := range __gong__sortStageSetInstances(stage.Pages, stage.Page_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			pageIdent := strings.Replace(page.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&ssg.Page{Name: %s}).Stage(stage)", pageIdent, __gong__toRawStringLiteral(page.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", pageIdent, __gong__toRawStringLiteral(page.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MardownContent = %s", pageIdent, __gong__toRawStringLiteral(page.MardownContent)))
+			for _, elem := range page.Sections {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Sections = append(%s.Sections, %s)", pageIdent, pageIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, pngimage := range __gong__sortStageSetInstances(stage.PngImages, stage.PngImage_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			pngimageIdent := strings.Replace(pngimage.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&ssg.PngImage{Name: %s}).Stage(stage)", pngimageIdent, __gong__toRawStringLiteral(pngimage.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", pngimageIdent, __gong__toRawStringLiteral(pngimage.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Base64Content = %s", pngimageIdent, __gong__toRawStringLiteral(pngimage.Base64Content)))
+		}
+	}
+	if stage != nil {
+		for _, section := range __gong__sortStageSetInstances(stage.Sections, stage.Section_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			sectionIdent := strings.Replace(section.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&ssg.Section{Name: %s}).Stage(stage)", sectionIdent, __gong__toRawStringLiteral(section.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", sectionIdent, __gong__toRawStringLiteral(section.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.MardownContent = %s", sectionIdent, __gong__toRawStringLiteral(section.MardownContent)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsImage = %t", sectionIdent, section.IsImage))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDownloadableFile = %t", sectionIdent, section.IsDownloadableFile))
+			if section.SvgImage != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(section.SvgImage.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SvgImage = %s", sectionIdent, targetIdent))
+			}
+			if section.PngImage != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(section.PngImage.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PngImage = %s", sectionIdent, targetIdent))
+			}
+			if section.JpgImage != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(section.JpgImage.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.JpgImage = %s", sectionIdent, targetIdent))
+			}
+			if section.DownloadableFile != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(section.DownloadableFile.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DownloadableFile = %s", sectionIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, svgimage := range __gong__sortStageSetInstances(stage.SvgImages, stage.SvgImage_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			svgimageIdent := strings.Replace(svgimage.GongGetIdentifier(stage), "__models__", "__ssg__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&ssg.SvgImage{Name: %s}).Stage(stage)", svgimageIdent, __gong__toRawStringLiteral(svgimage.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", svgimageIdent, __gong__toRawStringLiteral(svgimage.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Content = %s", svgimageIdent, __gong__toRawStringLiteral(svgimage.Content)))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *ssg.Stage
+)%s
+
+// StageSsg stages objects into stage
+func StageSsg(stage *ssg.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

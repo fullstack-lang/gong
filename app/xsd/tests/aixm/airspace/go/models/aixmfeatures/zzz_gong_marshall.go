@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -2274,6 +2285,1987 @@ func _(stage *aixmfeatures.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models/aixmfeatures" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models/aixmfeatures\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_airspace.go exposing StageAirspace.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_airspace.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageAirspace).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, a_extension := range __gong__sortStageSetInstances(stage.A_extensions, stage.A_extension_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extensionIdent := strings.Replace(a_extension.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension{Name: %s}).Stage(stage)", a_extensionIdent, __gong__toRawStringLiteral(a_extension.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extensionIdent, __gong__toRawStringLiteral(a_extension.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extensionIdent, a_extension.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_1 := range __gong__sortStageSetInstances(stage.A_extension_1s, stage.A_extension_1_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_1Ident := strings.Replace(a_extension_1.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension_1{Name: %s}).Stage(stage)", a_extension_1Ident, __gong__toRawStringLiteral(a_extension_1.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_1Ident, __gong__toRawStringLiteral(a_extension_1.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_1Ident, a_extension_1.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_10 := range __gong__sortStageSetInstances(stage.A_extension_10s, stage.A_extension_10_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_10Ident := strings.Replace(a_extension_10.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension_10{Name: %s}).Stage(stage)", a_extension_10Ident, __gong__toRawStringLiteral(a_extension_10.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_10Ident, __gong__toRawStringLiteral(a_extension_10.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_10Ident, a_extension_10.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_11 := range __gong__sortStageSetInstances(stage.A_extension_11s, stage.A_extension_11_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_11Ident := strings.Replace(a_extension_11.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension_11{Name: %s}).Stage(stage)", a_extension_11Ident, __gong__toRawStringLiteral(a_extension_11.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_11Ident, __gong__toRawStringLiteral(a_extension_11.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_11Ident, a_extension_11.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_12 := range __gong__sortStageSetInstances(stage.A_extension_12s, stage.A_extension_12_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_12Ident := strings.Replace(a_extension_12.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension_12{Name: %s}).Stage(stage)", a_extension_12Ident, __gong__toRawStringLiteral(a_extension_12.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_12Ident, __gong__toRawStringLiteral(a_extension_12.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_12Ident, a_extension_12.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_13 := range __gong__sortStageSetInstances(stage.A_extension_13s, stage.A_extension_13_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_13Ident := strings.Replace(a_extension_13.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension_13{Name: %s}).Stage(stage)", a_extension_13Ident, __gong__toRawStringLiteral(a_extension_13.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_13Ident, __gong__toRawStringLiteral(a_extension_13.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_13Ident, a_extension_13.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_14 := range __gong__sortStageSetInstances(stage.A_extension_14s, stage.A_extension_14_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_14Ident := strings.Replace(a_extension_14.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension_14{Name: %s}).Stage(stage)", a_extension_14Ident, __gong__toRawStringLiteral(a_extension_14.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_14Ident, __gong__toRawStringLiteral(a_extension_14.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_14Ident, a_extension_14.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_2 := range __gong__sortStageSetInstances(stage.A_extension_2s, stage.A_extension_2_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_2Ident := strings.Replace(a_extension_2.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension_2{Name: %s}).Stage(stage)", a_extension_2Ident, __gong__toRawStringLiteral(a_extension_2.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_2Ident, __gong__toRawStringLiteral(a_extension_2.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_2Ident, a_extension_2.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_3 := range __gong__sortStageSetInstances(stage.A_extension_3s, stage.A_extension_3_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_3Ident := strings.Replace(a_extension_3.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension_3{Name: %s}).Stage(stage)", a_extension_3Ident, __gong__toRawStringLiteral(a_extension_3.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_3Ident, __gong__toRawStringLiteral(a_extension_3.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_3Ident, a_extension_3.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_4 := range __gong__sortStageSetInstances(stage.A_extension_4s, stage.A_extension_4_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_4Ident := strings.Replace(a_extension_4.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension_4{Name: %s}).Stage(stage)", a_extension_4Ident, __gong__toRawStringLiteral(a_extension_4.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_4Ident, __gong__toRawStringLiteral(a_extension_4.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_4Ident, a_extension_4.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_5 := range __gong__sortStageSetInstances(stage.A_extension_5s, stage.A_extension_5_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_5Ident := strings.Replace(a_extension_5.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension_5{Name: %s}).Stage(stage)", a_extension_5Ident, __gong__toRawStringLiteral(a_extension_5.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_5Ident, __gong__toRawStringLiteral(a_extension_5.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_5Ident, a_extension_5.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_6 := range __gong__sortStageSetInstances(stage.A_extension_6s, stage.A_extension_6_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_6Ident := strings.Replace(a_extension_6.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension_6{Name: %s}).Stage(stage)", a_extension_6Ident, __gong__toRawStringLiteral(a_extension_6.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_6Ident, __gong__toRawStringLiteral(a_extension_6.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_6Ident, a_extension_6.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_7 := range __gong__sortStageSetInstances(stage.A_extension_7s, stage.A_extension_7_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_7Ident := strings.Replace(a_extension_7.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension_7{Name: %s}).Stage(stage)", a_extension_7Ident, __gong__toRawStringLiteral(a_extension_7.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_7Ident, __gong__toRawStringLiteral(a_extension_7.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_7Ident, a_extension_7.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_8 := range __gong__sortStageSetInstances(stage.A_extension_8s, stage.A_extension_8_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_8Ident := strings.Replace(a_extension_8.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension_8{Name: %s}).Stage(stage)", a_extension_8Ident, __gong__toRawStringLiteral(a_extension_8.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_8Ident, __gong__toRawStringLiteral(a_extension_8.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_8Ident, a_extension_8.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_9 := range __gong__sortStageSetInstances(stage.A_extension_9s, stage.A_extension_9_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_9Ident := strings.Replace(a_extension_9.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.A_extension_9{Name: %s}).Stage(stage)", a_extension_9Ident, __gong__toRawStringLiteral(a_extension_9.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_9Ident, __gong__toRawStringLiteral(a_extension_9.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_9Ident, a_extension_9.Owns))
+		}
+	}
+	if stage != nil {
+		for _, abstractpropertieswithscheduletype := range __gong__sortStageSetInstances(stage.AbstractPropertiesWithScheduleTypes, stage.AbstractPropertiesWithScheduleType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractpropertieswithscheduletypeIdent := strings.Replace(abstractpropertieswithscheduletype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AbstractPropertiesWithScheduleType{Name: %s}).Stage(stage)", abstractpropertieswithscheduletypeIdent, __gong__toRawStringLiteral(abstractpropertieswithscheduletype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractpropertieswithscheduletypeIdent, __gong__toRawStringLiteral(abstractpropertieswithscheduletype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", abstractpropertieswithscheduletypeIdent, __gong__toRawStringLiteral(abstractpropertieswithscheduletype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", abstractpropertieswithscheduletypeIdent, __gong__toRawStringLiteral(abstractpropertieswithscheduletype.Description)))
+		}
+	}
+	if stage != nil {
+		for _, aircraftcharacteristicpropertytype := range __gong__sortStageSetInstances(stage.AircraftCharacteristicPropertyTypes, stage.AircraftCharacteristicPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			aircraftcharacteristicpropertytypeIdent := strings.Replace(aircraftcharacteristicpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AircraftCharacteristicPropertyType{Name: %s}).Stage(stage)", aircraftcharacteristicpropertytypeIdent, __gong__toRawStringLiteral(aircraftcharacteristicpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", aircraftcharacteristicpropertytypeIdent, __gong__toRawStringLiteral(aircraftcharacteristicpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", aircraftcharacteristicpropertytypeIdent, __gong__toRawStringLiteral(aircraftcharacteristicpropertytype.NilReason)))
+			if aircraftcharacteristicpropertytype.AircraftCharacteristic != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(aircraftcharacteristicpropertytype.AircraftCharacteristic.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCharacteristic = %s", aircraftcharacteristicpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, aircraftcharacteristictype := range __gong__sortStageSetInstances(stage.AircraftCharacteristicTypes, stage.AircraftCharacteristicType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			aircraftcharacteristictypeIdent := strings.Replace(aircraftcharacteristictype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AircraftCharacteristicType{Name: %s}).Stage(stage)", aircraftcharacteristictypeIdent, __gong__toRawStringLiteral(aircraftcharacteristictype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", aircraftcharacteristictypeIdent, __gong__toRawStringLiteral(aircraftcharacteristictype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", aircraftcharacteristictypeIdent, __gong__toRawStringLiteral(aircraftcharacteristictype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", aircraftcharacteristictypeIdent, __gong__toRawStringLiteral(aircraftcharacteristictype.Description)))
+			for _, elem := range aircraftcharacteristictype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", aircraftcharacteristictypeIdent, aircraftcharacteristictypeIdent, targetIdent))
+			}
+			for _, elem := range aircraftcharacteristictype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", aircraftcharacteristictypeIdent, aircraftcharacteristictypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspaceactivationpropertytype := range __gong__sortStageSetInstances(stage.AirspaceActivationPropertyTypes, stage.AirspaceActivationPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspaceactivationpropertytypeIdent := strings.Replace(airspaceactivationpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceActivationPropertyType{Name: %s}).Stage(stage)", airspaceactivationpropertytypeIdent, __gong__toRawStringLiteral(airspaceactivationpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspaceactivationpropertytypeIdent, __gong__toRawStringLiteral(airspaceactivationpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", airspaceactivationpropertytypeIdent, __gong__toRawStringLiteral(airspaceactivationpropertytype.NilReason)))
+			if airspaceactivationpropertytype.AirspaceActivation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(airspaceactivationpropertytype.AirspaceActivation.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AirspaceActivation = %s", airspaceactivationpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspaceactivationtype := range __gong__sortStageSetInstances(stage.AirspaceActivationTypes, stage.AirspaceActivationType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspaceactivationtypeIdent := strings.Replace(airspaceactivationtype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceActivationType{Name: %s}).Stage(stage)", airspaceactivationtypeIdent, __gong__toRawStringLiteral(airspaceactivationtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspaceactivationtypeIdent, __gong__toRawStringLiteral(airspaceactivationtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", airspaceactivationtypeIdent, __gong__toRawStringLiteral(airspaceactivationtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", airspaceactivationtypeIdent, __gong__toRawStringLiteral(airspaceactivationtype.Description)))
+			for _, elem := range airspaceactivationtype.TimeInterval {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeInterval = append(%s.TimeInterval, %s)", airspaceactivationtypeIdent, airspaceactivationtypeIdent, targetIdent))
+			}
+			for _, elem := range airspaceactivationtype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", airspaceactivationtypeIdent, airspaceactivationtypeIdent, targetIdent))
+			}
+			for _, elem := range airspaceactivationtype.SpecialDateAuthority {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SpecialDateAuthority = append(%s.SpecialDateAuthority, %s)", airspaceactivationtypeIdent, airspaceactivationtypeIdent, targetIdent))
+			}
+			for _, elem := range airspaceactivationtype.Levels {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Levels = append(%s.Levels, %s)", airspaceactivationtypeIdent, airspaceactivationtypeIdent, targetIdent))
+			}
+			for _, elem := range airspaceactivationtype.User {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.User = append(%s.User, %s)", airspaceactivationtypeIdent, airspaceactivationtypeIdent, targetIdent))
+			}
+			for _, elem := range airspaceactivationtype.Aircraft {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Aircraft = append(%s.Aircraft, %s)", airspaceactivationtypeIdent, airspaceactivationtypeIdent, targetIdent))
+			}
+			for _, elem := range airspaceactivationtype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", airspaceactivationtypeIdent, airspaceactivationtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspacegeometrycomponentpropertytype := range __gong__sortStageSetInstances(stage.AirspaceGeometryComponentPropertyTypes, stage.AirspaceGeometryComponentPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspacegeometrycomponentpropertytypeIdent := strings.Replace(airspacegeometrycomponentpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceGeometryComponentPropertyType{Name: %s}).Stage(stage)", airspacegeometrycomponentpropertytypeIdent, __gong__toRawStringLiteral(airspacegeometrycomponentpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspacegeometrycomponentpropertytypeIdent, __gong__toRawStringLiteral(airspacegeometrycomponentpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", airspacegeometrycomponentpropertytypeIdent, __gong__toRawStringLiteral(airspacegeometrycomponentpropertytype.NilReason)))
+			if airspacegeometrycomponentpropertytype.AirspaceGeometryComponent != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(airspacegeometrycomponentpropertytype.AirspaceGeometryComponent.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AirspaceGeometryComponent = %s", airspacegeometrycomponentpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspacegeometrycomponenttype := range __gong__sortStageSetInstances(stage.AirspaceGeometryComponentTypes, stage.AirspaceGeometryComponentType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspacegeometrycomponenttypeIdent := strings.Replace(airspacegeometrycomponenttype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceGeometryComponentType{Name: %s}).Stage(stage)", airspacegeometrycomponenttypeIdent, __gong__toRawStringLiteral(airspacegeometrycomponenttype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspacegeometrycomponenttypeIdent, __gong__toRawStringLiteral(airspacegeometrycomponenttype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", airspacegeometrycomponenttypeIdent, __gong__toRawStringLiteral(airspacegeometrycomponenttype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", airspacegeometrycomponenttypeIdent, __gong__toRawStringLiteral(airspacegeometrycomponenttype.Description)))
+			for _, elem := range airspacegeometrycomponenttype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", airspacegeometrycomponenttypeIdent, airspacegeometrycomponenttypeIdent, targetIdent))
+			}
+			if airspacegeometrycomponenttype.TheAirspaceVolume != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(airspacegeometrycomponenttype.TheAirspaceVolume.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TheAirspaceVolume = %s", airspacegeometrycomponenttypeIdent, targetIdent))
+			}
+			for _, elem := range airspacegeometrycomponenttype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", airspacegeometrycomponenttypeIdent, airspacegeometrycomponenttypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspacelayerclasspropertytype := range __gong__sortStageSetInstances(stage.AirspaceLayerClassPropertyTypes, stage.AirspaceLayerClassPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspacelayerclasspropertytypeIdent := strings.Replace(airspacelayerclasspropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceLayerClassPropertyType{Name: %s}).Stage(stage)", airspacelayerclasspropertytypeIdent, __gong__toRawStringLiteral(airspacelayerclasspropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspacelayerclasspropertytypeIdent, __gong__toRawStringLiteral(airspacelayerclasspropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", airspacelayerclasspropertytypeIdent, __gong__toRawStringLiteral(airspacelayerclasspropertytype.NilReason)))
+			if airspacelayerclasspropertytype.AirspaceLayerClass != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(airspacelayerclasspropertytype.AirspaceLayerClass.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AirspaceLayerClass = %s", airspacelayerclasspropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspacelayerclasstype := range __gong__sortStageSetInstances(stage.AirspaceLayerClassTypes, stage.AirspaceLayerClassType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspacelayerclasstypeIdent := strings.Replace(airspacelayerclasstype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceLayerClassType{Name: %s}).Stage(stage)", airspacelayerclasstypeIdent, __gong__toRawStringLiteral(airspacelayerclasstype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspacelayerclasstypeIdent, __gong__toRawStringLiteral(airspacelayerclasstype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", airspacelayerclasstypeIdent, __gong__toRawStringLiteral(airspacelayerclasstype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", airspacelayerclasstypeIdent, __gong__toRawStringLiteral(airspacelayerclasstype.Description)))
+			for _, elem := range airspacelayerclasstype.TimeInterval {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeInterval = append(%s.TimeInterval, %s)", airspacelayerclasstypeIdent, airspacelayerclasstypeIdent, targetIdent))
+			}
+			for _, elem := range airspacelayerclasstype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", airspacelayerclasstypeIdent, airspacelayerclasstypeIdent, targetIdent))
+			}
+			for _, elem := range airspacelayerclasstype.SpecialDateAuthority {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SpecialDateAuthority = append(%s.SpecialDateAuthority, %s)", airspacelayerclasstypeIdent, airspacelayerclasstypeIdent, targetIdent))
+			}
+			for _, elem := range airspacelayerclasstype.AssociatedLevels {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AssociatedLevels = append(%s.AssociatedLevels, %s)", airspacelayerclasstypeIdent, airspacelayerclasstypeIdent, targetIdent))
+			}
+			for _, elem := range airspacelayerclasstype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", airspacelayerclasstypeIdent, airspacelayerclasstypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspacelayerpropertytype := range __gong__sortStageSetInstances(stage.AirspaceLayerPropertyTypes, stage.AirspaceLayerPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspacelayerpropertytypeIdent := strings.Replace(airspacelayerpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceLayerPropertyType{Name: %s}).Stage(stage)", airspacelayerpropertytypeIdent, __gong__toRawStringLiteral(airspacelayerpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspacelayerpropertytypeIdent, __gong__toRawStringLiteral(airspacelayerpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", airspacelayerpropertytypeIdent, __gong__toRawStringLiteral(airspacelayerpropertytype.NilReason)))
+			if airspacelayerpropertytype.AirspaceLayer != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(airspacelayerpropertytype.AirspaceLayer.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AirspaceLayer = %s", airspacelayerpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspacelayertype := range __gong__sortStageSetInstances(stage.AirspaceLayerTypes, stage.AirspaceLayerType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspacelayertypeIdent := strings.Replace(airspacelayertype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceLayerType{Name: %s}).Stage(stage)", airspacelayertypeIdent, __gong__toRawStringLiteral(airspacelayertype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspacelayertypeIdent, __gong__toRawStringLiteral(airspacelayertype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", airspacelayertypeIdent, __gong__toRawStringLiteral(airspacelayertype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", airspacelayertypeIdent, __gong__toRawStringLiteral(airspacelayertype.Description)))
+			if airspacelayertype.DiscreteLevelSeries != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(airspacelayertype.DiscreteLevelSeries.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DiscreteLevelSeries = %s", airspacelayertypeIdent, targetIdent))
+			}
+			for _, elem := range airspacelayertype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", airspacelayertypeIdent, airspacelayertypeIdent, targetIdent))
+			}
+			for _, elem := range airspacelayertype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", airspacelayertypeIdent, airspacelayertypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspacepropertytype := range __gong__sortStageSetInstances(stage.AirspacePropertyTypes, stage.AirspacePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspacepropertytypeIdent := strings.Replace(airspacepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspacePropertyType{Name: %s}).Stage(stage)", airspacepropertytypeIdent, __gong__toRawStringLiteral(airspacepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspacepropertytypeIdent, __gong__toRawStringLiteral(airspacepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", airspacepropertytypeIdent, airspacepropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", airspacepropertytypeIdent, __gong__toRawStringLiteral(airspacepropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", airspacepropertytypeIdent, __gong__toRawStringLiteral(airspacepropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", airspacepropertytypeIdent, __gong__toRawStringLiteral(airspacepropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", airspacepropertytypeIdent, __gong__toRawStringLiteral(airspacepropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", airspacepropertytypeIdent, __gong__toRawStringLiteral(airspacepropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", airspacepropertytypeIdent, __gong__toRawStringLiteral(airspacepropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", airspacepropertytypeIdent, __gong__toRawStringLiteral(airspacepropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", airspacepropertytypeIdent, __gong__toRawStringLiteral(airspacepropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, airspacetimeslicepropertytype := range __gong__sortStageSetInstances(stage.AirspaceTimeSlicePropertyTypes, stage.AirspaceTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspacetimeslicepropertytypeIdent := strings.Replace(airspacetimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceTimeSlicePropertyType{Name: %s}).Stage(stage)", airspacetimeslicepropertytypeIdent, __gong__toRawStringLiteral(airspacetimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspacetimeslicepropertytypeIdent, __gong__toRawStringLiteral(airspacetimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", airspacetimeslicepropertytypeIdent, airspacetimeslicepropertytype.Owns))
+			if airspacetimeslicepropertytype.AirspaceTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(airspacetimeslicepropertytype.AirspaceTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AirspaceTimeSlice = %s", airspacetimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspacetimeslicetype := range __gong__sortStageSetInstances(stage.AirspaceTimeSliceTypes, stage.AirspaceTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspacetimeslicetypeIdent := strings.Replace(airspacetimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceTimeSliceType{Name: %s}).Stage(stage)", airspacetimeslicetypeIdent, __gong__toRawStringLiteral(airspacetimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspacetimeslicetypeIdent, __gong__toRawStringLiteral(airspacetimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", airspacetimeslicetypeIdent, __gong__toRawStringLiteral(airspacetimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", airspacetimeslicetypeIdent, __gong__toRawStringLiteral(airspacetimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", airspacetimeslicetypeIdent, __gong__toRawStringLiteral(airspacetimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", airspacetimeslicetypeIdent, airspacetimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", airspacetimeslicetypeIdent, airspacetimeslicetype.CorrectionNumber))
+			for _, elem := range airspacetimeslicetype.Class {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Class = append(%s.Class, %s)", airspacetimeslicetypeIdent, airspacetimeslicetypeIdent, targetIdent))
+			}
+			if airspacetimeslicetype.ProtectedRoute != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(airspacetimeslicetype.ProtectedRoute.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ProtectedRoute = %s", airspacetimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range airspacetimeslicetype.GeometryComponent {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GeometryComponent = append(%s.GeometryComponent, %s)", airspacetimeslicetypeIdent, airspacetimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range airspacetimeslicetype.Activation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Activation = append(%s.Activation, %s)", airspacetimeslicetypeIdent, airspacetimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range airspacetimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", airspacetimeslicetypeIdent, airspacetimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range airspacetimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", airspacetimeslicetypeIdent, airspacetimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspacetype := range __gong__sortStageSetInstances(stage.AirspaceTypes, stage.AirspaceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspacetypeIdent := strings.Replace(airspacetype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceType{Name: %s}).Stage(stage)", airspacetypeIdent, __gong__toRawStringLiteral(airspacetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspacetypeIdent, __gong__toRawStringLiteral(airspacetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", airspacetypeIdent, __gong__toRawStringLiteral(airspacetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", airspacetypeIdent, __gong__toRawStringLiteral(airspacetype.Description)))
+			for _, elem := range airspacetype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", airspacetypeIdent, airspacetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspacevolumedependencypropertytype := range __gong__sortStageSetInstances(stage.AirspaceVolumeDependencyPropertyTypes, stage.AirspaceVolumeDependencyPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspacevolumedependencypropertytypeIdent := strings.Replace(airspacevolumedependencypropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceVolumeDependencyPropertyType{Name: %s}).Stage(stage)", airspacevolumedependencypropertytypeIdent, __gong__toRawStringLiteral(airspacevolumedependencypropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspacevolumedependencypropertytypeIdent, __gong__toRawStringLiteral(airspacevolumedependencypropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", airspacevolumedependencypropertytypeIdent, __gong__toRawStringLiteral(airspacevolumedependencypropertytype.NilReason)))
+			if airspacevolumedependencypropertytype.AirspaceVolumeDependency != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(airspacevolumedependencypropertytype.AirspaceVolumeDependency.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AirspaceVolumeDependency = %s", airspacevolumedependencypropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspacevolumedependencytype := range __gong__sortStageSetInstances(stage.AirspaceVolumeDependencyTypes, stage.AirspaceVolumeDependencyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspacevolumedependencytypeIdent := strings.Replace(airspacevolumedependencytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceVolumeDependencyType{Name: %s}).Stage(stage)", airspacevolumedependencytypeIdent, __gong__toRawStringLiteral(airspacevolumedependencytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspacevolumedependencytypeIdent, __gong__toRawStringLiteral(airspacevolumedependencytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", airspacevolumedependencytypeIdent, __gong__toRawStringLiteral(airspacevolumedependencytype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", airspacevolumedependencytypeIdent, __gong__toRawStringLiteral(airspacevolumedependencytype.Description)))
+			for _, elem := range airspacevolumedependencytype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", airspacevolumedependencytypeIdent, airspacevolumedependencytypeIdent, targetIdent))
+			}
+			if airspacevolumedependencytype.TheAirspace != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(airspacevolumedependencytype.TheAirspace.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TheAirspace = %s", airspacevolumedependencytypeIdent, targetIdent))
+			}
+			for _, elem := range airspacevolumedependencytype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", airspacevolumedependencytypeIdent, airspacevolumedependencytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspacevolumepropertytype := range __gong__sortStageSetInstances(stage.AirspaceVolumePropertyTypes, stage.AirspaceVolumePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspacevolumepropertytypeIdent := strings.Replace(airspacevolumepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceVolumePropertyType{Name: %s}).Stage(stage)", airspacevolumepropertytypeIdent, __gong__toRawStringLiteral(airspacevolumepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspacevolumepropertytypeIdent, __gong__toRawStringLiteral(airspacevolumepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", airspacevolumepropertytypeIdent, __gong__toRawStringLiteral(airspacevolumepropertytype.NilReason)))
+			if airspacevolumepropertytype.AirspaceVolume != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(airspacevolumepropertytype.AirspaceVolume.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AirspaceVolume = %s", airspacevolumepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airspacevolumetype := range __gong__sortStageSetInstances(stage.AirspaceVolumeTypes, stage.AirspaceVolumeType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airspacevolumetypeIdent := strings.Replace(airspacevolumetype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AirspaceVolumeType{Name: %s}).Stage(stage)", airspacevolumetypeIdent, __gong__toRawStringLiteral(airspacevolumetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airspacevolumetypeIdent, __gong__toRawStringLiteral(airspacevolumetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", airspacevolumetypeIdent, __gong__toRawStringLiteral(airspacevolumetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", airspacevolumetypeIdent, __gong__toRawStringLiteral(airspacevolumetype.Description)))
+			if airspacevolumetype.HorizontalProjection != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(airspacevolumetype.HorizontalProjection.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.HorizontalProjection = %s", airspacevolumetypeIdent, targetIdent))
+			}
+			if airspacevolumetype.Centreline != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(airspacevolumetype.Centreline.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Centreline = %s", airspacevolumetypeIdent, targetIdent))
+			}
+			if airspacevolumetype.ContributorAirspace != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(airspacevolumetype.ContributorAirspace.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ContributorAirspace = %s", airspacevolumetypeIdent, targetIdent))
+			}
+			for _, elem := range airspacevolumetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", airspacevolumetypeIdent, airspacevolumetypeIdent, targetIdent))
+			}
+			for _, elem := range airspacevolumetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", airspacevolumetypeIdent, airspacevolumetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, authorityforairspacetimeslicepropertytype := range __gong__sortStageSetInstances(stage.AuthorityForAirspaceTimeSlicePropertyTypes, stage.AuthorityForAirspaceTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			authorityforairspacetimeslicepropertytypeIdent := strings.Replace(authorityforairspacetimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AuthorityForAirspaceTimeSlicePropertyType{Name: %s}).Stage(stage)", authorityforairspacetimeslicepropertytypeIdent, __gong__toRawStringLiteral(authorityforairspacetimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", authorityforairspacetimeslicepropertytypeIdent, __gong__toRawStringLiteral(authorityforairspacetimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", authorityforairspacetimeslicepropertytypeIdent, authorityforairspacetimeslicepropertytype.Owns))
+			if authorityforairspacetimeslicepropertytype.AuthorityForAirspaceTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(authorityforairspacetimeslicepropertytype.AuthorityForAirspaceTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AuthorityForAirspaceTimeSlice = %s", authorityforairspacetimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, authorityforairspacetimeslicetype := range __gong__sortStageSetInstances(stage.AuthorityForAirspaceTimeSliceTypes, stage.AuthorityForAirspaceTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			authorityforairspacetimeslicetypeIdent := strings.Replace(authorityforairspacetimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AuthorityForAirspaceTimeSliceType{Name: %s}).Stage(stage)", authorityforairspacetimeslicetypeIdent, __gong__toRawStringLiteral(authorityforairspacetimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", authorityforairspacetimeslicetypeIdent, __gong__toRawStringLiteral(authorityforairspacetimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", authorityforairspacetimeslicetypeIdent, __gong__toRawStringLiteral(authorityforairspacetimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", authorityforairspacetimeslicetypeIdent, __gong__toRawStringLiteral(authorityforairspacetimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", authorityforairspacetimeslicetypeIdent, __gong__toRawStringLiteral(authorityforairspacetimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", authorityforairspacetimeslicetypeIdent, authorityforairspacetimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", authorityforairspacetimeslicetypeIdent, authorityforairspacetimeslicetype.CorrectionNumber))
+			if authorityforairspacetimeslicetype.ResponsibleOrganisation != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(authorityforairspacetimeslicetype.ResponsibleOrganisation.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ResponsibleOrganisation = %s", authorityforairspacetimeslicetypeIdent, targetIdent))
+			}
+			if authorityforairspacetimeslicetype.AssignedAirspace != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(authorityforairspacetimeslicetype.AssignedAirspace.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AssignedAirspace = %s", authorityforairspacetimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range authorityforairspacetimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", authorityforairspacetimeslicetypeIdent, authorityforairspacetimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range authorityforairspacetimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", authorityforairspacetimeslicetypeIdent, authorityforairspacetimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, authorityforairspacetype := range __gong__sortStageSetInstances(stage.AuthorityForAirspaceTypes, stage.AuthorityForAirspaceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			authorityforairspacetypeIdent := strings.Replace(authorityforairspacetype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.AuthorityForAirspaceType{Name: %s}).Stage(stage)", authorityforairspacetypeIdent, __gong__toRawStringLiteral(authorityforairspacetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", authorityforairspacetypeIdent, __gong__toRawStringLiteral(authorityforairspacetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", authorityforairspacetypeIdent, __gong__toRawStringLiteral(authorityforairspacetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", authorityforairspacetypeIdent, __gong__toRawStringLiteral(authorityforairspacetype.Description)))
+			for _, elem := range authorityforairspacetype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", authorityforairspacetypeIdent, authorityforairspacetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, curvepropertytype := range __gong__sortStageSetInstances(stage.CurvePropertyTypes, stage.CurvePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			curvepropertytypeIdent := strings.Replace(curvepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.CurvePropertyType{Name: %s}).Stage(stage)", curvepropertytypeIdent, __gong__toRawStringLiteral(curvepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", curvepropertytypeIdent, __gong__toRawStringLiteral(curvepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", curvepropertytypeIdent, __gong__toRawStringLiteral(curvepropertytype.NilReason)))
+			if curvepropertytype.Curve != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(curvepropertytype.Curve.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Curve = %s", curvepropertytypeIdent, targetIdent))
+			}
+			if curvepropertytype.ElevatedCurve != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(curvepropertytype.ElevatedCurve.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ElevatedCurve = %s", curvepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, curvetype := range __gong__sortStageSetInstances(stage.CurveTypes, stage.CurveType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			curvetypeIdent := strings.Replace(curvetype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.CurveType{Name: %s}).Stage(stage)", curvetypeIdent, __gong__toRawStringLiteral(curvetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", curvetypeIdent, __gong__toRawStringLiteral(curvetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", curvetypeIdent, __gong__toRawStringLiteral(curvetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", curvetypeIdent, __gong__toRawStringLiteral(curvetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SrsName = %s", curvetypeIdent, __gong__toRawStringLiteral(curvetype.SrsName)))
+			for _, elem := range curvetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", curvetypeIdent, curvetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, elevatedcurvetype := range __gong__sortStageSetInstances(stage.ElevatedCurveTypes, stage.ElevatedCurveType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			elevatedcurvetypeIdent := strings.Replace(elevatedcurvetype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.ElevatedCurveType{Name: %s}).Stage(stage)", elevatedcurvetypeIdent, __gong__toRawStringLiteral(elevatedcurvetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", elevatedcurvetypeIdent, __gong__toRawStringLiteral(elevatedcurvetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", elevatedcurvetypeIdent, __gong__toRawStringLiteral(elevatedcurvetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", elevatedcurvetypeIdent, __gong__toRawStringLiteral(elevatedcurvetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SrsName = %s", elevatedcurvetypeIdent, __gong__toRawStringLiteral(elevatedcurvetype.SrsName)))
+			for _, elem := range elevatedcurvetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", elevatedcurvetypeIdent, elevatedcurvetypeIdent, targetIdent))
+			}
+			for _, elem := range elevatedcurvetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", elevatedcurvetypeIdent, elevatedcurvetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, elevatedsurfacetype := range __gong__sortStageSetInstances(stage.ElevatedSurfaceTypes, stage.ElevatedSurfaceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			elevatedsurfacetypeIdent := strings.Replace(elevatedsurfacetype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.ElevatedSurfaceType{Name: %s}).Stage(stage)", elevatedsurfacetypeIdent, __gong__toRawStringLiteral(elevatedsurfacetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", elevatedsurfacetypeIdent, __gong__toRawStringLiteral(elevatedsurfacetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", elevatedsurfacetypeIdent, __gong__toRawStringLiteral(elevatedsurfacetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", elevatedsurfacetypeIdent, __gong__toRawStringLiteral(elevatedsurfacetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SrsName = %s", elevatedsurfacetypeIdent, __gong__toRawStringLiteral(elevatedsurfacetype.SrsName)))
+			for _, elem := range elevatedsurfacetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", elevatedsurfacetypeIdent, elevatedsurfacetypeIdent, targetIdent))
+			}
+			for _, elem := range elevatedsurfacetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", elevatedsurfacetypeIdent, elevatedsurfacetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, geobordertimeslicepropertytype := range __gong__sortStageSetInstances(stage.GeoBorderTimeSlicePropertyTypes, stage.GeoBorderTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			geobordertimeslicepropertytypeIdent := strings.Replace(geobordertimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.GeoBorderTimeSlicePropertyType{Name: %s}).Stage(stage)", geobordertimeslicepropertytypeIdent, __gong__toRawStringLiteral(geobordertimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", geobordertimeslicepropertytypeIdent, __gong__toRawStringLiteral(geobordertimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", geobordertimeslicepropertytypeIdent, geobordertimeslicepropertytype.Owns))
+			if geobordertimeslicepropertytype.GeoBorderTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(geobordertimeslicepropertytype.GeoBorderTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GeoBorderTimeSlice = %s", geobordertimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, geobordertimeslicetype := range __gong__sortStageSetInstances(stage.GeoBorderTimeSliceTypes, stage.GeoBorderTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			geobordertimeslicetypeIdent := strings.Replace(geobordertimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.GeoBorderTimeSliceType{Name: %s}).Stage(stage)", geobordertimeslicetypeIdent, __gong__toRawStringLiteral(geobordertimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", geobordertimeslicetypeIdent, __gong__toRawStringLiteral(geobordertimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", geobordertimeslicetypeIdent, __gong__toRawStringLiteral(geobordertimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", geobordertimeslicetypeIdent, __gong__toRawStringLiteral(geobordertimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", geobordertimeslicetypeIdent, __gong__toRawStringLiteral(geobordertimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", geobordertimeslicetypeIdent, geobordertimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", geobordertimeslicetypeIdent, geobordertimeslicetype.CorrectionNumber))
+			if geobordertimeslicetype.Border != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(geobordertimeslicetype.Border.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Border = %s", geobordertimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range geobordertimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", geobordertimeslicetypeIdent, geobordertimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range geobordertimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", geobordertimeslicetypeIdent, geobordertimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, geobordertype := range __gong__sortStageSetInstances(stage.GeoBorderTypes, stage.GeoBorderType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			geobordertypeIdent := strings.Replace(geobordertype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.GeoBorderType{Name: %s}).Stage(stage)", geobordertypeIdent, __gong__toRawStringLiteral(geobordertype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", geobordertypeIdent, __gong__toRawStringLiteral(geobordertype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", geobordertypeIdent, __gong__toRawStringLiteral(geobordertype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", geobordertypeIdent, __gong__toRawStringLiteral(geobordertype.Description)))
+			for _, elem := range geobordertype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", geobordertypeIdent, geobordertypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, linguisticnotepropertytype := range __gong__sortStageSetInstances(stage.LinguisticNotePropertyTypes, stage.LinguisticNotePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			linguisticnotepropertytypeIdent := strings.Replace(linguisticnotepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.LinguisticNotePropertyType{Name: %s}).Stage(stage)", linguisticnotepropertytypeIdent, __gong__toRawStringLiteral(linguisticnotepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", linguisticnotepropertytypeIdent, __gong__toRawStringLiteral(linguisticnotepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", linguisticnotepropertytypeIdent, __gong__toRawStringLiteral(linguisticnotepropertytype.NilReason)))
+			if linguisticnotepropertytype.LinguisticNote != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(linguisticnotepropertytype.LinguisticNote.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.LinguisticNote = %s", linguisticnotepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, linguisticnotetype := range __gong__sortStageSetInstances(stage.LinguisticNoteTypes, stage.LinguisticNoteType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			linguisticnotetypeIdent := strings.Replace(linguisticnotetype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.LinguisticNoteType{Name: %s}).Stage(stage)", linguisticnotetypeIdent, __gong__toRawStringLiteral(linguisticnotetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", linguisticnotetypeIdent, __gong__toRawStringLiteral(linguisticnotetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", linguisticnotetypeIdent, __gong__toRawStringLiteral(linguisticnotetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", linguisticnotetypeIdent, __gong__toRawStringLiteral(linguisticnotetype.Description)))
+			for _, elem := range linguisticnotetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", linguisticnotetypeIdent, linguisticnotetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, notepropertytype := range __gong__sortStageSetInstances(stage.NotePropertyTypes, stage.NotePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			notepropertytypeIdent := strings.Replace(notepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.NotePropertyType{Name: %s}).Stage(stage)", notepropertytypeIdent, __gong__toRawStringLiteral(notepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", notepropertytypeIdent, __gong__toRawStringLiteral(notepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", notepropertytypeIdent, __gong__toRawStringLiteral(notepropertytype.NilReason)))
+			if notepropertytype.Note != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(notepropertytype.Note.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", notepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, notetype := range __gong__sortStageSetInstances(stage.NoteTypes, stage.NoteType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			notetypeIdent := strings.Replace(notetype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.NoteType{Name: %s}).Stage(stage)", notetypeIdent, __gong__toRawStringLiteral(notetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", notetypeIdent, __gong__toRawStringLiteral(notetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", notetypeIdent, __gong__toRawStringLiteral(notetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", notetypeIdent, __gong__toRawStringLiteral(notetype.Description)))
+			for _, elem := range notetype.TranslatedNote {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TranslatedNote = append(%s.TranslatedNote, %s)", notetypeIdent, notetypeIdent, targetIdent))
+			}
+			for _, elem := range notetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", notetypeIdent, notetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, organisationauthoritypropertytype := range __gong__sortStageSetInstances(stage.OrganisationAuthorityPropertyTypes, stage.OrganisationAuthorityPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			organisationauthoritypropertytypeIdent := strings.Replace(organisationauthoritypropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.OrganisationAuthorityPropertyType{Name: %s}).Stage(stage)", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", organisationauthoritypropertytypeIdent, organisationauthoritypropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, routepropertytype := range __gong__sortStageSetInstances(stage.RoutePropertyTypes, stage.RoutePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			routepropertytypeIdent := strings.Replace(routepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.RoutePropertyType{Name: %s}).Stage(stage)", routepropertytypeIdent, __gong__toRawStringLiteral(routepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", routepropertytypeIdent, __gong__toRawStringLiteral(routepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", routepropertytypeIdent, routepropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", routepropertytypeIdent, __gong__toRawStringLiteral(routepropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", routepropertytypeIdent, __gong__toRawStringLiteral(routepropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", routepropertytypeIdent, __gong__toRawStringLiteral(routepropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", routepropertytypeIdent, __gong__toRawStringLiteral(routepropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", routepropertytypeIdent, __gong__toRawStringLiteral(routepropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", routepropertytypeIdent, __gong__toRawStringLiteral(routepropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", routepropertytypeIdent, __gong__toRawStringLiteral(routepropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", routepropertytypeIdent, __gong__toRawStringLiteral(routepropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, standardlevelcolumnpropertytype := range __gong__sortStageSetInstances(stage.StandardLevelColumnPropertyTypes, stage.StandardLevelColumnPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			standardlevelcolumnpropertytypeIdent := strings.Replace(standardlevelcolumnpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.StandardLevelColumnPropertyType{Name: %s}).Stage(stage)", standardlevelcolumnpropertytypeIdent, __gong__toRawStringLiteral(standardlevelcolumnpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", standardlevelcolumnpropertytypeIdent, __gong__toRawStringLiteral(standardlevelcolumnpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", standardlevelcolumnpropertytypeIdent, standardlevelcolumnpropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", standardlevelcolumnpropertytypeIdent, __gong__toRawStringLiteral(standardlevelcolumnpropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", standardlevelcolumnpropertytypeIdent, __gong__toRawStringLiteral(standardlevelcolumnpropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", standardlevelcolumnpropertytypeIdent, __gong__toRawStringLiteral(standardlevelcolumnpropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", standardlevelcolumnpropertytypeIdent, __gong__toRawStringLiteral(standardlevelcolumnpropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", standardlevelcolumnpropertytypeIdent, __gong__toRawStringLiteral(standardlevelcolumnpropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", standardlevelcolumnpropertytypeIdent, __gong__toRawStringLiteral(standardlevelcolumnpropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", standardlevelcolumnpropertytypeIdent, __gong__toRawStringLiteral(standardlevelcolumnpropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", standardlevelcolumnpropertytypeIdent, __gong__toRawStringLiteral(standardlevelcolumnpropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, surfacepropertytype := range __gong__sortStageSetInstances(stage.SurfacePropertyTypes, stage.SurfacePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			surfacepropertytypeIdent := strings.Replace(surfacepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.SurfacePropertyType{Name: %s}).Stage(stage)", surfacepropertytypeIdent, __gong__toRawStringLiteral(surfacepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", surfacepropertytypeIdent, __gong__toRawStringLiteral(surfacepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", surfacepropertytypeIdent, __gong__toRawStringLiteral(surfacepropertytype.NilReason)))
+			if surfacepropertytype.Surface != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(surfacepropertytype.Surface.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Surface = %s", surfacepropertytypeIdent, targetIdent))
+			}
+			if surfacepropertytype.ElevatedSurface != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(surfacepropertytype.ElevatedSurface.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ElevatedSurface = %s", surfacepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, surfacetype := range __gong__sortStageSetInstances(stage.SurfaceTypes, stage.SurfaceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			surfacetypeIdent := strings.Replace(surfacetype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.SurfaceType{Name: %s}).Stage(stage)", surfacetypeIdent, __gong__toRawStringLiteral(surfacetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", surfacetypeIdent, __gong__toRawStringLiteral(surfacetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", surfacetypeIdent, __gong__toRawStringLiteral(surfacetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", surfacetypeIdent, __gong__toRawStringLiteral(surfacetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SrsName = %s", surfacetypeIdent, __gong__toRawStringLiteral(surfacetype.SrsName)))
+			for _, elem := range surfacetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", surfacetypeIdent, surfacetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, timesheetpropertytype := range __gong__sortStageSetInstances(stage.TimesheetPropertyTypes, stage.TimesheetPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			timesheetpropertytypeIdent := strings.Replace(timesheetpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.TimesheetPropertyType{Name: %s}).Stage(stage)", timesheetpropertytypeIdent, __gong__toRawStringLiteral(timesheetpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", timesheetpropertytypeIdent, __gong__toRawStringLiteral(timesheetpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", timesheetpropertytypeIdent, __gong__toRawStringLiteral(timesheetpropertytype.NilReason)))
+			if timesheetpropertytype.Timesheet != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(timesheetpropertytype.Timesheet.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Timesheet = %s", timesheetpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, timesheettype := range __gong__sortStageSetInstances(stage.TimesheetTypes, stage.TimesheetType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			timesheettypeIdent := strings.Replace(timesheettype.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&airspace.TimesheetType{Name: %s}).Stage(stage)", timesheettypeIdent, __gong__toRawStringLiteral(timesheettype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", timesheettypeIdent, __gong__toRawStringLiteral(timesheettype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", timesheettypeIdent, __gong__toRawStringLiteral(timesheettype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", timesheettypeIdent, __gong__toRawStringLiteral(timesheettype.Description)))
+			for _, elem := range timesheettype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", timesheettypeIdent, timesheettypeIdent, targetIdent))
+			}
+			for _, elem := range timesheettype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__airspace__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", timesheettypeIdent, timesheettypeIdent, targetIdent))
+			}
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	airspace "github.com/fullstack-lang/gong/app/xsd/tests/aixm/airspace/go/models/aixmfeatures"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *airspace.Stage
+)%s
+
+// StageAirspace stages objects into stage
+func StageAirspace(stage *airspace.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

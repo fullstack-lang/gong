@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -9591,6 +9602,9304 @@ func _(stage *aixmfeatures.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/app/xsd/tests/aixm/procedure/go/models/aixmfeatures" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/app/xsd/tests/aixm/procedure/go/models/aixmfeatures\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_procedure.go exposing StageProcedure.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_procedure.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageProcedure).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, a_extension := range __gong__sortStageSetInstances(stage.A_extensions, stage.A_extension_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extensionIdent := strings.Replace(a_extension.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension{Name: %s}).Stage(stage)", a_extensionIdent, __gong__toRawStringLiteral(a_extension.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extensionIdent, __gong__toRawStringLiteral(a_extension.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extensionIdent, a_extension.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_1 := range __gong__sortStageSetInstances(stage.A_extension_1s, stage.A_extension_1_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_1Ident := strings.Replace(a_extension_1.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_1{Name: %s}).Stage(stage)", a_extension_1Ident, __gong__toRawStringLiteral(a_extension_1.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_1Ident, __gong__toRawStringLiteral(a_extension_1.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_1Ident, a_extension_1.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_10 := range __gong__sortStageSetInstances(stage.A_extension_10s, stage.A_extension_10_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_10Ident := strings.Replace(a_extension_10.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_10{Name: %s}).Stage(stage)", a_extension_10Ident, __gong__toRawStringLiteral(a_extension_10.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_10Ident, __gong__toRawStringLiteral(a_extension_10.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_10Ident, a_extension_10.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_11 := range __gong__sortStageSetInstances(stage.A_extension_11s, stage.A_extension_11_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_11Ident := strings.Replace(a_extension_11.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_11{Name: %s}).Stage(stage)", a_extension_11Ident, __gong__toRawStringLiteral(a_extension_11.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_11Ident, __gong__toRawStringLiteral(a_extension_11.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_11Ident, a_extension_11.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_12 := range __gong__sortStageSetInstances(stage.A_extension_12s, stage.A_extension_12_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_12Ident := strings.Replace(a_extension_12.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_12{Name: %s}).Stage(stage)", a_extension_12Ident, __gong__toRawStringLiteral(a_extension_12.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_12Ident, __gong__toRawStringLiteral(a_extension_12.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_12Ident, a_extension_12.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_13 := range __gong__sortStageSetInstances(stage.A_extension_13s, stage.A_extension_13_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_13Ident := strings.Replace(a_extension_13.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_13{Name: %s}).Stage(stage)", a_extension_13Ident, __gong__toRawStringLiteral(a_extension_13.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_13Ident, __gong__toRawStringLiteral(a_extension_13.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_13Ident, a_extension_13.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_14 := range __gong__sortStageSetInstances(stage.A_extension_14s, stage.A_extension_14_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_14Ident := strings.Replace(a_extension_14.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_14{Name: %s}).Stage(stage)", a_extension_14Ident, __gong__toRawStringLiteral(a_extension_14.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_14Ident, __gong__toRawStringLiteral(a_extension_14.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_14Ident, a_extension_14.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_15 := range __gong__sortStageSetInstances(stage.A_extension_15s, stage.A_extension_15_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_15Ident := strings.Replace(a_extension_15.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_15{Name: %s}).Stage(stage)", a_extension_15Ident, __gong__toRawStringLiteral(a_extension_15.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_15Ident, __gong__toRawStringLiteral(a_extension_15.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_15Ident, a_extension_15.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_16 := range __gong__sortStageSetInstances(stage.A_extension_16s, stage.A_extension_16_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_16Ident := strings.Replace(a_extension_16.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_16{Name: %s}).Stage(stage)", a_extension_16Ident, __gong__toRawStringLiteral(a_extension_16.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_16Ident, __gong__toRawStringLiteral(a_extension_16.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_16Ident, a_extension_16.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_17 := range __gong__sortStageSetInstances(stage.A_extension_17s, stage.A_extension_17_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_17Ident := strings.Replace(a_extension_17.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_17{Name: %s}).Stage(stage)", a_extension_17Ident, __gong__toRawStringLiteral(a_extension_17.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_17Ident, __gong__toRawStringLiteral(a_extension_17.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_17Ident, a_extension_17.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_18 := range __gong__sortStageSetInstances(stage.A_extension_18s, stage.A_extension_18_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_18Ident := strings.Replace(a_extension_18.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_18{Name: %s}).Stage(stage)", a_extension_18Ident, __gong__toRawStringLiteral(a_extension_18.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_18Ident, __gong__toRawStringLiteral(a_extension_18.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_18Ident, a_extension_18.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_19 := range __gong__sortStageSetInstances(stage.A_extension_19s, stage.A_extension_19_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_19Ident := strings.Replace(a_extension_19.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_19{Name: %s}).Stage(stage)", a_extension_19Ident, __gong__toRawStringLiteral(a_extension_19.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_19Ident, __gong__toRawStringLiteral(a_extension_19.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_19Ident, a_extension_19.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_2 := range __gong__sortStageSetInstances(stage.A_extension_2s, stage.A_extension_2_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_2Ident := strings.Replace(a_extension_2.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_2{Name: %s}).Stage(stage)", a_extension_2Ident, __gong__toRawStringLiteral(a_extension_2.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_2Ident, __gong__toRawStringLiteral(a_extension_2.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_2Ident, a_extension_2.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_20 := range __gong__sortStageSetInstances(stage.A_extension_20s, stage.A_extension_20_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_20Ident := strings.Replace(a_extension_20.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_20{Name: %s}).Stage(stage)", a_extension_20Ident, __gong__toRawStringLiteral(a_extension_20.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_20Ident, __gong__toRawStringLiteral(a_extension_20.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_20Ident, a_extension_20.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_21 := range __gong__sortStageSetInstances(stage.A_extension_21s, stage.A_extension_21_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_21Ident := strings.Replace(a_extension_21.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_21{Name: %s}).Stage(stage)", a_extension_21Ident, __gong__toRawStringLiteral(a_extension_21.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_21Ident, __gong__toRawStringLiteral(a_extension_21.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_21Ident, a_extension_21.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_22 := range __gong__sortStageSetInstances(stage.A_extension_22s, stage.A_extension_22_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_22Ident := strings.Replace(a_extension_22.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_22{Name: %s}).Stage(stage)", a_extension_22Ident, __gong__toRawStringLiteral(a_extension_22.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_22Ident, __gong__toRawStringLiteral(a_extension_22.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_22Ident, a_extension_22.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_23 := range __gong__sortStageSetInstances(stage.A_extension_23s, stage.A_extension_23_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_23Ident := strings.Replace(a_extension_23.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_23{Name: %s}).Stage(stage)", a_extension_23Ident, __gong__toRawStringLiteral(a_extension_23.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_23Ident, __gong__toRawStringLiteral(a_extension_23.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_23Ident, a_extension_23.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_24 := range __gong__sortStageSetInstances(stage.A_extension_24s, stage.A_extension_24_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_24Ident := strings.Replace(a_extension_24.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_24{Name: %s}).Stage(stage)", a_extension_24Ident, __gong__toRawStringLiteral(a_extension_24.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_24Ident, __gong__toRawStringLiteral(a_extension_24.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_24Ident, a_extension_24.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_25 := range __gong__sortStageSetInstances(stage.A_extension_25s, stage.A_extension_25_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_25Ident := strings.Replace(a_extension_25.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_25{Name: %s}).Stage(stage)", a_extension_25Ident, __gong__toRawStringLiteral(a_extension_25.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_25Ident, __gong__toRawStringLiteral(a_extension_25.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_25Ident, a_extension_25.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_26 := range __gong__sortStageSetInstances(stage.A_extension_26s, stage.A_extension_26_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_26Ident := strings.Replace(a_extension_26.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_26{Name: %s}).Stage(stage)", a_extension_26Ident, __gong__toRawStringLiteral(a_extension_26.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_26Ident, __gong__toRawStringLiteral(a_extension_26.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_26Ident, a_extension_26.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_27 := range __gong__sortStageSetInstances(stage.A_extension_27s, stage.A_extension_27_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_27Ident := strings.Replace(a_extension_27.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_27{Name: %s}).Stage(stage)", a_extension_27Ident, __gong__toRawStringLiteral(a_extension_27.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_27Ident, __gong__toRawStringLiteral(a_extension_27.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_27Ident, a_extension_27.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_28 := range __gong__sortStageSetInstances(stage.A_extension_28s, stage.A_extension_28_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_28Ident := strings.Replace(a_extension_28.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_28{Name: %s}).Stage(stage)", a_extension_28Ident, __gong__toRawStringLiteral(a_extension_28.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_28Ident, __gong__toRawStringLiteral(a_extension_28.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_28Ident, a_extension_28.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_29 := range __gong__sortStageSetInstances(stage.A_extension_29s, stage.A_extension_29_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_29Ident := strings.Replace(a_extension_29.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_29{Name: %s}).Stage(stage)", a_extension_29Ident, __gong__toRawStringLiteral(a_extension_29.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_29Ident, __gong__toRawStringLiteral(a_extension_29.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_29Ident, a_extension_29.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_3 := range __gong__sortStageSetInstances(stage.A_extension_3s, stage.A_extension_3_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_3Ident := strings.Replace(a_extension_3.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_3{Name: %s}).Stage(stage)", a_extension_3Ident, __gong__toRawStringLiteral(a_extension_3.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_3Ident, __gong__toRawStringLiteral(a_extension_3.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_3Ident, a_extension_3.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_30 := range __gong__sortStageSetInstances(stage.A_extension_30s, stage.A_extension_30_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_30Ident := strings.Replace(a_extension_30.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_30{Name: %s}).Stage(stage)", a_extension_30Ident, __gong__toRawStringLiteral(a_extension_30.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_30Ident, __gong__toRawStringLiteral(a_extension_30.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_30Ident, a_extension_30.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_31 := range __gong__sortStageSetInstances(stage.A_extension_31s, stage.A_extension_31_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_31Ident := strings.Replace(a_extension_31.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_31{Name: %s}).Stage(stage)", a_extension_31Ident, __gong__toRawStringLiteral(a_extension_31.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_31Ident, __gong__toRawStringLiteral(a_extension_31.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_31Ident, a_extension_31.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_32 := range __gong__sortStageSetInstances(stage.A_extension_32s, stage.A_extension_32_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_32Ident := strings.Replace(a_extension_32.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_32{Name: %s}).Stage(stage)", a_extension_32Ident, __gong__toRawStringLiteral(a_extension_32.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_32Ident, __gong__toRawStringLiteral(a_extension_32.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_32Ident, a_extension_32.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_33 := range __gong__sortStageSetInstances(stage.A_extension_33s, stage.A_extension_33_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_33Ident := strings.Replace(a_extension_33.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_33{Name: %s}).Stage(stage)", a_extension_33Ident, __gong__toRawStringLiteral(a_extension_33.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_33Ident, __gong__toRawStringLiteral(a_extension_33.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_33Ident, a_extension_33.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_34 := range __gong__sortStageSetInstances(stage.A_extension_34s, stage.A_extension_34_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_34Ident := strings.Replace(a_extension_34.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_34{Name: %s}).Stage(stage)", a_extension_34Ident, __gong__toRawStringLiteral(a_extension_34.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_34Ident, __gong__toRawStringLiteral(a_extension_34.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_34Ident, a_extension_34.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_35 := range __gong__sortStageSetInstances(stage.A_extension_35s, stage.A_extension_35_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_35Ident := strings.Replace(a_extension_35.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_35{Name: %s}).Stage(stage)", a_extension_35Ident, __gong__toRawStringLiteral(a_extension_35.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_35Ident, __gong__toRawStringLiteral(a_extension_35.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_35Ident, a_extension_35.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_36 := range __gong__sortStageSetInstances(stage.A_extension_36s, stage.A_extension_36_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_36Ident := strings.Replace(a_extension_36.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_36{Name: %s}).Stage(stage)", a_extension_36Ident, __gong__toRawStringLiteral(a_extension_36.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_36Ident, __gong__toRawStringLiteral(a_extension_36.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_36Ident, a_extension_36.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_37 := range __gong__sortStageSetInstances(stage.A_extension_37s, stage.A_extension_37_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_37Ident := strings.Replace(a_extension_37.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_37{Name: %s}).Stage(stage)", a_extension_37Ident, __gong__toRawStringLiteral(a_extension_37.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_37Ident, __gong__toRawStringLiteral(a_extension_37.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_37Ident, a_extension_37.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_38 := range __gong__sortStageSetInstances(stage.A_extension_38s, stage.A_extension_38_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_38Ident := strings.Replace(a_extension_38.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_38{Name: %s}).Stage(stage)", a_extension_38Ident, __gong__toRawStringLiteral(a_extension_38.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_38Ident, __gong__toRawStringLiteral(a_extension_38.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_38Ident, a_extension_38.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_39 := range __gong__sortStageSetInstances(stage.A_extension_39s, stage.A_extension_39_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_39Ident := strings.Replace(a_extension_39.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_39{Name: %s}).Stage(stage)", a_extension_39Ident, __gong__toRawStringLiteral(a_extension_39.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_39Ident, __gong__toRawStringLiteral(a_extension_39.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_39Ident, a_extension_39.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_4 := range __gong__sortStageSetInstances(stage.A_extension_4s, stage.A_extension_4_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_4Ident := strings.Replace(a_extension_4.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_4{Name: %s}).Stage(stage)", a_extension_4Ident, __gong__toRawStringLiteral(a_extension_4.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_4Ident, __gong__toRawStringLiteral(a_extension_4.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_4Ident, a_extension_4.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_40 := range __gong__sortStageSetInstances(stage.A_extension_40s, stage.A_extension_40_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_40Ident := strings.Replace(a_extension_40.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_40{Name: %s}).Stage(stage)", a_extension_40Ident, __gong__toRawStringLiteral(a_extension_40.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_40Ident, __gong__toRawStringLiteral(a_extension_40.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_40Ident, a_extension_40.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_41 := range __gong__sortStageSetInstances(stage.A_extension_41s, stage.A_extension_41_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_41Ident := strings.Replace(a_extension_41.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_41{Name: %s}).Stage(stage)", a_extension_41Ident, __gong__toRawStringLiteral(a_extension_41.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_41Ident, __gong__toRawStringLiteral(a_extension_41.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_41Ident, a_extension_41.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_42 := range __gong__sortStageSetInstances(stage.A_extension_42s, stage.A_extension_42_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_42Ident := strings.Replace(a_extension_42.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_42{Name: %s}).Stage(stage)", a_extension_42Ident, __gong__toRawStringLiteral(a_extension_42.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_42Ident, __gong__toRawStringLiteral(a_extension_42.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_42Ident, a_extension_42.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_43 := range __gong__sortStageSetInstances(stage.A_extension_43s, stage.A_extension_43_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_43Ident := strings.Replace(a_extension_43.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_43{Name: %s}).Stage(stage)", a_extension_43Ident, __gong__toRawStringLiteral(a_extension_43.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_43Ident, __gong__toRawStringLiteral(a_extension_43.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_43Ident, a_extension_43.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_44 := range __gong__sortStageSetInstances(stage.A_extension_44s, stage.A_extension_44_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_44Ident := strings.Replace(a_extension_44.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_44{Name: %s}).Stage(stage)", a_extension_44Ident, __gong__toRawStringLiteral(a_extension_44.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_44Ident, __gong__toRawStringLiteral(a_extension_44.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_44Ident, a_extension_44.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_45 := range __gong__sortStageSetInstances(stage.A_extension_45s, stage.A_extension_45_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_45Ident := strings.Replace(a_extension_45.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_45{Name: %s}).Stage(stage)", a_extension_45Ident, __gong__toRawStringLiteral(a_extension_45.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_45Ident, __gong__toRawStringLiteral(a_extension_45.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_45Ident, a_extension_45.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_46 := range __gong__sortStageSetInstances(stage.A_extension_46s, stage.A_extension_46_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_46Ident := strings.Replace(a_extension_46.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_46{Name: %s}).Stage(stage)", a_extension_46Ident, __gong__toRawStringLiteral(a_extension_46.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_46Ident, __gong__toRawStringLiteral(a_extension_46.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_46Ident, a_extension_46.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_47 := range __gong__sortStageSetInstances(stage.A_extension_47s, stage.A_extension_47_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_47Ident := strings.Replace(a_extension_47.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_47{Name: %s}).Stage(stage)", a_extension_47Ident, __gong__toRawStringLiteral(a_extension_47.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_47Ident, __gong__toRawStringLiteral(a_extension_47.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_47Ident, a_extension_47.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_48 := range __gong__sortStageSetInstances(stage.A_extension_48s, stage.A_extension_48_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_48Ident := strings.Replace(a_extension_48.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_48{Name: %s}).Stage(stage)", a_extension_48Ident, __gong__toRawStringLiteral(a_extension_48.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_48Ident, __gong__toRawStringLiteral(a_extension_48.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_48Ident, a_extension_48.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_49 := range __gong__sortStageSetInstances(stage.A_extension_49s, stage.A_extension_49_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_49Ident := strings.Replace(a_extension_49.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_49{Name: %s}).Stage(stage)", a_extension_49Ident, __gong__toRawStringLiteral(a_extension_49.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_49Ident, __gong__toRawStringLiteral(a_extension_49.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_49Ident, a_extension_49.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_5 := range __gong__sortStageSetInstances(stage.A_extension_5s, stage.A_extension_5_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_5Ident := strings.Replace(a_extension_5.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_5{Name: %s}).Stage(stage)", a_extension_5Ident, __gong__toRawStringLiteral(a_extension_5.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_5Ident, __gong__toRawStringLiteral(a_extension_5.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_5Ident, a_extension_5.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_50 := range __gong__sortStageSetInstances(stage.A_extension_50s, stage.A_extension_50_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_50Ident := strings.Replace(a_extension_50.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_50{Name: %s}).Stage(stage)", a_extension_50Ident, __gong__toRawStringLiteral(a_extension_50.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_50Ident, __gong__toRawStringLiteral(a_extension_50.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_50Ident, a_extension_50.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_51 := range __gong__sortStageSetInstances(stage.A_extension_51s, stage.A_extension_51_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_51Ident := strings.Replace(a_extension_51.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_51{Name: %s}).Stage(stage)", a_extension_51Ident, __gong__toRawStringLiteral(a_extension_51.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_51Ident, __gong__toRawStringLiteral(a_extension_51.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_51Ident, a_extension_51.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_52 := range __gong__sortStageSetInstances(stage.A_extension_52s, stage.A_extension_52_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_52Ident := strings.Replace(a_extension_52.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_52{Name: %s}).Stage(stage)", a_extension_52Ident, __gong__toRawStringLiteral(a_extension_52.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_52Ident, __gong__toRawStringLiteral(a_extension_52.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_52Ident, a_extension_52.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_53 := range __gong__sortStageSetInstances(stage.A_extension_53s, stage.A_extension_53_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_53Ident := strings.Replace(a_extension_53.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_53{Name: %s}).Stage(stage)", a_extension_53Ident, __gong__toRawStringLiteral(a_extension_53.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_53Ident, __gong__toRawStringLiteral(a_extension_53.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_53Ident, a_extension_53.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_54 := range __gong__sortStageSetInstances(stage.A_extension_54s, stage.A_extension_54_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_54Ident := strings.Replace(a_extension_54.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_54{Name: %s}).Stage(stage)", a_extension_54Ident, __gong__toRawStringLiteral(a_extension_54.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_54Ident, __gong__toRawStringLiteral(a_extension_54.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_54Ident, a_extension_54.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_55 := range __gong__sortStageSetInstances(stage.A_extension_55s, stage.A_extension_55_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_55Ident := strings.Replace(a_extension_55.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_55{Name: %s}).Stage(stage)", a_extension_55Ident, __gong__toRawStringLiteral(a_extension_55.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_55Ident, __gong__toRawStringLiteral(a_extension_55.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_55Ident, a_extension_55.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_56 := range __gong__sortStageSetInstances(stage.A_extension_56s, stage.A_extension_56_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_56Ident := strings.Replace(a_extension_56.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_56{Name: %s}).Stage(stage)", a_extension_56Ident, __gong__toRawStringLiteral(a_extension_56.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_56Ident, __gong__toRawStringLiteral(a_extension_56.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_56Ident, a_extension_56.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_57 := range __gong__sortStageSetInstances(stage.A_extension_57s, stage.A_extension_57_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_57Ident := strings.Replace(a_extension_57.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_57{Name: %s}).Stage(stage)", a_extension_57Ident, __gong__toRawStringLiteral(a_extension_57.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_57Ident, __gong__toRawStringLiteral(a_extension_57.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_57Ident, a_extension_57.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_58 := range __gong__sortStageSetInstances(stage.A_extension_58s, stage.A_extension_58_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_58Ident := strings.Replace(a_extension_58.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_58{Name: %s}).Stage(stage)", a_extension_58Ident, __gong__toRawStringLiteral(a_extension_58.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_58Ident, __gong__toRawStringLiteral(a_extension_58.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_58Ident, a_extension_58.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_6 := range __gong__sortStageSetInstances(stage.A_extension_6s, stage.A_extension_6_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_6Ident := strings.Replace(a_extension_6.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_6{Name: %s}).Stage(stage)", a_extension_6Ident, __gong__toRawStringLiteral(a_extension_6.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_6Ident, __gong__toRawStringLiteral(a_extension_6.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_6Ident, a_extension_6.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_7 := range __gong__sortStageSetInstances(stage.A_extension_7s, stage.A_extension_7_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_7Ident := strings.Replace(a_extension_7.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_7{Name: %s}).Stage(stage)", a_extension_7Ident, __gong__toRawStringLiteral(a_extension_7.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_7Ident, __gong__toRawStringLiteral(a_extension_7.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_7Ident, a_extension_7.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_8 := range __gong__sortStageSetInstances(stage.A_extension_8s, stage.A_extension_8_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_8Ident := strings.Replace(a_extension_8.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_8{Name: %s}).Stage(stage)", a_extension_8Ident, __gong__toRawStringLiteral(a_extension_8.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_8Ident, __gong__toRawStringLiteral(a_extension_8.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_8Ident, a_extension_8.Owns))
+		}
+	}
+	if stage != nil {
+		for _, a_extension_9 := range __gong__sortStageSetInstances(stage.A_extension_9s, stage.A_extension_9_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			a_extension_9Ident := strings.Replace(a_extension_9.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.A_extension_9{Name: %s}).Stage(stage)", a_extension_9Ident, __gong__toRawStringLiteral(a_extension_9.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", a_extension_9Ident, __gong__toRawStringLiteral(a_extension_9.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", a_extension_9Ident, a_extension_9.Owns))
+		}
+	}
+	if stage != nil {
+		for _, abstractapproachlegtype := range __gong__sortStageSetInstances(stage.AbstractApproachLegTypes, stage.AbstractApproachLegType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractapproachlegtypeIdent := strings.Replace(abstractapproachlegtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AbstractApproachLegType{Name: %s}).Stage(stage)", abstractapproachlegtypeIdent, __gong__toRawStringLiteral(abstractapproachlegtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractapproachlegtypeIdent, __gong__toRawStringLiteral(abstractapproachlegtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", abstractapproachlegtypeIdent, __gong__toRawStringLiteral(abstractapproachlegtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", abstractapproachlegtypeIdent, __gong__toRawStringLiteral(abstractapproachlegtype.Description)))
+		}
+	}
+	if stage != nil {
+		for _, abstractproceduretype := range __gong__sortStageSetInstances(stage.AbstractProcedureTypes, stage.AbstractProcedureType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractproceduretypeIdent := strings.Replace(abstractproceduretype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AbstractProcedureType{Name: %s}).Stage(stage)", abstractproceduretypeIdent, __gong__toRawStringLiteral(abstractproceduretype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractproceduretypeIdent, __gong__toRawStringLiteral(abstractproceduretype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", abstractproceduretypeIdent, __gong__toRawStringLiteral(abstractproceduretype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", abstractproceduretypeIdent, __gong__toRawStringLiteral(abstractproceduretype.Description)))
+		}
+	}
+	if stage != nil {
+		for _, abstractpropertieswithscheduletype := range __gong__sortStageSetInstances(stage.AbstractPropertiesWithScheduleTypes, stage.AbstractPropertiesWithScheduleType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractpropertieswithscheduletypeIdent := strings.Replace(abstractpropertieswithscheduletype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AbstractPropertiesWithScheduleType{Name: %s}).Stage(stage)", abstractpropertieswithscheduletypeIdent, __gong__toRawStringLiteral(abstractpropertieswithscheduletype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractpropertieswithscheduletypeIdent, __gong__toRawStringLiteral(abstractpropertieswithscheduletype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", abstractpropertieswithscheduletypeIdent, __gong__toRawStringLiteral(abstractpropertieswithscheduletype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", abstractpropertieswithscheduletypeIdent, __gong__toRawStringLiteral(abstractpropertieswithscheduletype.Description)))
+		}
+	}
+	if stage != nil {
+		for _, abstractsegmentlegtype := range __gong__sortStageSetInstances(stage.AbstractSegmentLegTypes, stage.AbstractSegmentLegType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractsegmentlegtypeIdent := strings.Replace(abstractsegmentlegtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AbstractSegmentLegType{Name: %s}).Stage(stage)", abstractsegmentlegtypeIdent, __gong__toRawStringLiteral(abstractsegmentlegtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractsegmentlegtypeIdent, __gong__toRawStringLiteral(abstractsegmentlegtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", abstractsegmentlegtypeIdent, __gong__toRawStringLiteral(abstractsegmentlegtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", abstractsegmentlegtypeIdent, __gong__toRawStringLiteral(abstractsegmentlegtype.Description)))
+		}
+	}
+	if stage != nil {
+		for _, abstractsegmentpointtype := range __gong__sortStageSetInstances(stage.AbstractSegmentPointTypes, stage.AbstractSegmentPointType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			abstractsegmentpointtypeIdent := strings.Replace(abstractsegmentpointtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AbstractSegmentPointType{Name: %s}).Stage(stage)", abstractsegmentpointtypeIdent, __gong__toRawStringLiteral(abstractsegmentpointtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", abstractsegmentpointtypeIdent, __gong__toRawStringLiteral(abstractsegmentpointtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", abstractsegmentpointtypeIdent, __gong__toRawStringLiteral(abstractsegmentpointtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", abstractsegmentpointtypeIdent, __gong__toRawStringLiteral(abstractsegmentpointtype.Description)))
+		}
+	}
+	if stage != nil {
+		for _, aerialrefuellingpointtype := range __gong__sortStageSetInstances(stage.AerialRefuellingPointTypes, stage.AerialRefuellingPointType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			aerialrefuellingpointtypeIdent := strings.Replace(aerialrefuellingpointtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AerialRefuellingPointType{Name: %s}).Stage(stage)", aerialrefuellingpointtypeIdent, __gong__toRawStringLiteral(aerialrefuellingpointtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", aerialrefuellingpointtypeIdent, __gong__toRawStringLiteral(aerialrefuellingpointtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", aerialrefuellingpointtypeIdent, __gong__toRawStringLiteral(aerialrefuellingpointtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", aerialrefuellingpointtypeIdent, __gong__toRawStringLiteral(aerialrefuellingpointtype.Description)))
+			for _, elem := range aerialrefuellingpointtype.FacilityMakeup {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FacilityMakeup = append(%s.FacilityMakeup, %s)", aerialrefuellingpointtypeIdent, aerialrefuellingpointtypeIdent, targetIdent))
+			}
+			if aerialrefuellingpointtype.PointChoice_fixDesignatedPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(aerialrefuellingpointtype.PointChoice_fixDesignatedPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_fixDesignatedPoint = %s", aerialrefuellingpointtypeIdent, targetIdent))
+			}
+			if aerialrefuellingpointtype.PointChoice_navaidSystem != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(aerialrefuellingpointtype.PointChoice_navaidSystem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_navaidSystem = %s", aerialrefuellingpointtypeIdent, targetIdent))
+			}
+			if aerialrefuellingpointtype.PointChoice_position != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(aerialrefuellingpointtype.PointChoice_position.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_position = %s", aerialrefuellingpointtypeIdent, targetIdent))
+			}
+			if aerialrefuellingpointtype.PointChoice_runwayPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(aerialrefuellingpointtype.PointChoice_runwayPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_runwayPoint = %s", aerialrefuellingpointtypeIdent, targetIdent))
+			}
+			if aerialrefuellingpointtype.PointChoice_aimingPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(aerialrefuellingpointtype.PointChoice_aimingPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_aimingPoint = %s", aerialrefuellingpointtypeIdent, targetIdent))
+			}
+			if aerialrefuellingpointtype.PointChoice_airportReferencePoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(aerialrefuellingpointtype.PointChoice_airportReferencePoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_airportReferencePoint = %s", aerialrefuellingpointtypeIdent, targetIdent))
+			}
+			if aerialrefuellingpointtype.ExtendedServiceVolume != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(aerialrefuellingpointtype.ExtendedServiceVolume.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExtendedServiceVolume = %s", aerialrefuellingpointtypeIdent, targetIdent))
+			}
+			for _, elem := range aerialrefuellingpointtype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", aerialrefuellingpointtypeIdent, aerialrefuellingpointtypeIdent, targetIdent))
+			}
+			for _, elem := range aerialrefuellingpointtype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", aerialrefuellingpointtypeIdent, aerialrefuellingpointtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, aircraftcharacteristicpropertytype := range __gong__sortStageSetInstances(stage.AircraftCharacteristicPropertyTypes, stage.AircraftCharacteristicPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			aircraftcharacteristicpropertytypeIdent := strings.Replace(aircraftcharacteristicpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AircraftCharacteristicPropertyType{Name: %s}).Stage(stage)", aircraftcharacteristicpropertytypeIdent, __gong__toRawStringLiteral(aircraftcharacteristicpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", aircraftcharacteristicpropertytypeIdent, __gong__toRawStringLiteral(aircraftcharacteristicpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", aircraftcharacteristicpropertytypeIdent, __gong__toRawStringLiteral(aircraftcharacteristicpropertytype.NilReason)))
+			if aircraftcharacteristicpropertytype.AircraftCharacteristic != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(aircraftcharacteristicpropertytype.AircraftCharacteristic.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCharacteristic = %s", aircraftcharacteristicpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, aircraftcharacteristictype := range __gong__sortStageSetInstances(stage.AircraftCharacteristicTypes, stage.AircraftCharacteristicType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			aircraftcharacteristictypeIdent := strings.Replace(aircraftcharacteristictype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AircraftCharacteristicType{Name: %s}).Stage(stage)", aircraftcharacteristictypeIdent, __gong__toRawStringLiteral(aircraftcharacteristictype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", aircraftcharacteristictypeIdent, __gong__toRawStringLiteral(aircraftcharacteristictype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", aircraftcharacteristictypeIdent, __gong__toRawStringLiteral(aircraftcharacteristictype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", aircraftcharacteristictypeIdent, __gong__toRawStringLiteral(aircraftcharacteristictype.Description)))
+			for _, elem := range aircraftcharacteristictype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", aircraftcharacteristictypeIdent, aircraftcharacteristictypeIdent, targetIdent))
+			}
+			for _, elem := range aircraftcharacteristictype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", aircraftcharacteristictypeIdent, aircraftcharacteristictypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, airportheliportpropertytype := range __gong__sortStageSetInstances(stage.AirportHeliportPropertyTypes, stage.AirportHeliportPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			airportheliportpropertytypeIdent := strings.Replace(airportheliportpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AirportHeliportPropertyType{Name: %s}).Stage(stage)", airportheliportpropertytypeIdent, __gong__toRawStringLiteral(airportheliportpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", airportheliportpropertytypeIdent, __gong__toRawStringLiteral(airportheliportpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", airportheliportpropertytypeIdent, airportheliportpropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", airportheliportpropertytypeIdent, __gong__toRawStringLiteral(airportheliportpropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", airportheliportpropertytypeIdent, __gong__toRawStringLiteral(airportheliportpropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", airportheliportpropertytypeIdent, __gong__toRawStringLiteral(airportheliportpropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", airportheliportpropertytypeIdent, __gong__toRawStringLiteral(airportheliportpropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", airportheliportpropertytypeIdent, __gong__toRawStringLiteral(airportheliportpropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", airportheliportpropertytypeIdent, __gong__toRawStringLiteral(airportheliportpropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", airportheliportpropertytypeIdent, __gong__toRawStringLiteral(airportheliportpropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", airportheliportpropertytypeIdent, __gong__toRawStringLiteral(airportheliportpropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, altimetersourcepropertytype := range __gong__sortStageSetInstances(stage.AltimeterSourcePropertyTypes, stage.AltimeterSourcePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			altimetersourcepropertytypeIdent := strings.Replace(altimetersourcepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AltimeterSourcePropertyType{Name: %s}).Stage(stage)", altimetersourcepropertytypeIdent, __gong__toRawStringLiteral(altimetersourcepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", altimetersourcepropertytypeIdent, __gong__toRawStringLiteral(altimetersourcepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", altimetersourcepropertytypeIdent, altimetersourcepropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", altimetersourcepropertytypeIdent, __gong__toRawStringLiteral(altimetersourcepropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", altimetersourcepropertytypeIdent, __gong__toRawStringLiteral(altimetersourcepropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", altimetersourcepropertytypeIdent, __gong__toRawStringLiteral(altimetersourcepropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", altimetersourcepropertytypeIdent, __gong__toRawStringLiteral(altimetersourcepropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", altimetersourcepropertytypeIdent, __gong__toRawStringLiteral(altimetersourcepropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", altimetersourcepropertytypeIdent, __gong__toRawStringLiteral(altimetersourcepropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", altimetersourcepropertytypeIdent, __gong__toRawStringLiteral(altimetersourcepropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", altimetersourcepropertytypeIdent, __gong__toRawStringLiteral(altimetersourcepropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, altitudeadjustmentpropertytype := range __gong__sortStageSetInstances(stage.AltitudeAdjustmentPropertyTypes, stage.AltitudeAdjustmentPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			altitudeadjustmentpropertytypeIdent := strings.Replace(altitudeadjustmentpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AltitudeAdjustmentPropertyType{Name: %s}).Stage(stage)", altitudeadjustmentpropertytypeIdent, __gong__toRawStringLiteral(altitudeadjustmentpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", altitudeadjustmentpropertytypeIdent, __gong__toRawStringLiteral(altitudeadjustmentpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", altitudeadjustmentpropertytypeIdent, __gong__toRawStringLiteral(altitudeadjustmentpropertytype.NilReason)))
+			if altitudeadjustmentpropertytype.AltitudeAdjustment != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(altitudeadjustmentpropertytype.AltitudeAdjustment.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AltitudeAdjustment = %s", altitudeadjustmentpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, altitudeadjustmenttype := range __gong__sortStageSetInstances(stage.AltitudeAdjustmentTypes, stage.AltitudeAdjustmentType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			altitudeadjustmenttypeIdent := strings.Replace(altitudeadjustmenttype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AltitudeAdjustmentType{Name: %s}).Stage(stage)", altitudeadjustmenttypeIdent, __gong__toRawStringLiteral(altitudeadjustmenttype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", altitudeadjustmenttypeIdent, __gong__toRawStringLiteral(altitudeadjustmenttype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", altitudeadjustmenttypeIdent, __gong__toRawStringLiteral(altitudeadjustmenttype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", altitudeadjustmenttypeIdent, __gong__toRawStringLiteral(altitudeadjustmenttype.Description)))
+			for _, elem := range altitudeadjustmenttype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", altitudeadjustmenttypeIdent, altitudeadjustmenttypeIdent, targetIdent))
+			}
+			for _, elem := range altitudeadjustmenttype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", altitudeadjustmenttypeIdent, altitudeadjustmenttypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, angleindicationpropertytype := range __gong__sortStageSetInstances(stage.AngleIndicationPropertyTypes, stage.AngleIndicationPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			angleindicationpropertytypeIdent := strings.Replace(angleindicationpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AngleIndicationPropertyType{Name: %s}).Stage(stage)", angleindicationpropertytypeIdent, __gong__toRawStringLiteral(angleindicationpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", angleindicationpropertytypeIdent, __gong__toRawStringLiteral(angleindicationpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", angleindicationpropertytypeIdent, angleindicationpropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", angleindicationpropertytypeIdent, __gong__toRawStringLiteral(angleindicationpropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", angleindicationpropertytypeIdent, __gong__toRawStringLiteral(angleindicationpropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", angleindicationpropertytypeIdent, __gong__toRawStringLiteral(angleindicationpropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", angleindicationpropertytypeIdent, __gong__toRawStringLiteral(angleindicationpropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", angleindicationpropertytypeIdent, __gong__toRawStringLiteral(angleindicationpropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", angleindicationpropertytypeIdent, __gong__toRawStringLiteral(angleindicationpropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", angleindicationpropertytypeIdent, __gong__toRawStringLiteral(angleindicationpropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", angleindicationpropertytypeIdent, __gong__toRawStringLiteral(angleindicationpropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, angleusepropertytype := range __gong__sortStageSetInstances(stage.AngleUsePropertyTypes, stage.AngleUsePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			angleusepropertytypeIdent := strings.Replace(angleusepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AngleUsePropertyType{Name: %s}).Stage(stage)", angleusepropertytypeIdent, __gong__toRawStringLiteral(angleusepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", angleusepropertytypeIdent, __gong__toRawStringLiteral(angleusepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", angleusepropertytypeIdent, __gong__toRawStringLiteral(angleusepropertytype.NilReason)))
+			if angleusepropertytype.AngleUse != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(angleusepropertytype.AngleUse.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AngleUse = %s", angleusepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, angleusetype := range __gong__sortStageSetInstances(stage.AngleUseTypes, stage.AngleUseType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			angleusetypeIdent := strings.Replace(angleusetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.AngleUseType{Name: %s}).Stage(stage)", angleusetypeIdent, __gong__toRawStringLiteral(angleusetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", angleusetypeIdent, __gong__toRawStringLiteral(angleusetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", angleusetypeIdent, __gong__toRawStringLiteral(angleusetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", angleusetypeIdent, __gong__toRawStringLiteral(angleusetype.Description)))
+			for _, elem := range angleusetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", angleusetypeIdent, angleusetypeIdent, targetIdent))
+			}
+			if angleusetype.TheAngleIndication != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(angleusetype.TheAngleIndication.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TheAngleIndication = %s", angleusetypeIdent, targetIdent))
+			}
+			for _, elem := range angleusetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", angleusetypeIdent, angleusetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, approachaltitudetablepropertytype := range __gong__sortStageSetInstances(stage.ApproachAltitudeTablePropertyTypes, stage.ApproachAltitudeTablePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			approachaltitudetablepropertytypeIdent := strings.Replace(approachaltitudetablepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ApproachAltitudeTablePropertyType{Name: %s}).Stage(stage)", approachaltitudetablepropertytypeIdent, __gong__toRawStringLiteral(approachaltitudetablepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", approachaltitudetablepropertytypeIdent, __gong__toRawStringLiteral(approachaltitudetablepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", approachaltitudetablepropertytypeIdent, __gong__toRawStringLiteral(approachaltitudetablepropertytype.NilReason)))
+			if approachaltitudetablepropertytype.ApproachAltitudeTable != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(approachaltitudetablepropertytype.ApproachAltitudeTable.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ApproachAltitudeTable = %s", approachaltitudetablepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, approachaltitudetabletype := range __gong__sortStageSetInstances(stage.ApproachAltitudeTableTypes, stage.ApproachAltitudeTableType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			approachaltitudetabletypeIdent := strings.Replace(approachaltitudetabletype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ApproachAltitudeTableType{Name: %s}).Stage(stage)", approachaltitudetabletypeIdent, __gong__toRawStringLiteral(approachaltitudetabletype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", approachaltitudetabletypeIdent, __gong__toRawStringLiteral(approachaltitudetabletype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", approachaltitudetabletypeIdent, __gong__toRawStringLiteral(approachaltitudetabletype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", approachaltitudetabletypeIdent, __gong__toRawStringLiteral(approachaltitudetabletype.Description)))
+			for _, elem := range approachaltitudetabletype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", approachaltitudetabletypeIdent, approachaltitudetabletypeIdent, targetIdent))
+			}
+			for _, elem := range approachaltitudetabletype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", approachaltitudetabletypeIdent, approachaltitudetabletypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, approachconditionpropertytype := range __gong__sortStageSetInstances(stage.ApproachConditionPropertyTypes, stage.ApproachConditionPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			approachconditionpropertytypeIdent := strings.Replace(approachconditionpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ApproachConditionPropertyType{Name: %s}).Stage(stage)", approachconditionpropertytypeIdent, __gong__toRawStringLiteral(approachconditionpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", approachconditionpropertytypeIdent, __gong__toRawStringLiteral(approachconditionpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", approachconditionpropertytypeIdent, __gong__toRawStringLiteral(approachconditionpropertytype.NilReason)))
+			if approachconditionpropertytype.ApproachCondition != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(approachconditionpropertytype.ApproachCondition.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ApproachCondition = %s", approachconditionpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, approachconditiontype := range __gong__sortStageSetInstances(stage.ApproachConditionTypes, stage.ApproachConditionType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			approachconditiontypeIdent := strings.Replace(approachconditiontype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ApproachConditionType{Name: %s}).Stage(stage)", approachconditiontypeIdent, __gong__toRawStringLiteral(approachconditiontype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", approachconditiontypeIdent, __gong__toRawStringLiteral(approachconditiontype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", approachconditiontypeIdent, __gong__toRawStringLiteral(approachconditiontype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", approachconditiontypeIdent, __gong__toRawStringLiteral(approachconditiontype.Description)))
+			if approachconditiontype.MinimumSet != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(approachconditiontype.MinimumSet.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MinimumSet = %s", approachconditiontypeIdent, targetIdent))
+			}
+			for _, elem := range approachconditiontype.CirclingRestriction {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CirclingRestriction = append(%s.CirclingRestriction, %s)", approachconditiontypeIdent, approachconditiontypeIdent, targetIdent))
+			}
+			for _, elem := range approachconditiontype.AircraftCategory {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCategory = append(%s.AircraftCategory, %s)", approachconditiontypeIdent, approachconditiontypeIdent, targetIdent))
+			}
+			for _, elem := range approachconditiontype.LandingArea {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.LandingArea = append(%s.LandingArea, %s)", approachconditiontypeIdent, approachconditiontypeIdent, targetIdent))
+			}
+			if approachconditiontype.Altimeter != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(approachconditiontype.Altimeter.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Altimeter = %s", approachconditiontypeIdent, targetIdent))
+			}
+			for _, elem := range approachconditiontype.DesignSurface {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DesignSurface = append(%s.DesignSurface, %s)", approachconditiontypeIdent, approachconditiontypeIdent, targetIdent))
+			}
+			for _, elem := range approachconditiontype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", approachconditiontypeIdent, approachconditiontypeIdent, targetIdent))
+			}
+			for _, elem := range approachconditiontype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", approachconditiontypeIdent, approachconditiontypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, approachdistancetablepropertytype := range __gong__sortStageSetInstances(stage.ApproachDistanceTablePropertyTypes, stage.ApproachDistanceTablePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			approachdistancetablepropertytypeIdent := strings.Replace(approachdistancetablepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ApproachDistanceTablePropertyType{Name: %s}).Stage(stage)", approachdistancetablepropertytypeIdent, __gong__toRawStringLiteral(approachdistancetablepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", approachdistancetablepropertytypeIdent, __gong__toRawStringLiteral(approachdistancetablepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", approachdistancetablepropertytypeIdent, __gong__toRawStringLiteral(approachdistancetablepropertytype.NilReason)))
+			if approachdistancetablepropertytype.ApproachDistanceTable != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(approachdistancetablepropertytype.ApproachDistanceTable.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ApproachDistanceTable = %s", approachdistancetablepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, approachdistancetabletype := range __gong__sortStageSetInstances(stage.ApproachDistanceTableTypes, stage.ApproachDistanceTableType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			approachdistancetabletypeIdent := strings.Replace(approachdistancetabletype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ApproachDistanceTableType{Name: %s}).Stage(stage)", approachdistancetabletypeIdent, __gong__toRawStringLiteral(approachdistancetabletype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", approachdistancetabletypeIdent, __gong__toRawStringLiteral(approachdistancetabletype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", approachdistancetabletypeIdent, __gong__toRawStringLiteral(approachdistancetabletype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", approachdistancetabletypeIdent, __gong__toRawStringLiteral(approachdistancetabletype.Description)))
+			for _, elem := range approachdistancetabletype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", approachdistancetabletypeIdent, approachdistancetabletypeIdent, targetIdent))
+			}
+			for _, elem := range approachdistancetabletype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", approachdistancetabletypeIdent, approachdistancetabletypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, approachtimingtablepropertytype := range __gong__sortStageSetInstances(stage.ApproachTimingTablePropertyTypes, stage.ApproachTimingTablePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			approachtimingtablepropertytypeIdent := strings.Replace(approachtimingtablepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ApproachTimingTablePropertyType{Name: %s}).Stage(stage)", approachtimingtablepropertytypeIdent, __gong__toRawStringLiteral(approachtimingtablepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", approachtimingtablepropertytypeIdent, __gong__toRawStringLiteral(approachtimingtablepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", approachtimingtablepropertytypeIdent, __gong__toRawStringLiteral(approachtimingtablepropertytype.NilReason)))
+			if approachtimingtablepropertytype.ApproachTimingTable != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(approachtimingtablepropertytype.ApproachTimingTable.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ApproachTimingTable = %s", approachtimingtablepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, approachtimingtabletype := range __gong__sortStageSetInstances(stage.ApproachTimingTableTypes, stage.ApproachTimingTableType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			approachtimingtabletypeIdent := strings.Replace(approachtimingtabletype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ApproachTimingTableType{Name: %s}).Stage(stage)", approachtimingtabletypeIdent, __gong__toRawStringLiteral(approachtimingtabletype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", approachtimingtabletypeIdent, __gong__toRawStringLiteral(approachtimingtabletype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", approachtimingtabletypeIdent, __gong__toRawStringLiteral(approachtimingtabletype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", approachtimingtabletypeIdent, __gong__toRawStringLiteral(approachtimingtabletype.Description)))
+			for _, elem := range approachtimingtabletype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", approachtimingtabletypeIdent, approachtimingtabletypeIdent, targetIdent))
+			}
+			for _, elem := range approachtimingtabletype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", approachtimingtabletypeIdent, approachtimingtabletypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, arrivalfeederlegtimeslicepropertytype := range __gong__sortStageSetInstances(stage.ArrivalFeederLegTimeSlicePropertyTypes, stage.ArrivalFeederLegTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			arrivalfeederlegtimeslicepropertytypeIdent := strings.Replace(arrivalfeederlegtimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ArrivalFeederLegTimeSlicePropertyType{Name: %s}).Stage(stage)", arrivalfeederlegtimeslicepropertytypeIdent, __gong__toRawStringLiteral(arrivalfeederlegtimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", arrivalfeederlegtimeslicepropertytypeIdent, __gong__toRawStringLiteral(arrivalfeederlegtimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", arrivalfeederlegtimeslicepropertytypeIdent, arrivalfeederlegtimeslicepropertytype.Owns))
+			if arrivalfeederlegtimeslicepropertytype.ArrivalFeederLegTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivalfeederlegtimeslicepropertytype.ArrivalFeederLegTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ArrivalFeederLegTimeSlice = %s", arrivalfeederlegtimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, arrivalfeederlegtimeslicetype := range __gong__sortStageSetInstances(stage.ArrivalFeederLegTimeSliceTypes, stage.ArrivalFeederLegTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			arrivalfeederlegtimeslicetypeIdent := strings.Replace(arrivalfeederlegtimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ArrivalFeederLegTimeSliceType{Name: %s}).Stage(stage)", arrivalfeederlegtimeslicetypeIdent, __gong__toRawStringLiteral(arrivalfeederlegtimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", arrivalfeederlegtimeslicetypeIdent, __gong__toRawStringLiteral(arrivalfeederlegtimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", arrivalfeederlegtimeslicetypeIdent, __gong__toRawStringLiteral(arrivalfeederlegtimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", arrivalfeederlegtimeslicetypeIdent, __gong__toRawStringLiteral(arrivalfeederlegtimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", arrivalfeederlegtimeslicetypeIdent, __gong__toRawStringLiteral(arrivalfeederlegtimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", arrivalfeederlegtimeslicetypeIdent, arrivalfeederlegtimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", arrivalfeederlegtimeslicetypeIdent, arrivalfeederlegtimeslicetype.CorrectionNumber))
+			if arrivalfeederlegtimeslicetype.StartPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivalfeederlegtimeslicetype.StartPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartPoint = %s", arrivalfeederlegtimeslicetypeIdent, targetIdent))
+			}
+			if arrivalfeederlegtimeslicetype.EndPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivalfeederlegtimeslicetype.EndPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndPoint = %s", arrivalfeederlegtimeslicetypeIdent, targetIdent))
+			}
+			if arrivalfeederlegtimeslicetype.Trajectory != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivalfeederlegtimeslicetype.Trajectory.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Trajectory = %s", arrivalfeederlegtimeslicetypeIdent, targetIdent))
+			}
+			if arrivalfeederlegtimeslicetype.ArcCentre != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivalfeederlegtimeslicetype.ArcCentre.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ArcCentre = %s", arrivalfeederlegtimeslicetypeIdent, targetIdent))
+			}
+			if arrivalfeederlegtimeslicetype.Angle != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivalfeederlegtimeslicetype.Angle.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Angle = %s", arrivalfeederlegtimeslicetypeIdent, targetIdent))
+			}
+			if arrivalfeederlegtimeslicetype.Distance != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivalfeederlegtimeslicetype.Distance.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Distance = %s", arrivalfeederlegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range arrivalfeederlegtimeslicetype.AircraftCategory {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCategory = append(%s.AircraftCategory, %s)", arrivalfeederlegtimeslicetypeIdent, arrivalfeederlegtimeslicetypeIdent, targetIdent))
+			}
+			if arrivalfeederlegtimeslicetype.Holding != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivalfeederlegtimeslicetype.Holding.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Holding = %s", arrivalfeederlegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range arrivalfeederlegtimeslicetype.DesignSurface {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DesignSurface = append(%s.DesignSurface, %s)", arrivalfeederlegtimeslicetypeIdent, arrivalfeederlegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range arrivalfeederlegtimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", arrivalfeederlegtimeslicetypeIdent, arrivalfeederlegtimeslicetypeIdent, targetIdent))
+			}
+			if arrivalfeederlegtimeslicetype.Approach != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivalfeederlegtimeslicetype.Approach.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Approach = %s", arrivalfeederlegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range arrivalfeederlegtimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", arrivalfeederlegtimeslicetypeIdent, arrivalfeederlegtimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, arrivalfeederlegtype := range __gong__sortStageSetInstances(stage.ArrivalFeederLegTypes, stage.ArrivalFeederLegType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			arrivalfeederlegtypeIdent := strings.Replace(arrivalfeederlegtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ArrivalFeederLegType{Name: %s}).Stage(stage)", arrivalfeederlegtypeIdent, __gong__toRawStringLiteral(arrivalfeederlegtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", arrivalfeederlegtypeIdent, __gong__toRawStringLiteral(arrivalfeederlegtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", arrivalfeederlegtypeIdent, __gong__toRawStringLiteral(arrivalfeederlegtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", arrivalfeederlegtypeIdent, __gong__toRawStringLiteral(arrivalfeederlegtype.Description)))
+			for _, elem := range arrivalfeederlegtype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", arrivalfeederlegtypeIdent, arrivalfeederlegtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, arrivallegtimeslicepropertytype := range __gong__sortStageSetInstances(stage.ArrivalLegTimeSlicePropertyTypes, stage.ArrivalLegTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			arrivallegtimeslicepropertytypeIdent := strings.Replace(arrivallegtimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ArrivalLegTimeSlicePropertyType{Name: %s}).Stage(stage)", arrivallegtimeslicepropertytypeIdent, __gong__toRawStringLiteral(arrivallegtimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", arrivallegtimeslicepropertytypeIdent, __gong__toRawStringLiteral(arrivallegtimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", arrivallegtimeslicepropertytypeIdent, arrivallegtimeslicepropertytype.Owns))
+			if arrivallegtimeslicepropertytype.ArrivalLegTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivallegtimeslicepropertytype.ArrivalLegTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ArrivalLegTimeSlice = %s", arrivallegtimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, arrivallegtimeslicetype := range __gong__sortStageSetInstances(stage.ArrivalLegTimeSliceTypes, stage.ArrivalLegTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			arrivallegtimeslicetypeIdent := strings.Replace(arrivallegtimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ArrivalLegTimeSliceType{Name: %s}).Stage(stage)", arrivallegtimeslicetypeIdent, __gong__toRawStringLiteral(arrivallegtimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", arrivallegtimeslicetypeIdent, __gong__toRawStringLiteral(arrivallegtimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", arrivallegtimeslicetypeIdent, __gong__toRawStringLiteral(arrivallegtimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", arrivallegtimeslicetypeIdent, __gong__toRawStringLiteral(arrivallegtimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", arrivallegtimeslicetypeIdent, __gong__toRawStringLiteral(arrivallegtimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", arrivallegtimeslicetypeIdent, arrivallegtimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", arrivallegtimeslicetypeIdent, arrivallegtimeslicetype.CorrectionNumber))
+			if arrivallegtimeslicetype.StartPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivallegtimeslicetype.StartPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartPoint = %s", arrivallegtimeslicetypeIdent, targetIdent))
+			}
+			if arrivallegtimeslicetype.EndPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivallegtimeslicetype.EndPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndPoint = %s", arrivallegtimeslicetypeIdent, targetIdent))
+			}
+			if arrivallegtimeslicetype.Trajectory != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivallegtimeslicetype.Trajectory.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Trajectory = %s", arrivallegtimeslicetypeIdent, targetIdent))
+			}
+			if arrivallegtimeslicetype.ArcCentre != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivallegtimeslicetype.ArcCentre.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ArcCentre = %s", arrivallegtimeslicetypeIdent, targetIdent))
+			}
+			if arrivallegtimeslicetype.Angle != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivallegtimeslicetype.Angle.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Angle = %s", arrivallegtimeslicetypeIdent, targetIdent))
+			}
+			if arrivallegtimeslicetype.Distance != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivallegtimeslicetype.Distance.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Distance = %s", arrivallegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range arrivallegtimeslicetype.AircraftCategory {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCategory = append(%s.AircraftCategory, %s)", arrivallegtimeslicetypeIdent, arrivallegtimeslicetypeIdent, targetIdent))
+			}
+			if arrivallegtimeslicetype.Holding != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivallegtimeslicetype.Holding.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Holding = %s", arrivallegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range arrivallegtimeslicetype.DesignSurface {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DesignSurface = append(%s.DesignSurface, %s)", arrivallegtimeslicetypeIdent, arrivallegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range arrivallegtimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", arrivallegtimeslicetypeIdent, arrivallegtimeslicetypeIdent, targetIdent))
+			}
+			if arrivallegtimeslicetype.Arrival != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(arrivallegtimeslicetype.Arrival.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Arrival = %s", arrivallegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range arrivallegtimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", arrivallegtimeslicetypeIdent, arrivallegtimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, arrivallegtype := range __gong__sortStageSetInstances(stage.ArrivalLegTypes, stage.ArrivalLegType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			arrivallegtypeIdent := strings.Replace(arrivallegtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ArrivalLegType{Name: %s}).Stage(stage)", arrivallegtypeIdent, __gong__toRawStringLiteral(arrivallegtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", arrivallegtypeIdent, __gong__toRawStringLiteral(arrivallegtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", arrivallegtypeIdent, __gong__toRawStringLiteral(arrivallegtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", arrivallegtypeIdent, __gong__toRawStringLiteral(arrivallegtype.Description)))
+			for _, elem := range arrivallegtype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", arrivallegtypeIdent, arrivallegtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, circlesectorpropertytype := range __gong__sortStageSetInstances(stage.CircleSectorPropertyTypes, stage.CircleSectorPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			circlesectorpropertytypeIdent := strings.Replace(circlesectorpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CircleSectorPropertyType{Name: %s}).Stage(stage)", circlesectorpropertytypeIdent, __gong__toRawStringLiteral(circlesectorpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", circlesectorpropertytypeIdent, __gong__toRawStringLiteral(circlesectorpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", circlesectorpropertytypeIdent, __gong__toRawStringLiteral(circlesectorpropertytype.NilReason)))
+			if circlesectorpropertytype.CircleSector != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(circlesectorpropertytype.CircleSector.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CircleSector = %s", circlesectorpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, circlesectortype := range __gong__sortStageSetInstances(stage.CircleSectorTypes, stage.CircleSectorType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			circlesectortypeIdent := strings.Replace(circlesectortype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CircleSectorType{Name: %s}).Stage(stage)", circlesectortypeIdent, __gong__toRawStringLiteral(circlesectortype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", circlesectortypeIdent, __gong__toRawStringLiteral(circlesectortype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", circlesectortypeIdent, __gong__toRawStringLiteral(circlesectortype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", circlesectortypeIdent, __gong__toRawStringLiteral(circlesectortype.Description)))
+			for _, elem := range circlesectortype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", circlesectortypeIdent, circlesectortypeIdent, targetIdent))
+			}
+			for _, elem := range circlesectortype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", circlesectortypeIdent, circlesectortypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, circlingareatimeslicepropertytype := range __gong__sortStageSetInstances(stage.CirclingAreaTimeSlicePropertyTypes, stage.CirclingAreaTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			circlingareatimeslicepropertytypeIdent := strings.Replace(circlingareatimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CirclingAreaTimeSlicePropertyType{Name: %s}).Stage(stage)", circlingareatimeslicepropertytypeIdent, __gong__toRawStringLiteral(circlingareatimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", circlingareatimeslicepropertytypeIdent, __gong__toRawStringLiteral(circlingareatimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", circlingareatimeslicepropertytypeIdent, circlingareatimeslicepropertytype.Owns))
+			if circlingareatimeslicepropertytype.CirclingAreaTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(circlingareatimeslicepropertytype.CirclingAreaTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CirclingAreaTimeSlice = %s", circlingareatimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, circlingareatimeslicetype := range __gong__sortStageSetInstances(stage.CirclingAreaTimeSliceTypes, stage.CirclingAreaTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			circlingareatimeslicetypeIdent := strings.Replace(circlingareatimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CirclingAreaTimeSliceType{Name: %s}).Stage(stage)", circlingareatimeslicetypeIdent, __gong__toRawStringLiteral(circlingareatimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", circlingareatimeslicetypeIdent, __gong__toRawStringLiteral(circlingareatimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", circlingareatimeslicetypeIdent, __gong__toRawStringLiteral(circlingareatimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", circlingareatimeslicetypeIdent, __gong__toRawStringLiteral(circlingareatimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", circlingareatimeslicetypeIdent, __gong__toRawStringLiteral(circlingareatimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", circlingareatimeslicetypeIdent, circlingareatimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", circlingareatimeslicetypeIdent, circlingareatimeslicetype.CorrectionNumber))
+			if circlingareatimeslicetype.Extent != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(circlingareatimeslicetype.Extent.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extent = %s", circlingareatimeslicetypeIdent, targetIdent))
+			}
+			if circlingareatimeslicetype.Approach != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(circlingareatimeslicetype.Approach.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Approach = %s", circlingareatimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range circlingareatimeslicetype.Condition {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Condition = append(%s.Condition, %s)", circlingareatimeslicetypeIdent, circlingareatimeslicetypeIdent, targetIdent))
+			}
+			if circlingareatimeslicetype.AircraftCategory != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(circlingareatimeslicetype.AircraftCategory.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCategory = %s", circlingareatimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range circlingareatimeslicetype.DesignSurface {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DesignSurface = append(%s.DesignSurface, %s)", circlingareatimeslicetypeIdent, circlingareatimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range circlingareatimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", circlingareatimeslicetypeIdent, circlingareatimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range circlingareatimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", circlingareatimeslicetypeIdent, circlingareatimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, circlingareatype := range __gong__sortStageSetInstances(stage.CirclingAreaTypes, stage.CirclingAreaType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			circlingareatypeIdent := strings.Replace(circlingareatype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CirclingAreaType{Name: %s}).Stage(stage)", circlingareatypeIdent, __gong__toRawStringLiteral(circlingareatype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", circlingareatypeIdent, __gong__toRawStringLiteral(circlingareatype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", circlingareatypeIdent, __gong__toRawStringLiteral(circlingareatype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", circlingareatypeIdent, __gong__toRawStringLiteral(circlingareatype.Description)))
+			for _, elem := range circlingareatype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", circlingareatypeIdent, circlingareatypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, circlingrestrictionpropertytype := range __gong__sortStageSetInstances(stage.CirclingRestrictionPropertyTypes, stage.CirclingRestrictionPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			circlingrestrictionpropertytypeIdent := strings.Replace(circlingrestrictionpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CirclingRestrictionPropertyType{Name: %s}).Stage(stage)", circlingrestrictionpropertytypeIdent, __gong__toRawStringLiteral(circlingrestrictionpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", circlingrestrictionpropertytypeIdent, __gong__toRawStringLiteral(circlingrestrictionpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", circlingrestrictionpropertytypeIdent, __gong__toRawStringLiteral(circlingrestrictionpropertytype.NilReason)))
+			if circlingrestrictionpropertytype.CirclingRestriction != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(circlingrestrictionpropertytype.CirclingRestriction.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CirclingRestriction = %s", circlingrestrictionpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, circlingrestrictiontype := range __gong__sortStageSetInstances(stage.CirclingRestrictionTypes, stage.CirclingRestrictionType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			circlingrestrictiontypeIdent := strings.Replace(circlingrestrictiontype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CirclingRestrictionType{Name: %s}).Stage(stage)", circlingrestrictiontypeIdent, __gong__toRawStringLiteral(circlingrestrictiontype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", circlingrestrictiontypeIdent, __gong__toRawStringLiteral(circlingrestrictiontype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", circlingrestrictiontypeIdent, __gong__toRawStringLiteral(circlingrestrictiontype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", circlingrestrictiontypeIdent, __gong__toRawStringLiteral(circlingrestrictiontype.Description)))
+			for _, elem := range circlingrestrictiontype.TimeInterval {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeInterval = append(%s.TimeInterval, %s)", circlingrestrictiontypeIdent, circlingrestrictiontypeIdent, targetIdent))
+			}
+			for _, elem := range circlingrestrictiontype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", circlingrestrictiontypeIdent, circlingrestrictiontypeIdent, targetIdent))
+			}
+			for _, elem := range circlingrestrictiontype.SpecialDateAuthority {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SpecialDateAuthority = append(%s.SpecialDateAuthority, %s)", circlingrestrictiontypeIdent, circlingrestrictiontypeIdent, targetIdent))
+			}
+			if circlingrestrictiontype.SectorDescription != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(circlingrestrictiontype.SectorDescription.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SectorDescription = %s", circlingrestrictiontypeIdent, targetIdent))
+			}
+			if circlingrestrictiontype.RestrictionArea != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(circlingrestrictiontype.RestrictionArea.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RestrictionArea = %s", circlingrestrictiontypeIdent, targetIdent))
+			}
+			for _, elem := range circlingrestrictiontype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", circlingrestrictiontypeIdent, circlingrestrictiontypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, curvepropertytype := range __gong__sortStageSetInstances(stage.CurvePropertyTypes, stage.CurvePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			curvepropertytypeIdent := strings.Replace(curvepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CurvePropertyType{Name: %s}).Stage(stage)", curvepropertytypeIdent, __gong__toRawStringLiteral(curvepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", curvepropertytypeIdent, __gong__toRawStringLiteral(curvepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", curvepropertytypeIdent, __gong__toRawStringLiteral(curvepropertytype.NilReason)))
+			if curvepropertytype.Curve != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(curvepropertytype.Curve.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Curve = %s", curvepropertytypeIdent, targetIdent))
+			}
+			if curvepropertytype.ElevatedCurve != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(curvepropertytype.ElevatedCurve.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ElevatedCurve = %s", curvepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, curvetype := range __gong__sortStageSetInstances(stage.CurveTypes, stage.CurveType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			curvetypeIdent := strings.Replace(curvetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.CurveType{Name: %s}).Stage(stage)", curvetypeIdent, __gong__toRawStringLiteral(curvetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", curvetypeIdent, __gong__toRawStringLiteral(curvetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", curvetypeIdent, __gong__toRawStringLiteral(curvetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", curvetypeIdent, __gong__toRawStringLiteral(curvetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SrsName = %s", curvetypeIdent, __gong__toRawStringLiteral(curvetype.SrsName)))
+			for _, elem := range curvetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", curvetypeIdent, curvetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, dmepropertytype := range __gong__sortStageSetInstances(stage.DMEPropertyTypes, stage.DMEPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			dmepropertytypeIdent := strings.Replace(dmepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.DMEPropertyType{Name: %s}).Stage(stage)", dmepropertytypeIdent, __gong__toRawStringLiteral(dmepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", dmepropertytypeIdent, __gong__toRawStringLiteral(dmepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", dmepropertytypeIdent, dmepropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", dmepropertytypeIdent, __gong__toRawStringLiteral(dmepropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", dmepropertytypeIdent, __gong__toRawStringLiteral(dmepropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", dmepropertytypeIdent, __gong__toRawStringLiteral(dmepropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", dmepropertytypeIdent, __gong__toRawStringLiteral(dmepropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", dmepropertytypeIdent, __gong__toRawStringLiteral(dmepropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", dmepropertytypeIdent, __gong__toRawStringLiteral(dmepropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", dmepropertytypeIdent, __gong__toRawStringLiteral(dmepropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", dmepropertytypeIdent, __gong__toRawStringLiteral(dmepropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, departurearrivalconditionpropertytype := range __gong__sortStageSetInstances(stage.DepartureArrivalConditionPropertyTypes, stage.DepartureArrivalConditionPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			departurearrivalconditionpropertytypeIdent := strings.Replace(departurearrivalconditionpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.DepartureArrivalConditionPropertyType{Name: %s}).Stage(stage)", departurearrivalconditionpropertytypeIdent, __gong__toRawStringLiteral(departurearrivalconditionpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", departurearrivalconditionpropertytypeIdent, __gong__toRawStringLiteral(departurearrivalconditionpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", departurearrivalconditionpropertytypeIdent, __gong__toRawStringLiteral(departurearrivalconditionpropertytype.NilReason)))
+			if departurearrivalconditionpropertytype.DepartureArrivalCondition != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(departurearrivalconditionpropertytype.DepartureArrivalCondition.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DepartureArrivalCondition = %s", departurearrivalconditionpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, departurearrivalconditiontype := range __gong__sortStageSetInstances(stage.DepartureArrivalConditionTypes, stage.DepartureArrivalConditionType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			departurearrivalconditiontypeIdent := strings.Replace(departurearrivalconditiontype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.DepartureArrivalConditionType{Name: %s}).Stage(stage)", departurearrivalconditiontypeIdent, __gong__toRawStringLiteral(departurearrivalconditiontype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", departurearrivalconditiontypeIdent, __gong__toRawStringLiteral(departurearrivalconditiontype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", departurearrivalconditiontypeIdent, __gong__toRawStringLiteral(departurearrivalconditiontype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", departurearrivalconditiontypeIdent, __gong__toRawStringLiteral(departurearrivalconditiontype.Description)))
+			if departurearrivalconditiontype.EngineType != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(departurearrivalconditiontype.EngineType.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EngineType = %s", departurearrivalconditiontypeIdent, targetIdent))
+			}
+			for _, elem := range departurearrivalconditiontype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", departurearrivalconditiontypeIdent, departurearrivalconditiontypeIdent, targetIdent))
+			}
+			for _, elem := range departurearrivalconditiontype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", departurearrivalconditiontypeIdent, departurearrivalconditiontypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, departurelegtimeslicepropertytype := range __gong__sortStageSetInstances(stage.DepartureLegTimeSlicePropertyTypes, stage.DepartureLegTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			departurelegtimeslicepropertytypeIdent := strings.Replace(departurelegtimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.DepartureLegTimeSlicePropertyType{Name: %s}).Stage(stage)", departurelegtimeslicepropertytypeIdent, __gong__toRawStringLiteral(departurelegtimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", departurelegtimeslicepropertytypeIdent, __gong__toRawStringLiteral(departurelegtimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", departurelegtimeslicepropertytypeIdent, departurelegtimeslicepropertytype.Owns))
+			if departurelegtimeslicepropertytype.DepartureLegTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(departurelegtimeslicepropertytype.DepartureLegTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DepartureLegTimeSlice = %s", departurelegtimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, departurelegtimeslicetype := range __gong__sortStageSetInstances(stage.DepartureLegTimeSliceTypes, stage.DepartureLegTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			departurelegtimeslicetypeIdent := strings.Replace(departurelegtimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.DepartureLegTimeSliceType{Name: %s}).Stage(stage)", departurelegtimeslicetypeIdent, __gong__toRawStringLiteral(departurelegtimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", departurelegtimeslicetypeIdent, __gong__toRawStringLiteral(departurelegtimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", departurelegtimeslicetypeIdent, __gong__toRawStringLiteral(departurelegtimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", departurelegtimeslicetypeIdent, __gong__toRawStringLiteral(departurelegtimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", departurelegtimeslicetypeIdent, __gong__toRawStringLiteral(departurelegtimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", departurelegtimeslicetypeIdent, departurelegtimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", departurelegtimeslicetypeIdent, departurelegtimeslicetype.CorrectionNumber))
+			if departurelegtimeslicetype.StartPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(departurelegtimeslicetype.StartPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartPoint = %s", departurelegtimeslicetypeIdent, targetIdent))
+			}
+			if departurelegtimeslicetype.EndPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(departurelegtimeslicetype.EndPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndPoint = %s", departurelegtimeslicetypeIdent, targetIdent))
+			}
+			if departurelegtimeslicetype.Trajectory != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(departurelegtimeslicetype.Trajectory.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Trajectory = %s", departurelegtimeslicetypeIdent, targetIdent))
+			}
+			if departurelegtimeslicetype.ArcCentre != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(departurelegtimeslicetype.ArcCentre.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ArcCentre = %s", departurelegtimeslicetypeIdent, targetIdent))
+			}
+			if departurelegtimeslicetype.Angle != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(departurelegtimeslicetype.Angle.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Angle = %s", departurelegtimeslicetypeIdent, targetIdent))
+			}
+			if departurelegtimeslicetype.Distance != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(departurelegtimeslicetype.Distance.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Distance = %s", departurelegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range departurelegtimeslicetype.AircraftCategory {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCategory = append(%s.AircraftCategory, %s)", departurelegtimeslicetypeIdent, departurelegtimeslicetypeIdent, targetIdent))
+			}
+			if departurelegtimeslicetype.Holding != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(departurelegtimeslicetype.Holding.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Holding = %s", departurelegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range departurelegtimeslicetype.DesignSurface {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DesignSurface = append(%s.DesignSurface, %s)", departurelegtimeslicetypeIdent, departurelegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range departurelegtimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", departurelegtimeslicetypeIdent, departurelegtimeslicetypeIdent, targetIdent))
+			}
+			if departurelegtimeslicetype.Departure != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(departurelegtimeslicetype.Departure.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Departure = %s", departurelegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range departurelegtimeslicetype.Condition {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Condition = append(%s.Condition, %s)", departurelegtimeslicetypeIdent, departurelegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range departurelegtimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", departurelegtimeslicetypeIdent, departurelegtimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, departurelegtype := range __gong__sortStageSetInstances(stage.DepartureLegTypes, stage.DepartureLegType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			departurelegtypeIdent := strings.Replace(departurelegtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.DepartureLegType{Name: %s}).Stage(stage)", departurelegtypeIdent, __gong__toRawStringLiteral(departurelegtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", departurelegtypeIdent, __gong__toRawStringLiteral(departurelegtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", departurelegtypeIdent, __gong__toRawStringLiteral(departurelegtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", departurelegtypeIdent, __gong__toRawStringLiteral(departurelegtype.Description)))
+			for _, elem := range departurelegtype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", departurelegtypeIdent, departurelegtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, designatedpointpropertytype := range __gong__sortStageSetInstances(stage.DesignatedPointPropertyTypes, stage.DesignatedPointPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			designatedpointpropertytypeIdent := strings.Replace(designatedpointpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.DesignatedPointPropertyType{Name: %s}).Stage(stage)", designatedpointpropertytypeIdent, __gong__toRawStringLiteral(designatedpointpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", designatedpointpropertytypeIdent, __gong__toRawStringLiteral(designatedpointpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", designatedpointpropertytypeIdent, designatedpointpropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", designatedpointpropertytypeIdent, __gong__toRawStringLiteral(designatedpointpropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", designatedpointpropertytypeIdent, __gong__toRawStringLiteral(designatedpointpropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", designatedpointpropertytypeIdent, __gong__toRawStringLiteral(designatedpointpropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", designatedpointpropertytypeIdent, __gong__toRawStringLiteral(designatedpointpropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", designatedpointpropertytypeIdent, __gong__toRawStringLiteral(designatedpointpropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", designatedpointpropertytypeIdent, __gong__toRawStringLiteral(designatedpointpropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", designatedpointpropertytypeIdent, __gong__toRawStringLiteral(designatedpointpropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", designatedpointpropertytypeIdent, __gong__toRawStringLiteral(designatedpointpropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, distanceindicationpropertytype := range __gong__sortStageSetInstances(stage.DistanceIndicationPropertyTypes, stage.DistanceIndicationPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			distanceindicationpropertytypeIdent := strings.Replace(distanceindicationpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.DistanceIndicationPropertyType{Name: %s}).Stage(stage)", distanceindicationpropertytypeIdent, __gong__toRawStringLiteral(distanceindicationpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", distanceindicationpropertytypeIdent, __gong__toRawStringLiteral(distanceindicationpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", distanceindicationpropertytypeIdent, distanceindicationpropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", distanceindicationpropertytypeIdent, __gong__toRawStringLiteral(distanceindicationpropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", distanceindicationpropertytypeIdent, __gong__toRawStringLiteral(distanceindicationpropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", distanceindicationpropertytypeIdent, __gong__toRawStringLiteral(distanceindicationpropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", distanceindicationpropertytypeIdent, __gong__toRawStringLiteral(distanceindicationpropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", distanceindicationpropertytypeIdent, __gong__toRawStringLiteral(distanceindicationpropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", distanceindicationpropertytypeIdent, __gong__toRawStringLiteral(distanceindicationpropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", distanceindicationpropertytypeIdent, __gong__toRawStringLiteral(distanceindicationpropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", distanceindicationpropertytypeIdent, __gong__toRawStringLiteral(distanceindicationpropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, elevatedcurvetype := range __gong__sortStageSetInstances(stage.ElevatedCurveTypes, stage.ElevatedCurveType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			elevatedcurvetypeIdent := strings.Replace(elevatedcurvetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ElevatedCurveType{Name: %s}).Stage(stage)", elevatedcurvetypeIdent, __gong__toRawStringLiteral(elevatedcurvetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", elevatedcurvetypeIdent, __gong__toRawStringLiteral(elevatedcurvetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", elevatedcurvetypeIdent, __gong__toRawStringLiteral(elevatedcurvetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", elevatedcurvetypeIdent, __gong__toRawStringLiteral(elevatedcurvetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SrsName = %s", elevatedcurvetypeIdent, __gong__toRawStringLiteral(elevatedcurvetype.SrsName)))
+			for _, elem := range elevatedcurvetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", elevatedcurvetypeIdent, elevatedcurvetypeIdent, targetIdent))
+			}
+			for _, elem := range elevatedcurvetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", elevatedcurvetypeIdent, elevatedcurvetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, elevatedpointtype := range __gong__sortStageSetInstances(stage.ElevatedPointTypes, stage.ElevatedPointType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			elevatedpointtypeIdent := strings.Replace(elevatedpointtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ElevatedPointType{Name: %s}).Stage(stage)", elevatedpointtypeIdent, __gong__toRawStringLiteral(elevatedpointtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", elevatedpointtypeIdent, __gong__toRawStringLiteral(elevatedpointtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", elevatedpointtypeIdent, __gong__toRawStringLiteral(elevatedpointtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", elevatedpointtypeIdent, __gong__toRawStringLiteral(elevatedpointtype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SrsName = %s", elevatedpointtypeIdent, __gong__toRawStringLiteral(elevatedpointtype.SrsName)))
+			for _, elem := range elevatedpointtype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", elevatedpointtypeIdent, elevatedpointtypeIdent, targetIdent))
+			}
+			for _, elem := range elevatedpointtype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", elevatedpointtypeIdent, elevatedpointtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, elevatedsurfacetype := range __gong__sortStageSetInstances(stage.ElevatedSurfaceTypes, stage.ElevatedSurfaceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			elevatedsurfacetypeIdent := strings.Replace(elevatedsurfacetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ElevatedSurfaceType{Name: %s}).Stage(stage)", elevatedsurfacetypeIdent, __gong__toRawStringLiteral(elevatedsurfacetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", elevatedsurfacetypeIdent, __gong__toRawStringLiteral(elevatedsurfacetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", elevatedsurfacetypeIdent, __gong__toRawStringLiteral(elevatedsurfacetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", elevatedsurfacetypeIdent, __gong__toRawStringLiteral(elevatedsurfacetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SrsName = %s", elevatedsurfacetypeIdent, __gong__toRawStringLiteral(elevatedsurfacetype.SrsName)))
+			for _, elem := range elevatedsurfacetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", elevatedsurfacetypeIdent, elevatedsurfacetypeIdent, targetIdent))
+			}
+			for _, elem := range elevatedsurfacetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", elevatedsurfacetypeIdent, elevatedsurfacetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, enroutesegmentpointtype := range __gong__sortStageSetInstances(stage.EnRouteSegmentPointTypes, stage.EnRouteSegmentPointType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			enroutesegmentpointtypeIdent := strings.Replace(enroutesegmentpointtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.EnRouteSegmentPointType{Name: %s}).Stage(stage)", enroutesegmentpointtypeIdent, __gong__toRawStringLiteral(enroutesegmentpointtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", enroutesegmentpointtypeIdent, __gong__toRawStringLiteral(enroutesegmentpointtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", enroutesegmentpointtypeIdent, __gong__toRawStringLiteral(enroutesegmentpointtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", enroutesegmentpointtypeIdent, __gong__toRawStringLiteral(enroutesegmentpointtype.Description)))
+			for _, elem := range enroutesegmentpointtype.FacilityMakeup {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FacilityMakeup = append(%s.FacilityMakeup, %s)", enroutesegmentpointtypeIdent, enroutesegmentpointtypeIdent, targetIdent))
+			}
+			if enroutesegmentpointtype.PointChoice_fixDesignatedPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(enroutesegmentpointtype.PointChoice_fixDesignatedPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_fixDesignatedPoint = %s", enroutesegmentpointtypeIdent, targetIdent))
+			}
+			if enroutesegmentpointtype.PointChoice_navaidSystem != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(enroutesegmentpointtype.PointChoice_navaidSystem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_navaidSystem = %s", enroutesegmentpointtypeIdent, targetIdent))
+			}
+			if enroutesegmentpointtype.PointChoice_position != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(enroutesegmentpointtype.PointChoice_position.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_position = %s", enroutesegmentpointtypeIdent, targetIdent))
+			}
+			if enroutesegmentpointtype.PointChoice_runwayPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(enroutesegmentpointtype.PointChoice_runwayPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_runwayPoint = %s", enroutesegmentpointtypeIdent, targetIdent))
+			}
+			if enroutesegmentpointtype.PointChoice_aimingPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(enroutesegmentpointtype.PointChoice_aimingPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_aimingPoint = %s", enroutesegmentpointtypeIdent, targetIdent))
+			}
+			if enroutesegmentpointtype.PointChoice_airportReferencePoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(enroutesegmentpointtype.PointChoice_airportReferencePoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_airportReferencePoint = %s", enroutesegmentpointtypeIdent, targetIdent))
+			}
+			if enroutesegmentpointtype.ExtendedServiceVolume != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(enroutesegmentpointtype.ExtendedServiceVolume.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExtendedServiceVolume = %s", enroutesegmentpointtypeIdent, targetIdent))
+			}
+			for _, elem := range enroutesegmentpointtype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", enroutesegmentpointtypeIdent, enroutesegmentpointtypeIdent, targetIdent))
+			}
+			for _, elem := range enroutesegmentpointtype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", enroutesegmentpointtypeIdent, enroutesegmentpointtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, equipmentunavailableadjustmentcolumnpropertytype := range __gong__sortStageSetInstances(stage.EquipmentUnavailableAdjustmentColumnPropertyTypes, stage.EquipmentUnavailableAdjustmentColumnPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			equipmentunavailableadjustmentcolumnpropertytypeIdent := strings.Replace(equipmentunavailableadjustmentcolumnpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.EquipmentUnavailableAdjustmentColumnPropertyType{Name: %s}).Stage(stage)", equipmentunavailableadjustmentcolumnpropertytypeIdent, __gong__toRawStringLiteral(equipmentunavailableadjustmentcolumnpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", equipmentunavailableadjustmentcolumnpropertytypeIdent, __gong__toRawStringLiteral(equipmentunavailableadjustmentcolumnpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", equipmentunavailableadjustmentcolumnpropertytypeIdent, __gong__toRawStringLiteral(equipmentunavailableadjustmentcolumnpropertytype.NilReason)))
+			if equipmentunavailableadjustmentcolumnpropertytype.EquipmentUnavailableAdjustmentColumn != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(equipmentunavailableadjustmentcolumnpropertytype.EquipmentUnavailableAdjustmentColumn.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EquipmentUnavailableAdjustmentColumn = %s", equipmentunavailableadjustmentcolumnpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, equipmentunavailableadjustmentcolumntype := range __gong__sortStageSetInstances(stage.EquipmentUnavailableAdjustmentColumnTypes, stage.EquipmentUnavailableAdjustmentColumnType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			equipmentunavailableadjustmentcolumntypeIdent := strings.Replace(equipmentunavailableadjustmentcolumntype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.EquipmentUnavailableAdjustmentColumnType{Name: %s}).Stage(stage)", equipmentunavailableadjustmentcolumntypeIdent, __gong__toRawStringLiteral(equipmentunavailableadjustmentcolumntype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", equipmentunavailableadjustmentcolumntypeIdent, __gong__toRawStringLiteral(equipmentunavailableadjustmentcolumntype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", equipmentunavailableadjustmentcolumntypeIdent, __gong__toRawStringLiteral(equipmentunavailableadjustmentcolumntype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", equipmentunavailableadjustmentcolumntypeIdent, __gong__toRawStringLiteral(equipmentunavailableadjustmentcolumntype.Description)))
+			for _, elem := range equipmentunavailableadjustmentcolumntype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", equipmentunavailableadjustmentcolumntypeIdent, equipmentunavailableadjustmentcolumntypeIdent, targetIdent))
+			}
+			for _, elem := range equipmentunavailableadjustmentcolumntype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", equipmentunavailableadjustmentcolumntypeIdent, equipmentunavailableadjustmentcolumntypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, equipmentunavailableadjustmentpropertytype := range __gong__sortStageSetInstances(stage.EquipmentUnavailableAdjustmentPropertyTypes, stage.EquipmentUnavailableAdjustmentPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			equipmentunavailableadjustmentpropertytypeIdent := strings.Replace(equipmentunavailableadjustmentpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.EquipmentUnavailableAdjustmentPropertyType{Name: %s}).Stage(stage)", equipmentunavailableadjustmentpropertytypeIdent, __gong__toRawStringLiteral(equipmentunavailableadjustmentpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", equipmentunavailableadjustmentpropertytypeIdent, __gong__toRawStringLiteral(equipmentunavailableadjustmentpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", equipmentunavailableadjustmentpropertytypeIdent, __gong__toRawStringLiteral(equipmentunavailableadjustmentpropertytype.NilReason)))
+			if equipmentunavailableadjustmentpropertytype.EquipmentUnavailableAdjustment != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(equipmentunavailableadjustmentpropertytype.EquipmentUnavailableAdjustment.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EquipmentUnavailableAdjustment = %s", equipmentunavailableadjustmentpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, equipmentunavailableadjustmenttype := range __gong__sortStageSetInstances(stage.EquipmentUnavailableAdjustmentTypes, stage.EquipmentUnavailableAdjustmentType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			equipmentunavailableadjustmenttypeIdent := strings.Replace(equipmentunavailableadjustmenttype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.EquipmentUnavailableAdjustmentType{Name: %s}).Stage(stage)", equipmentunavailableadjustmenttypeIdent, __gong__toRawStringLiteral(equipmentunavailableadjustmenttype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", equipmentunavailableadjustmenttypeIdent, __gong__toRawStringLiteral(equipmentunavailableadjustmenttype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", equipmentunavailableadjustmenttypeIdent, __gong__toRawStringLiteral(equipmentunavailableadjustmenttype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", equipmentunavailableadjustmenttypeIdent, __gong__toRawStringLiteral(equipmentunavailableadjustmenttype.Description)))
+			for _, elem := range equipmentunavailableadjustmenttype.AdjustmentINOPCol {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AdjustmentINOPCol = append(%s.AdjustmentINOPCol, %s)", equipmentunavailableadjustmenttypeIdent, equipmentunavailableadjustmenttypeIdent, targetIdent))
+			}
+			for _, elem := range equipmentunavailableadjustmenttype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", equipmentunavailableadjustmenttypeIdent, equipmentunavailableadjustmenttypeIdent, targetIdent))
+			}
+			for _, elem := range equipmentunavailableadjustmenttype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", equipmentunavailableadjustmenttypeIdent, equipmentunavailableadjustmenttypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, fasdatablockpropertytype := range __gong__sortStageSetInstances(stage.FASDataBlockPropertyTypes, stage.FASDataBlockPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			fasdatablockpropertytypeIdent := strings.Replace(fasdatablockpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.FASDataBlockPropertyType{Name: %s}).Stage(stage)", fasdatablockpropertytypeIdent, __gong__toRawStringLiteral(fasdatablockpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", fasdatablockpropertytypeIdent, __gong__toRawStringLiteral(fasdatablockpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", fasdatablockpropertytypeIdent, __gong__toRawStringLiteral(fasdatablockpropertytype.NilReason)))
+			if fasdatablockpropertytype.FASDataBlock != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(fasdatablockpropertytype.FASDataBlock.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FASDataBlock = %s", fasdatablockpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, fasdatablocktype := range __gong__sortStageSetInstances(stage.FASDataBlockTypes, stage.FASDataBlockType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			fasdatablocktypeIdent := strings.Replace(fasdatablocktype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.FASDataBlockType{Name: %s}).Stage(stage)", fasdatablocktypeIdent, __gong__toRawStringLiteral(fasdatablocktype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", fasdatablocktypeIdent, __gong__toRawStringLiteral(fasdatablocktype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", fasdatablocktypeIdent, __gong__toRawStringLiteral(fasdatablocktype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", fasdatablocktypeIdent, __gong__toRawStringLiteral(fasdatablocktype.Description)))
+			for _, elem := range fasdatablocktype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", fasdatablocktypeIdent, fasdatablocktypeIdent, targetIdent))
+			}
+			for _, elem := range fasdatablocktype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", fasdatablocktypeIdent, fasdatablocktypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, finallegtimeslicepropertytype := range __gong__sortStageSetInstances(stage.FinalLegTimeSlicePropertyTypes, stage.FinalLegTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			finallegtimeslicepropertytypeIdent := strings.Replace(finallegtimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.FinalLegTimeSlicePropertyType{Name: %s}).Stage(stage)", finallegtimeslicepropertytypeIdent, __gong__toRawStringLiteral(finallegtimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", finallegtimeslicepropertytypeIdent, __gong__toRawStringLiteral(finallegtimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", finallegtimeslicepropertytypeIdent, finallegtimeslicepropertytype.Owns))
+			if finallegtimeslicepropertytype.FinalLegTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicepropertytype.FinalLegTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FinalLegTimeSlice = %s", finallegtimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, finallegtimeslicetype := range __gong__sortStageSetInstances(stage.FinalLegTimeSliceTypes, stage.FinalLegTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			finallegtimeslicetypeIdent := strings.Replace(finallegtimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.FinalLegTimeSliceType{Name: %s}).Stage(stage)", finallegtimeslicetypeIdent, __gong__toRawStringLiteral(finallegtimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", finallegtimeslicetypeIdent, __gong__toRawStringLiteral(finallegtimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", finallegtimeslicetypeIdent, __gong__toRawStringLiteral(finallegtimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", finallegtimeslicetypeIdent, __gong__toRawStringLiteral(finallegtimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", finallegtimeslicetypeIdent, __gong__toRawStringLiteral(finallegtimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", finallegtimeslicetypeIdent, finallegtimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", finallegtimeslicetypeIdent, finallegtimeslicetype.CorrectionNumber))
+			if finallegtimeslicetype.StartPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.StartPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartPoint = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.EndPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.EndPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndPoint = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.Trajectory != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.Trajectory.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Trajectory = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.ArcCentre != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.ArcCentre.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ArcCentre = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.Angle != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.Angle.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Angle = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.Distance != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.Distance.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Distance = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range finallegtimeslicetype.AircraftCategory {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCategory = append(%s.AircraftCategory, %s)", finallegtimeslicetypeIdent, finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.Holding != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.Holding.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Holding = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range finallegtimeslicetype.DesignSurface {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DesignSurface = append(%s.DesignSurface, %s)", finallegtimeslicetypeIdent, finallegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range finallegtimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", finallegtimeslicetypeIdent, finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.Approach != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.Approach.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Approach = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range finallegtimeslicetype.Condition {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Condition = append(%s.Condition, %s)", finallegtimeslicetypeIdent, finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.FinalPathAlignmentPoint_fixDesignatedPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.FinalPathAlignmentPoint_fixDesignatedPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FinalPathAlignmentPoint_fixDesignatedPoint = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.FinalPathAlignmentPoint_navaidSystem != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.FinalPathAlignmentPoint_navaidSystem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FinalPathAlignmentPoint_navaidSystem = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.FinalPathAlignmentPoint_position != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.FinalPathAlignmentPoint_position.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FinalPathAlignmentPoint_position = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.FinalPathAlignmentPoint_runwayPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.FinalPathAlignmentPoint_runwayPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FinalPathAlignmentPoint_runwayPoint = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.FinalPathAlignmentPoint_aimingPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.FinalPathAlignmentPoint_aimingPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FinalPathAlignmentPoint_aimingPoint = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.FinalPathAlignmentPoint_airportReferencePoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.FinalPathAlignmentPoint_airportReferencePoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FinalPathAlignmentPoint_airportReferencePoint = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.VisualDescentPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.VisualDescentPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.VisualDescentPoint = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			if finallegtimeslicetype.FASData != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finallegtimeslicetype.FASData.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FASData = %s", finallegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range finallegtimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", finallegtimeslicetypeIdent, finallegtimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, finallegtype := range __gong__sortStageSetInstances(stage.FinalLegTypes, stage.FinalLegType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			finallegtypeIdent := strings.Replace(finallegtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.FinalLegType{Name: %s}).Stage(stage)", finallegtypeIdent, __gong__toRawStringLiteral(finallegtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", finallegtypeIdent, __gong__toRawStringLiteral(finallegtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", finallegtypeIdent, __gong__toRawStringLiteral(finallegtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", finallegtypeIdent, __gong__toRawStringLiteral(finallegtype.Description)))
+			for _, elem := range finallegtype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", finallegtypeIdent, finallegtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, finalprofilepropertytype := range __gong__sortStageSetInstances(stage.FinalProfilePropertyTypes, stage.FinalProfilePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			finalprofilepropertytypeIdent := strings.Replace(finalprofilepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.FinalProfilePropertyType{Name: %s}).Stage(stage)", finalprofilepropertytypeIdent, __gong__toRawStringLiteral(finalprofilepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", finalprofilepropertytypeIdent, __gong__toRawStringLiteral(finalprofilepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", finalprofilepropertytypeIdent, __gong__toRawStringLiteral(finalprofilepropertytype.NilReason)))
+			if finalprofilepropertytype.FinalProfile != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(finalprofilepropertytype.FinalProfile.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FinalProfile = %s", finalprofilepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, finalprofiletype := range __gong__sortStageSetInstances(stage.FinalProfileTypes, stage.FinalProfileType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			finalprofiletypeIdent := strings.Replace(finalprofiletype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.FinalProfileType{Name: %s}).Stage(stage)", finalprofiletypeIdent, __gong__toRawStringLiteral(finalprofiletype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", finalprofiletypeIdent, __gong__toRawStringLiteral(finalprofiletype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", finalprofiletypeIdent, __gong__toRawStringLiteral(finalprofiletype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", finalprofiletypeIdent, __gong__toRawStringLiteral(finalprofiletype.Description)))
+			for _, elem := range finalprofiletype.Altitude {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Altitude = append(%s.Altitude, %s)", finalprofiletypeIdent, finalprofiletypeIdent, targetIdent))
+			}
+			for _, elem := range finalprofiletype.Distance {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Distance = append(%s.Distance, %s)", finalprofiletypeIdent, finalprofiletypeIdent, targetIdent))
+			}
+			for _, elem := range finalprofiletype.Timing {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Timing = append(%s.Timing, %s)", finalprofiletypeIdent, finalprofiletypeIdent, targetIdent))
+			}
+			for _, elem := range finalprofiletype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", finalprofiletypeIdent, finalprofiletypeIdent, targetIdent))
+			}
+			for _, elem := range finalprofiletype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", finalprofiletypeIdent, finalprofiletypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, holdingassessmenttimeslicepropertytype := range __gong__sortStageSetInstances(stage.HoldingAssessmentTimeSlicePropertyTypes, stage.HoldingAssessmentTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			holdingassessmenttimeslicepropertytypeIdent := strings.Replace(holdingassessmenttimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.HoldingAssessmentTimeSlicePropertyType{Name: %s}).Stage(stage)", holdingassessmenttimeslicepropertytypeIdent, __gong__toRawStringLiteral(holdingassessmenttimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", holdingassessmenttimeslicepropertytypeIdent, __gong__toRawStringLiteral(holdingassessmenttimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", holdingassessmenttimeslicepropertytypeIdent, holdingassessmenttimeslicepropertytype.Owns))
+			if holdingassessmenttimeslicepropertytype.HoldingAssessmentTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(holdingassessmenttimeslicepropertytype.HoldingAssessmentTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.HoldingAssessmentTimeSlice = %s", holdingassessmenttimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, holdingassessmenttimeslicetype := range __gong__sortStageSetInstances(stage.HoldingAssessmentTimeSliceTypes, stage.HoldingAssessmentTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			holdingassessmenttimeslicetypeIdent := strings.Replace(holdingassessmenttimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.HoldingAssessmentTimeSliceType{Name: %s}).Stage(stage)", holdingassessmenttimeslicetypeIdent, __gong__toRawStringLiteral(holdingassessmenttimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", holdingassessmenttimeslicetypeIdent, __gong__toRawStringLiteral(holdingassessmenttimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", holdingassessmenttimeslicetypeIdent, __gong__toRawStringLiteral(holdingassessmenttimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", holdingassessmenttimeslicetypeIdent, __gong__toRawStringLiteral(holdingassessmenttimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", holdingassessmenttimeslicetypeIdent, __gong__toRawStringLiteral(holdingassessmenttimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", holdingassessmenttimeslicetypeIdent, holdingassessmenttimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", holdingassessmenttimeslicetypeIdent, holdingassessmenttimeslicetype.CorrectionNumber))
+			if holdingassessmenttimeslicetype.HoldingPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(holdingassessmenttimeslicetype.HoldingPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.HoldingPoint = %s", holdingassessmenttimeslicetypeIdent, targetIdent))
+			}
+			if holdingassessmenttimeslicetype.UnplannedHolding != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(holdingassessmenttimeslicetype.UnplannedHolding.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.UnplannedHolding = %s", holdingassessmenttimeslicetypeIdent, targetIdent))
+			}
+			if holdingassessmenttimeslicetype.AssessedHoldingPattern != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(holdingassessmenttimeslicetype.AssessedHoldingPattern.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AssessedHoldingPattern = %s", holdingassessmenttimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range holdingassessmenttimeslicetype.ObstacleAssessment {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ObstacleAssessment = append(%s.ObstacleAssessment, %s)", holdingassessmenttimeslicetypeIdent, holdingassessmenttimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range holdingassessmenttimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", holdingassessmenttimeslicetypeIdent, holdingassessmenttimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range holdingassessmenttimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", holdingassessmenttimeslicetypeIdent, holdingassessmenttimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, holdingassessmenttype := range __gong__sortStageSetInstances(stage.HoldingAssessmentTypes, stage.HoldingAssessmentType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			holdingassessmenttypeIdent := strings.Replace(holdingassessmenttype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.HoldingAssessmentType{Name: %s}).Stage(stage)", holdingassessmenttypeIdent, __gong__toRawStringLiteral(holdingassessmenttype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", holdingassessmenttypeIdent, __gong__toRawStringLiteral(holdingassessmenttype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", holdingassessmenttypeIdent, __gong__toRawStringLiteral(holdingassessmenttype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", holdingassessmenttypeIdent, __gong__toRawStringLiteral(holdingassessmenttype.Description)))
+			for _, elem := range holdingassessmenttype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", holdingassessmenttypeIdent, holdingassessmenttypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, holdingpatterndistancepropertytype := range __gong__sortStageSetInstances(stage.HoldingPatternDistancePropertyTypes, stage.HoldingPatternDistancePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			holdingpatterndistancepropertytypeIdent := strings.Replace(holdingpatterndistancepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.HoldingPatternDistancePropertyType{Name: %s}).Stage(stage)", holdingpatterndistancepropertytypeIdent, __gong__toRawStringLiteral(holdingpatterndistancepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", holdingpatterndistancepropertytypeIdent, __gong__toRawStringLiteral(holdingpatterndistancepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", holdingpatterndistancepropertytypeIdent, __gong__toRawStringLiteral(holdingpatterndistancepropertytype.NilReason)))
+			if holdingpatterndistancepropertytype.HoldingPatternDistance != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(holdingpatterndistancepropertytype.HoldingPatternDistance.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.HoldingPatternDistance = %s", holdingpatterndistancepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, holdingpatterndistancetype := range __gong__sortStageSetInstances(stage.HoldingPatternDistanceTypes, stage.HoldingPatternDistanceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			holdingpatterndistancetypeIdent := strings.Replace(holdingpatterndistancetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.HoldingPatternDistanceType{Name: %s}).Stage(stage)", holdingpatterndistancetypeIdent, __gong__toRawStringLiteral(holdingpatterndistancetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", holdingpatterndistancetypeIdent, __gong__toRawStringLiteral(holdingpatterndistancetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", holdingpatterndistancetypeIdent, __gong__toRawStringLiteral(holdingpatterndistancetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", holdingpatterndistancetypeIdent, __gong__toRawStringLiteral(holdingpatterndistancetype.Description)))
+			for _, elem := range holdingpatterndistancetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", holdingpatterndistancetypeIdent, holdingpatterndistancetypeIdent, targetIdent))
+			}
+			for _, elem := range holdingpatterndistancetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", holdingpatterndistancetypeIdent, holdingpatterndistancetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, holdingpatterndurationpropertytype := range __gong__sortStageSetInstances(stage.HoldingPatternDurationPropertyTypes, stage.HoldingPatternDurationPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			holdingpatterndurationpropertytypeIdent := strings.Replace(holdingpatterndurationpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.HoldingPatternDurationPropertyType{Name: %s}).Stage(stage)", holdingpatterndurationpropertytypeIdent, __gong__toRawStringLiteral(holdingpatterndurationpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", holdingpatterndurationpropertytypeIdent, __gong__toRawStringLiteral(holdingpatterndurationpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", holdingpatterndurationpropertytypeIdent, __gong__toRawStringLiteral(holdingpatterndurationpropertytype.NilReason)))
+			if holdingpatterndurationpropertytype.HoldingPatternDuration != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(holdingpatterndurationpropertytype.HoldingPatternDuration.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.HoldingPatternDuration = %s", holdingpatterndurationpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, holdingpatterndurationtype := range __gong__sortStageSetInstances(stage.HoldingPatternDurationTypes, stage.HoldingPatternDurationType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			holdingpatterndurationtypeIdent := strings.Replace(holdingpatterndurationtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.HoldingPatternDurationType{Name: %s}).Stage(stage)", holdingpatterndurationtypeIdent, __gong__toRawStringLiteral(holdingpatterndurationtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", holdingpatterndurationtypeIdent, __gong__toRawStringLiteral(holdingpatterndurationtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", holdingpatterndurationtypeIdent, __gong__toRawStringLiteral(holdingpatterndurationtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", holdingpatterndurationtypeIdent, __gong__toRawStringLiteral(holdingpatterndurationtype.Description)))
+			for _, elem := range holdingpatterndurationtype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", holdingpatterndurationtypeIdent, holdingpatterndurationtypeIdent, targetIdent))
+			}
+			for _, elem := range holdingpatterndurationtype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", holdingpatterndurationtypeIdent, holdingpatterndurationtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, holdingpatternpropertytype := range __gong__sortStageSetInstances(stage.HoldingPatternPropertyTypes, stage.HoldingPatternPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			holdingpatternpropertytypeIdent := strings.Replace(holdingpatternpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.HoldingPatternPropertyType{Name: %s}).Stage(stage)", holdingpatternpropertytypeIdent, __gong__toRawStringLiteral(holdingpatternpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", holdingpatternpropertytypeIdent, __gong__toRawStringLiteral(holdingpatternpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", holdingpatternpropertytypeIdent, holdingpatternpropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", holdingpatternpropertytypeIdent, __gong__toRawStringLiteral(holdingpatternpropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", holdingpatternpropertytypeIdent, __gong__toRawStringLiteral(holdingpatternpropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", holdingpatternpropertytypeIdent, __gong__toRawStringLiteral(holdingpatternpropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", holdingpatternpropertytypeIdent, __gong__toRawStringLiteral(holdingpatternpropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", holdingpatternpropertytypeIdent, __gong__toRawStringLiteral(holdingpatternpropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", holdingpatternpropertytypeIdent, __gong__toRawStringLiteral(holdingpatternpropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", holdingpatternpropertytypeIdent, __gong__toRawStringLiteral(holdingpatternpropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", holdingpatternpropertytypeIdent, __gong__toRawStringLiteral(holdingpatternpropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, holdingpatterntimeslicepropertytype := range __gong__sortStageSetInstances(stage.HoldingPatternTimeSlicePropertyTypes, stage.HoldingPatternTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			holdingpatterntimeslicepropertytypeIdent := strings.Replace(holdingpatterntimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.HoldingPatternTimeSlicePropertyType{Name: %s}).Stage(stage)", holdingpatterntimeslicepropertytypeIdent, __gong__toRawStringLiteral(holdingpatterntimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", holdingpatterntimeslicepropertytypeIdent, __gong__toRawStringLiteral(holdingpatterntimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", holdingpatterntimeslicepropertytypeIdent, holdingpatterntimeslicepropertytype.Owns))
+			if holdingpatterntimeslicepropertytype.HoldingPatternTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(holdingpatterntimeslicepropertytype.HoldingPatternTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.HoldingPatternTimeSlice = %s", holdingpatterntimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, holdingpatterntimeslicetype := range __gong__sortStageSetInstances(stage.HoldingPatternTimeSliceTypes, stage.HoldingPatternTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			holdingpatterntimeslicetypeIdent := strings.Replace(holdingpatterntimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.HoldingPatternTimeSliceType{Name: %s}).Stage(stage)", holdingpatterntimeslicetypeIdent, __gong__toRawStringLiteral(holdingpatterntimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", holdingpatterntimeslicetypeIdent, __gong__toRawStringLiteral(holdingpatterntimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", holdingpatterntimeslicetypeIdent, __gong__toRawStringLiteral(holdingpatterntimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", holdingpatterntimeslicetypeIdent, __gong__toRawStringLiteral(holdingpatterntimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", holdingpatterntimeslicetypeIdent, __gong__toRawStringLiteral(holdingpatterntimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", holdingpatterntimeslicetypeIdent, holdingpatterntimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", holdingpatterntimeslicetypeIdent, holdingpatterntimeslicetype.CorrectionNumber))
+			if holdingpatterntimeslicetype.OutboundLegSpan_endPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(holdingpatterntimeslicetype.OutboundLegSpan_endPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.OutboundLegSpan_endPoint = %s", holdingpatterntimeslicetypeIdent, targetIdent))
+			}
+			if holdingpatterntimeslicetype.OutboundLegSpan_endDistance != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(holdingpatterntimeslicetype.OutboundLegSpan_endDistance.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.OutboundLegSpan_endDistance = %s", holdingpatterntimeslicetypeIdent, targetIdent))
+			}
+			if holdingpatterntimeslicetype.OutboundLegSpan_endTime != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(holdingpatterntimeslicetype.OutboundLegSpan_endTime.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.OutboundLegSpan_endTime = %s", holdingpatterntimeslicetypeIdent, targetIdent))
+			}
+			if holdingpatterntimeslicetype.HoldingPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(holdingpatterntimeslicetype.HoldingPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.HoldingPoint = %s", holdingpatterntimeslicetypeIdent, targetIdent))
+			}
+			if holdingpatterntimeslicetype.Extent != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(holdingpatterntimeslicetype.Extent.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extent = %s", holdingpatterntimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range holdingpatterntimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", holdingpatterntimeslicetypeIdent, holdingpatterntimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range holdingpatterntimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", holdingpatterntimeslicetypeIdent, holdingpatterntimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, holdingpatterntype := range __gong__sortStageSetInstances(stage.HoldingPatternTypes, stage.HoldingPatternType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			holdingpatterntypeIdent := strings.Replace(holdingpatterntype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.HoldingPatternType{Name: %s}).Stage(stage)", holdingpatterntypeIdent, __gong__toRawStringLiteral(holdingpatterntype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", holdingpatterntypeIdent, __gong__toRawStringLiteral(holdingpatterntype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", holdingpatterntypeIdent, __gong__toRawStringLiteral(holdingpatterntype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", holdingpatterntypeIdent, __gong__toRawStringLiteral(holdingpatterntype.Description)))
+			for _, elem := range holdingpatterntype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", holdingpatterntypeIdent, holdingpatterntypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, holdingusepropertytype := range __gong__sortStageSetInstances(stage.HoldingUsePropertyTypes, stage.HoldingUsePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			holdingusepropertytypeIdent := strings.Replace(holdingusepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.HoldingUsePropertyType{Name: %s}).Stage(stage)", holdingusepropertytypeIdent, __gong__toRawStringLiteral(holdingusepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", holdingusepropertytypeIdent, __gong__toRawStringLiteral(holdingusepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", holdingusepropertytypeIdent, __gong__toRawStringLiteral(holdingusepropertytype.NilReason)))
+			if holdingusepropertytype.HoldingUse != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(holdingusepropertytype.HoldingUse.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.HoldingUse = %s", holdingusepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, holdingusetype := range __gong__sortStageSetInstances(stage.HoldingUseTypes, stage.HoldingUseType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			holdingusetypeIdent := strings.Replace(holdingusetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.HoldingUseType{Name: %s}).Stage(stage)", holdingusetypeIdent, __gong__toRawStringLiteral(holdingusetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", holdingusetypeIdent, __gong__toRawStringLiteral(holdingusetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", holdingusetypeIdent, __gong__toRawStringLiteral(holdingusetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", holdingusetypeIdent, __gong__toRawStringLiteral(holdingusetype.Description)))
+			for _, elem := range holdingusetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", holdingusetypeIdent, holdingusetypeIdent, targetIdent))
+			}
+			if holdingusetype.TheHoldingPattern != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(holdingusetype.TheHoldingPattern.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TheHoldingPattern = %s", holdingusetypeIdent, targetIdent))
+			}
+			for _, elem := range holdingusetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", holdingusetypeIdent, holdingusetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, initiallegtimeslicepropertytype := range __gong__sortStageSetInstances(stage.InitialLegTimeSlicePropertyTypes, stage.InitialLegTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			initiallegtimeslicepropertytypeIdent := strings.Replace(initiallegtimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.InitialLegTimeSlicePropertyType{Name: %s}).Stage(stage)", initiallegtimeslicepropertytypeIdent, __gong__toRawStringLiteral(initiallegtimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", initiallegtimeslicepropertytypeIdent, __gong__toRawStringLiteral(initiallegtimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", initiallegtimeslicepropertytypeIdent, initiallegtimeslicepropertytype.Owns))
+			if initiallegtimeslicepropertytype.InitialLegTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(initiallegtimeslicepropertytype.InitialLegTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.InitialLegTimeSlice = %s", initiallegtimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, initiallegtimeslicetype := range __gong__sortStageSetInstances(stage.InitialLegTimeSliceTypes, stage.InitialLegTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			initiallegtimeslicetypeIdent := strings.Replace(initiallegtimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.InitialLegTimeSliceType{Name: %s}).Stage(stage)", initiallegtimeslicetypeIdent, __gong__toRawStringLiteral(initiallegtimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", initiallegtimeslicetypeIdent, __gong__toRawStringLiteral(initiallegtimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", initiallegtimeslicetypeIdent, __gong__toRawStringLiteral(initiallegtimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", initiallegtimeslicetypeIdent, __gong__toRawStringLiteral(initiallegtimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", initiallegtimeslicetypeIdent, __gong__toRawStringLiteral(initiallegtimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", initiallegtimeslicetypeIdent, initiallegtimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", initiallegtimeslicetypeIdent, initiallegtimeslicetype.CorrectionNumber))
+			if initiallegtimeslicetype.StartPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(initiallegtimeslicetype.StartPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartPoint = %s", initiallegtimeslicetypeIdent, targetIdent))
+			}
+			if initiallegtimeslicetype.EndPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(initiallegtimeslicetype.EndPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndPoint = %s", initiallegtimeslicetypeIdent, targetIdent))
+			}
+			if initiallegtimeslicetype.Trajectory != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(initiallegtimeslicetype.Trajectory.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Trajectory = %s", initiallegtimeslicetypeIdent, targetIdent))
+			}
+			if initiallegtimeslicetype.ArcCentre != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(initiallegtimeslicetype.ArcCentre.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ArcCentre = %s", initiallegtimeslicetypeIdent, targetIdent))
+			}
+			if initiallegtimeslicetype.Angle != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(initiallegtimeslicetype.Angle.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Angle = %s", initiallegtimeslicetypeIdent, targetIdent))
+			}
+			if initiallegtimeslicetype.Distance != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(initiallegtimeslicetype.Distance.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Distance = %s", initiallegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range initiallegtimeslicetype.AircraftCategory {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCategory = append(%s.AircraftCategory, %s)", initiallegtimeslicetypeIdent, initiallegtimeslicetypeIdent, targetIdent))
+			}
+			if initiallegtimeslicetype.Holding != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(initiallegtimeslicetype.Holding.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Holding = %s", initiallegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range initiallegtimeslicetype.DesignSurface {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DesignSurface = append(%s.DesignSurface, %s)", initiallegtimeslicetypeIdent, initiallegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range initiallegtimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", initiallegtimeslicetypeIdent, initiallegtimeslicetypeIdent, targetIdent))
+			}
+			if initiallegtimeslicetype.Approach != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(initiallegtimeslicetype.Approach.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Approach = %s", initiallegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range initiallegtimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", initiallegtimeslicetypeIdent, initiallegtimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, initiallegtype := range __gong__sortStageSetInstances(stage.InitialLegTypes, stage.InitialLegType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			initiallegtypeIdent := strings.Replace(initiallegtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.InitialLegType{Name: %s}).Stage(stage)", initiallegtypeIdent, __gong__toRawStringLiteral(initiallegtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", initiallegtypeIdent, __gong__toRawStringLiteral(initiallegtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", initiallegtypeIdent, __gong__toRawStringLiteral(initiallegtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", initiallegtypeIdent, __gong__toRawStringLiteral(initiallegtype.Description)))
+			for _, elem := range initiallegtype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", initiallegtypeIdent, initiallegtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, instrumentapproachprocedurepropertytype := range __gong__sortStageSetInstances(stage.InstrumentApproachProcedurePropertyTypes, stage.InstrumentApproachProcedurePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			instrumentapproachprocedurepropertytypeIdent := strings.Replace(instrumentapproachprocedurepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.InstrumentApproachProcedurePropertyType{Name: %s}).Stage(stage)", instrumentapproachprocedurepropertytypeIdent, __gong__toRawStringLiteral(instrumentapproachprocedurepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", instrumentapproachprocedurepropertytypeIdent, __gong__toRawStringLiteral(instrumentapproachprocedurepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", instrumentapproachprocedurepropertytypeIdent, instrumentapproachprocedurepropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", instrumentapproachprocedurepropertytypeIdent, __gong__toRawStringLiteral(instrumentapproachprocedurepropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", instrumentapproachprocedurepropertytypeIdent, __gong__toRawStringLiteral(instrumentapproachprocedurepropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", instrumentapproachprocedurepropertytypeIdent, __gong__toRawStringLiteral(instrumentapproachprocedurepropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", instrumentapproachprocedurepropertytypeIdent, __gong__toRawStringLiteral(instrumentapproachprocedurepropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", instrumentapproachprocedurepropertytypeIdent, __gong__toRawStringLiteral(instrumentapproachprocedurepropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", instrumentapproachprocedurepropertytypeIdent, __gong__toRawStringLiteral(instrumentapproachprocedurepropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", instrumentapproachprocedurepropertytypeIdent, __gong__toRawStringLiteral(instrumentapproachprocedurepropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", instrumentapproachprocedurepropertytypeIdent, __gong__toRawStringLiteral(instrumentapproachprocedurepropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, instrumentapproachproceduretimeslicepropertytype := range __gong__sortStageSetInstances(stage.InstrumentApproachProcedureTimeSlicePropertyTypes, stage.InstrumentApproachProcedureTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			instrumentapproachproceduretimeslicepropertytypeIdent := strings.Replace(instrumentapproachproceduretimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.InstrumentApproachProcedureTimeSlicePropertyType{Name: %s}).Stage(stage)", instrumentapproachproceduretimeslicepropertytypeIdent, __gong__toRawStringLiteral(instrumentapproachproceduretimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", instrumentapproachproceduretimeslicepropertytypeIdent, __gong__toRawStringLiteral(instrumentapproachproceduretimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", instrumentapproachproceduretimeslicepropertytypeIdent, instrumentapproachproceduretimeslicepropertytype.Owns))
+			if instrumentapproachproceduretimeslicepropertytype.InstrumentApproachProcedureTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(instrumentapproachproceduretimeslicepropertytype.InstrumentApproachProcedureTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.InstrumentApproachProcedureTimeSlice = %s", instrumentapproachproceduretimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, instrumentapproachproceduretimeslicetype := range __gong__sortStageSetInstances(stage.InstrumentApproachProcedureTimeSliceTypes, stage.InstrumentApproachProcedureTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			instrumentapproachproceduretimeslicetypeIdent := strings.Replace(instrumentapproachproceduretimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.InstrumentApproachProcedureTimeSliceType{Name: %s}).Stage(stage)", instrumentapproachproceduretimeslicetypeIdent, __gong__toRawStringLiteral(instrumentapproachproceduretimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", instrumentapproachproceduretimeslicetypeIdent, __gong__toRawStringLiteral(instrumentapproachproceduretimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", instrumentapproachproceduretimeslicetypeIdent, __gong__toRawStringLiteral(instrumentapproachproceduretimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", instrumentapproachproceduretimeslicetypeIdent, __gong__toRawStringLiteral(instrumentapproachproceduretimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", instrumentapproachproceduretimeslicetypeIdent, __gong__toRawStringLiteral(instrumentapproachproceduretimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", instrumentapproachproceduretimeslicetypeIdent, instrumentapproachproceduretimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", instrumentapproachproceduretimeslicetypeIdent, instrumentapproachproceduretimeslicetype.CorrectionNumber))
+			for _, elem := range instrumentapproachproceduretimeslicetype.Availability {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Availability = append(%s.Availability, %s)", instrumentapproachproceduretimeslicetypeIdent, instrumentapproachproceduretimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range instrumentapproachproceduretimeslicetype.AirportHeliport {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AirportHeliport = append(%s.AirportHeliport, %s)", instrumentapproachproceduretimeslicetypeIdent, instrumentapproachproceduretimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range instrumentapproachproceduretimeslicetype.AircraftCharacteristic {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCharacteristic = append(%s.AircraftCharacteristic, %s)", instrumentapproachproceduretimeslicetypeIdent, instrumentapproachproceduretimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range instrumentapproachproceduretimeslicetype.FlightTransition {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FlightTransition = append(%s.FlightTransition, %s)", instrumentapproachproceduretimeslicetypeIdent, instrumentapproachproceduretimeslicetypeIdent, targetIdent))
+			}
+			if instrumentapproachproceduretimeslicetype.GuidanceFacility_specialNavigationSystem != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(instrumentapproachproceduretimeslicetype.GuidanceFacility_specialNavigationSystem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GuidanceFacility_specialNavigationSystem = %s", instrumentapproachproceduretimeslicetypeIdent, targetIdent))
+			}
+			if instrumentapproachproceduretimeslicetype.GuidanceFacility_radar != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(instrumentapproachproceduretimeslicetype.GuidanceFacility_radar.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GuidanceFacility_radar = %s", instrumentapproachproceduretimeslicetypeIdent, targetIdent))
+			}
+			if instrumentapproachproceduretimeslicetype.GuidanceFacility_navaid != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(instrumentapproachproceduretimeslicetype.GuidanceFacility_navaid.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GuidanceFacility_navaid = %s", instrumentapproachproceduretimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range instrumentapproachproceduretimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", instrumentapproachproceduretimeslicetypeIdent, instrumentapproachproceduretimeslicetypeIdent, targetIdent))
+			}
+			if instrumentapproachproceduretimeslicetype.SafeAltitude != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(instrumentapproachproceduretimeslicetype.SafeAltitude.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SafeAltitude = %s", instrumentapproachproceduretimeslicetypeIdent, targetIdent))
+			}
+			if instrumentapproachproceduretimeslicetype.Landing != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(instrumentapproachproceduretimeslicetype.Landing.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Landing = %s", instrumentapproachproceduretimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range instrumentapproachproceduretimeslicetype.MissedInstruction {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MissedInstruction = append(%s.MissedInstruction, %s)", instrumentapproachproceduretimeslicetypeIdent, instrumentapproachproceduretimeslicetypeIdent, targetIdent))
+			}
+			if instrumentapproachproceduretimeslicetype.FinalProfile != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(instrumentapproachproceduretimeslicetype.FinalProfile.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FinalProfile = %s", instrumentapproachproceduretimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range instrumentapproachproceduretimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", instrumentapproachproceduretimeslicetypeIdent, instrumentapproachproceduretimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, instrumentapproachproceduretype := range __gong__sortStageSetInstances(stage.InstrumentApproachProcedureTypes, stage.InstrumentApproachProcedureType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			instrumentapproachproceduretypeIdent := strings.Replace(instrumentapproachproceduretype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.InstrumentApproachProcedureType{Name: %s}).Stage(stage)", instrumentapproachproceduretypeIdent, __gong__toRawStringLiteral(instrumentapproachproceduretype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", instrumentapproachproceduretypeIdent, __gong__toRawStringLiteral(instrumentapproachproceduretype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", instrumentapproachproceduretypeIdent, __gong__toRawStringLiteral(instrumentapproachproceduretype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", instrumentapproachproceduretypeIdent, __gong__toRawStringLiteral(instrumentapproachproceduretype.Description)))
+			for _, elem := range instrumentapproachproceduretype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", instrumentapproachproceduretypeIdent, instrumentapproachproceduretypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, intermediatelegtimeslicepropertytype := range __gong__sortStageSetInstances(stage.IntermediateLegTimeSlicePropertyTypes, stage.IntermediateLegTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			intermediatelegtimeslicepropertytypeIdent := strings.Replace(intermediatelegtimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.IntermediateLegTimeSlicePropertyType{Name: %s}).Stage(stage)", intermediatelegtimeslicepropertytypeIdent, __gong__toRawStringLiteral(intermediatelegtimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", intermediatelegtimeslicepropertytypeIdent, __gong__toRawStringLiteral(intermediatelegtimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", intermediatelegtimeslicepropertytypeIdent, intermediatelegtimeslicepropertytype.Owns))
+			if intermediatelegtimeslicepropertytype.IntermediateLegTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(intermediatelegtimeslicepropertytype.IntermediateLegTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.IntermediateLegTimeSlice = %s", intermediatelegtimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, intermediatelegtimeslicetype := range __gong__sortStageSetInstances(stage.IntermediateLegTimeSliceTypes, stage.IntermediateLegTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			intermediatelegtimeslicetypeIdent := strings.Replace(intermediatelegtimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.IntermediateLegTimeSliceType{Name: %s}).Stage(stage)", intermediatelegtimeslicetypeIdent, __gong__toRawStringLiteral(intermediatelegtimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", intermediatelegtimeslicetypeIdent, __gong__toRawStringLiteral(intermediatelegtimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", intermediatelegtimeslicetypeIdent, __gong__toRawStringLiteral(intermediatelegtimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", intermediatelegtimeslicetypeIdent, __gong__toRawStringLiteral(intermediatelegtimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", intermediatelegtimeslicetypeIdent, __gong__toRawStringLiteral(intermediatelegtimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", intermediatelegtimeslicetypeIdent, intermediatelegtimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", intermediatelegtimeslicetypeIdent, intermediatelegtimeslicetype.CorrectionNumber))
+			if intermediatelegtimeslicetype.StartPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(intermediatelegtimeslicetype.StartPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartPoint = %s", intermediatelegtimeslicetypeIdent, targetIdent))
+			}
+			if intermediatelegtimeslicetype.EndPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(intermediatelegtimeslicetype.EndPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndPoint = %s", intermediatelegtimeslicetypeIdent, targetIdent))
+			}
+			if intermediatelegtimeslicetype.Trajectory != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(intermediatelegtimeslicetype.Trajectory.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Trajectory = %s", intermediatelegtimeslicetypeIdent, targetIdent))
+			}
+			if intermediatelegtimeslicetype.ArcCentre != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(intermediatelegtimeslicetype.ArcCentre.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ArcCentre = %s", intermediatelegtimeslicetypeIdent, targetIdent))
+			}
+			if intermediatelegtimeslicetype.Angle != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(intermediatelegtimeslicetype.Angle.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Angle = %s", intermediatelegtimeslicetypeIdent, targetIdent))
+			}
+			if intermediatelegtimeslicetype.Distance != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(intermediatelegtimeslicetype.Distance.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Distance = %s", intermediatelegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range intermediatelegtimeslicetype.AircraftCategory {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCategory = append(%s.AircraftCategory, %s)", intermediatelegtimeslicetypeIdent, intermediatelegtimeslicetypeIdent, targetIdent))
+			}
+			if intermediatelegtimeslicetype.Holding != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(intermediatelegtimeslicetype.Holding.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Holding = %s", intermediatelegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range intermediatelegtimeslicetype.DesignSurface {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DesignSurface = append(%s.DesignSurface, %s)", intermediatelegtimeslicetypeIdent, intermediatelegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range intermediatelegtimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", intermediatelegtimeslicetypeIdent, intermediatelegtimeslicetypeIdent, targetIdent))
+			}
+			if intermediatelegtimeslicetype.Approach != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(intermediatelegtimeslicetype.Approach.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Approach = %s", intermediatelegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range intermediatelegtimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", intermediatelegtimeslicetypeIdent, intermediatelegtimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, intermediatelegtype := range __gong__sortStageSetInstances(stage.IntermediateLegTypes, stage.IntermediateLegType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			intermediatelegtypeIdent := strings.Replace(intermediatelegtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.IntermediateLegType{Name: %s}).Stage(stage)", intermediatelegtypeIdent, __gong__toRawStringLiteral(intermediatelegtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", intermediatelegtypeIdent, __gong__toRawStringLiteral(intermediatelegtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", intermediatelegtypeIdent, __gong__toRawStringLiteral(intermediatelegtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", intermediatelegtypeIdent, __gong__toRawStringLiteral(intermediatelegtype.Description)))
+			for _, elem := range intermediatelegtype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", intermediatelegtypeIdent, intermediatelegtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, landingtakeoffareacollectionpropertytype := range __gong__sortStageSetInstances(stage.LandingTakeoffAreaCollectionPropertyTypes, stage.LandingTakeoffAreaCollectionPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			landingtakeoffareacollectionpropertytypeIdent := strings.Replace(landingtakeoffareacollectionpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.LandingTakeoffAreaCollectionPropertyType{Name: %s}).Stage(stage)", landingtakeoffareacollectionpropertytypeIdent, __gong__toRawStringLiteral(landingtakeoffareacollectionpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", landingtakeoffareacollectionpropertytypeIdent, __gong__toRawStringLiteral(landingtakeoffareacollectionpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", landingtakeoffareacollectionpropertytypeIdent, __gong__toRawStringLiteral(landingtakeoffareacollectionpropertytype.NilReason)))
+			if landingtakeoffareacollectionpropertytype.LandingTakeoffAreaCollection != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(landingtakeoffareacollectionpropertytype.LandingTakeoffAreaCollection.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.LandingTakeoffAreaCollection = %s", landingtakeoffareacollectionpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, landingtakeoffareacollectiontype := range __gong__sortStageSetInstances(stage.LandingTakeoffAreaCollectionTypes, stage.LandingTakeoffAreaCollectionType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			landingtakeoffareacollectiontypeIdent := strings.Replace(landingtakeoffareacollectiontype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.LandingTakeoffAreaCollectionType{Name: %s}).Stage(stage)", landingtakeoffareacollectiontypeIdent, __gong__toRawStringLiteral(landingtakeoffareacollectiontype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", landingtakeoffareacollectiontypeIdent, __gong__toRawStringLiteral(landingtakeoffareacollectiontype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", landingtakeoffareacollectiontypeIdent, __gong__toRawStringLiteral(landingtakeoffareacollectiontype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", landingtakeoffareacollectiontypeIdent, __gong__toRawStringLiteral(landingtakeoffareacollectiontype.Description)))
+			for _, elem := range landingtakeoffareacollectiontype.Runway {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Runway = append(%s.Runway, %s)", landingtakeoffareacollectiontypeIdent, landingtakeoffareacollectiontypeIdent, targetIdent))
+			}
+			for _, elem := range landingtakeoffareacollectiontype.TLOF {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TLOF = append(%s.TLOF, %s)", landingtakeoffareacollectiontypeIdent, landingtakeoffareacollectiontypeIdent, targetIdent))
+			}
+			for _, elem := range landingtakeoffareacollectiontype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", landingtakeoffareacollectiontypeIdent, landingtakeoffareacollectiontypeIdent, targetIdent))
+			}
+			for _, elem := range landingtakeoffareacollectiontype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", landingtakeoffareacollectiontypeIdent, landingtakeoffareacollectiontypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, linguisticnotepropertytype := range __gong__sortStageSetInstances(stage.LinguisticNotePropertyTypes, stage.LinguisticNotePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			linguisticnotepropertytypeIdent := strings.Replace(linguisticnotepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.LinguisticNotePropertyType{Name: %s}).Stage(stage)", linguisticnotepropertytypeIdent, __gong__toRawStringLiteral(linguisticnotepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", linguisticnotepropertytypeIdent, __gong__toRawStringLiteral(linguisticnotepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", linguisticnotepropertytypeIdent, __gong__toRawStringLiteral(linguisticnotepropertytype.NilReason)))
+			if linguisticnotepropertytype.LinguisticNote != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(linguisticnotepropertytype.LinguisticNote.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.LinguisticNote = %s", linguisticnotepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, linguisticnotetype := range __gong__sortStageSetInstances(stage.LinguisticNoteTypes, stage.LinguisticNoteType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			linguisticnotetypeIdent := strings.Replace(linguisticnotetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.LinguisticNoteType{Name: %s}).Stage(stage)", linguisticnotetypeIdent, __gong__toRawStringLiteral(linguisticnotetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", linguisticnotetypeIdent, __gong__toRawStringLiteral(linguisticnotetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", linguisticnotetypeIdent, __gong__toRawStringLiteral(linguisticnotetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", linguisticnotetypeIdent, __gong__toRawStringLiteral(linguisticnotetype.Description)))
+			for _, elem := range linguisticnotetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", linguisticnotetypeIdent, linguisticnotetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, minimapropertytype := range __gong__sortStageSetInstances(stage.MinimaPropertyTypes, stage.MinimaPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			minimapropertytypeIdent := strings.Replace(minimapropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.MinimaPropertyType{Name: %s}).Stage(stage)", minimapropertytypeIdent, __gong__toRawStringLiteral(minimapropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", minimapropertytypeIdent, __gong__toRawStringLiteral(minimapropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", minimapropertytypeIdent, __gong__toRawStringLiteral(minimapropertytype.NilReason)))
+			if minimapropertytype.Minima != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(minimapropertytype.Minima.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Minima = %s", minimapropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, minimatype := range __gong__sortStageSetInstances(stage.MinimaTypes, stage.MinimaType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			minimatypeIdent := strings.Replace(minimatype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.MinimaType{Name: %s}).Stage(stage)", minimatypeIdent, __gong__toRawStringLiteral(minimatype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", minimatypeIdent, __gong__toRawStringLiteral(minimatype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", minimatypeIdent, __gong__toRawStringLiteral(minimatype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", minimatypeIdent, __gong__toRawStringLiteral(minimatype.Description)))
+			for _, elem := range minimatype.AdjustmentINOP {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AdjustmentINOP = append(%s.AdjustmentINOP, %s)", minimatypeIdent, minimatypeIdent, targetIdent))
+			}
+			for _, elem := range minimatype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", minimatypeIdent, minimatypeIdent, targetIdent))
+			}
+			for _, elem := range minimatype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", minimatypeIdent, minimatypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, missedapproachgrouppropertytype := range __gong__sortStageSetInstances(stage.MissedApproachGroupPropertyTypes, stage.MissedApproachGroupPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			missedapproachgrouppropertytypeIdent := strings.Replace(missedapproachgrouppropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.MissedApproachGroupPropertyType{Name: %s}).Stage(stage)", missedapproachgrouppropertytypeIdent, __gong__toRawStringLiteral(missedapproachgrouppropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", missedapproachgrouppropertytypeIdent, __gong__toRawStringLiteral(missedapproachgrouppropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", missedapproachgrouppropertytypeIdent, __gong__toRawStringLiteral(missedapproachgrouppropertytype.NilReason)))
+			if missedapproachgrouppropertytype.MissedApproachGroup != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(missedapproachgrouppropertytype.MissedApproachGroup.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MissedApproachGroup = %s", missedapproachgrouppropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, missedapproachgrouptype := range __gong__sortStageSetInstances(stage.MissedApproachGroupTypes, stage.MissedApproachGroupType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			missedapproachgrouptypeIdent := strings.Replace(missedapproachgrouptype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.MissedApproachGroupType{Name: %s}).Stage(stage)", missedapproachgrouptypeIdent, __gong__toRawStringLiteral(missedapproachgrouptype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", missedapproachgrouptypeIdent, __gong__toRawStringLiteral(missedapproachgrouptype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", missedapproachgrouptypeIdent, __gong__toRawStringLiteral(missedapproachgrouptype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", missedapproachgrouptypeIdent, __gong__toRawStringLiteral(missedapproachgrouptype.Description)))
+			for _, elem := range missedapproachgrouptype.Altimeter {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Altimeter = append(%s.Altimeter, %s)", missedapproachgrouptypeIdent, missedapproachgrouptypeIdent, targetIdent))
+			}
+			for _, elem := range missedapproachgrouptype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", missedapproachgrouptypeIdent, missedapproachgrouptypeIdent, targetIdent))
+			}
+			for _, elem := range missedapproachgrouptype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", missedapproachgrouptypeIdent, missedapproachgrouptypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, missedapproachlegtimeslicepropertytype := range __gong__sortStageSetInstances(stage.MissedApproachLegTimeSlicePropertyTypes, stage.MissedApproachLegTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			missedapproachlegtimeslicepropertytypeIdent := strings.Replace(missedapproachlegtimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.MissedApproachLegTimeSlicePropertyType{Name: %s}).Stage(stage)", missedapproachlegtimeslicepropertytypeIdent, __gong__toRawStringLiteral(missedapproachlegtimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", missedapproachlegtimeslicepropertytypeIdent, __gong__toRawStringLiteral(missedapproachlegtimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", missedapproachlegtimeslicepropertytypeIdent, missedapproachlegtimeslicepropertytype.Owns))
+			if missedapproachlegtimeslicepropertytype.MissedApproachLegTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(missedapproachlegtimeslicepropertytype.MissedApproachLegTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.MissedApproachLegTimeSlice = %s", missedapproachlegtimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, missedapproachlegtimeslicetype := range __gong__sortStageSetInstances(stage.MissedApproachLegTimeSliceTypes, stage.MissedApproachLegTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			missedapproachlegtimeslicetypeIdent := strings.Replace(missedapproachlegtimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.MissedApproachLegTimeSliceType{Name: %s}).Stage(stage)", missedapproachlegtimeslicetypeIdent, __gong__toRawStringLiteral(missedapproachlegtimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", missedapproachlegtimeslicetypeIdent, __gong__toRawStringLiteral(missedapproachlegtimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", missedapproachlegtimeslicetypeIdent, __gong__toRawStringLiteral(missedapproachlegtimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", missedapproachlegtimeslicetypeIdent, __gong__toRawStringLiteral(missedapproachlegtimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", missedapproachlegtimeslicetypeIdent, __gong__toRawStringLiteral(missedapproachlegtimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", missedapproachlegtimeslicetypeIdent, missedapproachlegtimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", missedapproachlegtimeslicetypeIdent, missedapproachlegtimeslicetype.CorrectionNumber))
+			if missedapproachlegtimeslicetype.StartPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(missedapproachlegtimeslicetype.StartPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartPoint = %s", missedapproachlegtimeslicetypeIdent, targetIdent))
+			}
+			if missedapproachlegtimeslicetype.EndPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(missedapproachlegtimeslicetype.EndPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EndPoint = %s", missedapproachlegtimeslicetypeIdent, targetIdent))
+			}
+			if missedapproachlegtimeslicetype.Trajectory != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(missedapproachlegtimeslicetype.Trajectory.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Trajectory = %s", missedapproachlegtimeslicetypeIdent, targetIdent))
+			}
+			if missedapproachlegtimeslicetype.ArcCentre != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(missedapproachlegtimeslicetype.ArcCentre.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ArcCentre = %s", missedapproachlegtimeslicetypeIdent, targetIdent))
+			}
+			if missedapproachlegtimeslicetype.Angle != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(missedapproachlegtimeslicetype.Angle.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Angle = %s", missedapproachlegtimeslicetypeIdent, targetIdent))
+			}
+			if missedapproachlegtimeslicetype.Distance != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(missedapproachlegtimeslicetype.Distance.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Distance = %s", missedapproachlegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range missedapproachlegtimeslicetype.AircraftCategory {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCategory = append(%s.AircraftCategory, %s)", missedapproachlegtimeslicetypeIdent, missedapproachlegtimeslicetypeIdent, targetIdent))
+			}
+			if missedapproachlegtimeslicetype.Holding != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(missedapproachlegtimeslicetype.Holding.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Holding = %s", missedapproachlegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range missedapproachlegtimeslicetype.DesignSurface {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DesignSurface = append(%s.DesignSurface, %s)", missedapproachlegtimeslicetypeIdent, missedapproachlegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range missedapproachlegtimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", missedapproachlegtimeslicetypeIdent, missedapproachlegtimeslicetypeIdent, targetIdent))
+			}
+			if missedapproachlegtimeslicetype.Approach != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(missedapproachlegtimeslicetype.Approach.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Approach = %s", missedapproachlegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range missedapproachlegtimeslicetype.Condition {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Condition = append(%s.Condition, %s)", missedapproachlegtimeslicetypeIdent, missedapproachlegtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range missedapproachlegtimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", missedapproachlegtimeslicetypeIdent, missedapproachlegtimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, missedapproachlegtype := range __gong__sortStageSetInstances(stage.MissedApproachLegTypes, stage.MissedApproachLegType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			missedapproachlegtypeIdent := strings.Replace(missedapproachlegtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.MissedApproachLegType{Name: %s}).Stage(stage)", missedapproachlegtypeIdent, __gong__toRawStringLiteral(missedapproachlegtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", missedapproachlegtypeIdent, __gong__toRawStringLiteral(missedapproachlegtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", missedapproachlegtypeIdent, __gong__toRawStringLiteral(missedapproachlegtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", missedapproachlegtypeIdent, __gong__toRawStringLiteral(missedapproachlegtype.Description)))
+			for _, elem := range missedapproachlegtype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", missedapproachlegtypeIdent, missedapproachlegtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, navaidpropertytype := range __gong__sortStageSetInstances(stage.NavaidPropertyTypes, stage.NavaidPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			navaidpropertytypeIdent := strings.Replace(navaidpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.NavaidPropertyType{Name: %s}).Stage(stage)", navaidpropertytypeIdent, __gong__toRawStringLiteral(navaidpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", navaidpropertytypeIdent, __gong__toRawStringLiteral(navaidpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", navaidpropertytypeIdent, navaidpropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", navaidpropertytypeIdent, __gong__toRawStringLiteral(navaidpropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", navaidpropertytypeIdent, __gong__toRawStringLiteral(navaidpropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", navaidpropertytypeIdent, __gong__toRawStringLiteral(navaidpropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", navaidpropertytypeIdent, __gong__toRawStringLiteral(navaidpropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", navaidpropertytypeIdent, __gong__toRawStringLiteral(navaidpropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", navaidpropertytypeIdent, __gong__toRawStringLiteral(navaidpropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", navaidpropertytypeIdent, __gong__toRawStringLiteral(navaidpropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", navaidpropertytypeIdent, __gong__toRawStringLiteral(navaidpropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, navigationarearestrictiontimeslicepropertytype := range __gong__sortStageSetInstances(stage.NavigationAreaRestrictionTimeSlicePropertyTypes, stage.NavigationAreaRestrictionTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			navigationarearestrictiontimeslicepropertytypeIdent := strings.Replace(navigationarearestrictiontimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.NavigationAreaRestrictionTimeSlicePropertyType{Name: %s}).Stage(stage)", navigationarearestrictiontimeslicepropertytypeIdent, __gong__toRawStringLiteral(navigationarearestrictiontimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", navigationarearestrictiontimeslicepropertytypeIdent, __gong__toRawStringLiteral(navigationarearestrictiontimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", navigationarearestrictiontimeslicepropertytypeIdent, navigationarearestrictiontimeslicepropertytype.Owns))
+			if navigationarearestrictiontimeslicepropertytype.NavigationAreaRestrictionTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(navigationarearestrictiontimeslicepropertytype.NavigationAreaRestrictionTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.NavigationAreaRestrictionTimeSlice = %s", navigationarearestrictiontimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, navigationarearestrictiontimeslicetype := range __gong__sortStageSetInstances(stage.NavigationAreaRestrictionTimeSliceTypes, stage.NavigationAreaRestrictionTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			navigationarearestrictiontimeslicetypeIdent := strings.Replace(navigationarearestrictiontimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.NavigationAreaRestrictionTimeSliceType{Name: %s}).Stage(stage)", navigationarearestrictiontimeslicetypeIdent, __gong__toRawStringLiteral(navigationarearestrictiontimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", navigationarearestrictiontimeslicetypeIdent, __gong__toRawStringLiteral(navigationarearestrictiontimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", navigationarearestrictiontimeslicetypeIdent, __gong__toRawStringLiteral(navigationarearestrictiontimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", navigationarearestrictiontimeslicetypeIdent, __gong__toRawStringLiteral(navigationarearestrictiontimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", navigationarearestrictiontimeslicetypeIdent, __gong__toRawStringLiteral(navigationarearestrictiontimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", navigationarearestrictiontimeslicetypeIdent, navigationarearestrictiontimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", navigationarearestrictiontimeslicetypeIdent, navigationarearestrictiontimeslicetype.CorrectionNumber))
+			for _, elem := range navigationarearestrictiontimeslicetype.Procedure {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Procedure = append(%s.Procedure, %s)", navigationarearestrictiontimeslicetypeIdent, navigationarearestrictiontimeslicetypeIdent, targetIdent))
+			}
+			if navigationarearestrictiontimeslicetype.DesignSurface != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(navigationarearestrictiontimeslicetype.DesignSurface.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DesignSurface = %s", navigationarearestrictiontimeslicetypeIdent, targetIdent))
+			}
+			if navigationarearestrictiontimeslicetype.SectorDefinition != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(navigationarearestrictiontimeslicetype.SectorDefinition.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SectorDefinition = %s", navigationarearestrictiontimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range navigationarearestrictiontimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", navigationarearestrictiontimeslicetypeIdent, navigationarearestrictiontimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range navigationarearestrictiontimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", navigationarearestrictiontimeslicetypeIdent, navigationarearestrictiontimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, navigationarearestrictiontype := range __gong__sortStageSetInstances(stage.NavigationAreaRestrictionTypes, stage.NavigationAreaRestrictionType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			navigationarearestrictiontypeIdent := strings.Replace(navigationarearestrictiontype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.NavigationAreaRestrictionType{Name: %s}).Stage(stage)", navigationarearestrictiontypeIdent, __gong__toRawStringLiteral(navigationarearestrictiontype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", navigationarearestrictiontypeIdent, __gong__toRawStringLiteral(navigationarearestrictiontype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", navigationarearestrictiontypeIdent, __gong__toRawStringLiteral(navigationarearestrictiontype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", navigationarearestrictiontypeIdent, __gong__toRawStringLiteral(navigationarearestrictiontype.Description)))
+			for _, elem := range navigationarearestrictiontype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", navigationarearestrictiontypeIdent, navigationarearestrictiontypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, navigationareasectorpropertytype := range __gong__sortStageSetInstances(stage.NavigationAreaSectorPropertyTypes, stage.NavigationAreaSectorPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			navigationareasectorpropertytypeIdent := strings.Replace(navigationareasectorpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.NavigationAreaSectorPropertyType{Name: %s}).Stage(stage)", navigationareasectorpropertytypeIdent, __gong__toRawStringLiteral(navigationareasectorpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", navigationareasectorpropertytypeIdent, __gong__toRawStringLiteral(navigationareasectorpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", navigationareasectorpropertytypeIdent, __gong__toRawStringLiteral(navigationareasectorpropertytype.NilReason)))
+			if navigationareasectorpropertytype.NavigationAreaSector != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(navigationareasectorpropertytype.NavigationAreaSector.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.NavigationAreaSector = %s", navigationareasectorpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, navigationareasectortype := range __gong__sortStageSetInstances(stage.NavigationAreaSectorTypes, stage.NavigationAreaSectorType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			navigationareasectortypeIdent := strings.Replace(navigationareasectortype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.NavigationAreaSectorType{Name: %s}).Stage(stage)", navigationareasectortypeIdent, __gong__toRawStringLiteral(navigationareasectortype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", navigationareasectortypeIdent, __gong__toRawStringLiteral(navigationareasectortype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", navigationareasectortypeIdent, __gong__toRawStringLiteral(navigationareasectortype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", navigationareasectortypeIdent, __gong__toRawStringLiteral(navigationareasectortype.Description)))
+			if navigationareasectortype.SectorDefinition != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(navigationareasectortype.SectorDefinition.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SectorDefinition = %s", navigationareasectortypeIdent, targetIdent))
+			}
+			for _, elem := range navigationareasectortype.SignificantObstacle {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SignificantObstacle = append(%s.SignificantObstacle, %s)", navigationareasectortypeIdent, navigationareasectortypeIdent, targetIdent))
+			}
+			if navigationareasectortype.Extent != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(navigationareasectortype.Extent.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extent = %s", navigationareasectortypeIdent, targetIdent))
+			}
+			for _, elem := range navigationareasectortype.SectorCriteria {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SectorCriteria = append(%s.SectorCriteria, %s)", navigationareasectortypeIdent, navigationareasectortypeIdent, targetIdent))
+			}
+			for _, elem := range navigationareasectortype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", navigationareasectortypeIdent, navigationareasectortypeIdent, targetIdent))
+			}
+			for _, elem := range navigationareasectortype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", navigationareasectortypeIdent, navigationareasectortypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, navigationareatimeslicepropertytype := range __gong__sortStageSetInstances(stage.NavigationAreaTimeSlicePropertyTypes, stage.NavigationAreaTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			navigationareatimeslicepropertytypeIdent := strings.Replace(navigationareatimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.NavigationAreaTimeSlicePropertyType{Name: %s}).Stage(stage)", navigationareatimeslicepropertytypeIdent, __gong__toRawStringLiteral(navigationareatimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", navigationareatimeslicepropertytypeIdent, __gong__toRawStringLiteral(navigationareatimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", navigationareatimeslicepropertytypeIdent, navigationareatimeslicepropertytype.Owns))
+			if navigationareatimeslicepropertytype.NavigationAreaTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(navigationareatimeslicepropertytype.NavigationAreaTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.NavigationAreaTimeSlice = %s", navigationareatimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, navigationareatimeslicetype := range __gong__sortStageSetInstances(stage.NavigationAreaTimeSliceTypes, stage.NavigationAreaTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			navigationareatimeslicetypeIdent := strings.Replace(navigationareatimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.NavigationAreaTimeSliceType{Name: %s}).Stage(stage)", navigationareatimeslicetypeIdent, __gong__toRawStringLiteral(navigationareatimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", navigationareatimeslicetypeIdent, __gong__toRawStringLiteral(navigationareatimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", navigationareatimeslicetypeIdent, __gong__toRawStringLiteral(navigationareatimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", navigationareatimeslicetypeIdent, __gong__toRawStringLiteral(navigationareatimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", navigationareatimeslicetypeIdent, __gong__toRawStringLiteral(navigationareatimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", navigationareatimeslicetypeIdent, navigationareatimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", navigationareatimeslicetypeIdent, navigationareatimeslicetype.CorrectionNumber))
+			if navigationareatimeslicetype.Departure != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(navigationareatimeslicetype.Departure.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Departure = %s", navigationareatimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range navigationareatimeslicetype.Sector {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Sector = append(%s.Sector, %s)", navigationareatimeslicetypeIdent, navigationareatimeslicetypeIdent, targetIdent))
+			}
+			if navigationareatimeslicetype.CentrePoint_fixDesignatedPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(navigationareatimeslicetype.CentrePoint_fixDesignatedPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CentrePoint_fixDesignatedPoint = %s", navigationareatimeslicetypeIdent, targetIdent))
+			}
+			if navigationareatimeslicetype.CentrePoint_navaidSystem != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(navigationareatimeslicetype.CentrePoint_navaidSystem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CentrePoint_navaidSystem = %s", navigationareatimeslicetypeIdent, targetIdent))
+			}
+			if navigationareatimeslicetype.CentrePoint_position != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(navigationareatimeslicetype.CentrePoint_position.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CentrePoint_position = %s", navigationareatimeslicetypeIdent, targetIdent))
+			}
+			if navigationareatimeslicetype.CentrePoint_runwayPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(navigationareatimeslicetype.CentrePoint_runwayPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CentrePoint_runwayPoint = %s", navigationareatimeslicetypeIdent, targetIdent))
+			}
+			if navigationareatimeslicetype.CentrePoint_aimingPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(navigationareatimeslicetype.CentrePoint_aimingPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CentrePoint_aimingPoint = %s", navigationareatimeslicetypeIdent, targetIdent))
+			}
+			if navigationareatimeslicetype.CentrePoint_airportReferencePoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(navigationareatimeslicetype.CentrePoint_airportReferencePoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CentrePoint_airportReferencePoint = %s", navigationareatimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range navigationareatimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", navigationareatimeslicetypeIdent, navigationareatimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range navigationareatimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", navigationareatimeslicetypeIdent, navigationareatimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, navigationareatype := range __gong__sortStageSetInstances(stage.NavigationAreaTypes, stage.NavigationAreaType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			navigationareatypeIdent := strings.Replace(navigationareatype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.NavigationAreaType{Name: %s}).Stage(stage)", navigationareatypeIdent, __gong__toRawStringLiteral(navigationareatype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", navigationareatypeIdent, __gong__toRawStringLiteral(navigationareatype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", navigationareatypeIdent, __gong__toRawStringLiteral(navigationareatype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", navigationareatypeIdent, __gong__toRawStringLiteral(navigationareatype.Description)))
+			for _, elem := range navigationareatype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", navigationareatypeIdent, navigationareatypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, notepropertytype := range __gong__sortStageSetInstances(stage.NotePropertyTypes, stage.NotePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			notepropertytypeIdent := strings.Replace(notepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.NotePropertyType{Name: %s}).Stage(stage)", notepropertytypeIdent, __gong__toRawStringLiteral(notepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", notepropertytypeIdent, __gong__toRawStringLiteral(notepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", notepropertytypeIdent, __gong__toRawStringLiteral(notepropertytype.NilReason)))
+			if notepropertytype.Note != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(notepropertytype.Note.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Note = %s", notepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, notetype := range __gong__sortStageSetInstances(stage.NoteTypes, stage.NoteType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			notetypeIdent := strings.Replace(notetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.NoteType{Name: %s}).Stage(stage)", notetypeIdent, __gong__toRawStringLiteral(notetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", notetypeIdent, __gong__toRawStringLiteral(notetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", notetypeIdent, __gong__toRawStringLiteral(notetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", notetypeIdent, __gong__toRawStringLiteral(notetype.Description)))
+			for _, elem := range notetype.TranslatedNote {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TranslatedNote = append(%s.TranslatedNote, %s)", notetypeIdent, notetypeIdent, targetIdent))
+			}
+			for _, elem := range notetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", notetypeIdent, notetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, obstacleassessmentareapropertytype := range __gong__sortStageSetInstances(stage.ObstacleAssessmentAreaPropertyTypes, stage.ObstacleAssessmentAreaPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			obstacleassessmentareapropertytypeIdent := strings.Replace(obstacleassessmentareapropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ObstacleAssessmentAreaPropertyType{Name: %s}).Stage(stage)", obstacleassessmentareapropertytypeIdent, __gong__toRawStringLiteral(obstacleassessmentareapropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", obstacleassessmentareapropertytypeIdent, __gong__toRawStringLiteral(obstacleassessmentareapropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", obstacleassessmentareapropertytypeIdent, __gong__toRawStringLiteral(obstacleassessmentareapropertytype.NilReason)))
+			if obstacleassessmentareapropertytype.ObstacleAssessmentArea != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(obstacleassessmentareapropertytype.ObstacleAssessmentArea.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ObstacleAssessmentArea = %s", obstacleassessmentareapropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, obstacleassessmentareatype := range __gong__sortStageSetInstances(stage.ObstacleAssessmentAreaTypes, stage.ObstacleAssessmentAreaType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			obstacleassessmentareatypeIdent := strings.Replace(obstacleassessmentareatype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ObstacleAssessmentAreaType{Name: %s}).Stage(stage)", obstacleassessmentareatypeIdent, __gong__toRawStringLiteral(obstacleassessmentareatype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", obstacleassessmentareatypeIdent, __gong__toRawStringLiteral(obstacleassessmentareatype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", obstacleassessmentareatypeIdent, __gong__toRawStringLiteral(obstacleassessmentareatype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", obstacleassessmentareatypeIdent, __gong__toRawStringLiteral(obstacleassessmentareatype.Description)))
+			for _, elem := range obstacleassessmentareatype.AircraftCategory {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCategory = append(%s.AircraftCategory, %s)", obstacleassessmentareatypeIdent, obstacleassessmentareatypeIdent, targetIdent))
+			}
+			for _, elem := range obstacleassessmentareatype.SignificantObstacle {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SignificantObstacle = append(%s.SignificantObstacle, %s)", obstacleassessmentareatypeIdent, obstacleassessmentareatypeIdent, targetIdent))
+			}
+			if obstacleassessmentareatype.Surface != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(obstacleassessmentareatype.Surface.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Surface = %s", obstacleassessmentareatypeIdent, targetIdent))
+			}
+			if obstacleassessmentareatype.StartingCurve != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(obstacleassessmentareatype.StartingCurve.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StartingCurve = %s", obstacleassessmentareatypeIdent, targetIdent))
+			}
+			for _, elem := range obstacleassessmentareatype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", obstacleassessmentareatypeIdent, obstacleassessmentareatypeIdent, targetIdent))
+			}
+			for _, elem := range obstacleassessmentareatype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", obstacleassessmentareatypeIdent, obstacleassessmentareatypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, obstacleplacementpropertytype := range __gong__sortStageSetInstances(stage.ObstaclePlacementPropertyTypes, stage.ObstaclePlacementPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			obstacleplacementpropertytypeIdent := strings.Replace(obstacleplacementpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ObstaclePlacementPropertyType{Name: %s}).Stage(stage)", obstacleplacementpropertytypeIdent, __gong__toRawStringLiteral(obstacleplacementpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", obstacleplacementpropertytypeIdent, __gong__toRawStringLiteral(obstacleplacementpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", obstacleplacementpropertytypeIdent, __gong__toRawStringLiteral(obstacleplacementpropertytype.NilReason)))
+			if obstacleplacementpropertytype.ObstaclePlacement != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(obstacleplacementpropertytype.ObstaclePlacement.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ObstaclePlacement = %s", obstacleplacementpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, obstacleplacementtype := range __gong__sortStageSetInstances(stage.ObstaclePlacementTypes, stage.ObstaclePlacementType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			obstacleplacementtypeIdent := strings.Replace(obstacleplacementtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ObstaclePlacementType{Name: %s}).Stage(stage)", obstacleplacementtypeIdent, __gong__toRawStringLiteral(obstacleplacementtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", obstacleplacementtypeIdent, __gong__toRawStringLiteral(obstacleplacementtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", obstacleplacementtypeIdent, __gong__toRawStringLiteral(obstacleplacementtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", obstacleplacementtypeIdent, __gong__toRawStringLiteral(obstacleplacementtype.Description)))
+			for _, elem := range obstacleplacementtype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", obstacleplacementtypeIdent, obstacleplacementtypeIdent, targetIdent))
+			}
+			for _, elem := range obstacleplacementtype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", obstacleplacementtypeIdent, obstacleplacementtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, obstructionpropertytype := range __gong__sortStageSetInstances(stage.ObstructionPropertyTypes, stage.ObstructionPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			obstructionpropertytypeIdent := strings.Replace(obstructionpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ObstructionPropertyType{Name: %s}).Stage(stage)", obstructionpropertytypeIdent, __gong__toRawStringLiteral(obstructionpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", obstructionpropertytypeIdent, __gong__toRawStringLiteral(obstructionpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", obstructionpropertytypeIdent, __gong__toRawStringLiteral(obstructionpropertytype.NilReason)))
+			if obstructionpropertytype.Obstruction != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(obstructionpropertytype.Obstruction.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Obstruction = %s", obstructionpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, obstructiontype := range __gong__sortStageSetInstances(stage.ObstructionTypes, stage.ObstructionType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			obstructiontypeIdent := strings.Replace(obstructiontype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ObstructionType{Name: %s}).Stage(stage)", obstructiontypeIdent, __gong__toRawStringLiteral(obstructiontype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", obstructiontypeIdent, __gong__toRawStringLiteral(obstructiontype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", obstructiontypeIdent, __gong__toRawStringLiteral(obstructiontype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", obstructiontypeIdent, __gong__toRawStringLiteral(obstructiontype.Description)))
+			if obstructiontype.TheVerticalStructure != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(obstructiontype.TheVerticalStructure.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TheVerticalStructure = %s", obstructiontypeIdent, targetIdent))
+			}
+			for _, elem := range obstructiontype.Adjustment {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Adjustment = append(%s.Adjustment, %s)", obstructiontypeIdent, obstructiontypeIdent, targetIdent))
+			}
+			for _, elem := range obstructiontype.ObstaclePlacement {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ObstaclePlacement = append(%s.ObstaclePlacement, %s)", obstructiontypeIdent, obstructiontypeIdent, targetIdent))
+			}
+			for _, elem := range obstructiontype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", obstructiontypeIdent, obstructiontypeIdent, targetIdent))
+			}
+			for _, elem := range obstructiontype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", obstructiontypeIdent, obstructiontypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, organisationauthoritypropertytype := range __gong__sortStageSetInstances(stage.OrganisationAuthorityPropertyTypes, stage.OrganisationAuthorityPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			organisationauthoritypropertytypeIdent := strings.Replace(organisationauthoritypropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.OrganisationAuthorityPropertyType{Name: %s}).Stage(stage)", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", organisationauthoritypropertytypeIdent, organisationauthoritypropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", organisationauthoritypropertytypeIdent, __gong__toRawStringLiteral(organisationauthoritypropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, pointpropertytype := range __gong__sortStageSetInstances(stage.PointPropertyTypes, stage.PointPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			pointpropertytypeIdent := strings.Replace(pointpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.PointPropertyType{Name: %s}).Stage(stage)", pointpropertytypeIdent, __gong__toRawStringLiteral(pointpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", pointpropertytypeIdent, __gong__toRawStringLiteral(pointpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", pointpropertytypeIdent, __gong__toRawStringLiteral(pointpropertytype.NilReason)))
+			if pointpropertytype.Point != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(pointpropertytype.Point.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Point = %s", pointpropertytypeIdent, targetIdent))
+			}
+			if pointpropertytype.ElevatedPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(pointpropertytype.ElevatedPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ElevatedPoint = %s", pointpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, pointreferencepropertytype := range __gong__sortStageSetInstances(stage.PointReferencePropertyTypes, stage.PointReferencePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			pointreferencepropertytypeIdent := strings.Replace(pointreferencepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.PointReferencePropertyType{Name: %s}).Stage(stage)", pointreferencepropertytypeIdent, __gong__toRawStringLiteral(pointreferencepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", pointreferencepropertytypeIdent, __gong__toRawStringLiteral(pointreferencepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", pointreferencepropertytypeIdent, __gong__toRawStringLiteral(pointreferencepropertytype.NilReason)))
+			if pointreferencepropertytype.PointReference != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(pointreferencepropertytype.PointReference.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointReference = %s", pointreferencepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, pointreferencetype := range __gong__sortStageSetInstances(stage.PointReferenceTypes, stage.PointReferenceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			pointreferencetypeIdent := strings.Replace(pointreferencetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.PointReferenceType{Name: %s}).Stage(stage)", pointreferencetypeIdent, __gong__toRawStringLiteral(pointreferencetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", pointreferencetypeIdent, __gong__toRawStringLiteral(pointreferencetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", pointreferencetypeIdent, __gong__toRawStringLiteral(pointreferencetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", pointreferencetypeIdent, __gong__toRawStringLiteral(pointreferencetype.Description)))
+			if pointreferencetype.Point != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(pointreferencetype.Point.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Point = %s", pointreferencetypeIdent, targetIdent))
+			}
+			for _, elem := range pointreferencetype.FacilityAngle {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FacilityAngle = append(%s.FacilityAngle, %s)", pointreferencetypeIdent, pointreferencetypeIdent, targetIdent))
+			}
+			for _, elem := range pointreferencetype.FacilityDistance {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FacilityDistance = append(%s.FacilityDistance, %s)", pointreferencetypeIdent, pointreferencetypeIdent, targetIdent))
+			}
+			if pointreferencetype.FixToleranceArea != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(pointreferencetype.FixToleranceArea.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FixToleranceArea = %s", pointreferencetypeIdent, targetIdent))
+			}
+			for _, elem := range pointreferencetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", pointreferencetypeIdent, pointreferencetypeIdent, targetIdent))
+			}
+			for _, elem := range pointreferencetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", pointreferencetypeIdent, pointreferencetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, pointtype := range __gong__sortStageSetInstances(stage.PointTypes, stage.PointType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			pointtypeIdent := strings.Replace(pointtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.PointType{Name: %s}).Stage(stage)", pointtypeIdent, __gong__toRawStringLiteral(pointtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", pointtypeIdent, __gong__toRawStringLiteral(pointtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", pointtypeIdent, __gong__toRawStringLiteral(pointtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", pointtypeIdent, __gong__toRawStringLiteral(pointtype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SrsName = %s", pointtypeIdent, __gong__toRawStringLiteral(pointtype.SrsName)))
+			for _, elem := range pointtype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", pointtypeIdent, pointtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, procedureavailabilitypropertytype := range __gong__sortStageSetInstances(stage.ProcedureAvailabilityPropertyTypes, stage.ProcedureAvailabilityPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			procedureavailabilitypropertytypeIdent := strings.Replace(procedureavailabilitypropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ProcedureAvailabilityPropertyType{Name: %s}).Stage(stage)", procedureavailabilitypropertytypeIdent, __gong__toRawStringLiteral(procedureavailabilitypropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", procedureavailabilitypropertytypeIdent, __gong__toRawStringLiteral(procedureavailabilitypropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", procedureavailabilitypropertytypeIdent, __gong__toRawStringLiteral(procedureavailabilitypropertytype.NilReason)))
+			if procedureavailabilitypropertytype.ProcedureAvailability != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(procedureavailabilitypropertytype.ProcedureAvailability.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ProcedureAvailability = %s", procedureavailabilitypropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, procedureavailabilitytype := range __gong__sortStageSetInstances(stage.ProcedureAvailabilityTypes, stage.ProcedureAvailabilityType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			procedureavailabilitytypeIdent := strings.Replace(procedureavailabilitytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ProcedureAvailabilityType{Name: %s}).Stage(stage)", procedureavailabilitytypeIdent, __gong__toRawStringLiteral(procedureavailabilitytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", procedureavailabilitytypeIdent, __gong__toRawStringLiteral(procedureavailabilitytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", procedureavailabilitytypeIdent, __gong__toRawStringLiteral(procedureavailabilitytype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", procedureavailabilitytypeIdent, __gong__toRawStringLiteral(procedureavailabilitytype.Description)))
+			for _, elem := range procedureavailabilitytype.TimeInterval {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeInterval = append(%s.TimeInterval, %s)", procedureavailabilitytypeIdent, procedureavailabilitytypeIdent, targetIdent))
+			}
+			for _, elem := range procedureavailabilitytype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", procedureavailabilitytypeIdent, procedureavailabilitytypeIdent, targetIdent))
+			}
+			for _, elem := range procedureavailabilitytype.SpecialDateAuthority {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SpecialDateAuthority = append(%s.SpecialDateAuthority, %s)", procedureavailabilitytypeIdent, procedureavailabilitytypeIdent, targetIdent))
+			}
+			for _, elem := range procedureavailabilitytype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", procedureavailabilitytypeIdent, procedureavailabilitytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, proceduredmetimeslicepropertytype := range __gong__sortStageSetInstances(stage.ProcedureDMETimeSlicePropertyTypes, stage.ProcedureDMETimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			proceduredmetimeslicepropertytypeIdent := strings.Replace(proceduredmetimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ProcedureDMETimeSlicePropertyType{Name: %s}).Stage(stage)", proceduredmetimeslicepropertytypeIdent, __gong__toRawStringLiteral(proceduredmetimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", proceduredmetimeslicepropertytypeIdent, __gong__toRawStringLiteral(proceduredmetimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", proceduredmetimeslicepropertytypeIdent, proceduredmetimeslicepropertytype.Owns))
+			if proceduredmetimeslicepropertytype.ProcedureDMETimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(proceduredmetimeslicepropertytype.ProcedureDMETimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ProcedureDMETimeSlice = %s", proceduredmetimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, proceduredmetimeslicetype := range __gong__sortStageSetInstances(stage.ProcedureDMETimeSliceTypes, stage.ProcedureDMETimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			proceduredmetimeslicetypeIdent := strings.Replace(proceduredmetimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ProcedureDMETimeSliceType{Name: %s}).Stage(stage)", proceduredmetimeslicetypeIdent, __gong__toRawStringLiteral(proceduredmetimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", proceduredmetimeslicetypeIdent, __gong__toRawStringLiteral(proceduredmetimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", proceduredmetimeslicetypeIdent, __gong__toRawStringLiteral(proceduredmetimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", proceduredmetimeslicetypeIdent, __gong__toRawStringLiteral(proceduredmetimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", proceduredmetimeslicetypeIdent, __gong__toRawStringLiteral(proceduredmetimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", proceduredmetimeslicetypeIdent, proceduredmetimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", proceduredmetimeslicetypeIdent, proceduredmetimeslicetype.CorrectionNumber))
+			if proceduredmetimeslicetype.DME != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(proceduredmetimeslicetype.DME.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DME = %s", proceduredmetimeslicetypeIdent, targetIdent))
+			}
+			if proceduredmetimeslicetype.SegmentLeg != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(proceduredmetimeslicetype.SegmentLeg.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SegmentLeg = %s", proceduredmetimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range proceduredmetimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", proceduredmetimeslicetypeIdent, proceduredmetimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range proceduredmetimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", proceduredmetimeslicetypeIdent, proceduredmetimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, proceduredmetype := range __gong__sortStageSetInstances(stage.ProcedureDMETypes, stage.ProcedureDMEType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			proceduredmetypeIdent := strings.Replace(proceduredmetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ProcedureDMEType{Name: %s}).Stage(stage)", proceduredmetypeIdent, __gong__toRawStringLiteral(proceduredmetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", proceduredmetypeIdent, __gong__toRawStringLiteral(proceduredmetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", proceduredmetypeIdent, __gong__toRawStringLiteral(proceduredmetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", proceduredmetypeIdent, __gong__toRawStringLiteral(proceduredmetype.Description)))
+			for _, elem := range proceduredmetype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", proceduredmetypeIdent, proceduredmetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, procedurepropertytype := range __gong__sortStageSetInstances(stage.ProcedurePropertyTypes, stage.ProcedurePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			procedurepropertytypeIdent := strings.Replace(procedurepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ProcedurePropertyType{Name: %s}).Stage(stage)", procedurepropertytypeIdent, __gong__toRawStringLiteral(procedurepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", procedurepropertytypeIdent, __gong__toRawStringLiteral(procedurepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", procedurepropertytypeIdent, procedurepropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", procedurepropertytypeIdent, __gong__toRawStringLiteral(procedurepropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", procedurepropertytypeIdent, __gong__toRawStringLiteral(procedurepropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", procedurepropertytypeIdent, __gong__toRawStringLiteral(procedurepropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", procedurepropertytypeIdent, __gong__toRawStringLiteral(procedurepropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", procedurepropertytypeIdent, __gong__toRawStringLiteral(procedurepropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", procedurepropertytypeIdent, __gong__toRawStringLiteral(procedurepropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", procedurepropertytypeIdent, __gong__toRawStringLiteral(procedurepropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", procedurepropertytypeIdent, __gong__toRawStringLiteral(procedurepropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, proceduretransitionlegpropertytype := range __gong__sortStageSetInstances(stage.ProcedureTransitionLegPropertyTypes, stage.ProcedureTransitionLegPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			proceduretransitionlegpropertytypeIdent := strings.Replace(proceduretransitionlegpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ProcedureTransitionLegPropertyType{Name: %s}).Stage(stage)", proceduretransitionlegpropertytypeIdent, __gong__toRawStringLiteral(proceduretransitionlegpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", proceduretransitionlegpropertytypeIdent, __gong__toRawStringLiteral(proceduretransitionlegpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", proceduretransitionlegpropertytypeIdent, __gong__toRawStringLiteral(proceduretransitionlegpropertytype.NilReason)))
+			if proceduretransitionlegpropertytype.ProcedureTransitionLeg != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(proceduretransitionlegpropertytype.ProcedureTransitionLeg.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ProcedureTransitionLeg = %s", proceduretransitionlegpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, proceduretransitionlegtype := range __gong__sortStageSetInstances(stage.ProcedureTransitionLegTypes, stage.ProcedureTransitionLegType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			proceduretransitionlegtypeIdent := strings.Replace(proceduretransitionlegtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ProcedureTransitionLegType{Name: %s}).Stage(stage)", proceduretransitionlegtypeIdent, __gong__toRawStringLiteral(proceduretransitionlegtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", proceduretransitionlegtypeIdent, __gong__toRawStringLiteral(proceduretransitionlegtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", proceduretransitionlegtypeIdent, __gong__toRawStringLiteral(proceduretransitionlegtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", proceduretransitionlegtypeIdent, __gong__toRawStringLiteral(proceduretransitionlegtype.Description)))
+			for _, elem := range proceduretransitionlegtype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", proceduretransitionlegtypeIdent, proceduretransitionlegtypeIdent, targetIdent))
+			}
+			if proceduretransitionlegtype.TheSegmentLeg != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(proceduretransitionlegtype.TheSegmentLeg.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TheSegmentLeg = %s", proceduretransitionlegtypeIdent, targetIdent))
+			}
+			for _, elem := range proceduretransitionlegtype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", proceduretransitionlegtypeIdent, proceduretransitionlegtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, proceduretransitionpropertytype := range __gong__sortStageSetInstances(stage.ProcedureTransitionPropertyTypes, stage.ProcedureTransitionPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			proceduretransitionpropertytypeIdent := strings.Replace(proceduretransitionpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ProcedureTransitionPropertyType{Name: %s}).Stage(stage)", proceduretransitionpropertytypeIdent, __gong__toRawStringLiteral(proceduretransitionpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", proceduretransitionpropertytypeIdent, __gong__toRawStringLiteral(proceduretransitionpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", proceduretransitionpropertytypeIdent, __gong__toRawStringLiteral(proceduretransitionpropertytype.NilReason)))
+			if proceduretransitionpropertytype.ProcedureTransition != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(proceduretransitionpropertytype.ProcedureTransition.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ProcedureTransition = %s", proceduretransitionpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, proceduretransitiontype := range __gong__sortStageSetInstances(stage.ProcedureTransitionTypes, stage.ProcedureTransitionType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			proceduretransitiontypeIdent := strings.Replace(proceduretransitiontype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.ProcedureTransitionType{Name: %s}).Stage(stage)", proceduretransitiontypeIdent, __gong__toRawStringLiteral(proceduretransitiontype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", proceduretransitiontypeIdent, __gong__toRawStringLiteral(proceduretransitiontype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", proceduretransitiontypeIdent, __gong__toRawStringLiteral(proceduretransitiontype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", proceduretransitiontypeIdent, __gong__toRawStringLiteral(proceduretransitiontype.Description)))
+			if proceduretransitiontype.DepartureRunwayTransition != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(proceduretransitiontype.DepartureRunwayTransition.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DepartureRunwayTransition = %s", proceduretransitiontypeIdent, targetIdent))
+			}
+			if proceduretransitiontype.Trajectory != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(proceduretransitiontype.Trajectory.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Trajectory = %s", proceduretransitiontypeIdent, targetIdent))
+			}
+			for _, elem := range proceduretransitiontype.TransitionLeg {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TransitionLeg = append(%s.TransitionLeg, %s)", proceduretransitiontypeIdent, proceduretransitiontypeIdent, targetIdent))
+			}
+			for _, elem := range proceduretransitiontype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", proceduretransitiontypeIdent, proceduretransitiontypeIdent, targetIdent))
+			}
+			for _, elem := range proceduretransitiontype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", proceduretransitiontypeIdent, proceduretransitiontypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, radarsystempropertytype := range __gong__sortStageSetInstances(stage.RadarSystemPropertyTypes, stage.RadarSystemPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			radarsystempropertytypeIdent := strings.Replace(radarsystempropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.RadarSystemPropertyType{Name: %s}).Stage(stage)", radarsystempropertytypeIdent, __gong__toRawStringLiteral(radarsystempropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", radarsystempropertytypeIdent, __gong__toRawStringLiteral(radarsystempropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", radarsystempropertytypeIdent, radarsystempropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", radarsystempropertytypeIdent, __gong__toRawStringLiteral(radarsystempropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", radarsystempropertytypeIdent, __gong__toRawStringLiteral(radarsystempropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", radarsystempropertytypeIdent, __gong__toRawStringLiteral(radarsystempropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", radarsystempropertytypeIdent, __gong__toRawStringLiteral(radarsystempropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", radarsystempropertytypeIdent, __gong__toRawStringLiteral(radarsystempropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", radarsystempropertytypeIdent, __gong__toRawStringLiteral(radarsystempropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", radarsystempropertytypeIdent, __gong__toRawStringLiteral(radarsystempropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", radarsystempropertytypeIdent, __gong__toRawStringLiteral(radarsystempropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, radiofrequencyareapropertytype := range __gong__sortStageSetInstances(stage.RadioFrequencyAreaPropertyTypes, stage.RadioFrequencyAreaPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			radiofrequencyareapropertytypeIdent := strings.Replace(radiofrequencyareapropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.RadioFrequencyAreaPropertyType{Name: %s}).Stage(stage)", radiofrequencyareapropertytypeIdent, __gong__toRawStringLiteral(radiofrequencyareapropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", radiofrequencyareapropertytypeIdent, __gong__toRawStringLiteral(radiofrequencyareapropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", radiofrequencyareapropertytypeIdent, radiofrequencyareapropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", radiofrequencyareapropertytypeIdent, __gong__toRawStringLiteral(radiofrequencyareapropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", radiofrequencyareapropertytypeIdent, __gong__toRawStringLiteral(radiofrequencyareapropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", radiofrequencyareapropertytypeIdent, __gong__toRawStringLiteral(radiofrequencyareapropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", radiofrequencyareapropertytypeIdent, __gong__toRawStringLiteral(radiofrequencyareapropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", radiofrequencyareapropertytypeIdent, __gong__toRawStringLiteral(radiofrequencyareapropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", radiofrequencyareapropertytypeIdent, __gong__toRawStringLiteral(radiofrequencyareapropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", radiofrequencyareapropertytypeIdent, __gong__toRawStringLiteral(radiofrequencyareapropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", radiofrequencyareapropertytypeIdent, __gong__toRawStringLiteral(radiofrequencyareapropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, runwaycentrelinepointpropertytype := range __gong__sortStageSetInstances(stage.RunwayCentrelinePointPropertyTypes, stage.RunwayCentrelinePointPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			runwaycentrelinepointpropertytypeIdent := strings.Replace(runwaycentrelinepointpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.RunwayCentrelinePointPropertyType{Name: %s}).Stage(stage)", runwaycentrelinepointpropertytypeIdent, __gong__toRawStringLiteral(runwaycentrelinepointpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", runwaycentrelinepointpropertytypeIdent, __gong__toRawStringLiteral(runwaycentrelinepointpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", runwaycentrelinepointpropertytypeIdent, runwaycentrelinepointpropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", runwaycentrelinepointpropertytypeIdent, __gong__toRawStringLiteral(runwaycentrelinepointpropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", runwaycentrelinepointpropertytypeIdent, __gong__toRawStringLiteral(runwaycentrelinepointpropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", runwaycentrelinepointpropertytypeIdent, __gong__toRawStringLiteral(runwaycentrelinepointpropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", runwaycentrelinepointpropertytypeIdent, __gong__toRawStringLiteral(runwaycentrelinepointpropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", runwaycentrelinepointpropertytypeIdent, __gong__toRawStringLiteral(runwaycentrelinepointpropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", runwaycentrelinepointpropertytypeIdent, __gong__toRawStringLiteral(runwaycentrelinepointpropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", runwaycentrelinepointpropertytypeIdent, __gong__toRawStringLiteral(runwaycentrelinepointpropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", runwaycentrelinepointpropertytypeIdent, __gong__toRawStringLiteral(runwaycentrelinepointpropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, runwaydirectionpropertytype := range __gong__sortStageSetInstances(stage.RunwayDirectionPropertyTypes, stage.RunwayDirectionPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			runwaydirectionpropertytypeIdent := strings.Replace(runwaydirectionpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.RunwayDirectionPropertyType{Name: %s}).Stage(stage)", runwaydirectionpropertytypeIdent, __gong__toRawStringLiteral(runwaydirectionpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", runwaydirectionpropertytypeIdent, __gong__toRawStringLiteral(runwaydirectionpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", runwaydirectionpropertytypeIdent, runwaydirectionpropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", runwaydirectionpropertytypeIdent, __gong__toRawStringLiteral(runwaydirectionpropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", runwaydirectionpropertytypeIdent, __gong__toRawStringLiteral(runwaydirectionpropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", runwaydirectionpropertytypeIdent, __gong__toRawStringLiteral(runwaydirectionpropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", runwaydirectionpropertytypeIdent, __gong__toRawStringLiteral(runwaydirectionpropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", runwaydirectionpropertytypeIdent, __gong__toRawStringLiteral(runwaydirectionpropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", runwaydirectionpropertytypeIdent, __gong__toRawStringLiteral(runwaydirectionpropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", runwaydirectionpropertytypeIdent, __gong__toRawStringLiteral(runwaydirectionpropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", runwaydirectionpropertytypeIdent, __gong__toRawStringLiteral(runwaydirectionpropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, safealtitudeareapropertytype := range __gong__sortStageSetInstances(stage.SafeAltitudeAreaPropertyTypes, stage.SafeAltitudeAreaPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			safealtitudeareapropertytypeIdent := strings.Replace(safealtitudeareapropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.SafeAltitudeAreaPropertyType{Name: %s}).Stage(stage)", safealtitudeareapropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareapropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", safealtitudeareapropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareapropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", safealtitudeareapropertytypeIdent, safealtitudeareapropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", safealtitudeareapropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareapropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", safealtitudeareapropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareapropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", safealtitudeareapropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareapropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", safealtitudeareapropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareapropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", safealtitudeareapropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareapropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", safealtitudeareapropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareapropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", safealtitudeareapropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareapropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", safealtitudeareapropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareapropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, safealtitudeareasectorpropertytype := range __gong__sortStageSetInstances(stage.SafeAltitudeAreaSectorPropertyTypes, stage.SafeAltitudeAreaSectorPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			safealtitudeareasectorpropertytypeIdent := strings.Replace(safealtitudeareasectorpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.SafeAltitudeAreaSectorPropertyType{Name: %s}).Stage(stage)", safealtitudeareasectorpropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareasectorpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", safealtitudeareasectorpropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareasectorpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", safealtitudeareasectorpropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareasectorpropertytype.NilReason)))
+			if safealtitudeareasectorpropertytype.SafeAltitudeAreaSector != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(safealtitudeareasectorpropertytype.SafeAltitudeAreaSector.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SafeAltitudeAreaSector = %s", safealtitudeareasectorpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, safealtitudeareasectortype := range __gong__sortStageSetInstances(stage.SafeAltitudeAreaSectorTypes, stage.SafeAltitudeAreaSectorType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			safealtitudeareasectortypeIdent := strings.Replace(safealtitudeareasectortype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.SafeAltitudeAreaSectorType{Name: %s}).Stage(stage)", safealtitudeareasectortypeIdent, __gong__toRawStringLiteral(safealtitudeareasectortype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", safealtitudeareasectortypeIdent, __gong__toRawStringLiteral(safealtitudeareasectortype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", safealtitudeareasectortypeIdent, __gong__toRawStringLiteral(safealtitudeareasectortype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", safealtitudeareasectortypeIdent, __gong__toRawStringLiteral(safealtitudeareasectortype.Description)))
+			if safealtitudeareasectortype.Extent != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(safealtitudeareasectortype.Extent.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extent = %s", safealtitudeareasectortypeIdent, targetIdent))
+			}
+			for _, elem := range safealtitudeareasectortype.SignificantObstacle {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SignificantObstacle = append(%s.SignificantObstacle, %s)", safealtitudeareasectortypeIdent, safealtitudeareasectortypeIdent, targetIdent))
+			}
+			if safealtitudeareasectortype.SectorDefinition != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(safealtitudeareasectortype.SectorDefinition.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SectorDefinition = %s", safealtitudeareasectortypeIdent, targetIdent))
+			}
+			for _, elem := range safealtitudeareasectortype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", safealtitudeareasectortypeIdent, safealtitudeareasectortypeIdent, targetIdent))
+			}
+			for _, elem := range safealtitudeareasectortype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", safealtitudeareasectortypeIdent, safealtitudeareasectortypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, safealtitudeareatimeslicepropertytype := range __gong__sortStageSetInstances(stage.SafeAltitudeAreaTimeSlicePropertyTypes, stage.SafeAltitudeAreaTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			safealtitudeareatimeslicepropertytypeIdent := strings.Replace(safealtitudeareatimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.SafeAltitudeAreaTimeSlicePropertyType{Name: %s}).Stage(stage)", safealtitudeareatimeslicepropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareatimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", safealtitudeareatimeslicepropertytypeIdent, __gong__toRawStringLiteral(safealtitudeareatimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", safealtitudeareatimeslicepropertytypeIdent, safealtitudeareatimeslicepropertytype.Owns))
+			if safealtitudeareatimeslicepropertytype.SafeAltitudeAreaTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(safealtitudeareatimeslicepropertytype.SafeAltitudeAreaTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SafeAltitudeAreaTimeSlice = %s", safealtitudeareatimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, safealtitudeareatimeslicetype := range __gong__sortStageSetInstances(stage.SafeAltitudeAreaTimeSliceTypes, stage.SafeAltitudeAreaTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			safealtitudeareatimeslicetypeIdent := strings.Replace(safealtitudeareatimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.SafeAltitudeAreaTimeSliceType{Name: %s}).Stage(stage)", safealtitudeareatimeslicetypeIdent, __gong__toRawStringLiteral(safealtitudeareatimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", safealtitudeareatimeslicetypeIdent, __gong__toRawStringLiteral(safealtitudeareatimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", safealtitudeareatimeslicetypeIdent, __gong__toRawStringLiteral(safealtitudeareatimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", safealtitudeareatimeslicetypeIdent, __gong__toRawStringLiteral(safealtitudeareatimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", safealtitudeareatimeslicetypeIdent, __gong__toRawStringLiteral(safealtitudeareatimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", safealtitudeareatimeslicetypeIdent, safealtitudeareatimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", safealtitudeareatimeslicetypeIdent, safealtitudeareatimeslicetype.CorrectionNumber))
+			if safealtitudeareatimeslicetype.CentrePoint_fixDesignatedPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(safealtitudeareatimeslicetype.CentrePoint_fixDesignatedPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CentrePoint_fixDesignatedPoint = %s", safealtitudeareatimeslicetypeIdent, targetIdent))
+			}
+			if safealtitudeareatimeslicetype.CentrePoint_navaidSystem != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(safealtitudeareatimeslicetype.CentrePoint_navaidSystem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CentrePoint_navaidSystem = %s", safealtitudeareatimeslicetypeIdent, targetIdent))
+			}
+			if safealtitudeareatimeslicetype.CentrePoint_position != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(safealtitudeareatimeslicetype.CentrePoint_position.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CentrePoint_position = %s", safealtitudeareatimeslicetypeIdent, targetIdent))
+			}
+			if safealtitudeareatimeslicetype.CentrePoint_runwayPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(safealtitudeareatimeslicetype.CentrePoint_runwayPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CentrePoint_runwayPoint = %s", safealtitudeareatimeslicetypeIdent, targetIdent))
+			}
+			if safealtitudeareatimeslicetype.CentrePoint_aimingPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(safealtitudeareatimeslicetype.CentrePoint_aimingPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CentrePoint_aimingPoint = %s", safealtitudeareatimeslicetypeIdent, targetIdent))
+			}
+			if safealtitudeareatimeslicetype.CentrePoint_airportReferencePoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(safealtitudeareatimeslicetype.CentrePoint_airportReferencePoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CentrePoint_airportReferencePoint = %s", safealtitudeareatimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range safealtitudeareatimeslicetype.Sector {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Sector = append(%s.Sector, %s)", safealtitudeareatimeslicetypeIdent, safealtitudeareatimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range safealtitudeareatimeslicetype.Location {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Location = append(%s.Location, %s)", safealtitudeareatimeslicetypeIdent, safealtitudeareatimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range safealtitudeareatimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", safealtitudeareatimeslicetypeIdent, safealtitudeareatimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range safealtitudeareatimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", safealtitudeareatimeslicetypeIdent, safealtitudeareatimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, safealtitudeareatype := range __gong__sortStageSetInstances(stage.SafeAltitudeAreaTypes, stage.SafeAltitudeAreaType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			safealtitudeareatypeIdent := strings.Replace(safealtitudeareatype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.SafeAltitudeAreaType{Name: %s}).Stage(stage)", safealtitudeareatypeIdent, __gong__toRawStringLiteral(safealtitudeareatype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", safealtitudeareatypeIdent, __gong__toRawStringLiteral(safealtitudeareatype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", safealtitudeareatypeIdent, __gong__toRawStringLiteral(safealtitudeareatype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", safealtitudeareatypeIdent, __gong__toRawStringLiteral(safealtitudeareatype.Description)))
+			for _, elem := range safealtitudeareatype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", safealtitudeareatypeIdent, safealtitudeareatypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, sectordesignpropertytype := range __gong__sortStageSetInstances(stage.SectorDesignPropertyTypes, stage.SectorDesignPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			sectordesignpropertytypeIdent := strings.Replace(sectordesignpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.SectorDesignPropertyType{Name: %s}).Stage(stage)", sectordesignpropertytypeIdent, __gong__toRawStringLiteral(sectordesignpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", sectordesignpropertytypeIdent, __gong__toRawStringLiteral(sectordesignpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", sectordesignpropertytypeIdent, __gong__toRawStringLiteral(sectordesignpropertytype.NilReason)))
+			if sectordesignpropertytype.SectorDesign != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(sectordesignpropertytype.SectorDesign.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SectorDesign = %s", sectordesignpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, sectordesigntype := range __gong__sortStageSetInstances(stage.SectorDesignTypes, stage.SectorDesignType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			sectordesigntypeIdent := strings.Replace(sectordesigntype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.SectorDesignType{Name: %s}).Stage(stage)", sectordesigntypeIdent, __gong__toRawStringLiteral(sectordesigntype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", sectordesigntypeIdent, __gong__toRawStringLiteral(sectordesigntype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", sectordesigntypeIdent, __gong__toRawStringLiteral(sectordesigntype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", sectordesigntypeIdent, __gong__toRawStringLiteral(sectordesigntype.Description)))
+			for _, elem := range sectordesigntype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", sectordesigntypeIdent, sectordesigntypeIdent, targetIdent))
+			}
+			for _, elem := range sectordesigntype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", sectordesigntypeIdent, sectordesigntypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, segmentlegpropertytype := range __gong__sortStageSetInstances(stage.SegmentLegPropertyTypes, stage.SegmentLegPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			segmentlegpropertytypeIdent := strings.Replace(segmentlegpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.SegmentLegPropertyType{Name: %s}).Stage(stage)", segmentlegpropertytypeIdent, __gong__toRawStringLiteral(segmentlegpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", segmentlegpropertytypeIdent, __gong__toRawStringLiteral(segmentlegpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", segmentlegpropertytypeIdent, segmentlegpropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", segmentlegpropertytypeIdent, __gong__toRawStringLiteral(segmentlegpropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", segmentlegpropertytypeIdent, __gong__toRawStringLiteral(segmentlegpropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", segmentlegpropertytypeIdent, __gong__toRawStringLiteral(segmentlegpropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", segmentlegpropertytypeIdent, __gong__toRawStringLiteral(segmentlegpropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", segmentlegpropertytypeIdent, __gong__toRawStringLiteral(segmentlegpropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", segmentlegpropertytypeIdent, __gong__toRawStringLiteral(segmentlegpropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", segmentlegpropertytypeIdent, __gong__toRawStringLiteral(segmentlegpropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", segmentlegpropertytypeIdent, __gong__toRawStringLiteral(segmentlegpropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, segmentpointpropertytype := range __gong__sortStageSetInstances(stage.SegmentPointPropertyTypes, stage.SegmentPointPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			segmentpointpropertytypeIdent := strings.Replace(segmentpointpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.SegmentPointPropertyType{Name: %s}).Stage(stage)", segmentpointpropertytypeIdent, __gong__toRawStringLiteral(segmentpointpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", segmentpointpropertytypeIdent, __gong__toRawStringLiteral(segmentpointpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", segmentpointpropertytypeIdent, __gong__toRawStringLiteral(segmentpointpropertytype.NilReason)))
+			if segmentpointpropertytype.AerialRefuellingPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(segmentpointpropertytype.AerialRefuellingPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AerialRefuellingPoint = %s", segmentpointpropertytypeIdent, targetIdent))
+			}
+			if segmentpointpropertytype.EnRouteSegmentPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(segmentpointpropertytype.EnRouteSegmentPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.EnRouteSegmentPoint = %s", segmentpointpropertytypeIdent, targetIdent))
+			}
+			if segmentpointpropertytype.TerminalSegmentPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(segmentpointpropertytype.TerminalSegmentPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TerminalSegmentPoint = %s", segmentpointpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, specialnavigationsystempropertytype := range __gong__sortStageSetInstances(stage.SpecialNavigationSystemPropertyTypes, stage.SpecialNavigationSystemPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			specialnavigationsystempropertytypeIdent := strings.Replace(specialnavigationsystempropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.SpecialNavigationSystemPropertyType{Name: %s}).Stage(stage)", specialnavigationsystempropertytypeIdent, __gong__toRawStringLiteral(specialnavigationsystempropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", specialnavigationsystempropertytypeIdent, __gong__toRawStringLiteral(specialnavigationsystempropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", specialnavigationsystempropertytypeIdent, specialnavigationsystempropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", specialnavigationsystempropertytypeIdent, __gong__toRawStringLiteral(specialnavigationsystempropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", specialnavigationsystempropertytypeIdent, __gong__toRawStringLiteral(specialnavigationsystempropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", specialnavigationsystempropertytypeIdent, __gong__toRawStringLiteral(specialnavigationsystempropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", specialnavigationsystempropertytypeIdent, __gong__toRawStringLiteral(specialnavigationsystempropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", specialnavigationsystempropertytypeIdent, __gong__toRawStringLiteral(specialnavigationsystempropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", specialnavigationsystempropertytypeIdent, __gong__toRawStringLiteral(specialnavigationsystempropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", specialnavigationsystempropertytypeIdent, __gong__toRawStringLiteral(specialnavigationsystempropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", specialnavigationsystempropertytypeIdent, __gong__toRawStringLiteral(specialnavigationsystempropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, standardinstrumentarrivalpropertytype := range __gong__sortStageSetInstances(stage.StandardInstrumentArrivalPropertyTypes, stage.StandardInstrumentArrivalPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			standardinstrumentarrivalpropertytypeIdent := strings.Replace(standardinstrumentarrivalpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.StandardInstrumentArrivalPropertyType{Name: %s}).Stage(stage)", standardinstrumentarrivalpropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivalpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", standardinstrumentarrivalpropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivalpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", standardinstrumentarrivalpropertytypeIdent, standardinstrumentarrivalpropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", standardinstrumentarrivalpropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivalpropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", standardinstrumentarrivalpropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivalpropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", standardinstrumentarrivalpropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivalpropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", standardinstrumentarrivalpropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivalpropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", standardinstrumentarrivalpropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivalpropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", standardinstrumentarrivalpropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivalpropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", standardinstrumentarrivalpropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivalpropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", standardinstrumentarrivalpropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivalpropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, standardinstrumentarrivaltimeslicepropertytype := range __gong__sortStageSetInstances(stage.StandardInstrumentArrivalTimeSlicePropertyTypes, stage.StandardInstrumentArrivalTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			standardinstrumentarrivaltimeslicepropertytypeIdent := strings.Replace(standardinstrumentarrivaltimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.StandardInstrumentArrivalTimeSlicePropertyType{Name: %s}).Stage(stage)", standardinstrumentarrivaltimeslicepropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivaltimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", standardinstrumentarrivaltimeslicepropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivaltimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", standardinstrumentarrivaltimeslicepropertytypeIdent, standardinstrumentarrivaltimeslicepropertytype.Owns))
+			if standardinstrumentarrivaltimeslicepropertytype.StandardInstrumentArrivalTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(standardinstrumentarrivaltimeslicepropertytype.StandardInstrumentArrivalTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StandardInstrumentArrivalTimeSlice = %s", standardinstrumentarrivaltimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, standardinstrumentarrivaltimeslicetype := range __gong__sortStageSetInstances(stage.StandardInstrumentArrivalTimeSliceTypes, stage.StandardInstrumentArrivalTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			standardinstrumentarrivaltimeslicetypeIdent := strings.Replace(standardinstrumentarrivaltimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.StandardInstrumentArrivalTimeSliceType{Name: %s}).Stage(stage)", standardinstrumentarrivaltimeslicetypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivaltimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", standardinstrumentarrivaltimeslicetypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivaltimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", standardinstrumentarrivaltimeslicetypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivaltimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", standardinstrumentarrivaltimeslicetypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivaltimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", standardinstrumentarrivaltimeslicetypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivaltimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", standardinstrumentarrivaltimeslicetypeIdent, standardinstrumentarrivaltimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", standardinstrumentarrivaltimeslicetypeIdent, standardinstrumentarrivaltimeslicetype.CorrectionNumber))
+			for _, elem := range standardinstrumentarrivaltimeslicetype.Availability {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Availability = append(%s.Availability, %s)", standardinstrumentarrivaltimeslicetypeIdent, standardinstrumentarrivaltimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range standardinstrumentarrivaltimeslicetype.AirportHeliport {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AirportHeliport = append(%s.AirportHeliport, %s)", standardinstrumentarrivaltimeslicetypeIdent, standardinstrumentarrivaltimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range standardinstrumentarrivaltimeslicetype.AircraftCharacteristic {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCharacteristic = append(%s.AircraftCharacteristic, %s)", standardinstrumentarrivaltimeslicetypeIdent, standardinstrumentarrivaltimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range standardinstrumentarrivaltimeslicetype.FlightTransition {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FlightTransition = append(%s.FlightTransition, %s)", standardinstrumentarrivaltimeslicetypeIdent, standardinstrumentarrivaltimeslicetypeIdent, targetIdent))
+			}
+			if standardinstrumentarrivaltimeslicetype.GuidanceFacility_specialNavigationSystem != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(standardinstrumentarrivaltimeslicetype.GuidanceFacility_specialNavigationSystem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GuidanceFacility_specialNavigationSystem = %s", standardinstrumentarrivaltimeslicetypeIdent, targetIdent))
+			}
+			if standardinstrumentarrivaltimeslicetype.GuidanceFacility_radar != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(standardinstrumentarrivaltimeslicetype.GuidanceFacility_radar.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GuidanceFacility_radar = %s", standardinstrumentarrivaltimeslicetypeIdent, targetIdent))
+			}
+			if standardinstrumentarrivaltimeslicetype.GuidanceFacility_navaid != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(standardinstrumentarrivaltimeslicetype.GuidanceFacility_navaid.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GuidanceFacility_navaid = %s", standardinstrumentarrivaltimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range standardinstrumentarrivaltimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", standardinstrumentarrivaltimeslicetypeIdent, standardinstrumentarrivaltimeslicetypeIdent, targetIdent))
+			}
+			if standardinstrumentarrivaltimeslicetype.SafeAltitude != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(standardinstrumentarrivaltimeslicetype.SafeAltitude.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SafeAltitude = %s", standardinstrumentarrivaltimeslicetypeIdent, targetIdent))
+			}
+			if standardinstrumentarrivaltimeslicetype.Arrival != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(standardinstrumentarrivaltimeslicetype.Arrival.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Arrival = %s", standardinstrumentarrivaltimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range standardinstrumentarrivaltimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", standardinstrumentarrivaltimeslicetypeIdent, standardinstrumentarrivaltimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, standardinstrumentarrivaltype := range __gong__sortStageSetInstances(stage.StandardInstrumentArrivalTypes, stage.StandardInstrumentArrivalType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			standardinstrumentarrivaltypeIdent := strings.Replace(standardinstrumentarrivaltype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.StandardInstrumentArrivalType{Name: %s}).Stage(stage)", standardinstrumentarrivaltypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivaltype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", standardinstrumentarrivaltypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivaltype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", standardinstrumentarrivaltypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivaltype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", standardinstrumentarrivaltypeIdent, __gong__toRawStringLiteral(standardinstrumentarrivaltype.Description)))
+			for _, elem := range standardinstrumentarrivaltype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", standardinstrumentarrivaltypeIdent, standardinstrumentarrivaltypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, standardinstrumentdeparturepropertytype := range __gong__sortStageSetInstances(stage.StandardInstrumentDeparturePropertyTypes, stage.StandardInstrumentDeparturePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			standardinstrumentdeparturepropertytypeIdent := strings.Replace(standardinstrumentdeparturepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.StandardInstrumentDeparturePropertyType{Name: %s}).Stage(stage)", standardinstrumentdeparturepropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", standardinstrumentdeparturepropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", standardinstrumentdeparturepropertytypeIdent, standardinstrumentdeparturepropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", standardinstrumentdeparturepropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturepropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", standardinstrumentdeparturepropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturepropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", standardinstrumentdeparturepropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturepropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", standardinstrumentdeparturepropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturepropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", standardinstrumentdeparturepropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturepropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", standardinstrumentdeparturepropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturepropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", standardinstrumentdeparturepropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturepropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", standardinstrumentdeparturepropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturepropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, standardinstrumentdeparturetimeslicepropertytype := range __gong__sortStageSetInstances(stage.StandardInstrumentDepartureTimeSlicePropertyTypes, stage.StandardInstrumentDepartureTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			standardinstrumentdeparturetimeslicepropertytypeIdent := strings.Replace(standardinstrumentdeparturetimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.StandardInstrumentDepartureTimeSlicePropertyType{Name: %s}).Stage(stage)", standardinstrumentdeparturetimeslicepropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturetimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", standardinstrumentdeparturetimeslicepropertytypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturetimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", standardinstrumentdeparturetimeslicepropertytypeIdent, standardinstrumentdeparturetimeslicepropertytype.Owns))
+			if standardinstrumentdeparturetimeslicepropertytype.StandardInstrumentDepartureTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(standardinstrumentdeparturetimeslicepropertytype.StandardInstrumentDepartureTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.StandardInstrumentDepartureTimeSlice = %s", standardinstrumentdeparturetimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, standardinstrumentdeparturetimeslicetype := range __gong__sortStageSetInstances(stage.StandardInstrumentDepartureTimeSliceTypes, stage.StandardInstrumentDepartureTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			standardinstrumentdeparturetimeslicetypeIdent := strings.Replace(standardinstrumentdeparturetimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.StandardInstrumentDepartureTimeSliceType{Name: %s}).Stage(stage)", standardinstrumentdeparturetimeslicetypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturetimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", standardinstrumentdeparturetimeslicetypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturetimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", standardinstrumentdeparturetimeslicetypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturetimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", standardinstrumentdeparturetimeslicetypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturetimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", standardinstrumentdeparturetimeslicetypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturetimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", standardinstrumentdeparturetimeslicetypeIdent, standardinstrumentdeparturetimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", standardinstrumentdeparturetimeslicetypeIdent, standardinstrumentdeparturetimeslicetype.CorrectionNumber))
+			for _, elem := range standardinstrumentdeparturetimeslicetype.Availability {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Availability = append(%s.Availability, %s)", standardinstrumentdeparturetimeslicetypeIdent, standardinstrumentdeparturetimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range standardinstrumentdeparturetimeslicetype.AirportHeliport {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AirportHeliport = append(%s.AirportHeliport, %s)", standardinstrumentdeparturetimeslicetypeIdent, standardinstrumentdeparturetimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range standardinstrumentdeparturetimeslicetype.AircraftCharacteristic {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.AircraftCharacteristic = append(%s.AircraftCharacteristic, %s)", standardinstrumentdeparturetimeslicetypeIdent, standardinstrumentdeparturetimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range standardinstrumentdeparturetimeslicetype.FlightTransition {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FlightTransition = append(%s.FlightTransition, %s)", standardinstrumentdeparturetimeslicetypeIdent, standardinstrumentdeparturetimeslicetypeIdent, targetIdent))
+			}
+			if standardinstrumentdeparturetimeslicetype.GuidanceFacility_specialNavigationSystem != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(standardinstrumentdeparturetimeslicetype.GuidanceFacility_specialNavigationSystem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GuidanceFacility_specialNavigationSystem = %s", standardinstrumentdeparturetimeslicetypeIdent, targetIdent))
+			}
+			if standardinstrumentdeparturetimeslicetype.GuidanceFacility_radar != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(standardinstrumentdeparturetimeslicetype.GuidanceFacility_radar.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GuidanceFacility_radar = %s", standardinstrumentdeparturetimeslicetypeIdent, targetIdent))
+			}
+			if standardinstrumentdeparturetimeslicetype.GuidanceFacility_navaid != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(standardinstrumentdeparturetimeslicetype.GuidanceFacility_navaid.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.GuidanceFacility_navaid = %s", standardinstrumentdeparturetimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range standardinstrumentdeparturetimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", standardinstrumentdeparturetimeslicetypeIdent, standardinstrumentdeparturetimeslicetypeIdent, targetIdent))
+			}
+			if standardinstrumentdeparturetimeslicetype.SafeAltitude != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(standardinstrumentdeparturetimeslicetype.SafeAltitude.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SafeAltitude = %s", standardinstrumentdeparturetimeslicetypeIdent, targetIdent))
+			}
+			if standardinstrumentdeparturetimeslicetype.Takeoff != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(standardinstrumentdeparturetimeslicetype.Takeoff.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Takeoff = %s", standardinstrumentdeparturetimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range standardinstrumentdeparturetimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", standardinstrumentdeparturetimeslicetypeIdent, standardinstrumentdeparturetimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, standardinstrumentdeparturetype := range __gong__sortStageSetInstances(stage.StandardInstrumentDepartureTypes, stage.StandardInstrumentDepartureType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			standardinstrumentdeparturetypeIdent := strings.Replace(standardinstrumentdeparturetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.StandardInstrumentDepartureType{Name: %s}).Stage(stage)", standardinstrumentdeparturetypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", standardinstrumentdeparturetypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", standardinstrumentdeparturetypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", standardinstrumentdeparturetypeIdent, __gong__toRawStringLiteral(standardinstrumentdeparturetype.Description)))
+			for _, elem := range standardinstrumentdeparturetype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", standardinstrumentdeparturetypeIdent, standardinstrumentdeparturetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, surfacepropertytype := range __gong__sortStageSetInstances(stage.SurfacePropertyTypes, stage.SurfacePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			surfacepropertytypeIdent := strings.Replace(surfacepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.SurfacePropertyType{Name: %s}).Stage(stage)", surfacepropertytypeIdent, __gong__toRawStringLiteral(surfacepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", surfacepropertytypeIdent, __gong__toRawStringLiteral(surfacepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", surfacepropertytypeIdent, __gong__toRawStringLiteral(surfacepropertytype.NilReason)))
+			if surfacepropertytype.Surface != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(surfacepropertytype.Surface.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Surface = %s", surfacepropertytypeIdent, targetIdent))
+			}
+			if surfacepropertytype.ElevatedSurface != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(surfacepropertytype.ElevatedSurface.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ElevatedSurface = %s", surfacepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, surfacetype := range __gong__sortStageSetInstances(stage.SurfaceTypes, stage.SurfaceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			surfacetypeIdent := strings.Replace(surfacetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.SurfaceType{Name: %s}).Stage(stage)", surfacetypeIdent, __gong__toRawStringLiteral(surfacetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", surfacetypeIdent, __gong__toRawStringLiteral(surfacetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", surfacetypeIdent, __gong__toRawStringLiteral(surfacetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", surfacetypeIdent, __gong__toRawStringLiteral(surfacetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SrsName = %s", surfacetypeIdent, __gong__toRawStringLiteral(surfacetype.SrsName)))
+			for _, elem := range surfacetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", surfacetypeIdent, surfacetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, terminalarrivalareasectorpropertytype := range __gong__sortStageSetInstances(stage.TerminalArrivalAreaSectorPropertyTypes, stage.TerminalArrivalAreaSectorPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			terminalarrivalareasectorpropertytypeIdent := strings.Replace(terminalarrivalareasectorpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TerminalArrivalAreaSectorPropertyType{Name: %s}).Stage(stage)", terminalarrivalareasectorpropertytypeIdent, __gong__toRawStringLiteral(terminalarrivalareasectorpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", terminalarrivalareasectorpropertytypeIdent, __gong__toRawStringLiteral(terminalarrivalareasectorpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", terminalarrivalareasectorpropertytypeIdent, __gong__toRawStringLiteral(terminalarrivalareasectorpropertytype.NilReason)))
+			if terminalarrivalareasectorpropertytype.TerminalArrivalAreaSector != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareasectorpropertytype.TerminalArrivalAreaSector.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TerminalArrivalAreaSector = %s", terminalarrivalareasectorpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, terminalarrivalareasectortype := range __gong__sortStageSetInstances(stage.TerminalArrivalAreaSectorTypes, stage.TerminalArrivalAreaSectorType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			terminalarrivalareasectortypeIdent := strings.Replace(terminalarrivalareasectortype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TerminalArrivalAreaSectorType{Name: %s}).Stage(stage)", terminalarrivalareasectortypeIdent, __gong__toRawStringLiteral(terminalarrivalareasectortype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", terminalarrivalareasectortypeIdent, __gong__toRawStringLiteral(terminalarrivalareasectortype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", terminalarrivalareasectortypeIdent, __gong__toRawStringLiteral(terminalarrivalareasectortype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", terminalarrivalareasectortypeIdent, __gong__toRawStringLiteral(terminalarrivalareasectortype.Description)))
+			if terminalarrivalareasectortype.SectorDefinition != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareasectortype.SectorDefinition.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SectorDefinition = %s", terminalarrivalareasectortypeIdent, targetIdent))
+			}
+			if terminalarrivalareasectortype.Extent != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareasectortype.Extent.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extent = %s", terminalarrivalareasectortypeIdent, targetIdent))
+			}
+			for _, elem := range terminalarrivalareasectortype.SignificantObstacle {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SignificantObstacle = append(%s.SignificantObstacle, %s)", terminalarrivalareasectortypeIdent, terminalarrivalareasectortypeIdent, targetIdent))
+			}
+			for _, elem := range terminalarrivalareasectortype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", terminalarrivalareasectortypeIdent, terminalarrivalareasectortypeIdent, targetIdent))
+			}
+			for _, elem := range terminalarrivalareasectortype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", terminalarrivalareasectortypeIdent, terminalarrivalareasectortypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, terminalarrivalareatimeslicepropertytype := range __gong__sortStageSetInstances(stage.TerminalArrivalAreaTimeSlicePropertyTypes, stage.TerminalArrivalAreaTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			terminalarrivalareatimeslicepropertytypeIdent := strings.Replace(terminalarrivalareatimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TerminalArrivalAreaTimeSlicePropertyType{Name: %s}).Stage(stage)", terminalarrivalareatimeslicepropertytypeIdent, __gong__toRawStringLiteral(terminalarrivalareatimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", terminalarrivalareatimeslicepropertytypeIdent, __gong__toRawStringLiteral(terminalarrivalareatimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", terminalarrivalareatimeslicepropertytypeIdent, terminalarrivalareatimeslicepropertytype.Owns))
+			if terminalarrivalareatimeslicepropertytype.TerminalArrivalAreaTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicepropertytype.TerminalArrivalAreaTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TerminalArrivalAreaTimeSlice = %s", terminalarrivalareatimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, terminalarrivalareatimeslicetype := range __gong__sortStageSetInstances(stage.TerminalArrivalAreaTimeSliceTypes, stage.TerminalArrivalAreaTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			terminalarrivalareatimeslicetypeIdent := strings.Replace(terminalarrivalareatimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TerminalArrivalAreaTimeSliceType{Name: %s}).Stage(stage)", terminalarrivalareatimeslicetypeIdent, __gong__toRawStringLiteral(terminalarrivalareatimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", terminalarrivalareatimeslicetypeIdent, __gong__toRawStringLiteral(terminalarrivalareatimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", terminalarrivalareatimeslicetypeIdent, __gong__toRawStringLiteral(terminalarrivalareatimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", terminalarrivalareatimeslicetypeIdent, __gong__toRawStringLiteral(terminalarrivalareatimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", terminalarrivalareatimeslicetypeIdent, __gong__toRawStringLiteral(terminalarrivalareatimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", terminalarrivalareatimeslicetypeIdent, terminalarrivalareatimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", terminalarrivalareatimeslicetypeIdent, terminalarrivalareatimeslicetype.CorrectionNumber))
+			if terminalarrivalareatimeslicetype.IF_fixDesignatedPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicetype.IF_fixDesignatedPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.IF_fixDesignatedPoint = %s", terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			if terminalarrivalareatimeslicetype.IF_navaidSystem != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicetype.IF_navaidSystem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.IF_navaidSystem = %s", terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			if terminalarrivalareatimeslicetype.IF_position != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicetype.IF_position.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.IF_position = %s", terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			if terminalarrivalareatimeslicetype.IF_runwayPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicetype.IF_runwayPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.IF_runwayPoint = %s", terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			if terminalarrivalareatimeslicetype.IF_aimingPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicetype.IF_aimingPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.IF_aimingPoint = %s", terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			if terminalarrivalareatimeslicetype.IF_airportReferencePoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicetype.IF_airportReferencePoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.IF_airportReferencePoint = %s", terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			if terminalarrivalareatimeslicetype.IAF_fixDesignatedPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicetype.IAF_fixDesignatedPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.IAF_fixDesignatedPoint = %s", terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			if terminalarrivalareatimeslicetype.IAF_navaidSystem != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicetype.IAF_navaidSystem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.IAF_navaidSystem = %s", terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			if terminalarrivalareatimeslicetype.IAF_position != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicetype.IAF_position.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.IAF_position = %s", terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			if terminalarrivalareatimeslicetype.IAF_runwayPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicetype.IAF_runwayPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.IAF_runwayPoint = %s", terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			if terminalarrivalareatimeslicetype.IAF_aimingPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicetype.IAF_aimingPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.IAF_aimingPoint = %s", terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			if terminalarrivalareatimeslicetype.IAF_airportReferencePoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicetype.IAF_airportReferencePoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.IAF_airportReferencePoint = %s", terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			if terminalarrivalareatimeslicetype.Buffer != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicetype.Buffer.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Buffer = %s", terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range terminalarrivalareatimeslicetype.Sector {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Sector = append(%s.Sector, %s)", terminalarrivalareatimeslicetypeIdent, terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			if terminalarrivalareatimeslicetype.ApproachRNAV != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalarrivalareatimeslicetype.ApproachRNAV.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ApproachRNAV = %s", terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range terminalarrivalareatimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", terminalarrivalareatimeslicetypeIdent, terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range terminalarrivalareatimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", terminalarrivalareatimeslicetypeIdent, terminalarrivalareatimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, terminalarrivalareatype := range __gong__sortStageSetInstances(stage.TerminalArrivalAreaTypes, stage.TerminalArrivalAreaType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			terminalarrivalareatypeIdent := strings.Replace(terminalarrivalareatype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TerminalArrivalAreaType{Name: %s}).Stage(stage)", terminalarrivalareatypeIdent, __gong__toRawStringLiteral(terminalarrivalareatype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", terminalarrivalareatypeIdent, __gong__toRawStringLiteral(terminalarrivalareatype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", terminalarrivalareatypeIdent, __gong__toRawStringLiteral(terminalarrivalareatype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", terminalarrivalareatypeIdent, __gong__toRawStringLiteral(terminalarrivalareatype.Description)))
+			for _, elem := range terminalarrivalareatype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", terminalarrivalareatypeIdent, terminalarrivalareatypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, terminalsegmentpointpropertytype := range __gong__sortStageSetInstances(stage.TerminalSegmentPointPropertyTypes, stage.TerminalSegmentPointPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			terminalsegmentpointpropertytypeIdent := strings.Replace(terminalsegmentpointpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TerminalSegmentPointPropertyType{Name: %s}).Stage(stage)", terminalsegmentpointpropertytypeIdent, __gong__toRawStringLiteral(terminalsegmentpointpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", terminalsegmentpointpropertytypeIdent, __gong__toRawStringLiteral(terminalsegmentpointpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", terminalsegmentpointpropertytypeIdent, __gong__toRawStringLiteral(terminalsegmentpointpropertytype.NilReason)))
+			if terminalsegmentpointpropertytype.TerminalSegmentPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalsegmentpointpropertytype.TerminalSegmentPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TerminalSegmentPoint = %s", terminalsegmentpointpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, terminalsegmentpointtype := range __gong__sortStageSetInstances(stage.TerminalSegmentPointTypes, stage.TerminalSegmentPointType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			terminalsegmentpointtypeIdent := strings.Replace(terminalsegmentpointtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TerminalSegmentPointType{Name: %s}).Stage(stage)", terminalsegmentpointtypeIdent, __gong__toRawStringLiteral(terminalsegmentpointtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", terminalsegmentpointtypeIdent, __gong__toRawStringLiteral(terminalsegmentpointtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", terminalsegmentpointtypeIdent, __gong__toRawStringLiteral(terminalsegmentpointtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", terminalsegmentpointtypeIdent, __gong__toRawStringLiteral(terminalsegmentpointtype.Description)))
+			for _, elem := range terminalsegmentpointtype.FacilityMakeup {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.FacilityMakeup = append(%s.FacilityMakeup, %s)", terminalsegmentpointtypeIdent, terminalsegmentpointtypeIdent, targetIdent))
+			}
+			if terminalsegmentpointtype.PointChoice_fixDesignatedPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalsegmentpointtype.PointChoice_fixDesignatedPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_fixDesignatedPoint = %s", terminalsegmentpointtypeIdent, targetIdent))
+			}
+			if terminalsegmentpointtype.PointChoice_navaidSystem != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalsegmentpointtype.PointChoice_navaidSystem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_navaidSystem = %s", terminalsegmentpointtypeIdent, targetIdent))
+			}
+			if terminalsegmentpointtype.PointChoice_position != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalsegmentpointtype.PointChoice_position.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_position = %s", terminalsegmentpointtypeIdent, targetIdent))
+			}
+			if terminalsegmentpointtype.PointChoice_runwayPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalsegmentpointtype.PointChoice_runwayPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_runwayPoint = %s", terminalsegmentpointtypeIdent, targetIdent))
+			}
+			if terminalsegmentpointtype.PointChoice_aimingPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalsegmentpointtype.PointChoice_aimingPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_aimingPoint = %s", terminalsegmentpointtypeIdent, targetIdent))
+			}
+			if terminalsegmentpointtype.PointChoice_airportReferencePoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalsegmentpointtype.PointChoice_airportReferencePoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.PointChoice_airportReferencePoint = %s", terminalsegmentpointtypeIdent, targetIdent))
+			}
+			if terminalsegmentpointtype.ExtendedServiceVolume != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(terminalsegmentpointtype.ExtendedServiceVolume.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.ExtendedServiceVolume = %s", terminalsegmentpointtypeIdent, targetIdent))
+			}
+			for _, elem := range terminalsegmentpointtype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", terminalsegmentpointtypeIdent, terminalsegmentpointtypeIdent, targetIdent))
+			}
+			for _, elem := range terminalsegmentpointtype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", terminalsegmentpointtypeIdent, terminalsegmentpointtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, timesheetpropertytype := range __gong__sortStageSetInstances(stage.TimesheetPropertyTypes, stage.TimesheetPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			timesheetpropertytypeIdent := strings.Replace(timesheetpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TimesheetPropertyType{Name: %s}).Stage(stage)", timesheetpropertytypeIdent, __gong__toRawStringLiteral(timesheetpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", timesheetpropertytypeIdent, __gong__toRawStringLiteral(timesheetpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", timesheetpropertytypeIdent, __gong__toRawStringLiteral(timesheetpropertytype.NilReason)))
+			if timesheetpropertytype.Timesheet != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(timesheetpropertytype.Timesheet.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Timesheet = %s", timesheetpropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, timesheettype := range __gong__sortStageSetInstances(stage.TimesheetTypes, stage.TimesheetType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			timesheettypeIdent := strings.Replace(timesheettype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TimesheetType{Name: %s}).Stage(stage)", timesheettypeIdent, __gong__toRawStringLiteral(timesheettype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", timesheettypeIdent, __gong__toRawStringLiteral(timesheettype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", timesheettypeIdent, __gong__toRawStringLiteral(timesheettype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", timesheettypeIdent, __gong__toRawStringLiteral(timesheettype.Description)))
+			for _, elem := range timesheettype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", timesheettypeIdent, timesheettypeIdent, targetIdent))
+			}
+			for _, elem := range timesheettype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", timesheettypeIdent, timesheettypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, touchdownliftoffpropertytype := range __gong__sortStageSetInstances(stage.TouchDownLiftOffPropertyTypes, stage.TouchDownLiftOffPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			touchdownliftoffpropertytypeIdent := strings.Replace(touchdownliftoffpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.TouchDownLiftOffPropertyType{Name: %s}).Stage(stage)", touchdownliftoffpropertytypeIdent, __gong__toRawStringLiteral(touchdownliftoffpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", touchdownliftoffpropertytypeIdent, __gong__toRawStringLiteral(touchdownliftoffpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", touchdownliftoffpropertytypeIdent, touchdownliftoffpropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", touchdownliftoffpropertytypeIdent, __gong__toRawStringLiteral(touchdownliftoffpropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", touchdownliftoffpropertytypeIdent, __gong__toRawStringLiteral(touchdownliftoffpropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", touchdownliftoffpropertytypeIdent, __gong__toRawStringLiteral(touchdownliftoffpropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", touchdownliftoffpropertytypeIdent, __gong__toRawStringLiteral(touchdownliftoffpropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", touchdownliftoffpropertytypeIdent, __gong__toRawStringLiteral(touchdownliftoffpropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", touchdownliftoffpropertytypeIdent, __gong__toRawStringLiteral(touchdownliftoffpropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", touchdownliftoffpropertytypeIdent, __gong__toRawStringLiteral(touchdownliftoffpropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", touchdownliftoffpropertytypeIdent, __gong__toRawStringLiteral(touchdownliftoffpropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, unplannedholdingpropertytype := range __gong__sortStageSetInstances(stage.UnplannedHoldingPropertyTypes, stage.UnplannedHoldingPropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			unplannedholdingpropertytypeIdent := strings.Replace(unplannedholdingpropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.UnplannedHoldingPropertyType{Name: %s}).Stage(stage)", unplannedholdingpropertytypeIdent, __gong__toRawStringLiteral(unplannedholdingpropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", unplannedholdingpropertytypeIdent, __gong__toRawStringLiteral(unplannedholdingpropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", unplannedholdingpropertytypeIdent, unplannedholdingpropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", unplannedholdingpropertytypeIdent, __gong__toRawStringLiteral(unplannedholdingpropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", unplannedholdingpropertytypeIdent, __gong__toRawStringLiteral(unplannedholdingpropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", unplannedholdingpropertytypeIdent, __gong__toRawStringLiteral(unplannedholdingpropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", unplannedholdingpropertytypeIdent, __gong__toRawStringLiteral(unplannedholdingpropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", unplannedholdingpropertytypeIdent, __gong__toRawStringLiteral(unplannedholdingpropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", unplannedholdingpropertytypeIdent, __gong__toRawStringLiteral(unplannedholdingpropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", unplannedholdingpropertytypeIdent, __gong__toRawStringLiteral(unplannedholdingpropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", unplannedholdingpropertytypeIdent, __gong__toRawStringLiteral(unplannedholdingpropertytype.Actuate)))
+		}
+	}
+	if stage != nil {
+		for _, unplannedholdingtimeslicepropertytype := range __gong__sortStageSetInstances(stage.UnplannedHoldingTimeSlicePropertyTypes, stage.UnplannedHoldingTimeSlicePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			unplannedholdingtimeslicepropertytypeIdent := strings.Replace(unplannedholdingtimeslicepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.UnplannedHoldingTimeSlicePropertyType{Name: %s}).Stage(stage)", unplannedholdingtimeslicepropertytypeIdent, __gong__toRawStringLiteral(unplannedholdingtimeslicepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", unplannedholdingtimeslicepropertytypeIdent, __gong__toRawStringLiteral(unplannedholdingtimeslicepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", unplannedholdingtimeslicepropertytypeIdent, unplannedholdingtimeslicepropertytype.Owns))
+			if unplannedholdingtimeslicepropertytype.UnplannedHoldingTimeSlice != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(unplannedholdingtimeslicepropertytype.UnplannedHoldingTimeSlice.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.UnplannedHoldingTimeSlice = %s", unplannedholdingtimeslicepropertytypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, unplannedholdingtimeslicetype := range __gong__sortStageSetInstances(stage.UnplannedHoldingTimeSliceTypes, stage.UnplannedHoldingTimeSliceType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			unplannedholdingtimeslicetypeIdent := strings.Replace(unplannedholdingtimeslicetype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.UnplannedHoldingTimeSliceType{Name: %s}).Stage(stage)", unplannedholdingtimeslicetypeIdent, __gong__toRawStringLiteral(unplannedholdingtimeslicetype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", unplannedholdingtimeslicetypeIdent, __gong__toRawStringLiteral(unplannedholdingtimeslicetype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", unplannedholdingtimeslicetypeIdent, __gong__toRawStringLiteral(unplannedholdingtimeslicetype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", unplannedholdingtimeslicetypeIdent, __gong__toRawStringLiteral(unplannedholdingtimeslicetype.Description)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Interpretation = %s", unplannedholdingtimeslicetypeIdent, __gong__toRawStringLiteral(unplannedholdingtimeslicetype.Interpretation)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SequenceNumber = %d", unplannedholdingtimeslicetypeIdent, unplannedholdingtimeslicetype.SequenceNumber))
+			values.WriteString(fmt.Sprintf("\n\t%s.CorrectionNumber = %d", unplannedholdingtimeslicetypeIdent, unplannedholdingtimeslicetype.CorrectionNumber))
+			if unplannedholdingtimeslicetype.HoldingPoint != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(unplannedholdingtimeslicetype.HoldingPoint.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.HoldingPoint = %s", unplannedholdingtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range unplannedholdingtimeslicetype.Annotation {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Annotation = append(%s.Annotation, %s)", unplannedholdingtimeslicetypeIdent, unplannedholdingtimeslicetypeIdent, targetIdent))
+			}
+			for _, elem := range unplannedholdingtimeslicetype.Extension {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Extension = append(%s.Extension, %s)", unplannedholdingtimeslicetypeIdent, unplannedholdingtimeslicetypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, unplannedholdingtype := range __gong__sortStageSetInstances(stage.UnplannedHoldingTypes, stage.UnplannedHoldingType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			unplannedholdingtypeIdent := strings.Replace(unplannedholdingtype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.UnplannedHoldingType{Name: %s}).Stage(stage)", unplannedholdingtypeIdent, __gong__toRawStringLiteral(unplannedholdingtype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", unplannedholdingtypeIdent, __gong__toRawStringLiteral(unplannedholdingtype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Id = %s", unplannedholdingtypeIdent, __gong__toRawStringLiteral(unplannedholdingtype.Id)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Description = %s", unplannedholdingtypeIdent, __gong__toRawStringLiteral(unplannedholdingtype.Description)))
+			for _, elem := range unplannedholdingtype.TimeSlice {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.TimeSlice = append(%s.TimeSlice, %s)", unplannedholdingtypeIdent, unplannedholdingtypeIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, verticalstructurepropertytype := range __gong__sortStageSetInstances(stage.VerticalStructurePropertyTypes, stage.VerticalStructurePropertyType_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			verticalstructurepropertytypeIdent := strings.Replace(verticalstructurepropertytype.GongGetIdentifier(stage), "__aixmfeatures__", "__procedure__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&procedure.VerticalStructurePropertyType{Name: %s}).Stage(stage)", verticalstructurepropertytypeIdent, __gong__toRawStringLiteral(verticalstructurepropertytype.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", verticalstructurepropertytypeIdent, __gong__toRawStringLiteral(verticalstructurepropertytype.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Owns = %t", verticalstructurepropertytypeIdent, verticalstructurepropertytype.Owns))
+			values.WriteString(fmt.Sprintf("\n\t%s.NilReason = %s", verticalstructurepropertytypeIdent, __gong__toRawStringLiteral(verticalstructurepropertytype.NilReason)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Type_XSD = %s", verticalstructurepropertytypeIdent, __gong__toRawStringLiteral(verticalstructurepropertytype.Type_XSD)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Href = %s", verticalstructurepropertytypeIdent, __gong__toRawStringLiteral(verticalstructurepropertytype.Href)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Role = %s", verticalstructurepropertytypeIdent, __gong__toRawStringLiteral(verticalstructurepropertytype.Role)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Arcrole = %s", verticalstructurepropertytypeIdent, __gong__toRawStringLiteral(verticalstructurepropertytype.Arcrole)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Title = %s", verticalstructurepropertytypeIdent, __gong__toRawStringLiteral(verticalstructurepropertytype.Title)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Show = %s", verticalstructurepropertytypeIdent, __gong__toRawStringLiteral(verticalstructurepropertytype.Show)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Actuate = %s", verticalstructurepropertytypeIdent, __gong__toRawStringLiteral(verticalstructurepropertytype.Actuate)))
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	procedure "github.com/fullstack-lang/gong/app/xsd/tests/aixm/procedure/go/models/aixmfeatures"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *procedure.Stage
+)%s
+
+// StageProcedure stages objects into stage
+func StageProcedure(stage *procedure.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }

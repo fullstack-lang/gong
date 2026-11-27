@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
+
+	gong_runtime "github.com/fullstack-lang/gong/pkg/runtime"
 )
 
 var (
+	_ = filepath.Join
 	_ = sort.Slice
 	_ = time.Hour
+	_ = gong_runtime.IsDirectoryPath
 )
 
 const GongIdentifiersDecls = `
@@ -148,6 +153,12 @@ func __gong__sortStageSetInstances[T comparable](instances map[T]struct{}, order
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename string, args ...string) {
+	if gong_runtime.IsDirectoryPath(filename) {
+		if err := stage.MarshallDirectory(filename); err != nil {
+			log.Fatal(err.Error())
+		}
+		return
+	}
 
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
@@ -737,6 +748,450 @@ func _(stage *models.Stage) {
 	if modelsPackageName != "" && modelsPackageName != "github.com/fullstack-lang/gong/lib/table/go/models" {
 		res = strings.ReplaceAll(res, "\"github.com/fullstack-lang/gong/lib/table/go/models\"", fmt.Sprintf("%q", modelsPackageName))
 	}
+
+	return res, nil
+}
+
+// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
+// containing go.mod and stage_table.go exposing StageTable.
+func (stage *Stage) MarshallDirectory(dirPath string) error {
+	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "github.com/fullstack-lang/gong")
+	if err != nil {
+		return err
+	}
+
+	code, err := stage.MarshallToDirectoryString("data")
+	if err != nil {
+		return err
+	}
+
+	stageFilePath := filepath.Join(dirPath, "stage_table.go")
+	if err := os.WriteFile(stageFilePath, []byte(code), 0644); err != nil {
+		return err
+	}
+
+	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	return nil
+}
+
+// MarshallToDirectoryString marshals the stage content into a Go source file string
+// suitable for directory-based module persistence (exposing StageTable).
+func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, err error) {
+	if packageName == "" {
+		packageName = "data"
+	}
+
+	var declarations strings.Builder
+	var values strings.Builder
+	var pointers strings.Builder
+	var lastStageDecl string
+	var lastStageVal string
+	var lastStagePtr string
+	_ = lastStageDecl
+	_ = lastStageVal
+	_ = lastStagePtr
+
+	if stage != nil {
+		for _, button := range __gong__sortStageSetInstances(stage.Buttons, stage.Button_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			buttonIdent := strings.Replace(button.GongGetIdentifier(stage), "__models__", "__table__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&table.Button{Name: %s}).Stage(stage)", buttonIdent, __gong__toRawStringLiteral(button.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", buttonIdent, __gong__toRawStringLiteral(button.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Icon = %s", buttonIdent, __gong__toRawStringLiteral(button.Icon)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsDisabled = %t", buttonIdent, button.IsDisabled))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasToolTip = %t", buttonIdent, button.HasToolTip))
+			values.WriteString(fmt.Sprintf("\n\t%s.ToolTipText = %s", buttonIdent, __gong__toRawStringLiteral(button.ToolTipText)))
+			if button.ToolTipPosition.ToCodeString() != "" {
+				values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = table.%s", buttonIdent, button.ToolTipPosition.ToCodeString()))
+			} else {
+				values.WriteString(fmt.Sprintf("\n\t%s.ToolTipPosition = \"\"", buttonIdent))
+			}
+			if button.SVGIcon != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(button.SVGIcon.GongGetIdentifier(stage), "__models__", "__table__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.SVGIcon = %s", buttonIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, cell := range __gong__sortStageSetInstances(stage.Cells, stage.Cell_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cellIdent := strings.Replace(cell.GongGetIdentifier(stage), "__models__", "__table__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&table.Cell{Name: %s}).Stage(stage)", cellIdent, __gong__toRawStringLiteral(cell.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cellIdent, __gong__toRawStringLiteral(cell.Name)))
+			if cell.CellString != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(cell.CellString.GongGetIdentifier(stage), "__models__", "__table__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CellString = %s", cellIdent, targetIdent))
+			}
+			if cell.CellFloat64 != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(cell.CellFloat64.GongGetIdentifier(stage), "__models__", "__table__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CellFloat64 = %s", cellIdent, targetIdent))
+			}
+			if cell.CellInt != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(cell.CellInt.GongGetIdentifier(stage), "__models__", "__table__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CellInt = %s", cellIdent, targetIdent))
+			}
+			if cell.CellBool != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(cell.CellBool.GongGetIdentifier(stage), "__models__", "__table__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CellBool = %s", cellIdent, targetIdent))
+			}
+			if cell.CellIcon != nil {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(cell.CellIcon.GongGetIdentifier(stage), "__models__", "__table__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.CellIcon = %s", cellIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, cellboolean := range __gong__sortStageSetInstances(stage.CellBooleans, stage.CellBoolean_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cellbooleanIdent := strings.Replace(cellboolean.GongGetIdentifier(stage), "__models__", "__table__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&table.CellBoolean{Name: %s}).Stage(stage)", cellbooleanIdent, __gong__toRawStringLiteral(cellboolean.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cellbooleanIdent, __gong__toRawStringLiteral(cellboolean.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %t", cellbooleanIdent, cellboolean.Value))
+		}
+	}
+	if stage != nil {
+		for _, cellfloat64 := range __gong__sortStageSetInstances(stage.CellFloat64s, stage.CellFloat64_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cellfloat64Ident := strings.Replace(cellfloat64.GongGetIdentifier(stage), "__models__", "__table__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&table.CellFloat64{Name: %s}).Stage(stage)", cellfloat64Ident, __gong__toRawStringLiteral(cellfloat64.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cellfloat64Ident, __gong__toRawStringLiteral(cellfloat64.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %f", cellfloat64Ident, cellfloat64.Value))
+		}
+	}
+	if stage != nil {
+		for _, cellicon := range __gong__sortStageSetInstances(stage.CellIcons, stage.CellIcon_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			celliconIdent := strings.Replace(cellicon.GongGetIdentifier(stage), "__models__", "__table__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&table.CellIcon{Name: %s}).Stage(stage)", celliconIdent, __gong__toRawStringLiteral(cellicon.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", celliconIdent, __gong__toRawStringLiteral(cellicon.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Icon = %s", celliconIdent, __gong__toRawStringLiteral(cellicon.Icon)))
+			values.WriteString(fmt.Sprintf("\n\t%s.NeedsConfirmation = %t", celliconIdent, cellicon.NeedsConfirmation))
+			values.WriteString(fmt.Sprintf("\n\t%s.ConfirmationMessage = %s", celliconIdent, __gong__toRawStringLiteral(cellicon.ConfirmationMessage)))
+		}
+	}
+	if stage != nil {
+		for _, cellint := range __gong__sortStageSetInstances(stage.CellInts, stage.CellInt_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cellintIdent := strings.Replace(cellint.GongGetIdentifier(stage), "__models__", "__table__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&table.CellInt{Name: %s}).Stage(stage)", cellintIdent, __gong__toRawStringLiteral(cellint.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cellintIdent, __gong__toRawStringLiteral(cellint.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %d", cellintIdent, cellint.Value))
+		}
+	}
+	if stage != nil {
+		for _, cellstring := range __gong__sortStageSetInstances(stage.CellStrings, stage.CellString_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			cellstringIdent := strings.Replace(cellstring.GongGetIdentifier(stage), "__models__", "__table__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&table.CellString{Name: %s}).Stage(stage)", cellstringIdent, __gong__toRawStringLiteral(cellstring.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", cellstringIdent, __gong__toRawStringLiteral(cellstring.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.Value = %s", cellstringIdent, __gong__toRawStringLiteral(cellstring.Value)))
+		}
+	}
+	if stage != nil {
+		for _, displayedcolumn := range __gong__sortStageSetInstances(stage.DisplayedColumns, stage.DisplayedColumn_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			displayedcolumnIdent := strings.Replace(displayedcolumn.GongGetIdentifier(stage), "__models__", "__table__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&table.DisplayedColumn{Name: %s}).Stage(stage)", displayedcolumnIdent, __gong__toRawStringLiteral(displayedcolumn.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", displayedcolumnIdent, __gong__toRawStringLiteral(displayedcolumn.Name)))
+		}
+	}
+	if stage != nil {
+		for _, row := range __gong__sortStageSetInstances(stage.Rows, stage.Row_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			rowIdent := strings.Replace(row.GongGetIdentifier(stage), "__models__", "__table__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&table.Row{Name: %s}).Stage(stage)", rowIdent, __gong__toRawStringLiteral(row.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", rowIdent, __gong__toRawStringLiteral(row.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsChecked = %t", rowIdent, row.IsChecked))
+			for _, elem := range row.Cells {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__table__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Cells = append(%s.Cells, %s)", rowIdent, rowIdent, targetIdent))
+			}
+		}
+	}
+	if stage != nil {
+		for _, svgicon := range __gong__sortStageSetInstances(stage.SVGIcons, stage.SVGIcon_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			svgiconIdent := strings.Replace(svgicon.GongGetIdentifier(stage), "__models__", "__table__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&table.SVGIcon{Name: %s}).Stage(stage)", svgiconIdent, __gong__toRawStringLiteral(svgicon.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", svgiconIdent, __gong__toRawStringLiteral(svgicon.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.SVG = %s", svgiconIdent, __gong__toRawStringLiteral(svgicon.SVG)))
+		}
+	}
+	if stage != nil {
+		for _, table := range __gong__sortStageSetInstances(stage.Tables, stage.Table_stagedOrder) {
+			if lastStageDecl != "Stage" {
+				if declarations.Len() > 0 {
+					declarations.WriteString("\n")
+				}
+				lastStageDecl = "Stage"
+			}
+			tableIdent := strings.Replace(table.GongGetIdentifier(stage), "__models__", "__table__", 1)
+			declarations.WriteString(fmt.Sprintf("\n\t%s := (&table.Table{Name: %s}).Stage(stage)", tableIdent, __gong__toRawStringLiteral(table.Name)))
+			if lastStageVal != "Stage" {
+				if values.Len() > 0 {
+					values.WriteString("\n")
+				}
+				lastStageVal = "Stage"
+			}
+			values.WriteString(fmt.Sprintf("\n\t%s.Name = %s", tableIdent, __gong__toRawStringLiteral(table.Name)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasFiltering = %t", tableIdent, table.HasFiltering))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasColumnSorting = %t", tableIdent, table.HasColumnSorting))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasPaginator = %t", tableIdent, table.HasPaginator))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasCheckableRows = %t", tableIdent, table.HasCheckableRows))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasSaveButton = %t", tableIdent, table.HasSaveButton))
+			values.WriteString(fmt.Sprintf("\n\t%s.SaveButtonLabel = %s", tableIdent, __gong__toRawStringLiteral(table.SaveButtonLabel)))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasBulkDeleteButton = %t", tableIdent, table.HasBulkDeleteButton))
+			values.WriteString(fmt.Sprintf("\n\t%s.BulkDeleteButtonTooltip = %s", tableIdent, __gong__toRawStringLiteral(table.BulkDeleteButtonTooltip)))
+			values.WriteString(fmt.Sprintf("\n\t%s.CanDragDropRows = %t", tableIdent, table.CanDragDropRows))
+			values.WriteString(fmt.Sprintf("\n\t%s.HasCloseButton = %t", tableIdent, table.HasCloseButton))
+			values.WriteString(fmt.Sprintf("\n\t%s.SavingInProgress = %t", tableIdent, table.SavingInProgress))
+			values.WriteString(fmt.Sprintf("\n\t%s.NbOfStickyColumns = %d", tableIdent, table.NbOfStickyColumns))
+			for _, elem := range table.DisplayedColumns {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__table__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.DisplayedColumns = append(%s.DisplayedColumns, %s)", tableIdent, tableIdent, targetIdent))
+			}
+			for _, elem := range table.Rows {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__table__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Rows = append(%s.Rows, %s)", tableIdent, tableIdent, targetIdent))
+			}
+			for _, elem := range table.RowsSelectedForBulkDelete {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__table__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.RowsSelectedForBulkDelete = append(%s.RowsSelectedForBulkDelete, %s)", tableIdent, tableIdent, targetIdent))
+			}
+			for _, elem := range table.Buttons {
+				if lastStagePtr != "Stage" {
+					if pointers.Len() > 0 {
+						pointers.WriteString("\n")
+					}
+					lastStagePtr = "Stage"
+				}
+				targetIdent := strings.Replace(elem.GongGetIdentifier(stage), "__models__", "__table__", 1)
+				pointers.WriteString(fmt.Sprintf("\n\t%s.Buttons = append(%s.Buttons, %s)", tableIdent, tableIdent, targetIdent))
+			}
+		}
+	}
+
+	var goModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		goModuleVersion = buildInfo.Main.Version
+	}
+
+	var metaImports strings.Builder
+	var metaDummies strings.Builder
+	if len(stage.MetaPackageImports) > 0 {
+		for _, imp := range stage.MetaPackageImports {
+			metaImports.WriteString(fmt.Sprintf("\n\t%s %s", imp.Alias, imp.Path))
+			metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", imp.Alias))
+		}
+	} else if stage.MetaPackageImportAlias != "" {
+		metaImports.WriteString(fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+		metaDummies.WriteString(fmt.Sprintf("\nvar _ %s.Stage", stage.MetaPackageImportAlias))
+	}
+
+	res = fmt.Sprintf(`// file generated by gong
+// go module version: %s
+package %s
+
+import (
+	"slices"
+	"time"
+
+	table "github.com/fullstack-lang/gong/lib/table/go/models"%s
+)
+
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+
+	_ *table.Stage
+)%s
+
+// StageTable stages objects into stage
+func StageTable(stage *table.Stage) {
+
+	// ------------------------------------------------------------------------
+	// Phase 1: Declarations (in topological order: leaves first)
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 2: Value Initializations
+	// ------------------------------------------------------------------------%s
+
+	// ------------------------------------------------------------------------
+	// Phase 3: Pointer Setups (Intra-stage and Cross-stage pointers)
+	// ------------------------------------------------------------------------%s
+}
+`, goModuleVersion, packageName, metaImports.String(), metaDummies.String(), declarations.String(), values.String(), pointers.String())
 
 	return res, nil
 }
