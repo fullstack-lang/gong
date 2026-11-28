@@ -509,37 +509,18 @@ func buildSeatAndLegsGeom(
 	return geom
 }
 
-func ComputeStoolGeometries(
+type legacyStoolCurves struct {
+	rotSeatBottomPoints      []*threejs.Vector3
+	projSeatBottomEyePoints  []*threejs.Vector3
+	projStoolBottomEyePoints []*threejs.Vector3
+	seatBottomHeight         float64
+}
+
+func computeLegacyStoolCurves(
 	stage *threejs.Stage,
-	stager *models.Stager,
 	plant *models.PlantAbstract,
-) *StoolGeometriesResult {
-	if plant == nil || plant.PlantType != models.Stool || plant.StoolAbstract == nil {
-		return nil
-	}
-
-	if stage == nil {
-		stage = threejs.NewStage("stool_computation")
-	}
-
-	params := cylinder.Cylinder3DParams{
-		NamePrefix:            "Stool",
-		CanvasName:            "Stool 3D Canvas",
-		RadialRepetitions:     plant.StoolAbstract.RadialRepetitions,
-		Transparency:          plant.StoolAbstract.Transparency,
-		RelativeTubeDiameter:  plant.StoolAbstract.RelativeTubeDiameter,
-		RelativeHeight3DTorus: plant.StoolAbstract.RelativeHeight3DTorus,
-		VerticalScale:         plant.StoolAbstract.StoolTorusVerticalScale,
-		RelativeHeight:        plant.StoolAbstract.RelativeHeight,
-		ProjectionAngle:       plant.StoolAbstract.ProjectionAngle,
-		HasRotatedShapes:      true,
-	}
-
-	base := cylinder.RenderCylinder3DBase(stage, stager, plant, params)
-	if base == nil || base.ResampledBaseCurve == nil || plant.StartArcShapeGrid == nil || len(plant.StartArcShapeGrid.StartArcShapes) == 0 {
-		return nil
-	}
-
+	base *cylinder.Cylinder3DBaseResult,
+) *legacyStoolCurves {
 	resampledBaseCurve := base.ResampledBaseCurve
 	radialRepetitions := base.RadialRepetitions
 	globalR := base.GlobalR
@@ -551,7 +532,6 @@ func ComputeStoolGeometries(
 	vertScale := base.VertScale
 	expectedDegrees := base.ExpectedDegrees
 	targetAngles := base.TargetAngles
-	rotSeatTopPoints := base.RotTopPoints
 
 	seatThickness := plant.StoolAbstract.RelativeSeatThickness * plant.RhombusSideLength
 	seatBottomHeight := stoolTopHeight - seatThickness
@@ -772,7 +752,6 @@ func ComputeStoolGeometries(
 
 	var eye3DPoints []*threejs.Vector3
 	if iStart != -1 && iEnd != -1 {
-		// A. Bottom curve: from iStart to iEnd
 		for i := iStart; i <= iEnd; i++ {
 			alpha := targetAngles[i]
 			x := globalR * math.Cos(alpha)
@@ -784,11 +763,7 @@ func ComputeStoolGeometries(
 				Z:    z,
 			}).Stage(stage))
 		}
-
-		// B. Right corner Bézier: Bottom -> Top
 		eye3DPoints = append(eye3DPoints, rightCornerPts...)
-
-		// C. Top curve: from iEnd down to iStart (reversed)
 		for i := iEnd; i >= iStart; i-- {
 			alpha := targetAngles[i]
 			x := globalR * math.Cos(alpha)
@@ -800,8 +775,6 @@ func ComputeStoolGeometries(
 				Z:    z,
 			}).Stage(stage))
 		}
-
-		// D. Left corner Bézier: Top -> Bottom
 		eye3DPoints = append(eye3DPoints, leftCornerPts...)
 	}
 
@@ -834,9 +807,76 @@ func ComputeStoolGeometries(
 		}
 	}
 
-	seatGeom := buildSeatGeom(stage, "Stool Seat", 0.0, 0.0, rotSeatTopPoints, rotSeatBottomPoints, stoolTopHeight, seatBottomHeight)
-	legsGeom := buildLegsGeom(stage, "Stool Legs", 0.0, 0.0, projSeatBottomEyePoints, projStoolBottomEyePoints, seatBottomHeight, radialRepetitions)
-	combinedGeom := buildSeatAndLegsGeom(stage, "Stool Seat and Legs", 0.0, 0.0, rotSeatTopPoints, rotSeatBottomPoints, stoolTopHeight, seatBottomHeight, projSeatBottomEyePoints, projStoolBottomEyePoints, radialRepetitions)
+	return &legacyStoolCurves{
+		rotSeatBottomPoints:      rotSeatBottomPoints,
+		projSeatBottomEyePoints:  projSeatBottomEyePoints,
+		projStoolBottomEyePoints: projStoolBottomEyePoints,
+		seatBottomHeight:         seatBottomHeight,
+	}
+}
+
+func ComputeStoolGeometries(
+	stage *threejs.Stage,
+	stager *models.Stager,
+	plant *models.PlantAbstract,
+) *StoolGeometriesResult {
+	if plant == nil || plant.PlantType != models.Stool || plant.StoolAbstract == nil {
+		return nil
+	}
+
+	if stage == nil {
+		stage = threejs.NewStage("stool_computation")
+	}
+
+	params := cylinder.Cylinder3DParams{
+		NamePrefix:            "Stool",
+		CanvasName:            "Stool 3D Canvas",
+		RadialRepetitions:     plant.StoolAbstract.RadialRepetitions,
+		Transparency:          plant.StoolAbstract.Transparency,
+		RelativeTubeDiameter:  plant.StoolAbstract.RelativeTubeDiameter,
+		RelativeHeight3DTorus: plant.StoolAbstract.RelativeHeight3DTorus,
+		VerticalScale:         plant.StoolAbstract.StoolTorusVerticalScale,
+		RelativeHeight:        plant.StoolAbstract.RelativeHeight,
+		ProjectionAngle:       plant.StoolAbstract.ProjectionAngle,
+		HasRotatedShapes:      true,
+	}
+
+	base := cylinder.RenderCylinder3DBase(stage, stager, plant, params)
+	if base == nil || base.ResampledBaseCurve == nil || plant.StartArcShapeGrid == nil || len(plant.StartArcShapeGrid.StartArcShapes) == 0 {
+		return nil
+	}
+
+	if plant.StoolAbstract.IsGrasshopperMode {
+		ghRes := computeGrasshopperContours(
+			stage,
+			plant,
+			base.ResampledBaseCurve,
+			base.RadialRepetitions,
+			base.GlobalR,
+			base.TopHeight,
+			base.TorusHeight,
+			base.GrowthVectorX,
+			base.GrowthVectorY,
+			base.ProjAngleRad,
+			base.ExpectedDegrees,
+		)
+		if ghRes == nil {
+			return nil
+		}
+		seatGeom := buildGrasshopperSeatGeom(stage, "Stool Seat", ghRes, 0.0, 0.0)
+		legsGeom := buildGrasshopperLegsGeom(stage, "Stool Legs", ghRes, 0.0, 0.0)
+		combinedGeom := buildGrasshopperSeatAndLegsGeom(stage, "Stool Seat and Legs", ghRes, 0.0, 0.0)
+		return &StoolGeometriesResult{
+			SeatGeom:     seatGeom,
+			LegsGeom:     legsGeom,
+			CombinedGeom: combinedGeom,
+		}
+	}
+
+	legacy := computeLegacyStoolCurves(stage, plant, base)
+	seatGeom := buildSeatGeom(stage, "Stool Seat", 0.0, 0.0, base.RotTopPoints, legacy.rotSeatBottomPoints, base.TopHeight, legacy.seatBottomHeight)
+	legsGeom := buildLegsGeom(stage, "Stool Legs", 0.0, 0.0, legacy.projSeatBottomEyePoints, legacy.projStoolBottomEyePoints, legacy.seatBottomHeight, base.RadialRepetitions)
+	combinedGeom := buildSeatAndLegsGeom(stage, "Stool Seat and Legs", 0.0, 0.0, base.RotTopPoints, legacy.rotSeatBottomPoints, base.TopHeight, legacy.seatBottomHeight, legacy.projSeatBottomEyePoints, legacy.projStoolBottomEyePoints, base.RadialRepetitions)
 
 	return &StoolGeometriesResult{
 		SeatGeom:     seatGeom,

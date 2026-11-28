@@ -258,9 +258,17 @@ func (stager *Stager) ux_slider_stool() {
 	)
 
 	form.StartAccordion(stager.sliderStoolStage, formGroup, "Seat & Eye", true)
-	form.AppendSlider(stager.sliderStoolStage, formGroup, "Rel Seat Thickness", 0.01, 1.0, 0.01, &plant.StoolAbstract.RelativeSeatThickness, onUpdate)
-	form.AppendSlider(stager.sliderStoolStage, formGroup, "Rel Eye Separation", 0.0, 0.5, 0.005, &plant.StoolAbstract.RelativeEyeSeparationCriteria, onUpdate)
-	form.AppendSlider(stager.sliderStoolStage, formGroup, "Rel Eye Corner Strength", 0.0, 2.0, 0.01, &plant.StoolAbstract.RelativeEyeCornerControlVectorStrength, onUpdate)
+	form.AppendCheckBox(stager.sliderStoolStage, formGroup, "Grasshopper Mode", &plant.StoolAbstract.IsGrasshopperMode, onUpdate)
+	if plant.StoolAbstract.IsGrasshopperMode {
+		form.AppendSlider(stager.sliderStoolStage, formGroup, "Inner Leg Offset", 0.001, 0.10, 0.001, &plant.StoolAbstract.RelativeInnerLegOffset, onUpdate)
+		form.AppendSlider(stager.sliderStoolStage, formGroup, "Leg Tip Fillet", 0.001, 0.15, 0.001, &plant.StoolAbstract.RelativeLegTipFilletRadius, onUpdate)
+		form.AppendSlider(stager.sliderStoolStage, formGroup, "Seat Top Fillet", 0.001, 0.30, 0.002, &plant.StoolAbstract.RelativeSeatTopFilletRadius, onUpdate)
+		form.AppendCheckBox(stager.sliderStoolStage, formGroup, "Legs Reach Top", &plant.StoolAbstract.IsLegsReachTop, onUpdate)
+	} else {
+		form.AppendSlider(stager.sliderStoolStage, formGroup, "Rel Seat Thickness", 0.01, 1.0, 0.01, &plant.StoolAbstract.RelativeSeatThickness, onUpdate)
+		form.AppendSlider(stager.sliderStoolStage, formGroup, "Rel Eye Separation", 0.0, 0.5, 0.005, &plant.StoolAbstract.RelativeEyeSeparationCriteria, onUpdate)
+		form.AppendSlider(stager.sliderStoolStage, formGroup, "Rel Eye Corner Strength", 0.0, 2.0, 0.01, &plant.StoolAbstract.RelativeEyeCornerControlVectorStrength, onUpdate)
+	}
 	form.EndAccordion(stager.sliderStoolStage, formGroup)
 
 	stager.sliderStoolStage.Commit()

@@ -7411,6 +7411,31 @@ func updateStageSetTable_StoolAbstract_StoolStage(probe *Probe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
+		col.Name = "IsGrasshopperMode"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "RelativeInnerLegOffset"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "RelativeLegTipFilletRadius"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "RelativeSeatTopFilletRadius"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
+		col.Name = "IsLegsReachTop"
+		table.DisplayedColumns = append(table.DisplayedColumns, col)
+	}
+	{
+		col := new(table_models.DisplayedColumn)
 		col.Name = "(models.PlantAbstract) -> StoolAbstract"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
@@ -7520,6 +7545,36 @@ func updateStageSetTable_StoolAbstract_StoolStage(probe *Probe) {
 		{
 			cell := &table_models.Cell{Name: "RelativeEyeCornerControlVectorStrength"}
 			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.RelativeEyeCornerControlVectorStrength)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsGrasshopperMode"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsGrasshopperMode}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RelativeInnerLegOffset"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.RelativeInnerLegOffset)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RelativeLegTipFilletRadius"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.RelativeLegTipFilletRadius)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "RelativeSeatTopFilletRadius"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.RelativeSeatTopFilletRadius)}
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := &table_models.Cell{Name: "IsLegsReachTop"}
+			cell.CellBool = &table_models.CellBoolean{Value: structInstance.IsLegsReachTop}
 			row.Cells = append(row.Cells, cell)
 		}
 

@@ -31,4 +31,23 @@ type StoolAbstract struct {
 
 	// Strength of the control vector at the eye corner connecting points (default 0.55)
 	RelativeEyeCornerControlVectorStrength float64
+
+	// IsGrasshopperMode enables the Rhino/Grasshopper (stool_vt) thin-shell crescent leg
+	// and filleted seat generation instead of the legacy eye-threshold mode.
+	IsGrasshopperMode bool
+
+	// RelativeInnerLegOffset offsets the interior curve of each foot outward (relative to RhombusSideLength)
+	// to create stacking machine-tolerance clearance and trim the sharp crescent cusps (default 0.0105 ~ 1 mm).
+	RelativeInnerLegOffset float64
+
+	// RelativeLegTipFilletRadius fillets the two sharp side tips of each foot contour (relative to RhombusSideLength)
+	// (default 0.021 ~ 2 mm).
+	RelativeLegTipFilletRadius float64
+
+	// RelativeSeatTopFilletRadius fillets the top perimeter edge of the seat (relative to RhombusSideLength)
+	// (default 0.06 ~ 5.7 mm).
+	RelativeSeatTopFilletRadius float64
+
+	// IsLegsReachTop lets the legs extend up to the seat top plane instead of stopping at the seat bottom plane.
+	IsLegsReachTop bool
 }

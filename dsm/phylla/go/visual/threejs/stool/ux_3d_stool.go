@@ -82,7 +82,172 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 	_ = vertScale
 	_ = floorMinY
 
-	if plant.StartArcShapeGrid != nil && len(plant.StartArcShapeGrid.StartArcShapes) > 0 {
+	if plant.StartArcShapeGrid != nil && len(plant.StartArcShapeGrid.StartArcShapes) > 0 && plant.StoolAbstract.IsGrasshopperMode {
+		ghRes := computeGrasshopperContours(
+			stool3dStage,
+			plant,
+			resampledBaseCurve,
+			radialRepetitions,
+			globalR,
+			stoolTopHeight,
+			torusHeight,
+			growthVectorX,
+			growthVectorY,
+			projAngleRad,
+			expectedDegrees,
+		)
+		if ghRes != nil {
+			seatBottomHeight := ghRes.SeatBottomY
+
+			if checkedDiagram != nil && !checkedDiagram.IsHiddenRotatedSeatBottomCurveShape && len(ghRes.SeatBottomRing) > 1 {
+				rotSbCurve := (&threejs.Curve{Name: "Stool Rotated Seat Bottom Curve"}).Stage(stool3dStage)
+				for i, p := range ghRes.SeatBottomRing {
+					rotSbCurve.Points = append(rotSbCurve.Points, (&threejs.Vector3{
+						Name: fmt.Sprintf("GH Seat Bottom Pt %d", i),
+						X:    p.X, Y: seatBottomHeight, Z: p.Z,
+					}).Stage(stool3dStage))
+				}
+				rotSbGeom := (&threejs.TubeGeometry{
+					Name:            "Stool Rotated Seat Bottom TubeGeom",
+					Path:            rotSbCurve,
+					TubularSegments: max(len(rotSbCurve.Points), 2),
+					Radius:          tubeRadius,
+					RadialSegments:  16,
+					Closed:          true,
+				}).Stage(stool3dStage)
+				canvas.Meshs = append(canvas.Meshs, (&threejs.Mesh{
+					Name:         "Stool Rotated Seat Bottom Mesh",
+					TubeGeometry: rotSbGeom,
+					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+						Name: "Stool Rotated Seat Bottom Material", Color: "coral", Transparent: true, Opacity: opacity,
+					}).Stage(stool3dStage),
+				}).Stage(stool3dStage))
+			}
+
+			if checkedDiagram == nil || !checkedDiagram.IsHiddenEye3DShape {
+				if len(ghRes.Eye3DPoints) > 1 {
+					eyeLoopCurve := (&threejs.Curve{
+						Name:   "Stool Eye Continuous Loop Curve",
+						Points: ghRes.Eye3DPoints,
+					}).Stage(stool3dStage)
+					eyeGeom := (&threejs.TubeGeometry{
+						Name:            "Stool Eye TubeGeom",
+						Path:            eyeLoopCurve,
+						TubularSegments: max(len(eyeLoopCurve.Points), 2),
+						Radius:          tubeRadius,
+						RadialSegments:  16,
+						Closed:          true,
+					}).Stage(stool3dStage)
+					canvas.Meshs = append(canvas.Meshs, (&threejs.Mesh{
+						Name:         "Stool Eye Mesh",
+						TubeGeometry: eyeGeom,
+						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+							Name: "Stool Eye Material", Color: "deeppink", Transparent: true, Opacity: opacity,
+						}).Stage(stool3dStage),
+					}).Stage(stool3dStage))
+				}
+			}
+
+			addContourTubes := func(contour *grasshopperLegContour, curvePrefix, color string) {
+				if contour == nil || len(contour.Loop) < 3 {
+					return
+				}
+				for k := range radialRepetitions {
+					rotAngle := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+					cosRot, sinRot := math.Cos(rotAngle), math.Sin(rotAngle)
+					crv := (&threejs.Curve{Name: fmt.Sprintf("%s k%d", curvePrefix, k)}).Stage(stool3dStage)
+					for _, p := range contour.Loop {
+						crv.Points = append(crv.Points, (&threejs.Vector3{
+							Name: fmt.Sprintf("%s Pt k%d", curvePrefix, k),
+							X:    p.X*cosRot - p.Z*sinRot,
+							Y:    contour.Y,
+							Z:    p.X*sinRot + p.Z*cosRot,
+						}).Stage(stool3dStage))
+					}
+					tg := (&threejs.TubeGeometry{
+						Name:            fmt.Sprintf("%s TubeGeom k%d", curvePrefix, k),
+						Path:            crv,
+						TubularSegments: len(crv.Points),
+						Radius:          tubeRadius,
+						RadialSegments:  16,
+						Closed:          true,
+					}).Stage(stool3dStage)
+					canvas.Meshs = append(canvas.Meshs, (&threejs.Mesh{
+						Name:         fmt.Sprintf("%s Mesh k%d", curvePrefix, k),
+						TubeGeometry: tg,
+						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+							Name: fmt.Sprintf("%s Material k%d", curvePrefix, k), Color: color, Transparent: true, Opacity: opacity,
+						}).Stage(stool3dStage),
+					}).Stage(stool3dStage))
+				}
+			}
+
+			if checkedDiagram != nil && !checkedDiagram.IsHiddenEyeSeatBottomCurveShape {
+				addContourTubes(ghRes.LegTopContour, "Stool Seat Bottom Eye Curve", "mediumvioletred")
+			}
+			if checkedDiagram != nil && !checkedDiagram.IsHiddenEyeStoolBottomCurveShape {
+				addContourTubes(ghRes.LegBotContour, "Stool Bottom Eye Curve", "darkviolet")
+			}
+
+			if checkedDiagram == nil || !checkedDiagram.IsHiddenSeat3DShape {
+				seatGeom := buildGrasshopperSeatGeom(stool3dStage, "Stool Seat BufferGeometry", ghRes, 0.0, 0.0)
+				if len(seatGeom.Faces) > 0 {
+					canvas.Meshs = append(canvas.Meshs, (&threejs.Mesh{
+						Name:           "Stool Seat 3D Mesh",
+						BufferGeometry: seatGeom,
+						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+							Name: "Stool Seat Material", Color: "peru", Transparent: true, Opacity: opacity,
+						}).Stage(stool3dStage),
+					}).Stage(stool3dStage))
+				}
+			}
+
+			if checkedDiagram == nil || !checkedDiagram.IsHiddenEyeVolume3DShape {
+				legsGeom := buildGrasshopperLegsGeom(stool3dStage, "Stool Eye Volume BufferGeometry", ghRes, 0.0, 0.0)
+				if len(legsGeom.Faces) > 0 {
+					canvas.Meshs = append(canvas.Meshs, (&threejs.Mesh{
+						Name:           "Stool Eye Volume 3D Mesh",
+						BufferGeometry: legsGeom,
+						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+							Name: "Stool Eye Volume Material", Color: "mediumorchid", Transparent: true, Opacity: opacity,
+						}).Stage(stool3dStage),
+					}).Stage(stool3dStage))
+				}
+			}
+
+			if checkedDiagram == nil || !checkedDiagram.IsHiddenSeatAndLegs3DShape {
+				seatAndLegsGeom := buildGrasshopperSeatAndLegsGeom(stool3dStage, "Stool Seat and Legs", ghRes, 0.0, 0.0)
+				if len(seatAndLegsGeom.Faces) > 0 {
+					canvas.Meshs = append(canvas.Meshs, (&threejs.Mesh{
+						Name:           "Stool Seat and Legs Mesh",
+						BufferGeometry: seatAndLegsGeom,
+						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+							Name:                 "Stool Seat and Legs Material",
+							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#dfd8c8"},
+							Transparent:          opacity < 1.0,
+							Opacity:              opacity,
+						}).Stage(stool3dStage),
+					}).Stage(stool3dStage))
+				}
+			}
+
+			if checkedDiagram != nil && !checkedDiagram.IsHiddenRotatedSeatAndLegs3DShape {
+				rotSeatAndLegsGeom := buildGrasshopperSeatAndLegsGeom(stool3dStage, "Stool Rotated Seat and Legs", ghRes, ghRes.GrowthThetaStep, ghRes.GrowthYStep)
+				if len(rotSeatAndLegsGeom.Faces) > 0 {
+					canvas.Meshs = append(canvas.Meshs, (&threejs.Mesh{
+						Name:           "Stool Rotated Seat and Legs Mesh",
+						BufferGeometry: rotSeatAndLegsGeom,
+						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+							Name:                 "Stool Rotated Seat and Legs Material",
+							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#c4b9a3"},
+							Transparent:          opacity < 1.0,
+							Opacity:              opacity,
+						}).Stage(stool3dStage),
+					}).Stage(stool3dStage))
+				}
+			}
+		}
+	} else if plant.StartArcShapeGrid != nil && len(plant.StartArcShapeGrid.StartArcShapes) > 0 {
 		seatThickness := plant.StoolAbstract.RelativeSeatThickness * plant.RhombusSideLength
 		seatBottomHeight := stoolTopHeight - seatThickness
 

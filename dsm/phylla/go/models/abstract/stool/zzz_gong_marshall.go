@@ -362,6 +362,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", stoolabstractIdent, stoolabstract.ProjectionAngle))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeEyeSeparationCriteria = %f", stoolabstractIdent, stoolabstract.RelativeEyeSeparationCriteria))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeEyeCornerControlVectorStrength = %f", stoolabstractIdent, stoolabstract.RelativeEyeCornerControlVectorStrength))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsGrasshopperMode = %t", stoolabstractIdent, stoolabstract.IsGrasshopperMode))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeInnerLegOffset = %f", stoolabstractIdent, stoolabstract.RelativeInnerLegOffset))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeLegTipFilletRadius = %f", stoolabstractIdent, stoolabstract.RelativeLegTipFilletRadius))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeSeatTopFilletRadius = %f", stoolabstractIdent, stoolabstract.RelativeSeatTopFilletRadius))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLegsReachTop = %t", stoolabstractIdent, stoolabstract.IsLegsReachTop))
 		}
 	}
 
@@ -498,6 +503,11 @@ func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, e
 			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", stoolabstractIdent, stoolabstract.ProjectionAngle))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeEyeSeparationCriteria = %f", stoolabstractIdent, stoolabstract.RelativeEyeSeparationCriteria))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeEyeCornerControlVectorStrength = %f", stoolabstractIdent, stoolabstract.RelativeEyeCornerControlVectorStrength))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsGrasshopperMode = %t", stoolabstractIdent, stoolabstract.IsGrasshopperMode))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeInnerLegOffset = %f", stoolabstractIdent, stoolabstract.RelativeInnerLegOffset))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeLegTipFilletRadius = %f", stoolabstractIdent, stoolabstract.RelativeLegTipFilletRadius))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeSeatTopFilletRadius = %f", stoolabstractIdent, stoolabstract.RelativeSeatTopFilletRadius))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLegsReachTop = %t", stoolabstractIdent, stoolabstract.IsLegsReachTop))
 		}
 	}
 
@@ -583,6 +593,16 @@ func (stoolabstract *StoolAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = __gong__marshallFloat(ident, "RelativeEyeSeparationCriteria", stoolabstract.RelativeEyeSeparationCriteria)
 	case "RelativeEyeCornerControlVectorStrength":
 		res = __gong__marshallFloat(ident, "RelativeEyeCornerControlVectorStrength", stoolabstract.RelativeEyeCornerControlVectorStrength)
+	case "IsGrasshopperMode":
+		res = __gong__marshallBool(ident, "IsGrasshopperMode", stoolabstract.IsGrasshopperMode)
+	case "RelativeInnerLegOffset":
+		res = __gong__marshallFloat(ident, "RelativeInnerLegOffset", stoolabstract.RelativeInnerLegOffset)
+	case "RelativeLegTipFilletRadius":
+		res = __gong__marshallFloat(ident, "RelativeLegTipFilletRadius", stoolabstract.RelativeLegTipFilletRadius)
+	case "RelativeSeatTopFilletRadius":
+		res = __gong__marshallFloat(ident, "RelativeSeatTopFilletRadius", stoolabstract.RelativeSeatTopFilletRadius)
+	case "IsLegsReachTop":
+		res = __gong__marshallBool(ident, "IsLegsReachTop", stoolabstract.IsLegsReachTop)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StoolAbstract", fieldName)
@@ -607,6 +627,11 @@ func (stoolabstract *StoolAbstract) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "ProjectionAngle"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeSeparationCriteria"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeCornerControlVectorStrength"))
+		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "IsGrasshopperMode"))
+		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeInnerLegOffset"))
+		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeLegTipFilletRadius"))
+		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeSeatTopFilletRadius"))
+		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "IsLegsReachTop"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

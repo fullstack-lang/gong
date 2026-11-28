@@ -854,6 +854,11 @@ func FillUpForm(
 		StageSetBasicFieldtoForm("ProjectionAngle", inst.ProjectionAngle, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("RelativeEyeSeparationCriteria", inst.RelativeEyeSeparationCriteria, probe.formStage, formGroup)
 		StageSetBasicFieldtoForm("RelativeEyeCornerControlVectorStrength", inst.RelativeEyeCornerControlVectorStrength, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsGrasshopperMode", inst.IsGrasshopperMode, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("RelativeInnerLegOffset", inst.RelativeInnerLegOffset, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("RelativeLegTipFilletRadius", inst.RelativeLegTipFilletRadius, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("RelativeSeatTopFilletRadius", inst.RelativeSeatTopFilletRadius, probe.formStage, formGroup)
+		StageSetBasicFieldtoForm("IsLegsReachTop", inst.IsLegsReachTop, probe.formStage, formGroup)
 
 		{
 			var refNames []string

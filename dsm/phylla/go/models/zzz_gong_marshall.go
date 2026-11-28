@@ -433,6 +433,11 @@ func (stage *Stage) MarshallToString(args ...string) (res string, err error) {
 			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", stoolabstractIdent, stoolabstract.ProjectionAngle))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeEyeSeparationCriteria = %f", stoolabstractIdent, stoolabstract.RelativeEyeSeparationCriteria))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeEyeCornerControlVectorStrength = %f", stoolabstractIdent, stoolabstract.RelativeEyeCornerControlVectorStrength))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsGrasshopperMode = %t", stoolabstractIdent, stoolabstract.IsGrasshopperMode))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeInnerLegOffset = %f", stoolabstractIdent, stoolabstract.RelativeInnerLegOffset))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeLegTipFilletRadius = %f", stoolabstractIdent, stoolabstract.RelativeLegTipFilletRadius))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeSeatTopFilletRadius = %f", stoolabstractIdent, stoolabstract.RelativeSeatTopFilletRadius))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLegsReachTop = %t", stoolabstractIdent, stoolabstract.IsLegsReachTop))
 		}
 	}
 	if stage != nil {
@@ -1858,6 +1863,11 @@ func (stage *Stage) MarshallToDirectoryString(packageName string) (res string, e
 			values.WriteString(fmt.Sprintf("\n\t%s.ProjectionAngle = %f", stoolabstractIdent, stoolabstract.ProjectionAngle))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeEyeSeparationCriteria = %f", stoolabstractIdent, stoolabstract.RelativeEyeSeparationCriteria))
 			values.WriteString(fmt.Sprintf("\n\t%s.RelativeEyeCornerControlVectorStrength = %f", stoolabstractIdent, stoolabstract.RelativeEyeCornerControlVectorStrength))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsGrasshopperMode = %t", stoolabstractIdent, stoolabstract.IsGrasshopperMode))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeInnerLegOffset = %f", stoolabstractIdent, stoolabstract.RelativeInnerLegOffset))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeLegTipFilletRadius = %f", stoolabstractIdent, stoolabstract.RelativeLegTipFilletRadius))
+			values.WriteString(fmt.Sprintf("\n\t%s.RelativeSeatTopFilletRadius = %f", stoolabstractIdent, stoolabstract.RelativeSeatTopFilletRadius))
+			values.WriteString(fmt.Sprintf("\n\t%s.IsLegsReachTop = %t", stoolabstractIdent, stoolabstract.IsLegsReachTop))
 		}
 	}
 	if stage != nil {

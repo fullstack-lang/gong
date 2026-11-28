@@ -908,6 +908,26 @@ func (stoolabstract *StoolAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:               "RelativeEyeCornerControlVectorStrength",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "IsGrasshopperMode",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "RelativeInnerLegOffset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeLegTipFilletRadius",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeSeatTopFilletRadius",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsLegsReachTop",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -1016,6 +1036,26 @@ func (stoolabstract *StoolAbstract) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeEyeCornerControlVectorStrength)
 		res.valueFloat = stoolabstract.RelativeEyeCornerControlVectorStrength
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsGrasshopperMode":
+		res.valueString = fmt.Sprintf("%t", stoolabstract.IsGrasshopperMode)
+		res.valueBool = stoolabstract.IsGrasshopperMode
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "RelativeInnerLegOffset":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeInnerLegOffset)
+		res.valueFloat = stoolabstract.RelativeInnerLegOffset
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeLegTipFilletRadius":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeLegTipFilletRadius)
+		res.valueFloat = stoolabstract.RelativeLegTipFilletRadius
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeSeatTopFilletRadius":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeSeatTopFilletRadius)
+		res.valueFloat = stoolabstract.RelativeSeatTopFilletRadius
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsLegsReachTop":
+		res.valueString = fmt.Sprintf("%t", stoolabstract.IsLegsReachTop)
+		res.valueBool = stoolabstract.IsLegsReachTop
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }

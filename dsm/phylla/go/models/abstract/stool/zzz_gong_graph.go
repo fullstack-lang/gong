@@ -157,6 +157,21 @@ func (stoolabstract *StoolAbstract) GongDiff(stage *Stage, stoolabstractOther *S
 	if stoolabstract.RelativeEyeCornerControlVectorStrength != stoolabstractOther.RelativeEyeCornerControlVectorStrength {
 		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeEyeCornerControlVectorStrength"))
 	}
+	if stoolabstract.IsGrasshopperMode != stoolabstractOther.IsGrasshopperMode {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "IsGrasshopperMode"))
+	}
+	if stoolabstract.RelativeInnerLegOffset != stoolabstractOther.RelativeInnerLegOffset {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeInnerLegOffset"))
+	}
+	if stoolabstract.RelativeLegTipFilletRadius != stoolabstractOther.RelativeLegTipFilletRadius {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeLegTipFilletRadius"))
+	}
+	if stoolabstract.RelativeSeatTopFilletRadius != stoolabstractOther.RelativeSeatTopFilletRadius {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeSeatTopFilletRadius"))
+	}
+	if stoolabstract.IsLegsReachTop != stoolabstractOther.IsLegsReachTop {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "IsLegsReachTop"))
+	}
 
 	return
 }

@@ -174,6 +174,21 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				stool.StoolTorusVerticalScale = 1.0
 				stager.logAndNotify(fmt.Sprintf("Plant %s Stool: default StoolTorusVerticalScale set to 1.0", plant.Name))
 			}
+			if stool.RelativeInnerLegOffset == 0.0 {
+				needCommit = true
+				stool.RelativeInnerLegOffset = 0.0105
+				stager.logAndNotify(fmt.Sprintf("Plant %s Stool: default RelativeInnerLegOffset set to 0.0105", plant.Name))
+			}
+			if stool.RelativeLegTipFilletRadius == 0.0 {
+				needCommit = true
+				stool.RelativeLegTipFilletRadius = 0.021
+				stager.logAndNotify(fmt.Sprintf("Plant %s Stool: default RelativeLegTipFilletRadius set to 0.021", plant.Name))
+			}
+			if stool.RelativeSeatTopFilletRadius == 0.0 {
+				needCommit = true
+				stool.RelativeSeatTopFilletRadius = 0.06
+				stager.logAndNotify(fmt.Sprintf("Plant %s Stool: default RelativeSeatTopFilletRadius set to 0.06", plant.Name))
+			}
 		}
 	}
 

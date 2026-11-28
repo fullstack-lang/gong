@@ -1,12 +1,14 @@
 package stool
 
 import (
+	"math"
 	"strconv"
 	"strings"
 	"testing"
 
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
 	abstract_stool "github.com/fullstack-lang/gong/dsm/phylla/go/models/abstract/stool"
+	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
 func TestGenerateStoolOBJAndSTL(t *testing.T) {
@@ -127,5 +129,143 @@ func TestGenerateStoolOBJAndSTL(t *testing.T) {
 	t.Logf("STL validation successful: %d facets", facetsCount)
 	if facetsCount == 0 {
 		t.Errorf("Expected facets > 0 in STL, got %d", facetsCount)
+	}
+}
+
+func assertWatertightPositiveVolume(t *testing.T, label string, geom *threejs.BufferGeometry) float64 {
+	t.Helper()
+	if geom == nil || len(geom.Faces) == 0 {
+		t.Fatalf("%s: empty geometry", label)
+	}
+
+	type vKey struct {
+		x, y, z int64
+	}
+	quant := func(v *threejs.Vector3) vKey {
+		return vKey{
+			x: int64(math.Round(v.X * 1e5)),
+			y: int64(math.Round(v.Y * 1e5)),
+			z: int64(math.Round(v.Z * 1e5)),
+		}
+	}
+
+	type halfEdge struct {
+		a, b vKey
+	}
+	edges := make(map[halfEdge]int)
+	signedVol6 := 0.0
+	nonDegenerate := 0
+
+	for idx, f := range geom.Faces {
+		v1 := geom.Vertices[f.V1]
+		v2 := geom.Vertices[f.V2]
+		v3 := geom.Vertices[f.V3]
+		k1, k2, k3 := quant(v1), quant(v2), quant(v3)
+		if k1 == k2 || k2 == k3 || k3 == k1 {
+			t.Fatalf("%s: degenerate triangle %d with duplicate vertex keys", label, idx)
+		}
+		edges[halfEdge{k1, k2}]++
+		edges[halfEdge{k2, k3}]++
+		edges[halfEdge{k3, k1}]++
+
+		// 6 * signed volume contribution: v1 . (v2 x v3)
+		cx := v2.Y*v3.Z - v2.Z*v3.Y
+		cy := v2.Z*v3.X - v2.X*v3.Z
+		cz := v2.X*v3.Y - v2.Y*v3.X
+		signedVol6 += v1.X*cx + v1.Y*cy + v1.Z*cz
+		nonDegenerate++
+	}
+
+	for he, count := range edges {
+		if count != 1 {
+			t.Fatalf("%s: non-manifold directed half-edge %+v has count %d (expected 1)", label, he, count)
+		}
+		opp := halfEdge{he.b, he.a}
+		if edges[opp] != 1 {
+			t.Fatalf("%s: boundary/unpaired half-edge %+v (opposite count %d)", label, he, edges[opp])
+		}
+	}
+
+	vol := signedVol6 / 6.0
+	if vol <= 0 {
+		t.Fatalf("%s: expected strictly positive outward-oriented volume, got %f", label, vol)
+	}
+	t.Logf("%s: watertight manifold (%d triangles, volume = %.2f mm^3)", label, nonDegenerate, vol)
+	return vol
+}
+
+func TestGrasshopperModeManifoldAndDXFExports(t *testing.T) {
+	stage := models.NewStage("test_gh")
+
+	lib := (&models.Library{
+		Name:              "MainLibrary",
+		NbPixPerCharacter: 8.0,
+	}).Stage(stage)
+
+	plant := (&models.PlantAbstract{
+		Name:               "GrasshopperStool",
+		PlantType:          models.Stool,
+		RhombusSideLength:  95.0,
+		RhombusInsideAngle: 119.0,
+		N:                  2,
+		M:                  3,
+		StackHeight:        2,
+	}).Stage(stage)
+	lib.Plants = append(lib.Plants, plant)
+
+	stoolStage := abstract_stool.NewStage("test_stool_gh")
+	stool := (&abstract_stool.StoolAbstract{
+		Name:                        "GrasshopperStool-StoolAbstract",
+		RadialRepetitions:           3,
+		RelativeTubeDiameter:        0.042,
+		RelativeHeight3DTorus:       4.65,
+		StoolTorusVerticalScale:     2.55,
+		RelativeHeight:              4.74,
+		RelativeSeatThickness:       0.832,
+		ProjectionAngle:             8.0,
+		IsGrasshopperMode:           true,
+		RelativeInnerLegOffset:      0.0105,
+		RelativeLegTipFilletRadius:  0.021,
+		RelativeSeatTopFilletRadius: 0.06,
+		IsLegsReachTop:              false,
+	}).Stage(stoolStage)
+	plant.StoolAbstract = stool
+
+	updater := NewStool3DStageUpdater()
+	stager := models.NewStagerForTest(stage)
+	stager.SetStool3DUpdater(updater)
+	stager.EnforceSemantic()
+
+	res := ComputeStoolGeometries(nil, stager, plant)
+	if res == nil {
+		t.Fatalf("ComputeStoolGeometries returned nil in Grasshopper mode")
+	}
+
+	assertWatertightPositiveVolume(t, "Grasshopper SeatGeom", res.SeatGeom)
+	assertWatertightPositiveVolume(t, "Grasshopper LegsGeom", res.LegsGeom)
+
+	// Validate 2D DXF export (four contour layers projected at Z=0).
+	dxf2D := stager.GenerateStool2DDXF(plant)
+	if dxf2D == "" {
+		t.Fatalf("GenerateStool2DDXF returned empty string")
+	}
+	for _, layer := range []string{"SEAT_TOP", "SEAT_BOTTOM", "FEET_TOP", "FEET_BOTTOM"} {
+		if !strings.Contains(dxf2D, "\n"+layer+"\n") {
+			t.Errorf("2D DXF missing expected layer %s", layer)
+		}
+	}
+	// Expect 1 SEAT_TOP + 1 SEAT_BOTTOM + 3 FEET_TOP + 3 FEET_BOTTOM = 8 closed POLYLINE entities.
+	polyCount := strings.Count(dxf2D, "\nPOLYLINE\n")
+	if polyCount != 8 {
+		t.Errorf("Expected 8 closed POLYLINE entities in 2D DXF, got %d", polyCount)
+	}
+
+	// Validate 3D DXF export.
+	dxf3D := stager.GenerateStool3DDXF(plant)
+	if dxf3D == "" {
+		t.Fatalf("GenerateStool3DDXF returned empty string")
+	}
+	if !strings.Contains(dxf3D, "\n3DFACE\n") || !strings.Contains(dxf3D, "\nSTOOL_SEAT\n") || !strings.Contains(dxf3D, "\nSTOOL_LEGS\n") {
+		t.Errorf("3D DXF missing expected 3DFACE entities or layers")
 	}
 }

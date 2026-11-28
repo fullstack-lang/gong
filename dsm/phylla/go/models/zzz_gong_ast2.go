@@ -393,6 +393,16 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.RelativeEyeSeparationCriteria = GongExtractFloat(rhs)
 					case "RelativeEyeCornerControlVectorStrength":
 						inst.RelativeEyeCornerControlVectorStrength = GongExtractFloat(rhs)
+					case "IsGrasshopperMode":
+						inst.IsGrasshopperMode = GongExtractBool(rhs)
+					case "RelativeInnerLegOffset":
+						inst.RelativeInnerLegOffset = GongExtractFloat(rhs)
+					case "RelativeLegTipFilletRadius":
+						inst.RelativeLegTipFilletRadius = GongExtractFloat(rhs)
+					case "RelativeSeatTopFilletRadius":
+						inst.RelativeSeatTopFilletRadius = GongExtractFloat(rhs)
+					case "IsLegsReachTop":
+						inst.IsLegsReachTop = GongExtractBool(rhs)
 					}
 				case *Angle0Shape:
 					switch fieldName {

@@ -21,3 +21,11 @@ func (u *Stool3DStageUpdater) GenerateStoolOBJ(stager *models.Stager, plant *mod
 func (u *Stool3DStageUpdater) GenerateStoolSTL(stager *models.Stager, plant *models.PlantAbstract) string {
 	return GenerateStoolSTL(stager, plant)
 }
+
+func (u *Stool3DStageUpdater) GenerateStool2DDXF(stager *models.Stager, plant *models.PlantAbstract) string {
+	return GenerateStool2DDXF(stager, plant)
+}
+
+func (u *Stool3DStageUpdater) GenerateStool3DDXF(stager *models.Stager, plant *models.PlantAbstract) string {
+	return GenerateStool3DDXF(stager, plant)
+}

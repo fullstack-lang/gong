@@ -336,6 +336,50 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			},
 		}
 		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, downloadBtn)
+
+		dxf2DBtn := &tree.Button{
+			Name:            "export Stool 2D DXF",
+			Icon:            string(buttons.BUTTON_layers),
+			ToolTipText:     "export Stool 2D machine-cutting contours at Z=0 (.dxf)",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				stager.loadStage.Reset()
+				fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+
+				dxfContent := stager.GenerateStool2DDXF(plant)
+
+				fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(dxfContent))
+				fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-contours-2d.dxf"
+				stager.loadStage.Commit()
+
+				time.Sleep(1 * time.Second)
+				stager.load()
+			},
+		}
+		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, dxf2DBtn)
+
+		dxf3DBtn := &tree.Button{
+			Name:            "export Stool 3D DXF",
+			Icon:            string(buttons.BUTTON_view_in_ar),
+			ToolTipText:     "export Stool 3D mesh (.dxf for Rhino / AutoCAD)",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				stager.loadStage.Reset()
+				fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+
+				dxfContent := stager.GenerateStool3DDXF(plant)
+
+				fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(dxfContent))
+				fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-stool-3d.dxf"
+				stager.loadStage.Commit()
+
+				time.Sleep(1 * time.Second)
+				stager.load()
+			},
+		}
+		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, dxf3DBtn)
 	} else if plant.PlantType == VaseTrapeze {
 		baseFirstRingBtn := &tree.Button{
 			Name:            "export base+first ring STL",

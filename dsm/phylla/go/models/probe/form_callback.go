@@ -1111,6 +1111,16 @@ func saveStageSet_StoolAbstract_StoolStage(
 			FormDivBasicFieldToField(&inst.RelativeEyeSeparationCriteria, formDiv)
 		case "RelativeEyeCornerControlVectorStrength":
 			FormDivBasicFieldToField(&inst.RelativeEyeCornerControlVectorStrength, formDiv)
+		case "IsGrasshopperMode":
+			FormDivBasicFieldToField(&inst.IsGrasshopperMode, formDiv)
+		case "RelativeInnerLegOffset":
+			FormDivBasicFieldToField(&inst.RelativeInnerLegOffset, formDiv)
+		case "RelativeLegTipFilletRadius":
+			FormDivBasicFieldToField(&inst.RelativeLegTipFilletRadius, formDiv)
+		case "RelativeSeatTopFilletRadius":
+			FormDivBasicFieldToField(&inst.RelativeSeatTopFilletRadius, formDiv)
+		case "IsLegsReachTop":
+			FormDivBasicFieldToField(&inst.IsLegsReachTop, formDiv)
 		}
 	}
 }

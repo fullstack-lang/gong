@@ -53,6 +53,8 @@ type Stool3DStageUpdaterInterface interface {
 	UpdateStool3DStage(stager *Stager)
 	GenerateStoolOBJ(stager *Stager, plant *PlantAbstract) string
 	GenerateStoolSTL(stager *Stager, plant *PlantAbstract) string
+	GenerateStool2DDXF(stager *Stager, plant *PlantAbstract) string
+	GenerateStool3DDXF(stager *Stager, plant *PlantAbstract) string
 }
 
 type Clock3DStageUpdaterInterface interface {
@@ -266,6 +268,20 @@ func (stager *Stager) GenerateStoolOBJ(plant *PlantAbstract) string {
 func (stager *Stager) GenerateStoolSTL(plant *PlantAbstract) string {
 	if stager.stool3DUpdater != nil {
 		return stager.stool3DUpdater.GenerateStoolSTL(stager, plant)
+	}
+	return ""
+}
+
+func (stager *Stager) GenerateStool2DDXF(plant *PlantAbstract) string {
+	if stager.stool3DUpdater != nil {
+		return stager.stool3DUpdater.GenerateStool2DDXF(stager, plant)
+	}
+	return ""
+}
+
+func (stager *Stager) GenerateStool3DDXF(plant *PlantAbstract) string {
+	if stager.stool3DUpdater != nil {
+		return stager.stool3DUpdater.GenerateStool3DDXF(stager, plant)
 	}
 	return ""
 }

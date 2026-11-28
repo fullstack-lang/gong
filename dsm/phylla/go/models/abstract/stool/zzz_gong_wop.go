@@ -31,6 +31,16 @@ type StoolAbstract_WOP struct {
 	RelativeEyeSeparationCriteria float64
 
 	RelativeEyeCornerControlVectorStrength float64
+
+	IsGrasshopperMode bool
+
+	RelativeInnerLegOffset float64
+
+	RelativeLegTipFilletRadius float64
+
+	RelativeSeatTopFilletRadius float64
+
+	IsLegsReachTop bool
 }
 
 func (from *StoolAbstract) GongCopyBasicFields(to *StoolAbstract) {
