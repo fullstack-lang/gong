@@ -12,9 +12,15 @@ import (
 )
 
 type StoolGeometriesResult struct {
-	SeatGeom     *threejs.BufferGeometry
-	LegsGeom     *threejs.BufferGeometry
-	CombinedGeom *threejs.BufferGeometry
+	SeatGeom            *threejs.BufferGeometry
+	LegsGeom            *threejs.BufferGeometry
+	CombinedGeom        *threejs.BufferGeometry
+	GrasshopperContours *grasshopperContoursResult
+	GlobalR             float64
+	StoolTopHeight      float64
+	SeatBottomHeight    float64
+	GrowthThetaStep     float64
+	GrowthYStep         float64
 }
 
 func buildSeatGeom(
@@ -867,9 +873,15 @@ func ComputeStoolGeometries(
 		legsGeom := buildGrasshopperLegsGeom(stage, "Stool Legs", ghRes, 0.0, 0.0)
 		combinedGeom := buildGrasshopperSeatAndLegsGeom(stage, "Stool Seat and Legs", ghRes, 0.0, 0.0)
 		return &StoolGeometriesResult{
-			SeatGeom:     seatGeom,
-			LegsGeom:     legsGeom,
-			CombinedGeom: combinedGeom,
+			SeatGeom:            seatGeom,
+			LegsGeom:            legsGeom,
+			CombinedGeom:        combinedGeom,
+			GrasshopperContours: ghRes,
+			GlobalR:             base.GlobalR,
+			StoolTopHeight:      ghRes.StoolTopHeight,
+			SeatBottomHeight:    ghRes.SeatBottomY,
+			GrowthThetaStep:     ghRes.GrowthThetaStep,
+			GrowthYStep:         ghRes.GrowthYStep,
 		}
 	}
 
@@ -878,10 +890,20 @@ func ComputeStoolGeometries(
 	legsGeom := buildLegsGeom(stage, "Stool Legs", 0.0, 0.0, legacy.projSeatBottomEyePoints, legacy.projStoolBottomEyePoints, legacy.seatBottomHeight, base.RadialRepetitions)
 	combinedGeom := buildSeatAndLegsGeom(stage, "Stool Seat and Legs", 0.0, 0.0, base.RotTopPoints, legacy.rotSeatBottomPoints, base.TopHeight, legacy.seatBottomHeight, legacy.projSeatBottomEyePoints, legacy.projStoolBottomEyePoints, base.RadialRepetitions)
 
+	thetaStep := 0.0
+	if base.GlobalR > 1e-6 {
+		thetaStep = base.GrowthVectorX / base.GlobalR
+	}
+
 	return &StoolGeometriesResult{
-		SeatGeom:     seatGeom,
-		LegsGeom:     legsGeom,
-		CombinedGeom: combinedGeom,
+		SeatGeom:         seatGeom,
+		LegsGeom:         legsGeom,
+		CombinedGeom:     combinedGeom,
+		GlobalR:          base.GlobalR,
+		StoolTopHeight:   base.TopHeight,
+		SeatBottomHeight: legacy.seatBottomHeight,
+		GrowthThetaStep:  thetaStep,
+		GrowthYStep:      base.GrowthVectorY,
 	}
 }
 

@@ -10,7 +10,7 @@ import (
 
 const (
 	ghLegBodySegments   = 64
-	ghLegFilletSegments = 16
+	ghLegFilletSegments = 20
 	ghSeatFilletRows    = 8
 )
 
@@ -24,10 +24,16 @@ type grasshopperLegContour struct {
 	//   [Nb+1 .. Nb+Nf-1]       : right tip fillet arc
 	//   [Nb+Nf .. 2*Nb+Nf]      : interior curve (right tangent -> left tangent)
 	//   [2*Nb+Nf+1 .. 2*(Nb+Nf)-1]: left tip fillet arc
-	Loop []pt2D
-	Nb   int
-	Nf   int
-	Y    float64
+	Loop            []pt2D
+	Nb              int
+	Nf              int
+	Y               float64
+	MidThicknessMM  float64
+	AppliedOffsetMM float64
+	AppliedFilletMM float64
+	LeftFilletCtr   pt2D
+	RightFilletCtr  pt2D
+	HasTipFillet    bool
 }
 
 type grasshopperContoursResult struct {
@@ -474,44 +480,95 @@ func buildGrasshopperCrescentOnPlane(
 	outToInDir := pt2D{X: midInt.X - midExt.X, Z: midInt.Z - midExt.Z}
 	inToOutTrimDir := pt2D{X: midExt.X - midInt.X, Z: midExt.Z - midInt.Z}
 
-	effFillet := math.Max(0.0, math.Min(tipFilletRadius, 0.40*trimmedWidth))
+	reqFillet := math.Max(0.0, math.Min(tipFilletRadius, 0.44*trimmedWidth))
 
 	pTipLeft := extTrim[0]
 	pTipRight := extTrim[len(extTrim)-1]
 
-	var extBody, intBodyRev []pt2D
-	var rightArc, leftArc []pt2D
+	type filletFit struct {
+		cL, cR         pt2D
+		tLExt, tLInt   pt2D
+		tRExt, tRInt   pt2D
+		sLExt, sRExt   float64
+		sLInt, sRInt   float64
+		appliedRadius  float64
+	}
 
-	if effFillet > 1e-5 {
-		extIn := offsetOpenPolyline(extTrim, effFillet, outToInDir)
-		intIn := offsetOpenPolyline(intTrim, effFillet, inToOutTrimDir)
+	tryFillet := func(r float64) (filletFit, bool) {
+		if r <= 1e-5 {
+			return filletFit{}, false
+		}
+		extIn := offsetOpenPolyline(extTrim, r, outToInDir)
+		intIn := offsetOpenPolyline(intTrim, r, inToOutTrimDir)
 		cL, _, _, okCL := findPolylineIntersectionLeft(extIn, intIn)
 		cR, _, _, okCR := findPolylineIntersectionRight(extIn, intIn)
+		if !okCL || !okCR {
+			return filletFit{}, false
+		}
+		tLExtPt, sLExt := closestPointOnPolylineRange(extTrim, cL, 0, len(extTrim)/2)
+		tLIntPt, sLInt := closestPointOnPolylineRange(intTrim, cL, 0, len(intTrim)/2)
+		tRExtPt, sRExt := closestPointOnPolylineRange(extTrim, cR, len(extTrim)/2, len(extTrim)-1)
+		tRIntPt, sRInt := closestPointOnPolylineRange(intTrim, cR, len(intTrim)/2, len(intTrim)-1)
 
-		if okCL && okCR {
-			tLExtPt, sLExt := closestPointOnPolylineRange(extTrim, cL, 0, len(extTrim)/2)
-			tLIntPt, sLInt := closestPointOnPolylineRange(intTrim, cL, 0, len(intTrim)/2)
-			tRExtPt, sRExt := closestPointOnPolylineRange(extTrim, cR, len(extTrim)/2, len(extTrim)-1)
-			tRIntPt, sRInt := closestPointOnPolylineRange(intTrim, cR, len(intTrim)/2, len(intTrim)-1)
+		minSpanE := 0.14 * float64(len(extTrim)-1)
+		minSpanI := 0.14 * float64(len(intTrim)-1)
+		if sRExt-sLExt < minSpanE || sRInt-sLInt < minSpanI {
+			return filletFit{}, false
+		}
+		return filletFit{
+			cL: cL, cR: cR,
+			tLExt: tLExtPt, tLInt: tLIntPt,
+			tRExt: tRExtPt, tRInt: tRIntPt,
+			sLExt: sLExt, sRExt: sRExt,
+			sLInt: sLInt, sRInt: sRInt,
+			appliedRadius: r,
+		}, true
+	}
 
-			if sRExt > sLExt+1e-4 && sRInt > sLInt+1e-4 {
-				extSub := trimPolyline(extTrim, sLExt, sRExt)
-				extSub[0] = tLExtPt
-				extSub[len(extSub)-1] = tRExtPt
-				extBody = resamplePolylineUniform(extSub, ghLegBodySegments)
+	var extBody, intBodyRev []pt2D
+	var rightArc, leftArc []pt2D
+	var appliedFillet float64
+	var bestCL, bestCR pt2D
+	var hasTipFillet bool
 
-				intSub := trimPolyline(intTrim, sLInt, sRInt)
-				intSub[0] = tLIntPt
-				intSub[len(intSub)-1] = tRIntPt
-				intSampled := resamplePolylineUniform(intSub, ghLegBodySegments)
-				intBodyRev = make([]pt2D, len(intSampled))
-				for i := range intSampled {
-					intBodyRev[i] = intSampled[len(intSampled)-1-i]
+	if reqFillet > 1e-5 {
+		fit, ok := tryFillet(reqFillet)
+		if !ok {
+			// Acute crescent tips can reach max inscribed circle before 0.44*trimmedWidth;
+			// bisect in [0, reqFillet] so increasing LegFilletRadius never snaps back to sharp tips.
+			lo, hi := 0.0, reqFillet
+			for range 24 {
+				midR := 0.5 * (lo + hi)
+				if f, okMid := tryFillet(midR); okMid {
+					fit = f
+					ok = true
+					lo = midR
+				} else {
+					hi = midR
 				}
-
-				rightArc = sampleTipArc(cR, tRExtPt, tRIntPt, pTipRight, ghLegFilletSegments)
-				leftArc = sampleTipArc(cL, tLIntPt, tLExtPt, pTipLeft, ghLegFilletSegments)
 			}
+		}
+		if ok {
+			extSub := trimPolyline(extTrim, fit.sLExt, fit.sRExt)
+			extSub[0] = fit.tLExt
+			extSub[len(extSub)-1] = fit.tRExt
+			extBody = resamplePolylineUniform(extSub, ghLegBodySegments)
+
+			intSub := trimPolyline(intTrim, fit.sLInt, fit.sRInt)
+			intSub[0] = fit.tLInt
+			intSub[len(intSub)-1] = fit.tRInt
+			intSampled := resamplePolylineUniform(intSub, ghLegBodySegments)
+			intBodyRev = make([]pt2D, len(intSampled))
+			for i := range intSampled {
+				intBodyRev[i] = intSampled[len(intSampled)-1-i]
+			}
+
+			rightArc = sampleTipArc(fit.cR, fit.tRExt, fit.tRInt, pTipRight, ghLegFilletSegments)
+			leftArc = sampleTipArc(fit.cL, fit.tLInt, fit.tLExt, pTipLeft, ghLegFilletSegments)
+			appliedFillet = fit.appliedRadius
+			bestCL = fit.cL
+			bestCR = fit.cR
+			hasTipFillet = true
 		}
 	}
 
@@ -549,10 +606,16 @@ func buildGrasshopperCrescentOnPlane(
 	loop = append(loop, leftArc...)    // [2*Nb+Nf+1 .. 2*(Nb+Nf)-1]
 
 	return &grasshopperLegContour{
-		Loop: loop,
-		Nb:   ghLegBodySegments,
-		Nf:   ghLegFilletSegments,
-		Y:    yPlane,
+		Loop:            loop,
+		Nb:              ghLegBodySegments,
+		Nf:              ghLegFilletSegments,
+		Y:               yPlane,
+		MidThicknessMM:  trimmedWidth,
+		AppliedOffsetMM: effOffset,
+		AppliedFilletMM: appliedFillet,
+		LeftFilletCtr:   bestCL,
+		RightFilletCtr:  bestCR,
+		HasTipFillet:    hasTipFillet,
 	}
 }
 
@@ -640,7 +703,7 @@ func computeGrasshopperContours(
 	}
 
 	// Fine angular sampling over one period to extract the exact crescent between yRot and yBase.
-	const subSteps = 4
+	const subSteps = 8
 	fineCount := numBaseIntervals * subSteps
 	fineStep := expectedRad / float64(fineCount)
 
@@ -734,9 +797,14 @@ func computeGrasshopperContours(
 		}
 	}
 
-	innerOffsetDist := sa.RelativeInnerLegOffset * plant.RhombusSideLength
-	tipFilletRadius := sa.RelativeLegTipFilletRadius * plant.RhombusSideLength
-	seatFilletRadius := sa.RelativeSeatTopFilletRadius * plant.RhombusSideLength
+	// Grasshopper stool_vt defines leg offset & fillet sliders in cm for a 45 cm reference stool height.
+	ghUnitMM := stoolTopHeight / 45.0
+	if ghUnitMM <= 1e-4 {
+		ghUnitMM = 10.0
+	}
+	innerOffsetDist := sa.InnerLegOffset * ghUnitMM
+	tipFilletRadius := sa.LegFilletRadius * ghUnitMM
+	seatFilletRadius := sa.SeatTopFilletRadius * ghUnitMM
 
 	legTopY := seatBottomY
 	if sa.IsLegsReachTop {

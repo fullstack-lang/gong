@@ -190,13 +190,13 @@ func _(stage *models.Stage) {
 	__stool__StoolAbstract__00000000_.StoolTorusVerticalScale = 4.200000
 	__stool__StoolAbstract__00000000_.RelativeHeight = 5.400000
 	__stool__StoolAbstract__00000000_.RelativeSeatThickness = 0.832000
-	__stool__StoolAbstract__00000000_.ProjectionAngle = 8.000000
+	__stool__StoolAbstract__00000000_.ProjectionAngle = 8.500000
 	__stool__StoolAbstract__00000000_.RelativeEyeSeparationCriteria = 0.400000
 	__stool__StoolAbstract__00000000_.RelativeEyeCornerControlVectorStrength = 0.230000
 	__stool__StoolAbstract__00000000_.IsGrasshopperMode = true
-	__stool__StoolAbstract__00000000_.RelativeInnerLegOffset = 0.048000
-	__stool__StoolAbstract__00000000_.RelativeLegTipFilletRadius = 0.077000
-	__stool__StoolAbstract__00000000_.RelativeSeatTopFilletRadius = 0.048000
+	__stool__StoolAbstract__00000000_.InnerLegOffset = 0.100000
+	__stool__StoolAbstract__00000000_.LegFilletRadius = 0.200000
+	__stool__StoolAbstract__00000000_.SeatTopFilletRadius = 0.500000
 	__stool__StoolAbstract__00000000_.IsLegsReachTop = false
 
 	__models__Angle0Shape__00000000_.Name = `Plant 1-TubeVase3DDiagram-Angle0Shape`

@@ -29,3 +29,11 @@ func (u *Stool3DStageUpdater) GenerateStool2DDXF(stager *models.Stager, plant *m
 func (u *Stool3DStageUpdater) GenerateStool3DDXF(stager *models.Stager, plant *models.PlantAbstract) string {
 	return GenerateStool3DDXF(stager, plant)
 }
+
+func (u *Stool3DStageUpdater) GenerateStoolNordicBlenderPy(stager *models.Stager, plant *models.PlantAbstract) string {
+	return GenerateStoolNordicBlenderPy(stager, plant)
+}
+
+func (u *Stool3DStageUpdater) GenerateStoolManufacturingPDF(stager *models.Stager, plant *models.PlantAbstract) []byte {
+	return GenerateStoolManufacturingPDF(stager, plant)
+}

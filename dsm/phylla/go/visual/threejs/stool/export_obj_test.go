@@ -215,19 +215,19 @@ func TestGrasshopperModeManifoldAndDXFExports(t *testing.T) {
 
 	stoolStage := abstract_stool.NewStage("test_stool_gh")
 	stool := (&abstract_stool.StoolAbstract{
-		Name:                        "GrasshopperStool-StoolAbstract",
-		RadialRepetitions:           3,
-		RelativeTubeDiameter:        0.042,
-		RelativeHeight3DTorus:       4.65,
-		StoolTorusVerticalScale:     2.55,
-		RelativeHeight:              4.74,
-		RelativeSeatThickness:       0.832,
-		ProjectionAngle:             8.0,
-		IsGrasshopperMode:           true,
-		RelativeInnerLegOffset:      0.0105,
-		RelativeLegTipFilletRadius:  0.021,
-		RelativeSeatTopFilletRadius: 0.06,
-		IsLegsReachTop:              false,
+		Name:                    "GrasshopperStool-StoolAbstract",
+		RadialRepetitions:       3,
+		RelativeTubeDiameter:    0.042,
+		RelativeHeight3DTorus:   4.65,
+		StoolTorusVerticalScale: 2.55,
+		RelativeHeight:          4.74,
+		RelativeSeatThickness:   0.832,
+		ProjectionAngle:         8.5,
+		IsGrasshopperMode:       true,
+		InnerLegOffset:          0.1,
+		LegFilletRadius:         0.2,
+		SeatTopFilletRadius:     0.5,
+		IsLegsReachTop:          false,
 	}).Stage(stoolStage)
 	plant.StoolAbstract = stool
 
@@ -243,6 +243,28 @@ func TestGrasshopperModeManifoldAndDXFExports(t *testing.T) {
 
 	assertWatertightPositiveVolume(t, "Grasshopper SeatGeom", res.SeatGeom)
 	assertWatertightPositiveVolume(t, "Grasshopper LegsGeom", res.LegsGeom)
+
+	// Verify the 0.2 leg fillet parameter produces active rolling-ball tip arcs (both top and bottom)
+	// and remains watertight even at large fillet values (e.g., 1.2).
+	if res.GrasshopperContours == nil || res.GrasshopperContours.LegBotContour == nil || !res.GrasshopperContours.LegBotContour.HasTipFillet {
+		t.Fatalf("Expected active rolling-ball leg tip fillet for LegFilletRadius=0.2")
+	}
+	if res.GrasshopperContours.LegBotContour.AppliedFilletMM < 1.5 {
+		t.Fatalf("Expected AppliedFilletMM >= 1.5 mm for LegFilletRadius=0.2, got %.3f mm", res.GrasshopperContours.LegBotContour.AppliedFilletMM)
+	}
+	t.Logf("LegFilletRadius=0.2 -> AppliedFilletMM = %.3f mm (top = %.3f mm)",
+		res.GrasshopperContours.LegBotContour.AppliedFilletMM,
+		res.GrasshopperContours.LegTopContour.AppliedFilletMM,
+	)
+
+	// Also verify large fillet bisection clamp never snaps back to 0 or breaks manifoldness.
+	stool.LegFilletRadius = 1.2
+	resLargeFillet := ComputeStoolGeometries(nil, stager, plant)
+	if resLargeFillet == nil || resLargeFillet.GrasshopperContours == nil || !resLargeFillet.GrasshopperContours.LegBotContour.HasTipFillet {
+		t.Fatalf("Expected bisection fallback to preserve active tip fillet at LegFilletRadius=1.2")
+	}
+	assertWatertightPositiveVolume(t, "Grasshopper LegsGeom (large fillet 1.2)", resLargeFillet.LegsGeom)
+	stool.LegFilletRadius = 0.2
 
 	// Validate 2D DXF export (four contour layers projected at Z=0).
 	dxf2D := stager.GenerateStool2DDXF(plant)
@@ -267,5 +289,32 @@ func TestGrasshopperModeManifoldAndDXFExports(t *testing.T) {
 	}
 	if !strings.Contains(dxf3D, "\n3DFACE\n") || !strings.Contains(dxf3D, "\nSTOOL_SEAT\n") || !strings.Contains(dxf3D, "\nSTOOL_LEGS\n") {
 		t.Errorf("3D DXF missing expected 3DFACE entities or layers")
+	}
+
+	// Validate Nordic Interior Blender (.py) script export (Oak & Walnut).
+	blenderPy := stager.GenerateStoolNordicBlenderPy(plant)
+	if blenderPy == "" {
+		t.Fatalf("GenerateStoolNordicBlenderPy returned empty string")
+	}
+	for _, kw := range []string{"01_Nordic_Oak_Stool", "02_Nordic_Walnut_Stool", "SEAT_VERTS", "LEGS_VERTS", "Valérie ROSTAING & Thomas PEUGOT"} {
+		if !strings.Contains(blenderPy, kw) {
+			t.Errorf("Nordic Blender script missing expected token %q", kw)
+		}
+	}
+
+	// Validate Manufacturing Cost-Estimation PDF Dossier export.
+	pdfBytes := stager.GenerateStoolManufacturingPDF(plant)
+	if len(pdfBytes) < 10000 {
+		t.Fatalf("Expected substantial multi-page PDF dossier, got %d bytes", len(pdfBytes))
+	}
+	pdfStr := string(pdfBytes)
+	if !strings.HasPrefix(pdfStr, "%PDF-1.4\n") || !strings.HasSuffix(pdfStr, "%%EOF\n") {
+		t.Errorf("Invalid PDF header or EOF trailer")
+	}
+	if !strings.Contains(pdfStr, "/Count 4") {
+		t.Errorf("Expected 4-page PDF dossier (/Count 4)")
+	}
+	if !strings.Contains(pdfStr, "ROSTAING & Thomas PEUGOT") {
+		t.Errorf("Expected authors 'Valérie ROSTAING & Thomas PEUGOT' in PDF dossier")
 	}
 }

@@ -7416,17 +7416,17 @@ func updateStageSetTable_StoolAbstract_StoolStage(probe *Probe) {
 	}
 	{
 		col := new(table_models.DisplayedColumn)
-		col.Name = "RelativeInnerLegOffset"
+		col.Name = "InnerLegOffset"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
 		col := new(table_models.DisplayedColumn)
-		col.Name = "RelativeLegTipFilletRadius"
+		col.Name = "LegFilletRadius"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
 		col := new(table_models.DisplayedColumn)
-		col.Name = "RelativeSeatTopFilletRadius"
+		col.Name = "SeatTopFilletRadius"
 		table.DisplayedColumns = append(table.DisplayedColumns, col)
 	}
 	{
@@ -7555,20 +7555,20 @@ func updateStageSetTable_StoolAbstract_StoolStage(probe *Probe) {
 		}
 
 		{
-			cell := &table_models.Cell{Name: "RelativeInnerLegOffset"}
-			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.RelativeInnerLegOffset)}
+			cell := &table_models.Cell{Name: "InnerLegOffset"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.InnerLegOffset)}
 			row.Cells = append(row.Cells, cell)
 		}
 
 		{
-			cell := &table_models.Cell{Name: "RelativeLegTipFilletRadius"}
-			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.RelativeLegTipFilletRadius)}
+			cell := &table_models.Cell{Name: "LegFilletRadius"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.LegFilletRadius)}
 			row.Cells = append(row.Cells, cell)
 		}
 
 		{
-			cell := &table_models.Cell{Name: "RelativeSeatTopFilletRadius"}
-			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.RelativeSeatTopFilletRadius)}
+			cell := &table_models.Cell{Name: "SeatTopFilletRadius"}
+			cell.CellFloat64 = &table_models.CellFloat64{Value: float64(structInstance.SeatTopFilletRadius)}
 			row.Cells = append(row.Cells, cell)
 		}
 

@@ -36,17 +36,16 @@ type StoolAbstract struct {
 	// and filleted seat generation instead of the legacy eye-threshold mode.
 	IsGrasshopperMode bool
 
-	// RelativeInnerLegOffset offsets the interior curve of each foot outward (relative to RhombusSideLength)
-	// to create stacking machine-tolerance clearance and trim the sharp crescent cusps (default 0.0105 ~ 1 mm).
-	RelativeInnerLegOffset float64
+	// InnerLegOffset offsets the interior curve of each foot outward (in Grasshopper cm units,
+	// scaled to 45 cm reference stool height) to create stacking clearance and trim sharp cusps (default 0.1).
+	InnerLegOffset float64
 
-	// RelativeLegTipFilletRadius fillets the two sharp side tips of each foot contour (relative to RhombusSideLength)
-	// (default 0.021 ~ 2 mm).
-	RelativeLegTipFilletRadius float64
+	// LegFilletRadius fillets the two vertical side tips of each crescent leg (in Grasshopper cm units,
+	// matching 'rayon du chanfrein du pied' = 0.2).
+	LegFilletRadius float64
 
-	// RelativeSeatTopFilletRadius fillets the top perimeter edge of the seat (relative to RhombusSideLength)
-	// (default 0.06 ~ 5.7 mm).
-	RelativeSeatTopFilletRadius float64
+	// SeatTopFilletRadius fillets the top perimeter edge of the seat (in Grasshopper cm units, default 0.5).
+	SeatTopFilletRadius float64
 
 	// IsLegsReachTop lets the legs extend up to the seat top plane instead of stopping at the seat bottom plane.
 	IsLegsReachTop bool

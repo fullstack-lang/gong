@@ -211,6 +211,7 @@ func appendCommonCylinderSliders(
 	torusVertScale *float64,
 	relHeight *float64,
 	projAngle *float64,
+	projAngleMax float64,
 ) {
 	form.AppendSlider(stage, formGroup, "N", 1, 20, 1, &plant.N, onUpdate)
 	form.AppendSlider(stage, formGroup, "M", 1, 20, 1, &plant.M, onUpdate)
@@ -223,7 +224,7 @@ func appendCommonCylinderSliders(
 	form.AppendSlider(stage, formGroup, "Rel Height 3D Torus", 0.0, 6.0, 0.01, relHeight3DTorus, onUpdate)
 	form.AppendSlider(stage, formGroup, "Torus Vert Scale", 0.0, 5.0, 0.01, torusVertScale, onUpdate)
 	form.AppendSlider(stage, formGroup, "Rel Height", 0.0, 6.0, 0.01, relHeight, onUpdate)
-	form.AppendSlider(stage, formGroup, "Projection Angle", 0.0, 45.0, 0.1, projAngle, onUpdate)
+	form.AppendSlider(stage, formGroup, "Projection Angle", 0.0, projAngleMax, 0.1, projAngle, onUpdate)
 }
 
 func (stager *Stager) ux_slider_stool() {
@@ -255,14 +256,15 @@ func (stager *Stager) ux_slider_stool() {
 		&plant.StoolAbstract.StoolTorusVerticalScale,
 		&plant.StoolAbstract.RelativeHeight,
 		&plant.StoolAbstract.ProjectionAngle,
+		20.0,
 	)
 
 	form.StartAccordion(stager.sliderStoolStage, formGroup, "Seat & Eye", true)
 	form.AppendCheckBox(stager.sliderStoolStage, formGroup, "Grasshopper Mode", &plant.StoolAbstract.IsGrasshopperMode, onUpdate)
 	if plant.StoolAbstract.IsGrasshopperMode {
-		form.AppendSlider(stager.sliderStoolStage, formGroup, "Inner Leg Offset", 0.001, 0.10, 0.001, &plant.StoolAbstract.RelativeInnerLegOffset, onUpdate)
-		form.AppendSlider(stager.sliderStoolStage, formGroup, "Leg Tip Fillet", 0.001, 0.15, 0.001, &plant.StoolAbstract.RelativeLegTipFilletRadius, onUpdate)
-		form.AppendSlider(stager.sliderStoolStage, formGroup, "Seat Top Fillet", 0.001, 0.30, 0.002, &plant.StoolAbstract.RelativeSeatTopFilletRadius, onUpdate)
+		form.AppendSlider(stager.sliderStoolStage, formGroup, "Leg Fillet", 0.0, 1.5, 0.01, &plant.StoolAbstract.LegFilletRadius, onUpdate)
+		form.AppendSlider(stager.sliderStoolStage, formGroup, "Inner Leg Offset", 0.0, 1.0, 0.01, &plant.StoolAbstract.InnerLegOffset, onUpdate)
+		form.AppendSlider(stager.sliderStoolStage, formGroup, "Seat Top Fillet", 0.0, 2.0, 0.02, &plant.StoolAbstract.SeatTopFilletRadius, onUpdate)
 		form.AppendCheckBox(stager.sliderStoolStage, formGroup, "Legs Reach Top", &plant.StoolAbstract.IsLegsReachTop, onUpdate)
 	} else {
 		form.AppendSlider(stager.sliderStoolStage, formGroup, "Rel Seat Thickness", 0.01, 1.0, 0.01, &plant.StoolAbstract.RelativeSeatThickness, onUpdate)
@@ -301,6 +303,7 @@ func (stager *Stager) ux_slider_clock() {
 		&plant.ClockAbstract.ClockTorusVerticalScale,
 		&plant.ClockAbstract.RelativeHeight,
 		&plant.ClockAbstract.ProjectionAngle,
+		45.0,
 	)
 	form.EndAccordion(stager.sliderClockStage, formGroup)
 

@@ -160,14 +160,14 @@ func (stoolabstract *StoolAbstract) GongDiff(stage *Stage, stoolabstractOther *S
 	if stoolabstract.IsGrasshopperMode != stoolabstractOther.IsGrasshopperMode {
 		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "IsGrasshopperMode"))
 	}
-	if stoolabstract.RelativeInnerLegOffset != stoolabstractOther.RelativeInnerLegOffset {
-		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeInnerLegOffset"))
+	if stoolabstract.InnerLegOffset != stoolabstractOther.InnerLegOffset {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "InnerLegOffset"))
 	}
-	if stoolabstract.RelativeLegTipFilletRadius != stoolabstractOther.RelativeLegTipFilletRadius {
-		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeLegTipFilletRadius"))
+	if stoolabstract.LegFilletRadius != stoolabstractOther.LegFilletRadius {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "LegFilletRadius"))
 	}
-	if stoolabstract.RelativeSeatTopFilletRadius != stoolabstractOther.RelativeSeatTopFilletRadius {
-		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeSeatTopFilletRadius"))
+	if stoolabstract.SeatTopFilletRadius != stoolabstractOther.SeatTopFilletRadius {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "SeatTopFilletRadius"))
 	}
 	if stoolabstract.IsLegsReachTop != stoolabstractOther.IsLegsReachTop {
 		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "IsLegsReachTop"))

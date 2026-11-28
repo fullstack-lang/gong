@@ -174,20 +174,25 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				stool.StoolTorusVerticalScale = 1.0
 				stager.logAndNotify(fmt.Sprintf("Plant %s Stool: default StoolTorusVerticalScale set to 1.0", plant.Name))
 			}
-			if stool.RelativeInnerLegOffset == 0.0 {
+			if stool.ProjectionAngle == 0.0 {
 				needCommit = true
-				stool.RelativeInnerLegOffset = 0.0105
-				stager.logAndNotify(fmt.Sprintf("Plant %s Stool: default RelativeInnerLegOffset set to 0.0105", plant.Name))
+				stool.ProjectionAngle = 8.5
+				stager.logAndNotify(fmt.Sprintf("Plant %s Stool: default ProjectionAngle set to 8.5", plant.Name))
 			}
-			if stool.RelativeLegTipFilletRadius == 0.0 {
+			if stool.InnerLegOffset == 0.0 {
 				needCommit = true
-				stool.RelativeLegTipFilletRadius = 0.021
-				stager.logAndNotify(fmt.Sprintf("Plant %s Stool: default RelativeLegTipFilletRadius set to 0.021", plant.Name))
+				stool.InnerLegOffset = 0.1
+				stager.logAndNotify(fmt.Sprintf("Plant %s Stool: default InnerLegOffset set to 0.1", plant.Name))
 			}
-			if stool.RelativeSeatTopFilletRadius == 0.0 {
+			if stool.LegFilletRadius == 0.0 {
 				needCommit = true
-				stool.RelativeSeatTopFilletRadius = 0.06
-				stager.logAndNotify(fmt.Sprintf("Plant %s Stool: default RelativeSeatTopFilletRadius set to 0.06", plant.Name))
+				stool.LegFilletRadius = 0.2
+				stager.logAndNotify(fmt.Sprintf("Plant %s Stool: default LegFilletRadius set to 0.2", plant.Name))
+			}
+			if stool.SeatTopFilletRadius == 0.0 {
+				needCommit = true
+				stool.SeatTopFilletRadius = 0.5
+				stager.logAndNotify(fmt.Sprintf("Plant %s Stool: default SeatTopFilletRadius set to 0.5", plant.Name))
 			}
 		}
 	}

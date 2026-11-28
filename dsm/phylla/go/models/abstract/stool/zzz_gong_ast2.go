@@ -220,12 +220,12 @@ func (stage *Stage) ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet, p
 						inst.RelativeEyeCornerControlVectorStrength = GongExtractFloat(rhs)
 					case "IsGrasshopperMode":
 						inst.IsGrasshopperMode = GongExtractBool(rhs)
-					case "RelativeInnerLegOffset":
-						inst.RelativeInnerLegOffset = GongExtractFloat(rhs)
-					case "RelativeLegTipFilletRadius":
-						inst.RelativeLegTipFilletRadius = GongExtractFloat(rhs)
-					case "RelativeSeatTopFilletRadius":
-						inst.RelativeSeatTopFilletRadius = GongExtractFloat(rhs)
+					case "InnerLegOffset":
+						inst.InnerLegOffset = GongExtractFloat(rhs)
+					case "LegFilletRadius":
+						inst.LegFilletRadius = GongExtractFloat(rhs)
+					case "SeatTopFilletRadius":
+						inst.SeatTopFilletRadius = GongExtractFloat(rhs)
 					case "IsLegsReachTop":
 						inst.IsLegsReachTop = GongExtractBool(rhs)
 					}
@@ -443,12 +443,12 @@ func (u *StoolAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.RelativeEyeCornerControlVectorStrength = GongExtractFloat(valueExpr)
 	case "IsGrasshopperMode":
 		instance.IsGrasshopperMode = GongExtractBool(valueExpr)
-	case "RelativeInnerLegOffset":
-		instance.RelativeInnerLegOffset = GongExtractFloat(valueExpr)
-	case "RelativeLegTipFilletRadius":
-		instance.RelativeLegTipFilletRadius = GongExtractFloat(valueExpr)
-	case "RelativeSeatTopFilletRadius":
-		instance.RelativeSeatTopFilletRadius = GongExtractFloat(valueExpr)
+	case "InnerLegOffset":
+		instance.InnerLegOffset = GongExtractFloat(valueExpr)
+	case "LegFilletRadius":
+		instance.LegFilletRadius = GongExtractFloat(valueExpr)
+	case "SeatTopFilletRadius":
+		instance.SeatTopFilletRadius = GongExtractFloat(valueExpr)
 	case "IsLegsReachTop":
 		instance.IsLegsReachTop = GongExtractBool(valueExpr)
 	}

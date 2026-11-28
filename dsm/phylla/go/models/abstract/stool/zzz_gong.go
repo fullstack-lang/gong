@@ -913,15 +913,15 @@ func (stoolabstract *StoolAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "RelativeInnerLegOffset",
+			Name:               "InnerLegOffset",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "RelativeLegTipFilletRadius",
+			Name:               "LegFilletRadius",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "RelativeSeatTopFilletRadius",
+			Name:               "SeatTopFilletRadius",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
@@ -1040,17 +1040,17 @@ func (stoolabstract *StoolAbstract) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%t", stoolabstract.IsGrasshopperMode)
 		res.valueBool = stoolabstract.IsGrasshopperMode
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "RelativeInnerLegOffset":
-		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeInnerLegOffset)
-		res.valueFloat = stoolabstract.RelativeInnerLegOffset
+	case "InnerLegOffset":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.InnerLegOffset)
+		res.valueFloat = stoolabstract.InnerLegOffset
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeLegTipFilletRadius":
-		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeLegTipFilletRadius)
-		res.valueFloat = stoolabstract.RelativeLegTipFilletRadius
+	case "LegFilletRadius":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.LegFilletRadius)
+		res.valueFloat = stoolabstract.LegFilletRadius
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeSeatTopFilletRadius":
-		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeSeatTopFilletRadius)
-		res.valueFloat = stoolabstract.RelativeSeatTopFilletRadius
+	case "SeatTopFilletRadius":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.SeatTopFilletRadius)
+		res.valueFloat = stoolabstract.SeatTopFilletRadius
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsLegsReachTop":
 		res.valueString = fmt.Sprintf("%t", stoolabstract.IsLegsReachTop)

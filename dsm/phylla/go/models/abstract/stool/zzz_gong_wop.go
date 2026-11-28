@@ -34,11 +34,11 @@ type StoolAbstract_WOP struct {
 
 	IsGrasshopperMode bool
 
-	RelativeInnerLegOffset float64
+	InnerLegOffset float64
 
-	RelativeLegTipFilletRadius float64
+	LegFilletRadius float64
 
-	RelativeSeatTopFilletRadius float64
+	SeatTopFilletRadius float64
 
 	IsLegsReachTop bool
 }
