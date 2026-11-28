@@ -451,18 +451,16 @@ type stoolDossierMetrics struct {
 	TotalNetVolCM3     float64
 	TotalAreaM2        float64
 
-	// Oriented timber blank dimensions (finished bbox + rough lumber with +6 mm kerf/planing allowance)
-	SeatBlankFinLMM float64
-	SeatBlankFinWMM float64
-	SeatBlankFinTMM float64
-	LegBlankFinLMM  float64 // vertical height along grain
-	LegBlankFinWMM  float64 // oriented chord width
-	LegBlankFinTMM  float64 // oriented radial thickness (tapered envelope)
-
-	SeatGrossBlankDM3 float64
-	LegsGrossBlankDM3 float64
-	TotalGrossDM3     float64
-	MaterialYieldPct  float64
+	// Monolithic block & zone envelopes (+6 mm rough machining allowance per face)
+	SeatBlankFinLMM     float64
+	SeatBlankFinWMM     float64
+	SeatBlankFinTMM     float64
+	MonolithBlockLMM    float64
+	MonolithBlockWMM    float64
+	MonolithBlockHMM    float64
+	MonolithBlockVolDM3 float64
+	ChipRemovalVolDM3   float64
+	MaterialYieldPct    float64
 
 	// CNC perimeter toolpath lengths
 	PerimSeatTopM    float64
@@ -723,56 +721,20 @@ func computeDossierMetrics(plant *models.PlantAbstract, res *StoolGeometriesResu
 	}
 	m.SeatBotMaxDiamMM = 2.0 * maxBotR
 
-	// Single-leg oriented rectangular timber blank aligned along the tilted leg axis (8.5° draft):
-	// center top and bottom contours around the sloped leg axis so the straight board cross-section
-	// reflects true cabinetmaking practice (bevel-cut ends rather than a vertical axis-aligned block).
-	centerLoop := func(pts [][2]float64) [][2]float64 {
-		if len(pts) == 0 {
-			return nil
-		}
-		var sx, sy float64
-		for _, q := range pts {
-			sx += q[0]
-			sy += q[1]
-		}
-		cx, cy := sx/float64(len(pts)), sy/float64(len(pts))
-		out := make([][2]float64, len(pts))
-		for i, q := range pts {
-			out[i] = [2]float64{q[0] - cx, q[1] - cy}
-		}
-		return out
-	}
-	var tiltedLegSectionPts [][2]float64
-	tiltedLegSectionPts = append(tiltedLegSectionPts, centerLoop(m.FootTop0CAD)...)
-	tiltedLegSectionPts = append(tiltedLegSectionPts, centerLoop(m.FootBot0CAD)...)
-	legChord, legThick, _ := minOrientedRect2D(tiltedLegSectionPts)
-	cosDraft := math.Cos(m.ProjAngleDeg * math.Pi / 180.0)
-	if cosDraft < 0.5 {
-		cosDraft = 1.0
-	}
-	m.LegBlankFinLMM = m.LegHeightMM/cosDraft + legThick*math.Tan(m.ProjAngleDeg*math.Pi/180.0)
-	m.LegBlankFinWMM = legChord
-	m.LegBlankFinTMM = legThick
-
 	botChord, botDepth, _ := minOrientedRect2D(m.FootBot0CAD)
 	m.LegChordBotMM = botChord
 	m.LegDepthBotMM = botDepth
 
-	// Gross rough-sawn timber blank volumes (in dm³ = liters), adding +6 mm machining allowance
-	seatGrossL := m.SeatBlankFinLMM + 2*roughBlankAllowanceMM
-	seatGrossW := m.SeatBlankFinWMM + 2*roughBlankAllowanceMM
-	seatGrossT := m.SeatBlankFinTMM + roughBlankAllowanceMM
-	m.SeatGrossBlankDM3 = (seatGrossL * seatGrossW * seatGrossT) * 1e-6
-
-	legGrossL := m.LegBlankFinLMM + 2*roughBlankAllowanceMM
-	legGrossW := m.LegBlankFinWMM + 2*roughBlankAllowanceMM
-	legGrossT := m.LegBlankFinTMM + 2*roughBlankAllowanceMM
-	m.LegsGrossBlankDM3 = float64(reps) * (legGrossL * legGrossW * legGrossT) * 1e-6
-	m.TotalGrossDM3 = m.SeatGrossBlankDM3 + m.LegsGrossBlankDM3
+	// Monolithic raw block envelope (+6 mm machining allowance on each face) for one-piece CAD/CNC carving
+	m.MonolithBlockLMM = m.OverallWidthXMM + 2*roughBlankAllowanceMM
+	m.MonolithBlockWMM = m.OverallDepthZMM + 2*roughBlankAllowanceMM
+	m.MonolithBlockHMM = m.OverallHeightMM + 2*roughBlankAllowanceMM
+	m.MonolithBlockVolDM3 = (m.MonolithBlockLMM * m.MonolithBlockWMM * m.MonolithBlockHMM) * 1e-6
 
 	netDM3 := m.TotalNetVolCM3 * 1e-3
-	if m.TotalGrossDM3 > 1e-6 {
-		m.MaterialYieldPct = 100.0 * netDM3 / m.TotalGrossDM3
+	m.ChipRemovalVolDM3 = math.Max(0.0, m.MonolithBlockVolDM3-netDM3)
+	if m.MonolithBlockVolDM3 > 1e-6 {
+		m.MaterialYieldPct = 100.0 * netDM3 / m.MonolithBlockVolDM3
 	}
 
 	m.PerimSeatTopM = loopPerimeterMM(m.SeatTopCAD) * 1e-3
@@ -1017,13 +979,13 @@ func drawOrthographicElevation(
 	midY := 0.5 * m.OverallHeightMM
 	cyMM := baseFloorYMM + midY*scale
 
-	// Subtle tonal fill + crisp silhouette edges
+	// Uniform monolithic tonal fill + crisp silhouette edges
 	renderShadedMeshProjection(
 		p, res.SeatGeom, res.LegsGeom,
 		cxMM, cyMM, scale, midY,
 		rightVec, upVec, viewDir,
-		[3]float64{0.93, 0.90, 0.85},
-		[3]float64{0.87, 0.83, 0.77},
+		[3]float64{0.91, 0.88, 0.83},
+		[3]float64{0.91, 0.88, 0.83},
 	)
 
 	// Overlay crisp silhouette & feature edges (boundary between front-facing and back-facing or sharp angle)
@@ -1246,10 +1208,10 @@ func buildSheet1Orthographic(doc *pdfDocument, m *stoolDossierMetrics, res *Stoo
 		p, res.SeatGeom, res.LegsGeom,
 		isoCX, isoCY, scale*1.08, 0.5*m.OverallHeightMM,
 		isoRight, isoUp, isoView,
-		[3]float64{0.78, 0.64, 0.46}, // warm oak tone
-		[3]float64{0.68, 0.53, 0.36},
+		[3]float64{0.76, 0.62, 0.45}, // monolithic matte oak tone
+		[3]float64{0.76, 0.62, 0.45},
 	)
-	drawViewLabel(p, isoCX, 64.0, "ISOMETRIC 3D SHADED VIEW", fmt.Sprintf("Net Solid Wood Volume: %.2f dm³  |  Surface Area: %.3f m²", m.TotalNetVolCM3*1e-3, m.TotalAreaM2))
+	drawViewLabel(p, isoCX, 64.0, "ISOMETRIC 3D MONOLITHIC VIEW", fmt.Sprintf("One-Piece Net Volume: %.2f dm³  |  Surface Area: %.3f m²", m.TotalNetVolCM3*1e-3, m.TotalAreaM2))
 
 	// Summary key-data box between top & side view (x: 162..246, y: 205..268)
 	bx, by, bw, bh := 158.0, 204.0, 92.0, 64.0
@@ -1282,7 +1244,7 @@ func buildSheet1Orthographic(doc *pdfDocument, m *stoolDossierMetrics, res *Stoo
 }
 
 // ==============================================================================
-// SHEET 2: BOTTOM PLAN, AXIAL SECTION A-A & HELICAL STACKING PITCH
+// SHEET 2: BOTTOM PLAN, MONOLITHIC SECTION A-A & HELICAL STACKING PITCH
 // ==============================================================================
 
 func buildSheet2SectionAndStacking(doc *pdfDocument, m *stoolDossierMetrics, res *StoolGeometriesResult) {
@@ -1293,9 +1255,9 @@ func buildSheet2SectionAndStacking(doc *pdfDocument, m *stoolDossierMetrics, res
 		scale = 105.0 / maxDim
 	}
 	scaleLabel := fmt.Sprintf("1 : %.0f", math.Round(1.0/scale))
-	drawSheetFrameAndTitleBlock(p, m, 2, 4, "UNDERSIDE JOINERY PLAN, SECTION A-A & STACKING", scaleLabel)
+	drawSheetFrameAndTitleBlock(p, m, 2, 4, "BOTTOM PLAN VIEW, MONOLITHIC SECTION A-A & STACKING", scaleLabel)
 
-	// 1. BOTTOM PLAN VIEW (Underneath Joinery & Mortise Registration, x=88, y=156)
+	// 1. BOTTOM PLAN VIEW (Underside Contours — No Joinery Assumed, x=84, y=158)
 	botCX, botCY := 84.0, 158.0
 	p.Save()
 	if len(m.SeatTopCAD) >= 3 {
@@ -1310,7 +1272,7 @@ func buildSheet2SectionAndStacking(doc *pdfDocument, m *stoolDossierMetrics, res
 	}
 	if len(m.SeatBotCAD) >= 3 {
 		p.SetSolid()
-		p.SetFillRGB(0.96, 0.94, 0.90)
+		p.SetFillRGB(0.95, 0.92, 0.87)
 		p.SetStrokeRGB(0.12, 0.16, 0.22)
 		p.SetLineWidthMM(0.32)
 		pts := make([][2]float64, len(m.SeatBotCAD))
@@ -1319,7 +1281,7 @@ func buildSheet2SectionAndStacking(doc *pdfDocument, m *stoolDossierMetrics, res
 		}
 		p.Polygon(pts, true, true, true)
 	}
-	// Draw the 3 leg top joint pads (hatched/shaded) + leg bottom floor pads + dowel centers
+	// Draw the 3 crescent leg floor footprints & root transition contours (continuous one-piece geometry)
 	for k := range m.RadialReps {
 		rot := -float64(k) * 2.0 * math.Pi / float64(m.RadialReps)
 		ft := rotateCADLoop(m.FootTop0CAD, rot)
@@ -1340,25 +1302,10 @@ func buildSheet2SectionAndStacking(doc *pdfDocument, m *stoolDossierMetrics, res
 			for i, q := range ft {
 				ptsT[i] = [2]float64{botCX - q[0]*scale, botCY + q[1]*scale}
 			}
-			p.SetFillRGB(0.74, 0.58, 0.42)
-			p.SetStrokeRGB(0.18, 0.12, 0.08)
-			p.SetLineWidthMM(0.30)
-			p.Polygon(ptsT, true, true, true)
-
-			// 2x Domino / Ø8 dowel locator marks at 1/3 and 2/3 along exterior/interior midline
-			if len(ft) >= 20 {
-				idx1 := len(ft) / 6
-				idx2 := len(ft) / 3
-				for _, id := range []int{idx1, idx2} {
-					opp := (len(ft) - 1 - id) % len(ft)
-					mx := 0.5 * (ptsT[id][0] + ptsT[opp][0])
-					my := 0.5 * (ptsT[id][1] + ptsT[opp][1])
-					p.SetFillRGB(1, 1, 1)
-					p.SetStrokeRGB(0.10, 0.10, 0.12)
-					p.SetLineWidthMM(0.20)
-					p.Circle(mx, my, 0.9, true, true)
-				}
-			}
+			p.SetDashMM(1.2, 0.8)
+			p.SetStrokeRGB(0.32, 0.24, 0.16)
+			p.SetLineWidthMM(0.24)
+			p.Polygon(ptsT, true, true, false)
 		}
 	}
 	p.Restore()
@@ -1376,55 +1323,55 @@ func buildSheet2SectionAndStacking(doc *pdfDocument, m *stoolDossierMetrics, res
 	p.Text(botCX+secR+6, botCY+1.5, 8.5, "F2", "A")
 	p.Restore()
 
-	drawViewLabel(p, botCX, botCY-secR-12.0, "BOTTOM PLAN VIEW (SEAT UNDERSIDE JOINERY)",
-		fmt.Sprintf("Scale %s  |  %d × Crescent Leg Butt/Pocket Joints + 2 × Ø8×40 Dowels (or Domino 8×40) per Leg", scaleLabel, m.RadialReps))
+	drawViewLabel(p, botCX, botCY-secR-12.0, "BOTTOM PLAN VIEW (UNDERSIDE CONTOURS)",
+		fmt.Sprintf("Scale %s  |  %d-Fold Radial Symmetry (120°)  |  Monolithic One-Piece Form", scaleLabel, m.RadialReps))
 
-	// 2. AXIAL VERTICAL SECTION A-A (center column: x=196, floor at y=68, enlarged)
+	// 2. MONOLITHIC AXIAL VERTICAL SECTION A-A (center column: x=196, floor at y=68)
 	secCX, secFloorY := 196.0, 68.0
 	secScale := scale * 1.18
 	rSeatTop := 0.5 * m.SeatTopMaxDiamMM
 	rSeatBot := 0.5 * m.SeatBotMaxDiamMM
 	filletR := math.Min(m.SeatTopFilletMM, 0.4*m.SeatSkirtHeightMM)
 
-	// Build hatched seat cross-section polygon
-	var seatSecPts [][2]float64
-	seatSecPts = append(seatSecPts, [2]float64{secCX - rSeatBot*secScale, secFloorY + m.SeatBottomYMM*secScale})
-	if filletR > 0.2 {
-		steps := 8
-		for s := 0; s <= steps; s++ {
-			ang := float64(s) * (0.5 * math.Pi) / float64(steps)
-			rx := -(rSeatTop - filletR + filletR*math.Cos(ang))
-			ry := m.OverallHeightMM - filletR + filletR*math.Sin(ang)
-			seatSecPts = append(seatSecPts, [2]float64{secCX + rx*secScale, secFloorY + ry*secScale})
-		}
-		for s := steps; s >= 0; s-- {
-			ang := float64(s) * (0.5 * math.Pi) / float64(steps)
-			rx := +(rSeatTop - filletR + filletR*math.Cos(ang))
-			ry := m.OverallHeightMM - filletR + filletR*math.Sin(ang)
-			seatSecPts = append(seatSecPts, [2]float64{secCX + rx*secScale, secFloorY + ry*secScale})
-		}
-	} else {
-		seatSecPts = append(seatSecPts,
-			[2]float64{secCX - rSeatTop*secScale, secFloorY + m.OverallHeightMM*secScale},
-			[2]float64{secCX + rSeatTop*secScale, secFloorY + m.OverallHeightMM*secScale},
-		)
-	}
-	seatSecPts = append(seatSecPts, [2]float64{secCX + rSeatBot*secScale, secFloorY + m.SeatBottomYMM*secScale})
-
-	// Draw leg cross-section (tapered wall at projection angle)
 	legTopOuterR := rSeatBot - 2.0
 	legWallTop := math.Max(12.0, m.LegMidWidthTopMM)
 	legWallBot := math.Max(14.0, m.LegMidWidthBotMM)
 	tanDraft := math.Tan(m.ProjAngleDeg * math.Pi / 180.0)
 	legBotOuterR := legTopOuterR + m.SeatBottomYMM*tanDraft
 
-	legSecRight := [][2]float64{
-		{secCX + (legTopOuterR-legWallTop)*secScale, secFloorY + m.SeatBottomYMM*secScale},
-		{secCX + legTopOuterR*secScale, secFloorY + m.SeatBottomYMM*secScale},
-		{secCX + legBotOuterR*secScale, secFloorY},
-		{secCX + (legBotOuterR-legWallBot)*secScale, secFloorY},
+	// Build ONE SINGLE UNIFIED MONOLITHIC cross-section polygon (seat + sectioned right leg with zero seam!)
+	var monolithSecPts [][2]float64
+	monolithSecPts = append(monolithSecPts, [2]float64{secCX - rSeatBot*secScale, secFloorY + m.SeatBottomYMM*secScale})
+	if filletR > 0.2 {
+		steps := 8
+		for s := 0; s <= steps; s++ {
+			ang := float64(s) * (0.5 * math.Pi) / float64(steps)
+			rx := -(rSeatTop - filletR + filletR*math.Cos(ang))
+			ry := m.OverallHeightMM - filletR + filletR*math.Sin(ang)
+			monolithSecPts = append(monolithSecPts, [2]float64{secCX + rx*secScale, secFloorY + ry*secScale})
+		}
+		for s := steps; s >= 0; s-- {
+			ang := float64(s) * (0.5 * math.Pi) / float64(steps)
+			rx := +(rSeatTop - filletR + filletR*math.Cos(ang))
+			ry := m.OverallHeightMM - filletR + filletR*math.Sin(ang)
+			monolithSecPts = append(monolithSecPts, [2]float64{secCX + rx*secScale, secFloorY + ry*secScale})
+		}
+	} else {
+		monolithSecPts = append(monolithSecPts,
+			[2]float64{secCX - rSeatTop*secScale, secFloorY + m.OverallHeightMM*secScale},
+			[2]float64{secCX + rSeatTop*secScale, secFloorY + m.OverallHeightMM*secScale},
+		)
 	}
-	// Back leg shown in unsectioned elevation on left
+	// Right seat skirt bottom overhang -> right leg outer wall -> floor -> right leg inner wall -> seat underside
+	monolithSecPts = append(monolithSecPts,
+		[2]float64{secCX + rSeatBot*secScale, secFloorY + m.SeatBottomYMM*secScale},
+		[2]float64{secCX + legTopOuterR*secScale, secFloorY + m.SeatBottomYMM*secScale},
+		[2]float64{secCX + legBotOuterR*secScale, secFloorY},
+		[2]float64{secCX + (legBotOuterR-legWallBot)*secScale, secFloorY},
+		[2]float64{secCX + (legTopOuterR-legWallTop)*secScale, secFloorY + m.SeatBottomYMM*secScale},
+	)
+
+	// Back leg shown in unsectioned background elevation on left
 	legElevLeft := [][2]float64{
 		{secCX - (legTopOuterR-legWallTop)*secScale, secFloorY + m.SeatBottomYMM*secScale},
 		{secCX - legTopOuterR*secScale, secFloorY + m.SeatBottomYMM*secScale},
@@ -1438,98 +1385,82 @@ func buildSheet2SectionAndStacking(doc *pdfDocument, m *stoolDossierMetrics, res
 	p.SetLineWidthMM(0.22)
 	p.Polygon(legElevLeft, true, true, true)
 
-	// Sectioned hardwood polygons + 45° ANSI/ISO wood section hatching
-	drawHatchedPoly := func(poly [][2]float64, spacingMM float64) {
-		p.SetFillRGB(0.95, 0.91, 0.84)
-		p.SetStrokeRGB(0.08, 0.11, 0.16)
-		p.SetLineWidthMM(0.34)
-		p.Polygon(poly, true, true, true)
+	// Continuous 45° solid-material section hatching across the unified monolithic polygon
+	p.SetFillRGB(0.95, 0.91, 0.84)
+	p.SetStrokeRGB(0.08, 0.11, 0.16)
+	p.SetLineWidthMM(0.34)
+	p.Polygon(monolithSecPts, true, true, true)
 
-		minX, maxX := math.MaxFloat64, -math.MaxFloat64
-		minY, maxY := math.MaxFloat64, -math.MaxFloat64
-		for _, q := range poly {
-			if q[0] < minX {
-				minX = q[0]
-			}
-			if q[0] > maxX {
-				maxX = q[0]
-			}
-			if q[1] < minY {
-				minY = q[1]
-			}
-			if q[1] > maxY {
-				maxY = q[1]
-			}
+	minX, maxX := math.MaxFloat64, -math.MaxFloat64
+	minY, maxY := math.MaxFloat64, -math.MaxFloat64
+	for _, q := range monolithSecPts {
+		if q[0] < minX {
+			minX = q[0]
 		}
-		p.Save()
-		p.ClipPolygon(poly)
-		cMinX, cMinY := minX-2.0, minY-2.0
-		cW, cH := (maxX-minX)+4.0, (maxY-minY)+4.0
-		if cW > 0.5 && cH > 0.5 {
-			p.SetStrokeRGB(0.42, 0.32, 0.22)
-			p.SetLineWidthMM(0.12)
-			span := cW + cH
-			for d := -cH; d <= span; d += spacingMM {
-				p.Line(cMinX+d, cMinY, cMinX+d+cH, cMinY+cH)
-			}
+		if q[0] > maxX {
+			maxX = q[0]
 		}
-		p.Restore()
-		p.SetStrokeRGB(0.08, 0.11, 0.16)
-		p.SetLineWidthMM(0.34)
-		p.Polygon(poly, true, true, false)
+		if q[1] < minY {
+			minY = q[1]
+		}
+		if q[1] > maxY {
+			maxY = q[1]
+		}
 	}
-
-	drawHatchedPoly(legSecRight, 2.2)
-	drawHatchedPoly(seatSecPts, 2.2)
-
-	// Draw Ø8×40 dowel across the seat-to-leg joint on right side
-	dowelMidX := secCX + (legTopOuterR-0.5*legWallTop)*secScale
-	dowelY := secFloorY + m.SeatBottomYMM*secScale
-	p.SetFillRGB(0.72, 0.55, 0.36)
-	p.SetStrokeRGB(0.12, 0.12, 0.15)
-	p.SetLineWidthMM(0.22)
-	p.Rect(dowelMidX-0.5*8.0*secScale, dowelY-20.0*secScale, 8.0*secScale, 40.0*secScale, true, true)
+	p.Save()
+	p.ClipPolygon(monolithSecPts)
+	cMinX, cMinY := minX-2.0, minY-2.0
+	cW, cH := (maxX-minX)+4.0, (maxY-minY)+4.0
+	if cW > 0.5 && cH > 0.5 {
+		p.SetStrokeRGB(0.42, 0.32, 0.22)
+		p.SetLineWidthMM(0.12)
+		span := cW + cH
+		for d := -cH; d <= span; d += 2.2 {
+			p.Line(cMinX+d, cMinY, cMinX+d+cH, cMinY+cH)
+		}
+	}
+	p.Restore()
+	p.SetStrokeRGB(0.08, 0.11, 0.16)
+	p.SetLineWidthMM(0.36)
+	p.Polygon(monolithSecPts, true, true, false)
 	p.Restore()
 
-	p.LeaderCallout(dowelMidX, dowelY+6*secScale, secCX+legTopOuterR*secScale+4, dowelY+16, secCX+legTopOuterR*secScale+10,
-		"2 × Ø8×40 Fluted Beech Dowels", "(or Festool Domino 8×40 + D3 Glue)")
-	// Place leg wall thickness callout cleanly inside the open under-seat cavity (zero overlap with Stacking view!)
+	rootX := secCX + (legTopOuterR-0.5*legWallTop)*secScale
+	rootY := secFloorY + m.SeatBottomYMM*secScale
+	p.LeaderCallout(rootX, rootY+3*secScale, secCX+legTopOuterR*secScale+4, rootY+16, secCX+legTopOuterR*secScale+9,
+		"Monolithic One-Piece Transition", "(Continuous 5-Axis CNC Carving — No Assembly)")
 	p.LeaderCallout(secCX+(legBotOuterR-legWallBot)*secScale+1.0, secFloorY+26, secCX+16, secFloorY+34, secCX+6,
 		fmt.Sprintf("Mid-Leg Thickness %.1f mm", m.LegMidWidthBotMM),
 		fmt.Sprintf("Conical Slope α = %.1f°", m.ProjAngleDeg))
 	p.DimLinear(secCX-legBotOuterR*secScale, secFloorY, secCX-legBotOuterR*secScale, secFloorY+m.OverallHeightMM*secScale, -8.5, fmt.Sprintf("%.1f", m.OverallHeightMM))
-	drawViewLabel(p, secCX, secFloorY-8.5, "AXIAL VERTICAL SECTION A-A", "Solid Hardwood Grain & Dowel/Domino Joinery")
+	drawViewLabel(p, secCX, secFloorY-8.5, "MONOLITHIC AXIAL SECTION A-A", "Continuous One-Piece Solid Geometry (Zero Joinery)")
 
 	// 3. STACKED CONFIGURATION (2x NESTED STOOLS ELEVATION, right column: x=346, floor at y=68)
 	stCX, stFloorY := 346.0, 68.0
 	stScale := scale * 0.88
-	// Build combined 2-stool stacked preview by projecting lower stool + upper rotated/shifted stool
 	stageStack := threejs.NewStage("pdf_stack")
 	var upperSeat, upperLegs *threejs.BufferGeometry
 	if gh := res.GrasshopperContours; gh != nil {
 		upperSeat = buildGrasshopperSeatGeom(stageStack, "UpperSeat", gh, res.GrowthThetaStep, m.StackPitchHeightMM)
 		upperLegs = buildGrasshopperLegsGeom(stageStack, "UpperLegs", gh, res.GrowthThetaStep, m.StackPitchHeightMM)
 	}
-	midStackY := 0.5 * (m.OverallHeightMM + m.StackPitchHeightMM)
-	stCY := stFloorY + midStackY*stScale
 
 	renderShadedMeshProjection(
 		p, res.SeatGeom, res.LegsGeom,
 		stCX, stFloorY+0.5*m.OverallHeightMM*stScale, stScale, 0.5*m.OverallHeightMM,
 		[3]float64{1, 0, 0}, [3]float64{0, 1, 0}, [3]float64{0, 0.18, 0.98},
-		[3]float64{0.62, 0.46, 0.32}, // walnut lower stool
-		[3]float64{0.54, 0.39, 0.26},
+		[3]float64{0.58, 0.43, 0.29}, // monolithic walnut lower stool
+		[3]float64{0.58, 0.43, 0.29},
 	)
 	if upperSeat != nil && upperLegs != nil {
 		renderShadedMeshProjection(
 			p, upperSeat, upperLegs,
 			stCX, stFloorY+(0.5*m.OverallHeightMM+m.StackPitchHeightMM)*stScale, stScale, 0.5*m.OverallHeightMM+m.StackPitchHeightMM,
 			[3]float64{1, 0, 0}, [3]float64{0, 1, 0}, [3]float64{0, 0.18, 0.98},
-			[3]float64{0.86, 0.75, 0.58}, // white oak upper stool
-			[3]float64{0.78, 0.66, 0.49},
+			[3]float64{0.82, 0.70, 0.54}, // monolithic oak upper stool
+			[3]float64{0.82, 0.70, 0.54},
 		)
 	}
-	_ = stCY
 	halfStW := 0.52 * m.OverallWidthXMM * stScale
 	total2H := (m.OverallHeightMM + m.StackPitchHeightMM) * stScale
 	h1S := m.OverallHeightMM * stScale
@@ -1646,13 +1577,13 @@ func buildSheet3CNCContoursAndFilletDetail(doc *pdfDocument, m *stoolDossierMetr
 		spanU := math.Max(maxU-minU, 1.0)
 		detScale := math.Min(0.68, 128.0/spanU)
 
-		// Dashed oriented rectangular lumber blank (+6 mm machining allowance)
-		bW := (maxU - minU + 2*roughBlankAllowanceMM) * detScale
-		bH := (maxV - minV + 2*roughBlankAllowanceMM) * detScale
+		// Oriented bounding box of the single foot cross-section
+		bW := (maxU - minU) * detScale
+		bH := (maxV - minV) * detScale
 		p.Save()
-		p.SetDashMM(2.0, 1.2)
-		p.SetStrokeRGB(0.62, 0.42, 0.20)
-		p.SetLineWidthMM(0.22)
+		p.SetDashMM(1.8, 1.1)
+		p.SetStrokeRGB(0.55, 0.58, 0.64)
+		p.SetLineWidthMM(0.18)
 		p.Rect(detCX-0.5*bW, detCY-0.5*bH, bW, bH, true, false)
 
 		p.SetSolid()
@@ -1666,9 +1597,9 @@ func buildSheet3CNCContoursAndFilletDetail(doc *pdfDocument, m *stoolDossierMetr
 		p.Polygon(polyB, true, true, true)
 		p.Restore()
 
-		p.DimLinear(detCX-0.5*(maxU-minU)*detScale, detCY-0.5*bH, detCX+0.5*(maxU-minU)*detScale, detCY-0.5*bH, -7.5,
-			fmt.Sprintf("Chord %.1f mm (Blank %.0f mm)", maxU-minU, maxU-minU+2*roughBlankAllowanceMM))
-		p.DimLinear(detCX+0.5*bW, detCY-0.5*(maxV-minV)*detScale, detCX+0.5*bW, detCY+0.5*(maxV-minV)*detScale, 8.5,
+		p.DimLinear(detCX-0.5*bW, detCY-0.5*bH, detCX+0.5*bW, detCY-0.5*bH, -7.5,
+			fmt.Sprintf("Chord %.1f mm", maxU-minU))
+		p.DimLinear(detCX+0.5*bW, detCY-0.5*bH, detCX+0.5*bW, detCY+0.5*bH, 8.5,
 			fmt.Sprintf("Depth %.1f mm", maxV-minV))
 
 		// Circle callout around right tip for Detail C
@@ -1688,7 +1619,7 @@ func buildSheet3CNCContoursAndFilletDetail(doc *pdfDocument, m *stoolDossierMetr
 		p.Text(tipPt[0]+5.5, tipPt[1]+5.5, 7.2, "F2", "DETAIL C")
 		p.Restore()
 
-		drawViewLabel(p, detCX, 258.0, "DETAIL B — SINGLE CRESCENT FOOT PROFILE & LUMBER ENVELOPE",
+		drawViewLabel(p, detCX, 258.0, "DETAIL B — SINGLE CRESCENT FOOT CROSS-SECTION",
 			fmt.Sprintf("Scale 1 : %.2f  |  Mid-Wall Thickness = %.1f mm", 1.0/detScale, m.LegMidWidthBotMM))
 
 		// 3. Lower-right: DETAIL C — High-Magnification (6:1) Zoom of the 0.2 Leg Tip Fillet!
@@ -1835,114 +1766,83 @@ func drawTableSection(
 
 func buildSheet4BOMAndCostDrivers(doc *pdfDocument, m *stoolDossierMetrics) {
 	p := doc.NewPage()
-	drawSheetFrameAndTitleBlock(p, m, 4, 4, "BILL OF MATERIALS, TIMBER BLANKS & COST SCHEDULE", "N/A (DATA)")
+	drawSheetFrameAndTitleBlock(p, m, 4, 4, "MONOLITHIC BLOCK SIZING, MASS & CNC CARVING SCHEDULE", "N/A (DATA)")
 
-	seatGrossL := m.SeatBlankFinLMM + 2*roughBlankAllowanceMM
-	seatGrossW := m.SeatBlankFinWMM + 2*roughBlankAllowanceMM
-	seatGrossT := m.SeatBlankFinTMM + roughBlankAllowanceMM
-
-	legGrossL := m.LegBlankFinLMM + 2*roughBlankAllowanceMM
-	legGrossW := m.LegBlankFinWMM + 2*roughBlankAllowanceMM
-	legGrossT := m.LegBlankFinTMM + 2*roughBlankAllowanceMM
-
-	// 1. BOM & Rough Timber Blank Schedule (full width top table: x=18, w=384)
-	bomCols := []float64{18, 78, 16, 54, 58, 38, 38, 42, 42}
-	bomHdrs := []string{"POS", "COMPONENT / PROCESS", "QTY", "FINISHED ENVELOPE (mm)", "ROUGH TIMBER BLANK (+6 mm)", "NET VOL (dm³)", "BLANK VOL (dm³)", "FINISH AREA (m²)", "CNC PATH (m)"}
+	// 1. Monolithic Geometry & Raw Block Schedule — One-Piece CAD/CNC Carving (no assembly assumed!)
+	bomCols := []float64{18, 86, 16, 54, 56, 36, 38, 40, 40}
+	bomHdrs := []string{"ZONE", "MONOLITHIC FEATURE / REGION", "QTY", "FINISHED ENVELOPE (mm)", "RAW BLOCK ENVELOPE (+6 mm)", "NET VOL (dm³)", "BLOCK VOL (dm³)", "SURFACE (m²)", "CONTOUR (m)"}
 	bomAlign := []string{"center", "left", "center", "right", "right", "right", "right", "right", "right"}
 	bomRows := [][]string{
 		{
-			"01",
-			"Scalloped Tapered Seat (Solid Edge-Glued Slab)",
+			"Z1",
+			fmt.Sprintf("Upper Scalloped Seat Region (Z = %.1f .. %.1f mm)", m.SeatBottomYMM, m.OverallHeightMM),
 			"1",
 			fmt.Sprintf("%.1f × %.1f × %.1f", m.SeatBlankFinLMM, m.SeatBlankFinWMM, m.SeatBlankFinTMM),
-			fmt.Sprintf("%.0f × %.0f × %.0f", seatGrossL, seatGrossW, seatGrossT),
+			"Part of Monolith",
 			fmt.Sprintf("%.3f", m.SeatNetVolCM3*1e-3),
-			fmt.Sprintf("%.3f", m.SeatGrossBlankDM3),
+			"—",
 			fmt.Sprintf("%.3f", m.SeatAreaM2),
 			fmt.Sprintf("%.2f", m.PerimSeatTopM+m.PerimSeatBotM),
 		},
 		{
-			"02",
-			"Tapered Crescent Leg (Interchangeable 120°)",
-			fmt.Sprintf("%d", m.RadialReps),
-			fmt.Sprintf("%.1f × %.1f × %.1f (ea)", m.LegBlankFinLMM, m.LegBlankFinWMM, m.LegBlankFinTMM),
-			fmt.Sprintf("%.0f × %.0f × %.0f (ea)", legGrossL, legGrossW, legGrossT),
-			fmt.Sprintf("%.3f (tot)", m.LegsTotalNetVolCM3*1e-3),
-			fmt.Sprintf("%.3f (tot)", m.LegsGrossBlankDM3),
-			fmt.Sprintf("%.3f (tot)", m.LegsTotalAreaM2),
-			fmt.Sprintf("%.2f (tot)", float64(m.RadialReps)*2.0*m.PerimSingleFootM),
-		},
-		{
-			"03",
-			"Fluted Beech Dowels Ø8×40 (or Domino 8×40) + D3 Glue",
-			fmt.Sprintf("%d", m.RadialReps*2),
-			"Ø8.0 × 40.0",
-			"Standard Hardware",
+			"Z2",
+			fmt.Sprintf("Lower %d-Crescent-Leg Region (Z = 0.0 .. %.1f mm)", m.RadialReps, m.LegHeightMM),
+			fmt.Sprintf("%d lobes", m.RadialReps),
+			fmt.Sprintf("Chord %.1f × %.1f × %.1f", m.LegChordBotMM, m.LegDepthBotMM, m.LegHeightMM),
+			"Part of Monolith",
+			fmt.Sprintf("%.3f", m.LegsTotalNetVolCM3*1e-3),
 			"—",
-			"—",
-			"—",
-			"6 mortises",
-		},
-		{
-			"04",
-			"Felt Floor Glides (Recessed Self-Adhesive Wool Pad)",
-			fmt.Sprintf("%d", m.RadialReps),
-			"Ø18.0 × 3.0",
-			"Standard Hardware",
-			"—",
-			"—",
-			"—",
-			"—",
+			fmt.Sprintf("%.3f", m.LegsTotalAreaM2),
+			fmt.Sprintf("%.2f", float64(m.RadialReps)*2.0*m.PerimSingleFootM),
 		},
 		{
 			"TOTAL",
-			fmt.Sprintf("COMPLETE STOOL (Net/Blank Yield = %.1f%%)", m.MaterialYieldPct),
-			"1 set",
-			fmt.Sprintf("%.0f × %.0f × %.0f", m.OverallWidthXMM, m.OverallDepthZMM, m.OverallHeightMM),
-			fmt.Sprintf("%.2f BF (Board-Feet)", m.TotalGrossDM3/2.3597),
+			fmt.Sprintf("ONE-PIECE MONOLITHIC STOOL (Chip Removal = %.1f dm³)", m.ChipRemovalVolDM3),
+			"1 pc",
+			fmt.Sprintf("%.0f × %.0f × %.1f", m.OverallWidthXMM, m.OverallDepthZMM, m.OverallHeightMM),
+			fmt.Sprintf("%.0f × %.0f × %.0f", m.MonolithBlockLMM, m.MonolithBlockWMM, m.MonolithBlockHMM),
 			fmt.Sprintf("%.3f dm³", m.TotalNetVolCM3*1e-3),
-			fmt.Sprintf("%.3f dm³", m.TotalGrossDM3),
+			fmt.Sprintf("%.2f dm³", m.MonolithBlockVolDM3),
 			fmt.Sprintf("%.3f m²", m.TotalAreaM2),
 			fmt.Sprintf("%.2f m", m.TotalCNCToolpathM),
 		},
 	}
-	nextY := drawTableSection(p, 18, 268, 384, "1. BILL OF MATERIALS (BOM) & SOLID HARDWOOD TIMBER BLANK SCHEDULE", bomCols, bomHdrs, bomAlign, bomRows)
+	nextY := drawTableSection(p, 18, 268, 384, "1. MONOLITHIC GEOMETRY & SOLID BLOCK SCHEDULE — ONE-PIECE CAD/CNC CARVING (NO ASSEMBLY)", bomCols, bomHdrs, bomAlign, bomRows)
 
-	// 2. Left lower table: Wood Species Mass & Lumber Consumption Comparison (x=18, w=196)
+	// 2. Left lower table: Wood Species Mass & Raw Monolithic Block Comparison (x=18, w=196)
 	netM3 := m.TotalNetVolCM3 * 1e-6
-	grossM3 := m.TotalGrossDM3 * 1e-3
-	bfTotal := m.TotalGrossDM3 / 2.3597
+	blockM3 := m.MonolithBlockVolDM3 * 1e-3
 
-	spCols := []float64{68, 32, 32, 32, 32}
-	spHdrs := []string{"HARDWOOD SPECIES (KD 8-10%)", "DENSITY", "FINISHED MASS", "GROSS LUMBER", "FINISH OIL/SOAP"}
+	spCols := []float64{68, 30, 32, 34, 32}
+	spHdrs := []string{"SOLID TIMBER SPECIES (KD 8-10%)", "DENSITY", "FINISHED MASS", "RAW BLOCK MASS", "MATTE WAX/OIL"}
 	spAlign := []string{"left", "right", "right", "right", "right"}
-	oilGrams := m.TotalAreaM2 * 95.0 // ~95 g/m² for 2 coats hardwax oil / Nordic soap
+	waxGrams := m.TotalAreaM2 * 85.0
 	spRows := [][]string{
 		{
-			"European White Oak (Quercus robur)",
+			"French / European White Oak",
 			"720 kg/m³",
 			fmt.Sprintf("%.2f kg", netM3*densityEuropeanOakKgM3),
-			fmt.Sprintf("%.2f dm³ (%.1f BF)", grossM3*1e3, bfTotal),
-			fmt.Sprintf("%.0f g (2 coats)", oilGrams),
+			fmt.Sprintf("%.1f kg (%.0f dm³)", blockM3*densityEuropeanOakKgM3, m.MonolithBlockVolDM3),
+			fmt.Sprintf("%.0f g (matte)", waxGrams),
 		},
 		{
-			"American Black Walnut (Juglans nigra)",
+			"Black Walnut (Juglans nigra / regia)",
 			"640 kg/m³",
 			fmt.Sprintf("%.2f kg", netM3*densityAmericanWalnutKgM3),
-			fmt.Sprintf("%.2f dm³ (%.1f BF)", grossM3*1e3, bfTotal),
-			fmt.Sprintf("%.0f g (2 coats)", oilGrams),
+			fmt.Sprintf("%.1f kg (%.0f dm³)", blockM3*densityAmericanWalnutKgM3, m.MonolithBlockVolDM3),
+			fmt.Sprintf("%.0f g (matte)", waxGrams),
 		},
 		{
-			"Nordic White Ash (Fraxinus excelsior)",
+			"European White Ash (Fraxinus)",
 			"690 kg/m³",
 			fmt.Sprintf("%.2f kg", netM3*690.0),
-			fmt.Sprintf("%.2f dm³ (%.1f BF)", grossM3*1e3, bfTotal),
-			fmt.Sprintf("%.0f g (2 coats)", oilGrams),
+			fmt.Sprintf("%.1f kg (%.0f dm³)", blockM3*690.0, m.MonolithBlockVolDM3),
+			fmt.Sprintf("%.0f g (matte)", waxGrams),
 		},
 	}
-	yAfterSp := drawTableSection(p, 18, nextY-8, 196, "2. HARDWOOD SPECIES SPECIFICATION & MASS ESTIMATE", spCols, spHdrs, spAlign, spRows)
+	yAfterSp := drawTableSection(p, 18, nextY-8, 196, "2. SOLID HARDWOOD MASS, RAW BLOCK & MATTE FINISH ESTIMATE", spCols, spHdrs, spAlign, spRows)
 
-	// 3. Packaging & Logistics Cube beneath Species Table (x=18, w=196, staying above y=16)
+	// 3. Packaging & Logistics Cube beneath Species Table (x=18, w=196)
 	pkgCols := []float64{76, 44, 38, 38}
 	pkgHdrs := []string{"PACKAGING CONFIGURATION", "CARTON EXT (mm)", "VOLUME (m³)", "UNITS / EUR PALLET"}
 	pkgAlign := []string{"left", "right", "right", "right"}
@@ -1966,23 +1866,80 @@ func buildSheet4BOMAndCostDrivers(doc *pdfDocument, m *stoolDossierMetrics) {
 	}
 	drawTableSection(p, 18, yAfterSp-8, 196, "3. LOGISTICS, HELICAL NESTING & PACKAGING CUBE", pkgCols, pkgHdrs, pkgAlign, pkgRows)
 
-	// 4. Right middle table: Industrial Machining & Workshop Routing Schedule (x=222, w=180, above Title Block at y=44!)
-	opCols := []float64{14, 52, 82, 32}
-	opHdrs := []string{"OP", "WORKCENTER", "OPERATION DESCRIPTION", "DRIVER / QTY"}
+	// 4. Right middle table: One-Piece 5-Axis CNC / Robotic Carving Cost-Driver Schedule (x=222, w=180)
+	opCols := []float64{14, 48, 86, 32}
+	opHdrs := []string{"OP", "WORKCENTER", "ONE-PIECE CAD/CAM OPERATION", "COST DRIVER"}
 	opAlign := []string{"center", "left", "left", "right"}
 	opRows := [][]string{
-		{"10", "Rough Mill / Press", fmt.Sprintf("Rip, plane & edge-glue %.0f mm seat slab + 3 leg blanks", seatGrossT), fmt.Sprintf("%.2f dm³", m.TotalGrossDM3)},
-		{"20", "5-Axis CNC Router", fmt.Sprintf("Contour scalloped %.1f° seat skirt + R%.1f top fillet", m.ProjAngleDeg, m.SeatTopFilletMM), fmt.Sprintf("%.2f m path", m.PerimSeatTopM+m.PerimSeatBotM)},
-		{"30", "4/5-Axis CNC / Shaper", fmt.Sprintf("Profile 3× crescent legs (%.1f° taper + R%.2f tip fillet)", m.ProjAngleDeg, m.LegTipFilletBotMM), fmt.Sprintf("%.2f m path", float64(m.RadialReps)*2*m.PerimSingleFootM)},
-		{"40", "CNC / Domino Mortiser", "Mill 3×120° registration pockets & 6× Ø8×40 dowel bores", "12 bores"},
-		{"50", "Assembly Clamp Jig", "Glue & clamp 3 legs to seat underside; verify floor flatness", "3 joints"},
-		{"60", "Sanding & Oiling", fmt.Sprintf("Orbital/hand sand P120-P240 + 2 coats oil/soap (%.2f m²)", m.TotalAreaM2), fmt.Sprintf("%.2f m²", m.TotalAreaM2)},
+		{"10", "Timber Block Prep", fmt.Sprintf("Prepare %.0f×%.0f×%.0f mm solid / laminated block", m.MonolithBlockLMM, m.MonolithBlockWMM, m.MonolithBlockHMM), fmt.Sprintf("%.1f dm³", m.MonolithBlockVolDM3)},
+		{"20", "5-Axis / Robot Rough", "Hog out under-seat & inter-leg cavities (one-piece setup)", fmt.Sprintf("-%.1f dm³", m.ChipRemovalVolDM3)},
+		{"30", "5-Axis Seat Finish", fmt.Sprintf("Ball-nose mill %.1f° scalloped skirt + R%.1f top fillet", m.ProjAngleDeg, m.SeatTopFilletMM), fmt.Sprintf("%.2f m²", m.SeatAreaM2)},
+		{"40", "5-Axis Leg Finish", fmt.Sprintf("Mill 3× crescent legs (%.1f° taper + R%.2f tip fillet)", m.ProjAngleDeg, m.LegTipFilletBotMM), fmt.Sprintf("%.2f m²", m.LegsTotalAreaM2)},
+		{"50", "Datum & Fine Sand", "Face Z=0.0 coplanar feet; orbital/hand sand P120-P240", fmt.Sprintf("%.2f m²", m.TotalAreaM2)},
+		{"60", "Matte Wax Finish", "Apply 2 thin coats ultra-matte raw-timber protector (<10 GU)", fmt.Sprintf("%.0f g", waxGrams)},
 	}
-	drawTableSection(p, 222, nextY-8, 180, "4. INDUSTRIAL ROUTING & COST-ESTIMATION WORKSHEET", opCols, opHdrs, opAlign, opRows)
+	drawTableSection(p, 222, nextY-8, 180, "4. ONE-PIECE CAD/CAM CARVING COST-ESTIMATION WORKSHEET", opCols, opHdrs, opAlign, opRows)
+}
+
+func scaleGeomUniform(geom *threejs.BufferGeometry, s float64) {
+	if geom == nil {
+		return
+	}
+	for _, v := range geom.Vertices {
+		v.X *= s
+		v.Y *= s
+		v.Z *= s
+	}
+}
+
+func scaleLoop2D(pts []pt2D, s float64) {
+	for i := range pts {
+		pts[i].X *= s
+		pts[i].Z *= s
+	}
+}
+
+func normalizeStoolResultToHeight(res *StoolGeometriesResult, targetHeightMM float64) {
+	if res == nil || res.StoolTopHeight <= 1e-3 {
+		return
+	}
+	s := targetHeightMM / res.StoolTopHeight
+	if math.Abs(s-1.0) < 1e-6 {
+		return
+	}
+	scaleGeomUniform(res.SeatGeom, s)
+	scaleGeomUniform(res.LegsGeom, s)
+	scaleGeomUniform(res.CombinedGeom, s)
+	res.GlobalR *= s
+	res.StoolTopHeight = targetHeightMM
+	res.SeatBottomHeight *= s
+	res.GrowthYStep *= s
+
+	if gh := res.GrasshopperContours; gh != nil {
+		scaleLoop2D(gh.SeatTopRing, s)
+		scaleLoop2D(gh.SeatBottomRing, s)
+		gh.StoolTopHeight = targetHeightMM
+		gh.SeatBottomY *= s
+		gh.GrowthYStep *= s
+		gh.SeatFilletR *= s
+		for _, lc := range []*grasshopperLegContour{gh.LegTopContour, gh.LegBotContour} {
+			if lc != nil {
+				scaleLoop2D(lc.Loop, s)
+				lc.Y *= s
+				lc.MidThicknessMM *= s
+				lc.AppliedOffsetMM *= s
+				lc.AppliedFilletMM *= s
+				lc.LeftFilletCtr.X *= s
+				lc.LeftFilletCtr.Z *= s
+				lc.RightFilletCtr.X *= s
+				lc.RightFilletCtr.Z *= s
+			}
+		}
+	}
 }
 
 // GenerateStoolManufacturingPDF generates a 4-sheet A3 Landscape professional technical & manufacturing
-// cost-estimation PDF dossier in pure Go (no external dependencies, no reflect).
+// cost-estimation PDF dossier in pure Go (normalized to 450.0 mm height, monolithic one-piece CAD carving).
 func GenerateStoolManufacturingPDF(stager *models.Stager, plant *models.PlantAbstract) []byte {
 	if plant == nil || plant.PlantType != models.Stool || plant.StoolAbstract == nil {
 		return nil
@@ -1993,6 +1950,9 @@ func GenerateStoolManufacturingPDF(stager *models.Stager, plant *models.PlantAbs
 	if res == nil || res.SeatGeom == nil || res.LegsGeom == nil || len(res.SeatGeom.Faces) == 0 {
 		return nil
 	}
+
+	// Normalize stool geometry strictly to the 450.0 mm nominal design height.
+	normalizeStoolResultToHeight(res, 450.0)
 
 	metrics := computeDossierMetrics(plant, res)
 	doc := &pdfDocument{

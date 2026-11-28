@@ -381,27 +381,27 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		}
 		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, dxf3DBtn)
 
-		blenderNordicBtn := &tree.Button{
-			Name:            "export Nordic Interior Blender (.py)",
+		blenderHaussmannBtn := &tree.Button{
+			Name:            "export Haussmannian Interior Blender (.py)",
 			Icon:            string(buttons.BUTTON_blender),
-			ToolTipText:     "export Blender Python script (.py) presenting the stool in oak and walnut inside a high-end Nordic interior",
+			ToolTipText:     "export Blender Python script (.py) presenting the monolithic carved stool in matte oak and walnut inside a cosy French Haussmannian apartment",
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
 				stager.loadStage.Reset()
 				fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
 
-				pyContent := stager.GenerateStoolNordicBlenderPy(plant)
+				pyContent := stager.GenerateStoolHaussmannBlenderPy(plant)
 
 				fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(pyContent))
-				fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-nordic-interior-blender.py"
+				fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + "-haussmann-interior-blender.py"
 				stager.loadStage.Commit()
 
 				time.Sleep(1 * time.Second)
 				stager.load()
 			},
 		}
-		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, blenderNordicBtn)
+		plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, blenderHaussmannBtn)
 
 		pdfDossierBtn := &tree.Button{
 			Name:            "export Manufacturing PDF Dossier",

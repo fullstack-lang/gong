@@ -186,9 +186,9 @@ func _(stage *models.Stage) {
 	__stool__StoolAbstract__00000000_.RadialRepetitions = 3
 	__stool__StoolAbstract__00000000_.Transparency = 0.000000
 	__stool__StoolAbstract__00000000_.RelativeTubeDiameter = 0.042000
-	__stool__StoolAbstract__00000000_.RelativeHeight3DTorus = 4.800000
-	__stool__StoolAbstract__00000000_.StoolTorusVerticalScale = 4.200000
-	__stool__StoolAbstract__00000000_.RelativeHeight = 5.400000
+	__stool__StoolAbstract__00000000_.RelativeHeight3DTorus = 4.440000
+	__stool__StoolAbstract__00000000_.StoolTorusVerticalScale = 3.900000
+	__stool__StoolAbstract__00000000_.RelativeHeight = 5.000000
 	__stool__StoolAbstract__00000000_.RelativeSeatThickness = 0.832000
 	__stool__StoolAbstract__00000000_.ProjectionAngle = 8.500000
 	__stool__StoolAbstract__00000000_.RelativeEyeSeparationCriteria = 0.400000
@@ -575,7 +575,7 @@ func _(stage *models.Stage) {
 	__models__PlantAbstract__00000002_.M = 3
 	__models__PlantAbstract__00000002_.StackHeight = 2
 	__models__PlantAbstract__00000002_.RhombusInsideAngle = 119.000000
-	__models__PlantAbstract__00000002_.RhombusSideLength = 95.000000
+	__models__PlantAbstract__00000002_.RhombusSideLength = 90.000000
 	__models__PlantAbstract__00000002_.PlantType = models.Stool
 	__models__PlantAbstract__00000002_.CurrentView = models.VIEW_STOOL_3D
 	__models__PlantAbstract__00000002_.ComputedPrefix = ``

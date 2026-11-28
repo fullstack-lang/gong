@@ -55,7 +55,7 @@ type Stool3DStageUpdaterInterface interface {
 	GenerateStoolSTL(stager *Stager, plant *PlantAbstract) string
 	GenerateStool2DDXF(stager *Stager, plant *PlantAbstract) string
 	GenerateStool3DDXF(stager *Stager, plant *PlantAbstract) string
-	GenerateStoolNordicBlenderPy(stager *Stager, plant *PlantAbstract) string
+	GenerateStoolHaussmannBlenderPy(stager *Stager, plant *PlantAbstract) string
 	GenerateStoolManufacturingPDF(stager *Stager, plant *PlantAbstract) []byte
 }
 
@@ -288,9 +288,9 @@ func (stager *Stager) GenerateStool3DDXF(plant *PlantAbstract) string {
 	return ""
 }
 
-func (stager *Stager) GenerateStoolNordicBlenderPy(plant *PlantAbstract) string {
+func (stager *Stager) GenerateStoolHaussmannBlenderPy(plant *PlantAbstract) string {
 	if stager.stool3DUpdater != nil {
-		return stager.stool3DUpdater.GenerateStoolNordicBlenderPy(stager, plant)
+		return stager.stool3DUpdater.GenerateStoolHaussmannBlenderPy(stager, plant)
 	}
 	return ""
 }

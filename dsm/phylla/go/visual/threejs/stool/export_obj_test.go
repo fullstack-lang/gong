@@ -291,18 +291,18 @@ func TestGrasshopperModeManifoldAndDXFExports(t *testing.T) {
 		t.Errorf("3D DXF missing expected 3DFACE entities or layers")
 	}
 
-	// Validate Nordic Interior Blender (.py) script export (Oak & Walnut).
-	blenderPy := stager.GenerateStoolNordicBlenderPy(plant)
+	// Validate Haussmannian Interior Blender (.py) script export (Matte Monolithic Oak & Walnut, 450 mm).
+	blenderPy := stager.GenerateStoolHaussmannBlenderPy(plant)
 	if blenderPy == "" {
-		t.Fatalf("GenerateStoolNordicBlenderPy returned empty string")
+		t.Fatalf("GenerateStoolHaussmannBlenderPy returned empty string")
 	}
-	for _, kw := range []string{"01_Nordic_Oak_Stool", "02_Nordic_Walnut_Stool", "SEAT_VERTS", "LEGS_VERTS", "Valérie ROSTAING & Thomas PEUGOT"} {
+	for _, kw := range []string{"01_Haussmann_Oak_Stool", "02_Haussmann_Walnut_Stool", "MONOLITH_VERTS", "0.450000", "Valérie ROSTAING & Thomas PEUGOT"} {
 		if !strings.Contains(blenderPy, kw) {
-			t.Errorf("Nordic Blender script missing expected token %q", kw)
+			t.Errorf("Haussmann Blender script missing expected token %q", kw)
 		}
 	}
 
-	// Validate Manufacturing Cost-Estimation PDF Dossier export.
+	// Validate Manufacturing Cost-Estimation PDF Dossier export (450 mm monolithic, zero assembly assumed).
 	pdfBytes := stager.GenerateStoolManufacturingPDF(plant)
 	if len(pdfBytes) < 10000 {
 		t.Fatalf("Expected substantial multi-page PDF dossier, got %d bytes", len(pdfBytes))
@@ -316,5 +316,11 @@ func TestGrasshopperModeManifoldAndDXFExports(t *testing.T) {
 	}
 	if !strings.Contains(pdfStr, "ROSTAING & Thomas PEUGOT") {
 		t.Errorf("Expected authors 'Valérie ROSTAING & Thomas PEUGOT' in PDF dossier")
+	}
+	if !strings.Contains(pdfStr, "450.0") {
+		t.Errorf("Expected 450.0 mm height in PDF dossier")
+	}
+	if strings.Contains(strings.ToLower(pdfStr), "dowel") || strings.Contains(strings.ToLower(pdfStr), "domino") {
+		t.Errorf("PDF dossier must not assume dowel/domino assembly")
 	}
 }
