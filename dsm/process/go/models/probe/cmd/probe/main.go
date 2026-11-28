@@ -26,8 +26,9 @@ var (
 )
 
 var (
-	editOut string
-	editDir bool
+	editOut       string
+	editDir       bool
+	editSkipGoMod bool
 )
 
 var editCmd = &cobra.Command{
@@ -54,7 +55,7 @@ func executeServer() {
 	// setup
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
-	stack := level1stack.NewLevel1Stack("process", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams)
+	stack := level1stack.NewLevel1Stack("process", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams, editSkipGoMod)
 
 	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()
@@ -82,8 +83,9 @@ func executeServer() {
 }
 
 var (
-	migrateOut string
-	migrateDir bool
+	migrateOut       string
+	migrateDir       bool
+	migrateSkipGoMod bool
 )
 
 var migrateCmd = &cobra.Command{
@@ -112,7 +114,7 @@ var migrateCmd = &cobra.Command{
 			if err := os.MkdirAll(outputFile, 0755); err != nil {
 				log.Fatalf("failed to create output directory: %v", err)
 			}
-			if err := stage.MarshallDirectory(outputFile); err != nil {
+			if err := stage.MarshallDirectory(outputFile, migrateSkipGoMod); err != nil {
 				log.Fatalf("failed to marshall stage directory: %v", err)
 			}
 		} else {
@@ -138,9 +140,11 @@ var rootCmd = &cobra.Command{
 func main() {
 	editCmd.Flags().StringVarP(&editOut, "out", "o", "", "specify a different file or directory to save commits to")
 	editCmd.Flags().BoolVarP(&editDir, "dir", "d", false, "persist stage data as a Go module directory")
+	editCmd.Flags().BoolVar(&editSkipGoMod, "skip-go-mod", false, "do not generate go.mod in directory persistence mode")
 	rootCmd.AddCommand(editCmd)
 	migrateCmd.Flags().StringVarP(&migrateOut, "out", "o", "", "output file or directory path (default: data/stageset.go or data_dir)")
 	migrateCmd.Flags().BoolVarP(&migrateDir, "dir", "d", false, "migrate into a Go module directory")
+	migrateCmd.Flags().BoolVar(&migrateSkipGoMod, "skip-go-mod", false, "do not generate go.mod in directory persistence mode")
 	rootCmd.AddCommand(migrateCmd)
 	rootCmd.PersistentFlags().BoolVar(&embeddedDiagrams, "embedded-diagrams", true, "parse/analysis go/models and go/embeddedDiagrams")
 	rootCmd.PersistentFlags().IntVar(&port, "port", 8080, "port server")

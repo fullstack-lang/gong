@@ -80,8 +80,9 @@ func NewLevel1Stack(
 	marshallOnCommit string,
 	withProbe bool,
 	embeddedDiagrams bool,
+	skipGoMod ...bool,
 ) (level1Stack *Level1Stack) {
-	return NewLevel1StackDelta(stackPath, unmarshallFromCode, marshallOnCommit, withProbe, embeddedDiagrams, false)
+	return NewLevel1StackDelta(stackPath, unmarshallFromCode, marshallOnCommit, withProbe, embeddedDiagrams, false, skipGoMod...)
 }
 
 func NewLevel1StackDelta(
@@ -91,8 +92,9 @@ func NewLevel1StackDelta(
 	withProbe bool,
 	embeddedDiagrams bool,
 	deltaMode bool,
+	skipGoMod ...bool,
 ) (level1Stack *Level1Stack) {
-	return newLevel1Stack(stackPath, unmarshallFromCode, marshallOnCommit, withProbe, embeddedDiagrams, deltaMode)
+	return newLevel1Stack(stackPath, unmarshallFromCode, marshallOnCommit, withProbe, embeddedDiagrams, deltaMode, skipGoMod...)
 }
 
 func newLevel1Stack(
@@ -102,6 +104,7 @@ func newLevel1Stack(
 	withProbe bool,
 	embeddedDiagrams bool,
 	deltaMode bool,
+	skipGoMod ...bool,
 ) (level1Stack *Level1Stack) {
 
 	level1Stack = new(Level1Stack)
@@ -109,6 +112,9 @@ func newLevel1Stack(
 
 	if deltaMode {
 		stage.SetDeltaMode(true)
+	}
+	if len(skipGoMod) > 0 && skipGoMod[0] {
+		stage.SetSkipGoMod(true)
 	}
 
 	level1Stack.Stage = stage

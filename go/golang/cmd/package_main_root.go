@@ -17,6 +17,7 @@ var (
 	unmarshallFromCode string
 	marshallOnCommit   string
 	embeddedDiagrams   bool
+	skipGoMod          bool
 	port               int
 )
 

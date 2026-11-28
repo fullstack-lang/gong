@@ -42,4 +42,5 @@ func init() {
 	editCmd.Flags().BoolVar(&embeddedDiagrams, "embedded-diagrams", false, "parse/analysis go/models and go/embeddedDiagrams")
 	editCmd.Flags().StringVarP(&editOut, "out", "o", "", "specify a different file or directory to save commits to")
 	editCmd.Flags().BoolVarP(&editDir, "dir", "d", false, "persist stage data as a Go module directory")
+	editCmd.Flags().BoolVar(&skipGoMod, "skip-go-mod", false, "do not generate go.mod in directory persistence mode")
 }

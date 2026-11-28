@@ -423,4 +423,54 @@ func TestStageSetDirectoryPersistence(t *testing.T) {
 	}
 }
 
+func TestStageSetDirectoryPersistenceSkipGoMod(t *testing.T) {
+	// Case 1: explicit skipGoMod argument on MarshallDirectory
+	tmpDir := filepath.Join(t.TempDir(), "no_gomod_explicit")
+
+	stage := NewStage("stage_models")
+	subInst := (&model.SubModel{Name: "NoMod_Sub"}).Stage(stage.ModelStage)
+	yInst := (&y.Y{Name: "NoMod_Y", SubModel: subInst}).Stage(stage.YStage)
+	xInst := (&x.X{Name: "NoMod_X", Y: yInst}).Stage(stage.XStage)
+	_ = (&A{Name: "NoMod_A", NumberField: 42, X: xInst}).Stage(stage)
+
+	if err := stage.MarshallDirectory(tmpDir, true); err != nil {
+		t.Fatalf("MarshallDirectory(tmpDir, true) failed: %v", err)
+	}
+
+	if _, err := os.Stat(filepath.Join(tmpDir, "go.mod")); !os.IsNotExist(err) {
+		t.Fatalf("expected go.mod to NOT exist in %s when skipGoMod=true", tmpDir)
+	}
+	if _, err := os.Stat(filepath.Join(tmpDir, "go.sum")); !os.IsNotExist(err) {
+		t.Fatalf("expected go.sum to NOT exist in %s when skipGoMod=true", tmpDir)
+	}
+	if _, err := os.Stat(filepath.Join(tmpDir, "stage_test2.go")); err != nil {
+		t.Fatalf("expected stage_test2.go in %s: %v", tmpDir, err)
+	}
+
+	restored := NewStage("restored")
+	if err := restored.ParseAstFile(tmpDir, true); err != nil {
+		t.Fatalf("ParseAstFile on directory without go.mod failed: %v", err)
+	}
+	aMap := restored.GetInstancesMapByName[*A]()
+	if len(aMap) != 1 || aMap["NoMod_A"] == nil || aMap["NoMod_A"].NumberField != 42 {
+		t.Fatalf("expected NoMod_A with NumberField=42 in restored stage")
+	}
+
+	// Case 2: stage.SetSkipGoMod(true) with MarshallFile delegating to MarshallDirectory
+	tmpDir2 := filepath.Join(t.TempDir(), "no_gomod_stage_flag")
+	if err := os.MkdirAll(tmpDir2, 0755); err != nil {
+		t.Fatalf("MkdirAll failed: %v", err)
+	}
+	stage.SetSkipGoMod(true)
+	stage.MarshallFile(tmpDir2)
+
+	if _, err := os.Stat(filepath.Join(tmpDir2, "go.mod")); !os.IsNotExist(err) {
+		t.Fatalf("expected go.mod to NOT exist in %s when stage.SetSkipGoMod(true)", tmpDir2)
+	}
+	if _, err := os.Stat(filepath.Join(tmpDir2, "stage_test2.go")); err != nil {
+		t.Fatalf("expected stage_test2.go in %s: %v", tmpDir2, err)
+	}
+}
+
+
 

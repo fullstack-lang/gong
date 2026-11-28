@@ -19,6 +19,9 @@ type StageCore struct {
 	// isWithGenesisCommit indicates if the genesis commit (#0) cannot be rolled back
 	isWithGenesisCommit bool
 
+	// skipGoMod disables generating go.mod and go.sum in directory persistence mode
+	skipGoMod bool
+
 	forwardCommits  []string
 	backwardCommits []string
 
@@ -59,6 +62,14 @@ func (sc *StageCore) SetIsWithGenesisCommit(isWithGenesisCommit bool) {
 
 func (sc *StageCore) GetIsWithGenesisCommit() bool {
 	return sc.isWithGenesisCommit
+}
+
+func (sc *StageCore) SetSkipGoMod(skipGoMod bool) {
+	sc.skipGoMod = skipGoMod
+}
+
+func (sc *StageCore) GetSkipGoMod() bool {
+	return sc.skipGoMod
 }
 
 func (sc *StageCore) SetDeltaMode(inDeltaMode bool) {

@@ -291,15 +291,18 @@ func TestGrasshopperModeManifoldAndDXFExports(t *testing.T) {
 		t.Errorf("3D DXF missing expected 3DFACE entities or layers")
 	}
 
-	// Validate Haussmannian Interior Blender (.py) script export (Matte Monolithic Oak & Walnut, 450 mm).
+	// Validate Haussmannian Interior Blender (.py) script export (single Matte Monolithic Walnut PNG, 450 mm).
 	blenderPy := stager.GenerateStoolHaussmannBlenderPy(plant)
 	if blenderPy == "" {
 		t.Fatalf("GenerateStoolHaussmannBlenderPy returned empty string")
 	}
-	for _, kw := range []string{"01_Haussmann_Oak_Stool", "02_Haussmann_Walnut_Stool", "MONOLITH_VERTS", "0.450000", "Valérie ROSTAING & Thomas PEUGOT"} {
+	for _, kw := range []string{"Haussmann_Walnut_Stool", "_haussmann_walnut.png", "MONOLITH_VERTS", "0.450000", "Valérie ROSTAING & Thomas PEUGOT"} {
 		if !strings.Contains(blenderPy, kw) {
 			t.Errorf("Haussmann Blender script missing expected token %q", kw)
 		}
+	}
+	if strings.Contains(blenderPy, "01_Haussmann_Oak_Stool") {
+		t.Errorf("Expected single Walnut PNG generation, found Oak scene")
 	}
 
 	// Validate Manufacturing Cost-Estimation PDF Dossier export (450 mm monolithic, zero assembly assumed).

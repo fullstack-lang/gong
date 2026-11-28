@@ -41,5 +41,6 @@ func init() {
 	editCmd.Flags().IntVar(&port, "port", 8080, "port server")
 	editCmd.Flags().StringVarP(&editOut, "out", "o", "", "specify a different file or directory to save commits to")
 	editCmd.Flags().BoolVarP(&editDir, "dir", "d", false, "persist stage data as a Go module directory")
+	editCmd.Flags().BoolVar(&skipGoMod, "skip-go-mod", false, "do not generate go.mod in directory persistence mode")
 }
 `

@@ -394,12 +394,26 @@ func _(stage *{{MainPkgImportAlias}}.Stage) {
 	return res, nil
 }
 
-// MarshallDirectory marshals the stage content into dirPath as a standalone Go module
-// containing go.mod and {{DirStageFileName}} exposing Stage{{DirStageFuncSuffix}}.
-func (stage *Stage) MarshallDirectory(dirPath string) error {
-	goModChanged, err := gong_runtime.EnsureDataGoMod(dirPath, "{{ModPath}}")
-	if err != nil {
-		return err
+// MarshallDirectory marshals the stage content into dirPath as a directory
+// containing {{DirStageFileName}} exposing Stage{{DirStageFuncSuffix}}
+// (and go.mod unless skipped via skipGoMod or stage.SetSkipGoMod(true)).
+func (stage *Stage) MarshallDirectory(dirPath string, skipGoMod ...bool) error {
+	skip := stage.GetSkipGoMod()
+	if len(skipGoMod) > 0 {
+		skip = skipGoMod[0]
+	}
+
+	var goModChanged bool
+	if skip {
+		if err := os.MkdirAll(dirPath, 0755); err != nil {
+			return err
+		}
+	} else {
+		var err error
+		goModChanged, err = gong_runtime.EnsureDataGoMod(dirPath, "{{ModPath}}")
+		if err != nil {
+			return err
+		}
 	}
 
 	code, err := stage.MarshallToDirectoryString("data")
@@ -412,7 +426,9 @@ func (stage *Stage) MarshallDirectory(dirPath string) error {
 		return err
 	}
 
-	gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	if !skip {
+		gong_runtime.FinalizeDataGoMod(dirPath, goModChanged)
+	}
 	return nil
 }
 

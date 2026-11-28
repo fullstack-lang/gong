@@ -384,7 +384,7 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		blenderHaussmannBtn := &tree.Button{
 			Name:            "export Haussmannian Interior Blender (.py)",
 			Icon:            string(buttons.BUTTON_blender),
-			ToolTipText:     "export Blender Python script (.py) presenting the monolithic carved stool in matte oak and walnut inside a cosy French Haussmannian apartment",
+			ToolTipText:     "export Blender Python script (.py) presenting the monolithic carved walnut stool inside a cosy French Haussmannian apartment",
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {

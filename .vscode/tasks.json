@@ -401,6 +401,23 @@
             "group": "build"
         },
         {
+            "label": "dsm - process: go run . edit --dir --skip-go-mod data/simple",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/process/go/cmd/process"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "--dir",
+                "--skip-go-mod",
+                "data/simple"
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - project: gong generate project",
             "type": "shell",
             "options": {
